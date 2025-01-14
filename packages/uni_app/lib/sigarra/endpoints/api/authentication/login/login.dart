@@ -2,19 +2,25 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:uni/http/utils.dart';
+import 'package:uni/sigarra/endpoint.dart';
 import 'package:uni/sigarra/endpoints/api/authentication/login/json.dart';
 import 'package:uni/sigarra/endpoints/api/authentication/login/response.dart';
 import 'package:uni/sigarra/options.dart';
 
-class Login {
-  const Login();
+class Login extends Endpoint<LoginResponse> {
+  const Login({
+    required this.username,
+    required this.password,
+    this.options,
+  });
 
-  Future<LoginResponse> call({
-    required String username,
-    required String password,
-    required FacultyRequestOptions? options,
-  }) async {
-    options = options ?? FacultyRequestOptions();
+  final String username;
+  final String password;
+  final FacultyRequestOptions? options;
+
+  @override
+  Future<LoginResponse> call() async {
+    final options = this.options ?? FacultyRequestOptions();
 
     final loginUrl = options.baseUrl.resolve('mob_val_geral.autentica');
 
