@@ -5,9 +5,12 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
-import 'package:uni/view/calendar/widgets/calendar_tile.dart';
+import 'package:uni/view/calendar/widgets/DatesTile.dart';
+import 'package:uni/view/calendar/widgets/EventTile.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
+import 'package:uni/view/locale_notifier.dart';
 
 class CalendarPageView extends StatefulWidget {
   const CalendarPageView({super.key});
@@ -17,6 +20,8 @@ class CalendarPageView extends StatefulWidget {
 }
 
 class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
+
+
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<CalendarProvider, List<CalendarEvent>>(
@@ -32,25 +37,38 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
   }
 
   Widget getTimeline(BuildContext context, List<CalendarEvent> calendar) {
+    final locale = Provider.of<LocaleNotifier>(context).getLocale();
     return SingleChildScrollView(
       child: FixedTimeline.tileBuilder(
         theme: TimelineTheme.of(context).copyWith(
           connectorTheme: TimelineTheme.of(context)
               .connectorTheme
-              .copyWith(thickness: 2, color: Theme.of(context).dividerColor),
+              .copyWith(thickness: 2, color: Theme.of(context).primaryColor),
           indicatorTheme: TimelineTheme.of(context)
               .indicatorTheme
               .copyWith(size: 15, color: Theme.of(context).primaryColor),
+
         ),
+
         builder: TimelineTileBuilder.fromStyle(
-          contentsAlign: ContentsAlign.alternating,
-          contentsBuilder: (_, index) =>
-              CalendarTile(text: calendar[index].name),
-          oppositeContentsBuilder: (_, index) =>
-              CalendarTile(text: calendar[index].date, isOpposite: true),
+          indicatorStyle: IndicatorStyle.outlined,
+          connectorStyle: ConnectorStyle.solidLine,
+          contentsBuilder: (_, index) =>EventTile(text: calendar[index].name),
+          oppositeContentsBuilder: (_, index) => DatesTile(date:calendar[index].date,start:calendar[index].start,end:calendar[index].finish,locale:locale),
           itemCount: calendar.length,
         ),
       ),
+    );
+  }
+  @override
+  AppTopNavbar? getTopNavbar(BuildContext context) {
+    return AppTopNavbar(
+
+      title: getTitle(),
+      leftButton: const BackButton(),
+      rightButton: getTopRightButton(context),
+      center: true,
+
     );
   }
 
