@@ -60,17 +60,6 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
       ),
     );
   }
-  @override
-  AppTopNavbar? getTopNavbar(BuildContext context) {
-    return AppTopNavbar(
-
-      title: getTitle(),
-      leftButton: const BackButton(),
-      rightButton: getTopRightButton(context),
-      center: true,
-
-    );
-  }
 
   @override
   Future<void> onRefresh(BuildContext context) {
@@ -82,3 +71,4 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
   String? getTitle() =>
       S.of(context).nav_title(NavigationItem.navCalendar.route);
 }
+
