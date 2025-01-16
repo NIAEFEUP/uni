@@ -15,7 +15,7 @@ class NoStringLiteralsInWidgetsLint extends DartLintRule {
   NoStringLiteralsInWidgetsLint() : super(code: _code);
 
   static const _code = LintCode(
-    name: 'string_literals_lint',
+    name: 'no_string_literals_in_widgets',
     problemMessage: 'String literals are not allowed inside a widget. Please pass this value as a parameter for the widget.',
   );
 

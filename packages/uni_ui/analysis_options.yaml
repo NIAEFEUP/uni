@@ -5,4 +5,4 @@ analyzer:
 custom_lint:
   debug: true
   rules:
-    - string_literals_lint
+    - no_string_literals_in_widgets
