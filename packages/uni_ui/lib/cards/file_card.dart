@@ -61,6 +61,12 @@ class _FileCardState extends State<FileCard>
         _controller
           ..reset()
           ..repeat(reverse: true);
+        Future.delayed(const Duration(seconds: 9), () {
+          if (mounted) {
+            _controller.stop();
+            _controller.reset();
+          }
+        });
         // openFile(context, widget.file);
       },
       child: PulseAnimation(
