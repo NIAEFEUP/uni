@@ -48,11 +48,7 @@ class MapPageState extends GeneralPageViewState {
       S.of(context).nav_title(NavigationItem.navLocations.route);
 
   @override
-  AppTopNavbar? getTopNavbar(BuildContext context) {
-    return const AppTopNavbar(
-      heightSize: Size.fromHeight(0),
-    );
-  }
+  AppTopNavbar? getTopNavbar(BuildContext context) => null;
 }
 
 class MapPageView extends StatefulWidget {
@@ -134,7 +130,7 @@ class MapPageViewState extends State<MapPageView> {
       ],
       children: <Widget>[
         TileLayer(
-          // TODO(thePeras): Ideia - change layer in dark theme
+          // TODO(thePeras): Idea: change layer in dark theme
           urlTemplate:
               'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
           subdomains: const <String>['a', 'b', 'c'],
@@ -161,39 +157,48 @@ class MapPageViewState extends State<MapPageView> {
             ),
           ),
         ),
-        Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: TextFormField(
-                key: searchFormKey,
-                onChanged: (text) {
-                  setState(() {
-                    searchTerms = removeDiacritics(text.trim().toLowerCase());
-                  });
-                },
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Theme.of(context).colorScheme.secondary,
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: SvgPicture.asset(
-                      'assets/images/logo_dark.svg',
-                      semanticsLabel: 'search',
-                      width: 10,
+        SafeArea(
+          child: Column(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: PhysicalModel(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                  elevation: 3,
+                  child: TextFormField(
+                    key: searchFormKey,
+                    onChanged: (text) {
+                      setState(() {
+                        searchTerms =
+                            removeDiacritics(text.trim().toLowerCase());
+                      });
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Theme.of(context).colorScheme.secondary,
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: SvgPicture.asset(
+                          'assets/images/logo_dark.svg',
+                          semanticsLabel: 'search',
+                          width: 10,
+                        ),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding: const EdgeInsets.all(10),
+                      hintText: '${S.of(context).search}...',
                     ),
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: const EdgeInsets.all(10),
-                  hintText: '${S.of(context).search}...',
                 ),
               ),
-            ),
-          ],
-        )
+            ],
+          ),
+        ),
       ],
     );
   }
