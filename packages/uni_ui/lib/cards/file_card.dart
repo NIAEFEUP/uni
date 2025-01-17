@@ -7,11 +7,26 @@ class FileCard extends StatefulWidget {
   const FileCard({
     required this.filename,
     required this.extension,
+    required this.fileCode,
+    required this.fullname,
+    required this.url,
+    required this.onOpenFile,
     super.key,
   });
 
   final String filename;
   final String extension;
+  final String fileCode;
+  final String fullname;
+  final String url;
+  final Function(
+    BuildContext context,
+    String fileCode,
+    String fullname,
+    String url,
+    VoidCallback startAnimation,
+    VoidCallback stopAnimation,
+  ) onOpenFile;
 
   @override
   State<FileCard> createState() => _FileCardState();
@@ -36,6 +51,18 @@ class _FileCardState extends State<FileCard>
     super.dispose();
   }
 
+  void startAnimation() {
+    _controller
+      ..reset()
+      ..repeat(reverse: true);
+  }
+
+  void stopAnimation() {
+    _controller
+      ..stop()
+      ..reset();
+  }
+
   PhosphorDuotoneIconData getIconForExtension(String extension) {
     switch (extension) {
       case 'pdf':
@@ -58,16 +85,20 @@ class _FileCardState extends State<FileCard>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        _controller
-          ..reset()
-          ..repeat(reverse: true);
+        startAnimation();
         Future.delayed(const Duration(seconds: 9), () {
           if (mounted) {
-            _controller.stop();
-            _controller.reset();
+            stopAnimation();
           }
         });
-        // openFile(context, widget.file);
+        widget.onOpenFile(
+          context,
+          widget.fileCode,
+          widget.fullname,
+          widget.url,
+          startAnimation,
+          stopAnimation,
+        );
       },
       child: PulseAnimation(
         controller: _controller,
