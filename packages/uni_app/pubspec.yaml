@@ -117,9 +117,6 @@ flutter:
           weight: 600
         - asset: assets/fonts/Raleway-Thin.ttf
           weight: 100
-    - family: LocationIcons
-      fonts:
-        - asset: assets/fonts/LocationIcons.ttf
 
 flutter_icons:
   android: "ic_launcher"

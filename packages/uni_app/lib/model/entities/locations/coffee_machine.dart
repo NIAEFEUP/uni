@@ -1,5 +1,5 @@
 import 'package:uni/model/entities/location.dart';
-import 'package:uni/view/locations/widgets/icons.dart';
+import 'package:uni_ui/icons.dart';
 
 class CoffeeMachine implements Location {
   CoffeeMachine(this.floor, {this.locationGroupId});
@@ -10,7 +10,7 @@ class CoffeeMachine implements Location {
   final weight = 3;
 
   @override
-  final icon = LocationIcons.coffee;
+  final icon = UniIcons.coffee;
 
   final int? locationGroupId;
 

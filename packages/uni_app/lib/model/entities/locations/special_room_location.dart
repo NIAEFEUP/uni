@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
+import 'package:uni_ui/icons.dart';
 
 class SpecialRoomLocation implements Location {
   SpecialRoomLocation(
@@ -17,7 +18,7 @@ class SpecialRoomLocation implements Location {
   final String roomNumber;
   final String name;
   @override
-  final icon = Icons.star;
+  final icon = UniIcons.starFour;
 
   final int? locationGroupId;
 

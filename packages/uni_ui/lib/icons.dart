@@ -12,6 +12,18 @@ class UniIcons {
   static const restaurant = PhosphorIconsDuotone.forkKnife;
   static const faculty = PhosphorIconsDuotone.buildings;
   static const map = PhosphorIconsDuotone.mapTrifold;
+
+  // Locations pins icons
+  static const money = PhosphorIconsDuotone.money;
+  static const coffee = PhosphorIconsDuotone.coffee;
+  static const printer = PhosphorIconsDuotone.printer;
+  static const lockers = PhosphorIconsDuotone.lockers;
+  static const bookOpen = PhosphorIconsDuotone.bookOpen;
+  static const bookOpenUser = PhosphorIconsDuotone.bookOpenUser;
+  static const starFour = PhosphorIconsDuotone.starFour;
+  static const storefront = PhosphorIconsDuotone.storefront;
+  static const questionMark = PhosphorIconsDuotone.questionMark;
+  static const toilet = PhosphorIconsDuotone.toiletPaper;
 }
 
 // The same as default Icon class from material.dart but allowing to use PhosphorIcons duotone icons
