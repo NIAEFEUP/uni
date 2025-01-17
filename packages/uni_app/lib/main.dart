@@ -46,7 +46,7 @@ import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/locations/locations.dart';
 import 'package:uni/view/login/login.dart';
 import 'package:uni/view/profile/profile.dart';
-import 'package:uni/view/restaurant/restaurant_page_view2.dart';
+import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/settings/settings.dart';
 import 'package:uni/view/splash/splash.dart';

@@ -22,6 +22,7 @@ class RestaurantCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GenericCard(
+      padding: EdgeInsets.zero,
         key: key,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +56,6 @@ class RestaurantCardHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(bottom: 9),
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(

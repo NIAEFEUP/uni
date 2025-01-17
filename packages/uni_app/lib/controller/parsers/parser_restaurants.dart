@@ -67,6 +67,8 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
     }
     return Restaurant(
       null,
+      null,
+      null,
       restaurantTuple.$2,
       restaurantTuple.$2,
       restaurantTuple.$1,
