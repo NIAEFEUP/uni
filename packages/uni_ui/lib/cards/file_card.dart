@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/src/phosphor_icon_data.dart';
+import 'package:uni_ui/common_widgets/pulse_animation.dart';
 import 'package:uni_ui/icons.dart';
 
-class FileCard extends StatelessWidget {
+class FileCard extends StatefulWidget {
   const FileCard({
     required this.filename,
     required this.extension,
@@ -11,6 +12,29 @@ class FileCard extends StatelessWidget {
 
   final String filename;
   final String extension;
+
+  @override
+  State<FileCard> createState() => _FileCardState();
+}
+
+class _FileCardState extends State<FileCard>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   PhosphorDuotoneIconData getIconForExtension(String extension) {
     switch (extension) {
@@ -32,13 +56,27 @@ class FileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.only(left: 32),
-      title: Text(filename),
-      leading: UniIcon(
-        getIconForExtension(extension),
-        color: Theme.of(context).iconTheme.color,
-        size: 35,
+    return GestureDetector(
+      onTap: () {
+        _controller
+          ..reset()
+          ..repeat(reverse: true);
+        // openFile(context, widget.file);
+      },
+      child: PulseAnimation(
+        controller: _controller,
+        child: ListTile(
+          contentPadding: EdgeInsets.only(left: 32),
+          title: Text(
+            widget.filename,
+            overflow: TextOverflow.ellipsis,
+          ),
+          leading: UniIcon(
+            getIconForExtension(widget.extension),
+            color: Theme.of(context).iconTheme.color,
+            size: 35,
+          ),
+        ),
       ),
     );
   }
