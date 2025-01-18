@@ -10,8 +10,8 @@ class CourseGradeCard extends StatelessWidget {
       super.key});
 
   final String courseName;
-  final double ects;
-  final double grade;
+  final num ects;
+  final int? grade;
   final String tooltip;
 
   @override
@@ -36,7 +36,8 @@ class CourseGradeCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("${ects} ECTS", style: theme.textTheme.bodySmall),
-                  Text("${grade.toInt()}", style: theme.textTheme.bodySmall)
+                  Text("${grade?.toInt() ?? ''}",
+                      style: theme.textTheme.bodySmall)
                 ],
               )
             ],
