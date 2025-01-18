@@ -21,8 +21,7 @@ class CourseGradeCard extends StatelessWidget {
         key: key,
         tooltip: tooltip,
         child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.35,
-          height: MediaQuery.of(context).size.height * 0.09,
+          height: 75,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
