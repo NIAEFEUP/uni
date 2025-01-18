@@ -10,6 +10,7 @@ import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
+import 'package:uni_ui/timeline/timeline.dart';
 
 class SchedulePage extends StatefulWidget {
   SchedulePage({super.key, DateTime? now}) : now = now ?? DateTime.now();
@@ -56,13 +57,12 @@ class SchedulePageView extends StatefulWidget {
 class SchedulePageViewState extends State<SchedulePageView>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
-  late ScrollController scrollViewController;
   late List<Lecture> lecturesThisWeek;
 
   @override
   void initState() {
     super.initState();
-    tabController = TabController(vsync: this, length: DayOfWeek.values.length - 1);
+    tabController = TabController(vsync: this, length: 6);
 
     var weekDay = widget.currentWeek.start.weekday;
 
@@ -91,101 +91,70 @@ class SchedulePageViewState extends State<SchedulePageView>
       }
     }
 
-    tabController.animateTo(tabController.index + (weekDay - 1));
-    scrollViewController = ScrollController();
+    final offset = (weekDay > 6) ? 0 : (weekDay - 1) % 6;
+    tabController.animateTo(tabController.index + offset);
   }
 
   @override
   void dispose() {
     tabController.dispose();
-    scrollViewController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final queryData = MediaQuery.of(context);
-    return Column(
-      children: <Widget>[
-        TabBar(
-          controller: tabController,
-          isScrollable: true,
-          physics: const BouncingScrollPhysics(),
-          tabs: createTabs(queryData, context),
-        ),
-        Expanded(
-          child: TabBarView(
-            controller: tabController,
-            children: widget.currentWeek.weekdays.take(6).map((day) {
-              final lectures = lecturesOfDay(lecturesThisWeek, day);
-              final index = WeekdayMapper.fromDartToIndex.map(day.weekday);
-              if (lectures.isEmpty) {
-                return emptyDayColumn(context, index);
-              } else {
-                return dayColumnBuilder(index, lectures, context);
-              }
-            }).toList(),
-          ),
-        ),
-      ],
+    return Timeline(
+      tabs: createTabs(context),
+      content: createTabViewBuilder(context),
     );
   }
 
-  List<Widget> createTabs(MediaQueryData queryData, BuildContext context) {
+  List<Widget> createTabs(BuildContext context) {
+    final workWeekDays = Provider.of<LocaleNotifier>(context)
+        .getWeekdaysWithLocale()
+        .sublist(0, 6);
     final tabs = <Widget>[];
-    final workWeekDays =
-        context.read<LocaleNotifier>().getWeekdaysWithLocale().sublist(0, 6);
-    workWeekDays.asMap().forEach((index, day) {
+    for (var i = 0; i < DayOfWeek.values.length - 1; i++) {
       tabs.add(
-        SizedBox(
-          width: (queryData.size.width * 1) / 4,
-          child: Tab(
-            key: Key('schedule-page-tab-$index'),
-            text: day,
-          ),
+        Tab(
+          key: Key('schedule-page-tab-$i'),
+          text: workWeekDays[i],
         ),
       );
-    });
+    }
     return tabs;
   }
 
-  Widget dayColumnBuilder(
-    int day,
-    List<Lecture> lectures,
-    BuildContext context,
-  ) {
-    return Container(
-      key: Key('schedule-page-day-column-$day'),
-      child: ListView(
-        children: lectures
-            .map(
-              (lecture) => ScheduleSlot(
-                subject: lecture.subject,
-                typeClass: lecture.typeClass,
-                rooms: lecture.room,
-                begin: lecture.startTime,
-                end: lecture.endTime,
-                occurrId: lecture.occurrId,
-                teacher: lecture.teacher,
-                classNumber: lecture.classNumber,
-              ),
-            )
-            .toList(),
-      ),
-    );
+  List<Widget> createTabViewBuilder(BuildContext context) {
+    return widget.currentWeek.weekdays.take(6).map((day) {
+      final lectures = lecturesOfDay(lecturesThisWeek, day);
+      final index = WeekdayMapper.fromDartToIndex.map(day.weekday);
+      if (lectures.isEmpty) {
+        return emptyDayColumn(context, index);
+      } else {
+        return dayColumnBuilder(index, lectures);
+      }
+    }).toList();
   }
 
-  static List<Lecture> lecturesOfDay(List<Lecture> lectures, DateTime day) {
-    final filteredLectures = <Lecture>[];
-    for (var i = 0; i < lectures.length; i++) {
-      final lecture = lectures[i];
-      if (lecture.startTime.day == day.day &&
-          lecture.startTime.month == day.month &&
-          lecture.startTime.year == day.year) {
-        filteredLectures.add(lecture);
-      }
-    }
-    return filteredLectures;
+  Widget dayColumnBuilder(int day, List<Lecture> lectures) {
+    return ListView(
+      key: Key('schedule-page-day-column-$day'),
+      children: lectures
+          .map(
+            (lecture) => ScheduleSlot(
+              subject: lecture.subject,
+              typeClass: lecture.typeClass,
+              rooms: lecture.room,
+              begin: lecture.startTime,
+              end: lecture.endTime,
+              occurrId: lecture.occurrId,
+              teacher: lecture.teacher,
+              classNumber: lecture.classNumber,
+            ),
+          )
+          .toList(),
+    );
   }
 
   Widget emptyDayColumn(BuildContext context, int day) {
@@ -203,5 +172,18 @@ class SchedulePageViewState extends State<SchedulePageView>
         labelTextStyle: const TextStyle(fontSize: 15),
       ),
     );
+  }
+
+  static List<Lecture> lecturesOfDay(List<Lecture> lectures, DateTime day) {
+    final filteredLectures = <Lecture>[];
+    for (var i = 0; i < lectures.length; i++) {
+      final lecture = lectures[i];
+      if (lecture.startTime.day == day.day &&
+          lecture.startTime.month == day.month &&
+          lecture.startTime.year == day.year) {
+        filteredLectures.add(lecture);
+      }
+    }
+    return filteredLectures;
   }
 }
