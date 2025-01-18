@@ -33,7 +33,10 @@ class CoursesPageState extends State<CoursesPage> {
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 childAspectRatio: 2,
-                children: courseUnits.map((unit) {
+                children: courseUnits
+                    .where((unit) =>
+                        unit.curricularYear?.toString() == course.currYear)
+                    .map((unit) {
                   return CourseGradeCard(
                     courseName: unit.name,
                     ects: unit.ects! as double,
