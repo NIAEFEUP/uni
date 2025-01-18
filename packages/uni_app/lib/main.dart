@@ -130,6 +130,11 @@ Future<void> main() async {
 
   final route = await firstRoute();
 
+  final featureFlagController = FeatureFlagController(
+    stateController: FeatureFlagStateController(PreferencesController.prefs),
+    featureFlagInfos: featureFlagTable,
+  );
+
   await SentryFlutter.init(
     (options) {
       options.dsn =
@@ -180,6 +185,9 @@ Future<void> main() async {
               ChangeNotifierProvider<ThemeNotifier>(
                 create: (_) => ThemeNotifier(savedTheme),
               ),
+              ChangeNotifierProvider<FeatureFlagController>(
+                create: (_) => featureFlagController,
+              ),
             ],
             child: Application(route),
           ),
@@ -187,11 +195,6 @@ Future<void> main() async {
       );
     },
   );
-
-  final featureFlagStateController =
-      FeatureFlagStateController(PreferencesController.prefs);
-  FeatureFlagController.setStateController(featureFlagStateController);
-  FeatureFlagController.parseFeatureFlagTable(featureFlagTable);
 }
 
 /// Manages the state of the app.

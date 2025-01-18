@@ -20,28 +20,24 @@ class LibraryPage extends StatefulWidget {
 }
 
 class LibraryPageState extends SecondaryPageViewState<LibraryPage> {
-  static final libraryFeatureFlag =
-      FeatureFlagController.getFeatureFlag('library')!;
-  static final libraryOccupationFeatureFlag =
-      FeatureFlagController.getFeatureFlag('library_occupation')!;
-  static final libraryFloorsFeatureFlag =
-      FeatureFlagController.getFeatureFlag('library_floors')!;
-
   @override
   Widget getBody(BuildContext context) {
     return ExperimentalFeatureWrapper(
-      featureFlag: libraryFeatureFlag,
+      featureFlag: Provider.of<FeatureFlagController>(context)
+          .getFeatureFlag('library')!,
       onEnabled: (context) {
         return ListView(
           shrinkWrap: true,
           children: [
             ExperimentalFeatureWrapper(
-              featureFlag: libraryOccupationFeatureFlag,
+              featureFlag: Provider.of<FeatureFlagController>(context)
+                  .getFeatureFlag('library_occupation')!,
               onEnabled: (_) => LibraryOccupationCard(),
             ),
             PageTitle(name: S.of(context).floors),
             ExperimentalFeatureWrapper(
-              featureFlag: libraryFloorsFeatureFlag,
+              featureFlag: Provider.of<FeatureFlagController>(context)
+                  .getFeatureFlag('library_floors')!,
               onEnabled: (_) =>
                   LazyConsumer<LibraryOccupationProvider, LibraryOccupation>(
                 builder: getFloorRows,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/controller/feature_flags/feature_flag_controller.dart';
 
 import 'package:uni/generated/l10n.dart';
@@ -13,7 +14,8 @@ class FeatureFlagsDialog extends StatelessWidget {
       title: Text(S.of(context).feature_flags),
       content: Column(
         mainAxisSize: MainAxisSize.min,
-        children: FeatureFlagController.getFeatureFlags()
+        children: Provider.of<FeatureFlagController>(context)
+            .getFeatureFlags()
             .map((featureFlag) => FeatureSwitchTile(featureFlag: featureFlag))
             .toList(),
       ),
