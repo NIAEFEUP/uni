@@ -118,11 +118,88 @@ class SchedulePageViewState extends State<SchedulePageView>
       tabs.add(
         Tab(
           key: Key('schedule-page-tab-$i'),
-          text: workWeekDays[i],
+          height: 50,
+          child: AnimatedBuilder(
+            animation: tabController,
+            builder: (context, child) {
+              final isSelected = tabController.index == i;
+
+              return Container(
+                width: 45,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? const Color.fromRGBO(177, 77, 84, 0.25)
+                      : Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      toShortVersion(workWeekDays[i]),
+                      style: isSelected
+                          ? const TextStyle(
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              color: Color.fromRGBO(102, 9, 16, 1),
+                            )
+                          : const TextStyle(
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              color: Color.fromRGBO(48, 48, 48, 1),
+                            ),
+                    ),
+                    Text(
+                      '$i',
+                      style: isSelected
+                          ? const TextStyle(
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              color: Color.fromRGBO(102, 9, 16, 1),
+                            )
+                          : const TextStyle(
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              color: Color.fromRGBO(48, 48, 48, 1),
+                            ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       );
     }
     return tabs;
+  }
+
+  String toShortVersion(String dayOfTheWeek) {
+    String shortVersion;
+    switch (dayOfTheWeek) {
+      case 'Monday':
+        shortVersion = 'Mon';
+      case 'Tuesday':
+        shortVersion = 'Tue';
+      case 'Wednesday':
+        shortVersion = 'Wed';
+      case 'Thursday':
+        shortVersion = 'Thu';
+      case 'Friday':
+        shortVersion = 'Fri';
+      case 'Saturday':
+        shortVersion = 'Sat';
+      case 'Sunday':
+        shortVersion = 'Sun';
+      default:
+        shortVersion = 'Blank';
+    }
+    return shortVersion;
   }
 
   List<Widget> createTabViewBuilder(BuildContext context) {
