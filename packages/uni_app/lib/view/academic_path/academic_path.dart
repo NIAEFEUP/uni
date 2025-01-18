@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/academic_path/exam_page.dart';
+import 'package:uni/view/academic_path/schedule_page.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/tabs/tab_icon.dart';
@@ -41,7 +42,7 @@ class AcademicPathPageViewState extends GeneralPageViewState
       tabs: [
         TabIcon(
           icon: UniIcons.lecture,
-          text: S.of(context).lectures,
+          text: S.of(context).schedule,
         ),
         TabIcon(icon: UniIcons.exam, text: S.of(context).exams),
         TabIcon(icon: UniIcons.course, text: S.of(context).courses),
@@ -53,12 +54,10 @@ class AcademicPathPageViewState extends GeneralPageViewState
   Widget getBody(BuildContext context) {
     return TabBarView(
       controller: tabController,
-      children: const [
-        Center(
-          child: Text('To be implemented'),
-        ),
-        ExamsPage(),
-        Center(
+      children: [
+        SchedulePage(),
+        const ExamsPage(),
+        const Center(
           child: Text('To be implemented'),
         ),
       ],

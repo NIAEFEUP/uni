@@ -7,7 +7,8 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names
+// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -19,12 +20,12 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static m0(time) => "last refresh at ${time}";
+  static String m0(time) => "last refresh at ${time}";
 
-  static m1(time) =>
+  static String m1(time) =>
       "${Intl.plural(time, zero: 'Refreshed ${time} minutes ago', one: 'Refreshed ${time} minute ago', other: 'Refreshed ${time} minutes ago')}";
 
-  static m2(title) => "${Intl.select(title, {
+  static String m2(title) => "${Intl.select(title, {
             'horario': 'Schedule',
             'exames': 'Exams',
             'area': 'Personal Area',
@@ -41,7 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function>{
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("About us"),
         "academic_services":
             MessageLookupByLibrary.simpleMessage("Academic services"),
@@ -161,7 +162,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
-        "lectures": MessageLookupByLibrary.simpleMessage("Lectures"),
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Library Occupation"),
         "load_error": MessageLookupByLibrary.simpleMessage(
@@ -270,6 +270,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
             "Do you want to see your favorite restaurants in the main page?"),
         "room": MessageLookupByLibrary.simpleMessage("Room"),
+        "schedule": MessageLookupByLibrary.simpleMessage("Schedule"),
         "school_calendar":
             MessageLookupByLibrary.simpleMessage("School Calendar"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
