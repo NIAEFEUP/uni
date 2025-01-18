@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
+import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/model/utils/time/weekday_mapper.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
@@ -53,17 +54,15 @@ class SchedulePageView extends StatefulWidget {
 }
 
 class SchedulePageViewState extends State<SchedulePageView>
-    with TickerProviderStateMixin {
-  TabController? tabController;
-  late final List<Lecture> lecturesThisWeek;
+    with SingleTickerProviderStateMixin {
+  late TabController tabController;
+  late ScrollController scrollViewController;
+  late List<Lecture> lecturesThisWeek;
 
   @override
   void initState() {
     super.initState();
-    tabController = TabController(
-      vsync: this,
-      length: 6,
-    );
+    tabController = TabController(vsync: this, length: DayOfWeek.values.length - 1);
 
     var weekDay = widget.currentWeek.start.weekday;
 
@@ -92,13 +91,14 @@ class SchedulePageViewState extends State<SchedulePageView>
       }
     }
 
-    final offset = (weekDay > 6) ? 0 : (weekDay - 1) % 6;
-    tabController?.animateTo(tabController!.index + offset);
+    tabController.animateTo(tabController.index + (weekDay - 1));
+    scrollViewController = ScrollController();
   }
 
   @override
   void dispose() {
-    tabController?.dispose();
+    tabController.dispose();
+    scrollViewController.dispose();
     super.dispose();
   }
 
