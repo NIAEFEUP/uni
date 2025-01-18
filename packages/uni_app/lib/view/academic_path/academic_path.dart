@@ -40,12 +40,12 @@ class AcademicPathPageViewState extends GeneralPageViewState
       controller: tabController,
       dividerHeight: 1,
       tabs: [
+        TabIcon(icon: UniIcons.course, text: S.of(context).courses),
         TabIcon(
           icon: UniIcons.lecture,
           text: S.of(context).lectures,
         ),
         TabIcon(icon: UniIcons.exam, text: S.of(context).exams),
-        TabIcon(icon: UniIcons.course, text: S.of(context).courses),
       ],
     );
   }
