@@ -14,7 +14,9 @@ class HomePageView2 extends StatefulWidget {
 }
 
 class HomePageView2State extends State<HomePageView2> {
-  List<GenericHomecard> favoriteCards = [const ExamHomeCard(title: 'Exams')];
+  List<GenericHomecard> favoriteCards = [
+    const ExamHomeCard(title: 'Exams'),
+  ];
 
   @override
   void initState() {
@@ -27,8 +29,11 @@ class HomePageView2State extends State<HomePageView2> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: homeAppBar(context),
       bottomNavigationBar: const AppBottomNavbar(),
-      body: Column(
-        children: [...favoriteCards],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        child: ListView(
+          children: [...favoriteCards],
+        ),
       ),
     );
   }

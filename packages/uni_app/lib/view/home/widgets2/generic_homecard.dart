@@ -7,17 +7,31 @@ abstract class GenericHomecard extends StatelessWidget {
 
   Widget buildCardContent(BuildContext context);
 
+  void onClick(BuildContext context);
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.headlineLarge,
+    return GestureDetector(
+      onTap: () => onClick,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          minHeight: 60,
         ),
-        buildCardContent(context),
-      ],
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                title,
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+              buildCardContent(context),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
