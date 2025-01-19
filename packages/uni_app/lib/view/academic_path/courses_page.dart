@@ -31,7 +31,7 @@ class CoursesPageState extends State<CoursesPage> {
 
   CourseGradeCard _toCourseGradeCard(CourseUnit unit) {
     return CourseGradeCard(
-      courseName: unit.abbreviation,
+      courseName: unit.name,
       ects: unit.ects! as double,
       grade: unit.grade != null ? double.tryParse(unit.grade!)?.round() : null,
     );
@@ -78,8 +78,12 @@ class CoursesPageState extends State<CoursesPage> {
                     padding: const EdgeInsets.only(right: 8),
                     child: DropdownButton(
                       items: _getAvailableYears(courseUnits)
-                          .map((year) => _toDropdownMenuItem(
-                              year, S.of(context).all_feminine))
+                          .map(
+                            (year) => _toDropdownMenuItem(
+                              year,
+                              S.of(context).all_feminine,
+                            ),
+                          )
                           .toList(),
                       value: selectedSchoolYear,
                       onChanged: (value) {
@@ -92,8 +96,12 @@ class CoursesPageState extends State<CoursesPage> {
                   ),
                   DropdownButton(
                     items: _getAvailableSemesters(courseUnits)
-                        .map((semester) =>
-                            _toDropdownMenuItem(semester, '1S+2S'))
+                        .map(
+                          (semester) => _toDropdownMenuItem(
+                            semester,
+                            '1S+2S',
+                          ),
+                        )
                         .toList(),
                     value: selectedSemester,
                     onChanged: (value) {
@@ -157,7 +165,9 @@ class CoursesPageState extends State<CoursesPage> {
   }
 
   static DropdownMenuItem<String> _toDropdownMenuItem(
-      String? option, String nullName) {
+    String? option,
+    String nullName,
+  ) {
     return DropdownMenuItem(
       value: option,
       child: Text(option ?? nullName),
