@@ -13,7 +13,7 @@ enum NavigationItem {
   navProfile('perfil'),
   navSettings('definicoes'),
   navMap('mapa'),
-  navLogin('login');
+  navLogin('login'),
   navBugreport('bug_report'),
   navAboutus('sobre_nos');
 
