@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
@@ -77,7 +78,8 @@ class CoursesPageState extends State<CoursesPage> {
                     padding: const EdgeInsets.only(right: 8),
                     child: DropdownButton(
                       items: _getAvailableYears(courseUnits)
-                          .map(_toDropdownMenuItem)
+                          .map((year) => _toDropdownMenuItem(
+                              year, S.of(context).all_feminine))
                           .toList(),
                       value: selectedSchoolYear,
                       onChanged: (value) {
@@ -90,7 +92,8 @@ class CoursesPageState extends State<CoursesPage> {
                   ),
                   DropdownButton(
                     items: _getAvailableSemesters(courseUnits)
-                        .map(_toDropdownMenuItem)
+                        .map((semester) =>
+                            _toDropdownMenuItem(semester, '1S+2S'))
                         .toList(),
                     value: selectedSemester,
                     onChanged: (value) {
@@ -135,32 +138,47 @@ class CoursesPageState extends State<CoursesPage> {
     );
   }
 
-  static List<String> _getAvailableYears(List<CourseUnit> courseUnits) {
+  static List<String?> _getAvailableYears(List<CourseUnit> courseUnits) {
     final years = courseUnits.map((unit) => unit.schoolYear).nonNulls.toSet();
-    final yearsList = years.toList()..sort();
+    final yearsList = years.map((year) => year as String?).toList()
+      ..sort()
+      ..insert(0, null);
     return yearsList;
   }
 
-  static List<String> _getAvailableSemesters(List<CourseUnit> courseUnits) {
+  static List<String?> _getAvailableSemesters(List<CourseUnit> courseUnits) {
     final semesters =
         courseUnits.map((unit) => unit.semesterCode).nonNulls.toSet();
-    final semestersList = semesters.toList()..sort();
+    final semestersList =
+        semesters.map((semester) => semester as String?).toList()
+          ..sort()
+          ..insert(0, null);
     return semestersList;
   }
 
-  static DropdownMenuItem<String> _toDropdownMenuItem(String option) {
+  static DropdownMenuItem<String> _toDropdownMenuItem(
+      String? option, String nullName) {
     return DropdownMenuItem(
       value: option,
-      child: Text(option),
+      child: Text(option ?? nullName),
     );
   }
 
+  static bool compareToFilter(String? value, String? filter) {
+    return filter == null || value == filter;
+  }
+
   static List<CourseUnit> _applyFilters(
-      List<CourseUnit> courseUnits, String? year, String? semester) {
+    List<CourseUnit> courseUnits,
+    String? year,
+    String? semester,
+  ) {
     return courseUnits
-        .where((unit) =>
-            (year == null || unit.schoolYear == year) &&
-            (semester == null || unit.semesterCode == semester))
+        .where(
+          (unit) =>
+              compareToFilter(unit.schoolYear, year) &&
+              compareToFilter(unit.semesterCode, semester),
+        )
         .toList();
   }
 }

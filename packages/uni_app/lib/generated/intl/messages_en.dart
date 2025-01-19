@@ -42,7 +42,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "all_widgets_added" : MessageLookupByLibrary.simpleMessage("All available widgets have already been added to your personal area!"),
     "assessments" : MessageLookupByLibrary.simpleMessage("Assessments"),
     "at_least_one_college" : MessageLookupByLibrary.simpleMessage("Select at least one college"),
-    "attending" : MessageLookupByLibrary.simpleMessage("Attending"),
     "average" : MessageLookupByLibrary.simpleMessage("Average: "),
     "balance" : MessageLookupByLibrary.simpleMessage("Balance"),
     "banner_info" : MessageLookupByLibrary.simpleMessage("We do now collect anonymous usage statistics in order to improve your experience. You can change it in settings."),

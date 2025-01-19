@@ -366,8 +366,6 @@
   "@exams": {},
   "courses": "Courses",
   "@courses": {},
-  "attending": "Attending",
-  "@attending": {},
   "all_feminine": "All",
   "@all_feminine": {},
   "dish_type": "{type, select, all_dishes{All dishes} meat_dishes{Meat dishes} fish_dishes{Fish dishes} vegetarian_dishes{Vegetarian dishes} soups{Soups} salads{Salads} diet_dishes{Diet dishes} dishes_of_the_day{Dishes of the Day} other{Other}}",

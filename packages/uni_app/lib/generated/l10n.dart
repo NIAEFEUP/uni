@@ -1845,16 +1845,6 @@ class S {
     );
   }
 
-  /// `Attending`
-  String get attending {
-    return Intl.message(
-      'Attending',
-      name: 'attending',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `All`
   String get all_feminine {
     return Intl.message(
