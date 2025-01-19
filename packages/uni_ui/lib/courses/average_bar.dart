@@ -13,6 +13,7 @@ class AverageBar extends StatelessWidget {
   final int completedCredits;
   final int totalCredits;
   final String statusText;
+  final String averageText;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class AverageBar extends StatelessWidget {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Average'),
+                      Text(averageText),
                       Text(average.toString(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18))
