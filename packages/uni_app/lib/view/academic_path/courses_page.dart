@@ -15,32 +15,62 @@ class CoursesPage extends StatefulWidget {
   CoursesPageState createState() => CoursesPageState();
 }
 
+class _FilterOption {
+  const _FilterOption({
+    required this.name,
+    required this.value,
+    required this.filter,
+  });
+
+  final String Function() name;
+  final int value;
+  final List<CourseUnit> Function(
+      List<CourseUnit> courseUnits, String? currYear) filter;
+
+  DropdownMenuItem<int> toDropdownMenuItem() {
+    return DropdownMenuItem(
+      value: value,
+      child: Text(name()),
+    );
+  }
+}
+
 class CoursesPageState extends State<CoursesPage> {
-  String selectedFilter = 'Current';
+  static final filterOptions = [
+    _FilterOption(
+      name: () => 'Current',
+      value: 0,
+      filter: (courseUnits, currYear) {
+        return courseUnits
+            .where((unit) => unit.curricularYear.toString() == currYear)
+            .toList();
+      },
+    ),
+    _FilterOption(
+      name: () => 'All',
+      value: 1,
+      filter: (courseUnits, currYear) {
+        return courseUnits;
+      },
+    ),
+  ];
+
+  int selectedFilter = 0;
   bool isGrid = true;
   int courseUnitIndex = 0;
-
-  static List<CourseUnit> _filterCourseUnits(
-    String option,
-    List<CourseUnit> courseUnits,
-    String? currYear,
-  ) {
-    switch (option) {
-      case 'All':
-        return courseUnits;
-      case 'Current':
-        return courseUnits
-            .where((unit) => unit.curricularYear?.toString() == currYear)
-            .toList();
-      default:
-        return [];
-    }
-  }
 
   void _onCourseUnitSelected(int index) {
     setState(() {
       courseUnitIndex = index;
     });
+  }
+
+  CourseGradeCard _toCourseGradeCard(CourseUnit unit) {
+    return CourseGradeCard(
+      courseName: unit.abbreviation,
+      ects: unit.ects! as double,
+      grade: unit.grade != null ? double.tryParse(unit.grade!)?.round() : null,
+    );
   }
 
   @override
@@ -51,19 +81,10 @@ class CoursesPageState extends State<CoursesPage> {
         builder: (context, profile) {
           final courses = profile.courses;
           final course = courses[courseUnitIndex];
-          final courseUnitCards = _filterCourseUnits(
-            selectedFilter,
-            profile.courseUnits,
-            course.currYear,
-          ).map((unit) {
-            return CourseGradeCard(
-              courseName: unit.abbreviation,
-              ects: unit.ects! as double,
-              grade: unit.grade != null
-                  ? double.tryParse(unit.grade!)?.round()
-                  : null,
-            );
-          }).toList();
+          final courseUnitCards = filterOptions[selectedFilter]
+              .filter(profile.courseUnits, course.currYear)
+              .map(_toCourseGradeCard)
+              .toList();
 
           return ListView(
             children: [
@@ -88,15 +109,10 @@ class CoursesPageState extends State<CoursesPage> {
               Row(
                 children: [
                   DropdownButton(
-                    items: ['Current', 'All'].map((option) {
-                      return DropdownMenuItem(
-                        value: option,
-                        child: Text(
-                          option,
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      );
-                    }).toList(),
+                    items: filterOptions
+                        .map<DropdownMenuItem<int>>(
+                            (option) => option.toDropdownMenuItem())
+                        .toList(),
                     value: selectedFilter,
                     onChanged: (value) => setState(() {
                       selectedFilter = value!;
