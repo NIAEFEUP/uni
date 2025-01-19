@@ -17,31 +17,29 @@ class CourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: GenericCard(
-        key: key,
-        color: selected
-            ? Theme.of(context).colorScheme.surfaceDim
-            : Theme.of(context).colorScheme.surfaceContainerLow,
-        child: SizedBox(
-          width: 80,
-          child: Column(
-            children: [
-              PhosphorIcon(
-                PhosphorIcons.certificate(
-                  selected
-                      ? PhosphorIconsStyle.duotone
-                      : PhosphorIconsStyle.regular,
-                ),
-                size: 48,
+    return GenericCard(
+      key: key,
+      onClick: onTap,
+      color: selected
+          ? Theme.of(context).colorScheme.surfaceDim
+          : Theme.of(context).colorScheme.surfaceContainerLow,
+      child: SizedBox(
+        width: 80,
+        child: Column(
+          children: [
+            PhosphorIcon(
+              PhosphorIcons.certificate(
+                selected
+                    ? PhosphorIconsStyle.duotone
+                    : PhosphorIconsStyle.regular,
               ),
-              Text(
-                courseInfo.abbreviation,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-            ],
-          ),
+              size: 48,
+            ),
+            Text(
+              courseInfo.abbreviation,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ],
         ),
       ),
     );

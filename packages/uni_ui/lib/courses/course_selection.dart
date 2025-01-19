@@ -20,6 +20,7 @@ class CourseSelection extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: courseInfos.indexed.map<CourseCard>((entry) {
           final index = entry.$1;
@@ -28,7 +29,7 @@ class CourseSelection extends StatelessWidget {
           return CourseCard(
             courseInfo: courseInfos,
             selected: index == selected,
-            onTap: () => onSelected(index),
+            onTap: () => {onSelected(index)},
           );
         }).toList(),
       ),
