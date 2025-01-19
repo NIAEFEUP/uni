@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
@@ -16,32 +16,11 @@ class CoursesPage extends StatefulWidget {
   CoursesPageState createState() => CoursesPageState();
 }
 
-class _FilterOption {
-  const _FilterOption({
-    required this.name,
-    required this.value,
-    required this.filter,
-  });
-
-  final String name;
-  final int value;
-  final List<CourseUnit> Function(
-    List<CourseUnit> courseUnits,
-    String? currYear,
-  ) filter;
-
-  DropdownMenuItem<int> toDropdownMenuItem() {
-    return DropdownMenuItem(
-      value: value,
-      child: Text(name),
-    );
-  }
-}
-
 class CoursesPageState extends State<CoursesPage> {
-  int selectedFilter = 0;
   bool isGrid = true;
   int courseUnitIndex = 0;
+  String? selectedSchoolYear = PreferencesController.getSchoolYearValue();
+  String? selectedSemester = PreferencesController.getSemesterValue();
 
   void _onCourseUnitSelected(int index) {
     setState(() {
@@ -59,35 +38,18 @@ class CoursesPageState extends State<CoursesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final filterOptions = [
-      _FilterOption(
-        name: S.of(context).attending,
-        value: 0,
-        filter: (courseUnits, currYear) {
-          return courseUnits
-              .where((unit) => unit.curricularYear.toString() == currYear)
-              .toList();
-        },
-      ),
-      _FilterOption(
-        name: S.of(context).all_feminine,
-        value: 1,
-        filter: (courseUnits, currYear) {
-          return courseUnits;
-        },
-      ),
-    ];
-
     return Padding(
       padding: const EdgeInsets.all(16),
       child: LazyConsumer<ProfileProvider, Profile>(
         builder: (context, profile) {
           final courses = profile.courses;
           final course = courses[courseUnitIndex];
-          final courseUnitCards = filterOptions[selectedFilter]
-              .filter(profile.courseUnits, course.currYear)
-              .map(_toCourseGradeCard)
-              .toList();
+
+          final courseUnits = profile.courseUnits;
+          final courseUnitCards =
+              _applyFilters(courseUnits, selectedSchoolYear, selectedSemester)
+                  .map(_toCourseGradeCard)
+                  .toList();
 
           return ListView(
             children: [
@@ -111,16 +73,32 @@ class CoursesPageState extends State<CoursesPage> {
               ),
               Row(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: DropdownButton(
+                      items: _getAvailableYears(courseUnits)
+                          .map(_toDropdownMenuItem)
+                          .toList(),
+                      value: selectedSchoolYear,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedSchoolYear = value;
+                        });
+                        PreferencesController.setSchoolYearValue(value);
+                      },
+                    ),
+                  ),
                   DropdownButton(
-                    items: filterOptions
-                        .map<DropdownMenuItem<int>>(
-                          (option) => option.toDropdownMenuItem(),
-                        )
+                    items: _getAvailableSemesters(courseUnits)
+                        .map(_toDropdownMenuItem)
                         .toList(),
-                    value: selectedFilter,
-                    onChanged: (value) => setState(() {
-                      selectedFilter = value!;
-                    }),
+                    value: selectedSemester,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedSemester = value;
+                      });
+                      PreferencesController.setSemesterValue(value);
+                    },
                   ),
                   const Spacer(),
                   IconButton(
@@ -155,5 +133,34 @@ class CoursesPageState extends State<CoursesPage> {
         onNullContent: Container(),
       ),
     );
+  }
+
+  static List<String> _getAvailableYears(List<CourseUnit> courseUnits) {
+    final years = courseUnits.map((unit) => unit.schoolYear).nonNulls.toSet();
+    final yearsList = years.toList()..sort();
+    return yearsList;
+  }
+
+  static List<String> _getAvailableSemesters(List<CourseUnit> courseUnits) {
+    final semesters =
+        courseUnits.map((unit) => unit.semesterCode).nonNulls.toSet();
+    final semestersList = semesters.toList()..sort();
+    return semestersList;
+  }
+
+  static DropdownMenuItem<String> _toDropdownMenuItem(String option) {
+    return DropdownMenuItem(
+      value: option,
+      child: Text(option),
+    );
+  }
+
+  static List<CourseUnit> _applyFilters(
+      List<CourseUnit> courseUnits, String? year, String? semester) {
+    return courseUnits
+        .where((unit) =>
+            (year == null || unit.schoolYear == year) &&
+            (semester == null || unit.semesterCode == semester))
+        .toList();
   }
 }
