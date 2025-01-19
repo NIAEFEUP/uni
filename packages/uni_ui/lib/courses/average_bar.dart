@@ -7,6 +7,7 @@ class AverageBar extends StatelessWidget {
       required this.completedCredits,
       required this.totalCredits,
       required this.statusText,
+      required this.averageText,
       super.key});
 
   final double average;
