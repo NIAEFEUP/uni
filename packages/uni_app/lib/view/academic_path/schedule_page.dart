@@ -164,19 +164,22 @@ class SchedulePageViewState extends State<SchedulePageView>
   }
 
   List<Widget> createTabViewBuilder(BuildContext context) {
-    return reorderedDates.map((day) {
+    return List.generate(7, (index) {
+      // Use reorderedDates[index] directly for alignment
+      final day = reorderedDates[index];
       final lectures = lecturesOfDay(widget.lectures, day);
-      final index = day.weekday % 7; // Map Sunday (7) to 0, etc.
 
       return lectures.isEmpty
-          ? emptyDayColumn(context, index)
-          : dayColumnBuilder(index, lectures);
-    }).toList();
+          ? emptyDayColumn(context, day) // Pass the exact reordered date
+          : dayColumnBuilder(day, lectures); // Pass the exact reordered date
+    });
   }
 
-  Widget dayColumnBuilder(int day, List<Lecture> lectures) {
+  Widget dayColumnBuilder(DateTime day, List<Lecture> lectures) {
     return ListView(
-      key: Key('schedule-page-day-column-$day'),
+      key: Key(
+        'schedule-page-day-column-${day.weekday}',
+      ), // Use day.weekday as identifier
       children: lectures
           .map(
             (lecture) => ScheduleSlot(
@@ -194,16 +197,18 @@ class SchedulePageViewState extends State<SchedulePageView>
     );
   }
 
-  Widget emptyDayColumn(BuildContext context, int day) {
-    final weekday =
-        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale()[day];
+  Widget emptyDayColumn(BuildContext context, DateTime day) {
+    final daysOfTheWeek =
+        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
+    final weekdayName =
+        daysOfTheWeek[(day.weekday - 1) % 7]; // Adjust to zero-based index
 
     final noClassesText = S.of(context).no_classes_on;
 
     return Center(
       child: ImageLabel(
         imagePath: 'assets/images/schedule.png',
-        label: '$noClassesText $weekday.',
+        label: '$noClassesText $weekdayName.',
         labelTextStyle: const TextStyle(fontSize: 15),
       ),
     );
