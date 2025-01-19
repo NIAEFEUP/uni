@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
@@ -22,39 +23,22 @@ class _FilterOption {
     required this.filter,
   });
 
-  final String Function() name;
+  final String name;
   final int value;
   final List<CourseUnit> Function(
-      List<CourseUnit> courseUnits, String? currYear) filter;
+    List<CourseUnit> courseUnits,
+    String? currYear,
+  ) filter;
 
   DropdownMenuItem<int> toDropdownMenuItem() {
     return DropdownMenuItem(
       value: value,
-      child: Text(name()),
+      child: Text(name),
     );
   }
 }
 
 class CoursesPageState extends State<CoursesPage> {
-  static final filterOptions = [
-    _FilterOption(
-      name: () => 'Current',
-      value: 0,
-      filter: (courseUnits, currYear) {
-        return courseUnits
-            .where((unit) => unit.curricularYear.toString() == currYear)
-            .toList();
-      },
-    ),
-    _FilterOption(
-      name: () => 'All',
-      value: 1,
-      filter: (courseUnits, currYear) {
-        return courseUnits;
-      },
-    ),
-  ];
-
   int selectedFilter = 0;
   bool isGrid = true;
   int courseUnitIndex = 0;
@@ -75,6 +59,25 @@ class CoursesPageState extends State<CoursesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final filterOptions = [
+      _FilterOption(
+        name: S.of(context).attending,
+        value: 0,
+        filter: (courseUnits, currYear) {
+          return courseUnits
+              .where((unit) => unit.curricularYear.toString() == currYear)
+              .toList();
+        },
+      ),
+      _FilterOption(
+        name: S.of(context).all_feminine,
+        value: 1,
+        filter: (courseUnits, currYear) {
+          return courseUnits;
+        },
+      ),
+    ];
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: LazyConsumer<ProfileProvider, Profile>(
@@ -111,7 +114,8 @@ class CoursesPageState extends State<CoursesPage> {
                   DropdownButton(
                     items: filterOptions
                         .map<DropdownMenuItem<int>>(
-                            (option) => option.toDropdownMenuItem())
+                          (option) => option.toDropdownMenuItem(),
+                        )
                         .toList(),
                     value: selectedFilter,
                     onChanged: (value) => setState(() {
