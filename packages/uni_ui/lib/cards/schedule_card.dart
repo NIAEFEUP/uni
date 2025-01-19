@@ -87,7 +87,7 @@ class ScheduleCard extends StatelessWidget {
                               'assets/images/profile_placeholder.png', // to change
                         )),
                     const SizedBox(width: 8), //TODO: create gap()?
-                    Text(teacherName!,
+                    Text(teacherName ?? 'Teacher X',
                         style: Theme.of(context).textTheme.titleSmall),
                   ])
               ],

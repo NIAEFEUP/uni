@@ -4,6 +4,7 @@ import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_bu
 import 'package:uni/view/home/widgets/uni_icon.dart';
 import 'package:uni/view/home/widgets2/exam_card.dart';
 import 'package:uni/view/home/widgets2/generic_homecard.dart';
+import 'package:uni/view/home/widgets2/schedule_homecard.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
 
 class HomePageView2 extends StatefulWidget {
@@ -16,6 +17,7 @@ class HomePageView2 extends StatefulWidget {
 class HomePageView2State extends State<HomePageView2> {
   List<GenericHomecard> favoriteCards = [
     const ExamHomeCard(title: 'Exams'),
+    const ScheduleHomecard(title: 'Schedule'),
   ];
 
   @override
@@ -31,8 +33,12 @@ class HomePageView2State extends State<HomePageView2> {
       bottomNavigationBar: const AppBottomNavbar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        child: ListView(
-          children: [...favoriteCards],
+        child: ListView.separated(
+          itemCount: favoriteCards.length,
+          separatorBuilder: (_, __) => const SizedBox(
+            height: 10,
+          ),
+          itemBuilder: (_, index) => favoriteCards[index],
         ),
       ),
     );
