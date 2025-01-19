@@ -35,7 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
             'calendario': 'Calendário',
             'biblioteca': 'Biblioteca',
             'percurso_academico': 'Percurso Académico',
-            'transportes': 'Transportes',
+            'mapa': 'Mapa',
             'faculdade': 'Faculdade',
             'other': 'Outros',
           })}";
