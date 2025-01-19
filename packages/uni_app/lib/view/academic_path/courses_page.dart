@@ -4,6 +4,8 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/cards/course_grade_card.dart';
+import 'package:uni_ui/courses/course_info.dart';
+import 'package:uni_ui/courses/course_selection.dart';
 import 'package:uni_ui/icons.dart';
 
 class CoursesPage extends StatefulWidget {
@@ -16,6 +18,7 @@ class CoursesPage extends StatefulWidget {
 class CoursesPageState extends State<CoursesPage> {
   String selectedFilter = 'Current';
   bool isGrid = true;
+  int courseUnitIndex = 0;
 
   static List<CourseUnit> _filterCourseUnits(
     String option,
@@ -34,6 +37,12 @@ class CoursesPageState extends State<CoursesPage> {
     }
   }
 
+  void _onCourseUnitSelected(int index) {
+    setState(() {
+      courseUnitIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,10 +50,12 @@ class CoursesPageState extends State<CoursesPage> {
       child: LazyConsumer<ProfileProvider, Profile>(
         builder: (context, profile) {
           final courses = profile.courses;
-          final course = courses[0];
+          final course = courses[courseUnitIndex];
           final courseUnitCards = _filterCourseUnits(
-                  selectedFilter, profile.courseUnits, course.currYear)
-              .map((unit) {
+            selectedFilter,
+            profile.courseUnits,
+            course.currYear,
+          ).map((unit) {
             return CourseGradeCard(
               courseName: unit.abbreviation,
               ects: unit.ects! as double,
@@ -56,9 +67,23 @@ class CoursesPageState extends State<CoursesPage> {
 
           return ListView(
             children: [
-              Text(
-                course.name ?? '',
-                style: Theme.of(context).textTheme.headlineMedium,
+              Center(
+                child: CourseSelection(
+                  courseInfos: courses.map((course) {
+                    return CourseInfo(
+                      abbreviation: course.abbreviation ?? '???',
+                    );
+                  }).toList(),
+                  onSelected: _onCourseUnitSelected,
+                  selected: courseUnitIndex,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Text(
+                  course.name ?? '',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
               ),
               Row(
                 children: [
@@ -68,6 +93,7 @@ class CoursesPageState extends State<CoursesPage> {
                         value: option,
                         child: Text(
                           option,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       );
                     }).toList(),
