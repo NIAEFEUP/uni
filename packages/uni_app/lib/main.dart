@@ -57,6 +57,8 @@ import 'package:uni_ui/theme.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:workmanager/workmanager.dart';
 
+import 'view/home/home2.dart';
+
 SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
 }
@@ -267,7 +269,7 @@ class ApplicationState extends State<Application> {
               ),
               '/${NavigationItem.navPersonalArea.route}':
                   PageTransition.makePageTransition(
-                page: const HomePageView(),
+                page: const HomePageView2(),
                 settings: settings,
               ),
               '/${NavigationItem.navSchedule.route}':

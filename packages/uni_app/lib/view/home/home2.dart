@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
 import 'package:uni/view/home/widgets/uni_icon.dart';
-import 'package:uni_ui/cards/exam_card.dart';
+import 'package:uni/view/home/widgets2/exam_card.dart';
+import 'package:uni/view/home/widgets2/generic_homecard.dart';
+import 'package:uni_ui/cards/schedule_card.dart';
 
 class HomePageView2 extends StatefulWidget {
   const HomePageView2({super.key});
@@ -13,6 +14,8 @@ class HomePageView2 extends StatefulWidget {
 }
 
 class HomePageView2State extends State<HomePageView2> {
+  List<GenericHomecard> favoriteCards = [const ExamHomeCard(title: 'Exams')];
+
   @override
   void initState() {
     super.initState();
@@ -24,7 +27,9 @@ class HomePageView2State extends State<HomePageView2> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: homeAppBar(context),
       bottomNavigationBar: const AppBottomNavbar(),
-      body: const Text('hello'),
+      body: Column(
+        children: [...favoriteCards],
+      ),
     );
   }
 
@@ -44,22 +49,31 @@ class HomePageView2State extends State<HomePageView2> {
           ),
         ),
         child: const Padding(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  UniIcon(iconColor: Colors.white),
-                  ProfileButton(),
-                ],
+              SafeArea(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    UniIcon(iconColor: Colors.white),
+                    ProfileButton(),
+                  ],
+                ),
               ),
-              ExamCard(
-                name: 'Teste',
-                acronym: 'TE',
-                rooms: ['B223', 'B222'],
-                type: 'MT',
+              Expanded(
+                child: Column(
+                  // TODO: better implementation avoiding column
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ScheduleCard(
+                      name: 'Computer Laboratory',
+                      acronym: 'LCOM',
+                      room: 'B315',
+                      type: 'MT',
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
