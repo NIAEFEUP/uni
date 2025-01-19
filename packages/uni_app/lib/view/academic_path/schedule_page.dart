@@ -3,9 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
-import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/model/utils/time/week.dart';
-import 'package:uni/model/utils/time/weekday_mapper.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -57,42 +55,13 @@ class SchedulePageView extends StatefulWidget {
 class SchedulePageViewState extends State<SchedulePageView>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
-  late List<Lecture> lecturesThisWeek;
+  late List<DateTime> reorderedDates;
 
   @override
   void initState() {
     super.initState();
-    tabController = TabController(vsync: this, length: 6);
-
-    var weekDay = widget.currentWeek.start.weekday;
-
-    lecturesThisWeek = <Lecture>[];
-    widget.currentWeek.weekdays.take(6).forEach((day) {
-      final lectures = lecturesOfDay(widget.lectures, day);
-      lecturesThisWeek.addAll(lectures);
-    });
-
-    if (lecturesThisWeek.isNotEmpty) {
-      final now = DateTime.now();
-
-      final nextLecture = lecturesThisWeek
-          .where((lecture) => lecture.endTime.isAfter(now))
-          .fold<Lecture?>(null, (closest, lecture) {
-        if (closest == null) {
-          return lecture;
-        }
-        return lecture.endTime.difference(now) < closest.endTime.difference(now)
-            ? lecture
-            : closest;
-      });
-
-      if (nextLecture != null) {
-        weekDay = nextLecture.endTime.weekday;
-      }
-    }
-
-    final offset = (weekDay > 6) ? 0 : (weekDay - 1) % 6;
-    tabController.animateTo(tabController.index + offset);
+    tabController = TabController(vsync: this, length: 7); // Fixed to 7 days
+    reorderedDates = _getReorderedWeekDates(widget.currentWeek.start);
   }
 
   @override
@@ -110,73 +79,59 @@ class SchedulePageViewState extends State<SchedulePageView>
   }
 
   List<Widget> createTabs(BuildContext context) {
-    final workWeekDays = Provider.of<LocaleNotifier>(context)
-        .getWeekdaysWithLocale()
-        .sublist(0, 6);
-    final tabs = <Widget>[];
-    for (var i = 0; i < DayOfWeek.values.length - 1; i++) {
-      tabs.add(
-        Tab(
-          key: Key('schedule-page-tab-$i'),
-          height: 50,
-          child: AnimatedBuilder(
-            animation: tabController,
-            builder: (context, child) {
-              final isSelected = tabController.index == i;
+    final daysOfTheWeek =
+        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
 
-              return Container(
-                width: 45,
-                height: 50,
-                decoration: BoxDecoration(
+    // Reorder the days of the week to start with Sunday
+    final reorderedDaysOfTheWeek = [
+      daysOfTheWeek[6], // Sunday (index 6 in default order)
+      ...daysOfTheWeek.sublist(0, 6), // Monday to Saturday
+    ];
+
+    return List.generate(7, (index) {
+      final isSelected = tabController.index == index;
+      return Tab(
+        key: Key('schedule-page-tab-$index'),
+        height: 50,
+        child: Container(
+          width: 45,
+          height: 50,
+          decoration: BoxDecoration(
+            color: isSelected
+                ? const Color.fromRGBO(177, 77, 84, 0.25)
+                : Theme.of(context).scaffoldBackgroundColor,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                toShortVersion(reorderedDaysOfTheWeek[index]),
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 12,
                   color: isSelected
-                      ? const Color.fromRGBO(177, 77, 84, 0.25)
-                      : Theme.of(context).scaffoldBackgroundColor,
-                  borderRadius: BorderRadius.circular(10),
+                      ? const Color.fromRGBO(102, 9, 16, 1)
+                      : const Color.fromRGBO(48, 48, 48, 1),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      toShortVersion(workWeekDays[i]),
-                      style: isSelected
-                          ? const TextStyle(
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color.fromRGBO(102, 9, 16, 1),
-                            )
-                          : const TextStyle(
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color.fromRGBO(48, 48, 48, 1),
-                            ),
-                    ),
-                    Text(
-                      '$i',
-                      style: isSelected
-                          ? const TextStyle(
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color.fromRGBO(102, 9, 16, 1),
-                            )
-                          : const TextStyle(
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color.fromRGBO(48, 48, 48, 1),
-                            ),
-                    ),
-                  ],
+              ),
+              Text(
+                '${reorderedDates[index].day}',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 12,
+                  color: isSelected
+                      ? const Color.fromRGBO(102, 9, 16, 1)
+                      : const Color.fromRGBO(48, 48, 48, 1),
                 ),
-              );
-            },
+              ),
+            ],
           ),
         ),
       );
-    }
-    return tabs;
+    });
   }
 
   String toShortVersion(String dayOfTheWeek) {
@@ -202,15 +157,20 @@ class SchedulePageViewState extends State<SchedulePageView>
     return shortVersion;
   }
 
+  List<DateTime> _getReorderedWeekDates(DateTime startOfWeek) {
+    final sunday =
+        startOfWeek.subtract(Duration(days: startOfWeek.weekday % 7));
+    return List.generate(7, (index) => sunday.add(Duration(days: index)));
+  }
+
   List<Widget> createTabViewBuilder(BuildContext context) {
-    return widget.currentWeek.weekdays.take(6).map((day) {
-      final lectures = lecturesOfDay(lecturesThisWeek, day);
-      final index = WeekdayMapper.fromDartToIndex.map(day.weekday);
-      if (lectures.isEmpty) {
-        return emptyDayColumn(context, index);
-      } else {
-        return dayColumnBuilder(index, lectures);
-      }
+    return reorderedDates.map((day) {
+      final lectures = lecturesOfDay(widget.lectures, day);
+      final index = day.weekday % 7; // Map Sunday (7) to 0, etc.
+
+      return lectures.isEmpty
+          ? emptyDayColumn(context, index)
+          : dayColumnBuilder(index, lectures);
     }).toList();
   }
 
@@ -238,9 +198,7 @@ class SchedulePageViewState extends State<SchedulePageView>
     final weekday =
         Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale()[day];
 
-    final noClassesText = day >= DateTime.saturday - 1
-        ? S.of(context).no_classes_on_weekend
-        : S.of(context).no_classes_on;
+    final noClassesText = S.of(context).no_classes_on;
 
     return Center(
       child: ImageLabel(
