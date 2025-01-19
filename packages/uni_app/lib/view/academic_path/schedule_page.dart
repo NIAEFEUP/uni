@@ -60,8 +60,18 @@ class SchedulePageViewState extends State<SchedulePageView>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(vsync: this, length: 7); // Fixed to 7 days
     reorderedDates = _getReorderedWeekDates(widget.currentWeek.start);
+    final currentDayIndex = reorderedDates.indexWhere(
+      (date) =>
+          date.day == widget.currentWeek.start.day &&
+          date.month == widget.currentWeek.start.month &&
+          date.year == widget.currentWeek.start.year,
+    );
+    tabController = TabController(
+      vsync: this,
+      length: 7,
+      initialIndex: currentDayIndex >= 0 ? currentDayIndex : 0,
+    );
   }
 
   @override
@@ -92,16 +102,10 @@ class SchedulePageViewState extends State<SchedulePageView>
       final isSelected = tabController.index == index;
       return Tab(
         key: Key('schedule-page-tab-$index'),
-        height: 50,
-        child: Container(
-          width: 45,
-          height: 50,
-          decoration: BoxDecoration(
-            color: isSelected
-                ? const Color.fromRGBO(177, 77, 84, 0.25)
-                : Theme.of(context).scaffoldBackgroundColor,
-            borderRadius: BorderRadius.circular(10),
-          ),
+        height: 45,
+        child: SizedBox(
+          width: 35,
+          height: 40,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -165,13 +169,12 @@ class SchedulePageViewState extends State<SchedulePageView>
 
   List<Widget> createTabViewBuilder(BuildContext context) {
     return List.generate(7, (index) {
-      // Use reorderedDates[index] directly for alignment
       final day = reorderedDates[index];
       final lectures = lecturesOfDay(widget.lectures, day);
 
       return lectures.isEmpty
-          ? emptyDayColumn(context, day) // Pass the exact reordered date
-          : dayColumnBuilder(day, lectures); // Pass the exact reordered date
+          ? emptyDayColumn(context, day)
+          : dayColumnBuilder(day, lectures);
     });
   }
 
@@ -179,7 +182,7 @@ class SchedulePageViewState extends State<SchedulePageView>
     return ListView(
       key: Key(
         'schedule-page-day-column-${day.weekday}',
-      ), // Use day.weekday as identifier
+      ),
       children: lectures
           .map(
             (lecture) => ScheduleSlot(
@@ -200,8 +203,7 @@ class SchedulePageViewState extends State<SchedulePageView>
   Widget emptyDayColumn(BuildContext context, DateTime day) {
     final daysOfTheWeek =
         Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
-    final weekdayName =
-        daysOfTheWeek[(day.weekday - 1) % 7]; // Adjust to zero-based index
+    final weekdayName = daysOfTheWeek[(day.weekday - 1) % 7];
 
     final noClassesText = S.of(context).no_classes_on;
 
