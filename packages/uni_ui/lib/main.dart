@@ -394,6 +394,7 @@ class MyApp extends StatelessWidget {
 }
 */
 
+/*
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:uni_ui/modal/modal.dart';
@@ -485,6 +486,76 @@ class DialogExample extends StatelessWidget {
           child: const Text('Show Fullscreen Dialog'),
         ),
       ],
+    );
+  }
+}
+*/
+
+import 'package:flutter/material.dart';
+import 'package:uni_ui/cards/library_occupation_card.dart';
+import 'package:uni_ui/theme.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  MyApp() {}
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: lightTheme,
+      home: Scaffold(
+          appBar: AppBar(
+            title: Text('Library Occupation Card Example'),
+          ),
+          body: ListView(
+            children: [
+              LibraryOccupationCard(
+                capacity: 300,
+                occupation: 200,
+                occupationWidgetsList: [
+                  FloorOccupationWidget(
+                    capacity: 50,
+                    occupation: 10,
+                    floorText: "Floor",
+                    floorNumber: 1,
+                  ),
+                  FloorOccupationWidget(
+                    capacity: 50,
+                    occupation: 20,
+                    floorText: "Floor",
+                    floorNumber: 2,
+                  ),
+                  FloorOccupationWidget(
+                    capacity: 50,
+                    occupation: 25,
+                    floorText: "Floor",
+                    floorNumber: 3,
+                  ),
+                  FloorOccupationWidget(
+                    capacity: 50,
+                    occupation: 40,
+                    floorText: "Floor",
+                    floorNumber: 4,
+                  ),
+                  FloorOccupationWidget(
+                    capacity: 50,
+                    occupation: 45,
+                    floorText: "Floor",
+                    floorNumber: 5,
+                  ),
+                  FloorOccupationWidget(
+                    capacity: 50,
+                    occupation: 50,
+                    floorText: "Floor",
+                    floorNumber: 6,
+                  )
+                ],
+              ),
+            ],
+          )),
     );
   }
 }
