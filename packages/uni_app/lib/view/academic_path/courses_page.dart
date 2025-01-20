@@ -24,6 +24,15 @@ class CoursesPageState extends State<CoursesPage> {
     });
   }
 
+  // TODO(Process-ing): Extract this information from API
+  // This method is just a band-aid, and will not work correctly for students
+  // enrolled in more than one course.
+  double _getTotalCredits(Profile profile) {
+    return profile.courseUnits
+        .map((courseUnit) => (courseUnit.ects ?? 0) as double)
+        .fold(0, (a, b) => a + b);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -57,8 +66,8 @@ class CoursesPageState extends State<CoursesPage> {
                 padding: const EdgeInsets.only(top: 16, bottom: 8),
                 child: AverageBar(
                   average: (course.currentAverage ?? double.nan) as double,
-                  completedCredits: (course.finishedEcts ?? 0).toInt(),
-                  totalCredits: 180,
+                  completedCredits: (course.finishedEcts ?? 0) as double,
+                  totalCredits: _getTotalCredits(profile),
                   statusText: course.state ?? '',
                   averageText: S.of(context).average,
                 ),
