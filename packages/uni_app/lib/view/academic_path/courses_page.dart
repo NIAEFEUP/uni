@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/academic_path/widgets/course_units_view.dart';
@@ -59,7 +60,7 @@ class CoursesPageState extends State<CoursesPage> {
                   completedCredits: (course.finishedEcts ?? 0).toInt(),
                   totalCredits: 180,
                   statusText: course.state ?? '',
-                  averageText: 'Average',
+                  averageText: S.of(context).average,
                 ),
               ),
               const CourseUnitsView(),
