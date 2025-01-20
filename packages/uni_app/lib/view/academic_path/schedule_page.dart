@@ -7,7 +7,7 @@ import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
-import 'package:uni/view/schedule/widgets/schedule_slot.dart';
+import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/timeline/timeline.dart';
 
 class SchedulePage extends StatefulWidget {
@@ -113,7 +113,8 @@ class SchedulePageViewState extends State<SchedulePageView> {
   List<Widget> createTabViewBuilder(BuildContext context) {
     return List.generate(7, (index) {
       final day = reorderedDates[index];
-      final lectures = lecturesOfDay(widget.lectures, day);
+      final lectures =
+          getMockLectures(); // lecturesOfDay(widget.lectures, day);
 
       return lectures.isEmpty
           ? emptyDayColumn(context, day)
@@ -122,25 +123,32 @@ class SchedulePageViewState extends State<SchedulePageView> {
   }
 
   Widget dayColumnBuilder(DateTime day, List<Lecture> lectures) {
-    return ListView(
+    return Column(
       key: Key(
         'schedule-page-day-column-${day.weekday}',
       ),
       children: lectures
           .map(
-            (lecture) => ScheduleSlot(
-              subject: lecture.subject,
-              typeClass: lecture.typeClass,
-              rooms: lecture.room,
-              begin: lecture.startTime,
-              end: lecture.endTime,
-              occurrId: lecture.occurrId,
-              teacher: lecture.teacher,
-              classNumber: lecture.classNumber,
+            (lecture) => ScheduleCard(
+              name: lecture.subject,
+              acronym: _getAcronym(lecture.subject),
+              room: lecture.room,
+              type: lecture.typeClass,
+              isActive: _isLectureActive(lecture),
+              teacherName: lecture.teacher,
             ),
           )
           .toList(),
     );
+  }
+
+  String _getAcronym(String subject) {
+    return subject.split(' ').map((word) => word[0]).join().toUpperCase();
+  }
+
+  bool _isLectureActive(Lecture lecture) {
+    final now = DateTime.now();
+    return now.isAfter(lecture.startTime) && now.isBefore(lecture.endTime);
   }
 
   Widget emptyDayColumn(BuildContext context, DateTime day) {
@@ -171,4 +179,49 @@ class SchedulePageViewState extends State<SchedulePageView> {
     }
     return filteredLectures;
   }
+}
+
+List<Lecture> getMockLectures() {
+  return [
+    Lecture(
+      'Mathematics',
+      'Lecture',
+      DateTime.now().subtract(const Duration(hours: 1)),
+      DateTime.now().add(const Duration(hours: 1)),
+      '101',
+      'Dr. Smith',
+      'Class 1',
+      1,
+    ),
+    Lecture(
+      'Physics',
+      'Lecture',
+      DateTime.now().add(const Duration(hours: 2)),
+      DateTime.now().add(const Duration(hours: 3)),
+      '102',
+      'Dr. Johnson',
+      'Class 2',
+      2,
+    ),
+    Lecture(
+      'Chemistry',
+      'Lab',
+      DateTime.now().add(const Duration(days: 1, hours: 1)),
+      DateTime.now().add(const Duration(days: 1, hours: 2)),
+      'Lab 201',
+      'Dr. Brown',
+      'Class 3',
+      3,
+    ),
+    Lecture(
+      'Biology',
+      'Lecture',
+      DateTime.now().add(const Duration(days: 2, hours: 3)),
+      DateTime.now().add(const Duration(days: 2, hours: 4)),
+      '103',
+      'Dr. Taylor',
+      'Class 4',
+      4,
+    ),
+  ];
 }
