@@ -27,10 +27,7 @@ class ExamHomeCard extends GenericHomecard {
                 getVisibleExams(allExams, hiddenExams).toList();
             final items = buildTimelineItems(visibleExams).sublist(0, 2);
 
-            return Container(
-              margin: const EdgeInsets.only(top: 10),
-              child: CardTimeline(items: items),
-            );
+            return CardTimeline(items: items);
           },
           hasContent: (allExams) =>
               getVisibleExams(allExams, hiddenExams).isNotEmpty,

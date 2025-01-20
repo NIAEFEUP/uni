@@ -18,11 +18,8 @@ class ScheduleHomecard extends GenericHomecard {
   @override
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<LectureProvider, List<Lecture>>(
-      builder: (context, lectures) => Container(
-        margin: const EdgeInsets.only(top: 10),
-        child: CardTimeline(
-          items: buildTimelineItems(getMockLectures()).sublist(0, 2),
-        ),
+      builder: (context, lectures) => CardTimeline(
+        items: buildTimelineItems(getMockLectures()).sublist(0, 2),
       ),
       hasContent: (_) => true,
       onNullContent: Text(

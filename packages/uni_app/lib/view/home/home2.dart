@@ -4,6 +4,7 @@ import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_bu
 import 'package:uni/view/home/widgets/uni_icon.dart';
 import 'package:uni/view/home/widgets2/exam_card.dart';
 import 'package:uni/view/home/widgets2/generic_homecard.dart';
+import 'package:uni/view/home/widgets2/library_home_card.dart';
 import 'package:uni/view/home/widgets2/schedule_homecard.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
 
@@ -18,6 +19,7 @@ class HomePageView2State extends State<HomePageView2> {
   List<GenericHomecard> favoriteCards = [
     const ExamHomeCard(title: 'Exams'),
     const ScheduleHomecard(title: 'Schedule'),
+    const LibraryHomeCard(title: 'Library Occupation'),
   ];
 
   @override

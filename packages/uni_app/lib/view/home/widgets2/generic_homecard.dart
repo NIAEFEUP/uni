@@ -27,7 +27,10 @@ abstract class GenericHomecard extends StatelessWidget {
                 title,
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
-              buildCardContent(context),
+              Container(
+                margin: const EdgeInsets.only(top: 10),
+                child: buildCardContent(context),
+              ),
             ],
           ),
         ),
