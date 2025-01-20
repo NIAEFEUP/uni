@@ -52,32 +52,13 @@ class SchedulePageView extends StatefulWidget {
   SchedulePageViewState createState() => SchedulePageViewState();
 }
 
-class SchedulePageViewState extends State<SchedulePageView>
-    with SingleTickerProviderStateMixin {
-  late TabController tabController;
+class SchedulePageViewState extends State<SchedulePageView> {
   late List<DateTime> reorderedDates;
 
   @override
   void initState() {
     super.initState();
     reorderedDates = _getReorderedWeekDates(widget.currentWeek.start);
-    final currentDayIndex = reorderedDates.indexWhere(
-      (date) =>
-          date.day == widget.currentWeek.start.day &&
-          date.month == widget.currentWeek.start.month &&
-          date.year == widget.currentWeek.start.year,
-    );
-    tabController = TabController(
-      vsync: this,
-      length: 7,
-      initialIndex: currentDayIndex >= 0 ? currentDayIndex : 0,
-    );
-  }
-
-  @override
-  void dispose() {
-    tabController.dispose();
-    super.dispose();
   }
 
   @override
@@ -99,66 +80,28 @@ class SchedulePageViewState extends State<SchedulePageView>
     ];
 
     return List.generate(7, (index) {
-      final isSelected = tabController.index == index;
       return Tab(
         key: Key('schedule-page-tab-$index'),
-        height: 45,
+        height: 35,
         child: SizedBox(
-          width: 35,
-          height: 40,
+          width: 26,
+          height: 35,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                toShortVersion(reorderedDaysOfTheWeek[index]),
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
-                  color: isSelected
-                      ? const Color.fromRGBO(102, 9, 16, 1)
-                      : const Color.fromRGBO(48, 48, 48, 1),
-                ),
+                reorderedDaysOfTheWeek[index].substring(0, 3),
+                style: Theme.of(context).textTheme.bodySmall,
               ),
               Text(
                 '${reorderedDates[index].day}',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
-                  color: isSelected
-                      ? const Color.fromRGBO(102, 9, 16, 1)
-                      : const Color.fromRGBO(48, 48, 48, 1),
-                ),
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
           ),
         ),
       );
     });
-  }
-
-  String toShortVersion(String dayOfTheWeek) {
-    String shortVersion;
-    switch (dayOfTheWeek) {
-      case 'Monday':
-        shortVersion = 'Mon';
-      case 'Tuesday':
-        shortVersion = 'Tue';
-      case 'Wednesday':
-        shortVersion = 'Wed';
-      case 'Thursday':
-        shortVersion = 'Thu';
-      case 'Friday':
-        shortVersion = 'Fri';
-      case 'Saturday':
-        shortVersion = 'Sat';
-      case 'Sunday':
-        shortVersion = 'Sun';
-      default:
-        shortVersion = 'Blank';
-    }
-    return shortVersion;
   }
 
   List<DateTime> _getReorderedWeekDates(DateTime startOfWeek) {
