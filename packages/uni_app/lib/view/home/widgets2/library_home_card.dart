@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
-import 'package:uni/view/home/widgets2/generic_homecard.dart';
+import 'package:uni/view/home/widgets2/generic_home_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/cards/library_occupation_card.dart';
 

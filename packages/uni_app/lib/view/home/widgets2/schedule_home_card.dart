@@ -4,13 +4,13 @@ import 'package:intl/intl.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
-import 'package:uni/view/home/widgets2/generic_homecard.dart';
+import 'package:uni/view/home/widgets2/generic_home_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
 
-class ScheduleHomecard extends GenericHomecard {
-  const ScheduleHomecard({
+class ScheduleHomeCard extends GenericHomecard {
+  const ScheduleHomeCard({
     super.key,
     required super.title,
   });
