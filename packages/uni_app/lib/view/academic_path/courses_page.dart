@@ -3,6 +3,7 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/academic_path/widgets/course_units_view.dart';
 import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni_ui/courses/average_bar.dart';
 import 'package:uni_ui/courses/course_info.dart';
 import 'package:uni_ui/courses/course_selection.dart';
 
@@ -49,6 +50,16 @@ class CoursesPageState extends State<CoursesPage> {
                 child: Text(
                   course.name ?? '',
                   style: Theme.of(context).textTheme.headlineMedium,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16, bottom: 8),
+                child: AverageBar(
+                  average: (course.currentAverage ?? double.nan) as double,
+                  completedCredits: (course.finishedEcts ?? 0).toInt(),
+                  totalCredits: 180,
+                  statusText: course.state ?? '',
+                  averageText: 'Average',
                 ),
               ),
               const CourseUnitsView(),
