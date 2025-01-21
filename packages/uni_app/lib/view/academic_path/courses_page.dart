@@ -65,8 +65,8 @@ class CoursesPageState extends State<CoursesPage> {
               Padding(
                 padding: const EdgeInsets.only(top: 16, bottom: 8),
                 child: AverageBar(
-                  average: (course.currentAverage ?? double.nan) as double,
-                  completedCredits: (course.finishedEcts ?? 0) as double,
+                  average: (course.currentAverage ?? double.nan).toDouble(),
+                  completedCredits: (course.finishedEcts ?? 0).toDouble(),
                   totalCredits: _getTotalCredits(profile),
                   statusText: course.state ?? '',
                   averageText: S.of(context).average,
