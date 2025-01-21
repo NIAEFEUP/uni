@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class ProfileListTile extends StatelessWidget {
   const ProfileListTile({
     super.key,
-    this.icon,
+    required this.icon,
     required this.title,
     this.subtitle,
     this.trailing,
     this.onTap,
   });
 
-  final IconData? icon;
+  final IconData icon;
   final String title;
   final String? subtitle;
   final VoidCallback? onTap;
@@ -19,7 +20,7 @@ class ProfileListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon),
+      leading: PhosphorIcon(icon),
       title: Text(
         title,
         overflow: TextOverflow.ellipsis,
