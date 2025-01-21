@@ -17,16 +17,17 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Settings',
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
           GenericCard(
             tooltip: S.of(context).settings,
+            margin: const EdgeInsets.symmetric(vertical: 8),
             child: Column(
               children: [
                 ProfileListTile(
@@ -47,21 +48,19 @@ class Settings extends StatelessWidget {
                 ProfileListTile(
                   icon: UniIcons.notification,
                   title: S.of(context).notifications,
-                  trailing: IconButton(
-                    icon: const Icon(Icons.settings),
-                    onPressed: () {
+                  onTap: () {
                       showDialog<NotificationsDialog>(
                         context: context,
                         builder: (context) => const NotificationsDialog(),
                       );
                     },
-                  ),
                 ),
               ],
             ),
           ),
           GenericCard(
             tooltip: S.of(context).leave_feedback,
+            margin: const EdgeInsets.symmetric(vertical: 8),
             child: ProfileListTile(
               icon: UniIcons.thumbsUp,
               title: S.of(context).leave_feedback,
@@ -79,6 +78,7 @@ class Settings extends StatelessWidget {
           ),
           GenericCard(
             tooltip: 'Feedback',
+            margin: const EdgeInsets.symmetric(vertical: 8),
             child: ProfileListTile(
               icon: UniIcons.gavel,
               title: S.of(context).about,
@@ -95,6 +95,7 @@ class Settings extends StatelessWidget {
           ),
           GenericCard(
             tooltip: 'Feedback',
+            margin: const EdgeInsets.symmetric(vertical: 8),
             child: ProfileListTile(
               icon: UniIcons.signOut,
               title: S.of(context).logout,

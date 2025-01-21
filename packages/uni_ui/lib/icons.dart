@@ -19,6 +19,9 @@ class UniIcons {
   static const thumbsUp = PhosphorIconsDuotone.thumbsUp;
   static const gavel = PhosphorIconsDuotone.gavel;
   static const signOut = PhosphorIconsDuotone.signOut;
+
+  static const sun = PhosphorIconsDuotone.sun;
+  static const moon = PhosphorIconsDuotone.moon;
 }
 
 // The same as default Icon class from material.dart but allowing to use PhosphorIcons duotone icons

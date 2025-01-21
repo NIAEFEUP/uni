@@ -30,9 +30,8 @@ class ProfileOverview extends StatelessWidget {
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headlineLarge,
           ),
-          const Padding(padding: EdgeInsets.all(5)),
           Text(
-            profile.email,
+            profile.email.split('@')[0],
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyLarge,
           ),
