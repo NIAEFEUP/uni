@@ -29,9 +29,10 @@ class SchedulePageState extends State<SchedulePage> {
         },
         child: LazyConsumer<LectureProvider, List<Lecture>>(
           builder: (context, lectures) {
-            final mockLectures = getMockLectures();
+            /*final mockLectures =
+                getMockLectures(); */ // since there are no classes, we can use this to test the schedule page populated
             return SchedulePageView(
-              mockLectures,
+              lectures,
               now: widget.now,
             );
           },
@@ -165,6 +166,7 @@ class SchedulePageViewState extends State<SchedulePageView> {
   }
 }
 
+// since there are no classes, we can use this to test the schedule page populated
 List<Lecture> getMockLectures() {
   return [
     Lecture(
