@@ -84,7 +84,7 @@ class BugReportFormState extends State<BugReportForm> {
         children: [
           const Padding(padding: EdgeInsets.only(bottom: 10)),
           PageTitle(
-            name: S.of(context).report_error_suggestion,
+            name: S.of(context).leave_feedback,
             pad: false,
           ),
           const Padding(padding: EdgeInsets.only(bottom: 10)),
