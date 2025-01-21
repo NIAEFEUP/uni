@@ -15,30 +15,28 @@ class ProfileInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LazyConsumer<ProfileProvider, Profile>(
-      builder: (context, profile) => Expanded(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ProfileCard(
-              label: S.of(context).balance,
-              content: profile.feesBalance,
-              tooltip: S.of(context).balance,
-            ),
-            ProfileCard(
-              label: S.of(context).fee_date,
-              content: profile.feesLimit != null
-                  ? DateFormat('yyyy-MM-dd').format(profile.feesLimit!)
-                  : S.of(context).no_date,
-              tooltip: S.of(context).fee_date,
-            ),
-            ProfileCard(
-              label: S.of(context).print_balance,
-              content: profile.printBalance,
-              tooltip: S.of(context).print_balance,
-              onClick: () => addMoneyDialog(context),
-            ),
-          ],
-        ),
+      builder: (context, profile) => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ProfileCard(
+            label: S.of(context).balance,
+            content: profile.feesBalance,
+            tooltip: S.of(context).balance,
+          ),
+          ProfileCard(
+            label: S.of(context).fee_date,
+            content: profile.feesLimit != null
+                ? DateFormat('yyyy-MM-dd').format(profile.feesLimit!)
+                : S.of(context).no_date,
+            tooltip: S.of(context).fee_date,
+          ),
+          ProfileCard(
+            label: S.of(context).print_balance,
+            content: profile.printBalance,
+            tooltip: S.of(context).print_balance,
+            onClick: () => addMoneyDialog(context),
+          ),
+        ],
       ),
       hasContent: (profile) => true,
       onNullContent: Container(),

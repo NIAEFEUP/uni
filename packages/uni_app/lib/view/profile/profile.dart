@@ -24,6 +24,7 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
     return LazyConsumer<ProfileProvider, Profile>(
       builder: (context, profile) {
         return ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           children: [
             ProfileOverview(profile: profile),
             const Padding(padding: EdgeInsets.all(5)),

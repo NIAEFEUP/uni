@@ -16,87 +16,94 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Text('Settings'),
-        GenericCard(
-          tooltip: S.of(context).settings,
-          child: Column(
-            children: [
-              ProfileListTile(
-                icon: UniIcons.pallete,
-                title: S.of(context).theme,
-                trailing: const ThemeSwitchButton(),
-              ),
-              ProfileListTile(
-                icon: UniIcons.globeHemisphereWest,
-                title: S.of(context).language,
-                trailing: const LocaleSwitchButton(),
-              ),
-              ProfileListTile(
-                icon: UniIcons.chartBar,
-                title: S.of(context).collect_usage_stats,
-                trailing: const UsageStatsSwitch(),
-              ),
-              ProfileListTile(
-                icon: UniIcons.notification,
-                title: S.of(context).notifications,
-                trailing: IconButton(
-                  icon: const Icon(Icons.settings),
-                  onPressed: () {
-                    showDialog<NotificationsDialog>(
-                      context: context,
-                      builder: (context) => const NotificationsDialog(),
-                    );
-                  },
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Settings',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          GenericCard(
+            tooltip: S.of(context).settings,
+            child: Column(
+              children: [
+                ProfileListTile(
+                  icon: UniIcons.pallete,
+                  title: S.of(context).theme,
+                  trailing: const ThemeSwitchButton(),
                 ),
-              ),
-            ],
-          ),
-        ),
-        GenericCard(
-          tooltip: S.of(context).leave_feedback,
-          child: ProfileListTile(
-            icon: UniIcons.thumbsUp,
-            title: S.of(context).leave_feedback,
-            subtitle: S.of(context).feedback_description,
-            trailing: const Icon(Icons.arrow_forward_ios),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<BugReportPageView>(
-                  builder: (context) => const BugReportPageView(),
+                ProfileListTile(
+                  icon: UniIcons.globeHemisphereWest,
+                  title: S.of(context).language,
+                  trailing: const LocaleSwitchButton(),
                 ),
-              );
-            },
-          ),
-        ),
-        GenericCard(
-          tooltip: 'Feedback',
-          child: ProfileListTile(
-            icon: UniIcons.gavel,
-            title: S.of(context).about,
-            trailing: const Icon(Icons.arrow_forward_ios),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<AboutPageView>(
-                  builder: (context) => const AboutPageView(),
+                ProfileListTile(
+                  icon: UniIcons.chartBar,
+                  title: S.of(context).collect_usage_stats,
+                  trailing: const UsageStatsSwitch(),
                 ),
-              );
-            },
+                ProfileListTile(
+                  icon: UniIcons.notification,
+                  title: S.of(context).notifications,
+                  trailing: IconButton(
+                    icon: const Icon(Icons.settings),
+                    onPressed: () {
+                      showDialog<NotificationsDialog>(
+                        context: context,
+                        builder: (context) => const NotificationsDialog(),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        GenericCard(
-          tooltip: 'Feedback',
-          child: ProfileListTile(
-            icon: UniIcons.signOut,
-            title: S.of(context).logout,
-            trailing: const Icon(Icons.arrow_forward_ios),
-            onTap: NetworkRouter.authenticationController?.close,
+          GenericCard(
+            tooltip: S.of(context).leave_feedback,
+            child: ProfileListTile(
+              icon: UniIcons.thumbsUp,
+              title: S.of(context).leave_feedback,
+              subtitle: S.of(context).feedback_description,
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<BugReportPageView>(
+                    builder: (context) => const BugReportPageView(),
+                  ),
+                );
+              },
+            ),
           ),
-        ),
-      ],
+          GenericCard(
+            tooltip: 'Feedback',
+            child: ProfileListTile(
+              icon: UniIcons.gavel,
+              title: S.of(context).about,
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<AboutPageView>(
+                    builder: (context) => const AboutPageView(),
+                  ),
+                );
+              },
+            ),
+          ),
+          GenericCard(
+            tooltip: 'Feedback',
+            child: ProfileListTile(
+              icon: UniIcons.signOut,
+              title: S.of(context).logout,
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: NetworkRouter.authenticationController?.close,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
