@@ -43,13 +43,15 @@ class ProfileOverview extends StatelessWidget {
             ),
           ),
           const Padding(padding: EdgeInsets.all(5)),
-          Text(
-            session.faculties.map((e) => e.toUpperCase()).toList().join(', '),
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w300,
-            ),
+          Wrap(
+            spacing: 8,
+            children: session.faculties.map((type) {
+              return Badge(
+                label: Text(type.toUpperCase()),
+                backgroundColor: Theme.of(context).colorScheme.surface,
+                textColor: Theme.of(context).colorScheme.surface,
+              );
+            }).toList(),
           ),
         ],
       ),
