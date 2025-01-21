@@ -20,7 +20,10 @@ class ProfileListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: PhosphorIcon(icon),
+      leading: PhosphorIcon(
+        icon,
+        color: Theme.of(context).colorScheme.primary,
+      ),
       title: Text(
         title,
         overflow: TextOverflow.ellipsis,
