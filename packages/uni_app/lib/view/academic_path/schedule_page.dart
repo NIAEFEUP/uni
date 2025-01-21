@@ -4,6 +4,7 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/view/academic_path/widgets/academic_schedule_card.dart';
+import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/timeline/schedule_timeline.dart';
@@ -73,9 +74,12 @@ class SchedulePageViewState extends State<SchedulePageView> {
 
   @override
   Widget build(BuildContext context) {
+    final noLectures =
+        lecturesOfWeek(widget.lectures, widget.currentWeek).isEmpty;
     return ScheduleTimeline(
       tabs: createTabs(context),
-      content: createTabViewBuilder(context),
+      content:
+          noLectures ? [emptyWeek(context)] : createTabViewBuilder(context),
       initialTabIndex: initialTabIndex,
     );
   }
@@ -132,17 +136,32 @@ class SchedulePageViewState extends State<SchedulePageView> {
     });
   }
 
+  List<Lecture> lecturesOfWeek(List<Lecture> lectures, Week currentWeek) {
+    final startOfWeek = currentWeek.start;
+    final endOfWeek = startOfWeek.add(const Duration(days: 7));
+    return lectures.where((lecture) {
+      final startTime = lecture.startTime;
+      return startTime.isAfter(startOfWeek) && startTime.isBefore(endOfWeek);
+    }).toList();
+  }
+
   List<Lecture> lecturesOfDay(List<Lecture> lectures, DateTime day) {
-    final filteredLectures = <Lecture>[];
-    for (var i = 0; i < lectures.length; i++) {
-      final lecture = lectures[i];
-      if (lecture.startTime.day == day.day &&
-          lecture.startTime.month == day.month &&
-          lecture.startTime.year == day.year) {
-        filteredLectures.add(lecture);
-      }
-    }
-    return filteredLectures;
+    return lectures.where((lecture) {
+      final startTime = lecture.startTime;
+      return startTime.year == day.year &&
+          startTime.month == day.month &&
+          startTime.day == day.day;
+    }).toList();
+  }
+
+  Widget emptyWeek(BuildContext context) {
+    return const Center(
+      child: ImageLabel(
+        imagePath: 'assets/images/schedule.png',
+        label: 'You have no classes this week.',
+        labelTextStyle: TextStyle(fontSize: 15),
+      ),
+    );
   }
 }
 

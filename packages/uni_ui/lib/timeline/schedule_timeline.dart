@@ -107,7 +107,7 @@ class _ScheduleTimelineState extends State<ScheduleTimeline> {
               return GestureDetector(
                 onTap: () => _onTabTapped(index),
                 child: Padding(
-                  padding: const EdgeInsets.all(7.0),
+                  padding: const EdgeInsets.all(5.0),
                   child: ClipSmoothRect(
                     radius: SmoothBorderRadius(
                       cornerRadius: 10,
@@ -115,8 +115,7 @@ class _ScheduleTimelineState extends State<ScheduleTimeline> {
                     ),
                     child: Container(
                       key: _tabKeys[index],
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 15.0),
+                      padding: const EdgeInsets.all(10.0),
                       color: isSelected
                           ? Theme.of(context)
                               .colorScheme
