@@ -42,7 +42,8 @@ class _ScheduleTimelineState extends State<ScheduleTimeline> {
                 current.itemLeadingEdge < next.itemLeadingEdge ? current : next)
             .index;
 
-        if (_currentIndex != firstVisibleIndex) {
+        if (_currentIndex != firstVisibleIndex &&
+            firstVisibleIndex >= widget.initialTabIndex) {
           setState(() {
             _currentIndex = firstVisibleIndex;
           });
@@ -101,6 +102,8 @@ class _ScheduleTimelineState extends State<ScheduleTimeline> {
             children: widget.tabs.asMap().entries.map((entry) {
               int index = entry.key;
               Widget tab = entry.value;
+              bool isSelected = _currentIndex == index;
+              TextStyle textStyle = Theme.of(context).textTheme.bodySmall!;
               return GestureDetector(
                 onTap: () => _onTabTapped(index),
                 child: Padding(
@@ -114,13 +117,20 @@ class _ScheduleTimelineState extends State<ScheduleTimeline> {
                       key: _tabKeys[index],
                       padding: const EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 15.0),
-                      color: _currentIndex == index
+                      color: isSelected
                           ? Theme.of(context)
                               .colorScheme
                               .tertiary
                               .withOpacity(0.25)
                           : Colors.transparent,
-                      child: tab,
+                      child: DefaultTextStyle(
+                        style: textStyle.copyWith(
+                          color: isSelected
+                              ? Theme.of(context).colorScheme.primary
+                              : Colors.black,
+                        ),
+                        child: tab,
+                      ),
                     ),
                   ),
                 ),

@@ -21,7 +21,7 @@ class ScheduleDayTimeline extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.fromLTRB(24, 8, 24, 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,7 +61,12 @@ class ScheduleDayTimeline extends StatelessWidget {
   }
 
   String _getAcronym(String subject) {
-    return subject.split(' ').map((word) => word[0]).join().toUpperCase();
+    return subject
+        .split(' ')
+        .where((word) => word.length >= 3)
+        .map((word) => word[0])
+        .join()
+        .toUpperCase();
   }
 
   bool _isLectureActive(Lecture lecture) {
