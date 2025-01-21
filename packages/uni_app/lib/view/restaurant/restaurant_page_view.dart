@@ -10,9 +10,7 @@ import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
-import 'package:uni/view/restaurant/widgets/restaurant_page_card.dart';
-import 'package:uni/view/restaurant/widgets/restaurant_slot.dart';
-import 'package:uni_ui/cards/restaurant_card.dart' as cards;
+import 'package:uni_ui/cards/restaurant_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
 
 import '../../controller/local_storage/preferences_controller.dart';
@@ -27,10 +25,9 @@ class RestaurantPageView extends StatefulWidget {
 class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     with SingleTickerProviderStateMixin {
   late List<Restaurant> aggRestaurant;
-  late List<String> favoriteRestaurants;
   late TabController tabController;
   late ScrollController scrollViewController;
-  final List<String> _items = ['Option 1', 'Option 2', 'Option 3'];
+  final List<String> _items = ['Todos os pratos', 'Pratos de Carne', 'Pratos de Peixe', 'Pratos Vegetarianos'];
   String? _selectedItem;
   late bool isFavoriteFilterOn;
 
@@ -46,13 +43,21 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     scrollViewController = ScrollController();
     aggRestaurant = []; // Initialize the list
     _initializeRestaurants();
-    favoriteRestaurants = PreferencesController.getFavoriteRestaurants();
     isFavoriteFilterOn = false;
+    _selectedItem = 'Todos os pratos';
   }
 
   void _toggleFavorite(String key) {
+    double currentPosition = scrollViewController.position.pixels;
+    var favoriteRestaurants = PreferencesController.getFavoriteRestaurants();
     setState(() {
       favoriteRestaurants.contains(key) ? favoriteRestaurants.remove(key) : favoriteRestaurants.add(key);
+      PreferencesController.saveFavoriteRestaurants(favoriteRestaurants);
+    });
+
+    // Restore the scroll position after the state update
+    Future.delayed(Duration.zero, () {
+      scrollViewController.jumpTo(currentPosition);
     });
   }
 
@@ -68,7 +73,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   }
 
   List<Restaurant> getFavoriteRestaurants() {
-    return aggRestaurant.where((restaurant) => favoriteRestaurants.contains(restaurant.namePt + restaurant.period)).toList();
+    return aggRestaurant.where((restaurant) => PreferencesController.getFavoriteRestaurants().contains(restaurant.namePt + restaurant.period)).toList();
   }
 
   Widget getFilteredContent(BuildContext context) {
@@ -78,6 +83,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     } else {
       filteredRestaurants = aggRestaurant;
     }
+
     return createTabViewBuilder(filteredRestaurants, context);
   }
 
@@ -227,19 +233,28 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     BuildContext context,
   ) {
     final weekDay = DateTime.now().weekday;
-    final reorderedDays = [
-      DayOfWeek.values[(weekDay - 2 + 7) % 7],
-      ...DayOfWeek.values.skip(weekDay - 1),
-      ...DayOfWeek.values.take(weekDay - 2)
-    ];
+    List<DayOfWeek> reorderedDays;
+    if (weekDay == 1) {
+      reorderedDays = [
+        DayOfWeek.values[(weekDay - 2 + 7) % 7],
+        ...DayOfWeek.values.skip(weekDay - 1).take(6),
+      ];
+    } else {
+      reorderedDays = [
+        DayOfWeek.values[(weekDay - 2 + 7) % 7],
+        ...DayOfWeek.values.skip(weekDay - 1),
+        ...DayOfWeek.values.take(weekDay - 2),
+      ];
+    }
 
     final dayContents = reorderedDays.map((dayOfWeek) {
       final restaurantsWidgets = restaurants
           .where((element) => element.meals[dayOfWeek]?.isNotEmpty ?? false)
-          .map(
-            (restaurant) => createNewRestaurant(context, restaurant, dayOfWeek),
-          )
+          .map((restaurant) => createNewRestaurant(context, restaurant, dayOfWeek))
+          .where((widget) => widget != null) // Remove null values
+          .cast<Widget>() // Ensure the list contains only Widgets
           .toList();
+
       if (restaurantsWidgets.isEmpty) {
         return Center(
           child: Text(
@@ -274,11 +289,19 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     final today = DateTime.now();
 
     // Reorder the daysOfTheWeek list
-    final reorderedDays = [
-      daysOfTheWeek[(weekDay - 2 + 7) % 7], // Previous day
-      ...daysOfTheWeek.skip(weekDay - 1), // From today onwards
-      ...daysOfTheWeek.take(weekDay - 2) // Remaining days from the start
-    ];
+    List<String> reorderedDays;
+    if (weekDay == 1) {
+      reorderedDays = [
+        daysOfTheWeek[(weekDay - 2 + 7) % 7], // Previous day
+        ...daysOfTheWeek.skip(weekDay - 1).take(6), // From today onwards
+      ];
+    } else {
+      reorderedDays = [
+        daysOfTheWeek[(weekDay - 2 + 7) % 7], // Previous day
+        ...daysOfTheWeek.skip(weekDay - 1), // From today onwards
+        ...daysOfTheWeek.take(weekDay - 2) // Remaining days from the start
+      ];
+    }
 
     // Calculate the dates for the reordered days
     final reorderedDates = [
@@ -372,18 +395,18 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     return shortVersion;
   }
 
-  Widget createNewRestaurant(
+  RestaurantCard? createNewRestaurant(
     BuildContext context,
     Restaurant restaurant,
     DayOfWeek dayOfWeek,
   ) {
     final menuItems = getRestaurantMenuItems(dayOfWeek, restaurant) ?? [];
-    return cards.RestaurantCard(
-        name: restaurant.nameEn,
-        icon: getRestaurantIcon(restaurant.typeEn ?? restaurant.typePt),
-        isFavorite: favoriteRestaurants.contains(restaurant.namePt + restaurant.period),
-        onFavoriteToggle: () => {_toggleFavorite(restaurant.namePt + restaurant.period)},
-        menuItems: menuItems,);
+    return menuItems.isNotEmpty ? RestaurantCard(
+      name: restaurant.nameEn,
+      icon: getRestaurantIcon(restaurant.typeEn ?? restaurant.typePt),
+      isFavorite: PreferencesController.getFavoriteRestaurants().contains(restaurant.namePt + restaurant.period),
+      onFavoriteToggle: () => {_toggleFavorite(restaurant.namePt + restaurant.period)},
+      menuItems: menuItems,) : null;
   }
 
   Icon getRestaurantIcon(String? restaurantType) {
@@ -395,70 +418,39 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     final meals = restaurant.meals[dayOfWeek];
     final menuItems = <RestaurantMenuItem>[];
     for (final meal in meals!) {
-      menuItems.add(
-          RestaurantMenuItem(name: meal.nameEn, icon: getMealIcon(meal.type)));
+      if (mealMatchesFilter(meal)) {
+        menuItems.add(
+            RestaurantMenuItem(name: meal.nameEn, icon: getMealIcon(meal.type)));
+      }
     }
     return menuItems;
+  }
+
+  bool mealMatchesFilter(Meal meal) {
+    switch (_selectedItem) {
+      case 'Todos os pratos':
+          return true;
+      case 'Pratos de Carne':
+        return meal.type == 'Carne';
+      case 'Pratos de Peixe':
+        return meal.type == 'Pescado';
+      case 'Pratos Vegetarianos':
+        return meal.type == 'Vegetariano';
+    }
+    return false;
   }
 
   Icon getMealIcon(String? mealType) {
     return const PhosphorIcon(PhosphorIconsDuotone.cow);
   }
 
-  Widget createRestaurant(
-    BuildContext context,
-    Restaurant restaurant,
-    DayOfWeek dayOfWeek,
-  ) {
-    return RestaurantPageCard(
-      restaurant,
-      createRestaurantByDay(context, restaurant, dayOfWeek),
-    );
-  }
-
-  List<Widget> createRestaurantRows(List<Meal> meals, BuildContext context) {
-    return meals
-        .map(
-          (meal) => RestaurantSlot(
-            type: meal.type,
-            namePt: meal.namePt,
-            nameEn: meal.nameEn,
-          ),
-        )
-        .toList();
-  }
-
-  Widget createRestaurantByDay(
-    BuildContext context,
-    Restaurant restaurant,
-    DayOfWeek day,
-  ) {
-    final meals = restaurant.getMealsOfDay(day);
-    if (meals.isEmpty) {
-      return Container(
-        margin: const EdgeInsets.only(bottom: 5),
-        key: Key('restaurant-page-day-column-$day'),
-        child: Center(child: Text(S.of(context).no_menu_info)),
-      );
-    } else {
-      return Container(
-        margin: const EdgeInsets.only(top: 5, bottom: 5),
-        key: Key('restaurant-page-day-column-$day'),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: createRestaurantRows(meals, context),
-        ),
-      );
-    }
-  }
 
   @override
   Future<void> onRefresh(BuildContext context) {
     final restaurantProvider = Provider.of<RestaurantProvider>(context, listen: false);
     if (restaurantProvider.state != null) {
       setState(() {
-        aggRestaurant = List.from(restaurantProvider.state!); // Clone the list
-        print(aggRestaurant as String);
+        aggRestaurant = List.from(restaurantProvider.state!);
       });
     }
     return restaurantProvider.forceRefresh(context);

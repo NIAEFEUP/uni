@@ -12,7 +12,7 @@ class RestaurantMenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8.0),
+      padding: const EdgeInsets.only(left: 0, top: 8.0, bottom: 8.0, right: 16.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
