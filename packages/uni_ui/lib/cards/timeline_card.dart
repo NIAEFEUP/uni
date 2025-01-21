@@ -70,6 +70,8 @@ class CardTimeline extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
       itemCount: items.length,
       itemBuilder: (context, index) => items[index],
     );

@@ -21,7 +21,7 @@ class ScheduleDayTimeline extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 8, 24, 16),
+      padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,30 +30,27 @@ class ScheduleDayTimeline extends StatelessWidget {
             DateFormat('EEEE, d MMMM').format(day),
             style: Theme.of(context).textTheme.headlineLarge,
           ),
-          const SizedBox(height: 12),
-          ..._buildTimelineItems(lectures),
+          const SizedBox(height: 14),
+          CardTimeline(items: _buildTimelineItems(lectures)),
         ],
       ),
     );
   }
 
-  List<Widget> _buildTimelineItems(List<Lecture> lectures) {
+  List<TimelineItem> _buildTimelineItems(List<Lecture> lectures) {
     return lectures
         .map(
-          (lecture) => Padding(
-            padding: EdgeInsets.zero,
-            child: TimelineItem(
+          (lecture) => TimelineItem(
+            isActive: _isLectureActive(lecture),
+            title: DateFormat('HH:mm').format(lecture.startTime),
+            subtitle: DateFormat('HH:mm').format(lecture.endTime),
+            card: ScheduleCard(
               isActive: _isLectureActive(lecture),
-              title: DateFormat('HH:mm').format(lecture.startTime),
-              subtitle: DateFormat('HH:mm').format(lecture.endTime),
-              card: ScheduleCard(
-                isActive: _isLectureActive(lecture),
-                name: lecture.subject,
-                acronym: _getAcronym(lecture.subject),
-                room: lecture.room,
-                type: lecture.typeClass,
-                teacherName: lecture.teacher,
-              ),
+              name: lecture.subject,
+              acronym: _getAcronym(lecture.subject),
+              room: lecture.room,
+              type: lecture.typeClass,
+              teacherName: lecture.teacher,
             ),
           ),
         )

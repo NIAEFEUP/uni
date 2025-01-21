@@ -7,7 +7,7 @@ import 'package:uni/view/academic_path/widgets/academic_schedule_card.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
-import 'package:uni_ui/timeline/schedule_timeline.dart';
+import 'package:uni_ui/timeline/timeline.dart';
 
 class SchedulePage extends StatefulWidget {
   SchedulePage({super.key, DateTime? now}) : now = now ?? DateTime.now();
@@ -57,7 +57,7 @@ class SchedulePageView extends StatefulWidget {
 
 class SchedulePageViewState extends State<SchedulePageView> {
   late List<DateTime> reorderedDates;
-  late int initialTabIndex;
+  late int initialTab;
 
   @override
   void initState() {
@@ -65,7 +65,7 @@ class SchedulePageViewState extends State<SchedulePageView> {
     reorderedDates = _getReorderedWeekDates(widget.currentWeek.start);
     final today = widget.currentWeek.start;
 
-    initialTabIndex = reorderedDates.indexWhere(
+    initialTab = reorderedDates.indexWhere(
       (date) =>
           date.year == today.year &&
           date.month == today.month &&
@@ -77,11 +77,11 @@ class SchedulePageViewState extends State<SchedulePageView> {
   Widget build(BuildContext context) {
     final noLectures =
         lecturesOfWeek(widget.lectures, widget.currentWeek).isEmpty;
-    return ScheduleTimeline(
+    return Timeline(
       tabs: createTabs(context),
       content:
           noLectures ? [emptyWeek(context)] : createTabViewBuilder(context),
-      initialTabIndex: initialTabIndex,
+      initialTab: initialTab,
     );
   }
 
@@ -98,10 +98,10 @@ class SchedulePageViewState extends State<SchedulePageView> {
     return List.generate(7, (index) {
       return Tab(
         key: Key('schedule-page-tab-$index'),
-        height: 35,
+        height: 32,
         child: SizedBox(
           width: 26,
-          height: 35,
+          height: 32,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -166,7 +166,7 @@ class SchedulePageViewState extends State<SchedulePageView> {
   }
 }
 
-// since there are no classes, we can use this to test the schedule page populated
+// Since there are no classes, we can use this to test the schedule page populated
 List<Lecture> getMockLectures() {
   return [
     Lecture(

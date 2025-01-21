@@ -6,18 +6,20 @@ class Timeline extends StatefulWidget {
   const Timeline({
     required this.tabs,
     required this.content,
+    required this.initialTab,
     super.key,
   });
 
   final List<Widget> tabs;
   final List<Widget> content;
+  final int initialTab;
 
   @override
   State<Timeline> createState() => _TimelineState();
 }
 
 class _TimelineState extends State<Timeline> {
-  int _currentIndex = 0;
+  late int _currentIndex;
   final ItemScrollController _itemScrollController = ItemScrollController();
   final ItemPositionsListener _itemPositionsListener =
       ItemPositionsListener.create();
@@ -27,6 +29,7 @@ class _TimelineState extends State<Timeline> {
   @override
   void initState() {
     super.initState();
+    _currentIndex = widget.initialTab;
 
     _tabKeys.addAll(List.generate(widget.tabs.length, (index) => GlobalKey()));
 
@@ -39,7 +42,8 @@ class _TimelineState extends State<Timeline> {
                 current.itemLeadingEdge < next.itemLeadingEdge ? current : next)
             .index;
 
-        if (_currentIndex != firstVisibleIndex) {
+        if (_currentIndex != firstVisibleIndex &&
+            firstVisibleIndex >= widget.initialTab) {
           setState(() {
             _currentIndex = firstVisibleIndex;
           });
@@ -98,10 +102,13 @@ class _TimelineState extends State<Timeline> {
             children: widget.tabs.asMap().entries.map((entry) {
               int index = entry.key;
               Widget tab = entry.value;
+              bool isSelected = _currentIndex == index;
+              TextStyle textStyle = Theme.of(context).textTheme.bodySmall!;
               return GestureDetector(
                 onTap: () => _onTabTapped(index),
                 child: Padding(
-                  padding: const EdgeInsets.all(7.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 5.0),
                   child: ClipSmoothRect(
                     radius: SmoothBorderRadius(
                       cornerRadius: 10,
@@ -110,14 +117,21 @@ class _TimelineState extends State<Timeline> {
                     child: Container(
                       key: _tabKeys[index],
                       padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 15.0),
+                          vertical: 9.0, horizontal: 8.0),
                       color: _currentIndex == index
                           ? Theme.of(context)
                               .colorScheme
                               .tertiary
                               .withOpacity(0.25)
                           : Colors.transparent,
-                      child: tab,
+                      child: DefaultTextStyle(
+                        style: textStyle.copyWith(
+                          color: isSelected
+                              ? Theme.of(context).colorScheme.primary
+                              : Colors.black,
+                        ),
+                        child: tab,
+                      ),
                     ),
                   ),
                 ),
