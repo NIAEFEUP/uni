@@ -17,25 +17,20 @@ class ScheduleDayTimeline extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (lectures.isEmpty) {
-      return Center(
-        child: Text(
-          DateFormat('EEEE, d MMMM').format(day),
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-      );
+      return const SizedBox.shrink();
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             DateFormat('EEEE, d MMMM').format(day),
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: Theme.of(context).textTheme.headlineLarge,
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           ..._buildTimelineItems(lectures),
         ],
       ),
@@ -46,7 +41,7 @@ class ScheduleDayTimeline extends StatelessWidget {
     return lectures
         .map(
           (lecture) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
+            padding: EdgeInsets.zero,
             child: TimelineItem(
               isActive: _isLectureActive(lecture),
               title: DateFormat('HH:mm').format(lecture.startTime),

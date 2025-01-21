@@ -6,7 +6,7 @@ import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/view/academic_path/widgets/academic_schedule_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
-import 'package:uni_ui/timeline/timeline.dart';
+import 'package:uni_ui/timeline/schedule_timeline.dart';
 
 class SchedulePage extends StatefulWidget {
   SchedulePage({super.key, DateTime? now}) : now = now ?? DateTime.now();
@@ -55,18 +55,28 @@ class SchedulePageView extends StatefulWidget {
 
 class SchedulePageViewState extends State<SchedulePageView> {
   late List<DateTime> reorderedDates;
+  late int initialTabIndex;
 
   @override
   void initState() {
     super.initState();
     reorderedDates = _getReorderedWeekDates(widget.currentWeek.start);
+    final today = widget.currentWeek.start;
+
+    initialTabIndex = reorderedDates.indexWhere(
+      (date) =>
+          date.year == today.year &&
+          date.month == today.month &&
+          date.day == today.day,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Timeline(
+    return ScheduleTimeline(
       tabs: createTabs(context),
       content: createTabViewBuilder(context),
+      initialTabIndex: initialTabIndex,
     );
   }
 
