@@ -2,12 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
-import 'package:uni/model/utils/time/week.dart';
-import 'package:uni/view/academic_path/widgets/academic_schedule_card.dart';
-import 'package:uni/view/common_widgets/expanded_image_label.dart';
+import 'package:uni/view/academic_path/widgets/schedule_page_view.dart';
 import 'package:uni/view/lazy_consumer.dart';
-import 'package:uni/view/locale_notifier.dart';
-import 'package:uni_ui/timeline/timeline.dart';
 
 class SchedulePage extends StatefulWidget {
   SchedulePage({super.key, DateTime? now}) : now = now ?? DateTime.now();
@@ -39,128 +35,6 @@ class SchedulePageState extends State<SchedulePage> {
           hasContent: (lectures) => lectures.isNotEmpty,
           onNullContent: SchedulePageView(const [], now: widget.now),
         ),
-      ),
-    );
-  }
-}
-
-class SchedulePageView extends StatefulWidget {
-  SchedulePageView(this.lectures, {required DateTime now, super.key})
-      : currentWeek = Week(start: now);
-
-  final List<Lecture> lectures;
-  final Week currentWeek;
-
-  @override
-  SchedulePageViewState createState() => SchedulePageViewState();
-}
-
-class SchedulePageViewState extends State<SchedulePageView> {
-  late List<DateTime> reorderedDates;
-  late int initialTab;
-
-  @override
-  void initState() {
-    super.initState();
-    reorderedDates = _getReorderedWeekDates(widget.currentWeek.start);
-    final today = widget.currentWeek.start;
-
-    initialTab = reorderedDates.indexWhere(
-      (date) =>
-          date.year == today.year &&
-          date.month == today.month &&
-          date.day == today.day,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final noLectures =
-        lecturesOfWeek(widget.lectures, widget.currentWeek).isEmpty;
-    return Timeline(
-      tabs: createTabs(context),
-      content:
-          noLectures ? [emptyWeek(context)] : createTabViewBuilder(context),
-      initialTab: initialTab,
-    );
-  }
-
-  List<Widget> createTabs(BuildContext context) {
-    final daysOfTheWeek =
-        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
-
-    // Reorder the days of the week to start with Sunday
-    final reorderedDaysOfTheWeek = [
-      daysOfTheWeek[6], // Sunday (index 6 in default order)
-      ...daysOfTheWeek.sublist(0, 6), // Monday to Saturday
-    ];
-
-    return List.generate(7, (index) {
-      return Tab(
-        key: Key('schedule-page-tab-$index'),
-        height: 32,
-        child: SizedBox(
-          width: 26,
-          height: 32,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                reorderedDaysOfTheWeek[index].substring(0, 3),
-              ),
-              Text(
-                '${reorderedDates[index].day}',
-              ),
-            ],
-          ),
-        ),
-      );
-    });
-  }
-
-  List<DateTime> _getReorderedWeekDates(DateTime startOfWeek) {
-    final sunday =
-        startOfWeek.subtract(Duration(days: startOfWeek.weekday % 7));
-    return List.generate(7, (index) => sunday.add(Duration(days: index)));
-  }
-
-  List<Widget> createTabViewBuilder(BuildContext context) {
-    return List.generate(7, (index) {
-      final day = reorderedDates[index];
-      final lectures = lecturesOfDay(widget.lectures, day);
-
-      return ScheduleDayTimeline(
-        key: Key('schedule-page-day-view-${day.weekday}'),
-        day: day,
-        lectures: lectures,
-      );
-    });
-  }
-
-  List<Lecture> lecturesOfWeek(List<Lecture> lectures, Week currentWeek) {
-    final startOfWeek = currentWeek.start;
-    final endOfWeek = startOfWeek.add(const Duration(days: 7));
-    return lectures.where((lecture) {
-      final startTime = lecture.startTime;
-      return startTime.isAfter(startOfWeek) && startTime.isBefore(endOfWeek);
-    }).toList();
-  }
-
-  List<Lecture> lecturesOfDay(List<Lecture> lectures, DateTime day) {
-    return lectures.where((lecture) {
-      final startTime = lecture.startTime;
-      return startTime.year == day.year &&
-          startTime.month == day.month &&
-          startTime.day == day.day;
-    }).toList();
-  }
-
-  Widget emptyWeek(BuildContext context) {
-    return const Center(
-      child: ImageLabel(
-        imagePath: 'assets/images/schedule.png',
-        label: 'You have no classes this week.',
-        labelTextStyle: TextStyle(fontSize: 15),
       ),
     );
   }
