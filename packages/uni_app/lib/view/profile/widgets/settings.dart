@@ -77,11 +77,11 @@ class Settings extends StatelessWidget {
             ),
           ),
           GenericCard(
-            tooltip: 'Feedback',
+            tooltip: S.of(context).terms,
             margin: const EdgeInsets.symmetric(vertical: 8),
             child: ProfileListTile(
               icon: UniIcons.gavel,
-              title: S.of(context).about,
+              title: S.of(context).terms,
               trailing: const Icon(Icons.arrow_forward_ios),
               onTap: () {
                 Navigator.push(
@@ -94,7 +94,7 @@ class Settings extends StatelessWidget {
             ),
           ),
           GenericCard(
-            tooltip: 'Feedback',
+            tooltip: S.of(context).logout,
             margin: const EdgeInsets.symmetric(vertical: 8),
             child: ProfileListTile(
               icon: UniIcons.signOut,
