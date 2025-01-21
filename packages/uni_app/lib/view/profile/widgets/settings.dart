@@ -23,7 +23,7 @@ class Settings extends StatelessWidget {
         children: [
           Text(
             'Settings',
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: Theme.of(context).textTheme.headlineLarge,
           ),
           GenericCard(
             tooltip: S.of(context).settings,
