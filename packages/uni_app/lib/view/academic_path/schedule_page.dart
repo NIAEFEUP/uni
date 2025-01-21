@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
-import 'package:uni/view/common_widgets/expanded_image_label.dart';
+import 'package:uni/view/academic_path/widgets/academic_schedule_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
-import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/timeline/timeline.dart';
 
 class SchedulePage extends StatefulWidget {
@@ -29,10 +27,13 @@ class SchedulePageState extends State<SchedulePage> {
           await context.read<LectureProvider>().forceRefresh(context);
         },
         child: LazyConsumer<LectureProvider, List<Lecture>>(
-          builder: (context, lectures) => SchedulePageView(
-            lectures,
-            now: widget.now,
-          ),
+          builder: (context, lectures) {
+            final mockLectures = getMockLectures();
+            return SchedulePageView(
+              mockLectures,
+              now: widget.now,
+            );
+          },
           hasContent: (lectures) => lectures.isNotEmpty,
           onNullContent: SchedulePageView(const [], now: widget.now),
         ),
@@ -113,61 +114,17 @@ class SchedulePageViewState extends State<SchedulePageView> {
   List<Widget> createTabViewBuilder(BuildContext context) {
     return List.generate(7, (index) {
       final day = reorderedDates[index];
-      final lectures =
-          getMockLectures(); // lecturesOfDay(widget.lectures, day);
+      final lectures = lecturesOfDay(widget.lectures, day);
 
-      return lectures.isEmpty
-          ? emptyDayColumn(context, day)
-          : dayColumnBuilder(day, lectures);
+      return ScheduleDayTimeline(
+        key: Key('schedule-page-day-view-${day.weekday}'),
+        day: day,
+        lectures: lectures,
+      );
     });
   }
 
-  Widget dayColumnBuilder(DateTime day, List<Lecture> lectures) {
-    return Column(
-      key: Key(
-        'schedule-page-day-column-${day.weekday}',
-      ),
-      children: lectures
-          .map(
-            (lecture) => ScheduleCard(
-              name: lecture.subject,
-              acronym: _getAcronym(lecture.subject),
-              room: lecture.room,
-              type: lecture.typeClass,
-              isActive: _isLectureActive(lecture),
-              teacherName: lecture.teacher,
-            ),
-          )
-          .toList(),
-    );
-  }
-
-  String _getAcronym(String subject) {
-    return subject.split(' ').map((word) => word[0]).join().toUpperCase();
-  }
-
-  bool _isLectureActive(Lecture lecture) {
-    final now = DateTime.now();
-    return now.isAfter(lecture.startTime) && now.isBefore(lecture.endTime);
-  }
-
-  Widget emptyDayColumn(BuildContext context, DateTime day) {
-    final daysOfTheWeek =
-        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
-    final weekdayName = daysOfTheWeek[(day.weekday - 1) % 7];
-
-    final noClassesText = S.of(context).no_classes_on;
-
-    return Center(
-      child: ImageLabel(
-        imagePath: 'assets/images/schedule.png',
-        label: '$noClassesText $weekdayName.',
-        labelTextStyle: const TextStyle(fontSize: 15),
-      ),
-    );
-  }
-
-  static List<Lecture> lecturesOfDay(List<Lecture> lectures, DateTime day) {
+  List<Lecture> lecturesOfDay(List<Lecture> lectures, DateTime day) {
     final filteredLectures = <Lecture>[];
     for (var i = 0; i < lectures.length; i++) {
       final lecture = lectures[i];
@@ -206,8 +163,8 @@ List<Lecture> getMockLectures() {
     Lecture(
       'Chemistry',
       'Lab',
-      DateTime.now().add(const Duration(days: 1, hours: 1)),
-      DateTime.now().add(const Duration(days: 1, hours: 2)),
+      DateTime.now().add(const Duration(hours: 5)),
+      DateTime.now().add(const Duration(hours: 6)),
       'Lab 201',
       'Dr. Brown',
       'Class 3',
@@ -222,6 +179,46 @@ List<Lecture> getMockLectures() {
       'Dr. Taylor',
       'Class 4',
       4,
+    ),
+    Lecture(
+      'Computer Science',
+      'Lecture',
+      DateTime.now().add(const Duration(days: 3, hours: 4)),
+      DateTime.now().add(const Duration(days: 3, hours: 5)),
+      '104',
+      'Dr. Martinez',
+      'Class 5',
+      5,
+    ),
+    Lecture(
+      'Philosophy',
+      'Lecture',
+      DateTime.now().add(const Duration(days: 4, hours: 5)),
+      DateTime.now().add(const Duration(days: 4, hours: 6)),
+      '105',
+      'Dr. Lee',
+      'Class 6',
+      6,
+    ),
+    Lecture(
+      'History',
+      'Lecture',
+      DateTime.now().add(const Duration(days: 5, hours: 6)),
+      DateTime.now().add(const Duration(days: 5, hours: 7)),
+      '106',
+      'Dr. Williams',
+      'Class 7',
+      7,
+    ),
+    Lecture(
+      'Geography',
+      'Lab',
+      DateTime.now().add(const Duration(days: 6, hours: 7)),
+      DateTime.now().add(const Duration(days: 6, hours: 8)),
+      '107',
+      'Dr. Harris',
+      'Class 8',
+      8,
     ),
   ];
 }
