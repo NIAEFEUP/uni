@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RestaurantMenuItem extends StatelessWidget {
-  const RestaurantMenuItem({
-    super.key,
-    required this.name,
-    required this.icon});
+  const RestaurantMenuItem({super.key, required this.name, required this.icon});
 
   final String name;
   final Icon icon;
@@ -12,21 +9,21 @@ class RestaurantMenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 0, top: 8.0, bottom: 8.0, right: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Expanded(flex: 1, child: icon),
           Expanded(
-              flex: 1,
-              child: icon),
-          Expanded(
-            flex: 5,
-            child: Text(
-              name,
-              style: Theme.of(context).textTheme.bodyLarge,
-              softWrap: true,
-            ),
-          ),
+              flex: 5,
+              child: Container(
+                padding: const EdgeInsets.only(right: 32.0),
+                child: Text(
+                  name,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  softWrap: true,
+                ),
+              )),
         ],
       ),
     );
