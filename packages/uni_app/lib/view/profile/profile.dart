@@ -37,17 +37,6 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
   }
 
   @override
-  Widget getTopRightButton(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.settings),
-      onPressed: () => Navigator.pushNamed(
-        context,
-        '/${NavigationItem.navSettings.route}',
-      ),
-    );
-  }
-
-  @override
   Future<void> onRefresh(BuildContext context) async {
     return Provider.of<ProfileProvider>(context, listen: false)
         .forceRefresh(context);
