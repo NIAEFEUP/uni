@@ -10,8 +10,6 @@ import 'package:uni/view/home/widgets/exit_app_dialog.dart';
 import 'package:uni/view/home/widgets/restaurant_card.dart';
 import 'package:uni/view/home/widgets/schedule_card.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
-import 'package:uni/view/profile/widgets/account_info_card.dart';
-import 'package:uni/view/profile/widgets/print_info_card.dart';
 
 typedef CardCreator = GenericCard Function(
   Key key, {
@@ -36,8 +34,6 @@ class MainCardsList extends StatefulWidget {
   static Map<FavoriteWidgetType, CardCreator> cardCreators = {
     FavoriteWidgetType.schedule: ScheduleCard.fromEditingInformation,
     FavoriteWidgetType.exams: ExamCard.fromEditingInformation,
-    FavoriteWidgetType.account: AccountInfoCard.fromEditingInformation,
-    FavoriteWidgetType.printBalance: PrintInfoCard.fromEditingInformation,
     FavoriteWidgetType.busStops: BusStopCard.fromEditingInformation,
     FavoriteWidgetType.restaurant: RestaurantCard.fromEditingInformation,
     FavoriteWidgetType.libraryOccupation:
