@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/academic_path/courses_page.dart';
 import 'package:uni/view/academic_path/exam_page.dart';
@@ -67,6 +69,7 @@ class AcademicPathPageViewState extends GeneralPageViewState
 
   @override
   Future<void> onRefresh(BuildContext context) async {
-    // TODO: implement onRefresh
+    await Provider.of<ProfileProvider>(context, listen: false)
+        .forceRefresh(context);
   }
 }

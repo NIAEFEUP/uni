@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/academic_path/widgets/course_units_view.dart';
@@ -27,8 +28,9 @@ class CoursesPageState extends State<CoursesPage> {
   // TODO(Process-ing): Extract this information from API
   // This method is just a band-aid, and will not work correctly for students
   // enrolled in more than one course.
-  double _getTotalCredits(Profile profile) {
+  double _getTotalCredits(Profile profile, Course course) {
     return profile.courseUnits
+        .where((courseUnit) => courseUnit.festId == course.festId)
         .map((courseUnit) => (courseUnit.ects ?? 0) as double)
         .fold(0, (a, b) => a + b);
   }
@@ -67,7 +69,7 @@ class CoursesPageState extends State<CoursesPage> {
                 child: AverageBar(
                   average: (course.currentAverage ?? double.nan).toDouble(),
                   completedCredits: (course.finishedEcts ?? 0).toDouble(),
-                  totalCredits: _getTotalCredits(profile),
+                  totalCredits: _getTotalCredits(profile, course),
                   statusText: course.state ?? '',
                   averageText: S.of(context).average,
                 ),
