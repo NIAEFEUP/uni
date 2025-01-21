@@ -9,7 +9,7 @@ import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/lazy_consumer.dart';
-import 'package:uni/view/locale_notifier.dart';
+import 'package:uni/view/restaurant/widgets/days_of_week_tab_bar.dart';
 import 'package:uni_ui/cards/restaurant_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
 
@@ -104,16 +104,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
       padding: const EdgeInsets.only(bottom: 20),
       child: Column(
         children: [
-          TabBar(
-            controller: tabController,
-            isScrollable: true,
-            padding: EdgeInsets.zero,
-            indicator: const BoxDecoration(),
-            labelPadding: const EdgeInsets.symmetric(horizontal: 3),
-            tabAlignment: TabAlignment.center,
-            tabs: createTabs(context),
-            dividerHeight: 0,
-          ),
+          DaysOfWeekTabBar(controller: tabController),
           const SizedBox(height: 12),
           Padding(
             padding: const EdgeInsets.only(right: 25),
@@ -282,118 +273,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     );
   }
 
-  List<Widget> createTabs(BuildContext context) {
-    final weekDay = DateTime.now().weekday; // 1 = Monday, 7 = Sunday
-    final daysOfTheWeek =
-        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
-    final today = DateTime.now();
 
-    // Reorder the daysOfTheWeek list
-    List<String> reorderedDays;
-    if (weekDay == 1) {
-      reorderedDays = [
-        daysOfTheWeek[(weekDay - 2 + 7) % 7], // Previous day
-        ...daysOfTheWeek.skip(weekDay - 1).take(6), // From today onwards
-      ];
-    } else {
-      reorderedDays = [
-        daysOfTheWeek[(weekDay - 2 + 7) % 7], // Previous day
-        ...daysOfTheWeek.skip(weekDay - 1), // From today onwards
-        ...daysOfTheWeek.take(weekDay - 2) // Remaining days from the start
-      ];
-    }
-
-    // Calculate the dates for the reordered days
-    final reorderedDates = [
-      today.subtract(const Duration(days: 1)), // Previous day
-      ...List.generate(7, (i) => today.add(Duration(days: i)))
-          .skip(0), // From today onwards
-    ].take(7).toList();
-
-    final tabs = <Widget>[];
-    for (var i = 0; i < reorderedDays.length; i++) {
-      tabs.add(
-        Tab(
-          key: Key('cantine-page-tab-$i'),
-          height: 50,
-          child: AnimatedBuilder(
-            animation: tabController,
-            builder: (context, child) {
-              final isSelected = tabController.index == i;
-
-              return Container(
-                width: 45,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? const Color.fromRGBO(177, 77, 84, 0.25)
-                      : Theme.of(context).scaffoldBackgroundColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      toShortVersion(reorderedDays[i]),
-                      style: isSelected
-                          ? const TextStyle(
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color.fromRGBO(102, 9, 16, 1))
-                          : const TextStyle(
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color.fromRGBO(48, 48, 48, 1)),
-                    ),
-                    Text(
-                      '${reorderedDates[i].day}',
-                      style: isSelected
-                          ? const TextStyle(
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color.fromRGBO(102, 9, 16, 1))
-                          : const TextStyle(
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color.fromRGBO(48, 48, 48, 1)),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-      );
-    }
-    return tabs;
-  }
-
-  String toShortVersion(String dayOfTheWeek) {
-    String shortVersion;
-    switch (dayOfTheWeek) {
-      case 'Monday':
-        shortVersion = 'Mon';
-      case 'Tuesday':
-        shortVersion = 'Tue';
-      case 'Wednesday':
-        shortVersion = 'Wed';
-      case 'Thursday':
-        shortVersion = 'Thu';
-      case 'Friday':
-        shortVersion = 'Fri';
-      case 'Saturday':
-        shortVersion = 'Sat';
-      case 'Sunday':
-        shortVersion = 'Sun';
-      default:
-        shortVersion = 'Blank';
-    }
-    return shortVersion;
-  }
 
   RestaurantCard? createNewRestaurant(
     BuildContext context,
