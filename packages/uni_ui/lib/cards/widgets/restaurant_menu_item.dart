@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RestaurantMenuItem extends StatelessWidget {
-  const RestaurantMenuItem({
-    super.key,
-    required this.name,
-    required this.icon});
+  const RestaurantMenuItem({super.key, required this.name, required this.icon});
 
   final String name;
   final Icon icon;
@@ -16,9 +13,7 @@ class RestaurantMenuItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(
-              flex: 1,
-              child: icon),
+          Expanded(flex: 1, child: icon),
           Expanded(
             flex: 5,
             child: Text(

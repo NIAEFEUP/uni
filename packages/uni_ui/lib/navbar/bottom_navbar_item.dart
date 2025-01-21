@@ -1,14 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
-
-abstract class NavbarDefaultIcons {
-  static final home = PhosphorIcons.house(PhosphorIconsStyle.duotone);
-  static final academic =
-      PhosphorIcons.graduationCap(PhosphorIconsStyle.duotone);
-  static final restaurant = PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone);
-  static final faculty = PhosphorIcons.buildings(PhosphorIconsStyle.duotone);
-  static final map = PhosphorIcons.mapTrifold(PhosphorIconsStyle.duotone);
-}
+import 'package:uni_ui/icons.dart';
 
 class BottomNavbarItem {
   BottomNavbarItem({
@@ -31,7 +22,7 @@ class BottomNavbarItem {
                 borderRadius: BorderRadius.circular(10),
               )
             : null,
-        child: PhosphorIcon(
+        child: UniIcon(
           icon,
           color: Theme.of(context).colorScheme.secondary,
         ),
