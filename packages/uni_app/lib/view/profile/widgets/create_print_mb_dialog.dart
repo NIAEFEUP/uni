@@ -35,7 +35,7 @@ Future<void> addMoneyDialog(BuildContext context) async {
                     child: Text(
                       S.of(context).reference_sigarra_help,
                       textAlign: TextAlign.start,
-                      style: Theme.of(context).textTheme.titleSmall,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
                   Row(

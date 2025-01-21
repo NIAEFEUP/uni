@@ -22,7 +22,7 @@ class Settings extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Settings',
+            S.of(context).settings,
             style: Theme.of(context).textTheme.headlineLarge,
           ),
           GenericCard(
@@ -30,11 +30,13 @@ class Settings extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 8),
             child: Column(
               children: [
+                /*
                 ProfileListTile(
                   icon: UniIcons.pallete,
                   title: S.of(context).theme,
                   trailing: const ThemeSwitchButton(),
                 ),
+                */
                 ProfileListTile(
                   icon: UniIcons.globeHemisphereWest,
                   title: S.of(context).language,

@@ -45,7 +45,6 @@ class ProfileOverview extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 backgroundColor: Theme.of(context).colorScheme.primary,
-                textColor: Theme.of(context).colorScheme.onPrimary,
               );
             }).toList(),
           ),
