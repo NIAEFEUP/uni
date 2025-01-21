@@ -18,31 +18,28 @@ class S {
   static S? _current;
 
   static S get current {
-    assert(_current != null,
-        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
+    assert(_current != null, 'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
     return _current!;
   }
 
-  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
+  static const AppLocalizationDelegate delegate =
+    AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name);
+    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name); 
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       final instance = S();
       S._current = instance;
-
+ 
       return instance;
     });
-  }
+  } 
 
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
-    assert(instance != null,
-        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
+    assert(instance != null, 'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
     return instance!;
   }
 
@@ -85,16 +82,6 @@ class S {
     return Intl.message(
       'About us',
       name: 'about',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Report error/suggestion`
-  String get report_error_suggestion {
-    return Intl.message(
-      'Report error/suggestion',
-      name: 'report_error_suggestion',
       desc: '',
       args: [],
     );
@@ -210,16 +197,6 @@ class S {
     );
   }
 
-  /// `Available amount`
-  String get available_amount {
-    return Intl.message(
-      'Available amount',
-      name: 'available_amount',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Average: `
   String get average {
     return Intl.message(
@@ -240,10 +217,10 @@ class S {
     );
   }
 
-  /// `Balance:`
+  /// `Balance`
   String get balance {
     return Intl.message(
-      'Balance:',
+      'Balance',
       name: 'balance',
       desc: '',
       args: [],
@@ -630,10 +607,10 @@ class S {
     );
   }
 
-  /// `Deadline for next fee:`
+  /// `Deadline`
   String get fee_date {
     return Intl.message(
-      'Deadline for next fee:',
+      'Deadline',
       name: 'fee_date',
       desc: '',
       args: [],
@@ -645,6 +622,16 @@ class S {
     return Intl.message(
       'Fee deadline',
       name: 'fee_notification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report an issue or suggest an improvement`
+  String get feedback_description {
+    return Intl.message(
+      'Report an issue or suggest an improvement',
+      name: 'feedback_description',
       desc: '',
       args: [],
     );
@@ -770,6 +757,16 @@ class S {
       name: 'last_timestamp',
       desc: '',
       args: [time],
+    );
+  }
+
+  /// `Leave feedback`
+  String get leave_feedback {
+    return Intl.message(
+      'Leave feedback',
+      name: 'leave_feedback',
+      desc: '',
+      args: [],
     );
   }
 
@@ -1273,6 +1270,16 @@ class S {
     return Intl.message(
       'Print',
       name: 'print',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Print balance`
+  String get print_balance {
+    return Intl.message(
+      'Print balance',
+      name: 'print_balance',
       desc: '',
       args: [],
     );
