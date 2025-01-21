@@ -32,8 +32,7 @@ class RestaurantCard extends StatelessWidget {
                 icon: icon,
                 isFavorite: isFavorite,
                 onFavoriteToggle: onFavoriteToggle),
-            Column(
-              children: menuItems),
+            Column(children: menuItems),
           ],
         ));
   }
@@ -66,9 +65,7 @@ class RestaurantCardHeader extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Expanded(
-              flex: 1,
-              child: icon),
+          Expanded(flex: 1, child: icon),
           Expanded(
             flex: 4,
             child: Text(
@@ -83,9 +80,9 @@ class RestaurantCardHeader extends StatelessWidget {
                 onPressed: onFavoriteToggle,
                 icon: isFavorite
                     ? Icon(PhosphorIconsFill.heart,
-                    color: Theme.of(context).primaryColor)
+                        color: Theme.of(context).primaryColor)
                     : Icon(PhosphorIconsRegular.heart,
-                    color: Theme.of(context).primaryColor)),
+                        color: Theme.of(context).primaryColor)),
           ),
         ],
       ),
