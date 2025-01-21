@@ -10,11 +10,15 @@ class ThemeSwitchButton extends StatelessWidget {
     return Consumer<ThemeNotifier>(
       builder: (context, themeNotifier, _) {
         final icon = switch (themeNotifier.getTheme()) {
-          ThemeMode.light => const Icon(Icons.wb_sunny),
-          ThemeMode.dark => const Icon(Icons.nightlight_round),
-          ThemeMode.system => const Icon(Icons.brightness_6),
+          ThemeMode.light => Icon(Icons.wb_sunny, size: 24, color: Theme.of(context).colorScheme.onPrimary),
+          ThemeMode.dark => Icon(Icons.nightlight_round, size: 24, color: Theme.of(context).colorScheme.onPrimary),
+          ThemeMode.system => Icon(Icons.brightness_6, size: 24, color: Theme.of(context).colorScheme.onPrimary),
         };
         return ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(Theme.of(context).colorScheme.primary),
+            padding: WidgetStateProperty.all(EdgeInsets.zero),
+          ),
           onPressed: themeNotifier.setNextTheme,
           child: icon,
         );
