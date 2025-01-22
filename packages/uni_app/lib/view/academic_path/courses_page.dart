@@ -74,7 +74,9 @@ class CoursesPageState extends State<CoursesPage> {
                   averageText: S.of(context).average,
                 ),
               ),
-              const CourseUnitsView(),
+              CourseUnitsView(
+                course: course,
+              ),
             ],
           );
         },

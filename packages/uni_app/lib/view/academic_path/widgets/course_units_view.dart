@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
@@ -9,7 +10,12 @@ import 'package:uni_ui/cards/course_grade_card.dart';
 import 'package:uni_ui/icons.dart';
 
 class CourseUnitsView extends StatefulWidget {
-  const CourseUnitsView({super.key});
+  const CourseUnitsView({
+    super.key,
+    this.course,
+  });
+
+  final Course? course;
 
   @override
   State<CourseUnitsView> createState() => _CourseUnitsViewState();
@@ -26,9 +32,7 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
       builder: (context, profile) {
         final courseUnits = profile.courseUnits;
         final courseGradeCards =
-            _applyFilters(courseUnits, selectedSchoolYear, selectedSemester)
-                .map(_toCourseGradeCard)
-                .toList();
+            _applyFilters(courseUnits).map(_toCourseGradeCard).toList();
 
         return Column(
           children: [
@@ -141,20 +145,17 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
     );
   }
 
-  static bool compareToFilter(String? value, String? filter) {
+  static bool compareToFilter<T>(T? value, T? filter) {
     return filter == null || value == filter;
   }
 
-  static List<CourseUnit> _applyFilters(
-    List<CourseUnit> courseUnits,
-    String? year,
-    String? semester,
-  ) {
+  List<CourseUnit> _applyFilters(List<CourseUnit> courseUnits) {
     return courseUnits
         .where(
           (unit) =>
-              compareToFilter(unit.schoolYear, year) &&
-              compareToFilter(unit.semesterCode, semester),
+              compareToFilter(unit.festId, widget.course?.festId) &&
+              compareToFilter(unit.schoolYear, selectedSchoolYear) &&
+              compareToFilter(unit.semesterCode, selectedSemester),
         )
         .toList();
   }
