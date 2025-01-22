@@ -22,6 +22,7 @@ CourseUnit _$CourseUnitFromJson(Map<String, dynamic> json) => CourseUnit(
       result: json['resultado_insc'] as String?,
       ects: json['creditos_ects'] as num?,
       schoolYear: json['schoolYear'] as String?,
+      festId: (json['fest_id'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$CourseUnitToJson(CourseUnit instance) =>
@@ -40,5 +41,6 @@ Map<String, dynamic> _$CourseUnitToJson(CourseUnit instance) =>
       'resultado_ects': instance.ectsGrade,
       'resultado_insc': instance.result,
       'creditos_ects': instance.ects,
+      'fest_id': instance.festId,
       'schoolYear': instance.schoolYear,
     };
