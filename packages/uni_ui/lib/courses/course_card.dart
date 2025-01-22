@@ -38,6 +38,11 @@ class CourseCard extends StatelessWidget {
                   .titleLarge
                   ?.apply(color: Theme.of(context).colorScheme.primary),
             ),
+            Text(
+                courseInfo.conclusionYear == null
+                    ? 'now'
+                    : '${courseInfo.enrollmentYear}/${courseInfo.conclusionYear}',
+                style: Theme.of(context).textTheme.bodySmall),
           ],
         ),
       ),

@@ -51,6 +51,7 @@ class CoursesPageState extends State<CoursesPage> {
                   courseInfos: courses.map((course) {
                     return CourseInfo(
                       abbreviation: course.abbreviation ?? '???',
+                      enrollmentYear: course.firstEnrollment!,
                     );
                   }).toList(),
                   onSelected: _onCourseUnitSelected,
