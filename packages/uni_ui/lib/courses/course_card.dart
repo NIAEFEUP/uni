@@ -37,7 +37,10 @@ class CourseCard extends StatelessWidget {
             ),
             Text(
               courseInfo.abbreviation,
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge
+                  ?.apply(color: Theme.of(context).colorScheme.primary),
             ),
           ],
         ),
