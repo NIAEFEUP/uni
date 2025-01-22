@@ -91,10 +91,24 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
   }
 
   Widget _buildStudentList(SessionProvider session) {
-    return Column(
-      children: widget.classes[selectedIndex].students
-          .map((student) => CourseUnitStudentRow(student, session.state!))
-          .toList(),
+    return Padding(
+      padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8), // Adjust padding as needed
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: 0.8,
+        ),
+        itemCount: widget.classes[selectedIndex].students.length,
+        itemBuilder: (context, index) {
+          final student = widget.classes[selectedIndex].students[index];
+          return CourseUnitStudentRow(student, session.state!);
+        },
+      ),
     );
   }
+
 }
