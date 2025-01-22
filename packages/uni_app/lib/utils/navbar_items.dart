@@ -1,51 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni_ui/icons.dart';
 
 enum NavbarItem {
   navPersonalArea(
-    Icons.home_outlined,
-    Icons.home,
+    UniIcons.home,
     NavigationItem.navPersonalArea,
   ),
   navAcademicPath(
-    Icons.school_outlined,
-    Icons.school,
+    UniIcons.graduationCap,
     NavigationItem.navAcademicPath,
   ),
   navRestaurants(
-    Icons.free_breakfast_outlined,
-    Icons.free_breakfast,
+    UniIcons.restaurant,
     NavigationItem.navRestaurants,
   ),
-  navFaculty(Icons.domain_outlined, Icons.domain, NavigationItem.navFaculty),
-  navTransports(Icons.map_outlined, Icons.map, NavigationItem.navTransports);
+  navFaculty(
+    UniIcons.faculty,
+    NavigationItem.navFaculty,
+  ),
+  navMap(
+    UniIcons.map,
+    NavigationItem.navMap,
+  );
 
-  const NavbarItem(this.unselectedIcon, this.selectedIcon, this.item);
+  const NavbarItem(this.icon, this.item);
 
-  final IconData unselectedIcon;
-  final IconData selectedIcon;
+  final IconData icon;
   final NavigationItem item;
-
-  BottomNavigationBarItem toUnselectedBottomNavigationBarItem(
-    BuildContext context,
-  ) {
-    return BottomNavigationBarItem(
-      icon: Icon(unselectedIcon),
-      label: '',
-      tooltip: S.of(context).nav_title(item.route),
-    );
-  }
-
-  BottomNavigationBarItem toSelectedBottomNavigationBarItem(
-    BuildContext context,
-  ) {
-    return BottomNavigationBarItem(
-      icon: Icon(selectedIcon),
-      label: '',
-      tooltip: S.of(context).nav_title(item.route),
-    );
-  }
 
   String get route {
     return item.route;
