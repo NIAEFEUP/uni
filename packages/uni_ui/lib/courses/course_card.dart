@@ -28,11 +28,7 @@ class CourseCard extends StatelessWidget {
         child: Column(
           children: [
             PhosphorIcon(
-              PhosphorIcons.certificate(
-                selected
-                    ? PhosphorIconsStyle.duotone
-                    : PhosphorIconsStyle.regular,
-              ),
+              _getIconData(courseInfo.abbreviation, selected),
               size: 48,
             ),
             Text(
@@ -46,5 +42,19 @@ class CourseCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  static PhosphorIconData _getIconData(String abbreviation, bool selected) {
+    final iconStyle =
+        selected ? PhosphorIconsStyle.duotone : PhosphorIconsStyle.regular;
+
+    switch (abbreviation[0]) {
+      case 'L':
+        return PhosphorIcons.graduationCap(iconStyle);
+      case 'P':
+        return PhosphorIcons.student(iconStyle);
+      default:
+        return PhosphorIcons.certificate(iconStyle);
+    }
   }
 }
