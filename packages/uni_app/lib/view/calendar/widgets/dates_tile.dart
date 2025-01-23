@@ -49,7 +49,6 @@ class DatesTile extends StatelessWidget {
     }
   }
 
-//(Belém) just plain bad.Still not working perfectly.I do not know why help i am so done:.(
   List<String> EventPeriod(){
     List<String> Period=[];
     String Timeperiod;
@@ -102,7 +101,7 @@ class DatesTile extends StatelessWidget {
   String Shortmonth(DateTime date){
     return DateFormat.MMM(locale.localeCode.languageCode).format(date).replaceFirst('.', '');
   }
-//100% the reason why the dates that work render with dot at the end
+
 
 
 }

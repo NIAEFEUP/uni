@@ -23,11 +23,12 @@ class CalendarEvent {
     String? month1;
     String? month2;
     String? year2;
-    final regex1 = RegExp(r'(\d{1,2}) de (\w+) de (\d{4})');
-    final regex2 = RegExp(r'(\d{1,2}) a (\d{1,2}) de (\w+) de (\d{4})');
-    final regex3 = RegExp(r'(\d{1,2}) de (\w+) a (\d{1,2}) de (\w+) de (\d{4})');
-    final regex4=RegExp(r'(\d{1,2}) de (\w+) de (\d{4}) a (\d{1,2}) de (\w+) de (\d{4})');
-    final forgot=RegExp(r'a (\d{1,2})');
+    final regex1 = RegExp(r'(\d{1,2}) ([a-zç]+) (\d{4})');
+    final regex2 = RegExp(r'(\d{1,2}) (\d{1,2}) ([a-zç]+) (\d{4})');
+    final regex3 = RegExp(r'(\d{1,2}) ([a-zç]+) (\d{1,2}) ([a-zç]+) (\d{4})');
+    final regex4 = RegExp(r'(\d{1,2}) ([a-zç]+) (\d{4}) (\d{1,2}) ([a-zç]+) (\d{4})');
+
+
     match=regex4.firstMatch(date);
     if(match!=null && match.groupCount==6){
       day1=match.group(1);
@@ -68,6 +69,7 @@ class CalendarEvent {
       month1=match.group(2);
       year1=match.group(3);
       start=DateFormat('dd MMMM yyyy', 'pt_PT').parse('$day1 $month1 $year1');
+      return;
     }
 
   }
@@ -84,8 +86,11 @@ class CalendarEvent {
   String formatString(String date) {
     return date
         .toLowerCase()
+        .replaceAll(RegExp(r'\baté\b'),'')
+        .replaceAll(RegExp(r'\bde\b'), '')
+        .replaceAll(RegExp(r'\ba\b'), '')
+        .replaceAll(RegExp(r'\e\b'), '')
         .replaceAll(RegExp(r'\s+'), ' ')
-        .replaceAll(RegExp(r'até'),'a')
         .trim();
 
   }
