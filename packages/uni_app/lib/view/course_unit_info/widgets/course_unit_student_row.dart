@@ -18,40 +18,60 @@ class CourseUnitStudentRow extends StatelessWidget {
     );
     return FutureBuilder(
       builder: (context, snapshot) {
+        final names = student.name.split(RegExp(r'\s+'));
+        final firstName = names.first;
+        final lastName = names.last;
+
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+              decoration: ShapeDecoration(
+                shape: const ContinuousRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                ),
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: snapshot.hasData && snapshot.data!.lengthSync() > 0
                       ? FileImage(snapshot.data!) as ImageProvider
                       : const AssetImage(
-                    'assets/images/profile_placeholder.png',
-                  ),
+                          'assets/images/profile_placeholder.png',
+                        ),
                 ),
               ),
               child: AspectRatio(
-                aspectRatio: 1, // Ensures square shape
-                child: Container(), // Empty child to enforce aspect ratio
+                aspectRatio: 1,
+                child: Container(),
               ),
             ),
             const SizedBox(height: 8),
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4), // Add padding for better alignment
-                child: Text(
-                  '${student.name.split(RegExp(r'\s+')).first} ${student.name.split(RegExp(r'\s+')).last}',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2, // Allow up to two lines for the name
-                  style: lightTheme.textTheme.headlineSmall?.copyWith(
-                    color: grayText,
+            LayoutBuilder(
+              builder: (context, constraints) {
+                return Container(
+                  width: constraints.maxWidth,
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Column(
+                    children: [
+                      Text(
+                        firstName,
+                        overflow: TextOverflow.fade,
+                        style: lightTheme.textTheme.titleLarge?.copyWith(
+                          color: grayText,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        lastName,
+                        overflow: TextOverflow.ellipsis,
+                        style: lightTheme.textTheme.titleLarge?.copyWith(
+                          color: grayText,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
+                );
+              },
             ),
           ],
         );

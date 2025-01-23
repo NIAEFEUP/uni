@@ -39,7 +39,7 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child: SizedBox(
-        height: 55, // Adjust height to fit your design.
+        height: 55,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: widget.classes.length,
@@ -91,24 +91,29 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
   }
 
   Widget _buildStudentList(SessionProvider session) {
+    final currentClass = widget.classes[selectedIndex];
     return Padding(
-      padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8), // Adjust padding as needed
+      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
       child: GridView.builder(
+        key: ValueKey(currentClass.className),
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          childAspectRatio: 0.8,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 5,
+          childAspectRatio: 0.60,
         ),
-        itemCount: widget.classes[selectedIndex].students.length,
+        itemCount: currentClass.students.length,
         itemBuilder: (context, index) {
-          final student = widget.classes[selectedIndex].students[index];
-          return CourseUnitStudentRow(student, session.state!);
+          final student = currentClass.students[index];
+          return CourseUnitStudentRow(
+            student,
+            session.state!,
+            key: ValueKey('${currentClass.className}_${student.number}'),
+          );
         },
       ),
     );
   }
-
 }
