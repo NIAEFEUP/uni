@@ -169,7 +169,7 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
         itemCount: currentClass.students.length,
         itemBuilder: (context, index) {
           final student = currentClass.students[index];
-          return CourseUnitStudentRow(
+          return CourseUnitStudentTile(
             student,
             session.state!,
             key: ValueKey('${currentClass.className}_${student.number}'),

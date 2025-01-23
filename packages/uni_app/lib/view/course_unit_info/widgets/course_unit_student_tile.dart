@@ -4,8 +4,8 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/session/flows/base/session.dart';
 import 'package:uni_ui/theme.dart';
 
-class CourseUnitStudentRow extends StatelessWidget {
-  const CourseUnitStudentRow(this.student, this.session, {super.key});
+class CourseUnitStudentTile extends StatelessWidget {
+  const CourseUnitStudentTile(this.student, this.session, {super.key});
 
   final CourseUnitStudent student;
   final Session session;
