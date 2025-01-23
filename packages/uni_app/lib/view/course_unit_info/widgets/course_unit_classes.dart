@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
@@ -17,6 +15,9 @@ class CourseUnitClassesView extends StatefulWidget {
 }
 
 class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
+  static const double _itemWidth = 140;
+  static const Duration _scrollDuration = Duration(milliseconds: 300);
+
   late int selectedIndex;
   final ScrollController _scrollController = ScrollController();
 
@@ -46,13 +47,19 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
 
   void _scrollToSelectedClass() {
     final screenWidth = MediaQuery.of(context).size.width;
-    final offset = (140.0 * selectedIndex) - (screenWidth - 140) / 2;
+    final offset =
+        (_itemWidth * selectedIndex) - (screenWidth - _itemWidth) / 2;
 
     _scrollController.animateTo(
-      math.max(0, offset),
-      duration: const Duration(milliseconds: 300),
+      offset < 0 ? 0 : offset,
+      duration: _scrollDuration,
       curve: Curves.easeInOut,
     );
+  }
+
+  void _handleClassTap(int index) {
+    setState(() => selectedIndex = index);
+    _scrollToSelectedClass();
   }
 
   @override
@@ -84,77 +91,62 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
       padding: const EdgeInsets.only(bottom: 20),
       child: SizedBox(
         height: 55,
-        child: Center(
-          child: ListView.builder(
-            controller: _scrollController,
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            itemCount: widget.classes.length,
-            itemBuilder: (context, index) {
-              final courseUnitClass = widget.classes[index];
-              final isMyClass = courseUnitClass.students
-                  .any((student) => student.number == studentNumber);
-              final isSelected = index == selectedIndex;
+        child: ListView.builder(
+          controller: _scrollController,
+          scrollDirection: Axis.horizontal,
+          itemCount: widget.classes.length,
+          itemBuilder: (context, index) {
+            final courseUnitClass = widget.classes[index];
+            final isMyClass = courseUnitClass.students
+                .any((student) => student.number == studentNumber);
+            final isSelected = index == selectedIndex;
 
-              return ConstrainedBox(
-                constraints: const BoxConstraints(
-                  minWidth: 140,
-                  maxWidth: 140,
-                ),
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedIndex = index;
-                    });
-                    final screenWidth = MediaQuery.of(context).size.width;
-                    final offset = (140.0 * index) - (screenWidth - 140) / 2;
-
-                    _scrollController.animateTo(
-                      math.max(0, offset),
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  child: Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? lightTheme.colorScheme.primary
-                          : lightTheme.colorScheme.secondary,
-                      borderRadius: BorderRadius.circular(25),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      isMyClass
-                          ? '${courseUnitClass.className} *'
-                          : courseUnitClass.className,
-                      style: isSelected
-                          ? lightTheme.textTheme.labelMedium?.copyWith(
-                              color: lightTheme.colorScheme.onPrimary,
-                            )
-                          : lightTheme.textTheme.labelMedium,
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+            return ConstrainedBox(
+              constraints: const BoxConstraints(
+                minWidth: _itemWidth,
+                maxWidth: _itemWidth,
+              ),
+              child: GestureDetector(
+                onTap: () => _handleClassTap(index),
+                child: Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? lightTheme.colorScheme.primary
+                        : lightTheme.colorScheme.secondary,
+                    borderRadius: BorderRadius.circular(25),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    isMyClass
+                        ? '${courseUnitClass.className} *'
+                        : courseUnitClass.className,
+                    style: isSelected
+                        ? lightTheme.textTheme.labelMedium?.copyWith(
+                            color: lightTheme.colorScheme.onPrimary,
+                          )
+                        : lightTheme.textTheme.labelMedium,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
