@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni/view/course_unit_info/widgets/course_unit_student_row.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_student_tile.dart';
 import 'package:uni_ui/theme.dart';
 
 class CourseUnitClassesView extends StatefulWidget {
