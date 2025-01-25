@@ -6,7 +6,7 @@ import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/calendar/widgets/calendar_card.dart';
 import 'package:uni/view/common_widgets/generic_expansion_card.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/faculty/widgets/academic_services_card_old.dart';
+import 'package:uni/view/faculty/widgets/academic_services_card.dart';
 import 'package:uni/view/faculty/widgets/copy_center_card.dart';
 import 'package:uni/view/faculty/widgets/dona_bia_card.dart';
 import 'package:uni/view/faculty/widgets/infodesk_card.dart';

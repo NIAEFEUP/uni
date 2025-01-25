@@ -21,10 +21,12 @@ class ServiceCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(
-                name,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.headlineSmall!,
+              Flexible(
+                child: Text(
+                  name,
+                  softWrap: true ,
+                  style: Theme.of(context).textTheme.headlineSmall!,
+                ),
               ),
             ],
           ),
