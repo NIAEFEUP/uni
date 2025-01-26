@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
+import 'package:uni_ui/icons.dart';
 
 class RestaurantCard extends StatelessWidget {
   const RestaurantCard({
@@ -22,7 +22,7 @@ class RestaurantCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GenericCard(
-      padding: EdgeInsets.zero,
+        padding: EdgeInsets.zero,
         key: key,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,16 +76,46 @@ class RestaurantCardHeader extends StatelessWidget {
           ),
           Expanded(
             flex: 1,
-            child: IconButton(
-                onPressed: onFavoriteToggle,
-                icon: isFavorite
-                    ? Icon(PhosphorIconsFill.heart,
-                        color: Theme.of(context).primaryColor)
-                    : Icon(PhosphorIconsRegular.heart,
-                        color: Theme.of(context).primaryColor)),
+            child: CardFavoriteButton(isFavorite, onFavoriteToggle),
           ),
         ],
       ),
     );
+  }
+}
+
+class CardFavoriteButton extends StatefulWidget {
+  const CardFavoriteButton(this.isFavorite, this.onFavoriteToggle, {super.key});
+
+  final bool isFavorite;
+  final VoidCallback onFavoriteToggle;
+
+  @override
+  State<StatefulWidget> createState() {
+    return CardFavoriteButtonState();
+  }
+}
+
+class CardFavoriteButtonState extends State<CardFavoriteButton> {
+  bool isFavorite = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavorite = widget.isFavorite;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        icon: isFavorite
+            ? UniIcon(UniIcons.heartFill)
+            : UniIcon(UniIcons.heartOutline),
+        onPressed: () {
+          widget.onFavoriteToggle();
+          setState(() {
+            isFavorite = !isFavorite;
+          });
+        });
   }
 }

@@ -41,12 +41,14 @@ class DayOfWeekTab extends StatelessWidget {
                           fontFamily: 'Roboto',
                           fontWeight: FontWeight.w400,
                           fontSize: 12,
-                          color: Color.fromRGBO(102, 9, 16, 1))
+                          color: Color.fromRGBO(102, 9, 16, 1),
+                        )
                       : const TextStyle(
                           fontFamily: 'Roboto',
                           fontWeight: FontWeight.w400,
                           fontSize: 12,
-                          color: Color.fromRGBO(48, 48, 48, 1)),
+                          color: Color.fromRGBO(48, 48, 48, 1),
+                        ),
                 ),
                 Text(
                   day,
@@ -55,12 +57,14 @@ class DayOfWeekTab extends StatelessWidget {
                           fontFamily: 'Roboto',
                           fontWeight: FontWeight.w400,
                           fontSize: 12,
-                          color: Color.fromRGBO(102, 9, 16, 1))
+                          color: Color.fromRGBO(102, 9, 16, 1),
+                        )
                       : const TextStyle(
                           fontFamily: 'Roboto',
                           fontWeight: FontWeight.w400,
                           fontSize: 12,
-                          color: Color.fromRGBO(48, 48, 48, 1)),
+                          color: Color.fromRGBO(48, 48, 48, 1),
+                        ),
                 ),
               ],
             ),

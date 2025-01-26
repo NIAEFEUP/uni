@@ -28,47 +28,33 @@ class DaysOfWeekTabBar extends StatelessWidget {
 
 
   List<DayOfWeekTab> createTabs(BuildContext context) {
-    final weekDay = DateTime.now().weekday; // 1 = Monday, 7 = Sunday
-    final daysOfTheWeek =
-    Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
+    final weekDay = DateTime.now().weekday;
     final today = DateTime.now();
 
-    // Reorder the daysOfTheWeek list
-    List<String> reorderedDays;
-    if (weekDay == 1) {
-      reorderedDays = [
-        daysOfTheWeek[(weekDay - 2 + 7) % 7], // Previous day
-        ...daysOfTheWeek.skip(weekDay - 1).take(6), // From today onwards
-      ];
-    } else {
-      reorderedDays = [
-        daysOfTheWeek[(weekDay - 2 + 7) % 7], // Previous day
-        ...daysOfTheWeek.skip(weekDay - 1), // From today onwards
-        ...daysOfTheWeek.take(weekDay - 2) // Remaining days from the start
-      ];
-    }
+    final daysOfTheWeek = Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
 
-    // Calculate the dates for the reordered days
-    final reorderedDates = [
-      today.subtract(const Duration(days: 1)), // Previous day
-      ...List.generate(7, (i) => today.add(Duration(days: i)))
-          .skip(0), // From today onwards
-    ].take(7).toList();
+    final daysToSunday = weekDay % DateTime.sunday;
+
+    final reorderedDates = List.generate(daysOfTheWeek.length, (i) => today.subtract(Duration(days: daysToSunday - i)));
+
+    final reorderedDays = List.generate(daysOfTheWeek.length, (i) => daysOfTheWeek[(i + DateTime.saturday) % DateTime.sunday]);
 
     final tabs = <DayOfWeekTab>[];
     for (var i = 0; i < reorderedDays.length; i++) {
       tabs.add(
         DayOfWeekTab(
-          key: Key('cantine-page-tab-$i'),
+          key: Key('cantine-page-tab-${reorderedDays[i]}'),
           controller: controller,
           isSelected: controller.index == i,
           weekDay: toShortVersion(reorderedDays[i]),
           day: '${reorderedDates[i].day}',
-        )
+        ),
       );
     }
+
     return tabs;
   }
+
 
   String toShortVersion(String dayOfTheWeek) {
     final match = RegExp('^[a-zA-Z]+').firstMatch(dayOfTheWeek);
