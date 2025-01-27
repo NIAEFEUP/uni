@@ -35,12 +35,56 @@ class CourseUnitSheetView extends StatelessWidget {
         children: [
           _buildSection(
             title: S.of(context).instructors,
-            content: _buildInstructorsContent(context),
+            content: courseUnitSheet.professors.length <= 4
+                ? Wrap(
+                    spacing: _instructorSpacing,
+                    runSpacing: _instructorRunSpacing,
+                    children: courseUnitSheet.professors
+                        .map((instructor) =>
+                            _InstructorCard(instructor: instructor))
+                        .toList(),
+                  )
+                : AnimatedExpandable(
+                    firstChild: _LimitedInstructorsRow(
+                        instructors: courseUnitSheet.professors,),
+                    secondChild: _InstructorsRow(
+                        instructors: courseUnitSheet.professors,),
+                  ),
             context: context,
           ),
           _buildSection(
             title: S.of(context).assessments,
-            content: _buildExamsContent(context),
+            content: exams.isEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      S.of(context).noExamsScheduled,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  )
+                : SizedBox(
+                    height: 100,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: exams.length,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(width: _instructorSpacing),
+                      itemBuilder: (context, index) => SizedBox(
+                        width: 240,
+                        child: ExamCard(
+                          name: exams[index].subject,
+                          acronym: exams[index].subjectAcronym,
+                          rooms: exams[index].rooms,
+                          type: exams[index].examType,
+                          startTime: exams[index].startTime,
+                          examDay: exams[index].start.day.toString(),
+                          examMonth: exams[index]
+                              .monthAcronym(PreferencesController.getLocale()),
+                          showIcon: false,
+                        ),
+                      ),
+                    ),
+                  ),
             context: context,
           ),
           _buildSection(
@@ -125,60 +169,6 @@ class CourseUnitSheetView extends StatelessWidget {
           child: Divider(color: Colors.grey),
         ),
       ],
-    );
-  }
-
-  Widget _buildInstructorsContent(BuildContext context) {
-    if (courseUnitSheet.professors.length <= 4) {
-      return Wrap(
-        spacing: _instructorSpacing,
-        runSpacing: _instructorRunSpacing,
-        children: courseUnitSheet.professors
-            .map((instructor) => _InstructorCard(instructor: instructor))
-            .toList(),
-      );
-    }
-
-    return AnimatedExpandable(
-      firstChild:
-          _LimitedInstructorsRow(instructors: courseUnitSheet.professors),
-      secondChild: _InstructorsRow(instructors: courseUnitSheet.professors),
-    );
-  }
-
-  Widget _buildExamsContent(BuildContext context) {
-    if (exams.isEmpty) {
-      return Padding(
-        padding: const EdgeInsets.only(top: 8),
-        child: Text(
-          S.of(context).noExamsScheduled,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-      );
-    }
-
-    return SizedBox(
-      height: 100,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: exams.length,
-        separatorBuilder: (context, index) =>
-            const SizedBox(width: _instructorSpacing),
-        itemBuilder: (context, index) => SizedBox(
-          width: 240,
-          child: ExamCard(
-            name: exams[index].subject,
-            acronym: exams[index].subjectAcronym,
-            rooms: exams[index].rooms,
-            type: exams[index].examType,
-            startTime: exams[index].startTime,
-            examDay: exams[index].start.day.toString(),
-            examMonth:
-                exams[index].monthAcronym(PreferencesController.getLocale()),
-            showIcon: false,
-          ),
-        ),
-      ),
     );
   }
 }
