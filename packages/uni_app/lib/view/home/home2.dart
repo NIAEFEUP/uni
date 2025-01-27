@@ -21,7 +21,9 @@ class HomePageView2State extends State<HomePageView2> {
     const ExamHomeCard(title: 'Exams'),
     const ScheduleHomeCard(title: 'Schedule'),
     const LibraryHomeCard(title: 'Library Occupation'),
+    //TODO: restaurant
     const CalendarHomeCard(title: 'Calendar'),
+    //TODO: services
   ];
 
   @override

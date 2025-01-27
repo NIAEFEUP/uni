@@ -27,6 +27,7 @@ dependencies:
   email_validator: ^2.0.1
   expandable: ^5.0.1
   expansion_tile_card: ^3.0.0
+  figma_squircle: ^0.5.3
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.3.1
