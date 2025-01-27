@@ -15,13 +15,12 @@ import 'package:uni/view/common_widgets/generic_expandable.dart';
 import 'package:uni/view/course_unit_info/widgets/modal_professor_info.dart';
 import 'package:uni_ui/cards/exam_card.dart';
 import 'package:uni_ui/cards/instructor_card.dart';
+import 'package:uni_ui/cards/remaining_instructors_card.dart';
 
 const double _bookCardWidth = 135;
 const double _bookCardHeight = 140;
-const double _avatarRadius = 20;
 const double _instructorSpacing = 8;
 const double _instructorRunSpacing = 4;
-const double _instructorCardWidth = 165;
 
 class CourseUnitSheetView extends StatelessWidget {
   const CourseUnitSheetView(this.courseUnitSheet, this.exams, {super.key});
@@ -269,10 +268,10 @@ class _LimitedInstructorsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     final firstThree = instructors.take(3).toList();
     final remaining = instructors.skip(3).toList();
     final remainingToShow = remaining.take(3).toList();
+    final session = context.read<SessionProvider>().state!;
 
     return Wrap(
       spacing: _instructorSpacing,
@@ -281,55 +280,30 @@ class _LimitedInstructorsRow extends StatelessWidget {
         ...firstThree
             .map((instructor) => _InstructorCard(instructor: instructor)),
         if (remaining.isNotEmpty)
-          SizedBox(
-            width: _instructorCardWidth,
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: const Color.fromRGBO(255, 245, 243, 1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    width: remainingToShow.length * _avatarRadius * 1.5,
-                    height: 40,
-                    child: Stack(
-                      children: remainingToShow.asMap().entries.map((entry) {
-                        final index = entry.key;
-                        final instructor = entry.value;
-                        final session = context.read<SessionProvider>().state!;
-                        return Positioned(
-                          left: index * _avatarRadius,
-                          child: FutureBuilder<File?>(
-                            future:
-                                ProfileProvider.fetchOrGetCachedProfilePicture(
-                              session,
-                              studentNumber: int.parse(instructor.code),
-                            ),
-                            builder: (context, snapshot) => CircleAvatar(
-                              radius: _avatarRadius,
-                              backgroundImage: snapshot.hasData &&
-                                      snapshot.data != null
-                                  ? FileImage(snapshot.data!) as ImageProvider
-                                  : const AssetImage(
-                                      'assets/images/profile_placeholder.png'),
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  Flexible(
-                    child: Text(
-                      S.of(context).moreInstructors(remaining.length),
-                      style: textTheme.bodyLarge,
-                    ),
-                  ),
-                ],
+          FutureBuilder<List<File?>>(
+            future: Future.wait(
+              remainingToShow.map(
+                (instructor) => ProfileProvider.fetchOrGetCachedProfilePicture(
+                  session,
+                  studentNumber: int.parse(instructor.code),
+                ),
               ),
             ),
+            builder: (context, snapshot) {
+              final images = snapshot.data
+                      ?.map((file) => file != null
+                          ? FileImage(file) as ImageProvider
+                          : null)
+                      .toList() ??
+                  List.filled(remainingToShow.length, null);
+
+              return RemainingInstructorsCard(
+                remainingCount: remaining.length,
+                remainingInstructorsLabel:
+                    S.of(context).moreInstructors(remaining.length),
+                profileImages: images,
+              );
+            },
           ),
       ],
     );
