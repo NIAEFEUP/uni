@@ -34,14 +34,14 @@ class RemainingInstructorsCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
-                width: profileImages.length * _avatarRadius * 1.7,
+                width: profileImages.length * _avatarRadius * 1.65,
                 height: 40,
                 child: Stack(
                   children: profileImages.asMap().entries.map((entry) {
                     final index = entry.key;
                     final image = entry.value;
                     return Positioned(
-                      left: index * _avatarRadius,
+                      left: index * _avatarRadius * 1.4,
                       child: CircleAvatar(
                         radius: _avatarRadius,
                         backgroundImage: image ??

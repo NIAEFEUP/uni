@@ -40,8 +40,10 @@ class CourseUnitSheetView extends StatelessWidget {
                     spacing: _horizontalSpacing,
                     runSpacing: _verticalSpacing,
                     children: courseUnitSheet.professors
-                        .map((instructor) =>
-                            _InstructorCard(instructor: instructor))
+                        .map(
+                          (instructor) =>
+                              _InstructorCard(instructor: instructor),
+                        )
                         .toList(),
                   )
                 : AnimatedExpandable(
@@ -52,8 +54,10 @@ class CourseUnitSheetView extends StatelessWidget {
                       spacing: _horizontalSpacing,
                       runSpacing: _verticalSpacing,
                       children: courseUnitSheet.professors
-                          .map((instructor) =>
-                              _InstructorCard(instructor: instructor))
+                          .map(
+                            (instructor) =>
+                                _InstructorCard(instructor: instructor),
+                          )
                           .toList(),
                     ),
                   ),
@@ -259,9 +263,11 @@ class _LimitedInstructorsRow extends StatelessWidget {
             ),
             builder: (context, snapshot) {
               final images = snapshot.data
-                      ?.map((file) => file != null
-                          ? FileImage(file) as ImageProvider
-                          : null)
+                      ?.map(
+                        (file) => file != null
+                            ? FileImage(file) as ImageProvider
+                            : null,
+                      )
                       .toList() ??
                   List.filled(remainingToShow.length, null);
 
