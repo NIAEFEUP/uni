@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:figma_squircle/figma_squircle.dart';
 
 const double _avatarRadius = 20;
 const double _instructorCardWidth = 165;
@@ -19,41 +20,46 @@ class RemainingInstructorsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: _instructorCardWidth,
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: const Color.fromRGBO(255, 245, 243, 1),
-          borderRadius: BorderRadius.circular(8),
+      child: ClipSmoothRect(
+        radius: SmoothBorderRadius(
+          cornerRadius: 15,
+          cornerSmoothing: 1,
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: profileImages.length * _avatarRadius * 1.5,
-              height: 40,
-              child: Stack(
-                children: profileImages.asMap().entries.map((entry) {
-                  final index = entry.key;
-                  final image = entry.value;
-                  return Positioned(
-                    left: index * _avatarRadius,
-                    child: CircleAvatar(
-                      radius: _avatarRadius,
-                      backgroundImage: image ??
-                          const AssetImage(
-                              'assets/images/profile_placeholder.png'),
-                    ),
-                  );
-                }).toList(),
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: CardTheme.of(context).color,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: profileImages.length * _avatarRadius * 1.7,
+                height: 40,
+                child: Stack(
+                  children: profileImages.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final image = entry.value;
+                    return Positioned(
+                      left: index * _avatarRadius,
+                      child: CircleAvatar(
+                        radius: _avatarRadius,
+                        backgroundImage: image ??
+                            const AssetImage(
+                                'assets/images/profile_placeholder.png'),
+                      ),
+                    );
+                  }).toList(),
+                ),
               ),
-            ),
-            Flexible(
-              child: Text(
-                remainingInstructorsLabel,
-                style: Theme.of(context).textTheme.bodyLarge,
+              Flexible(
+                child: Text(
+                  remainingInstructorsLabel,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

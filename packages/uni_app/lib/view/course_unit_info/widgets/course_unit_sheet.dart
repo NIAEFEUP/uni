@@ -18,8 +18,8 @@ import 'package:uni_ui/cards/exam_card.dart';
 import 'package:uni_ui/cards/instructor_card.dart';
 import 'package:uni_ui/cards/remaining_instructors_card.dart';
 
-const double _instructorSpacing = 8;
-const double _instructorRunSpacing = 4;
+const double _horizontalSpacing = 8;
+const double _verticalSpacing = 4;
 
 class CourseUnitSheetView extends StatelessWidget {
   const CourseUnitSheetView(this.courseUnitSheet, this.exams, {super.key});
@@ -37,8 +37,8 @@ class CourseUnitSheetView extends StatelessWidget {
             title: S.of(context).instructors,
             content: courseUnitSheet.professors.length <= 4
                 ? Wrap(
-                    spacing: _instructorSpacing,
-                    runSpacing: _instructorRunSpacing,
+                    spacing: _horizontalSpacing,
+                    runSpacing: _verticalSpacing,
                     children: courseUnitSheet.professors
                         .map((instructor) =>
                             _InstructorCard(instructor: instructor))
@@ -46,9 +46,16 @@ class CourseUnitSheetView extends StatelessWidget {
                   )
                 : AnimatedExpandable(
                     firstChild: _LimitedInstructorsRow(
-                        instructors: courseUnitSheet.professors,),
-                    secondChild: _InstructorsRow(
-                        instructors: courseUnitSheet.professors,),
+                      instructors: courseUnitSheet.professors,
+                    ),
+                    secondChild: Wrap(
+                      spacing: _horizontalSpacing,
+                      runSpacing: _verticalSpacing,
+                      children: courseUnitSheet.professors
+                          .map((instructor) =>
+                              _InstructorCard(instructor: instructor))
+                          .toList(),
+                    ),
                   ),
             context: context,
           ),
@@ -68,7 +75,7 @@ class CourseUnitSheetView extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       itemCount: exams.length,
                       separatorBuilder: (context, index) =>
-                          const SizedBox(width: _instructorSpacing),
+                          const SizedBox(width: _horizontalSpacing),
                       itemBuilder: (context, index) => SizedBox(
                         width: 240,
                         child: ExamCard(
@@ -153,6 +160,21 @@ class CourseUnitSheetView extends StatelessWidget {
     required Widget content,
     required BuildContext context,
   }) {
+    if (content is HtmlWidget && content.html.length > 300) {
+      return Column(
+        children: [
+          GenericExpandable(
+            title: title,
+            content: content,
+          ),
+          const Opacity(
+            opacity: 0.25,
+            child: Divider(color: Colors.grey),
+          ),
+        ],
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -220,8 +242,8 @@ class _LimitedInstructorsRow extends StatelessWidget {
     final session = context.read<SessionProvider>().state!;
 
     return Wrap(
-      spacing: _instructorSpacing,
-      runSpacing: _instructorRunSpacing,
+      spacing: _horizontalSpacing,
+      runSpacing: _verticalSpacing,
       children: [
         ...firstThree
             .map((instructor) => _InstructorCard(instructor: instructor)),
@@ -252,23 +274,6 @@ class _LimitedInstructorsRow extends StatelessWidget {
             },
           ),
       ],
-    );
-  }
-}
-
-class _InstructorsRow extends StatelessWidget {
-  const _InstructorsRow({required this.instructors});
-
-  final List<Professor> instructors;
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      spacing: _instructorSpacing,
-      runSpacing: _instructorRunSpacing,
-      children: instructors
-          .map((instructor) => _InstructorCard(instructor: instructor))
-          .toList(),
     );
   }
 }
