@@ -14,12 +14,14 @@ import 'package:uni/view/common_widgets/generic_animated_expandable.dart';
 import 'package:uni/view/common_widgets/generic_expandable.dart';
 import 'package:uni/view/course_unit_info/widgets/modal_professor_info.dart';
 import 'package:uni_ui/cards/exam_card.dart';
+import 'package:uni_ui/cards/instructor_card.dart';
 
 const double _bookCardWidth = 135;
 const double _bookCardHeight = 140;
 const double _avatarRadius = 20;
 const double _instructorSpacing = 8;
 const double _instructorRunSpacing = 4;
+const double _instructorCardWidth = 165;
 
 class CourseUnitSheetView extends StatelessWidget {
   const CourseUnitSheetView(this.courseUnitSheet, this.exams, {super.key});
@@ -78,8 +80,10 @@ class CourseUnitSheetView extends StatelessWidget {
           )
         else
           AnimatedExpandable(
-            firstChild: _LimitedInstructorsRow(instructors: courseUnitSheet.professors),
-            secondChild: _InstructorsRow(instructors: courseUnitSheet.professors),
+            firstChild:
+                _LimitedInstructorsRow(instructors: courseUnitSheet.professors),
+            secondChild:
+                _InstructorsRow(instructors: courseUnitSheet.professors),
           ),
         _addDivider(),
       ],
@@ -112,21 +116,21 @@ class CourseUnitSheetView extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: exams.length,
               separatorBuilder: (context, index) =>
-              const SizedBox(width: _instructorSpacing),
-              itemBuilder: (context, index) =>
-                  SizedBox(
-                      width: 240,
-                      child: ExamCard(
-                        name: exams[index].subject,
-                        acronym: exams[index].subjectAcronym,
-                        rooms: exams[index].rooms,
-                        type: exams[index].examType,
-                        startTime: exams[index].startTime,
-                        examDay: exams[index].start.day.toString(),
-                        examMonth: exams[index].monthAcronym(PreferencesController.getLocale()),
-                        showIcon: false,
-                      ),
-                  ),
+                  const SizedBox(width: _instructorSpacing),
+              itemBuilder: (context, index) => SizedBox(
+                width: 240,
+                child: ExamCard(
+                  name: exams[index].subject,
+                  acronym: exams[index].subjectAcronym,
+                  rooms: exams[index].rooms,
+                  type: exams[index].examType,
+                  startTime: exams[index].startTime,
+                  examDay: exams[index].start.day.toString(),
+                  examMonth: exams[index]
+                      .monthAcronym(PreferencesController.getLocale()),
+                  showIcon: false,
+                ),
+              ),
             ),
           ),
         _addDivider(),
@@ -135,10 +139,10 @@ class CourseUnitSheetView extends StatelessWidget {
   }
 
   Widget _buildContentCard(
-      String sectionTitle,
-      String sectionContent,
-      BuildContext context,
-      ) {
+    String sectionTitle,
+    String sectionContent,
+    BuildContext context,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Column(
@@ -166,11 +170,14 @@ class CourseUnitSheetView extends StatelessWidget {
         ),
         Wrap(
           alignment: WrapAlignment.spaceBetween,
-          children: courseUnitSheet.books.map((book) => _buildBookTile(context, book)).toList(),
+          children: courseUnitSheet.books
+              .map((book) => _buildBookTile(context, book))
+              .toList(),
         ),
       ],
     );
   }
+
   Widget _addDivider() {
     return const Opacity(
       opacity: 0.25,
@@ -188,24 +195,24 @@ class CourseUnitSheetView extends StatelessWidget {
             height: _bookCardHeight,
             child: book.isbn.isNotEmpty
                 ? FutureBuilder<String?>(
-              future: BookThumbFetcher().fetchBookThumb(book.isbn),
-              builder: (context, snapshot) {
-                if (snapshot.hasData && snapshot.data != null) {
-                  return Image(image: NetworkImage(snapshot.data!));
-                } else {
-                  return const Image(
+                    future: BookThumbFetcher().fetchBookThumb(book.isbn),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data != null) {
+                        return Image(image: NetworkImage(snapshot.data!));
+                      } else {
+                        return const Image(
+                          image: AssetImage(
+                            'assets/images/book_placeholder.png',
+                          ),
+                        );
+                      }
+                    },
+                  )
+                : const Image(
                     image: AssetImage(
                       'assets/images/book_placeholder.png',
                     ),
-                  );
-                }
-              },
-            )
-                : const Image(
-              image: AssetImage(
-                'assets/images/book_placeholder.png',
-              ),
-            ),
+                  ),
           ),
           SizedBox(
             width: _bookCardWidth,
@@ -228,45 +235,29 @@ class _InstructorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => showDialog<void>(
-        context: context,
-        builder: (context) => ProfessorInfoModal(instructor),
+    final session = context.read<SessionProvider>().state!;
+    return FutureBuilder<File?>(
+      future: ProfileProvider.fetchOrGetCachedProfilePicture(
+        session,
+        studentNumber: int.parse(instructor.code),
       ),
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: CardTheme.of(context).color,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _InstructorAvatar(instructor: instructor),
-            const SizedBox(width: 8),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 100,
-                  child: Text(
-                    instructor.name,
-                    style: Theme.of(context).textTheme.bodySmall,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Text(
-                  instructor.isRegent
-                      ? S.of(context).courseRegent
-                      : S.of(context).instructor,
-                  style: Theme.of(context).textTheme.labelSmall,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+      builder: (context, snapshot) {
+        final profileImage = snapshot.hasData && snapshot.data != null
+            ? FileImage(snapshot.data!)
+            : null;
+
+        return InstructorCard(
+          name: instructor.name,
+          isRegent: instructor.isRegent,
+          onTap: () => showDialog<void>(
+            context: context,
+            builder: (context) => ProfessorInfoModal(instructor),
+          ),
+          instructorLabel: S.of(context).instructor,
+          regentLabel: S.of(context).courseRegent,
+          profileImage: profileImage,
+        );
+      },
     );
   }
 }
@@ -281,6 +272,7 @@ class _LimitedInstructorsRow extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final firstThree = instructors.take(3).toList();
     final remaining = instructors.skip(3).toList();
+    final remainingToShow = remaining.take(3).toList();
 
     return Wrap(
       spacing: _instructorSpacing,
@@ -289,34 +281,54 @@ class _LimitedInstructorsRow extends StatelessWidget {
         ...firstThree
             .map((instructor) => _InstructorCard(instructor: instructor)),
         if (remaining.isNotEmpty)
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: const Color.fromRGBO(255, 245, 243, 1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 98,
-                  height: 40,
-                  child: Stack(
-                    children: remaining.asMap().entries.map((entry) {
-                      final index = entry.key;
-                      final instructor = entry.value;
-                      return Positioned(
-                        left: index * _avatarRadius,
-                        child: _InstructorAvatar(instructor: instructor),
-                      );
-                    }).toList(),
+          SizedBox(
+            width: _instructorCardWidth,
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(255, 245, 243, 1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: remainingToShow.length * _avatarRadius * 1.5,
+                    height: 40,
+                    child: Stack(
+                      children: remainingToShow.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final instructor = entry.value;
+                        final session = context.read<SessionProvider>().state!;
+                        return Positioned(
+                          left: index * _avatarRadius,
+                          child: FutureBuilder<File?>(
+                            future:
+                                ProfileProvider.fetchOrGetCachedProfilePicture(
+                              session,
+                              studentNumber: int.parse(instructor.code),
+                            ),
+                            builder: (context, snapshot) => CircleAvatar(
+                              radius: _avatarRadius,
+                              backgroundImage: snapshot.hasData &&
+                                      snapshot.data != null
+                                  ? FileImage(snapshot.data!) as ImageProvider
+                                  : const AssetImage(
+                                      'assets/images/profile_placeholder.png'),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
                   ),
-                ),
-                Text(
-                  S.of(context).moreInstructors(remaining.length),
-                  style: textTheme.bodyLarge,
-                ),
-              ],
+                  Flexible(
+                    child: Text(
+                      S.of(context).moreInstructors(remaining.length),
+                      style: textTheme.bodyLarge,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
       ],
@@ -337,29 +349,6 @@ class _InstructorsRow extends StatelessWidget {
       children: instructors
           .map((instructor) => _InstructorCard(instructor: instructor))
           .toList(),
-    );
-  }
-}
-
-class _InstructorAvatar extends StatelessWidget {
-  const _InstructorAvatar({required this.instructor});
-
-  final Professor instructor;
-
-  @override
-  Widget build(BuildContext context) {
-    final session = context.read<SessionProvider>().state!;
-    return FutureBuilder<File?>(
-      future: ProfileProvider.fetchOrGetCachedProfilePicture(
-        session,
-        studentNumber: int.parse(instructor.code),
-      ),
-      builder: (context, snapshot) => CircleAvatar(
-        radius: _avatarRadius,
-        backgroundImage: snapshot.hasData && snapshot.data != null
-            ? FileImage(snapshot.data!) as ImageProvider
-            : const AssetImage('assets/images/profile_placeholder.png'),
-      ),
     );
   }
 }
