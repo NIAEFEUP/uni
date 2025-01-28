@@ -19,14 +19,16 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
   static const double _itemWidth = 140;
   static const Duration _scrollDuration = Duration(milliseconds: 300);
 
-  late int selectedIndex;
   final ScrollController _scrollController = ScrollController();
+
+  late int selectedIndex;
   late int studentNumber;
+  late SessionProvider sessionProvider;
 
   @override
   void initState() {
     super.initState();
-    final sessionProvider = context.read<SessionProvider>();
+    sessionProvider = context.read<SessionProvider>();
     studentNumber = getStudentNumber(sessionProvider);
 
     selectedIndex = widget.classes.indexWhere(
@@ -69,8 +71,6 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
 
   @override
   Widget build(BuildContext context) {
-    final sessionProvider = context.read<SessionProvider>();
-
     return SingleChildScrollView(
       child: Column(
         children: [
