@@ -24,6 +24,7 @@ class BottomNavbarItem {
             : null,
         child: UniIcon(
           icon,
+          size: 32,
           color: Theme.of(context).colorScheme.secondary,
         ),
       ),

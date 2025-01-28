@@ -107,17 +107,20 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   }
 
   Widget getScaffold(BuildContext context, Widget body) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: getTopNavbar(context),
-
-      // TODO:(thePeras): This should move to floating action button in order to be transparent in background
-      // See https://stackoverflow.com/questions/72246152/how-to-use-floating-bottom-navigation-bar-in-flutter
-      bottomNavigationBar: const AppBottomNavbar(),
-      body: RefreshState(
-        onRefresh: onRefresh,
-        header: getHeader(context),
-        body: body,
+    return MediaQuery.removePadding(
+      // Prevent misalignment of navbar icons
+      context: context,
+      removeBottom: true,
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        appBar: getTopNavbar(context),
+        extendBody: true, // Allow body to appear behind the bottom navbar
+        bottomNavigationBar: const AppBottomNavbar(),
+        body: RefreshState(
+          onRefresh: onRefresh,
+          header: getHeader(context),
+          body: body,
+        ),
       ),
     );
   }
