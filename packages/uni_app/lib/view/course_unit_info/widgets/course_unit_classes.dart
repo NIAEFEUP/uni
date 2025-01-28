@@ -21,12 +21,13 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
 
   late int selectedIndex;
   final ScrollController _scrollController = ScrollController();
+  late int studentNumber;
 
   @override
   void initState() {
     super.initState();
     final sessionProvider = context.read<SessionProvider>();
-    final studentNumber = getStudentNumber(sessionProvider);
+    studentNumber = getStudentNumber(sessionProvider);
 
     selectedIndex = widget.classes.indexWhere(
       (courseClass) => courseClass.students.any(
@@ -69,7 +70,6 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
   @override
   Widget build(BuildContext context) {
     final sessionProvider = context.read<SessionProvider>();
-    final studentNumber = getStudentNumber(sessionProvider);
 
     return SingleChildScrollView(
       child: Column(
