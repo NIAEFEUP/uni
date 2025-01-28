@@ -1,3 +1,4 @@
+import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
@@ -27,8 +28,11 @@ class CourseUnitStudentTile extends StatelessWidget {
           children: [
             Container(
               decoration: ShapeDecoration(
-                shape: const ContinuousRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                shape: SmoothRectangleBorder(
+                  borderRadius: SmoothBorderRadius(
+                    cornerRadius: 25,
+                    cornerSmoothing: 1,
+                  ),
                 ),
                 image: DecorationImage(
                   fit: BoxFit.cover,
