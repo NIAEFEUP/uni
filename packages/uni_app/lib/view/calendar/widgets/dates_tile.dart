@@ -14,7 +14,7 @@ class DatesTile extends StatelessWidget {
   Widget build(BuildContext context) {
     if(date=='TBD'){
       return Padding(
-        padding: EdgeInsets.only(top: 10),
+        padding: EdgeInsets.all(5),
         child: Text(
           date,
           style: TextStyle(

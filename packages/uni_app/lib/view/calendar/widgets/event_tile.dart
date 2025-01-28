@@ -5,16 +5,21 @@ class EventTile extends StatelessWidget {
   final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Expanded(child:
+      Container(
+      width: 450,
       margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
-      child:Text(
-        text, style: TextStyle(
-        color: Theme.of(context).colorScheme.primary,
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-        height: 1,
-      ),
+        child:
+        Text(
+          text, style: TextStyle(
+          color: Theme.of(context).colorScheme.primary,
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          height: 1,
+        ),
+        maxLines: 5,
+        ),
       ),
     );
   }

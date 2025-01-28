@@ -7,6 +7,7 @@ import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/calendar/widgets/dates_tile.dart';
 import 'package:uni/view/calendar/widgets/event_tile.dart';
+import 'package:uni/view/calendar/widgets/row_format.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -38,6 +39,15 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
   Widget getTimeline(BuildContext context, List<CalendarEvent> calendar) {
     final locale = Provider.of<LocaleNotifier>(context).getLocale();
     return SingleChildScrollView(
+      child: Column(
+        children: calendar.map((event) => RowFormat(event:event, locale:locale)).toList(),
+      ),
+    );
+  }
+
+  /*Widget getTimeline(BuildContext context, List<CalendarEvent> calendar) {
+    final locale = Provider.of<LocaleNotifier>(context).getLocale();
+    return SingleChildScrollView(
       child: FixedTimeline.tileBuilder(
         theme: TimelineTheme.of(context).copyWith(
           connectorTheme: TimelineTheme.of(context)
@@ -58,7 +68,7 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
         ),
       ),
     );
-  }
+  }*/
 
   @override
   Future<void> onRefresh(BuildContext context) {
