@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:uni/utils/student_number_getter.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_student_tile.dart';
 import 'package:uni_ui/theme.dart';
 
@@ -25,10 +26,7 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
   void initState() {
     super.initState();
     final sessionProvider = context.read<SessionProvider>();
-    final studentNumber = int.tryParse(
-          sessionProvider.state!.username.replaceAll(RegExp(r'\D'), ''),
-        ) ??
-        0;
+    final studentNumber = getStudentNumber(sessionProvider);
 
     selectedIndex = widget.classes.indexWhere(
       (courseClass) => courseClass.students.any(
@@ -71,10 +69,7 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
   @override
   Widget build(BuildContext context) {
     final sessionProvider = context.read<SessionProvider>();
-    final studentNumber = int.tryParse(
-          sessionProvider.state!.username.replaceAll(RegExp(r'\D'), ''),
-        ) ??
-        0;
+    final studentNumber = getStudentNumber(sessionProvider);
 
     return SingleChildScrollView(
       child: Column(
