@@ -1,6 +1,5 @@
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
-import 'package:uni/view/home/widgets2/edit/draggable_element.dart';
 import 'package:uni/view/home/widgets2/edit/draggable_square.dart';
 import 'package:uni/view/home/widgets2/edit/draggable_tile.dart';
 
@@ -76,8 +75,29 @@ class EditHomeViewState extends State<EditHomeView> {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: ListView.separated(
-              itemBuilder: (_, index) => activeCards[index],
-              itemCount: activeCards.length,
+              itemBuilder: (_, index) {
+                if (index < activeCards.length) {
+                  return activeCards[index];
+                } else if (candidate.isNotEmpty) {
+                  return ClipSmoothRect(
+                    radius: SmoothBorderRadius(
+                      cornerRadius: 15,
+                      cornerSmoothing: 1,
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .secondary
+                            .withOpacity(0.75),
+                      ),
+                      child: const ListTile(),
+                    ),
+                  );
+                }
+                return Container();
+              },
+              itemCount: activeCards.length + (candidate.isNotEmpty ? 1 : 0),
               separatorBuilder: (_, __) => const SizedBox(
                 height: 20,
               ),
