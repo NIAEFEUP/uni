@@ -10,7 +10,26 @@ class DraggableTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DraggableElement(
-      feedback: Container(), // TODO: maybe list tile as well
+      data: this,
+      feedback: Container(
+        decoration:
+            BoxDecoration(color: Theme.of(context).colorScheme.secondary),
+        width: 75,
+        height: 75,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            icon,
+            const SizedBox(
+              height: 5,
+            ),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ],
+        ),
+      ), // TODO: maybe list tile as well
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.secondary,
