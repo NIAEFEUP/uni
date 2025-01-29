@@ -1,3 +1,4 @@
+import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/view/home/widgets2/edit/draggable_element.dart';
 import 'package:uni/view/home/widgets2/edit/draggable_square.dart';
@@ -126,7 +127,27 @@ class EditHomeViewState extends State<EditHomeView> {
                     alignment: WrapAlignment.center,
                     spacing: 20,
                     runSpacing: 10,
-                    children: [...listlessCards],
+                    children: candidate.isEmpty
+                        ? [...listlessCards]
+                        : [
+                            ...listlessCards,
+                            ClipSmoothRect(
+                              radius: SmoothBorderRadius(
+                                cornerRadius: 15,
+                                cornerSmoothing: 1,
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .secondary
+                                      .withOpacity(0.25),
+                                ),
+                                width: 75,
+                                height: 75,
+                              ),
+                            ),
+                          ],
                   ),
                 ),
                 Text(

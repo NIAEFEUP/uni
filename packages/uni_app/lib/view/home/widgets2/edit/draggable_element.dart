@@ -16,6 +16,7 @@ class DraggableElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Draggable(
+      dragAnchorStrategy: pointerDragAnchorStrategy,
       data: data,
       feedback: ClipSmoothRect(
         radius: SmoothBorderRadius(
@@ -24,6 +25,7 @@ class DraggableElement extends StatelessWidget {
         ),
         child: feedback,
       ),
+      childWhenDragging: Container(), // TODO: change this
       child: Container(
         decoration: BoxDecoration(
           boxShadow: [
