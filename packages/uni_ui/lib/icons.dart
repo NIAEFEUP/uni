@@ -25,7 +25,6 @@ class UniIcons {
 
   static const heartOutline = PhosphorIconsRegular.heart;
   static const heartFill = PhosphorIconsFill.heart;
-
 }
 
 // The same as default Icon class from material.dart but allowing to use PhosphorIcons duotone icons

@@ -55,7 +55,8 @@ class RestaurantUtils {
     return false;
   }
 
-  static String getLocaleTranslation(AppLocale locale, String portugueseTranslation, String englishTranslation) {
+  static String getLocaleTranslation(AppLocale locale,
+      String portugueseTranslation, String englishTranslation) {
     return locale == AppLocale.pt ? portugueseTranslation : englishTranslation;
   }
 }

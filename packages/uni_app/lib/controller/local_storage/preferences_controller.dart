@@ -42,7 +42,8 @@ class PreferencesController {
   static const String _semesterValue = 'semester_value';
   static const String _schoolYearValue = 'school_year_value';
   static const String _selectedDishType = 'selected_dish_type';
-  static const String _isFavoriteRestaurantsFilterOn = 'is_favorite_restaurant_filter_on';
+  static const String _isFavoriteRestaurantsFilterOn =
+      'is_favorite_restaurant_filter_on';
 
   static final _statsToggleStreamController =
       StreamController<bool>.broadcast();
@@ -309,5 +310,4 @@ class PreferencesController {
   static bool? getIsFavoriteRestaurantsFilterOn() {
     return prefs.getBool(_isFavoriteRestaurantsFilterOn);
   }
-
 }
