@@ -35,11 +35,15 @@ class DaysOfWeekTabBar extends StatelessWidget {
 
     final daysToSunday = weekDay % DateTime.sunday;
 
-    final reorderedDates = List.generate(daysOfTheWeek.length,
-        (i) => today.subtract(Duration(days: daysToSunday - i)));
+    final reorderedDates = List.generate(
+      daysOfTheWeek.length,
+      (i) => today.subtract(Duration(days: daysToSunday - i)),
+    );
 
-    final reorderedDays = List.generate(daysOfTheWeek.length,
-        (i) => daysOfTheWeek[(i + DateTime.saturday) % DateTime.sunday]);
+    final reorderedDays = List.generate(
+      daysOfTheWeek.length,
+      (i) => daysOfTheWeek[(i + DateTime.saturday) % DateTime.sunday],
+    );
 
     final tabs = <DayOfWeekTab>[];
     for (var i = 0; i < reorderedDays.length; i++) {

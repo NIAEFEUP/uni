@@ -150,7 +150,8 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
                   onToggle: () => {
                     setState(() {
                       PreferencesController.setIsFavoriteRestaurantsFilterOn(
-                          !isFavoriteFilterOn);
+                        !isFavoriteFilterOn,
+                      );
                       isFavoriteFilterOn = !isFavoriteFilterOn;
                     }),
                   },
@@ -238,7 +239,10 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     return menuItems.isNotEmpty
         ? RestaurantCard(
             name: RestaurantUtils.getLocaleTranslation(
-                locale, restaurant.namePt, restaurant.nameEn),
+              locale,
+              restaurant.namePt,
+              restaurant.nameEn,
+            ),
             icon: RestaurantUtils.getIcon(
               restaurant.typeEn ?? restaurant.typePt,
             ),
@@ -263,7 +267,10 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
         menuItems.add(
           RestaurantMenuItem(
             name: RestaurantUtils.getLocaleTranslation(
-                locale, meal.namePt, meal.nameEn),
+              locale,
+              meal.namePt,
+              meal.nameEn,
+            ),
             icon: RestaurantUtils.getIcon(meal.type),
           ),
         );
