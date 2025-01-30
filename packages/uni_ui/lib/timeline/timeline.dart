@@ -42,8 +42,7 @@ class _TimelineState extends State<Timeline> {
                 current.itemLeadingEdge < next.itemLeadingEdge ? current : next)
             .index;
 
-        if (_currentIndex != firstVisibleIndex &&
-            firstVisibleIndex >= widget.initialTab) {
+        if (_currentIndex != firstVisibleIndex) {
           setState(() {
             _currentIndex = firstVisibleIndex;
           });
@@ -144,6 +143,7 @@ class _TimelineState extends State<Timeline> {
             itemCount: widget.content.length,
             itemScrollController: _itemScrollController,
             itemPositionsListener: _itemPositionsListener,
+            initialScrollIndex: _currentIndex,
             itemBuilder: (context, index) {
               return widget.content[index];
             },

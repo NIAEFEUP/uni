@@ -5,16 +5,11 @@ import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_view.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
-class SchedulePage extends StatefulWidget {
+class SchedulePage extends StatelessWidget {
   SchedulePage({super.key, DateTime? now}) : now = now ?? DateTime.now();
 
   final DateTime now;
 
-  @override
-  SchedulePageState createState() => SchedulePageState();
-}
-
-class SchedulePageState extends State<SchedulePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,15 +20,13 @@ class SchedulePageState extends State<SchedulePage> {
         },
         child: LazyConsumer<LectureProvider, List<Lecture>>(
           builder: (context, lectures) {
-            /*final mockLectures =
-                getMockLectures(); */ // since there are no classes, we can use this to test the schedule page populated
             return SchedulePageView(
-              lectures,
-              now: widget.now,
+              getMockLectures(),
+              now: now,
             );
           },
           hasContent: (lectures) => lectures.isNotEmpty,
-          onNullContent: SchedulePageView(const [], now: widget.now),
+          onNullContent: SchedulePageView(const [], now: now),
         ),
       ),
     );
@@ -66,8 +59,8 @@ List<Lecture> getMockLectures() {
     Lecture(
       'Interação Pessoa Computador',
       'T',
-      DateTime.now().add(const Duration(hours: 5)),
-      DateTime.now().add(const Duration(hours: 6)),
+      DateTime.now().subtract(const Duration(hours: 5)),
+      DateTime.now().subtract(const Duration(hours: 4)),
       'B201',
       'Dr. Brown',
       'Class 3',
@@ -76,8 +69,8 @@ List<Lecture> getMockLectures() {
     Lecture(
       'Interação Pessoa Computador',
       'TP',
-      DateTime.now().add(const Duration(days: 2, hours: 3)),
-      DateTime.now().add(const Duration(days: 2, hours: 4)),
+      DateTime.now().subtract(const Duration(days: 2, hours: 3)),
+      DateTime.now().subtract(const Duration(days: 2, hours: 4)),
       '103',
       'Dr. Taylor',
       'Class 4',
@@ -96,8 +89,8 @@ List<Lecture> getMockLectures() {
     Lecture(
       'Programação Funcional e em Lógica',
       'TP',
-      DateTime.now().add(const Duration(days: 4, hours: 5)),
-      DateTime.now().add(const Duration(days: 4, hours: 6)),
+      DateTime.now().add(const Duration(days: 1, hours: 5)),
+      DateTime.now().add(const Duration(days: 1, hours: 6)),
       'B105',
       'Dr. Lee',
       'Class 6',
@@ -116,8 +109,8 @@ List<Lecture> getMockLectures() {
     Lecture(
       'Redes de Computadores',
       'T',
-      DateTime.now().add(const Duration(days: 4, hours: 7)),
-      DateTime.now().add(const Duration(days: 4, hours: 8)),
+      DateTime.now().add(const Duration(days: 1, hours: 7)),
+      DateTime.now().add(const Duration(days: 1, hours: 8)),
       'B107',
       'Dr. Harris',
       'Class 8',
