@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni_ui/icons.dart';
 
 class FavoriteRestaurantsButton extends StatelessWidget {
@@ -26,9 +27,9 @@ class FavoriteRestaurantsButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            'Favoritos',
-            style: TextStyle(
+          Text(
+            S.of(context).favourite_filter,
+            style: const TextStyle(
                 fontSize: 12, color: Color.fromRGBO(127, 127, 127, 1)),
           ),
           const SizedBox(width: 8), // Space between text and icon

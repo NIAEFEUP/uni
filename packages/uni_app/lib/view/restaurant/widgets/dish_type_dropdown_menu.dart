@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 
 class DishTypeDropdownMenu extends StatelessWidget {
   const DishTypeDropdownMenu(
@@ -32,7 +33,7 @@ class DishTypeDropdownMenu extends StatelessWidget {
             return DropdownMenuItem<int>(
               value: item['value'] as int,
               child: Text(
-                item['label'] as String,
+                S.of(context).dish_type(item['key_label'] as String),
                 style: const TextStyle(
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.w400,

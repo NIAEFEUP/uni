@@ -71,7 +71,7 @@ class RestaurantCardHeader extends StatelessWidget {
             child: Text(
               name,
               style: Theme.of(context).textTheme.headlineSmall,
-              overflow: TextOverflow.ellipsis,
+              overflow: TextOverflow.clip,
             ),
           ),
           Expanded(

@@ -21,6 +21,7 @@ class UniIcons {
   static const vegetarian = PhosphorIconsDuotone.plant;
   static const salad = PhosphorIconsDuotone.carrot;
   static const diet = PhosphorIconsDuotone.clipboardText;
+  static const dishOfTheDay = PhosphorIconsDuotone.calendarDot;
 
   static const heartOutline = PhosphorIconsRegular.heart;
   static const heartFill = PhosphorIconsFill.heart;

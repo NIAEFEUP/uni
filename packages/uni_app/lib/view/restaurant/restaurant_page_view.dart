@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
+import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/widgets/days_of_week_tab_bar.dart';
 import 'package:uni/view/restaurant/widgets/dish_type_dropdown_menu.dart';
 import 'package:uni/view/restaurant/widgets/favorite_restaurants_button.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
 import 'package:uni_ui/cards/restaurant_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
-
-import '../../controller/local_storage/preferences_controller.dart';
-import '../../utils/favorite_widget_type.dart';
 
 class RestaurantPageView extends StatefulWidget {
   const RestaurantPageView({super.key});
@@ -29,16 +30,17 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   late List<Restaurant> aggRestaurant;
   late TabController tabController;
   late ScrollController scrollViewController;
-  final List<Map<String, dynamic>> _items = [
-    {'value': 1, 'label': 'Todos os pratos'},
-    {'value': 2, 'label': 'Pratos de Carne'},
-    {'value': 3, 'label': 'Pratos de Peixe'},
-    {'value': 4, 'label': 'Pratos Vegetarianos'},
-    {'value': 5, 'label': 'Sopas'},
-    {'value': 6, 'label': 'Saladas'},
-    {'value': 7, 'label': 'Pratos de Dieta'},
+  final List<Map<String, dynamic>> dishTypes = [
+    {'value': 1, 'key_label': 'all_dishes'},
+    {'value': 2, 'key_label': 'meat_dishes'},
+    {'value': 3, 'key_label': 'fish_dishes'},
+    {'value': 4, 'key_label': 'vegetarian_dishes'},
+    {'value': 5, 'key_label': 'soups'},
+    {'value': 6, 'key_label': 'salads'},
+    {'value': 7, 'key_label': 'diet_dishes'},
+    {'value': 8, 'key_label': 'dishes_of_the_day'}
   ];
-  int? _selectedItem;
+  int? _selectedDishType;
   late bool isFavoriteFilterOn;
 
   @override
@@ -53,8 +55,8 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     scrollViewController = ScrollController();
     aggRestaurant = []; // Initialize the list
     _initializeRestaurants();
-    isFavoriteFilterOn = false;
-    _selectedItem = 1;
+    isFavoriteFilterOn = PreferencesController.getIsFavoriteRestaurantsFilterOn() ?? false;
+    _selectedDishType = PreferencesController.getSelectedDishType() ?? 1;
   }
 
   void _toggleFavorite(String key) {
@@ -130,11 +132,12 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 DishTypeDropdownMenu(
-                    items: _items,
-                    selectedValue: _selectedItem,
+                    items: dishTypes,
+                    selectedValue: _selectedDishType,
                     onChange: (newValue) {
                       setState(() {
-                        _selectedItem = newValue;
+                        PreferencesController.setSelectedDishType(newValue);
+                        _selectedDishType = newValue;
                       });
                     }),
                 const SizedBox(width: 10),
@@ -142,6 +145,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
                   isFavoriteOn: isFavoriteFilterOn,
                   onToggle: () => {
                     setState(() {
+                      PreferencesController.setIsFavoriteRestaurantsFilterOn(!isFavoriteFilterOn);
                       isFavoriteFilterOn = !isFavoriteFilterOn;
                     }),
                   },
@@ -172,6 +176,8 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     List<Restaurant> restaurants,
     BuildContext context,
   ) {
+    final locale = Provider.of<LocaleNotifier>(context).getLocale();
+
     const daysOfTheWeek = DayOfWeek.values;
 
     final reorderedDays = List.generate(daysOfTheWeek.length,
@@ -181,7 +187,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
       final restaurantsWidgets = restaurants
           .where((element) => element.meals[dayOfWeek]?.isNotEmpty ?? false)
           .map((restaurant) =>
-              createNewRestaurant(context, restaurant, dayOfWeek))
+              createNewRestaurant(context, restaurant, dayOfWeek, locale))
           .where((widget) => widget != null)
           .toList();
 
@@ -216,13 +222,14 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     BuildContext context,
     Restaurant restaurant,
     DayOfWeek dayOfWeek,
+      AppLocale locale,
   ) {
-    final menuItems = getRestaurantMenuItems(dayOfWeek, restaurant) ?? [];
+    final menuItems = getRestaurantMenuItems(dayOfWeek, restaurant, locale) ?? [];
     return menuItems.isNotEmpty
         ? RestaurantCard(
-            name: restaurant.nameEn,
+            name: RestaurantUtils.getLocaleTranslation(locale, restaurant.namePt, restaurant.nameEn),
             icon: RestaurantUtils.getIcon(
-                restaurant.typeEn ?? restaurant.typePt!),
+                restaurant.typeEn ?? restaurant.typePt),
             isFavorite: PreferencesController.getFavoriteRestaurants()
                 .contains(restaurant.namePt + restaurant.period),
             onFavoriteToggle: () =>
@@ -233,13 +240,13 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   }
 
   List<RestaurantMenuItem>? getRestaurantMenuItems(
-      DayOfWeek dayOfWeek, Restaurant restaurant) {
+      DayOfWeek dayOfWeek, Restaurant restaurant, AppLocale locale) {
     final meals = restaurant.meals[dayOfWeek];
     final menuItems = <RestaurantMenuItem>[];
     for (final meal in meals!) {
-      if (RestaurantUtils.mealMatchesFilter(_selectedItem, meal.type)) {
+      if (RestaurantUtils.mealMatchesFilter(_selectedDishType, meal.type)) {
         menuItems.add(RestaurantMenuItem(
-            name: meal.nameEn, icon: RestaurantUtils.getIcon(meal.type)));
+            name: RestaurantUtils.getLocaleTranslation(locale, meal.namePt, meal.nameEn), icon: RestaurantUtils.getIcon(meal.type),),);
       }
     }
     return menuItems;
