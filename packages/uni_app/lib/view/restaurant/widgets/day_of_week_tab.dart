@@ -27,7 +27,7 @@ class DayOfWeekTab extends StatelessWidget {
             height: 50,
             decoration: BoxDecoration(
               color: isSelected
-                  ? const Color.fromRGBO(177, 77, 84, 0.25)
+                  ? Theme.of(context).focusColor
                   : Theme.of(context).scaffoldBackgroundColor,
               borderRadius: BorderRadius.circular(10),
             ),
@@ -37,34 +37,14 @@ class DayOfWeekTab extends StatelessWidget {
                 Text(
                   weekDay,
                   style: isSelected
-                      ? const TextStyle(
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12,
-                          color: Color.fromRGBO(102, 9, 16, 1),
-                        )
-                      : const TextStyle(
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12,
-                          color: Color.fromRGBO(48, 48, 48, 1),
-                        ),
+                      ? Theme.of(context).textTheme.bodySmall
+                      : Theme.of(context).textTheme.bodyLarge,
                 ),
                 Text(
                   day,
                   style: isSelected
-                      ? const TextStyle(
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12,
-                          color: Color.fromRGBO(102, 9, 16, 1),
-                        )
-                      : const TextStyle(
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12,
-                          color: Color.fromRGBO(48, 48, 48, 1),
-                        ),
+                      ? Theme.of(context).textTheme.bodySmall
+                      : Theme.of(context).textTheme.bodyLarge,
                 ),
               ],
             ),

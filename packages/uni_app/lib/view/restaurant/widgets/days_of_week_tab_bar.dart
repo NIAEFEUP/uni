@@ -5,8 +5,8 @@ import 'package:uni/view/restaurant/widgets/day_of_week_tab.dart';
 import '../../locale_notifier.dart';
 
 class DaysOfWeekTabBar extends StatelessWidget {
-
-  const DaysOfWeekTabBar({super.key,
+  const DaysOfWeekTabBar({
+    super.key,
     required this.controller,
   });
 
@@ -26,18 +26,20 @@ class DaysOfWeekTabBar extends StatelessWidget {
     );
   }
 
-
   List<DayOfWeekTab> createTabs(BuildContext context) {
     final weekDay = DateTime.now().weekday;
     final today = DateTime.now();
 
-    final daysOfTheWeek = Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
+    final daysOfTheWeek =
+        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
 
     final daysToSunday = weekDay % DateTime.sunday;
 
-    final reorderedDates = List.generate(daysOfTheWeek.length, (i) => today.subtract(Duration(days: daysToSunday - i)));
+    final reorderedDates = List.generate(daysOfTheWeek.length,
+        (i) => today.subtract(Duration(days: daysToSunday - i)));
 
-    final reorderedDays = List.generate(daysOfTheWeek.length, (i) => daysOfTheWeek[(i + DateTime.saturday) % DateTime.sunday]);
+    final reorderedDays = List.generate(daysOfTheWeek.length,
+        (i) => daysOfTheWeek[(i + DateTime.saturday) % DateTime.sunday]);
 
     final tabs = <DayOfWeekTab>[];
     for (var i = 0; i < reorderedDays.length; i++) {
@@ -55,9 +57,8 @@ class DaysOfWeekTabBar extends StatelessWidget {
     return tabs;
   }
 
-
   String toShortVersion(String dayOfTheWeek) {
-    final match = RegExp('^[a-zA-Z]+').firstMatch(dayOfTheWeek);
+    final match = RegExp(r'^\p{L}+', unicode: true).firstMatch(dayOfTheWeek);
     if (match != null) {
       final matchedString = match.group(0)!;
       final shortened = matchedString.length >= 3
@@ -67,5 +68,4 @@ class DaysOfWeekTabBar extends StatelessWidget {
     }
     return 'Blank';
   }
-
 }

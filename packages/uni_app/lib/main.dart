@@ -50,7 +50,6 @@ import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/settings/settings.dart';
 import 'package:uni/view/splash/splash.dart';
-import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
 import 'package:uni/view/transports/transports.dart';
 import 'package:uni_ui/theme.dart';
@@ -242,7 +241,6 @@ class ApplicationState extends State<Application> {
           title: 'uni',
           navigatorKey: Application.navigatorKey,
           theme: lightTheme,
-          darkTheme: applicationDarkTheme,
           themeMode: themeNotifier.getTheme(),
           locale: localeNotifier.getLocale().localeCode,
           localizationsDelegates: const [

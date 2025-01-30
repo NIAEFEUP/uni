@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 
 class DishTypeDropdownMenu extends StatelessWidget {
-  const DishTypeDropdownMenu(
-      {super.key,
-      required this.items,
-      required this.selectedValue,
-      required this.onChange,});
+  const DishTypeDropdownMenu({
+    super.key,
+    required this.items,
+    required this.selectedValue,
+    required this.onChange,
+  });
 
   final List<Map<String, dynamic>> items;
   final int? selectedValue;
@@ -16,7 +17,7 @@ class DishTypeDropdownMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: const Color.fromRGBO(255, 245, 243, 1),
+        color: Theme.of(context).colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(50),
       ),
       child: Padding(
@@ -24,9 +25,9 @@ class DishTypeDropdownMenu extends StatelessWidget {
         child: DropdownButton<int>(
           underline: const SizedBox(),
           isDense: true,
-          iconEnabledColor: const Color.fromRGBO(127, 127, 127, 1),
+          iconEnabledColor: Theme.of(context).shadowColor,
           borderRadius: BorderRadius.circular(12),
-          dropdownColor: const Color.fromRGBO(255, 245, 243, 1),
+          dropdownColor: Theme.of(context).colorScheme.surfaceContainer,
           value: selectedValue,
           onChanged: onChange,
           items: items.map<DropdownMenuItem<int>>((item) {
@@ -34,12 +35,7 @@ class DishTypeDropdownMenu extends StatelessWidget {
               value: item['value'] as int,
               child: Text(
                 S.of(context).dish_type(item['key_label'] as String),
-                style: const TextStyle(
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
-                  color: Color.fromRGBO(127, 127, 127, 1),
-                ),
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             );
           }).toList(),
