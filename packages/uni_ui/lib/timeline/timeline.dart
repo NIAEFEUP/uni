@@ -35,7 +35,7 @@ class _TimelineState extends State<Timeline> {
 
     _itemPositionsListener.itemPositions.addListener(() {
       final positions = _itemPositionsListener.itemPositions.value;
-      if (positions.isNotEmpty) {
+      if (positions.isNotEmpty && widget.content.length > 1) {
         final firstVisibleIndex = positions
             .where((ItemPosition position) => position.itemLeadingEdge >= 0)
             .reduce((ItemPosition current, ItemPosition next) =>

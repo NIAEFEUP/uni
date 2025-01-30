@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/utils/time/week.dart';
-import 'package:uni/view/academic_path/widgets/academic_schedule_card.dart';
 import 'package:uni/view/academic_path/widgets/empty_week.dart';
+import 'package:uni/view/academic_path/widgets/schedule_day_timeline.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/timeline/timeline.dart';
 

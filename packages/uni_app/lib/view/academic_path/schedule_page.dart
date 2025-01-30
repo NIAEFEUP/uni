@@ -21,7 +21,7 @@ class SchedulePage extends StatelessWidget {
         child: LazyConsumer<LectureProvider, List<Lecture>>(
           builder: (context, lectures) {
             return SchedulePageView(
-              getMockLectures(),
+              getMockLectures(), // change to lectures
               now: now,
             );
           },
