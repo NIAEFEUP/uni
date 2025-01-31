@@ -9,7 +9,7 @@ import 'package:uni_ui/cards/timeline_card.dart';
 
 class ExamHomeCard extends GenericHomecard {
   const ExamHomeCard({
-    required super.title,
+    super.title = 'Exams',
     super.key,
   });
 

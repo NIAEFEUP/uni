@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/utils/favorite_widget_type2.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni/view/home/widgets/uni_icon.dart';
@@ -17,14 +20,17 @@ class HomePageView2 extends StatefulWidget {
 }
 
 class HomePageView2State extends State<HomePageView2> {
-  List<GenericHomecard> favoriteCards = [
-    const ExamHomeCard(title: 'Exams'),
-    const ScheduleHomeCard(title: 'Schedule'),
-    const LibraryHomeCard(title: 'Library Occupation'),
-    //TODO: restaurant
-    const CalendarHomeCard(title: 'Calendar'),
-    //TODO: services
-  ];
+  List<FavoriteWidgetType2> favoriteCards =
+      PreferencesController.getFavoriteCards2();
+
+  static Map<FavoriteWidgetType2, GenericHomecard> typeToCard = {
+    FavoriteWidgetType2.schedule: const ScheduleHomeCard(),
+    FavoriteWidgetType2.exams: const ExamHomeCard(),
+    FavoriteWidgetType2.library: const LibraryHomeCard(),
+    // FavoriteWidgetType2.restaurants:
+    FavoriteWidgetType2.calendar: const CalendarHomeCard(),
+    // FavoriteWidgetType2.ucs:
+  };
 
   @override
   void initState() {
@@ -34,6 +40,14 @@ class HomePageView2State extends State<HomePageView2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => {
+          Navigator.pushNamed(
+            context,
+            '/${NavigationItem.navEditPersonalArea.route}',
+          ),
+        },
+      ),
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: homeAppBar(context),
       bottomNavigationBar: const AppBottomNavbar(),
@@ -44,7 +58,7 @@ class HomePageView2State extends State<HomePageView2> {
           separatorBuilder: (_, __) => const SizedBox(
             height: 10,
           ),
-          itemBuilder: (_, index) => favoriteCards[index],
+          itemBuilder: (_, index) => typeToCard[favoriteCards[index]],
         ),
       ),
     );

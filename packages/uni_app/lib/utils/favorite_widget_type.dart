@@ -1,8 +1,8 @@
 enum FavoriteWidgetType {
   exams,
   schedule,
-  printBalance,
   account,
+  printBalance,
   libraryOccupation(faculties: {'feup'}),
   busStops,
   restaurant;

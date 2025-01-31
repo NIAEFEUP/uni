@@ -15,8 +15,8 @@ class DraggableElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Draggable(
-      dragAnchorStrategy: pointerDragAnchorStrategy,
+    return LongPressDraggable(
+      // dragAnchorStrategy: pointerDragAnchorStrategy,
       data: data,
       feedback: ClipSmoothRect(
         radius: SmoothBorderRadius(
@@ -25,23 +25,13 @@ class DraggableElement extends StatelessWidget {
         ),
         child: feedback,
       ),
-      childWhenDragging: Container(), // TODO: change this
-      child: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 6,
-              color: Colors.black.withOpacity(0.2),
-            ),
-          ],
+      childWhenDragging: const SizedBox.shrink(), // TODO: change this
+      child: ClipSmoothRect(
+        radius: SmoothBorderRadius(
+          cornerRadius: 15,
+          cornerSmoothing: 1,
         ),
-        child: ClipSmoothRect(
-          radius: SmoothBorderRadius(
-            cornerRadius: 15,
-            cornerSmoothing: 1,
-          ),
-          child: child,
-        ),
+        child: child,
       ),
     );
   }

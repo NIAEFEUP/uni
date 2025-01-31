@@ -40,7 +40,8 @@ import 'package:uni/view/common_widgets/page_transition.dart';
 import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/exams/exams.dart';
 import 'package:uni/view/faculty/faculty.dart';
-import 'package:uni/view/home/home.dart';
+import 'package:uni/view/home/edit_home.dart';
+import 'package:uni/view/home/home2.dart';
 import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/locations/locations.dart';
@@ -56,8 +57,6 @@ import 'package:uni/view/transports/transports.dart';
 import 'package:uni_ui/theme.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:workmanager/workmanager.dart';
-
-import 'view/home/home2.dart';
 
 SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
@@ -260,6 +259,11 @@ class ApplicationState extends State<Application> {
             final transitions = {
               '/splash': PageTransition.makePageTransition(
                 page: const SplashScreenView(),
+                settings: settings,
+              ),
+              '/${NavigationItem.navEditPersonalArea.route}':
+                  PageTransition.splashTransitionRoute(
+                page: const EditHomeView(),
                 settings: settings,
               ),
               '/${NavigationItem.navLogin.route}':

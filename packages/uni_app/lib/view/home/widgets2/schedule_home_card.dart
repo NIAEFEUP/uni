@@ -12,7 +12,7 @@ import 'package:uni_ui/cards/timeline_card.dart';
 class ScheduleHomeCard extends GenericHomecard {
   const ScheduleHomeCard({
     super.key,
-    required super.title,
+    super.title = 'Schedule',
   });
 
   @override

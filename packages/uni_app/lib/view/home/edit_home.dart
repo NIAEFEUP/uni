@@ -1,5 +1,8 @@
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/utils/favorite_widget_type2.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets2/edit/draggable_square.dart';
 import 'package:uni/view/home/widgets2/edit/draggable_tile.dart';
 
@@ -14,29 +17,93 @@ class EditHomeViewState extends State<EditHomeView> {
   List<DraggableTile> activeCards = [];
   List<DraggableSquare> listlessCards = [];
 
+  (String, Icon) formatDraggableTile(FavoriteWidgetType2 favorite) {
+    String title;
+    Icon icon;
+
+    switch (favorite.name) {
+      case 'schedule':
+        title = 'Schedule';
+        icon = const Icon(Icons.schedule);
+      case 'exams':
+        title = 'Exams';
+        icon = const Icon(Icons.school);
+      case 'library':
+        title = 'Library';
+        icon = const Icon(Icons.local_library);
+      case 'restaurants':
+        title = 'Restaurants';
+        icon = const Icon(Icons.restaurant);
+      case 'calendar':
+        title = 'Calendar';
+        icon = const Icon(Icons.calendar_today);
+      case 'ucs':
+        title = 'UCS';
+        icon = const Icon(Icons.account_balance);
+      default:
+        title = '';
+        icon = const Icon(Icons.help);
+    }
+    return (title, icon);
+  }
+
   @override
   void initState() {
     super.initState();
-    activeCards = [
-      const DraggableTile(icon: Icon(Icons.schedule), title: 'Schedule'),
-      const DraggableTile(icon: Icon(Icons.map), title: 'Map'),
-    ];
-    listlessCards = [
-      const DraggableSquare(
-        icon: Icon(
-          Icons.calendar_month,
-          size: 32,
+
+    const allCards = FavoriteWidgetType2.values;
+    final favoriteCards = PreferencesController.getFavoriteCards2();
+
+    activeCards = favoriteCards.map((favorite) {
+      final data = formatDraggableTile(favorite);
+      return DraggableTile(icon: data.$2, title: data.$1);
+    }).toList();
+
+    listlessCards =
+        allCards.where((card) => !favoriteCards.contains(card)).map((favorite) {
+      final data = formatDraggableTile(favorite);
+      return DraggableSquare(icon: data.$2, title: data.$1);
+    }).toList();
+  }
+
+  void saveCards() {
+    PreferencesController.saveFavoriteCards2(
+      activeCards
+          .map(
+            (tile) => FavoriteWidgetType2.values.firstWhere(
+              (favorite) => favorite.name == tile.title.toLowerCase(),
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  void addCard(DraggableSquare card) {
+    setState(() {
+      activeCards.add(
+        DraggableTile(
+          icon: card.icon,
+          title: card.title,
         ),
-        title: 'Calendar',
-      ),
-      const DraggableSquare(
-        icon: Icon(
-          Icons.calendar_month,
-          size: 32,
+      );
+      listlessCards.remove(card);
+    });
+
+    saveCards();
+  }
+
+  void removeCard(DraggableTile card) {
+    setState(() {
+      listlessCards.add(
+        DraggableSquare(
+          icon: card.icon,
+          title: card.title,
         ),
-        title: 'Calendar',
-      ),
-    ];
+      );
+      activeCards.remove(card);
+    });
+
+    saveCards();
   }
 
   @override
@@ -99,24 +166,14 @@ class EditHomeViewState extends State<EditHomeView> {
               },
               itemCount: activeCards.length + (candidate.isNotEmpty ? 1 : 0),
               separatorBuilder: (_, __) => const SizedBox(
-                height: 20,
+                height: 15,
               ),
             ),
           );
         },
-        onAcceptWithDetails: (details) {
-          setState(() {
-            activeCards.add(
-              DraggableTile(
-                icon: details.data.icon,
-                title: details.data.title,
-              ),
-            );
-            listlessCards.remove(details.data);
-          });
-        },
+        onAcceptWithDetails: (details) => addCard(details.data),
       ),
-      bottomSheet: DragTarget<DraggableTile>(
+      bottomNavigationBar: DragTarget<DraggableTile>(
         builder: (context, candidate, rejected) {
           return Container(
             padding: const EdgeInsets.symmetric(vertical: 35),
@@ -170,25 +227,18 @@ class EditHomeViewState extends State<EditHomeView> {
                           ],
                   ),
                 ),
-                Text(
-                  'Cancel | Edit',
-                  style: Theme.of(context).textTheme.titleLarge,
+                ElevatedButton(
+                  onPressed: () => Navigator.pushNamed(
+                    context,
+                    '/${NavigationItem.navPersonalArea.route}',
+                  ),
+                  child: const Text('Save'),
                 ), // TODO: change
               ],
             ),
           );
         },
-        onAcceptWithDetails: (details) {
-          setState(() {
-            listlessCards.add(
-              DraggableSquare(
-                icon: details.data.icon,
-                title: details.data.title,
-              ),
-            );
-            activeCards.remove(details.data);
-          });
-        },
+        onAcceptWithDetails: (details) => removeCard(details.data),
       ),
     );
   }
