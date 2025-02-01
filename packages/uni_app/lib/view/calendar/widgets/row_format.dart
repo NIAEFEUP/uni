@@ -3,8 +3,9 @@ import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/view/calendar/widgets/event_tile.dart';
 import 'package:uni/view/calendar/widgets/dates_tile.dart';
 import 'package:uni/model/entities/app_locale.dart';
+
 class RowFormat extends StatelessWidget {
-  const RowFormat({super.key,required this.event,required this.locale});
+  const RowFormat({super.key, required this.event, required this.locale});
   final CalendarEvent event;
   final AppLocale locale;
 
@@ -17,7 +18,11 @@ class RowFormat extends StatelessWidget {
         Container(
           width: 100,
           alignment: Alignment.center,
-          child: DatesTile(date:event.date,start:event.start,end:event.finish,locale:locale),
+          child: DatesTile(
+              date: event.date,
+              start: event.start,
+              end: event.finish,
+              locale: locale),
         ),
         Column(
           children: [
@@ -28,13 +33,13 @@ class RowFormat extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                color: Theme.of(context).colorScheme.primary,
-                width: 4.0,
+                  color: Theme.of(context).colorScheme.primary,
+                  width: 4.0,
                 ),
               ),
             ),
             Container(
-              margin: EdgeInsets.only(bottom:7),
+              margin: EdgeInsets.only(bottom: 7),
               width: 4,
               height: 40,
               decoration: BoxDecoration(
@@ -47,7 +52,7 @@ class RowFormat extends StatelessWidget {
             ),
           ],
         ),
-          EventTile(text: event.name),
+        EventTile(text: event.name),
       ],
     );
   }

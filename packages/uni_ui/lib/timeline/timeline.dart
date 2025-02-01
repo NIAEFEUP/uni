@@ -129,7 +129,7 @@ class _TimelineState extends State<Timeline> {
           child: ScrollablePositionedList.builder(
             itemCount: widget.content.length,
             itemScrollController: _itemScrollController,
-              itemPositionsListener: _itemPositionsListener,
+            itemPositionsListener: _itemPositionsListener,
             itemBuilder: (context, index) {
               return widget.content[index];
             },

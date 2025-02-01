@@ -20,8 +20,6 @@ class CalendarPageView extends StatefulWidget {
 }
 
 class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
-
-
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<CalendarProvider, List<CalendarEvent>>(
@@ -40,7 +38,9 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
     final locale = Provider.of<LocaleNotifier>(context).getLocale();
     return SingleChildScrollView(
       child: Column(
-        children: calendar.map((event) => RowFormat(event:event, locale:locale)).toList(),
+        children: calendar
+            .map((event) => RowFormat(event: event, locale: locale))
+            .toList(),
       ),
     );
   }
@@ -80,4 +80,3 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
   String? getTitle() =>
       S.of(context).nav_title(NavigationItem.navCalendar.route);
 }
-

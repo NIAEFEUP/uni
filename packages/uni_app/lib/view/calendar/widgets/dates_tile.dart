@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:uni/model/entities/app_locale.dart';
+
 class DatesTile extends StatelessWidget {
-  DatesTile({required this.date,required this.start,required this.end,required this.locale,super.key});
+  DatesTile(
+      {required this.date,
+      required this.start,
+      required this.end,
+      required this.locale,
+      super.key});
   final String date;
   final AppLocale locale;
   DateTime? start;
   DateTime? end;
 
-
-
   @override
   Widget build(BuildContext context) {
-    if(date=='TBD'){
+    if (date == 'TBD') {
       return Padding(
         padding: EdgeInsets.all(5),
         child: Text(
@@ -23,9 +27,8 @@ class DatesTile extends StatelessWidget {
           ),
         ),
       );
-    }
-    else{
-      final List<String> eventperiod=EventPeriod();
+    } else {
+      final List<String> eventperiod = EventPeriod();
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -49,8 +52,8 @@ class DatesTile extends StatelessWidget {
     }
   }
 
-  List<String> EventPeriod(){
-    List<String> Period=[];
+  List<String> EventPeriod() {
+    List<String> Period = [];
     String Timeperiod;
     String month;
     String? month1;
@@ -58,37 +61,37 @@ class DatesTile extends StatelessWidget {
     String? day1;
     String year;
     String? year1;
-    if(start==null){
+    if (start == null) {
       Period.add("this sucks");
       Period.add(date);
       return Period;
     }
-    year=start!.year.toString();
-    month=Shortmonth(start!);
-    day=start!.day.toString();
-    if(end==null){
-      Timeperiod='$day $month';
+    year = start!.year.toString();
+    month = Shortmonth(start!);
+    day = start!.day.toString();
+    if (end == null) {
+      Timeperiod = '$day $month';
       Period.add(Timeperiod);
       Period.add(year);
       return Period;
     }
-    day1=end!.day.toString();
-    year1=end!.year.toString();
-    month1=Shortmonth(end!);
-    if(year==year1 && month1==month) {
+    day1 = end!.day.toString();
+    year1 = end!.year.toString();
+    month1 = Shortmonth(end!);
+    if (year == year1 && month1 == month) {
       Timeperiod = '$day-$day1 $month';
       Period.add(Timeperiod);
       Period.add(year);
       return Period;
     }
-    if(year==year1 && month1!=month){
-      Timeperiod='$day $month-$day1 $month1';
+    if (year == year1 && month1 != month) {
+      Timeperiod = '$day $month-$day1 $month1';
       Period.add(Timeperiod);
       Period.add(year);
       return Period;
     }
-    if(year1!=year){
-      Timeperiod='$day $month-$day1 $month1';
+    if (year1 != year) {
+      Timeperiod = '$day $month-$day1 $month1';
       Period.add(Timeperiod);
       Period.add(year1);
       return Period;
@@ -98,10 +101,9 @@ class DatesTile extends StatelessWidget {
     return Period;
   }
 
-  String Shortmonth(DateTime date){
-    return DateFormat.MMM(locale.localeCode.languageCode).format(date).replaceFirst('.', '');
+  String Shortmonth(DateTime date) {
+    return DateFormat.MMM(locale.localeCode.languageCode)
+        .format(date)
+        .replaceFirst('.', '');
   }
-
-
-
 }
