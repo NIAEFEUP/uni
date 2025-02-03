@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/utils/favorite_widget_type2.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
@@ -10,6 +12,7 @@ import 'package:uni/view/home/widgets2/exam_home_card.dart';
 import 'package:uni/view/home/widgets2/generic_home_card.dart';
 import 'package:uni/view/home/widgets2/library_home_card.dart';
 import 'package:uni/view/home/widgets2/schedule_home_card.dart';
+import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/icons.dart';
 
@@ -23,6 +26,8 @@ class HomePageView2 extends StatefulWidget {
 class HomePageView2State extends State<HomePageView2> {
   List<FavoriteWidgetType2> favoriteCards =
       PreferencesController.getFavoriteCards2();
+
+  double appBarSize = 100;
 
   static Map<FavoriteWidgetType2, GenericHomecard> typeToCard = {
     FavoriteWidgetType2.schedule: const ScheduleHomeCard(),
@@ -72,7 +77,7 @@ class HomePageView2State extends State<HomePageView2> {
 
   PreferredSize homeAppBar(BuildContext context) {
     return PreferredSize(
-      preferredSize: const Size.fromHeight(200),
+      preferredSize: Size.fromHeight(appBarSize),
       child: Container(
         decoration: const BoxDecoration(
           gradient: RadialGradient(
@@ -85,11 +90,11 @@ class HomePageView2State extends State<HomePageView2> {
             stops: [0, 1],
           ),
         ),
-        child: const Padding(
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
           child: Column(
             children: [
-              SafeArea(
+              const SafeArea(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -99,17 +104,35 @@ class HomePageView2State extends State<HomePageView2> {
                 ),
               ),
               Expanded(
-                child: Column(
-                  // TODO: better implementation avoiding column
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ScheduleCard(
-                      name: 'Computer Laboratory',
-                      acronym: 'LCOM',
-                      room: 'B315',
-                      type: 'MT',
-                    ),
-                  ],
+                child: LazyConsumer<LectureProvider, List<Lecture>>(
+                  builder: (context, lectures) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      if (lectures.isNotEmpty) {
+                        setState(() {
+                          appBarSize = 200;
+                        });
+                      }
+                    });
+                    return Column(
+                      // TODO: better implementation avoiding column
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ScheduleCard(
+                          name: lectures[0].subject,
+                          acronym: 'TESTE',
+                          room: lectures[0].room,
+                          type: lectures[0].typeClass,
+                        ),
+                      ],
+                    );
+                  },
+                  hasContent: (lectures) => lectures.isNotEmpty,
+                  onNullContent: const SizedBox.shrink(),
+                  mapper: (lectures) => lectures
+                      .where(
+                        (lecture) => lecture.endTime.isAfter(DateTime.now()),
+                      )
+                      .toList(),
                 ),
               ),
             ],
