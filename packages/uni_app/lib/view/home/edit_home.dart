@@ -5,6 +5,7 @@ import 'package:uni/utils/favorite_widget_type2.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets2/edit/draggable_square.dart';
 import 'package:uni/view/home/widgets2/edit/draggable_tile.dart';
+import 'package:uni_ui/icons.dart';
 
 class EditHomeView extends StatefulWidget {
   const EditHomeView({super.key});
@@ -24,25 +25,25 @@ class EditHomeViewState extends State<EditHomeView> {
     switch (favorite.name) {
       case 'schedule':
         title = 'Schedule';
-        icon = const Icon(Icons.schedule);
+        icon = const UniIcon(UniIcons.lecture);
       case 'exams':
         title = 'Exams';
-        icon = const Icon(Icons.school);
+        icon = const UniIcon(UniIcons.exam);
       case 'library':
         title = 'Library';
-        icon = const Icon(Icons.local_library);
+        icon = const UniIcon(UniIcons.library);
       case 'restaurants':
         title = 'Restaurants';
-        icon = const Icon(Icons.restaurant);
+        icon = const UniIcon(UniIcons.restaurant);
       case 'calendar':
         title = 'Calendar';
-        icon = const Icon(Icons.calendar_today);
+        icon = const UniIcon(UniIcons.calendar);
       case 'ucs':
         title = 'UCS';
-        icon = const Icon(Icons.account_balance);
+        icon = const UniIcon(UniIcons.graduationCap);
       default:
         title = '';
-        icon = const Icon(Icons.help);
+        icon = const UniIcon(UniIcons.graduationCap);
     }
     return (title, icon);
   }

@@ -98,7 +98,7 @@ class HomePageView2State extends State<HomePageView2> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    logo.UniIcon(iconColor: Colors.white),
+                    logo.UniIcon(iconColor: Colors.white), // TODO: #1450
                     ProfileButton(),
                   ],
                 ),

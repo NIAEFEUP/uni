@@ -6,6 +6,8 @@ class UniIcons {
   static const lecture = PhosphorIconsDuotone.lectern;
   static const exam = PhosphorIconsDuotone.exam;
   static const course = PhosphorIconsDuotone.certificate;
+  static const library = PhosphorIconsDuotone.books;
+  static const calendar = PhosphorIconsDuotone.calendar;
 
   static const home = PhosphorIconsDuotone.house;
   static const graduationCap = PhosphorIconsDuotone.graduationCap;
@@ -13,6 +15,7 @@ class UniIcons {
   static const faculty = PhosphorIconsDuotone.buildings;
   static const map = PhosphorIconsDuotone.mapTrifold;
   static const edit = PhosphorIconsDuotone.pencilSimple;
+  static const more = PhosphorIconsDuotone.dotsThreeOutlineVertical;
 }
 
 // The same as default Icon class from material.dart but allowing to use PhosphorIcons duotone icons

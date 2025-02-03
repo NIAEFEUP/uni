@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/home/widgets2/edit/draggable_element.dart';
+import 'package:uni_ui/icons.dart';
 
 class DraggableTile extends StatelessWidget {
   const DraggableTile({super.key, required this.icon, required this.title});
@@ -35,7 +36,7 @@ class DraggableTile extends StatelessWidget {
           color: Theme.of(context).colorScheme.secondary,
         ),
         child: ListTile(
-          trailing: const Icon(Icons.more_vert),
+          trailing: const UniIcon(UniIcons.more),
           title: Text(
             title,
             style: Theme.of(context).textTheme.headlineSmall,
