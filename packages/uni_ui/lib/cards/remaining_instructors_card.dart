@@ -27,9 +27,7 @@ class RemainingInstructorsCard extends StatelessWidget {
         ),
         child: Container(
           padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: CardTheme.of(context).color,
-          ),
+
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

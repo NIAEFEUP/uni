@@ -164,37 +164,30 @@ class CourseUnitSheetView extends StatelessWidget {
     required Widget content,
     required BuildContext context,
   }) {
-    if (content is HtmlWidget && content.html.length > 300) {
-      return Column(
+    return Padding(
+      padding: const EdgeInsets.only(top: 25),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          GenericExpandable(
-            title: title,
-            content: content,
-          ),
-          const Opacity(
-            opacity: 0.25,
-            child: Divider(color: Colors.grey),
-          ),
+          if (content is HtmlWidget && content.html.length > 300)
+            GenericExpandable(
+              title: title,
+              content: content,
+            )
+          else ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+              ),
+              child: Text(
+                title,
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+            ),
+            content,
+          ],
         ],
-      );
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Text(
-            title,
-            style: Theme.of(context).textTheme.headlineLarge,
-          ),
-        ),
-        content,
-        const Opacity(
-          opacity: 0.25,
-          child: Divider(color: Colors.grey),
-        ),
-      ],
+      ),
     );
   }
 }

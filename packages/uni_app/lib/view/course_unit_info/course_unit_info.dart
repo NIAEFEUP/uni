@@ -96,15 +96,12 @@ class CourseUnitDetailPageViewState
             ],
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: TabBarView(
-                children: [
-                  _courseUnitSheetView(context),
-                  _courseUnitClassesView(context),
-                  _courseUnitFilesView(context),
-                ],
-              ),
+            child: TabBarView(
+              children: [
+                _courseUnitSheetView(context),
+                _courseUnitClassesView(context),
+                _courseUnitFilesView(context),
+              ],
             ),
           ),
         ],
