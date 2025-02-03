@@ -352,12 +352,6 @@
   "@noExamsScheduled": {},
   "bibliography": "Bibliografia",
   "@bibliography": {},
-  "moreInstructors": "+{number} mais",
-  "@moreInstructors": {
-    "placeholders": {
-      "number": {}
-    }
-  },
   "courseRegent": "Regente da Cadeira",
   "@courseRegent": {},
   "instructor": "Docente",

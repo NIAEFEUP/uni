@@ -8,12 +8,10 @@ class RemainingInstructorsCard extends StatelessWidget {
   const RemainingInstructorsCard({
     super.key,
     required this.remainingCount,
-    required this.remainingInstructorsLabel,
     required this.profileImages,
   });
 
   final int remainingCount;
-  final String remainingInstructorsLabel;
   final List<ImageProvider?> profileImages;
 
   @override
@@ -27,33 +25,59 @@ class RemainingInstructorsCard extends StatelessWidget {
         ),
         child: Container(
           padding: const EdgeInsets.all(10),
-
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
-                width: profileImages.length * _avatarRadius * 1.65,
-                height: 40,
+                width: (profileImages.length + 1) * _avatarRadius * 1.4,
+                height: _avatarRadius * 2,
                 child: Stack(
-                  children: profileImages.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final image = entry.value;
-                    return Positioned(
-                      left: index * _avatarRadius * 1.4,
-                      child: CircleAvatar(
-                        radius: _avatarRadius,
-                        backgroundImage: image ??
-                            const AssetImage(
-                                'assets/images/profile_placeholder.png'),
+                  clipBehavior: Clip.none,
+                  children: [
+                    ...profileImages.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final image = entry.value;
+                      return Positioned(
+                        left: index * _avatarRadius * 1.7,
+                        child: CircleAvatar(
+                          radius: _avatarRadius,
+                          backgroundImage: image ??
+                              const AssetImage(
+                                  'assets/images/profile_placeholder.png'),
+                        ),
+                      );
+                    }).toList(),
+                    Positioned(
+                      left: profileImages.length * _avatarRadius * 1.7,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0x3F000000),
+                              blurRadius: 1,
+                              offset: Offset(0, 2),
+                              spreadRadius: 0,
+                            ),
+                          ],
+                        ),
+                        child: CircleAvatar(
+                          radius: _avatarRadius,
+                          backgroundColor: CardTheme.of(context).color,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Text(
+                                '+${remainingCount}',
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                    );
-                  }).toList(),
-                ),
-              ),
-              Flexible(
-                child: Text(
-                  remainingInstructorsLabel,
-                  style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ],
                 ),
               ),
             ],

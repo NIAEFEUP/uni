@@ -352,12 +352,6 @@
   "@noExamsScheduled": {},
   "bibliography": "Bibliography",
   "@bibliography": {},
-  "moreInstructors": "{number} more",
-  "@moreInstructors": {
-    "placeholders": {
-      "number": {}
-    }
-  },
   "courseRegent": "Course Regent",
   "@courseRegent": {},
   "instructor": "Instructor",
