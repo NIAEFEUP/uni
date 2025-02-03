@@ -4,13 +4,14 @@ import 'package:uni/utils/favorite_widget_type2.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
-import 'package:uni/view/home/widgets/uni_icon.dart';
+import 'package:uni/view/home/widgets/uni_icon.dart' as logo;
 import 'package:uni/view/home/widgets2/calendar_home_card.dart';
 import 'package:uni/view/home/widgets2/exam_home_card.dart';
 import 'package:uni/view/home/widgets2/generic_home_card.dart';
 import 'package:uni/view/home/widgets2/library_home_card.dart';
 import 'package:uni/view/home/widgets2/schedule_home_card.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
+import 'package:uni_ui/icons.dart';
 
 class HomePageView2 extends StatefulWidget {
   const HomePageView2({super.key});
@@ -40,13 +41,18 @@ class HomePageView2State extends State<HomePageView2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Colors.white,
+        shape: const CircleBorder(),
         onPressed: () => {
           Navigator.pushNamed(
             context,
             '/${NavigationItem.navEditPersonalArea.route}',
           ),
         },
+        child: const UniIcon(UniIcons.edit),
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: homeAppBar(context),
@@ -87,7 +93,7 @@ class HomePageView2State extends State<HomePageView2> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    UniIcon(iconColor: Colors.white),
+                    logo.UniIcon(iconColor: Colors.white),
                     ProfileButton(),
                   ],
                 ),
