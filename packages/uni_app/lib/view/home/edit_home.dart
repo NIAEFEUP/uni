@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/utils/favorite_widget_type2.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/home/widgets2/edit/draggable_element.dart';
 import 'package:uni/view/home/widgets2/edit/draggable_square.dart';
 import 'package:uni/view/home/widgets2/edit/draggable_tile.dart';
 import 'package:uni_ui/icons.dart';
@@ -48,6 +49,18 @@ class EditHomeViewState extends State<EditHomeView> {
     return (title, icon);
   }
 
+  void removeActiveWhileDragging(DraggableTile draggable) {
+    setState(() {
+      activeCards.remove(draggable);
+    });
+  }
+
+  void removeListlessWhileDragging(DraggableSquare draggable) {
+    setState(() {
+      listlessCards.remove(draggable);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -57,13 +70,21 @@ class EditHomeViewState extends State<EditHomeView> {
 
     activeCards = favoriteCards.map((favorite) {
       final data = formatDraggableTile(favorite);
-      return DraggableTile(icon: data.$2, title: data.$1);
+      return DraggableTile(
+        icon: data.$2,
+        title: data.$1,
+        callback: removeActiveWhileDragging,
+      );
     }).toList();
 
     listlessCards =
         allCards.where((card) => !favoriteCards.contains(card)).map((favorite) {
       final data = formatDraggableTile(favorite);
-      return DraggableSquare(icon: data.$2, title: data.$1);
+      return DraggableSquare(
+        icon: data.$2,
+        title: data.$1,
+        callback: removeListlessWhileDragging,
+      );
     }).toList();
   }
 
@@ -79,29 +100,29 @@ class EditHomeViewState extends State<EditHomeView> {
     );
   }
 
-  void addCard(DraggableSquare card) {
+  void addCard((String, Icon) card) {
     setState(() {
       activeCards.add(
         DraggableTile(
-          icon: card.icon,
-          title: card.title,
+          icon: card.$2,
+          title: card.$1,
+          callback: removeActiveWhileDragging,
         ),
       );
-      listlessCards.remove(card);
     });
 
     saveCards();
   }
 
-  void removeCard(DraggableTile card) {
+  void removeCard((String, Icon) card) {
     setState(() {
       listlessCards.add(
         DraggableSquare(
-          icon: card.icon,
-          title: card.title,
+          icon: card.$2,
+          title: card.$1,
+          callback: removeListlessWhileDragging,
         ),
       );
-      activeCards.remove(card);
     });
 
     saveCards();
@@ -114,7 +135,7 @@ class EditHomeViewState extends State<EditHomeView> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(125),
         child: Container(
-          height: 125,
+          height: 75,
           decoration: const BoxDecoration(
             gradient: RadialGradient(
               colors: [
@@ -138,7 +159,7 @@ class EditHomeViewState extends State<EditHomeView> {
           ),
         ),
       ),
-      body: DragTarget<DraggableSquare>(
+      body: DragTarget<(String, Icon)>(
         builder: (context, candidate, rejected) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -174,7 +195,7 @@ class EditHomeViewState extends State<EditHomeView> {
         },
         onAcceptWithDetails: (details) => addCard(details.data),
       ),
-      bottomNavigationBar: DragTarget<DraggableTile>(
+      bottomNavigationBar: DragTarget<(String, Icon)>(
         builder: (context, candidate, rejected) {
           return Container(
             padding: const EdgeInsets.symmetric(vertical: 35),
@@ -229,12 +250,23 @@ class EditHomeViewState extends State<EditHomeView> {
                   ),
                 ),
                 ElevatedButton(
+                  style: ButtonStyle(
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    backgroundColor: const WidgetStatePropertyAll(Colors.white),
+                  ),
                   onPressed: () => Navigator.pushNamed(
                     context,
                     '/${NavigationItem.navPersonalArea.route}',
                   ),
-                  child: const Text('Save'),
-                ), // TODO: change
+                  child: const Text(
+                    'Save',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
               ],
             ),
           );

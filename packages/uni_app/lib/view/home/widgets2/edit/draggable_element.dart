@@ -7,11 +7,13 @@ class DraggableElement extends StatelessWidget {
     required this.child,
     required this.feedback,
     required this.data,
+    this.callback,
   });
 
   final Widget child;
   final Widget feedback;
   final Object data;
+  final void Function()? callback;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,11 @@ class DraggableElement extends StatelessWidget {
         ),
         child: feedback,
       ),
-      childWhenDragging: const SizedBox.shrink(), // TODO: change this
+      onDragStarted: () {
+        if (callback != null) {
+          callback!.call();
+        }
+      },
       child: ClipSmoothRect(
         radius: SmoothBorderRadius(
           cornerRadius: 15,

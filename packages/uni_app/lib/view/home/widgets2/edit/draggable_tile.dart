@@ -3,15 +3,28 @@ import 'package:uni/view/home/widgets2/edit/draggable_element.dart';
 import 'package:uni_ui/icons.dart';
 
 class DraggableTile extends StatelessWidget {
-  const DraggableTile({super.key, required this.icon, required this.title});
+  const DraggableTile({
+    super.key,
+    required this.icon,
+    required this.title,
+    this.callback,
+  });
 
   final Icon icon;
   final String title;
+  final void Function(DraggableTile)? callback;
+
+  void activeCallback() {
+    if (callback != null) {
+      callback!.call(this);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return DraggableElement(
-      data: this,
+      callback: activeCallback,
+      data: (title, icon),
       feedback: Container(
         decoration:
             BoxDecoration(color: Theme.of(context).colorScheme.secondary),

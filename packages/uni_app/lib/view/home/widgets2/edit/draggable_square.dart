@@ -2,15 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:uni/view/home/widgets2/edit/draggable_element.dart';
 
 class DraggableSquare extends StatelessWidget {
-  const DraggableSquare({super.key, required this.icon, required this.title});
+  const DraggableSquare({
+    super.key,
+    required this.icon,
+    required this.title,
+    this.callback,
+  });
 
   final Icon icon;
   final String title;
+  final void Function(DraggableSquare)? callback;
+
+  void activeCallback() {
+    if (callback != null) {
+      callback!.call(this);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return DraggableElement(
-      data: this,
+      callback: activeCallback,
+      data: (title, icon),
       feedback: Container(
         decoration:
             BoxDecoration(color: Theme.of(context).colorScheme.secondary),
@@ -29,7 +42,7 @@ class DraggableSquare extends StatelessWidget {
             ),
           ],
         ),
-      ), // TODO: maybe list tile as well
+      ),
       child: Container(
         decoration:
             BoxDecoration(color: Theme.of(context).colorScheme.secondary),
