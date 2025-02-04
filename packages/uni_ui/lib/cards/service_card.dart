@@ -17,6 +17,7 @@ class ServiceCard extends StatelessWidget {
     return GenericCard(
       key: key,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -24,7 +25,7 @@ class ServiceCard extends StatelessWidget {
               Flexible(
                 child: Text(
                   name,
-                  softWrap: true ,
+                  softWrap: true,
                   style: Theme.of(context).textTheme.headlineSmall!,
                 ),
               ),
