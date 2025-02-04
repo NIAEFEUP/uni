@@ -350,6 +350,8 @@
   "@assessments": {},
   "noExamsScheduled": "Não há exames agendados",
   "@noExamsScheduled": {},
+  "noInstructors": "Não há docentes atribuídos",
+  "@noInstructors": {},
   "bibliography": "Bibliografia",
   "@bibliography": {},
   "courseRegent": "Regente da Cadeira",

@@ -35,32 +35,40 @@ class CourseUnitSheetView extends StatelessWidget {
         children: [
           _buildSection(
             title: S.of(context).instructors,
-            content: courseUnitSheet.professors.length <= 4
-                ? Wrap(
-                    spacing: _horizontalSpacing,
-                    runSpacing: _verticalSpacing,
-                    children: courseUnitSheet.professors
-                        .map(
-                          (instructor) =>
-                              _InstructorCard(instructor: instructor),
-                        )
-                        .toList(),
+            content: courseUnitSheet.professors.isEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      S.of(context).noInstructors,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
                   )
-                : AnimatedExpandable(
-                    firstChild: _LimitedInstructorsRow(
-                      instructors: courseUnitSheet.professors,
-                    ),
-                    secondChild: Wrap(
-                      spacing: _horizontalSpacing,
-                      runSpacing: _verticalSpacing,
-                      children: courseUnitSheet.professors
-                          .map(
-                            (instructor) =>
-                                _InstructorCard(instructor: instructor),
-                          )
-                          .toList(),
-                    ),
-                  ),
+                : courseUnitSheet.professors.length <= 4
+                    ? Wrap(
+                        spacing: _horizontalSpacing,
+                        runSpacing: _verticalSpacing,
+                        children: courseUnitSheet.professors
+                            .map(
+                              (instructor) =>
+                                  _InstructorCard(instructor: instructor),
+                            )
+                            .toList(),
+                      )
+                    : AnimatedExpandable(
+                        firstChild: _LimitedInstructorsRow(
+                          instructors: courseUnitSheet.professors,
+                        ),
+                        secondChild: Wrap(
+                          spacing: _horizontalSpacing,
+                          runSpacing: _verticalSpacing,
+                          children: courseUnitSheet.professors
+                              .map(
+                                (instructor) =>
+                                    _InstructorCard(instructor: instructor),
+                              )
+                              .toList(),
+                        ),
+                      ),
             context: context,
           ),
           _buildSection(
@@ -265,7 +273,7 @@ class _LimitedInstructorsRow extends StatelessWidget {
                   List.filled(remainingToShow.length, null);
 
               return RemainingInstructorsCard(
-                remainingCount: remaining.length,
+                remainingCount: remaining.length - remainingToShow.length,
                 profileImages: images,
               );
             },

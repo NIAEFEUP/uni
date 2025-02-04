@@ -23,6 +23,7 @@ class UniIcons {
   static const restaurant = PhosphorIconsDuotone.forkKnife;
   static const faculty = PhosphorIconsDuotone.buildings;
   static const map = PhosphorIconsDuotone.mapTrifold;
+  static const arrowSquareOut = PhosphorIconsDuotone.arrowSquareOut;
 }
 
 // The same as default Icon class from material.dart but allowing to use PhosphorIcons duotone icons

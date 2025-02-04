@@ -6,14 +6,13 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/course_units_info_provider.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni/utils/navigation_items.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/tabs/tab_icon.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CourseUnitDetailPageView extends StatefulWidget {
   const CourseUnitDetailPageView(this.courseUnit, {super.key});
@@ -75,10 +74,7 @@ class CourseUnitDetailPageViewState
 
   @override
   Widget? getHeader(BuildContext context) {
-    return PageTitle(
-      center: false,
-      name: widget.courseUnit.name,
-    );
+    return null;
   }
 
   @override
@@ -171,6 +167,24 @@ class CourseUnitDetailPageViewState
   }
 
   @override
-  String? getTitle() =>
-      S.of(context).nav_title(NavigationItem.navCourseUnits.route);
+  String? getTitle() => widget.courseUnit.name;
+
+  @override
+  Widget? getTopRightButton(BuildContext context) {
+    return IconButton(
+      icon: UniIcon(
+        UniIcons.arrowSquareOut,
+        color: Theme.of(context).iconTheme.color,
+      ),
+      onPressed: () async {
+        // If the course unit isn't from FEUP, sigarra redirects to the correct page
+        final url = Uri.parse(
+          'https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=${widget.courseUnit.occurrId}',
+        );
+        if (await canLaunchUrl(url)) {
+          await launchUrl(url);
+        }
+      },
+    );
+  }
 }

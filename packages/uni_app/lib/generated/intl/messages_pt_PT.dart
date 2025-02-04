@@ -24,9 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static m1(time) =>
       "${Intl.plural(time, zero: 'Atualizado há ${time} minutos', one: 'Atualizado há ${time} minuto', other: 'Atualizado há ${time} minutos')}";
 
-  static m2(number) => "+${number} mais";
-
-  static m3(title) => "${Intl.select(title, {
+  static m2(title) => "${Intl.select(title, {
             'horario': 'Horário',
             'exames': 'Exames',
             'area': 'Área Pessoal',
@@ -184,14 +182,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "menus": MessageLookupByLibrary.simpleMessage("Ementas"),
         "min_value_reference":
             MessageLookupByLibrary.simpleMessage("Valor mínimo: 1,00 €"),
-        "moreInstructors": m2,
         "multimedia_center":
             MessageLookupByLibrary.simpleMessage("Centro de multimédia"),
-        "nav_title": m3,
+        "nav_title": m2,
         "news": MessageLookupByLibrary.simpleMessage("Notícias"),
         "no": MessageLookupByLibrary.simpleMessage("Não"),
         "noExamsScheduled":
             MessageLookupByLibrary.simpleMessage("Não há exames agendados"),
+        "noInstructors":
+            MessageLookupByLibrary.simpleMessage("Não há docentes atribuídos"),
         "no_app": MessageLookupByLibrary.simpleMessage(
             "Nenhuma aplicação encontrada para abrir o ficheiro"),
         "no_bus": MessageLookupByLibrary.simpleMessage(

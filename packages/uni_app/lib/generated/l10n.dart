@@ -1778,13 +1778,13 @@ class S {
     );
   }
 
-  /// `{number} more`
-  String moreInstructors(Object number) {
+  /// `No instructors assigned`
+  String get noInstructors {
     return Intl.message(
-      '$number more',
-      name: 'moreInstructors',
+      'No instructors assigned',
+      name: 'noInstructors',
       desc: '',
-      args: [number],
+      args: [],
     );
   }
 

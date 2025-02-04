@@ -350,6 +350,8 @@
   "@assessments": {},
   "noExamsScheduled": "No exams scheduled",
   "@noExamsScheduled": {},
+  "noInstructors": "No instructors assigned",
+  "@noInstructors": {},
   "bibliography": "Bibliography",
   "@bibliography": {},
   "courseRegent": "Course Regent",

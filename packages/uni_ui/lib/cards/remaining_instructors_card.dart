@@ -38,7 +38,7 @@ class RemainingInstructorsCard extends StatelessWidget {
                       final index = entry.key;
                       final image = entry.value;
                       return Positioned(
-                        left: index * _avatarRadius * 1.7,
+                        left: index * _avatarRadius * 1.85,
                         child: CircleAvatar(
                           radius: _avatarRadius,
                           backgroundImage: image ??
@@ -48,7 +48,7 @@ class RemainingInstructorsCard extends StatelessWidget {
                       );
                     }).toList(),
                     Positioned(
-                      left: profileImages.length * _avatarRadius * 1.7,
+                      left: profileImages.length * _avatarRadius * 1.85,
                       child: Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
