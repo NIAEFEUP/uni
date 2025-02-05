@@ -140,6 +140,7 @@ class _TimelineState extends State<Timeline> {
         ),
         Expanded(
           child: ScrollablePositionedList.builder(
+            padding: const EdgeInsets.only(bottom: 88),
             itemCount: widget.content.length,
             itemScrollController: _itemScrollController,
             itemPositionsListener: _itemPositionsListener,

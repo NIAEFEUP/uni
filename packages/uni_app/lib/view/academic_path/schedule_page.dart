@@ -12,16 +12,18 @@ class SchedulePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      body: RefreshIndicator(
+    return MediaQuery.removePadding(
+      context: context,
+      removeBottom:
+          true, // Prevents the extendBody=true from creating a huge gap between each day's content
+      child: RefreshIndicator(
         onRefresh: () async {
           await context.read<LectureProvider>().forceRefresh(context);
         },
         child: LazyConsumer<LectureProvider, List<Lecture>>(
           builder: (context, lectures) {
             return SchedulePageView(
-              getMockLectures(), // change to lectures
+              getMockLectures(), // Change to lectures
               now: now,
             );
           },
