@@ -27,7 +27,8 @@ class RestaurantPageView extends StatefulWidget {
 
 class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     with SingleTickerProviderStateMixin {
-  late List<Restaurant> aggRestaurant;
+  late List<Restaurant> restaurants;
+  late List<Restaurant> filteredRestaurants;
   late TabController tabController;
   late ScrollController scrollViewController;
   final List<Map<String, dynamic>> dishTypes = [
@@ -51,16 +52,18 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
       ..addListener(() {
         setState(() {});
       })
-      ..animateTo(DateTime.now().weekday % DateTime.sunday);
+      ..animateTo(DateTime.now().weekday - 1);
     scrollViewController = ScrollController();
-    aggRestaurant = []; // Initialize the list
+    restaurants = []; // Initialize the list
+    filteredRestaurants = [];
     _initializeRestaurants();
     isFavoriteFilterOn =
         PreferencesController.getIsFavoriteRestaurantsFilterOn() ?? false;
     _selectedDishType = PreferencesController.getSelectedDishType() ?? 1;
   }
 
-  void _toggleFavorite(String key) {
+  void _toggleFavorite(String restaurantName, String restaurantPeriod) {
+    final key = restaurantName + restaurantPeriod;
     final favoriteRestaurants = PreferencesController.getFavoriteRestaurants();
     favoriteRestaurants.contains(key)
         ? favoriteRestaurants.remove(key)
@@ -77,6 +80,29 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
         PreferencesController.saveFavoriteCards,
       );
     }
+
+    Restaurant? restaurantToRemove;
+    if (isFavoriteFilterOn) {
+      for (final restaurant in filteredRestaurants) {
+        if ((restaurant.namePt == restaurantName ||
+                restaurant.nameEn == restaurantName) &&
+            restaurant.period == restaurantPeriod) {
+          restaurantToRemove = restaurant;
+          break;
+        }
+      }
+      if (restaurantToRemove != null) {
+        final currentScrollPosition = scrollViewController.position.pixels;
+
+        setState(() {
+          filteredRestaurants.remove(restaurantToRemove);
+        });
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          scrollViewController.jumpTo(currentScrollPosition);
+        });
+      }
+    }
   }
 
   Future<void> _initializeRestaurants() async {
@@ -85,13 +111,14 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     await restaurantProvider.ensureInitialized(context);
     if (restaurantProvider.state != null) {
       setState(() {
-        aggRestaurant = List.from(restaurantProvider.state!);
+        restaurants = List.from(restaurantProvider.state!);
+        filteredRestaurants = restaurants;
       });
     }
   }
 
-  List<Restaurant> getFavoriteRestaurants() {
-    return aggRestaurant
+  void applyFavouriteRestaurantFilter() {
+    filteredRestaurants = restaurants
         .where(
           (restaurant) => PreferencesController.getFavoriteRestaurants()
               .contains(restaurant.namePt + restaurant.period),
@@ -100,14 +127,13 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   }
 
   Widget getFilteredContent(BuildContext context) {
-    List<Restaurant> filteredRestaurants;
     if (isFavoriteFilterOn) {
-      filteredRestaurants = getFavoriteRestaurants();
+      applyFavouriteRestaurantFilter();
     } else {
-      filteredRestaurants = aggRestaurant;
+      filteredRestaurants = restaurants;
     }
 
-    return createTabViewBuilder(filteredRestaurants, context);
+    return createTabViewBuilder(context);
   }
 
   @override
@@ -179,20 +205,14 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   }
 
   Widget createTabViewBuilder(
-    List<Restaurant> restaurants,
     BuildContext context,
   ) {
     final locale = Provider.of<LocaleNotifier>(context).getLocale();
 
     const daysOfTheWeek = DayOfWeek.values;
 
-    final reorderedDays = List.generate(
-      daysOfTheWeek.length,
-      (i) => daysOfTheWeek[(i + DateTime.saturday) % DateTime.sunday],
-    );
-
-    final dayContents = reorderedDays.map((dayOfWeek) {
-      final restaurantsWidgets = restaurants
+    final dayContents = daysOfTheWeek.map((dayOfWeek) {
+      final restaurantsWidgets = filteredRestaurants
           .where((element) => element.meals[dayOfWeek]?.isNotEmpty ?? false)
           .map(
             (restaurant) =>
@@ -249,7 +269,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
             isFavorite: PreferencesController.getFavoriteRestaurants()
                 .contains(restaurant.namePt + restaurant.period),
             onFavoriteToggle: () =>
-                {_toggleFavorite(restaurant.namePt + restaurant.period)},
+                {_toggleFavorite(restaurant.namePt, restaurant.period)},
             menuItems: menuItems,
           )
         : null;
@@ -285,7 +305,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
         Provider.of<RestaurantProvider>(context, listen: false);
     if (restaurantProvider.state != null) {
       setState(() {
-        aggRestaurant = List.from(restaurantProvider.state!);
+        restaurants = List.from(restaurantProvider.state!);
       });
     }
     return restaurantProvider.forceRefresh(context);

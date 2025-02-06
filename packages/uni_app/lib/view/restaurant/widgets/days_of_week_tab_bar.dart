@@ -33,27 +33,19 @@ class DaysOfWeekTabBar extends StatelessWidget {
     final daysOfTheWeek =
         Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
 
-    final daysToSunday = weekDay % DateTime.sunday;
-
-    final reorderedDates = List.generate(
-      daysOfTheWeek.length,
-      (i) => today.subtract(Duration(days: daysToSunday - i)),
-    );
-
-    final reorderedDays = List.generate(
-      daysOfTheWeek.length,
-      (i) => daysOfTheWeek[(i + DateTime.saturday) % DateTime.sunday],
-    );
+    final dates = List.generate(daysOfTheWeek.length, (i) {
+      return today.subtract(Duration(days: weekDay - 1)).add(Duration(days: i));
+    });
 
     final tabs = <DayOfWeekTab>[];
-    for (var i = 0; i < reorderedDays.length; i++) {
+    for (var i = 0; i < daysOfTheWeek.length; i++) {
       tabs.add(
         DayOfWeekTab(
-          key: Key('cantine-page-tab-${reorderedDays[i]}'),
+          key: Key('cantine-page-tab-${daysOfTheWeek[i]}'),
           controller: controller,
           isSelected: controller.index == i,
-          weekDay: toShortVersion(reorderedDays[i]),
-          day: '${reorderedDates[i].day}',
+          weekDay: toShortVersion(daysOfTheWeek[i]),
+          day: '${dates[i].day}',
         ),
       );
     }
