@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/model/entities/app_locale.dart';
+import 'package:uni/view/locale_notifier.dart';
 
 class RestaurantSlot extends StatelessWidget {
   const RestaurantSlot({
     required this.type,
-    required this.name,
+    required this.namePt,
+    required this.nameEn,
     super.key,
   });
   final String type;
-  final String name;
+  final String namePt;
+  final String nameEn;
 
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LocaleNotifier>(context).getLocale();
     return Container(
       padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 22),
       child: Container(
@@ -27,7 +33,7 @@ class RestaurantSlot extends StatelessWidget {
             ),
             Flexible(
               child: Text(
-                name,
+                locale == AppLocale.pt ? namePt : nameEn,
                 style: Theme.of(context).textTheme.bodyMedium,
                 textAlign: TextAlign.left,
               ),
@@ -47,9 +53,11 @@ class RestaurantSlotType extends StatelessWidget {
     'sopa': 'assets/meal-icons/soup.svg',
     'carne': 'assets/meal-icons/chicken.svg',
     'peixe': 'assets/meal-icons/fish.svg',
+    'pescado': 'assets/meal-icons/fish.svg',
     'dieta': 'assets/meal-icons/diet.svg',
     'vegetariano': 'assets/meal-icons/vegetarian.svg',
     'salada': 'assets/meal-icons/salad.svg',
+    'hortícola': 'assets/meal-icons/salad.svg',
   };
 
   @override

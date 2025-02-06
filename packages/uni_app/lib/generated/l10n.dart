@@ -90,16 +90,6 @@ class S {
     );
   }
 
-  /// `Report error/suggestion`
-  String get report_error_suggestion {
-    return Intl.message(
-      'Report error/suggestion',
-      name: 'report_error_suggestion',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Language`
   String get language {
     return Intl.message(
@@ -180,10 +170,10 @@ class S {
     );
   }
 
-  /// `By entering you confirm that you agree with these Terms and Conditions`
+  /// `By entering you agree with these`
   String get agree_terms {
     return Intl.message(
-      'By entering you confirm that you agree with these Terms and Conditions',
+      'By entering you agree with these',
       name: 'agree_terms',
       desc: '',
       args: [],
@@ -210,16 +200,6 @@ class S {
     );
   }
 
-  /// `Available amount`
-  String get available_amount {
-    return Intl.message(
-      'Available amount',
-      name: 'available_amount',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Average: `
   String get average {
     return Intl.message(
@@ -240,10 +220,10 @@ class S {
     );
   }
 
-  /// `Balance:`
+  /// `Balance`
   String get balance {
     return Intl.message(
-      'Balance:',
+      'Balance',
       name: 'balance',
       desc: '',
       args: [],
@@ -255,6 +235,16 @@ class S {
     return Intl.message(
       'Bibliography',
       name: 'bibliography',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Breakfast`
+  String get breakfast {
+    return Intl.message(
+      'Breakfast',
+      name: 'breakfast',
       desc: '',
       args: [],
     );
@@ -530,6 +520,16 @@ class S {
     );
   }
 
+  /// `Dinner`
+  String get dinner {
+    return Intl.message(
+      'Dinner',
+      name: 'dinner',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `D. Beatriz's stationery store`
   String get dona_bia {
     return Intl.message(
@@ -600,6 +600,16 @@ class S {
     );
   }
 
+  /// `Eligibility for exams`
+  String get frequency {
+    return Intl.message(
+      'Eligibility for exams',
+      name: 'frequency',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Exams Filter Settings`
   String get exams_filter {
     return Intl.message(
@@ -630,10 +640,10 @@ class S {
     );
   }
 
-  /// `Deadline for next fee:`
+  /// `Deadline`
   String get fee_date {
     return Intl.message(
-      'Deadline for next fee:',
+      'Deadline',
       name: 'fee_date',
       desc: '',
       args: [],
@@ -645,6 +655,16 @@ class S {
     return Intl.message(
       'Fee deadline',
       name: 'fee_notification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report an issue or suggest an improvement`
+  String get feedback_description {
+    return Intl.message(
+      'Report an issue or suggest an improvement',
+      name: 'feedback_description',
       desc: '',
       args: [],
     );
@@ -740,10 +760,10 @@ class S {
     );
   }
 
-  /// `Stay signed in`
+  /// `Remember me`
   String get keep_login {
     return Intl.message(
-      'Stay signed in',
+      'Remember me',
       name: 'keep_login',
       desc: '',
       args: [],
@@ -773,11 +793,31 @@ class S {
     );
   }
 
+  /// `Leave feedback`
+  String get leave_feedback {
+    return Intl.message(
+      'Leave feedback',
+      name: 'leave_feedback',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Library Occupation`
   String get library_occupation {
     return Intl.message(
       'Library Occupation',
       name: 'library_occupation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lunch`
+  String get lunch {
+    return Intl.message(
+      'Lunch',
+      name: 'lunch',
       desc: '',
       args: [],
     );
@@ -823,6 +863,16 @@ class S {
     );
   }
 
+  /// `Snackbar`
+  String get snackbar {
+    return Intl.message(
+      'Snackbar',
+      name: 'snackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Log out`
   String get logout {
     return Intl.message(
@@ -863,7 +913,7 @@ class S {
     );
   }
 
-  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} transportes{Transports} faculdade{Faculty} other{Other}}`
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} mapa{Map} faculdade{Faculty} other{Other}}`
   String nav_title(Object title) {
     return Intl.select(
       title,
@@ -878,7 +928,7 @@ class S {
         'calendario': 'Calendar',
         'biblioteca': 'Library',
         'percurso_academico': 'Academic Path',
-        'transportes': 'Transports',
+        'mapa': 'Map',
         'faculdade': 'Faculty',
         'other': 'Other',
       },
@@ -1228,10 +1278,10 @@ class S {
     );
   }
 
-  /// `password`
+  /// `Password`
   String get password {
     return Intl.message(
-      'password',
+      'Password',
       name: 'password',
       desc: '',
       args: [],
@@ -1273,6 +1323,16 @@ class S {
     return Intl.message(
       'Print',
       name: 'print',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Print balance`
+  String get print_balance {
+    return Intl.message(
+      'Print balance',
+      name: 'print_balance',
       desc: '',
       args: [],
     );
@@ -1488,10 +1548,10 @@ class S {
     );
   }
 
-  /// `student number`
+  /// `Student Number`
   String get student_number {
     return Intl.message(
-      'student number',
+      'Student Number',
       name: 'student_number',
       desc: '',
       args: [],
@@ -1648,10 +1708,10 @@ class S {
     );
   }
 
-  /// `Problems with login? Try a different login`
+  /// `Having trouble signing in?`
   String get try_different_login {
     return Intl.message(
-      'Problems with login? Try a different login',
+      'Having trouble signing in?',
       name: 'try_different_login',
       desc: '',
       args: [],
@@ -1693,6 +1753,96 @@ class S {
     return Intl.message(
       'Check your internet connection',
       name: 'internet_status_exception',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Instructors`
+  String get instructors {
+    return Intl.message(
+      'Instructors',
+      name: 'instructors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Assessments`
+  String get assessments {
+    return Intl.message(
+      'Assessments',
+      name: 'assessments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No exams scheduled`
+  String get noExamsScheduled {
+    return Intl.message(
+      'No exams scheduled',
+      name: 'noExamsScheduled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No instructors assigned`
+  String get noInstructors {
+    return Intl.message(
+      'No instructors assigned',
+      name: 'noInstructors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Course Regent`
+  String get courseRegent {
+    return Intl.message(
+      'Course Regent',
+      name: 'courseRegent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Instructor`
+  String get instructor {
+    return Intl.message(
+      'Instructor',
+      name: 'instructor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lectures`
+  String get lectures {
+    return Intl.message(
+      'Lectures',
+      name: 'lectures',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Exams`
+  String get exams {
+    return Intl.message(
+      'Exams',
+      name: 'exams',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Courses`
+  String get courses {
+    return Intl.message(
+      'Courses',
+      name: 'courses',
       desc: '',
       args: [],
     );

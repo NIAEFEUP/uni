@@ -7,15 +7,18 @@ class ServiceCard extends StatelessWidget {
     super.key,
     required this.name,
     required this.openingHours,
+    required this.tooltip,
   });
 
   final String name;
   final List<String> openingHours;
+  final String tooltip;
 
   @override
   Widget build(BuildContext context) {
     return GenericCard(
       key: key,
+      tooltip: tooltip,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -24,7 +27,7 @@ class ServiceCard extends StatelessWidget {
               Text(
                 name,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.headlineMedium!,
+                style: Theme.of(context).textTheme.headlineSmall!,
               ),
             ],
           ),
@@ -42,7 +45,7 @@ class ServiceCard extends StatelessWidget {
                 children: openingHours.map((hour) {
                   return Text(
                     hour,
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   );
                 }).toList(),
               )

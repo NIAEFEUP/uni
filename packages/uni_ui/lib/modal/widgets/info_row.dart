@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:uni_ui/icons.dart';
 
 class ModalInfoRow extends StatelessWidget {
   const ModalInfoRow(
@@ -11,34 +11,32 @@ class ModalInfoRow extends StatelessWidget {
 
   final String title;
   final String description;
-  final IconData icon;
+  final UniIcon icon;
   final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.all(3.0),
         decoration: BoxDecoration(
             border: Border(
                 top: BorderSide(
                     color: Theme.of(context).dividerColor, width: 1))),
         child: Row(
           children: [
+            IconButton(onPressed: onPressed, icon: icon),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     title,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   Text(description,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: Theme.of(context).secondaryHeaderColor)),
+                      style: Theme.of(context).textTheme.bodyMedium!),
                 ],
               ),
             ),
-            IconButton(onPressed: onPressed, icon: PhosphorIcon(icon))
           ],
         ));
   }

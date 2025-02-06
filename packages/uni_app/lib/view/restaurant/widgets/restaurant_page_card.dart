@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
+import 'package:uni/view/locale_notifier.dart';
 
 class RestaurantPageCard extends GenericCard {
   RestaurantPageCard(this.restaurant, this.meals, {super.key})
@@ -24,7 +27,21 @@ class RestaurantPageCard extends GenericCard {
 
   @override
   String getTitle(BuildContext context) {
-    return restaurant.name;
+    final locale = Provider.of<LocaleNotifier>(context).getLocale();
+    final restaurantName =
+        locale == AppLocale.pt ? restaurant.namePt : restaurant.nameEn;
+    switch (restaurant.period) {
+      case 'lunch':
+        return '$restaurantName - ${S.of(context).lunch}';
+      case 'dinner':
+        return '$restaurantName - ${S.of(context).dinner}';
+      case 'breakfast':
+        return '$restaurantName - ${S.of(context).breakfast}';
+      case 'snackbar':
+        return '$restaurantName - ${S.of(context).snackbar}';
+      default:
+        return restaurantName;
+    }
   }
 
   @override
@@ -52,7 +69,7 @@ class CardFavoriteButtonState extends State<CardFavoriteButton> {
   void initState() {
     super.initState();
     isFavorite = PreferencesController.getFavoriteRestaurants()
-        .contains(widget.restaurant.name);
+        .contains(widget.restaurant.namePt + widget.restaurant.period);
   }
 
   @override
@@ -62,10 +79,13 @@ class CardFavoriteButtonState extends State<CardFavoriteButton> {
       onPressed: () async {
         final favoriteRestaurants =
             PreferencesController.getFavoriteRestaurants();
-        if (favoriteRestaurants.contains(widget.restaurant.name)) {
-          favoriteRestaurants.remove(widget.restaurant.name);
+        if (favoriteRestaurants
+            .contains(widget.restaurant.namePt + widget.restaurant.period)) {
+          favoriteRestaurants
+              .remove(widget.restaurant.namePt + widget.restaurant.period);
         } else {
-          favoriteRestaurants.add(widget.restaurant.name);
+          favoriteRestaurants
+              .add(widget.restaurant.namePt + widget.restaurant.period);
         }
 
         setState(() {

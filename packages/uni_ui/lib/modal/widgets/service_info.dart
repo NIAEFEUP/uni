@@ -16,22 +16,20 @@ class ModalServiceInfo extends StatelessWidget {
           children: [
             Text(
               name,
-              style: TextStyle(
-                  fontSize: 25.0, color: Theme.of(context).primaryColor),
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 PhosphorIcon(
                   PhosphorIcons.clock(PhosphorIconsStyle.duotone),
-                  color: darkGray,
-                  duotoneSecondaryColor: normalGray,
+                  //TODO: color: darkGray,
+                  //TODO: duotoneSecondaryColor: normalGray,
                 ),
                 Column(
                   children: durations.map((duration) {
                     return Text(duration,
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: Theme.of(context).secondaryHeaderColor));
+                        style: Theme.of(context).textTheme.bodyMedium!);
                   }).toList(),
                 )
               ],
