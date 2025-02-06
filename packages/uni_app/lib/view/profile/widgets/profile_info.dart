@@ -4,6 +4,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/lazy_consumer.dart';
+// import 'package:uni/view/profile/widgets/create_print_mb_dialog.dart';
 import 'package:uni_ui/cards/profile_card.dart';
 
 /// Manages the 'Current account' section inside the user's page (accessible
@@ -37,6 +38,7 @@ class ProfileInfo extends StatelessWidget {
                   label: S.of(context).print_balance,
                   content: profile.printBalance,
                   tooltip: S.of(context).print_balance,
+                  // onClick: () => addMoneyDialog(context),
                 ),
               ],
             ),
