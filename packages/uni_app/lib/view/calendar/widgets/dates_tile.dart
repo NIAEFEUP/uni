@@ -3,12 +3,13 @@ import 'package:intl/intl.dart';
 import 'package:uni/model/entities/app_locale.dart';
 
 class DatesTile extends StatelessWidget {
- const DatesTile(
-      {required this.date,
-      required this.start,
-      required this.end,
-      required this.locale,
-      super.key,});
+  const DatesTile({
+    required this.date,
+    required this.start,
+    required this.end,
+    required this.locale,
+    super.key,
+  });
   final String date;
   final AppLocale locale;
   final DateTime? start;
@@ -63,8 +64,8 @@ class DatesTile extends StatelessWidget {
     String? year1;
     if (start == null) {
       period
-      ..add('the date')
-      ..add(date);
+        ..add('the date')
+        ..add(date);
       return period;
     }
     year = start!.year.toString();
@@ -73,8 +74,8 @@ class DatesTile extends StatelessWidget {
     if (end == null) {
       timePeriod = '$day $month';
       period
-          ..add(timePeriod)
-          ..add(year);
+        ..add(timePeriod)
+        ..add(year);
       return period;
     }
     day1 = end!.day.toString();
@@ -102,8 +103,8 @@ class DatesTile extends StatelessWidget {
       return period;
     }
     period
-        ..add('the date')
-        ..add(date);
+      ..add('the date')
+      ..add(date);
     return period;
   }
 
