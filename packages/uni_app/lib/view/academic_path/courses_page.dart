@@ -111,7 +111,8 @@ class CoursesPageState extends State<CoursesPage> {
         );
       },
       hasContent: (profile) => profile.courses.isNotEmpty,
-      onNullContent: LayoutBuilder(  // Band-aid for allowing refresh on null content
+      onNullContent: LayoutBuilder(
+        // Band-aid for allowing refresh on null content
         builder: (context, constraints) => SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: SizedBox(
