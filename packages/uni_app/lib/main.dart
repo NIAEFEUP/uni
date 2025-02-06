@@ -242,7 +242,7 @@ class ApplicationState extends State<Application> {
           navigatorKey: Application.navigatorKey,
           theme: lightTheme,
           darkTheme: applicationDarkTheme,
-          themeMode: themeNotifier.getTheme(),
+          themeMode: ThemeMode.light, // themeNotifier.getTheme(),
           locale: localeNotifier.getLocale().localeCode,
           localizationsDelegates: const [
             S.delegate,
