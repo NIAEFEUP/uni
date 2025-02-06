@@ -8,7 +8,7 @@ class NoCoursesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ImageLabel(
-      imagePath: 'assets/images/vacation.png',
+      imagePath: 'assets/images/school.png',
       label: S.of(context).no_courses,
       labelTextStyle: TextStyle(
         fontWeight: FontWeight.bold,

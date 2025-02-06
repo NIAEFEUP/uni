@@ -204,7 +204,7 @@ class SchedulePageViewState extends State<SchedulePageView>
 
     return Center(
       child: ImageLabel(
-        imagePath: 'assets/images/schedule.png',
+        imagePath: 'assets/images/school.png',
         label: '$noClassesText $weekday.',
         labelTextStyle: const TextStyle(fontSize: 15),
       ),

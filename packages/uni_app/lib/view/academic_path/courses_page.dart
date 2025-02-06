@@ -111,7 +111,7 @@ class CoursesPageState extends State<CoursesPage> {
         );
       },
       hasContent: (profile) => profile.courses.isNotEmpty,
-      onNullContent: NoCoursesWidget(),
+      onNullContent: const NoCoursesWidget(),
     );
   }
 }
