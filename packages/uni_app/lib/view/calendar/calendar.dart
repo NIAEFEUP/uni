@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:timelines/timelines.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
-import 'package:uni/view/calendar/widgets/dates_tile.dart';
-import 'package:uni/view/calendar/widgets/event_tile.dart';
 import 'package:uni/view/calendar/widgets/row_format.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';

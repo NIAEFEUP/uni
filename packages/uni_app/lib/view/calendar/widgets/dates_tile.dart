@@ -11,8 +11,8 @@ class DatesTile extends StatelessWidget {
       super.key});
   final String date;
   final AppLocale locale;
-  DateTime? start;
-  DateTime? end;
+  final DateTime? start;
+  final DateTime? end;
 
   @override
   Widget build(BuildContext context) {
