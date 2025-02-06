@@ -18,6 +18,19 @@ class UniIcons {
   static const mapPin = PhosphorIconsDuotone.mapPin;
   static const eyeVisible = PhosphorIconsDuotone.eye;
   static const eyeHidden = PhosphorIconsDuotone.eyeSlash;
+
+  static const folderOpen = PhosphorIconsDuotone.folderOpen;
+  static const folderClosed = PhosphorIconsDuotone.folderSimple;
+
+  static const caretDown = PhosphorIconsDuotone.caretDown;
+  static const caretUp = PhosphorIconsDuotone.caretUp;
+
+  static const file = PhosphorIconsDuotone.file;
+  static const fileDoc = PhosphorIconsDuotone.fileDoc;
+  static const filePdf = PhosphorIconsDuotone.filePdf;
+  static const filePpt = PhosphorIconsDuotone.filePpt;
+  static const fileXls = PhosphorIconsDuotone.fileXls;
+
   static const home = PhosphorIconsDuotone.house;
   static const graduationCap = PhosphorIconsDuotone.graduationCap;
   static const restaurant = PhosphorIconsDuotone.forkKnife;
@@ -47,6 +60,8 @@ class UniIcons {
   static const sun = PhosphorIconsDuotone.sun;
   static const moon = PhosphorIconsDuotone.moon;
   static const arrowSquareOut = PhosphorIconsDuotone.arrowSquareOut;
+  static const grid = PhosphorIconsDuotone.squaresFour;
+  static const list = PhosphorIconsDuotone.listBullets;
 }
 
 // The same as default Icon class from material.dart but allowing to use PhosphorIcons duotone icons

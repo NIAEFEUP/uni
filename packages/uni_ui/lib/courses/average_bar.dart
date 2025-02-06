@@ -11,10 +11,16 @@ class AverageBar extends StatelessWidget {
       super.key});
 
   final double average;
-  final int completedCredits;
-  final int totalCredits;
+  final double completedCredits;
+  final double totalCredits;
   final String statusText;
   final String averageText;
+
+  String _displayNumber(double number) {
+    return number == number.toInt()
+        ? number.toInt().toString()
+        : number.toStringAsFixed(1);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +60,8 @@ class AverageBar extends StatelessWidget {
                           message: "European Credit System",
                           child: Text("ECTS"),
                         ),
-                        Text('$completedCredits/$totalCredits'),
+                        Text(
+                            '${_displayNumber(completedCredits)}/${_displayNumber(totalCredits)}'),
                       ]),
                   LinearProgressIndicator(
                       minHeight: 8,

@@ -36,7 +36,7 @@ class Course {
       id: json['cur_id'] as int?,
       festId: json['fest_id'] as int?,
       name: name,
-      abbreviation: json['abbreviation'] as String?,
+      abbreviation: json['cur_sigla'] as String?,
       currYear: json['ano_curricular'] as String?,
       firstEnrollment: json['fest_a_lect_1_insc'] as int?,
       state: json['state'] as String?,
@@ -51,7 +51,7 @@ class Course {
   final int? festId;
   @JsonKey(name: 'cur_nome')
   final String? name;
-  @JsonKey(name: 'abbreviation')
+  @JsonKey(name: 'cur_sigla')
   final String? abbreviation;
   @JsonKey(name: 'ano_curricular')
   final String? currYear;

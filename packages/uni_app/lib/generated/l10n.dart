@@ -200,10 +200,20 @@ class S {
     );
   }
 
-  /// `Average: `
+  /// `Available amount`
+  String get available_amount {
+    return Intl.message(
+      'Available amount',
+      name: 'available_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Average`
   String get average {
     return Intl.message(
-      'Average: ',
+      'Average',
       name: 'average',
       desc: '',
       args: [],
@@ -1843,6 +1853,16 @@ class S {
     return Intl.message(
       'Courses',
       name: 'courses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All`
+  String get all_feminine {
+    return Intl.message(
+      'All',
+      name: 'all_feminine',
       desc: '',
       args: [],
     );
