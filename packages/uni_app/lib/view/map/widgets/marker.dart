@@ -41,9 +41,11 @@ class MarkerIcon extends StatelessWidget {
 
     final fontColor = _getFontColor(context);
     if (location?.icon is IconData) {
-      return UniIcon(location?.icon as IconData, color: fontColor, size: 12);
+      return UniIcon(location?.icon as IconData,
+          color: fontColor, size: 12, solid: true);
     } else {
-      return UniIcon(Icons.device_unknown, color: fontColor, size: 12);
+      return UniIcon(Icons.device_unknown,
+          color: fontColor, size: 12, solid: true);
     }
   }
 
