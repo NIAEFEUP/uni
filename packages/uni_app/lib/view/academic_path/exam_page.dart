@@ -66,7 +66,6 @@ class _ExamsPageState extends State<ExamsPage> {
                           rooms: ['B315', 'B224', 'B207'],
                           type: 'MT',
                           startTime: '12:00',
-                          tooltip: '',
                         ),
                       ),
                       itemBuilder: (context, index) {
@@ -82,7 +81,6 @@ class _ExamsPageState extends State<ExamsPage> {
                           isActive: _nextExam(exams) == exam,
                           card: ExamCard(
                             name: exam.subject,
-                            tooltip: exam.subject,
                             acronym: exam.subjectAcronym,
                             rooms: exam.rooms,
                             type: exam.examType,
