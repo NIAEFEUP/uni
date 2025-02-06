@@ -61,8 +61,8 @@ List<Lecture> getMockLectures() {
     Lecture(
       'Interação Pessoa Computador',
       'T',
-      DateTime.now().subtract(const Duration(hours: 5)),
-      DateTime.now().subtract(const Duration(hours: 4)),
+      DateTime.now().add(const Duration(hours: 5)),
+      DateTime.now().add(const Duration(hours: 4)),
       'B201',
       'Dr. Brown',
       'Class 3',
