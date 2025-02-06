@@ -67,6 +67,7 @@ class LibraryOccupationCard extends StatelessWidget {
     return GenericCard(
       key: key,
       padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
+      tooltip: '',
       child: Row(
         children: [
           CircularPercentIndicator(

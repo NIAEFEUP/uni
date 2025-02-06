@@ -23,6 +23,20 @@ class UniIcons {
   static const restaurant = PhosphorIconsDuotone.forkKnife;
   static const faculty = PhosphorIconsDuotone.buildings;
   static const map = PhosphorIconsDuotone.mapTrifold;
+
+  static const canteen = PhosphorIconsDuotone.cookingPot;
+  static const snackBar = PhosphorIconsDuotone.hamburger;
+  static const soup = PhosphorIconsDuotone.bowlSteam;
+  static const meat = PhosphorIconsDuotone.cow;
+  static const fish = PhosphorIconsDuotone.fish;
+  static const vegetarian = PhosphorIconsDuotone.plant;
+  static const salad = PhosphorIconsDuotone.carrot;
+  static const diet = PhosphorIconsDuotone.clipboardText;
+  static const dishOfTheDay = PhosphorIconsDuotone.calendarDot;
+
+  static const heartOutline = PhosphorIconsRegular.heart;
+  static const heartFill = PhosphorIconsFill.heart;
+
   static const pallete = PhosphorIconsDuotone.palette;
   static const globeHemisphereWest = PhosphorIconsDuotone.globeHemisphereWest;
   static const chartBar = PhosphorIconsDuotone.chartBar;
