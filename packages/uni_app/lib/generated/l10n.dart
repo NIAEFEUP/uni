@@ -620,6 +620,16 @@ class S {
     );
   }
 
+  /// `Eligibility for exams`
+  String get frequency {
+    return Intl.message(
+      'Eligibility for exams',
+      name: 'frequency',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Exams Filter Settings`
   String get exams_filter {
     return Intl.message(
@@ -1733,6 +1743,66 @@ class S {
     return Intl.message(
       'Check your internet connection',
       name: 'internet_status_exception',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Instructors`
+  String get instructors {
+    return Intl.message(
+      'Instructors',
+      name: 'instructors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Assessments`
+  String get assessments {
+    return Intl.message(
+      'Assessments',
+      name: 'assessments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No exams scheduled`
+  String get noExamsScheduled {
+    return Intl.message(
+      'No exams scheduled',
+      name: 'noExamsScheduled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No instructors assigned`
+  String get noInstructors {
+    return Intl.message(
+      'No instructors assigned',
+      name: 'noInstructors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Course Regent`
+  String get courseRegent {
+    return Intl.message(
+      'Course Regent',
+      name: 'courseRegent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Instructor`
+  String get instructor {
+    return Intl.message(
+      'Instructor',
+      name: 'instructor',
       desc: '',
       args: [],
     );
