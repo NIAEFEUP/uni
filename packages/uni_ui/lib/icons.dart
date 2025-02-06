@@ -47,6 +47,8 @@ class UniIcons {
   static const sun = PhosphorIconsDuotone.sun;
   static const moon = PhosphorIconsDuotone.moon;
   static const arrowSquareOut = PhosphorIconsDuotone.arrowSquareOut;
+  static const grid = PhosphorIconsDuotone.squaresFour;
+  static const list = PhosphorIconsDuotone.listBullets;
 }
 
 // The same as default Icon class from material.dart but allowing to use PhosphorIcons duotone icons

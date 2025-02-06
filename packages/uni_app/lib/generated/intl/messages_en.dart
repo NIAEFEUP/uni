@@ -70,12 +70,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "add_widget": MessageLookupByLibrary.simpleMessage("Add widget"),
         "agree_terms": MessageLookupByLibrary.simpleMessage(
             "By entering you agree with these"),
+        "all_feminine": MessageLookupByLibrary.simpleMessage("All"),
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
             "All available widgets have already been added to your personal area!"),
         "assessments": MessageLookupByLibrary.simpleMessage("Assessments"),
         "at_least_one_college":
             MessageLookupByLibrary.simpleMessage("Select at least one college"),
-        "average": MessageLookupByLibrary.simpleMessage("Average: "),
+        "available_amount":
+            MessageLookupByLibrary.simpleMessage("Available amount"),
+        "average": MessageLookupByLibrary.simpleMessage("Average"),
         "balance": MessageLookupByLibrary.simpleMessage("Balance"),
         "banner_info": MessageLookupByLibrary.simpleMessage(
             "We do now collect anonymous usage statistics in order to improve your experience. You can change it in settings."),
