@@ -17,10 +17,11 @@ class RowFormat extends StatelessWidget {
           width: 100,
           alignment: Alignment.center,
           child: DatesTile(
-              date: event.date,
-              start: event.start,
-              end: event.finish,
-              locale: locale,),
+            date: event.date,
+            start: event.start,
+            end: event.finish,
+            locale: locale,
+          ),
         ),
         Column(
           children: [
@@ -42,8 +43,9 @@ class RowFormat extends StatelessWidget {
               height: 40,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(2),
-                    bottomRight:  Radius.circular(2),),
+                  bottomLeft: Radius.circular(2),
+                  bottomRight: Radius.circular(2),
+                ),
                 color: Theme.of(context).primaryColor,
               ),
             ),
