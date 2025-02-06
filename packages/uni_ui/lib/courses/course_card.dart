@@ -23,6 +23,7 @@ class CourseCard extends StatelessWidget {
       color: selected
           ? Theme.of(context).colorScheme.surfaceDim
           : Theme.of(context).colorScheme.surfaceContainerLow,
+      tooltip: '',
       child: SizedBox(
         width: 65,
         child: Column(
