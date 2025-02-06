@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni_ui/icons.dart';
 
@@ -61,5 +62,22 @@ class RestaurantUtils {
     String englishTranslation,
   ) {
     return locale == AppLocale.pt ? portugueseTranslation : englishTranslation;
+  }
+
+  static String getRestaurantName(
+    BuildContext context,
+    AppLocale locale,
+    String portugueseName,
+    String englishName,
+    String period,
+  ) {
+    final translatedPeriod = S.of(context).restaurant_period(period);
+    return translatedPeriod == 'Other'
+        ? getLocaleTranslation(locale, portugueseName, englishName)
+        : '${getLocaleTranslation(
+            locale,
+            portugueseName,
+            englishName,
+          )} - ${S.of(context).restaurant_period(period)}';
   }
 }

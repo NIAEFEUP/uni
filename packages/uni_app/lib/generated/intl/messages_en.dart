@@ -52,6 +52,12 @@ class MessageLookup extends MessageLookupByLibrary {
             'other': 'Other',
           })}";
 
+  static m4(period) => "${Intl.select(period, {
+            'lunch': 'Lunch',
+            'dinner': 'Dinner',
+            'other': 'Other',
+          })}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("About us"),
@@ -283,6 +289,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Report error/suggestion"),
         "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
             "Do you want to see your favorite restaurants in the main page?"),
+        "restaurant_period": m4,
         "room": MessageLookupByLibrary.simpleMessage("Room"),
         "school_calendar":
             MessageLookupByLibrary.simpleMessage("School Calendar"),

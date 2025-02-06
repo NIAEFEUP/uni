@@ -1798,6 +1798,21 @@ class S {
       args: [],
     );
   }
+
+  /// `{period, select, lunch{Lunch} dinner{Dinner} other{Other}}`
+  String restaurant_period(Object period) {
+    return Intl.select(
+      period,
+      {
+        'lunch': 'Lunch',
+        'dinner': 'Dinner',
+        'other': 'Other',
+      },
+      name: 'restaurant_period',
+      desc: '',
+      args: [period],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
