@@ -5,6 +5,7 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/cards/course_grade_card.dart';
 import 'package:uni_ui/icons.dart';
@@ -33,7 +34,9 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
       builder: (context, profile) {
         final courseUnits = profile.courseUnits;
         final courseGradeCards =
-            _applyFilters(courseUnits).map(_toCourseGradeCard).toList();
+            _applyFilters(courseUnits)
+            .map((courseUnit) => _toCourseGradeCard(courseUnit, context))
+            .toList();
 
         return Column(
           children: [
@@ -118,12 +121,22 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
     );
   }
 
-  CourseGradeCard _toCourseGradeCard(CourseUnit unit) {
+  void _toCourseGradeCardOnTap(CourseUnit courseUnit, BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<CourseUnitDetailPageView>(
+        builder: (context) => CourseUnitDetailPageView(courseUnit),
+      ),
+    );
+  }
+
+  CourseGradeCard _toCourseGradeCard(CourseUnit unit, BuildContext context) {
     return CourseGradeCard(
       courseName: unit.name,
       ects: unit.ects! as double,
       grade: unit.grade != null ? double.tryParse(unit.grade!)?.round() : null,
-      tooltip: '',
+      tooltip: unit.name,
+      onTap: () => _toCourseGradeCardOnTap(unit, context),
     );
   }
 
