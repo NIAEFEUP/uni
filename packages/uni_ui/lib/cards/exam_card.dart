@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/theme.dart';
+import 'package:uni_ui/icons.dart';
 
 class ExamCard extends StatelessWidget {
   const ExamCard({
@@ -10,22 +10,24 @@ class ExamCard extends StatelessWidget {
     required this.acronym,
     required this.rooms,
     required this.type,
-    required this.tooltip,
     this.startTime,
     this.isInvisible = false,
     this.showIcon = true,
     this.iconAction,
+    this.examDay,
+    this.examMonth,
   });
 
   final String name;
   final String acronym;
   final List<String> rooms;
   final String type;
-  final String tooltip;
   final String? startTime;
   final bool isInvisible;
   final bool showIcon;
   final Function()? iconAction;
+  final String? examDay;
+  final String? examMonth;
 
   static const Map<String, Color> examTypeColors = {
     'MT': BadgeColors.mt,
@@ -40,7 +42,7 @@ class ExamCard extends StatelessWidget {
       opacity: isInvisible ? 0.6 : 1.0,
       child: GenericCard(
         key: key,
-        tooltip: tooltip,
+        tooltip: name,
         child: Row(
           children: [
             Expanded(
@@ -70,8 +72,8 @@ class ExamCard extends StatelessWidget {
                   const SizedBox(height: 5),
                   Row(
                     children: [
-                      PhosphorIcon(
-                        PhosphorIcons.clock(PhosphorIconsStyle.duotone),
+                      UniIcon(
+                        UniIcons.clock,
                         color: Theme.of(context).iconTheme.color,
                         size: 20,
                       ),
@@ -80,10 +82,23 @@ class ExamCard extends StatelessWidget {
                         startTime ?? "--:--",
                         style: Theme.of(context).textTheme.labelSmall!,
                       ),
+                      if (examDay != null && examMonth != null) ...[
+                        const SizedBox(width: 8),
+                        UniIcon(
+                          UniIcons.calendarBlank,
+                          color: Theme.of(context).iconTheme.color,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          '$examDay $examMonth',
+                          style: Theme.of(context).textTheme.labelSmall!,
+                        ),
+                      ],
                       const SizedBox(width: 8),
-                      if (!rooms.isEmpty)
-                        PhosphorIcon(
-                          PhosphorIcons.mapPin(PhosphorIconsStyle.duotone),
+                      if (rooms.isNotEmpty)
+                        UniIcon(
+                          UniIcons.mapPin,
                           color: Theme.of(context).iconTheme.color,
                           size: 20,
                         ),
@@ -117,10 +132,8 @@ class ExamCard extends StatelessWidget {
             if (showIcon)
               IconButton(
                 onPressed: iconAction ?? () {},
-                icon: PhosphorIcon(
-                  isInvisible
-                      ? PhosphorIcons.eye(PhosphorIconsStyle.duotone)
-                      : PhosphorIcons.eyeSlash(PhosphorIconsStyle.duotone),
+                icon: UniIcon(
+                  isInvisible ? UniIcons.eyeVisible : UniIcons.eyeHidden,
                   color: Theme.of(context).iconTheme.color,
                   size: 35,
                 ),

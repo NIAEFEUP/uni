@@ -72,12 +72,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "Ao entrares confirmas que concordas com estes"),
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
             "Todos os widgets disponíveis já foram adicionados à tua área pessoal!"),
+        "assessments": MessageLookupByLibrary.simpleMessage("Avaliações"),
         "at_least_one_college": MessageLookupByLibrary.simpleMessage(
             "Seleciona pelo menos uma faculdade"),
-        "available_amount":
-            MessageLookupByLibrary.simpleMessage("Valor disponível"),
         "average": MessageLookupByLibrary.simpleMessage("Média: "),
-        "balance": MessageLookupByLibrary.simpleMessage("Saldo:"),
+        "balance": MessageLookupByLibrary.simpleMessage("Saldo"),
         "banner_info": MessageLookupByLibrary.simpleMessage(
             "Agora recolhemos estatísticas de uso anónimas para melhorar a tua experiência. Podes alterá-lo nas definições."),
         "bibliography": MessageLookupByLibrary.simpleMessage("Bibliografia"),
@@ -119,6 +118,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "copy_center": MessageLookupByLibrary.simpleMessage("Centro de cópias"),
         "copy_center_building": MessageLookupByLibrary.simpleMessage(
             "Piso -1 do edifício B | Edifício da AEFEUP"),
+        "courseRegent":
+            MessageLookupByLibrary.simpleMessage("Regente da Cadeira"),
         "course_class": MessageLookupByLibrary.simpleMessage("Turmas"),
         "course_info": MessageLookupByLibrary.simpleMessage("Ficha"),
         "courses": MessageLookupByLibrary.simpleMessage("Cursos"),
@@ -154,10 +155,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Falha ao autenticar"),
         "failed_login": MessageLookupByLibrary.simpleMessage("O login falhou"),
         "favourite_filter": MessageLookupByLibrary.simpleMessage("Favoritos"),
-        "fee_date": MessageLookupByLibrary.simpleMessage(
-            "Data limite próxima prestação:"),
+        "fee_date": MessageLookupByLibrary.simpleMessage("Data limite"),
         "fee_notification":
             MessageLookupByLibrary.simpleMessage("Data limite de propina"),
+        "feedback_description": MessageLookupByLibrary.simpleMessage(
+            "Reporta um problema ou sugere uma melhoria"),
         "files": MessageLookupByLibrary.simpleMessage("Ficheiros"),
         "first_year_registration":
             MessageLookupByLibrary.simpleMessage("Ano da primeira inscrição: "),
@@ -165,6 +167,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "floors": MessageLookupByLibrary.simpleMessage("Pisos"),
         "forgot_password":
             MessageLookupByLibrary.simpleMessage("Esqueceu a palavra-passe?"),
+        "frequency":
+            MessageLookupByLibrary.simpleMessage("Obtenção de Frequência"),
         "generate_reference":
             MessageLookupByLibrary.simpleMessage("Gerar referência"),
         "geral_registration":
@@ -172,14 +176,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "improvement_registration":
             MessageLookupByLibrary.simpleMessage("Inscrição para Melhoria"),
         "increment": MessageLookupByLibrary.simpleMessage("Incrementar 1,00€"),
+        "instructor": MessageLookupByLibrary.simpleMessage("Docente"),
+        "instructors": MessageLookupByLibrary.simpleMessage("Docentes"),
         "internet_status_exception": MessageLookupByLibrary.simpleMessage(
             "Verifique sua conexão com a internet"),
         "invalid_credentials":
             MessageLookupByLibrary.simpleMessage("Credenciais inválidas"),
         "keep_login": MessageLookupByLibrary.simpleMessage("Lembre-se de mim"),
         "language": MessageLookupByLibrary.simpleMessage("Idioma"),
-        "last_refresh_time": m1,
-        "last_timestamp": m2,
+        "last_refresh_time": m0,
+        "last_timestamp": m1,
+        "leave_feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
         "lectures": MessageLookupByLibrary.simpleMessage("Aulas"),
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Ocupação da Biblioteca"),
@@ -200,6 +207,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "nav_title": m3,
         "news": MessageLookupByLibrary.simpleMessage("Notícias"),
         "no": MessageLookupByLibrary.simpleMessage("Não"),
+        "noExamsScheduled":
+            MessageLookupByLibrary.simpleMessage("Não há exames agendados"),
+        "noInstructors":
+            MessageLookupByLibrary.simpleMessage("Não há docentes atribuídos"),
         "no_app": MessageLookupByLibrary.simpleMessage(
             "Nenhuma aplicação encontrada para abrir o ficheiro"),
         "no_bus": MessageLookupByLibrary.simpleMessage(
@@ -276,6 +287,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "press_again": MessageLookupByLibrary.simpleMessage(
             "Pressione novamente para sair"),
         "print": MessageLookupByLibrary.simpleMessage("Impressão"),
+        "print_balance":
+            MessageLookupByLibrary.simpleMessage("Saldo impressões"),
         "prints": MessageLookupByLibrary.simpleMessage("Impressões"),
         "problem_id": MessageLookupByLibrary.simpleMessage(
             "Breve identificação do problema"),
@@ -286,8 +299,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "Referência criada com sucesso!"),
         "remove": MessageLookupByLibrary.simpleMessage("Remover"),
         "report_error": MessageLookupByLibrary.simpleMessage("Reportar erro"),
-        "report_error_suggestion":
-            MessageLookupByLibrary.simpleMessage("Reportar erro/sugestão"),
         "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
             "Queres ver os teus restaurantes favoritos na página principal?"),
         "restaurant_period": m4,
