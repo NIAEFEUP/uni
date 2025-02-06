@@ -109,9 +109,7 @@ class CardFavoriteButtonState extends State<CardFavoriteButton> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        icon: isFavorite
-            ? UniIcon(UniIcons.heartFill)
-            : UniIcon(UniIcons.heartOutline),
+        icon: UniIcon(isFavorite ? UniIcons.heartFill : UniIcons.heartOutline),
         onPressed: () {
           widget.onFavoriteToggle();
           setState(() {

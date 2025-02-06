@@ -31,12 +31,7 @@ class FavoriteRestaurantsButton extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           const SizedBox(width: 8),
-          if (!isFavoriteOn)
-            const UniIcon(
-              UniIcons.heartOutline,
-            )
-          else
-            const UniIcon(UniIcons.heartFill),
+          UniIcon(isFavoriteOn ? UniIcons.heartOutline : UniIcons.heartFill),
         ],
       ),
     );
