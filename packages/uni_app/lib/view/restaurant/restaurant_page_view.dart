@@ -281,6 +281,9 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     AppLocale locale,
   ) {
     final meals = restaurant.meals[dayOfWeek];
+
+    meals?.sort((a, b) => a.type.compareTo(b.type));
+
     final menuItems = <RestaurantMenuItem>[];
     for (final meal in meals!) {
       if (RestaurantUtils.mealMatchesFilter(_selectedDishType, meal.type)) {
