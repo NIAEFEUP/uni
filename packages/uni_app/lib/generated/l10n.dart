@@ -1889,11 +1889,11 @@ class S {
     );
   }
 
-  /// `Favourites`
-  String get favourite_filter {
+  /// `Favorites`
+  String get favorite_filter {
     return Intl.message(
-      'Favourites',
-      name: 'favourite_filter',
+      'Favorites',
+      name: 'favorite_filter',
       desc: '',
       args: [],
     );

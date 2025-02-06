@@ -157,7 +157,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "fail_to_authenticate":
             MessageLookupByLibrary.simpleMessage("Falha ao autenticar"),
         "failed_login": MessageLookupByLibrary.simpleMessage("O login falhou"),
-        "favourite_filter": MessageLookupByLibrary.simpleMessage("Favoritos"),
+        "favorite_filter": MessageLookupByLibrary.simpleMessage("Favoritos"),
         "fee_date": MessageLookupByLibrary.simpleMessage("Data limite"),
         "fee_notification":
             MessageLookupByLibrary.simpleMessage("Data limite de propina"),

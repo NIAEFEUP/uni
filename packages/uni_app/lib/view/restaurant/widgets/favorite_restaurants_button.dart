@@ -27,11 +27,11 @@ class FavoriteRestaurantsButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            S.of(context).favourite_filter,
+            S.of(context).favorite_filter,
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           const SizedBox(width: 8),
-          UniIcon(isFavoriteOn ? UniIcons.heartOutline : UniIcons.heartFill),
+          UniIcon(isFavoriteOn ? UniIcons.heartFill : UniIcons.heartOutline),
         ],
       ),
     );
