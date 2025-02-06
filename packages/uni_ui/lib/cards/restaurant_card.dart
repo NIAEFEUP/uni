@@ -23,6 +23,7 @@ class RestaurantCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GenericCard(
         key: key,
+        tooltip: name,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

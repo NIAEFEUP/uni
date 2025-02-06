@@ -76,7 +76,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.edgeToEdge,
+    SystemUiMode.immersiveSticky,
     overlays: [
       SystemUiOverlay.top,
       SystemUiOverlay.bottom,
