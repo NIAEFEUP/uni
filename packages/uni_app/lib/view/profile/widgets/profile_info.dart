@@ -17,28 +17,31 @@ class ProfileInfo extends StatelessWidget {
     return LazyConsumer<ProfileProvider, Profile>(
       builder: (context, profile) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ProfileCard(
-              label: S.of(context).balance,
-              content: profile.feesBalance,
-              tooltip: S.of(context).balance,
+        child: Center(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                ProfileCard(
+                  label: S.of(context).balance,
+                  content: profile.feesBalance,
+                  tooltip: S.of(context).balance,
+                ),
+                ProfileCard(
+                  label: S.of(context).fee_date,
+                  content: profile.feesLimit != null
+                      ? DateFormat('yyyy-MM-dd').format(profile.feesLimit!)
+                      : S.of(context).no_date,
+                  tooltip: S.of(context).fee_date,
+                ),
+                ProfileCard(
+                  label: S.of(context).print_balance,
+                  content: profile.printBalance,
+                  tooltip: S.of(context).print_balance,
+                ),
+              ],
             ),
-            ProfileCard(
-              label: S.of(context).fee_date,
-              content: profile.feesLimit != null
-                  ? DateFormat('yyyy-MM-dd').format(profile.feesLimit!)
-                  : S.of(context).no_date,
-              tooltip: S.of(context).fee_date,
-            ),
-            ProfileCard(
-              label: S.of(context).print_balance,
-              content: profile.printBalance,
-              tooltip: S.of(context).print_balance,
-              onClick: () => addMoneyDialog(context),
-            ),
-          ],
+          ),
         ),
       ),
       hasContent: (profile) => true,
