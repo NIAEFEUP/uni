@@ -10,7 +10,6 @@ class ExamCard extends StatelessWidget {
     required this.acronym,
     required this.rooms,
     required this.type,
-    required this.tooltip,
     this.startTime,
     this.isInvisible = false,
     this.showIcon = true,
@@ -21,7 +20,6 @@ class ExamCard extends StatelessWidget {
   final String acronym;
   final List<String> rooms;
   final String type;
-  final String tooltip;
   final String? startTime;
   final bool isInvisible;
   final bool showIcon;
@@ -40,7 +38,7 @@ class ExamCard extends StatelessWidget {
       opacity: isInvisible ? 0.6 : 1.0,
       child: GenericCard(
         key: key,
-        tooltip: tooltip,
+        tooltip: name,
         child: Row(
           children: [
             Expanded(
