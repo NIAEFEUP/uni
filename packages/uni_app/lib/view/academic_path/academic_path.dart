@@ -57,7 +57,9 @@ class AcademicPathPageViewState extends GeneralPageViewState
     return TabBarView(
       controller: tabController,
       children: const [
-        CoursesPage(),
+        Center(
+          child: CoursesPage(),
+        ),
         Center(
           child: Text('To be implemented'),
         ),

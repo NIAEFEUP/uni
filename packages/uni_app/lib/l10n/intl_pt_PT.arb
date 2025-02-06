@@ -376,5 +376,9 @@
   "favorite_filter": "Favoritos",
   "@favorite_filter": {},
   "restaurant_period": "{period, select, lunch{Almoço} dinner{Jantar} other{Other}}",
-  "@restaurant_period": {}
+  "@restaurant_period": {},
+  "no_courses": "Não foram encontrados cursos",
+  "@no_courses": {},
+  "no_courses_description": "Tenta refrescar a página",
+  "@no_courses_description": {}
 }
