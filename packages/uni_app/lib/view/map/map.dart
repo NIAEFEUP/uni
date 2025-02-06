@@ -121,7 +121,7 @@ class MapPageViewState extends State<MapPageView> {
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
-                  child: Text('© OpenStreetMap'),
+                  child: Text('© OpenStreetMap @CARTO'),
                 ),
               ),
             ),
