@@ -20,6 +20,7 @@ class CourseGradeCard extends StatelessWidget {
     return GenericCard(
         key: key,
         tooltip: tooltip,
+        margin: EdgeInsets.zero,
         child: SizedBox(
           height: 75,
           child: Column(

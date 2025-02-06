@@ -28,6 +28,7 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return LazyConsumer<ProfileProvider, Profile>(
       builder: (context, profile) {
         final courseUnits = profile.courseUnits;
@@ -100,7 +101,11 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
               crossAxisCount: isGrid ? 2 : 1,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              childAspectRatio: isGrid ? 2.5 : 5,
+              childAspectRatio: isGrid
+                ? (width - 40) / (width * 2) * 5
+                : (width - 32) / width * 5,  // Calculate aspect ratio, to avoid inconsistencies between grid and list view
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
               children: courseGradeCards,
             ),
           ],
