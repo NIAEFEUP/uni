@@ -48,7 +48,6 @@ import 'package:uni/view/login/login.dart';
 import 'package:uni/view/profile/profile.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
-import 'package:uni/view/settings/settings.dart';
 import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
@@ -76,7 +75,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.edgeToEdge,
+    SystemUiMode.immersiveSticky,
     overlays: [
       SystemUiOverlay.top,
       SystemUiOverlay.bottom,
@@ -243,7 +242,7 @@ class ApplicationState extends State<Application> {
           navigatorKey: Application.navigatorKey,
           theme: lightTheme,
           darkTheme: applicationDarkTheme,
-          themeMode: themeNotifier.getTheme(),
+          themeMode: ThemeMode.light, // themeNotifier.getTheme(),
           locale: localeNotifier.getLocale().localeCode,
           localizationsDelegates: const [
             S.delegate,
@@ -328,11 +327,6 @@ class ApplicationState extends State<Application> {
               '/${NavigationItem.navProfile.route}':
                   PageTransition.makePageTransition(
                 page: const ProfilePageView(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navSettings.route}':
-                  PageTransition.makePageTransition(
-                page: const SettingsPage(),
                 settings: settings,
               ),
               '/${NavigationItem.navBugreport.route}':

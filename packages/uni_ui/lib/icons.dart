@@ -6,13 +6,25 @@ class UniIcons {
   static const lecture = PhosphorIconsDuotone.lectern;
   static const exam = PhosphorIconsDuotone.exam;
   static const course = PhosphorIconsDuotone.certificate;
-  
+  static const calendar = PhosphorIconsDuotone.calendarDots;
+  static const courses = PhosphorIconsDuotone.certificate;
+  static const classes = PhosphorIconsDuotone.usersThree;
+  static const files = PhosphorIconsDuotone.folderOpen;
+  static const notebook = PhosphorIconsDuotone.notebook;
+  static const email = PhosphorIconsDuotone.paperPlaneTilt;
+  static const location = PhosphorIconsDuotone.mapPin;
+  static const clock = PhosphorIconsDuotone.clock;
+  static const calendarBlank = PhosphorIconsDuotone.calendarBlank;
+  static const mapPin = PhosphorIconsDuotone.mapPin;
+  static const eyeVisible = PhosphorIconsDuotone.eye;
+  static const eyeHidden = PhosphorIconsDuotone.eyeSlash;
+
   static const folderOpen = PhosphorIconsDuotone.folderOpen;
   static const folderClosed = PhosphorIconsDuotone.folderSimple;
-  
+
   static const caretDown = PhosphorIconsDuotone.caretDown;
   static const caretUp = PhosphorIconsDuotone.caretUp;
-  
+
   static const file = PhosphorIconsDuotone.file;
   static const fileDoc = PhosphorIconsDuotone.fileDoc;
   static const filePdf = PhosphorIconsDuotone.filePdf;
@@ -24,6 +36,16 @@ class UniIcons {
   static const restaurant = PhosphorIconsDuotone.forkKnife;
   static const faculty = PhosphorIconsDuotone.buildings;
   static const map = PhosphorIconsDuotone.mapTrifold;
+  static const pallete = PhosphorIconsDuotone.palette;
+  static const globeHemisphereWest = PhosphorIconsDuotone.globeHemisphereWest;
+  static const chartBar = PhosphorIconsDuotone.chartBar;
+  static const notification = PhosphorIconsDuotone.notification;
+  static const thumbsUp = PhosphorIconsDuotone.thumbsUp;
+  static const gavel = PhosphorIconsDuotone.gavel;
+  static const signOut = PhosphorIconsDuotone.signOut;
+  static const sun = PhosphorIconsDuotone.sun;
+  static const moon = PhosphorIconsDuotone.moon;
+  static const arrowSquareOut = PhosphorIconsDuotone.arrowSquareOut;
 }
 
 // The same as default Icon class from material.dart but allowing to use PhosphorIcons duotone icons
