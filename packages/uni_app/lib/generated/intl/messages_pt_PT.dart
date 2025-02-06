@@ -54,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Ao entrares confirmas que concordas com estes"),
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
             "Todos os widgets disponíveis já foram adicionados à tua área pessoal!"),
+        "assessments": MessageLookupByLibrary.simpleMessage("Avaliações"),
         "at_least_one_college": MessageLookupByLibrary.simpleMessage(
             "Seleciona pelo menos uma faculdade"),
         "available_amount":
@@ -101,6 +102,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "copy_center": MessageLookupByLibrary.simpleMessage("Centro de cópias"),
         "copy_center_building": MessageLookupByLibrary.simpleMessage(
             "Piso -1 do edifício B | Edifício da AEFEUP"),
+        "courseRegent":
+            MessageLookupByLibrary.simpleMessage("Regente da Cadeira"),
         "course_class": MessageLookupByLibrary.simpleMessage("Turmas"),
         "course_info": MessageLookupByLibrary.simpleMessage("Ficha"),
         "courses": MessageLookupByLibrary.simpleMessage("Cursos"),
@@ -145,6 +148,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "floors": MessageLookupByLibrary.simpleMessage("Pisos"),
         "forgot_password":
             MessageLookupByLibrary.simpleMessage("Esqueceu a palavra-passe?"),
+        "frequency":
+            MessageLookupByLibrary.simpleMessage("Obtenção de Frequência"),
         "generate_reference":
             MessageLookupByLibrary.simpleMessage("Gerar referência"),
         "geral_registration":
@@ -152,6 +157,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "improvement_registration":
             MessageLookupByLibrary.simpleMessage("Inscrição para Melhoria"),
         "increment": MessageLookupByLibrary.simpleMessage("Incrementar 1,00€"),
+        "instructor": MessageLookupByLibrary.simpleMessage("Docente"),
+        "instructors": MessageLookupByLibrary.simpleMessage("Docentes"),
         "internet_status_exception": MessageLookupByLibrary.simpleMessage(
             "Verifique sua conexão com a internet"),
         "invalid_credentials":
@@ -180,6 +187,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "nav_title": m2,
         "news": MessageLookupByLibrary.simpleMessage("Notícias"),
         "no": MessageLookupByLibrary.simpleMessage("Não"),
+        "noExamsScheduled":
+            MessageLookupByLibrary.simpleMessage("Não há exames agendados"),
+        "noInstructors":
+            MessageLookupByLibrary.simpleMessage("Não há docentes atribuídos"),
         "no_app": MessageLookupByLibrary.simpleMessage(
             "Nenhuma aplicação encontrada para abrir o ficheiro"),
         "no_bus": MessageLookupByLibrary.simpleMessage(

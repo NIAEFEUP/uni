@@ -54,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "By entering you agree with these"),
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
             "All available widgets have already been added to your personal area!"),
+        "assessments": MessageLookupByLibrary.simpleMessage("Assessments"),
         "at_least_one_college":
             MessageLookupByLibrary.simpleMessage("Select at least one college"),
         "available_amount":
@@ -101,6 +102,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "copy_center": MessageLookupByLibrary.simpleMessage("Copy center"),
         "copy_center_building": MessageLookupByLibrary.simpleMessage(
             "Floor -1 of building B | AEFEUP building"),
+        "courseRegent": MessageLookupByLibrary.simpleMessage("Course Regent"),
         "course_class": MessageLookupByLibrary.simpleMessage("Classes"),
         "course_info": MessageLookupByLibrary.simpleMessage("Info"),
         "courses": MessageLookupByLibrary.simpleMessage("Courses"),
@@ -146,6 +148,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "floors": MessageLookupByLibrary.simpleMessage("Floors"),
         "forgot_password":
             MessageLookupByLibrary.simpleMessage("Forgot password?"),
+        "frequency":
+            MessageLookupByLibrary.simpleMessage("Eligibility for exams"),
         "generate_reference":
             MessageLookupByLibrary.simpleMessage("Generate reference"),
         "geral_registration":
@@ -153,6 +157,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "improvement_registration":
             MessageLookupByLibrary.simpleMessage("Enrollment for Improvement"),
         "increment": MessageLookupByLibrary.simpleMessage("Increment 1,00€"),
+        "instructor": MessageLookupByLibrary.simpleMessage("Instructor"),
+        "instructors": MessageLookupByLibrary.simpleMessage("Instructors"),
         "internet_status_exception": MessageLookupByLibrary.simpleMessage(
             "Check your internet connection"),
         "invalid_credentials":
@@ -181,6 +187,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "nav_title": m2,
         "news": MessageLookupByLibrary.simpleMessage("News"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
+        "noExamsScheduled":
+            MessageLookupByLibrary.simpleMessage("No exams scheduled"),
+        "noInstructors":
+            MessageLookupByLibrary.simpleMessage("No instructors assigned"),
         "no_app": MessageLookupByLibrary.simpleMessage(
             "No app found to open the file"),
         "no_bus": MessageLookupByLibrary.simpleMessage("Don\'t miss any bus!"),
