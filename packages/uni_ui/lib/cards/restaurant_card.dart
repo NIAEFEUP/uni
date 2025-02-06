@@ -24,6 +24,7 @@ class RestaurantCard extends StatelessWidget {
     return GenericCard(
         padding: EdgeInsets.zero,
         key: key,
+        tooltip: name,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
