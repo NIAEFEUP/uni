@@ -57,10 +57,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "assessments": MessageLookupByLibrary.simpleMessage("Assessments"),
         "at_least_one_college":
             MessageLookupByLibrary.simpleMessage("Select at least one college"),
-        "available_amount":
-            MessageLookupByLibrary.simpleMessage("Available amount"),
         "average": MessageLookupByLibrary.simpleMessage("Average: "),
-        "balance": MessageLookupByLibrary.simpleMessage("Balance:"),
+        "balance": MessageLookupByLibrary.simpleMessage("Balance"),
         "banner_info": MessageLookupByLibrary.simpleMessage(
             "We do now collect anonymous usage statistics in order to improve your experience. You can change it in settings."),
         "bibliography": MessageLookupByLibrary.simpleMessage("Bibliography"),
@@ -137,10 +135,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "fail_to_authenticate":
             MessageLookupByLibrary.simpleMessage("Failed to authenticate"),
         "failed_login": MessageLookupByLibrary.simpleMessage("Login failed"),
-        "fee_date":
-            MessageLookupByLibrary.simpleMessage("Deadline for next fee:"),
+        "fee_date": MessageLookupByLibrary.simpleMessage("Deadline"),
         "fee_notification":
             MessageLookupByLibrary.simpleMessage("Fee deadline"),
+        "feedback_description": MessageLookupByLibrary.simpleMessage(
+            "Report an issue or suggest an improvement"),
         "files": MessageLookupByLibrary.simpleMessage("Files"),
         "first_year_registration": MessageLookupByLibrary.simpleMessage(
             "Year of first registration: "),
@@ -167,6 +166,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
+        "leave_feedback":
+            MessageLookupByLibrary.simpleMessage("Leave feedback"),
         "lectures": MessageLookupByLibrary.simpleMessage("Lectures"),
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Library Occupation"),
@@ -265,6 +266,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "press_again":
             MessageLookupByLibrary.simpleMessage("Press again to exit"),
         "print": MessageLookupByLibrary.simpleMessage("Print"),
+        "print_balance": MessageLookupByLibrary.simpleMessage("Print balance"),
         "prints": MessageLookupByLibrary.simpleMessage("Prints"),
         "problem_id": MessageLookupByLibrary.simpleMessage(
             "Brief identification of the problem"),
@@ -275,8 +277,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "Reference created successfully!"),
         "remove": MessageLookupByLibrary.simpleMessage("Delete"),
         "report_error": MessageLookupByLibrary.simpleMessage("Report error"),
-        "report_error_suggestion":
-            MessageLookupByLibrary.simpleMessage("Report error/suggestion"),
         "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
             "Do you want to see your favorite restaurants in the main page?"),
         "room": MessageLookupByLibrary.simpleMessage("Room"),
