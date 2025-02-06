@@ -39,8 +39,9 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
             Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 8),
+                  padding: const EdgeInsets.only(left: 8, right: 8),
                   child: DropdownButton(
+                    underline: Container(),
                     items: _getAvailableYears(courseUnits)
                         .map(
                           (year) => _toDropdownMenuItem(
@@ -59,6 +60,7 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
                   ),
                 ),
                 DropdownButton(
+                  underline: Container(),
                   items: _getAvailableSemesters(courseUnits)
                       .map(
                         (semester) => _toDropdownMenuItem(
