@@ -8,6 +8,8 @@ part of '../../../model/entities/restaurant.dart';
 
 Restaurant _$RestaurantFromJson(Map<String, dynamic> json) => Restaurant(
       (json['id'] as num?)?.toInt(),
+      json['typePt'] as String,
+      json['typeEn'] as String,
       json['namePt'] as String,
       json['nameEn'] as String,
       json['period'] as String,
@@ -20,6 +22,8 @@ Restaurant _$RestaurantFromJson(Map<String, dynamic> json) => Restaurant(
 Map<String, dynamic> _$RestaurantToJson(Restaurant instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'typePt': instance.typePt,
+      'typeEn': instance.typeEn,
       'namePt': instance.namePt,
       'nameEn': instance.nameEn,
       'period': instance.period,

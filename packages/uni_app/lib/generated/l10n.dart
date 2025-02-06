@@ -1847,6 +1847,52 @@ class S {
       args: [],
     );
   }
+
+  /// `{type, select, all_dishes{All dishes} meat_dishes{Meat dishes} fish_dishes{Fish dishes} vegetarian_dishes{Vegetarian dishes} soups{Soups} salads{Salads} diet_dishes{Diet dishes} dishes_of_the_day{Dishes of the Day} other{Other}}`
+  String dish_type(Object type) {
+    return Intl.select(
+      type,
+      {
+        'all_dishes': 'All dishes',
+        'meat_dishes': 'Meat dishes',
+        'fish_dishes': 'Fish dishes',
+        'vegetarian_dishes': 'Vegetarian dishes',
+        'soups': 'Soups',
+        'salads': 'Salads',
+        'diet_dishes': 'Diet dishes',
+        'dishes_of_the_day': 'Dishes of the Day',
+        'other': 'Other',
+      },
+      name: 'dish_type',
+      desc: '',
+      args: [type],
+    );
+  }
+
+  /// `Favourites`
+  String get favourite_filter {
+    return Intl.message(
+      'Favourites',
+      name: 'favourite_filter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{period, select, lunch{Lunch} dinner{Dinner} other{Other}}`
+  String restaurant_period(Object period) {
+    return Intl.select(
+      period,
+      {
+        'lunch': 'Lunch',
+        'dinner': 'Dinner',
+        'other': 'Other',
+      },
+      name: 'restaurant_period',
+      desc: '',
+      args: [period],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
