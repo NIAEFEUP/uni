@@ -1,0 +1,89 @@
+import 'package:flutter/material.dart';
+import 'package:figma_squircle/figma_squircle.dart';
+
+const double _avatarRadius = 20;
+const double _instructorCardWidth = 165;
+
+class RemainingInstructorsCard extends StatelessWidget {
+  const RemainingInstructorsCard({
+    super.key,
+    required this.remainingCount,
+    required this.profileImages,
+  });
+
+  final int remainingCount;
+  final List<ImageProvider?> profileImages;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: _instructorCardWidth,
+      child: ClipSmoothRect(
+        radius: SmoothBorderRadius(
+          cornerRadius: 15,
+          cornerSmoothing: 1,
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: (profileImages.length + 1) * _avatarRadius * 1.4,
+                height: _avatarRadius * 2,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    ...profileImages.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final image = entry.value;
+                      return Positioned(
+                        left: index * _avatarRadius * 1.85,
+                        child: CircleAvatar(
+                          radius: _avatarRadius,
+                          backgroundImage: image ??
+                              const AssetImage(
+                                  'assets/images/profile_placeholder.png'),
+                        ),
+                      );
+                    }).toList(),
+                    Positioned(
+                      left: profileImages.length * _avatarRadius * 1.85,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0x3F000000),
+                              blurRadius: 1,
+                              offset: Offset(0, 2),
+                              spreadRadius: 0,
+                            ),
+                          ],
+                        ),
+                        child: CircleAvatar(
+                          radius: _avatarRadius,
+                          backgroundColor: CardTheme.of(context).color,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Text(
+                                '+${remainingCount}',
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

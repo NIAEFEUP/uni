@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class UniIcon extends StatelessWidget {
-  const UniIcon({super.key, this.iconColor});
+class UniLogo extends StatelessWidget {
+  const UniLogo({super.key, this.iconColor});
 
   final Color? iconColor;
 

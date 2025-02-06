@@ -58,6 +58,17 @@ Future<Sheet> parseSheet(http.Response response) async {
     return Professor.fromJson(element as Map<String, dynamic>);
   }).toList();
 
+  for (final regent in regents) {
+    professors.firstWhere(
+      (professor) => professor.code == regent.code,
+      orElse: () {
+        regent.isRegent = true;
+        professors.add(regent);
+        return regent;
+      },
+    ).isRegent = true;
+  }
+
   final books = (json['bibliografia'] as List? ?? [])
       .map((element) => element as Map<String, dynamic>)
       .map<Book>((element) {
@@ -71,7 +82,7 @@ Future<Sheet> parseSheet(http.Response response) async {
     professors: professors,
     content: json['conteudo'].toString(),
     evaluation: json['for_avaliacao'].toString(),
-    regents: regents,
+    frequency: json['cond_frequencia'].toString(),
     books: books,
   );
 }

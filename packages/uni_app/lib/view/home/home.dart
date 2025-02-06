@@ -8,7 +8,7 @@ import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_bu
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
 import 'package:uni/view/home/widgets/main_cards_list.dart';
 import 'package:uni/view/home/widgets/tracking_banner.dart';
-import 'package:uni/view/home/widgets/uni_icon.dart';
+import 'package:uni/view/home/widgets/uni_logo.dart';
 
 class HomePageView extends StatefulWidget {
   const HomePageView({super.key});
@@ -130,7 +130,7 @@ class HomePageViewState extends GeneralPageViewState {
     return const AppTopNavbar(
       leftButton: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8),
-        child: UniIcon(),
+        child: UniLogo(),
       ),
       rightButton: ProfileButton(),
     );

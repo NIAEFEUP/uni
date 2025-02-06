@@ -38,6 +38,7 @@ class ScheduleCard extends StatelessWidget {
               stops: [0, 1])
           : null,
       key: key,
+      tooltip: '',
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
