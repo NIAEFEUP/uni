@@ -178,7 +178,7 @@
   "@min_value_reference": {},
   "multimedia_center": "Multimedia center",
   "@multimedia_center": {},
-  "nav_title": "{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} transportes{Transports} faculdade{Faculty} other{Other}}",
+  "nav_title": "{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} mapa{Map} faculdade{Faculty} other{Other}}",
   "@nav_title": {},
   "news": "News",
   "@news": {},
