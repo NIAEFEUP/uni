@@ -2,16 +2,18 @@ import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 
 class GenericCard extends StatelessWidget {
-  const GenericCard(
-      {super.key,
-      this.margin,
-      this.padding,
-      this.color,
-      this.shadowColor,
-      this.borderRadius,
-      this.onClick,
-      this.child,
-      this.gradient});
+  const GenericCard({
+    super.key,
+    this.margin,
+    this.padding,
+    this.color,
+    this.shadowColor,
+    this.borderRadius,
+    this.onClick,
+    this.child,
+    this.gradient,
+    required this.tooltip,
+  });
 
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
@@ -20,8 +22,8 @@ class GenericCard extends StatelessWidget {
   final double? borderRadius;
   final VoidCallback? onClick;
   final Widget? child;
-  final String tooltip;
   final Gradient? gradient;
+  final String tooltip;
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +39,10 @@ class GenericCard extends StatelessWidget {
             BoxShadow(
               color: shadowColor ??
                   cardTheme.shadowColor ??
-                  Colors.black.withOpacity(0.15),
+                  Colors.black.withOpacity(0.03),
               blurRadius: 12,
-              spreadRadius: -4,
-              offset: const Offset(0, 6),
+              spreadRadius: -2,
+              offset: const Offset(0, 1),
             ),
           ],
         ),
@@ -55,18 +57,9 @@ class GenericCard extends StatelessWidget {
                   cardTheme.color ??
                   theme.colorScheme.surfaceContainer,
               gradient: gradient,
-              boxShadow: [
-                BoxShadow(
-                  color: shadowColor ??
-                      cardTheme.shadowColor ??
-                      Colors.black.withOpacity(0.25),
-                  blurRadius: 6,
-                ),
-              ],
             ),
             child: Padding(
-              padding: padding ??
-                  const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+              padding: padding ?? const EdgeInsets.all(10),
               child: GestureDetector(
                 onTap: onClick,
                 child: child,

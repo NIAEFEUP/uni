@@ -51,11 +51,11 @@ class Settings extends StatelessWidget {
                   icon: UniIcons.notification,
                   title: S.of(context).notifications,
                   onTap: () {
-                      showDialog<NotificationsDialog>(
-                        context: context,
-                        builder: (context) => const NotificationsDialog(),
-                      );
-                    },
+                    showDialog<NotificationsDialog>(
+                      context: context,
+                      builder: (context) => const NotificationsDialog(),
+                    );
+                  },
                 ),
               ],
             ),

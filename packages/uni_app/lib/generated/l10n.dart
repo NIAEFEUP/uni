@@ -18,28 +18,31 @@ class S {
   static S? _current;
 
   static S get current {
-    assert(_current != null, 'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
+    assert(_current != null,
+        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
     return _current!;
   }
 
-  static const AppLocalizationDelegate delegate =
-    AppLocalizationDelegate();
+  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name); 
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       final instance = S();
       S._current = instance;
- 
+
       return instance;
     });
-  } 
+  }
 
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
-    assert(instance != null, 'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
+    assert(instance != null,
+        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
     return instance!;
   }
 
@@ -592,6 +595,16 @@ class S {
     return Intl.message(
       'Evaluation',
       name: 'evaluation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Eligibility for exams`
+  String get frequency {
+    return Intl.message(
+      'Eligibility for exams',
+      name: 'frequency',
       desc: '',
       args: [],
     );
@@ -1740,6 +1753,66 @@ class S {
     return Intl.message(
       'Check your internet connection',
       name: 'internet_status_exception',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Instructors`
+  String get instructors {
+    return Intl.message(
+      'Instructors',
+      name: 'instructors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Assessments`
+  String get assessments {
+    return Intl.message(
+      'Assessments',
+      name: 'assessments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No exams scheduled`
+  String get noExamsScheduled {
+    return Intl.message(
+      'No exams scheduled',
+      name: 'noExamsScheduled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No instructors assigned`
+  String get noInstructors {
+    return Intl.message(
+      'No instructors assigned',
+      name: 'noInstructors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Course Regent`
+  String get courseRegent {
+    return Intl.message(
+      'Course Regent',
+      name: 'courseRegent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Instructor`
+  String get instructor {
+    return Intl.message(
+      'Instructor',
+      name: 'instructor',
       desc: '',
       args: [],
     );
