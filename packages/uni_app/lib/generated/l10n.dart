@@ -968,6 +968,16 @@ class S {
     );
   }
 
+  /// `You have no classes this week`
+  String get no_classes_this_week {
+    return Intl.message(
+      'You have no classes this week',
+      name: 'no_classes_this_week',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No classes to present`
   String get no_classes {
     return Intl.message(

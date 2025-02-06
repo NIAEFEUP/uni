@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/utils/time/week.dart';
-import 'package:uni/view/academic_path/widgets/empty_week.dart';
 import 'package:uni/view/academic_path/widgets/schedule_day_timeline.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/timeline/timeline.dart';
@@ -26,83 +25,63 @@ class SchedulePageViewState extends State<SchedulePageView> {
   void initState() {
     super.initState();
     reorderedDates = _getReorderedWeekDates(widget.currentWeek.start);
-    final today = widget.currentWeek.start;
-
-    initialTab = reorderedDates.indexWhere(
-      (date) =>
-          date.year == today.year &&
-          date.month == today.month &&
-          date.day == today.day,
+    final todayIndex = reorderedDates
+        .indexWhere((date) => date.isAtSameMomentAs(widget.currentWeek.start));
+    final firstAvailableIndex = reorderedDates.indexWhere(
+      (date) => _lecturesOfDay(widget.lectures, date).isNotEmpty,
     );
+    final lecturesToday =
+        _lecturesOfDay(widget.lectures, reorderedDates[todayIndex]).isNotEmpty;
+
+    initialTab = lecturesToday ? todayIndex : firstAvailableIndex;
   }
 
   @override
   Widget build(BuildContext context) {
-    final noLectures =
-        _lecturesOfWeek(widget.lectures, widget.currentWeek).isEmpty;
-    return Timeline(
-      tabs: createTabs(
-          context), // TODO(thePeras): Remove helper function and put widget directly
-      content: noLectures ? [const EmptyWeek()] : createTabViewBuilder(context),
-      initialTab: initialTab,
-    );
-  }
-
-  List<Widget> createTabs(BuildContext context) {
     final daysOfTheWeek =
         Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
-
-    // Reorder the days of the week to start with Sunday
     final reorderedDaysOfTheWeek = [
-      daysOfTheWeek[6], // Sunday (index 6 in default order)
-      ...daysOfTheWeek.sublist(0, 6), // Monday to Saturday
+      daysOfTheWeek[6],
+      ...daysOfTheWeek.sublist(0, 6),
     ];
 
-    return List.generate(7, (index) {
-      return SizedBox(
-        width: 26,
-        height: 32,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              reorderedDaysOfTheWeek[index].substring(0, 3),
+    return Timeline(
+      tabs: reorderedDaysOfTheWeek
+          .map(
+            (day) => SizedBox(
+              width: 26,
+              height: 32,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    day.substring(0, 3),
+                  ),
+                  Text(
+                    '${reorderedDates[reorderedDaysOfTheWeek.indexOf(day)].day}',
+                  ),
+                ],
+              ),
             ),
-            Text(
-              '${reorderedDates[index].day}',
+          )
+          .toList(),
+      content: reorderedDates
+          .map(
+            (day) => ScheduleDayTimeline(
+              key: Key('schedule-page-day-view-${day.weekday}'),
+              day: day,
+              lectures: _lecturesOfDay(widget.lectures, day),
             ),
-          ],
-        ),
-      );
-    });
-  }
-
-  List<Widget> createTabViewBuilder(BuildContext context) {
-    return List.generate(7, (index) {
-      final day = reorderedDates[index];
-      final lectures = _lecturesOfDay(widget.lectures, day);
-
-      return ScheduleDayTimeline(
-        key: Key('schedule-page-day-view-${day.weekday}'),
-        day: day,
-        lectures: lectures,
-      );
-    });
+          )
+          .toList(),
+      initialTab: initialTab,
+    );
   }
 
   List<DateTime> _getReorderedWeekDates(DateTime startOfWeek) {
     final sunday =
         startOfWeek.subtract(Duration(days: startOfWeek.weekday % 7));
     return List.generate(7, (index) => sunday.add(Duration(days: index)));
-  }
-
-  List<Lecture> _lecturesOfWeek(List<Lecture> lectures, Week currentWeek) {
-    final startOfWeek = currentWeek.start;
-    final endOfWeek = startOfWeek.add(const Duration(days: 7));
-    return lectures.where((lecture) {
-      final startTime = lecture.startTime;
-      return startTime.isAfter(startOfWeek) && startTime.isBefore(endOfWeek);
-    }).toList();
   }
 
   List<Lecture> _lecturesOfDay(List<Lecture> lectures, DateTime day) {

@@ -13,10 +13,11 @@ class SchedulePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final startOfWeek = now.subtract(Duration(days: now.weekday % 7));
+    final endOfWeek = startOfWeek.add(const Duration(days: 7));
     return MediaQuery.removePadding(
       context: context,
-      removeBottom:
-          true, // Prevents the extendBody=true from creating a huge gap between each day's content
+      removeBottom: true,
       child: RefreshIndicator(
         onRefresh: () async {
           await context.read<LectureProvider>().forceRefresh(context);
@@ -28,9 +29,15 @@ class SchedulePage extends StatelessWidget {
               now: now,
             );
           },
-          hasContent: (lectures) =>
-              lectures.isNotEmpty, //TODO(thePeras): Filter with where
+          hasContent: (lectures) => lectures.isNotEmpty,
           onNullContent: const EmptyWeek(),
+          mapper: (lectures) => lectures // change to getMockLectures() to test
+              .where(
+                (lecture) =>
+                    lecture.startTime.isAfter(startOfWeek) &&
+                    lecture.startTime.isBefore(endOfWeek),
+              )
+              .toList(),
         ),
       ),
     );
@@ -44,8 +51,8 @@ List<Lecture> getMockLectures() {
       'FSI',
       'Fundamentos de Segurança Informática',
       'T',
-      DateTime.now().subtract(const Duration(hours: 2)),
-      DateTime.now().subtract(const Duration(hours: 1)),
+      DateTime.now().subtract(const Duration(days: 1, hours: 2)),
+      DateTime.now().subtract(const Duration(days: 1, hours: 1)),
       'B101',
       'Dr. Smith',
       'Class 1',

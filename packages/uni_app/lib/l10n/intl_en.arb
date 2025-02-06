@@ -188,6 +188,8 @@
   "@no_bus_stops": {},
   "no_class": "There are no classes to display",
   "@no_class": {},
+  "no_classes_this_week": "You have no classes this week",
+  "@no_classes_this_week": {},
   "no_classes": "No classes to present",
   "@no_classes": {},
   "no_classes_on": "You don't have classes on",

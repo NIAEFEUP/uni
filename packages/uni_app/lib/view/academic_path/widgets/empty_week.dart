@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
 
 class EmptyWeek extends StatelessWidget {
@@ -6,11 +7,18 @@ class EmptyWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
+      heightFactor: 1.2,
       child: ImageLabel(
         imagePath: 'assets/images/schedule.png',
-        label: 'You have no classes this week.',
-        labelTextStyle: TextStyle(fontSize: 15),
+        label: S.of(context).no_class,
+        labelTextStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+        sublabel: S.of(context).no_classes_this_week,
+        sublabelTextStyle: const TextStyle(fontSize: 15),
       ),
     );
   }
