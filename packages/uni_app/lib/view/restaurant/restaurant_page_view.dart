@@ -258,8 +258,13 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
         getRestaurantMenuItems(dayOfWeek, restaurant, locale) ?? [];
     return menuItems.isNotEmpty
         ? RestaurantCard(
-            name: RestaurantUtils.getRestaurantName(context, locale,
-                restaurant.namePt, restaurant.namePt, restaurant.period),
+            name: RestaurantUtils.getRestaurantName(
+              context,
+              locale,
+              restaurant.namePt,
+              restaurant.namePt,
+              restaurant.period,
+            ),
             icon: RestaurantUtils.getIcon(
               restaurant.typeEn ?? restaurant.typePt,
             ),

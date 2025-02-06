@@ -240,7 +240,6 @@ class ApplicationState extends State<Application> {
           title: 'uni',
           navigatorKey: Application.navigatorKey,
           theme: lightTheme,
-          darkTheme: applicationDarkTheme,
           themeMode: ThemeMode.light, // themeNotifier.getTheme(),
           locale: localeNotifier.getLocale().localeCode,
           localizationsDelegates: const [

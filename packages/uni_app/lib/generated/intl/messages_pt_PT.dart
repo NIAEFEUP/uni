@@ -184,8 +184,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Credenciais inválidas"),
         "keep_login": MessageLookupByLibrary.simpleMessage("Lembre-se de mim"),
         "language": MessageLookupByLibrary.simpleMessage("Idioma"),
-        "last_refresh_time": m0,
-        "last_timestamp": m1,
+        "last_refresh_time": m1,
+        "last_timestamp": m2,
         "leave_feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
         "lectures": MessageLookupByLibrary.simpleMessage("Aulas"),
         "library_occupation":

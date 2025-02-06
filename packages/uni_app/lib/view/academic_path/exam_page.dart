@@ -61,7 +61,6 @@ class _ExamsPageState extends State<ExamsPage> {
                         title: '1',
                         subtitle: 'Jan',
                         card: ExamCard(
-                          tooltip: '',
                           name: 'Computer Laboratory',
                           acronym: 'LCOM',
                           rooms: ['B315', 'B224', 'B207'],
@@ -82,7 +81,6 @@ class _ExamsPageState extends State<ExamsPage> {
                           isActive: _nextExam(exams) == exam,
                           card: ExamCard(
                             name: exam.subject,
-                            tooltip: '',
                             acronym: exam.subjectAcronym,
                             rooms: exam.rooms,
                             type: exam.examType,
