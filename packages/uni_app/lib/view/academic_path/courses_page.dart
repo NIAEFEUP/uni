@@ -55,10 +55,10 @@ class CoursesPageState extends State<CoursesPage> {
     }
 
     return course.name!
-      .replaceAll('Licenciatura', 'Licenciatura.')
-      .replaceAll('Mestrado', 'Mestrado.')
-      .replaceAll('Doutoramento', 'Doutoramento.')
-      .replaceAll(RegExp('[^A-Z.]'), '');
+        .replaceAll('Licenciatura', 'Licenciatura.')
+        .replaceAll('Mestrado', 'Mestrado.')
+        .replaceAll('Doutoramento', 'Doutoramento.')
+        .replaceAll(RegExp('[^A-Z.]'), '');
   }
 
   @override
