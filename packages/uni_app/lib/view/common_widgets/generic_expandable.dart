@@ -19,6 +19,12 @@ class _GenericExpandableState extends State<GenericExpandable> {
   final _controller = ExpandableController();
 
   @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _controller.toggle,

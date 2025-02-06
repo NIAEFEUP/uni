@@ -139,26 +139,30 @@ class CourseUnitSheetView extends StatelessWidget {
           if (courseUnitSheet.books.isNotEmpty)
             _buildSection(
               title: S.of(context).bibliography,
-              content: Wrap(
-                alignment: WrapAlignment.spaceBetween,
-                children: courseUnitSheet.books.map((book) {
-                  return book.isbn.isNotEmpty
-                      ? FutureBuilder<String?>(
-                          future: BookThumbFetcher().fetchBookThumb(book.isbn),
-                          builder: (context, snapshot) {
-                            return BookCard(
-                              title: book.title,
-                              isbn: book.isbn,
-                              imageUrl: snapshot.data,
-                            );
-                          },
-                        )
-                      : BookCard(
-                          title: book.title,
-                          isbn: book.isbn,
-                          imageUrl: null,
-                        );
-                }).toList(),
+              content: SizedBox(
+                width: double.infinity,
+                child: Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  children: courseUnitSheet.books.map((book) {
+                    return book.isbn.isNotEmpty
+                        ? FutureBuilder<String?>(
+                            future:
+                                BookThumbFetcher().fetchBookThumb(book.isbn),
+                            builder: (context, snapshot) {
+                              return BookCard(
+                                title: book.title,
+                                isbn: book.isbn,
+                                imageUrl: snapshot.data,
+                              );
+                            },
+                          )
+                        : BookCard(
+                            title: book.title,
+                            isbn: book.isbn,
+                            imageUrl: null,
+                          );
+                  }).toList(),
+                ),
               ),
               context: context,
             ),
@@ -221,10 +225,6 @@ class _InstructorCard extends StatelessWidget {
         return InstructorCard(
           name: instructor.name,
           isRegent: instructor.isRegent,
-          onTap: () => showDialog<void>(
-            context: context,
-            builder: (context) => ProfessorInfoModal(instructor),
-          ),
           instructorLabel: S.of(context).instructor,
           regentLabel: S.of(context).courseRegent,
           profileImage: profileImage,
@@ -273,7 +273,7 @@ class _LimitedInstructorsRow extends StatelessWidget {
                   List.filled(remainingToShow.length, null);
 
               return RemainingInstructorsCard(
-                remainingCount: remaining.length - remainingToShow.length,
+                remainingCount: remaining.length,
                 profileImages: images,
               );
             },
