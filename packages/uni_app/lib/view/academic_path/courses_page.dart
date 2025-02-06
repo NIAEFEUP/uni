@@ -111,7 +111,17 @@ class CoursesPageState extends State<CoursesPage> {
         );
       },
       hasContent: (profile) => profile.courses.isNotEmpty,
-      onNullContent: const NoCoursesWidget(),
+      onNullContent: LayoutBuilder(  // Band-aid for allowing refresh on null content
+        builder: (context, constraints) => SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: SizedBox(
+            height: constraints.maxHeight,
+            child: const Center(
+              child: NoCoursesWidget(),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
