@@ -1,17 +1,21 @@
+import 'package:uni/sigarra/endpoint.dart';
 import 'package:uni/sigarra/options.dart';
 import 'package:uni/sigarra/response.dart';
 
-class Logout {
-  const Logout();
+class Logout extends Endpoint {
+  const Logout({
+    this.options,
+  });
 
-  Future<SigarraResponse> call({
-    FacultyRequestOptions? options,
-  }) async {
-    options = options ?? FacultyRequestOptions();
+  final FacultyRequestOptions? options;
+
+  @override
+  Future<EndpointResponse> call() async {
+    final options = this.options ?? FacultyRequestOptions();
 
     final logoutUrl = options.baseUrl.resolve('vld_validacao.sair');
     final response = await options.client.get(logoutUrl);
 
-    return SigarraResponse(success: response.statusCode == 200);
+    return EndpointResponse(success: response.statusCode == 200);
   }
 }

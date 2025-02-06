@@ -4,18 +4,24 @@ import 'package:html/dom.dart' as html;
 import 'package:html/parser.dart' as html_parser;
 import 'package:http/http.dart' as http;
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:uni/sigarra/endpoint.dart';
 import 'package:uni/sigarra/endpoints/html/authentication/login/response.dart';
 import 'package:uni/sigarra/options.dart';
 
-class Login {
-  const Login();
+class Login extends Endpoint<LoginResponse> {
+  const Login({
+    required this.username,
+    required this.password,
+    this.options,
+  });
 
-  Future<LoginResponse> call({
-    required String username,
-    required String password,
-    FacultyRequestOptions? options,
-  }) async {
-    options = options ?? FacultyRequestOptions();
+  final String username;
+  final String password;
+  final FacultyRequestOptions? options;
+
+  @override
+  Future<LoginResponse> call() async {
+    final options = this.options ?? FacultyRequestOptions();
 
     final loginUrl = options.baseUrl.resolve('vld_validacao.validacao');
 

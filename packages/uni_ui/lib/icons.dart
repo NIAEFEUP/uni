@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+
 // A list of all available icons
 class UniIcons {
   static const lecture = PhosphorIconsDuotone.lectern;

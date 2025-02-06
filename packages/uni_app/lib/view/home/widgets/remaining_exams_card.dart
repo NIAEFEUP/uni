@@ -30,7 +30,8 @@ class RemainingExamsWidget extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   ExamTitle(
-                    subject: exam.subject,
+                    subject: exam.subjectAcronym,
+                    subjectName: exam.subject,
                     type: exam.examType,
                     reverseOrder: true,
                   ),

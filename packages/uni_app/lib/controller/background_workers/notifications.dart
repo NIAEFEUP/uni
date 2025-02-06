@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/controller/background_workers/notifications/tuition_notification.dart';
 import 'package:uni/controller/local_storage/notification_timeout_storage.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
@@ -28,12 +27,12 @@ abstract class Notification {
   String uniqueID;
   Duration timeout;
 
-  Future<Tuple2<String, String>> buildNotificationContent(Session session);
+  Future<(String, String)> buildNotificationContent(Session session);
 
   Future<bool> shouldDisplay(Session session);
 
   void displayNotification(
-    Tuple2<String, String> content,
+    (String, String) content,
     FlutterLocalNotificationsPlugin localNotificationsPlugin,
   );
 

@@ -9,8 +9,8 @@ part of '../../../model/entities/reference.dart';
 Reference _$ReferenceFromJson(Map<String, dynamic> json) => Reference(
       json['description'] as String,
       const DateTimeConverter().fromJson(json['limitDate'] as String),
-      json['entity'] as int,
-      json['reference'] as int,
+      (json['entity'] as num).toInt(),
+      (json['reference'] as num).toInt(),
       (json['amount'] as num).toDouble(),
     );
 

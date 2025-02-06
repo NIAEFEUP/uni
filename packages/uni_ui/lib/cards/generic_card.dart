@@ -2,17 +2,16 @@ import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 
 class GenericCard extends StatelessWidget {
-  const GenericCard({
-    super.key,
-    this.margin,
-    this.padding,
-    this.color,
-    this.shadowColor,
-    this.borderRadius,
-    this.onClick,
-    this.child,
-    required this.tooltip,
-  });
+  const GenericCard(
+      {super.key,
+      this.margin,
+      this.padding,
+      this.color,
+      this.shadowColor,
+      this.borderRadius,
+      this.onClick,
+      this.child,
+      this.gradient});
 
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
@@ -22,6 +21,7 @@ class GenericCard extends StatelessWidget {
   final VoidCallback? onClick;
   final Widget? child;
   final String tooltip;
+  final Gradient? gradient;
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +54,19 @@ class GenericCard extends StatelessWidget {
               color: color ??
                   cardTheme.color ??
                   theme.colorScheme.surfaceContainer,
+              gradient: gradient,
+              boxShadow: [
+                BoxShadow(
+                  color: shadowColor ??
+                      cardTheme.shadowColor ??
+                      Colors.black.withOpacity(0.25),
+                  blurRadius: 6,
+                ),
+              ],
             ),
             child: Padding(
-              padding: padding ?? const EdgeInsets.all(10),
+              padding: padding ??
+                  const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
               child: GestureDetector(
                 onTap: onClick,
                 child: child,

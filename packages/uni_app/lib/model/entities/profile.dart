@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 
@@ -43,13 +42,13 @@ class Profile {
 
   /// Returns a list with two tuples: the first tuple contains the user's name
   /// and the other one contains the user's email.
-  List<Tuple2<String, String>> keymapValues() {
+  List<(String, String)> keymapValues() {
     return [
-      Tuple2('name', name),
-      Tuple2('email', email),
-      Tuple2('printBalance', printBalance),
-      Tuple2('feesBalance', feesBalance),
-      Tuple2(
+      ('name', name),
+      ('email', email),
+      ('printBalance', printBalance),
+      ('feesBalance', feesBalance),
+      (
         'feesLimit',
         feesLimit != null ? feesLimit!.toIso8601String() : '',
       ),

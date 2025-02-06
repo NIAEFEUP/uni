@@ -167,10 +167,10 @@ class S {
     );
   }
 
-  /// `By entering you confirm that you agree with these Terms and Conditions`
+  /// `By entering you agree with these`
   String get agree_terms {
     return Intl.message(
-      'By entering you confirm that you agree with these Terms and Conditions',
+      'By entering you agree with these',
       name: 'agree_terms',
       desc: '',
       args: [],
@@ -232,6 +232,16 @@ class S {
     return Intl.message(
       'Bibliography',
       name: 'bibliography',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Breakfast`
+  String get breakfast {
+    return Intl.message(
+      'Breakfast',
+      name: 'breakfast',
       desc: '',
       args: [],
     );
@@ -507,6 +517,16 @@ class S {
     );
   }
 
+  /// `Dinner`
+  String get dinner {
+    return Intl.message(
+      'Dinner',
+      name: 'dinner',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `D. Beatriz's stationery store`
   String get dona_bia {
     return Intl.message(
@@ -727,10 +747,10 @@ class S {
     );
   }
 
-  /// `Stay signed in`
+  /// `Remember me`
   String get keep_login {
     return Intl.message(
-      'Stay signed in',
+      'Remember me',
       name: 'keep_login',
       desc: '',
       args: [],
@@ -780,6 +800,16 @@ class S {
     );
   }
 
+  /// `Lunch`
+  String get lunch {
+    return Intl.message(
+      'Lunch',
+      name: 'lunch',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Error downloading the file`
   String get download_error {
     return Intl.message(
@@ -815,6 +845,16 @@ class S {
     return Intl.message(
       'Settings',
       name: 'settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Snackbar`
+  String get snackbar {
+    return Intl.message(
+      'Snackbar',
+      name: 'snackbar',
       desc: '',
       args: [],
     );
@@ -860,7 +900,7 @@ class S {
     );
   }
 
-  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} transportes{Transports} faculdade{Faculty} other{Other}}`
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} mapa{Map} faculdade{Faculty} other{Other}}`
   String nav_title(Object title) {
     return Intl.select(
       title,
@@ -875,7 +915,7 @@ class S {
         'calendario': 'Calendar',
         'biblioteca': 'Library',
         'percurso_academico': 'Academic Path',
-        'transportes': 'Transports',
+        'mapa': 'Map',
         'faculdade': 'Faculty',
         'other': 'Other',
       },
@@ -1225,10 +1265,10 @@ class S {
     );
   }
 
-  /// `password`
+  /// `Password`
   String get password {
     return Intl.message(
-      'password',
+      'Password',
       name: 'password',
       desc: '',
       args: [],
@@ -1495,10 +1535,10 @@ class S {
     );
   }
 
-  /// `student number`
+  /// `Student Number`
   String get student_number {
     return Intl.message(
-      'student number',
+      'Student Number',
       name: 'student_number',
       desc: '',
       args: [],
@@ -1655,10 +1695,10 @@ class S {
     );
   }
 
-  /// `Problems with login? Try a different login`
+  /// `Having trouble signing in?`
   String get try_different_login {
     return Intl.message(
-      'Problems with login? Try a different login',
+      'Having trouble signing in?',
       name: 'try_different_login',
       desc: '',
       args: [],
@@ -1700,6 +1740,36 @@ class S {
     return Intl.message(
       'Check your internet connection',
       name: 'internet_status_exception',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lectures`
+  String get lectures {
+    return Intl.message(
+      'Lectures',
+      name: 'lectures',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Exams`
+  String get exams {
+    return Intl.message(
+      'Exams',
+      name: 'exams',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Courses`
+  String get courses {
+    return Intl.message(
+      'Courses',
+      name: 'courses',
       desc: '',
       args: [],
     );

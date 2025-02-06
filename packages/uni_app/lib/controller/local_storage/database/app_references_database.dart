@@ -26,13 +26,7 @@ class AppReferencesDatabase extends AppDatabase<List<Reference>> {
     final List<Map<String, dynamic>> maps = await db.query('refs');
 
     return List.generate(maps.length, (i) {
-      return Reference(
-        maps[i]['description'] as String,
-        DateTime.parse(maps[i]['limitDate'] as String),
-        maps[i]['entity'] as int,
-        maps[i]['reference'] as int,
-        maps[i]['amount'] as double,
-      );
+      return Reference.fromJson(maps[i]);
     });
   }
 

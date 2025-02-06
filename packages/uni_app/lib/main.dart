@@ -31,7 +31,9 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/about/about.dart';
 import 'package:uni/view/academic_path/academic_path.dart';
+import 'package:uni/view/bug_report/bug_report.dart';
 import 'package:uni/view/bus_stop_next_arrivals/bus_stop_next_arrivals.dart';
 import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/common_widgets/page_transition.dart';
@@ -46,6 +48,7 @@ import 'package:uni/view/login/login.dart';
 import 'package:uni/view/profile/profile.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
+import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
 import 'package:uni/view/transports/transports.dart';
@@ -70,6 +73,22 @@ Future<String> firstRoute() async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.edgeToEdge,
+    overlays: [
+      SystemUiOverlay.top,
+      SystemUiOverlay.bottom,
+    ],
+  );
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.light,
+    ),
+  );
 
   PreferencesController.prefs = await SharedPreferences.getInstance();
 
@@ -123,7 +142,7 @@ Future<void> main() async {
   final savedTheme = PreferencesController.getThemeMode();
   final savedLocale = PreferencesController.getLocale();
 
-  final route = await firstRoute();
+  const route = '/splash';
 
   await SentryFlutter.init(
     (options) {
@@ -176,7 +195,7 @@ Future<void> main() async {
                 create: (_) => ThemeNotifier(savedTheme),
               ),
             ],
-            child: Application(route),
+            child: const Application(route),
           ),
         ),
       );
@@ -214,9 +233,6 @@ class ApplicationState extends State<Application> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
     return Consumer2<ThemeNotifier, LocaleNotifier>(
       builder: (context, themeNotifier, localeNotifier, _) => UpgradeAlert(
         navigatorKey: Application.navigatorKey,
@@ -239,8 +255,12 @@ class ApplicationState extends State<Application> {
           navigatorObservers: navigatorObservers,
           onGenerateRoute: (settings) {
             final transitions = {
+              '/splash': PageTransition.makePageTransition(
+                page: const SplashScreenView(),
+                settings: settings,
+              ),
               '/${NavigationItem.navLogin.route}':
-                  PageTransition.makePageTransition(
+                  PageTransition.splashTransitionRoute(
                 page: const LoginPageView(),
                 settings: settings,
               ),
@@ -299,14 +319,25 @@ class ApplicationState extends State<Application> {
                 page: const AcademicPathPageView(),
                 settings: settings,
               ),
-              '/${NavigationItem.navTransports.route}':
+              '/${NavigationItem.navMap.route}':
                   PageTransition.makePageTransition(
                 page: const TransportsPageView(),
                 settings: settings,
               ),
               '/${NavigationItem.navProfile.route}':
-                  MaterialPageRoute<ProfilePageView>(
-                builder: (__) => const ProfilePageView(),
+                  PageTransition.makePageTransition(
+                page: const ProfilePageView(),
+                settings: settings,
+              ),
+              '/${NavigationItem.navBugreport.route}':
+                  PageTransition.makePageTransition(
+                page: const BugReportPageView(),
+                settings: settings,
+              ),
+              '/${NavigationItem.navAboutus.route}':
+                  PageTransition.makePageTransition(
+                page: const AboutPageView(),
+                settings: settings,
               ),
             };
             return transitions[settings.name];
