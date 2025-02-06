@@ -47,7 +47,7 @@ class ScheduleDayTimeline extends StatelessWidget {
             card: ScheduleCard(
               isActive: _isLectureActive(lecture),
               name: lecture.subject,
-              acronym: _getAcronym(lecture.subject),
+              acronym: lecture.acronym,
               room: lecture.room,
               type: lecture.typeClass,
               teacherName: lecture.teacher,
@@ -55,15 +55,6 @@ class ScheduleDayTimeline extends StatelessWidget {
           ),
         )
         .toList();
-  }
-
-  String _getAcronym(String subject) {
-    return subject
-        .split(' ')
-        .where((word) => word.length >= 3)
-        .map((word) => word[0])
-        .join()
-        .toUpperCase();
   }
 
   bool _isLectureActive(Lecture lecture) {

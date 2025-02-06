@@ -27,7 +27,7 @@ class SchedulePage extends StatelessWidget {
               now: now,
             );
           },
-          hasContent: (lectures) => lectures.isNotEmpty,
+          hasContent: (lectures) => true,
           onNullContent: SchedulePageView(const [], now: now),
         ),
       ),
@@ -39,6 +39,7 @@ class SchedulePage extends StatelessWidget {
 List<Lecture> getMockLectures() {
   return [
     Lecture(
+      'FSI',
       'Fundamentos de Segurança Informática',
       'T',
       DateTime.now().subtract(const Duration(hours: 2)),
@@ -49,6 +50,7 @@ List<Lecture> getMockLectures() {
       1,
     ),
     Lecture(
+      'FSI',
       'Fundamentos de Segurança Informática',
       'TP',
       DateTime.now().add(Duration.zero),
@@ -59,6 +61,7 @@ List<Lecture> getMockLectures() {
       2,
     ),
     Lecture(
+      'IPC',
       'Interação Pessoa Computador',
       'T',
       DateTime.now().add(const Duration(hours: 5)),
@@ -69,6 +72,7 @@ List<Lecture> getMockLectures() {
       3,
     ),
     Lecture(
+      'IPC',
       'Interação Pessoa Computador',
       'TP',
       DateTime.now().subtract(const Duration(days: 2, hours: 3)),
@@ -79,6 +83,7 @@ List<Lecture> getMockLectures() {
       4,
     ),
     Lecture(
+      'LBAW',
       'Laboratório de Bases de Dados e Aplicações Web',
       'T',
       DateTime.now().add(const Duration(days: 3, hours: 4)),
@@ -89,6 +94,7 @@ List<Lecture> getMockLectures() {
       5,
     ),
     Lecture(
+      'PFL',
       'Programação Funcional e em Lógica',
       'TP',
       DateTime.now().add(const Duration(days: 1, hours: 5)),
@@ -99,6 +105,7 @@ List<Lecture> getMockLectures() {
       6,
     ),
     Lecture(
+      'RCOM',
       'Redes de Computadores',
       'TP',
       DateTime.now().subtract(const Duration(days: 1, hours: 1)),
@@ -109,6 +116,7 @@ List<Lecture> getMockLectures() {
       7,
     ),
     Lecture(
+      'RCOM',
       'Redes de Computadores',
       'T',
       DateTime.now().add(const Duration(days: 1, hours: 7)),
