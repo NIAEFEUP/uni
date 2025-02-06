@@ -24,12 +24,12 @@ class CourseCard extends StatelessWidget {
           ? Theme.of(context).colorScheme.surfaceDim
           : Theme.of(context).colorScheme.surfaceContainerLow,
       child: SizedBox(
-        width: 80,
+        width: 60,
         child: Column(
           children: [
             PhosphorIcon(
               _getIconData(courseInfo.abbreviation, selected),
-              size: 48,
+              size: 32,
             ),
             Text(
               courseInfo.abbreviation,
