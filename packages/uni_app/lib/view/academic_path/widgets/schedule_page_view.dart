@@ -41,7 +41,8 @@ class SchedulePageViewState extends State<SchedulePageView> {
     final noLectures =
         _lecturesOfWeek(widget.lectures, widget.currentWeek).isEmpty;
     return Timeline(
-      tabs: createTabs(context),
+      tabs: createTabs(
+          context), // TODO(thePeras): Remove helper function and put widget directly
       content: noLectures ? [const EmptyWeek()] : createTabViewBuilder(context),
       initialTab: initialTab,
     );
@@ -58,23 +59,19 @@ class SchedulePageViewState extends State<SchedulePageView> {
     ];
 
     return List.generate(7, (index) {
-      return Tab(
-        key: Key('schedule-page-tab-$index'),
+      return SizedBox(
+        width: 26,
         height: 32,
-        child: SizedBox(
-          width: 26,
-          height: 32,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                reorderedDaysOfTheWeek[index].substring(0, 3),
-              ),
-              Text(
-                '${reorderedDates[index].day}',
-              ),
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              reorderedDaysOfTheWeek[index].substring(0, 3),
+            ),
+            Text(
+              '${reorderedDates[index].day}',
+            ),
+          ],
         ),
       );
     });

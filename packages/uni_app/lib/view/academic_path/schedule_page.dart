@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
+import 'package:uni/view/academic_path/widgets/empty_week.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_view.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
@@ -23,12 +24,13 @@ class SchedulePage extends StatelessWidget {
         child: LazyConsumer<LectureProvider, List<Lecture>>(
           builder: (context, lectures) {
             return SchedulePageView(
-              getMockLectures(), // Change to lectures
+              lectures,
               now: now,
             );
           },
-          hasContent: (lectures) => true,
-          onNullContent: SchedulePageView(const [], now: now),
+          hasContent: (lectures) =>
+              lectures.isNotEmpty, //TODO(thePeras): Filter with where
+          onNullContent: const EmptyWeek(),
         ),
       ),
     );
