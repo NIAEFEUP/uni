@@ -84,6 +84,13 @@ ThemeData lightTheme = ThemeData(
 );
 
 class BadgeColors {
+  static const te = Color(0xFFfbc11f);
+  static const tp = Color(0xFFd3944c);
+  static const p = Color(0xFFab4d39);
+  static const pl = Color(0xFF769c87);
+  static const ot = Color(0xFF7ca5b8);
+  static const tc = Color(0xFFcdbeb1);
+  static const s = Color(0xFF917c9b);
   static const mt = Color(0xFF7ca5b8);
   static const en = Color(0xFF769c87);
   static const er = Color(0xFFab4d39);
