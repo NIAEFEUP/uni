@@ -35,7 +35,7 @@ class AllServiceCards extends StatelessWidget {
             crossAxisCount: 2,
             mainAxisSpacing: 2,
             crossAxisSpacing: 2,
-            childAspectRatio: 1.5,
+            childAspectRatio: 2,
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: [

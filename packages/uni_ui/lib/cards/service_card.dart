@@ -28,7 +28,7 @@ class ServiceCard extends StatelessWidget {
                 Flexible(
                   child: Text(
                     name,
-                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
                     style: openingHours.length == 0
                         ? Theme.of(context).textTheme.headlineMedium!
                         : Theme.of(context).textTheme.headlineSmall!,
@@ -36,6 +36,7 @@ class ServiceCard extends StatelessWidget {
                 ),
               ],
             ),
+
             Column(
               children: openingHours.length == 0
                   ? []
