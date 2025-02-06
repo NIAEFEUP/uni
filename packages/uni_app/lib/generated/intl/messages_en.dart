@@ -19,12 +19,24 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static m0(time) => "last refresh at ${time}";
+  static m0(type) => "${Intl.select(type, {
+            'all_dishes': 'All dishes',
+            'meat_dishes': 'Meat dishes',
+            'fish_dishes': 'Fish dishes',
+            'vegetarian_dishes': 'Vegetarian dishes',
+            'soups': 'Soups',
+            'salads': 'Salads',
+            'diet_dishes': 'Diet dishes',
+            'dishes_of_the_day': 'Dishes of the Day',
+            'other': 'Other',
+          })}";
 
-  static m1(time) =>
+  static m1(time) => "last refresh at ${time}";
+
+  static m2(time) =>
       "${Intl.plural(time, zero: 'Refreshed ${time} minutes ago', one: 'Refreshed ${time} minute ago', other: 'Refreshed ${time} minutes ago')}";
 
-  static m2(title) => "${Intl.select(title, {
+  static m3(title) => "${Intl.select(title, {
             'horario': 'Schedule',
             'exames': 'Exams',
             'area': 'Personal Area',
@@ -40,6 +52,12 @@ class MessageLookup extends MessageLookupByLibrary {
             'other': 'Other',
           })}";
 
+  static m4(period) => "${Intl.select(period, {
+            'lunch': 'Lunch',
+            'dinner': 'Dinner',
+            'other': 'Other',
+          })}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("About us"),
@@ -52,12 +70,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "add_widget": MessageLookupByLibrary.simpleMessage("Add widget"),
         "agree_terms": MessageLookupByLibrary.simpleMessage(
             "By entering you agree with these"),
+        "all_feminine": MessageLookupByLibrary.simpleMessage("All"),
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
             "All available widgets have already been added to your personal area!"),
         "assessments": MessageLookupByLibrary.simpleMessage("Assessments"),
         "at_least_one_college":
             MessageLookupByLibrary.simpleMessage("Select at least one college"),
-        "average": MessageLookupByLibrary.simpleMessage("Average: "),
+        "available_amount":
+            MessageLookupByLibrary.simpleMessage("Available amount"),
+        "average": MessageLookupByLibrary.simpleMessage("Average"),
         "balance": MessageLookupByLibrary.simpleMessage("Balance"),
         "banner_info": MessageLookupByLibrary.simpleMessage(
             "We do now collect anonymous usage statistics in order to improve your experience. You can change it in settings."),
@@ -113,6 +134,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "desired_email": MessageLookupByLibrary.simpleMessage(
             "Email where you want to be contacted"),
         "dinner": MessageLookupByLibrary.simpleMessage("Dinner"),
+        "dish_type": m0,
         "dona_bia": MessageLookupByLibrary.simpleMessage(
             "D. Beatriz\'s stationery store"),
         "dona_bia_building": MessageLookupByLibrary.simpleMessage(
@@ -135,6 +157,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "fail_to_authenticate":
             MessageLookupByLibrary.simpleMessage("Failed to authenticate"),
         "failed_login": MessageLookupByLibrary.simpleMessage("Login failed"),
+        "favourite_filter": MessageLookupByLibrary.simpleMessage("Favourites"),
         "fee_date": MessageLookupByLibrary.simpleMessage("Deadline"),
         "fee_notification":
             MessageLookupByLibrary.simpleMessage("Fee deadline"),
@@ -164,8 +187,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Invalid credentials"),
         "keep_login": MessageLookupByLibrary.simpleMessage("Remember me"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
-        "last_refresh_time": m0,
-        "last_timestamp": m1,
+        "last_refresh_time": m1,
+        "last_timestamp": m2,
         "leave_feedback":
             MessageLookupByLibrary.simpleMessage("Leave feedback"),
         "lectures": MessageLookupByLibrary.simpleMessage("Lectures"),
@@ -185,7 +208,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Minimum value: 1,00 €"),
         "multimedia_center":
             MessageLookupByLibrary.simpleMessage("Multimedia center"),
-        "nav_title": m2,
+        "nav_title": m3,
         "news": MessageLookupByLibrary.simpleMessage("News"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
         "noExamsScheduled":
@@ -279,6 +302,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "report_error": MessageLookupByLibrary.simpleMessage("Report error"),
         "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
             "Do you want to see your favorite restaurants in the main page?"),
+        "restaurant_period": m4,
         "room": MessageLookupByLibrary.simpleMessage("Room"),
         "school_calendar":
             MessageLookupByLibrary.simpleMessage("School Calendar"),

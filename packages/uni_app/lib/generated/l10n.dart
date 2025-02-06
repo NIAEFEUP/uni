@@ -200,10 +200,20 @@ class S {
     );
   }
 
-  /// `Average: `
+  /// `Available amount`
+  String get available_amount {
+    return Intl.message(
+      'Available amount',
+      name: 'available_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Average`
   String get average {
     return Intl.message(
-      'Average: ',
+      'Average',
       name: 'average',
       desc: '',
       args: [],
@@ -1845,6 +1855,62 @@ class S {
       name: 'courses',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `All`
+  String get all_feminine {
+    return Intl.message(
+      'All',
+      name: 'all_feminine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{type, select, all_dishes{All dishes} meat_dishes{Meat dishes} fish_dishes{Fish dishes} vegetarian_dishes{Vegetarian dishes} soups{Soups} salads{Salads} diet_dishes{Diet dishes} dishes_of_the_day{Dishes of the Day} other{Other}}`
+  String dish_type(Object type) {
+    return Intl.select(
+      type,
+      {
+        'all_dishes': 'All dishes',
+        'meat_dishes': 'Meat dishes',
+        'fish_dishes': 'Fish dishes',
+        'vegetarian_dishes': 'Vegetarian dishes',
+        'soups': 'Soups',
+        'salads': 'Salads',
+        'diet_dishes': 'Diet dishes',
+        'dishes_of_the_day': 'Dishes of the Day',
+        'other': 'Other',
+      },
+      name: 'dish_type',
+      desc: '',
+      args: [type],
+    );
+  }
+
+  /// `Favourites`
+  String get favourite_filter {
+    return Intl.message(
+      'Favourites',
+      name: 'favourite_filter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{period, select, lunch{Lunch} dinner{Dinner} other{Other}}`
+  String restaurant_period(Object period) {
+    return Intl.select(
+      period,
+      {
+        'lunch': 'Lunch',
+        'dinner': 'Dinner',
+        'other': 'Other',
+      },
+      name: 'restaurant_period',
+      desc: '',
+      args: [period],
     );
   }
 }

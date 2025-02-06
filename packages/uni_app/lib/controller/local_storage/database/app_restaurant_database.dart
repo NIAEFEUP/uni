@@ -14,8 +14,10 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
           CREATE TABLE RESTAURANTS(
           id INTEGER PRIMARY KEY,
           ref TEXT,
-          namePt TEXT
-					namePt TEXT)
+          typePt TEXT,
+          typeEn TEXT,
+          namePt TEXT,
+					nameEn TEXT)
           ''',
             '''
           CREATE TABLE MEALS(
@@ -47,6 +49,8 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
 
           return Restaurant(
             restaurantId,
+            map['typePt'] as String,
+            map['typeEn'] as String,
             map['namePt'] as String,
             map['nameEn'] as String,
             map['period'] as String,

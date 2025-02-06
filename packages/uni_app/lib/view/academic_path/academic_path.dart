@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/academic_path/courses_page.dart';
 import 'package:uni/view/academic_path/exam_page.dart';
-import 'package:uni/view/academic_path/widgets/course_units_card.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/tabs/tab_icon.dart';
@@ -40,12 +42,12 @@ class AcademicPathPageViewState extends GeneralPageViewState
       controller: tabController,
       dividerHeight: 1,
       tabs: [
+        TabIcon(icon: UniIcons.course, text: S.of(context).courses),
         TabIcon(
           icon: UniIcons.lecture,
           text: S.of(context).lectures,
         ),
         TabIcon(icon: UniIcons.exam, text: S.of(context).exams),
-        TabIcon(icon: UniIcons.course, text: S.of(context).courses),
       ],
     );
   }
@@ -54,18 +56,19 @@ class AcademicPathPageViewState extends GeneralPageViewState
   Widget getBody(BuildContext context) {
     return TabBarView(
       controller: tabController,
-      children: [
-        const Center(
+      children: const [
+        CoursesPage(),
+        Center(
           child: Text('To be implemented'),
         ),
-        const ExamsPage(),
-        CourseUnitsCard(),
+        ExamsPage(),
       ],
     );
   }
 
   @override
   Future<void> onRefresh(BuildContext context) async {
-    // TODO: implement onRefresh
+    await Provider.of<ProfileProvider>(context, listen: false)
+        .forceRefresh(context);
   }
 }

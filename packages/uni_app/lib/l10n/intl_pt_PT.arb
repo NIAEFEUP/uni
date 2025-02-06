@@ -32,7 +32,9 @@
   "@all_widgets_added": {},
   "at_least_one_college": "Seleciona pelo menos uma faculdade",
   "@at_least_one_college": {},
-  "average": "Média: ",
+  "available_amount": "Valor disponível",
+  "@available_amount": {},
+  "average": "Média",
   "@average": {},
   "banner_info": "Agora recolhemos estatísticas de uso anónimas para melhorar a tua experiência. Podes alterá-lo nas definições.",
   "@banner_info": {},
@@ -365,5 +367,14 @@
   "exams": "Exames",
   "@exams": {},
   "courses": "Cursos",
-  "@courses": {}
+  "@courses": {},
+  "all_feminine": "Todas",
+  "@all_feminine": {},
+  "@courses": {},
+  "dish_type": "{type, select, all_dishes{Todos os pratos} meat_dishes{Pratos de Carne} fish_dishes{Pratos de Peixe} vegetarian_dishes{Pratos Vegetarianos} soups{Sopas} salads{Saladas} diet_dishes{Pratos de Dieta} dishes_of_the_day{Pratos do Dia} other{Outros}}",
+  "@dish_type": {},
+  "favourite_filter": "Favoritos",
+  "@favourite_filter": {},
+  "restaurant_period": "{period, select, lunch{Almoço} dinner{Jantar} other{Other}}",
+  "@restaurant_period": {}
 }
