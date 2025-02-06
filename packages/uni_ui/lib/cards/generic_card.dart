@@ -37,10 +37,10 @@ class GenericCard extends StatelessWidget {
             BoxShadow(
               color: shadowColor ??
                   cardTheme.shadowColor ??
-                  Colors.black.withOpacity(0.15),
+                  Colors.black.withOpacity(0.03),
               blurRadius: 12,
-              spreadRadius: -4,
-              offset: const Offset(0, 6),
+              spreadRadius: -2,
+              offset: const Offset(0, 1),
             ),
           ],
         ),
