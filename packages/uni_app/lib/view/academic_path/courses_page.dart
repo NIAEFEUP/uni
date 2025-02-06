@@ -35,6 +35,16 @@ class CoursesPageState extends State<CoursesPage> {
         .fold(0, (a, b) => a + b);
   }
 
+  int? _getConclusionYear(Course course) {
+    if (course.state == null || course.state == 'A Frequentar') {
+      return null;
+    }
+
+    final length = course.state!.length;
+    final year = int.tryParse(course.state!.substring(length - 5, length - 1));
+    return year;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -52,6 +62,7 @@ class CoursesPageState extends State<CoursesPage> {
                     return CourseInfo(
                       abbreviation: course.abbreviation ?? '???',
                       enrollmentYear: course.firstEnrollment!,
+                      conclusionYear: _getConclusionYear(course),
                     );
                   }).toList(),
                   onSelected: _onCourseUnitSelected,

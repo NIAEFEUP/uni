@@ -24,7 +24,7 @@ class CourseCard extends StatelessWidget {
           ? Theme.of(context).colorScheme.surfaceDim
           : Theme.of(context).colorScheme.surfaceContainerLow,
       child: SizedBox(
-        width: 60,
+        width: 65,
         child: Column(
           children: [
             PhosphorIcon(
