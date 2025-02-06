@@ -1,5 +1,5 @@
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
+import 'package:uni_ui/common/generic_squircle.dart';
 
 class GenericCard extends StatelessWidget {
   const GenericCard(
@@ -31,12 +31,7 @@ class GenericCard extends StatelessWidget {
       padding: margin ?? cardTheme.margin ?? const EdgeInsets.all(4),
       child: GestureDetector(
         onTap: () => onClick,
-        child: ClipSmoothRect(
-          radius: SmoothBorderRadius(
-            cornerRadius: borderRadius ?? 20,
-            cornerSmoothing: 1,
-          ),
-          child: Container(
+        child: GenericSquircle(child: Container(
             decoration: BoxDecoration(
               color: color ??
                   cardTheme.color ??

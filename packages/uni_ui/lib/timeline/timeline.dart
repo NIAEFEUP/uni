@@ -1,6 +1,6 @@
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:uni_ui/common/generic_squircle.dart';
 
 class Timeline extends StatefulWidget {
   const Timeline({
@@ -102,12 +102,7 @@ class _TimelineState extends State<Timeline> {
                 onTap: () => _onTabTapped(index),
                 child: Padding(
                   padding: const EdgeInsets.all(7.0),
-                  child: ClipSmoothRect(
-                    radius: SmoothBorderRadius(
-                      cornerRadius: 10,
-                      cornerSmoothing: 1,
-                    ),
-                    child: Container(
+                  child: GenericSquircle(borderRadius: 10, child: Container(
                       key: _tabKeys[index],
                       padding: const EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 15.0),

@@ -137,11 +137,8 @@ class CalendarItem extends StatelessWidget {
             width: 140,
             decoration: ShapeDecoration(
               color: Theme.of(context).colorScheme.secondary,
-              shape: SmoothRectangleBorder(
-                borderRadius: SmoothBorderRadius(
-                  cornerRadius: 12,
-                  cornerSmoothing: 1,
-                ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
               shadows: [
                 BoxShadow(
