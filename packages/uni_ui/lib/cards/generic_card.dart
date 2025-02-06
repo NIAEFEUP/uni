@@ -11,6 +11,7 @@ class GenericCard extends StatelessWidget {
     this.borderRadius,
     this.onClick,
     this.child,
+    this.gradient,
     required this.tooltip,
   });
 
@@ -21,6 +22,7 @@ class GenericCard extends StatelessWidget {
   final double? borderRadius;
   final VoidCallback? onClick;
   final Widget? child;
+  final Gradient? gradient;
   final String tooltip;
 
   @override
@@ -54,6 +56,7 @@ class GenericCard extends StatelessWidget {
               color: color ??
                   cardTheme.color ??
                   theme.colorScheme.surfaceContainer,
+              gradient: gradient,
             ),
             child: Padding(
               padding: padding ?? const EdgeInsets.all(10),
