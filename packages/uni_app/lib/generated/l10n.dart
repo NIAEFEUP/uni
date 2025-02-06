@@ -90,16 +90,6 @@ class S {
     );
   }
 
-  /// `Report error/suggestion`
-  String get report_error_suggestion {
-    return Intl.message(
-      'Report error/suggestion',
-      name: 'report_error_suggestion',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Language`
   String get language {
     return Intl.message(
@@ -210,16 +200,6 @@ class S {
     );
   }
 
-  /// `Available amount`
-  String get available_amount {
-    return Intl.message(
-      'Available amount',
-      name: 'available_amount',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Average: `
   String get average {
     return Intl.message(
@@ -240,10 +220,10 @@ class S {
     );
   }
 
-  /// `Balance:`
+  /// `Balance`
   String get balance {
     return Intl.message(
-      'Balance:',
+      'Balance',
       name: 'balance',
       desc: '',
       args: [],
@@ -660,10 +640,10 @@ class S {
     );
   }
 
-  /// `Deadline for next fee:`
+  /// `Deadline`
   String get fee_date {
     return Intl.message(
-      'Deadline for next fee:',
+      'Deadline',
       name: 'fee_date',
       desc: '',
       args: [],
@@ -675,6 +655,16 @@ class S {
     return Intl.message(
       'Fee deadline',
       name: 'fee_notification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report an issue or suggest an improvement`
+  String get feedback_description {
+    return Intl.message(
+      'Report an issue or suggest an improvement',
+      name: 'feedback_description',
       desc: '',
       args: [],
     );
@@ -800,6 +790,16 @@ class S {
       name: 'last_timestamp',
       desc: '',
       args: [time],
+    );
+  }
+
+  /// `Leave feedback`
+  String get leave_feedback {
+    return Intl.message(
+      'Leave feedback',
+      name: 'leave_feedback',
+      desc: '',
+      args: [],
     );
   }
 
@@ -1323,6 +1323,16 @@ class S {
     return Intl.message(
       'Print',
       name: 'print',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Print balance`
+  String get print_balance {
+    return Intl.message(
+      'Print balance',
+      name: 'print_balance',
       desc: '',
       args: [],
     );

@@ -28,28 +28,25 @@ class ProfileOverview extends StatelessWidget {
           Text(
             profile.name,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w400,
-            ),
+            style: Theme.of(context).textTheme.headlineLarge,
+          ),
+          Text(
+            profile.email.split('@')[0],
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
           const Padding(padding: EdgeInsets.all(5)),
-          Text(
-            profile.email,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w300,
-            ),
-          ),
-          const Padding(padding: EdgeInsets.all(5)),
-          Text(
-            session.faculties.map((e) => e.toUpperCase()).toList().join(', '),
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w300,
-            ),
+          Wrap(
+            spacing: 8,
+            children: session.faculties.map((type) {
+              return Badge(
+                label: Text(
+                  type.toUpperCase(),
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                backgroundColor: Theme.of(context).colorScheme.primary,
+              );
+            }).toList(),
           ),
         ],
       ),

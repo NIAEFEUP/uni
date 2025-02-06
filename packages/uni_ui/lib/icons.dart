@@ -23,6 +23,15 @@ class UniIcons {
   static const restaurant = PhosphorIconsDuotone.forkKnife;
   static const faculty = PhosphorIconsDuotone.buildings;
   static const map = PhosphorIconsDuotone.mapTrifold;
+  static const pallete = PhosphorIconsDuotone.palette;
+  static const globeHemisphereWest = PhosphorIconsDuotone.globeHemisphereWest;
+  static const chartBar = PhosphorIconsDuotone.chartBar;
+  static const notification = PhosphorIconsDuotone.notification;
+  static const thumbsUp = PhosphorIconsDuotone.thumbsUp;
+  static const gavel = PhosphorIconsDuotone.gavel;
+  static const signOut = PhosphorIconsDuotone.signOut;
+  static const sun = PhosphorIconsDuotone.sun;
+  static const moon = PhosphorIconsDuotone.moon;
   static const arrowSquareOut = PhosphorIconsDuotone.arrowSquareOut;
 }
 
