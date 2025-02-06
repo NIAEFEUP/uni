@@ -45,6 +45,22 @@ class CoursesPageState extends State<CoursesPage> {
     return year;
   }
 
+  String _getCourseAbbreviation(Course course) {
+    if (course.abbreviation != null) {
+      return course.abbreviation!;
+    }
+
+    if (course.name == null) {
+      return '???';
+    }
+
+    return course.name!
+      .replaceAll('Licenciatura', 'Licenciatura.')
+      .replaceAll('Mestrado', 'Mestrado.')
+      .replaceAll('Doutoramento', 'Doutoramento.')
+      .replaceAll(RegExp('[^A-Z.]'), '');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -60,7 +76,7 @@ class CoursesPageState extends State<CoursesPage> {
                 child: CourseSelection(
                   courseInfos: courses.map((course) {
                     return CourseInfo(
-                      abbreviation: course.abbreviation ?? '???',
+                      abbreviation: _getCourseAbbreviation(course),
                       enrollmentYear: course.firstEnrollment!,
                       conclusionYear: _getConclusionYear(course),
                     );
