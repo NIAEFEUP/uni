@@ -42,31 +42,6 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
     );
   }
 
-  /*Widget getTimeline(BuildContext context, List<CalendarEvent> calendar) {
-    final locale = Provider.of<LocaleNotifier>(context).getLocale();
-    return SingleChildScrollView(
-      child: FixedTimeline.tileBuilder(
-        theme: TimelineTheme.of(context).copyWith(
-          connectorTheme: TimelineTheme.of(context)
-              .connectorTheme
-              .copyWith(thickness: 2, color: Theme.of(context).primaryColor),
-          indicatorTheme: TimelineTheme.of(context)
-              .indicatorTheme
-              .copyWith(size: 15, color: Theme.of(context).primaryColor),
-
-        ),
-
-        builder: TimelineTileBuilder.fromStyle(
-          indicatorStyle: IndicatorStyle.outlined,
-          connectorStyle: ConnectorStyle.solidLine,
-          contentsBuilder: (_, index) =>EventTile(text: calendar[index].name),
-          oppositeContentsBuilder: (_, index) => DatesTile(date:calendar[index].date,start:calendar[index].start,end:calendar[index].finish,locale:locale),
-          itemCount: calendar.length,
-        ),
-      ),
-    );
-  }*/
-
   @override
   Future<void> onRefresh(BuildContext context) {
     return Provider.of<CalendarProvider>(context, listen: false)
