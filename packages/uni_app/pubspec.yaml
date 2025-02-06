@@ -85,7 +85,6 @@ dev_dependencies:
   sqflite_common_ffi: ^2.3.0+4
   test: any
   very_good_analysis: ^5.1.0
-  
 
 flutter:
   generate: true
@@ -125,7 +124,7 @@ flutter_icons:
   android: "ic_launcher"
   ios: true
   image_path: "assets/icon/icon.png"
-  adaptive_icon_background: "#75171E"
+  adaptive_icon_background: "assets/icon/adaptive_background.png"
   adaptive_icon_foreground: "assets/icon/android_icon_foreground.png"
 
 flutter_intl:
