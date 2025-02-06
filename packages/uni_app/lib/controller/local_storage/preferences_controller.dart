@@ -41,6 +41,7 @@ class PreferencesController {
   static final List<String> _defaultFilteredExamTypes = Exam.displayedTypes;
   static const String _semesterValue = 'semester_value';
   static const String _schoolYearValue = 'school_year_value';
+  static const String _serviceCardsIsGrid = 'service_cards_is_grid';
 
   static final _statsToggleStreamController =
       StreamController<bool>.broadcast();
@@ -284,5 +285,13 @@ class PreferencesController {
 
   static String? getSchoolYearValue() {
     return prefs.getString(_schoolYearValue);
+  }
+
+  static Future<void> setServiceCardsIsGrid(bool value) async {
+    await prefs.setBool(_serviceCardsIsGrid, value);
+  }
+
+  static bool getServiceCardsIsGrid() {
+    return prefs.getBool(_serviceCardsIsGrid) ?? true;
   }
 }

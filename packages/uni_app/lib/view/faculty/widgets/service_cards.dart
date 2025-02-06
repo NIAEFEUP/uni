@@ -1,10 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/faculty/widgets/generic_service_card.dart';
 import 'package:uni_ui/icons.dart';
 
-class AllServiceCards extends StatelessWidget {
+class AllServiceCards extends StatefulWidget {
   const AllServiceCards({super.key});
+
+  @override
+  State<AllServiceCards> createState() => AllServiceCardsState();
+}
+
+class AllServiceCardsState extends State<AllServiceCards> {
+
+  late bool isGrid;
+
+  @override
+  void initState() {
+    super.initState();
+    isGrid = PreferencesController.getServiceCardsIsGrid();
+  }
+
+  void changeCardsToGrid(){
+    setState(() {
+      PreferencesController.setServiceCardsIsGrid(true);
+      isGrid = true;
+    });
+  }
+
+  void changeCardsToList(){
+    setState(() {
+      PreferencesController.setServiceCardsIsGrid(false);
+      isGrid = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +48,12 @@ class AllServiceCards extends StatelessWidget {
             ),
             const Spacer(),
             IconButton(
-              onPressed: () => {},
+              onPressed: changeCardsToList,
               icon: const UniIcon(UniIcons.list),
             ),
 
             IconButton(
-                onPressed: () => {},
+                onPressed: changeCardsToGrid,
                 icon: const UniIcon(UniIcons.grid),
             ),
           ],
@@ -32,10 +61,10 @@ class AllServiceCards extends StatelessWidget {
         Container(
           margin: const EdgeInsets.all(7),
           child: GridView.count(
-            crossAxisCount: 2,
+            crossAxisCount: isGrid ? 2 : 1,
             mainAxisSpacing: 2,
             crossAxisSpacing: 2,
-            childAspectRatio: 2,
+            childAspectRatio: isGrid ? 2 : 4,
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: [
