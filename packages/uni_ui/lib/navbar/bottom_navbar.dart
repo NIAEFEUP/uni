@@ -25,11 +25,6 @@ class _BottomNavbarContainer extends StatelessWidget {
           ),
         ],
       ),
-      /* child: ClipSmoothRect(
-        radius: SmoothBorderRadius(
-          cornerRadius: 20,
-          cornerSmoothing: 1,
-        ),*/
       child: GenericSquircle(
         child: Container(
           decoration: BoxDecoration(
