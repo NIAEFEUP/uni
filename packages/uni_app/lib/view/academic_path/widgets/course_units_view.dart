@@ -33,8 +33,7 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
     return LazyConsumer<ProfileProvider, Profile>(
       builder: (context, profile) {
         final courseUnits = profile.courseUnits;
-        final courseGradeCards =
-            _applyFilters(courseUnits)
+        final courseGradeCards = _applyFilters(courseUnits)
             .map((courseUnit) => _toCourseGradeCard(courseUnit, context))
             .toList();
 
