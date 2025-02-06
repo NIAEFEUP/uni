@@ -5,7 +5,7 @@ import 'package:uni/view/about/about.dart';
 import 'package:uni/view/bug_report/bug_report.dart';
 import 'package:uni/view/profile/widgets/locale_switch_button.dart';
 import 'package:uni/view/profile/widgets/notifications_dialog.dart';
-import 'package:uni/view/profile/widgets/theme_switch_button.dart';
+// import 'package:uni/view/profile/widgets/theme_switch_button.dart';
 import 'package:uni/view/profile/widgets/usage_stats_switch.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/cards/profile_list_tile.dart';

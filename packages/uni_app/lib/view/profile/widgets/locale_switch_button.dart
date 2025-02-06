@@ -20,7 +20,8 @@ class LocaleSwitchButton extends StatelessWidget {
             child: ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all(
-                    Theme.of(context).colorScheme.primary),
+                  Theme.of(context).colorScheme.primary,
+                ),
                 padding: WidgetStateProperty.all(EdgeInsets.zero),
               ),
               onPressed: () => localeNotifier.setNextLocale(),
