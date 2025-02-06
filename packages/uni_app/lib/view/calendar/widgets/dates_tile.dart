@@ -3,12 +3,12 @@ import 'package:intl/intl.dart';
 import 'package:uni/model/entities/app_locale.dart';
 
 class DatesTile extends StatelessWidget {
-  DatesTile(
+ const DatesTile(
       {required this.date,
       required this.start,
       required this.end,
       required this.locale,
-      super.key});
+      super.key,});
   final String date;
   final AppLocale locale;
   final DateTime? start;
@@ -18,23 +18,23 @@ class DatesTile extends StatelessWidget {
   Widget build(BuildContext context) {
     if (date == 'TBD') {
       return Padding(
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         child: Text(
           date,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w500,
           ),
         ),
       );
     } else {
-      final List<String> eventperiod = EventPeriod();
+      final eventperiod = eventPeriod();
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             eventperiod[0],
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 15,
               height: 1,
               fontWeight: FontWeight.w500,
@@ -52,9 +52,9 @@ class DatesTile extends StatelessWidget {
     }
   }
 
-  List<String> EventPeriod() {
-    List<String> Period = [];
-    String Timeperiod;
+  List<String> eventPeriod() {
+    final period = <String>[];
+    String timePeriod;
     String month;
     String? month1;
     String day;
@@ -62,46 +62,52 @@ class DatesTile extends StatelessWidget {
     String year;
     String? year1;
     if (start == null) {
-      Period.add("this sucks");
-      Period.add(date);
-      return Period;
+      period
+      ..add('the date')
+      ..add(date);
+      return period;
     }
     year = start!.year.toString();
-    month = Shortmonth(start!);
+    month = shortMonth(start!);
     day = start!.day.toString();
     if (end == null) {
-      Timeperiod = '$day $month';
-      Period.add(Timeperiod);
-      Period.add(year);
-      return Period;
+      timePeriod = '$day $month';
+      period
+          ..add(timePeriod)
+          ..add(year);
+      return period;
     }
     day1 = end!.day.toString();
     year1 = end!.year.toString();
-    month1 = Shortmonth(end!);
+    month1 = shortMonth(end!);
     if (year == year1 && month1 == month) {
-      Timeperiod = '$day-$day1 $month';
-      Period.add(Timeperiod);
-      Period.add(year);
-      return Period;
+      timePeriod = '$day-$day1 $month';
+      period
+        ..add(timePeriod)
+        ..add(year);
+      return period;
     }
     if (year == year1 && month1 != month) {
-      Timeperiod = '$day $month-$day1 $month1';
-      Period.add(Timeperiod);
-      Period.add(year);
-      return Period;
+      timePeriod = '$day $month-$day1 $month1';
+      period
+        ..add(timePeriod)
+        ..add(year);
+      return period;
     }
     if (year1 != year) {
-      Timeperiod = '$day $month-$day1 $month1';
-      Period.add(Timeperiod);
-      Period.add(year1);
-      return Period;
+      timePeriod = '$day $month-$day1 $month1';
+      period
+        ..add(timePeriod)
+        ..add(year);
+      return period;
     }
-    Period.add("this sucks");
-    Period.add(date);
-    return Period;
+    period
+        ..add('the date')
+        ..add(date);
+    return period;
   }
 
-  String Shortmonth(DateTime date) {
+  String shortMonth(DateTime date) {
     return DateFormat.MMM(locale.localeCode.languageCode)
         .format(date)
         .replaceFirst('.', '');
