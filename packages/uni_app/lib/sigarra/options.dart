@@ -1,22 +1,34 @@
 import 'package:http/http.dart' as http;
 
-class BaseRequestOptions {
+abstract class BaseRequestOptions {
   BaseRequestOptions({http.Client? client}) : client = client ?? http.Client();
 
   final http.Client client;
 
-  Uri get baseUrl => Uri(scheme: 'https', host: 'sigarra.up.pt');
+  Uri get baseUrl;
 
   BaseRequestOptions copyWith({
     http.Client? client,
+  });
+}
+
+class SigarraRequestOptions extends BaseRequestOptions {
+  SigarraRequestOptions({super.client});
+
+  @override
+  Uri get baseUrl => Uri(scheme: 'https', host: 'sigarra.up.pt');
+
+  @override
+  SigarraRequestOptions copyWith({
+    http.Client? client,
   }) {
-    return BaseRequestOptions(
+    return SigarraRequestOptions(
       client: client ?? this.client,
     );
   }
 }
 
-class FacultyRequestOptions extends BaseRequestOptions {
+class FacultyRequestOptions extends SigarraRequestOptions {
   FacultyRequestOptions({
     this.faculty = 'up',
     this.language = 'pt',

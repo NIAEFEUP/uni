@@ -260,6 +260,16 @@ class S {
     );
   }
 
+  /// `Breakfast`
+  String get breakfast {
+    return Intl.message(
+      'Breakfast',
+      name: 'breakfast',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Did you find any bugs in the application?\nDo you have any suggestions for the app?\nTell us so we can improve!`
   String get bs_description {
     return Intl.message(
@@ -530,6 +540,16 @@ class S {
     );
   }
 
+  /// `Dinner`
+  String get dinner {
+    return Intl.message(
+      'Dinner',
+      name: 'dinner',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `D. Beatriz's stationery store`
   String get dona_bia {
     return Intl.message(
@@ -783,6 +803,16 @@ class S {
     );
   }
 
+  /// `Lunch`
+  String get lunch {
+    return Intl.message(
+      'Lunch',
+      name: 'lunch',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Error downloading the file`
   String get download_error {
     return Intl.message(
@@ -818,6 +848,16 @@ class S {
     return Intl.message(
       'Settings',
       name: 'settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Snackbar`
+  String get snackbar {
+    return Intl.message(
+      'Snackbar',
+      name: 'snackbar',
       desc: '',
       args: [],
     );

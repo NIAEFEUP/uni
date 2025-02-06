@@ -64,6 +64,7 @@ class _ExamRowState extends State<ExamRow> {
                   ),
                   ExamTitle(
                     subject: widget.exam.subjectAcronym,
+                    subjectName: widget.exam.subject,
                     type: widget.exam.examType,
                   ),
                   Row(

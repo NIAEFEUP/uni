@@ -7,8 +7,14 @@ part '../../generated/model/entities/restaurant.g.dart';
 
 @JsonSerializable()
 class Restaurant {
-  Restaurant(this.id, this.name, this.reference, {required List<Meal> meals})
-      : meals = groupBy(meals, (meal) => meal.dayOfWeek);
+  Restaurant(
+    this.id,
+    this.namePt,
+    this.nameEn,
+    this.period,
+    this.reference, {
+    required List<Meal> meals,
+  }) : meals = groupBy(meals, (meal) => meal.dayOfWeek);
 
   factory Restaurant.fromMap(Map<String, dynamic> map, List<Meal> meals) {
     final object = Restaurant.fromJson(map);
@@ -20,8 +26,12 @@ class Restaurant {
       _$RestaurantFromJson(json);
   @JsonKey(name: 'id')
   final int? id;
-  @JsonKey(name: 'name')
-  final String name;
+  @JsonKey(name: 'namePt')
+  final String namePt;
+  @JsonKey(name: 'nameEn')
+  final String nameEn;
+  @JsonKey(name: 'period')
+  final String period;
   @JsonKey(name: 'ref')
   final String reference; // Used only in html parser
   @JsonKey(includeToJson: true)

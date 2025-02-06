@@ -50,6 +50,12 @@ class _TimelineState extends State<Timeline> {
     });
   }
 
+  @override
+  void dispose() {
+    _tabScrollController.dispose();
+    super.dispose();
+  }
+
   void _onTabTapped(int index) {
     _itemScrollController.scrollTo(
       index: index,

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:uni/sigarra/response.dart';
 
-abstract class LoginResponse extends SigarraResponse {
+abstract class LoginResponse extends EndpointResponse {
   const LoginResponse({required super.success});
 
   LoginSuccessfulResponse asSuccessful() => this as LoginSuccessfulResponse;
