@@ -108,18 +108,20 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   }
 
   Widget getScaffold(BuildContext context, Widget body) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: getTopNavbar(context),
-      extendBody: true,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: const AppBottomNavbar(),
-      floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
-      body: RefreshState(
-        onRefresh: onRefresh,
-        header: getHeader(context),
-        body: body,
+    return MediaQuery.removePadding(
+      // Prevent misalignment of navbar icons
+      context: context,
+      removeBottom: true,
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        appBar: getTopNavbar(context),
+        extendBody: true, // Allow body to appear behind the bottom navbar
+        bottomNavigationBar: const AppBottomNavbar(),
+        body: RefreshState(
+          onRefresh: onRefresh,
+          header: getHeader(context),
+          body: body,
+        ),
       ),
     );
   }
