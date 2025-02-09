@@ -31,7 +31,7 @@ class SchedulePage extends StatelessWidget {
           },
           hasContent: (lectures) => lectures.isNotEmpty,
           onNullContent: const EmptyWeek(),
-          mapper: (lectures) => lectures // change to getMockLectures() to test
+          mapper: (lectures) => lectures
               .where(
                 (lecture) =>
                     lecture.startTime.isAfter(startOfWeek) &&
@@ -42,98 +42,4 @@ class SchedulePage extends StatelessWidget {
       ),
     );
   }
-}
-
-// Since there are no classes, we can use this to test the schedule page populated
-List<Lecture> getMockLectures() {
-  return [
-    Lecture(
-      'FSI',
-      'Fundamentos de Segurança Informática',
-      'T',
-      DateTime.now().subtract(const Duration(days: 1, hours: 2)),
-      DateTime.now().subtract(const Duration(days: 1, hours: 1)),
-      'B101',
-      'Dr. Smith',
-      'Class 1',
-      1,
-    ),
-    Lecture(
-      'FSI',
-      'Fundamentos de Segurança Informática',
-      'TP',
-      DateTime.now().add(Duration.zero),
-      DateTime.now().add(const Duration(hours: 1)),
-      'B102',
-      'Dr. Johnson',
-      'Class 2',
-      2,
-    ),
-    Lecture(
-      'IPC',
-      'Interação Pessoa Computador',
-      'T',
-      DateTime.now().add(const Duration(hours: 5)),
-      DateTime.now().add(const Duration(hours: 4)),
-      'B201',
-      'Dr. Brown',
-      'Class 3',
-      3,
-    ),
-    Lecture(
-      'IPC',
-      'Interação Pessoa Computador',
-      'TP',
-      DateTime.now().subtract(const Duration(days: 2, hours: 3)),
-      DateTime.now().subtract(const Duration(days: 2, hours: 4)),
-      '103',
-      'Dr. Taylor',
-      'Class 4',
-      4,
-    ),
-    Lecture(
-      'LBAW',
-      'Laboratório de Bases de Dados e Aplicações Web',
-      'T',
-      DateTime.now().add(const Duration(days: 3, hours: 4)),
-      DateTime.now().add(const Duration(days: 3, hours: 5)),
-      'B104',
-      'Dr. Martinez',
-      'Class 5',
-      5,
-    ),
-    Lecture(
-      'PFL',
-      'Programação Funcional e em Lógica',
-      'TP',
-      DateTime.now().add(const Duration(days: 1, hours: 5)),
-      DateTime.now().add(const Duration(days: 1, hours: 6)),
-      'B105',
-      'Dr. Lee',
-      'Class 6',
-      6,
-    ),
-    Lecture(
-      'RCOM',
-      'Redes de Computadores',
-      'TP',
-      DateTime.now().subtract(const Duration(days: 1, hours: 1)),
-      DateTime.now().subtract(const Duration(days: 1)),
-      'B106',
-      'Dr. Williams',
-      'Class 7',
-      7,
-    ),
-    Lecture(
-      'RCOM',
-      'Redes de Computadores',
-      'T',
-      DateTime.now().add(const Duration(days: 1, hours: 7)),
-      DateTime.now().add(const Duration(days: 1, hours: 8)),
-      'B107',
-      'Dr. Harris',
-      'Class 8',
-      8,
-    ),
-  ];
 }

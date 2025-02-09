@@ -44,21 +44,34 @@ class SchedulePageViewState extends State<SchedulePageView> {
       daysOfTheWeek[6],
       ...daysOfTheWeek.sublist(0, 6),
     ];
+    final tabEnabled = reorderedDates
+        .map((day) => _lecturesOfDay(widget.lectures, day).isNotEmpty)
+        .toList();
 
     return Timeline(
       tabs: reorderedDaysOfTheWeek
           .map(
             (day) => SizedBox(
-              width: 26,
-              height: 32,
+              width: 30,
+              height: 34,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    day.substring(0, 3),
+                  Expanded(
+                    child: Text(
+                      day.substring(0, 3),
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                    ),
                   ),
-                  Text(
-                    '${reorderedDates[reorderedDaysOfTheWeek.indexOf(day)].day}',
+                  Expanded(
+                    child: Text(
+                      '${reorderedDates[reorderedDaysOfTheWeek.indexOf(day)].day}',
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                    ),
                   ),
                 ],
               ),
@@ -75,6 +88,7 @@ class SchedulePageViewState extends State<SchedulePageView> {
           )
           .toList(),
       initialTab: initialTab,
+      tabEnabled: tabEnabled,
     );
   }
 

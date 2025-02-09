@@ -7,12 +7,14 @@ class Timeline extends StatefulWidget {
     required this.tabs,
     required this.content,
     required this.initialTab,
+    required this.tabEnabled,
     super.key,
   });
 
   final List<Widget> tabs;
   final List<Widget> content;
   final int initialTab;
+  final List<bool> tabEnabled;
 
   @override
   State<Timeline> createState() => _TimelineState();
@@ -60,6 +62,7 @@ class _TimelineState extends State<Timeline> {
   }
 
   void _onTabTapped(int index) {
+    if (!widget.tabEnabled[index]) return;
     _itemScrollController.scrollTo(
       index: index,
       duration: const Duration(milliseconds: 300),
@@ -117,7 +120,7 @@ class _TimelineState extends State<Timeline> {
                       key: _tabKeys[index],
                       padding: const EdgeInsets.symmetric(
                           vertical: 9.0, horizontal: 8.0),
-                      color: _currentIndex == index
+                      color: isSelected
                           ? Theme.of(context)
                               .colorScheme
                               .tertiary
@@ -125,9 +128,11 @@ class _TimelineState extends State<Timeline> {
                           : Colors.transparent,
                       child: DefaultTextStyle(
                         style: textStyle.copyWith(
-                          color: isSelected
-                              ? Theme.of(context).colorScheme.primary
-                              : Colors.black,
+                          color: widget.tabEnabled[index]
+                              ? (isSelected
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Colors.black)
+                              : Colors.grey,
                         ),
                         child: tab,
                       ),
