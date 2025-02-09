@@ -6,11 +6,12 @@ import 'package:uni/utils/favorite_widget_type2.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
-import 'package:uni/view/home/widgets/uni_icon.dart' as logo;
+import 'package:uni/view/home/widgets/uni_logo.dart';
 import 'package:uni/view/home/widgets2/calendar_home_card.dart';
 import 'package:uni/view/home/widgets2/exam_home_card.dart';
 import 'package:uni/view/home/widgets2/generic_home_card.dart';
 import 'package:uni/view/home/widgets2/library_home_card.dart';
+import 'package:uni/view/home/widgets2/restaurant_home_card.dart';
 import 'package:uni/view/home/widgets2/schedule_home_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
@@ -33,7 +34,7 @@ class HomePageView2State extends State<HomePageView2> {
     FavoriteWidgetType2.schedule: const ScheduleHomeCard(),
     FavoriteWidgetType2.exams: const ExamHomeCard(),
     FavoriteWidgetType2.library: const LibraryHomeCard(),
-    // FavoriteWidgetType2.restaurants:
+    FavoriteWidgetType2.restaurants: const RestaurantHomeCard(),
     FavoriteWidgetType2.calendar: const CalendarHomeCard(),
     // FavoriteWidgetType2.ucs:
   };
@@ -98,7 +99,7 @@ class HomePageView2State extends State<HomePageView2> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    logo.UniIcon(iconColor: Colors.white), // TODO: #1450
+                    UniLogo(iconColor: Colors.white), // TODO: #1450
                     ProfileButton(),
                   ],
                 ),
