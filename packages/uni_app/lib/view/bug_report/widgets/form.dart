@@ -7,7 +7,6 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/bug_report.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni/view/bug_report/widgets/text_field.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -36,8 +35,8 @@ class BugReportFormState extends State<BugReportForm> {
     1: const ('Erro', 'Error'),
     2: const ('Sugestão de funcionalidade', 'Suggestion'),
     3: const (
-      'Comportamento inesperado',
-      'Unexpected behaviour',
+    'Comportamento inesperado',
+    'Unexpected behaviour',
     ),
     4: ('Outro', 'Other'),
   };
@@ -46,7 +45,7 @@ class BugReportFormState extends State<BugReportForm> {
   static int _selectedBug = 0;
   static final TextEditingController titleController = TextEditingController();
   static final TextEditingController descriptionController =
-      TextEditingController();
+  TextEditingController();
   static final TextEditingController emailController = TextEditingController();
 
   bool _isButtonTapped = false;
@@ -54,24 +53,24 @@ class BugReportFormState extends State<BugReportForm> {
 
   void loadBugClassList() {
     final locale =
-        Provider.of<LocaleNotifier>(context, listen: false).getLocale();
+    Provider.of<LocaleNotifier>(context, listen: false).getLocale();
 
     bugList = bugDescriptions.entries
         .map(
           (entry) => DropdownMenuItem(
-            value: entry.key,
-            child: Text(
+        value: entry.key,
+        child: Text(
               () {
-                switch (locale) {
-                  case AppLocale.pt:
-                    return entry.value.$1;
-                  case AppLocale.en:
-                    return entry.value.$2;
-                }
-              }(),
-            ),
-          ),
-        )
+            switch (locale) {
+              case AppLocale.pt:
+                return entry.value.$1;
+              case AppLocale.en:
+                return entry.value.$2;
+            }
+          }(),
+        ),
+      ),
+    )
         .toList();
   }
 
@@ -83,65 +82,143 @@ class BugReportFormState extends State<BugReportForm> {
         children: [
           const Padding(padding: EdgeInsets.only(bottom: 10)),
           PageTitle(
-            name: S.of(context).report_error_suggestion,
+            name: S.of(context).leave_feedback,
             pad: false,
           ),
           const Padding(padding: EdgeInsets.only(bottom: 10)),
           bugReportIntro(context),
           dropdownBugSelectWidget(context),
-          FormTextField(
-            titleController,
-            Icons.title,
-            maxLines: 2,
-            description: S.of(context).title,
-            labelText: S.of(context).problem_id,
-            bottomMargin: 30,
-          ),
-          FormTextField(
-            descriptionController,
-            Icons.description,
-            maxLines: 30,
-            description: S.of(context).description,
-            labelText: S.of(context).bug_description,
-            bottomMargin: 30,
-          ),
-          FormTextField(
-            emailController,
-            Icons.mail,
-            maxLines: 2,
-            description: S.of(context).contact,
-            labelText: S.of(context).desired_email,
-            bottomMargin: 30,
-            isOptional: true,
-            formatValidator: (value) {
-              if (value == null || value.isEmpty) {
-                return null;
-              }
 
-              return EmailValidator.validate(value)
-                  ? null
-                  : S.of(context).valid_email;
-            },
+          Padding(
+            padding: const EdgeInsets.only(bottom: 30),
+            child: TextField(
+              controller: titleController,
+              maxLines: 3,
+              decoration: InputDecoration(
+                labelText: S.of(context).title,
+                hintText: S.of(context).problem_id,
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+                ),
+              ),
+            ),
           ),
-          consentBox(context),
-          submitButton(context),
+
+          Padding(
+            padding: const EdgeInsets.only(bottom: 30),
+            child: TextFormField(
+              controller: emailController,
+              maxLines: null,
+              decoration: InputDecoration(
+                labelText: S.of(context).contact,
+                hintText: S.of(context).desired_email,
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color:   Theme.of(context).colorScheme.primary,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+                ),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return null;
+                }
+                return EmailValidator.validate(value)
+                    ? null
+                    : S.of(context).valid_email;
+              },
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.only(bottom: 30),
+            child: TextField(
+              controller: descriptionController,
+              maxLines: 5,
+              decoration: InputDecoration(
+                labelText: S.of(context).description,
+                hintText: S.of(context).bug_description,
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+                ),
+              ),
+            ),
+          ),
+
+    Container(
+    padding: EdgeInsets.zero,
+    margin: const EdgeInsets.only(bottom: 20),
+    child: ListTileTheme(
+    contentPadding: EdgeInsets.zero,
+    child: RadioListTile(
+    toggleable: true,
+    value:true,
+    title: Text(
+    S.of(context).consent,
+    style: Theme.of(context).textTheme.bodyLarge,
+    textAlign: TextAlign.left,
+    ),
+    onChanged: (newValue) {
+    setState(() {
+    _isConsentGiven = newValue!;
+    });
+    },
+    controlAffinity: ListTileControlAffinity.leading,
+    activeColor: Theme.of(context).colorScheme.primary,
+    groupValue: _isConsentGiven,
+    ),
+    ),
+    ),
+
+    ElevatedButton(
+    style: ElevatedButton.styleFrom(
+    // Conditionally change button color based on consent checkbox
+    backgroundColor: _isConsentGiven
+    ? Theme.of(context).colorScheme.primary // Red color when consent is given
+        : Theme.of(context).dividerColor, // Light grey color when not given
+    ),
+    onPressed: !_isConsentGiven
+    ? null
+        : () {
+    if (_formKey.currentState!.validate() && !_isButtonTapped) {
+    if (!FocusScope.of(context).hasPrimaryFocus) {
+    FocusScope.of(context).unfocus();
+    }
+    submitBugReport();
+    }
+    },
+    child: Text(
+    S.of(context).send,
+    style: Theme.of(context).textTheme.titleLarge!.copyWith(color:_isConsentGiven? Theme.of(context).colorScheme.onPrimary:Theme.of(context).colorScheme.onTertiary),
+    ),
+    ),
         ],
       ),
     );
   }
 
+
   /// Returns a widget for the overview text of the bug report form
+
   Widget bugReportIntro(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(),
       padding: const EdgeInsets.only(bottom: 20),
-      child: Center(
-        child: Text(
-          S.of(context).bs_description,
-          style: Theme.of(context).textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        ),
-      ),
     );
   }
 
@@ -188,50 +265,9 @@ class BugReportFormState extends State<BugReportForm> {
     );
   }
 
-  Widget consentBox(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.zero,
-      margin: const EdgeInsets.only(bottom: 20),
-      child: ListTileTheme(
-        contentPadding: EdgeInsets.zero,
-        child: CheckboxListTile(
-          title: Text(
-            S.of(context).consent,
-            style: Theme.of(context).textTheme.bodyMedium,
-            textAlign: TextAlign.left,
-          ),
-          value: _isConsentGiven,
-          onChanged: (newValue) {
-            setState(() {
-              _isConsentGiven = newValue!;
-            });
-          },
-          controlAffinity: ListTileControlAffinity.leading,
-        ),
-      ),
-    );
-  }
 
-  Widget submitButton(BuildContext context) {
-    return ElevatedButton(
-      onPressed: !_isConsentGiven
-          ? null
-          : () {
-              if (_formKey.currentState!.validate() && !_isButtonTapped) {
-                if (!FocusScope.of(context).hasPrimaryFocus) {
-                  FocusScope.of(context).unfocus();
-                }
-                submitBugReport();
-              }
-            },
-      child: Text(
-        S.of(context).send,
-        style: const TextStyle(
-          fontSize: 20,
-        ),
-      ),
-    );
-  }
+
+
 
   /// Submits the user's bug report
   ///
@@ -319,13 +355,5 @@ class BugReportFormState extends State<BugReportForm> {
       _selectedBug = 0;
       _isConsentGiven = false;
     });
-  }
-
-  @override
-  void dispose() {
-    titleController.dispose();
-    descriptionController.dispose();
-    emailController.dispose();
-    super.dispose();
   }
 }
