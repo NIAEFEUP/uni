@@ -19,7 +19,7 @@ class ScheduleHomeCard extends GenericHomecard {
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<LectureProvider, List<Lecture>>(
       builder: (context, lectures) => CardTimeline(
-        items: buildTimelineItems(getMockLectures()).sublist(0, 2),
+        items: buildTimelineItems(lectures).sublist(0, 2),
       ),
       hasContent: (_) => true,
       onNullContent: Text(
@@ -31,51 +31,6 @@ class ScheduleHomeCard extends GenericHomecard {
           .where((lecture) => lecture.endTime.isAfter(DateTime.now()))
           .toList(),
     );
-  }
-
-  List<Lecture> getMockLectures() {
-    return [
-      Lecture(
-        'Mathematics',
-        'Lecture',
-        DateTime.now().subtract(Duration(hours: 1)),
-        DateTime.now().add(Duration(hours: 1)),
-        '101',
-        'Dr. Smith',
-        'Class 1',
-        1,
-      ),
-      Lecture(
-        'Physics',
-        'Lecture',
-        DateTime.now().add(Duration(hours: 2)),
-        DateTime.now().add(Duration(hours: 3)),
-        '102',
-        'Dr. Johnson',
-        'Class 2',
-        2,
-      ),
-      Lecture(
-        'Chemistry',
-        'Lab',
-        DateTime.now().add(Duration(days: 1, hours: 1)),
-        DateTime.now().add(Duration(days: 1, hours: 2)),
-        'Lab 201',
-        'Dr. Brown',
-        'Class 3',
-        3,
-      ),
-      Lecture(
-        'Biology',
-        'Lecture',
-        DateTime.now().add(Duration(days: 2, hours: 3)),
-        DateTime.now().add(Duration(days: 2, hours: 4)),
-        '103',
-        'Dr. Taylor',
-        'Class 4',
-        4,
-      ),
-    ];
   }
 
   @override
@@ -93,13 +48,15 @@ class ScheduleHomeCard extends GenericHomecard {
     final items = sortedLectures
         .map(
           (element) => TimelineItem(
-            isActive: true,
+            isActive:
+                now.isAfter(element.startTime) && now.isBefore(element.endTime),
             title: DateFormat('HH:mm').format(element.startTime),
             subtitle: DateFormat('HH:mm').format(element.endTime),
             card: ScheduleCard(
-              isActive: true,
+              isActive: now.isAfter(element.startTime) &&
+                  now.isBefore(element.endTime),
               name: element.subject,
-              acronym: 'LCOM',
+              acronym: "LCOM", // TODO
               room: element.room,
               type: element.typeClass,
             ),
