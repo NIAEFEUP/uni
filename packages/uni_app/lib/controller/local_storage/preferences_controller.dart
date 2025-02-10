@@ -42,6 +42,9 @@ class PreferencesController {
   static const String _semesterValue = 'semester_value';
   static const String _schoolYearValue = 'school_year_value';
   static const String _serviceCardsIsGrid = 'service_cards_is_grid';
+  static const String _selectedDishType = 'selected_dish_type';
+  static const String _isFavoriteRestaurantsFilterOn =
+      'is_favorite_restaurant_filter_on';
 
   static final _statsToggleStreamController =
       StreamController<bool>.broadcast();
@@ -287,11 +290,33 @@ class PreferencesController {
     return prefs.getString(_schoolYearValue);
   }
 
+
   static Future<void> setServiceCardsIsGrid(bool value) async {
     await prefs.setBool(_serviceCardsIsGrid, value);
   }
 
   static bool getServiceCardsIsGrid() {
     return prefs.getBool(_serviceCardsIsGrid) ?? true;
+
+  static Future<void> setSelectedDishType(int? value) async {
+    await prefs.setInt(_selectedDishType, value ?? 1);
+    if (value == null) {
+      await prefs.remove(_selectedDishType);
+    }
+  }
+
+  static int? getSelectedDishType() {
+    return prefs.getInt(_selectedDishType);
+  }
+
+  static Future<void> setIsFavoriteRestaurantsFilterOn(bool? value) async {
+    await prefs.setBool(_isFavoriteRestaurantsFilterOn, value ?? false);
+    if (value == null) {
+      await prefs.remove(_selectedDishType);
+    }
+  }
+
+  static bool? getIsFavoriteRestaurantsFilterOn() {
+    return prefs.getBool(_isFavoriteRestaurantsFilterOn);
   }
 }

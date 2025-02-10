@@ -9,19 +9,21 @@ class RestaurantMenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(flex: 1, child: icon),
           Expanded(
-            flex: 5,
-            child: Text(
-              name,
-              style: Theme.of(context).textTheme.bodyLarge,
-              softWrap: true,
-            ),
-          ),
+              flex: 5,
+              child: Container(
+                padding: const EdgeInsets.only(right: 32.0),
+                child: Text(
+                  name,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  softWrap: true,
+                ),
+              )),
         ],
       ),
     );
