@@ -64,6 +64,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "bug_description": MessageLookupByLibrary.simpleMessage(
       "Bug found, how to reproduce it, etc.",
     ),
+    "bug_description_Suggestion": MessageLookupByLibrary.simpleMessage(
+      "Suggestion",
+    ),
+    "bug_description_error": MessageLookupByLibrary.simpleMessage("Error"),
+    "bug_description_other": MessageLookupByLibrary.simpleMessage("Other"),
+    "bug_description_unexpected_behaviour":
+        MessageLookupByLibrary.simpleMessage("Unexpected Behaviour"),
+    "bug_description_visual_detail": MessageLookupByLibrary.simpleMessage(
+      "Visual Detail",
+    ),
     "bus_error": MessageLookupByLibrary.simpleMessage(
       "Unable to get information",
     ),

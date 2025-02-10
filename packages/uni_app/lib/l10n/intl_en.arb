@@ -333,5 +333,15 @@
   "wrong_credentials_exception": "Invalid credentials",
   "@wrong_credentials_exception": {},
   "internet_status_exception": "Check your internet connection",
-  "@internet_status_exception": {}
+  "@internet_status_exception": {},
+  "bug_description_visual_detail": "Visual Detail",
+  "@bug_description_visual_detail": {},
+  "bug_description_error":"Error",
+  "@bug_description_error": {},
+  "bug_description_Suggestion": "Suggestion",
+  "@bug_description_Suggestion": {},
+  "bug_description_unexpected_behaviour": "Unexpected Behaviour",
+  "@bug_description_unexpected_behaviour": {},
+  "bug_description_other": "Other",
+  "@bug_description_other": {}
 }

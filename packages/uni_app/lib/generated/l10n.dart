@@ -1442,6 +1442,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Visual Detail`
+  String get bug_description_visual_detail {
+    return Intl.message(
+      'Visual Detail',
+      name: 'bug_description_visual_detail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error`
+  String get bug_description_error {
+    return Intl.message(
+      'Error',
+      name: 'bug_description_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Suggestion`
+  String get bug_description_Suggestion {
+    return Intl.message(
+      'Suggestion',
+      name: 'bug_description_Suggestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unexpected Behaviour`
+  String get bug_description_unexpected_behaviour {
+    return Intl.message(
+      'Unexpected Behaviour',
+      name: 'bug_description_unexpected_behaviour',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other`
+  String get bug_description_other {
+    return Intl.message(
+      'Other',
+      name: 'bug_description_other',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

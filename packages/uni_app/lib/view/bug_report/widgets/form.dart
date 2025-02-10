@@ -4,12 +4,10 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/bug_report.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
-import 'package:uni/view/locale_notifier.dart';
 
 class BugReportForm extends StatefulWidget {
   const BugReportForm({super.key});
@@ -30,15 +28,12 @@ class BugReportFormState extends State<BugReportForm> {
 
   static final _formKey = GlobalKey<FormState>();
 
-  final Map<int, (String, String)> bugDescriptions = {
-    0: const ('Detalhe visual', 'Visual detail'),
-    1: const ('Erro', 'Error'),
-    2: const ('Sugestão de funcionalidade', 'Suggestion'),
-    3: const (
-    'Comportamento inesperado',
-    'Unexpected behaviour',
-    ),
-    4: ('Outro', 'Other'),
+  final Map<int,String> bugDescriptions = {
+    0: 'bug_description_visual_detail',
+    1: 'bug_description_error',
+    2: 'bug_description_Suggestion',
+    3: 'bug_description_unexpected_behaviour',
+    4: 'bug_description_other',
   };
   List<DropdownMenuItem<int>> bugList = [];
 
@@ -52,24 +47,20 @@ class BugReportFormState extends State<BugReportForm> {
   bool _isConsentGiven = false;
 
   void loadBugClassList() {
-    final locale =
-    Provider.of<LocaleNotifier>(context, listen: false).getLocale();
+    final bugD = {
+      0: S.of(context).bug_description_visual_detail,
+      1: S.of(context).bug_description_error,
+      2: S.of(context).bug_description_Suggestion,
+      3: S.of(context).bug_description_unexpected_behaviour,
+      4: S.of(context).bug_description_other,
+    };
 
-    bugList = bugDescriptions.entries
+    bugList = bugD.entries
         .map(
           (entry) => DropdownMenuItem(
         value: entry.key,
-        child: Text(
-              () {
-            switch (locale) {
-              case AppLocale.pt:
-                return entry.value.$1;
-              case AppLocale.en:
-                return entry.value.$2;
-            }
-          }(),
+        child: Text(entry.value),
         ),
-      ),
     )
         .toList();
   }
