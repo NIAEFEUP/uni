@@ -343,5 +343,7 @@
   "bug_description_unexpected_behaviour": "Comportamento Inesperado",
   "@bug_description_unexpected_behaviour": {},
   "bug_description_other": "Outro",
-  "@bug_description_other": {}
+  "@bug_description_other": {},
+  "leave_feedback": "Feedback",
+  "@leave_feedback": {}
 }

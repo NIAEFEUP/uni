@@ -343,5 +343,7 @@
   "bug_description_unexpected_behaviour": "Unexpected Behaviour",
   "@bug_description_unexpected_behaviour": {},
   "bug_description_other": "Other",
-  "@bug_description_other": {}
+  "@bug_description_other": {},
+  "leave_feedback": "Leave Feedback",
+  "@leave_feedback": {}
 }

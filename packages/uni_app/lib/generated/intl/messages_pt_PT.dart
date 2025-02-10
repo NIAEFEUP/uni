@@ -193,6 +193,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "language": MessageLookupByLibrary.simpleMessage("Idioma"),
     "last_refresh_time": m0,
     "last_timestamp": m1,
+    "leave_feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
     "library_occupation": MessageLookupByLibrary.simpleMessage(
       "Ocupação da Biblioteca",
     ),
