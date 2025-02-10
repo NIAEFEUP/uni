@@ -166,7 +166,7 @@ class BugReportFormState extends State<BugReportForm> {
     ),
     onChanged: (newValue) {
     setState(() {
-    _isConsentGiven = newValue!;
+    _isConsentGiven = !_isConsentGiven;
     });
     },
     controlAffinity: ListTileControlAffinity.leading,
