@@ -20,6 +20,7 @@ class ServicesCard extends StatelessWidget {
       child: ServiceCard(
         name: name,
         openingHours: openingHours,
+        tooltip: "",
       ),
     );
   }
