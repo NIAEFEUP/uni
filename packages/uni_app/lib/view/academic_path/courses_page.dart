@@ -64,6 +64,8 @@ class CoursesPageState extends State<CoursesPage> {
 
   @override
   Widget build(BuildContext context) {
+    const bottomNavbarHeight = 120.0;
+
     return LazyConsumer<ProfileProvider, Profile>(
       builder: (context, profile) {
         final courses = profile.courses;
@@ -115,8 +117,9 @@ class CoursesPageState extends State<CoursesPage> {
         // Band-aid for allowing refresh on null content
         builder: (context, constraints) => SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          child: SizedBox(
-            height: constraints.maxHeight,
+          child: Container(
+            height: constraints.maxHeight, // Height of bottom navbar
+            padding: const EdgeInsets.only(bottom: bottomNavbarHeight),
             child: const Center(
               child: NoCoursesWidget(),
             ),
