@@ -27,6 +27,7 @@ dependencies:
   email_validator: ^2.0.1
   expandable: ^5.0.1
   expansion_tile_card: ^3.0.0
+  figma_squircle: ^0.5.3
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.3.1
@@ -85,7 +86,6 @@ dev_dependencies:
   sqflite_common_ffi: ^2.3.0+4
   test: any
   very_good_analysis: ^5.1.0
-  
 
 flutter:
   generate: true
@@ -125,7 +125,7 @@ flutter_icons:
   android: "ic_launcher"
   ios: true
   image_path: "assets/icon/icon.png"
-  adaptive_icon_background: "#75171E"
+  adaptive_icon_background: "assets/icon/adaptive_background.png"
   adaptive_icon_foreground: "assets/icon/android_icon_foreground.png"
 
 flutter_intl:

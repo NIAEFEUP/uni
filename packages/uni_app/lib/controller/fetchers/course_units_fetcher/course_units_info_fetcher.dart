@@ -42,9 +42,9 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
         ? parseSheet(bestResponse)
         : Sheet(
             professors: [],
-            regents: [],
             content: '',
             evaluation: '',
+            frequency: '',
             books: [],
           );
   }

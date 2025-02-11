@@ -10,7 +10,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
+// ignore_for_file: avoid_redundant_argument_values
 
 class S {
   S();
@@ -18,31 +18,28 @@ class S {
   static S? _current;
 
   static S get current {
-    assert(_current != null,
-        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
+    assert(_current != null, 'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
     return _current!;
   }
 
-  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
+  static const AppLocalizationDelegate delegate =
+    AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name);
+    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name); 
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       final instance = S();
       S._current = instance;
-
+ 
       return instance;
     });
-  }
+  } 
 
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
-    assert(instance != null,
-        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
+    assert(instance != null, 'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
     return instance!;
   }
 
@@ -85,16 +82,6 @@ class S {
     return Intl.message(
       'About us',
       name: 'about',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Report error/suggestion`
-  String get report_error_suggestion {
-    return Intl.message(
-      'Report error/suggestion',
-      name: 'report_error_suggestion',
       desc: '',
       args: [],
     );
@@ -220,10 +207,10 @@ class S {
     );
   }
 
-  /// `Average: `
+  /// `Average`
   String get average {
     return Intl.message(
-      'Average: ',
+      'Average',
       name: 'average',
       desc: '',
       args: [],
@@ -240,10 +227,10 @@ class S {
     );
   }
 
-  /// `Balance:`
+  /// `Balance`
   String get balance {
     return Intl.message(
-      'Balance:',
+      'Balance',
       name: 'balance',
       desc: '',
       args: [],
@@ -620,6 +607,16 @@ class S {
     );
   }
 
+  /// `Eligibility for exams`
+  String get frequency {
+    return Intl.message(
+      'Eligibility for exams',
+      name: 'frequency',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Exams Filter Settings`
   String get exams_filter {
     return Intl.message(
@@ -650,10 +647,10 @@ class S {
     );
   }
 
-  /// `Deadline for next fee:`
+  /// `Deadline`
   String get fee_date {
     return Intl.message(
-      'Deadline for next fee:',
+      'Deadline',
       name: 'fee_date',
       desc: '',
       args: [],
@@ -665,6 +662,16 @@ class S {
     return Intl.message(
       'Fee deadline',
       name: 'fee_notification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report an issue or suggest an improvement`
+  String get feedback_description {
+    return Intl.message(
+      'Report an issue or suggest an improvement',
+      name: 'feedback_description',
       desc: '',
       args: [],
     );
@@ -790,6 +797,16 @@ class S {
       name: 'last_timestamp',
       desc: '',
       args: [time],
+    );
+  }
+
+  /// `Leave feedback`
+  String get leave_feedback {
+    return Intl.message(
+      'Leave feedback',
+      name: 'leave_feedback',
+      desc: '',
+      args: [],
     );
   }
 
@@ -1328,6 +1345,16 @@ class S {
     );
   }
 
+  /// `Print balance`
+  String get print_balance {
+    return Intl.message(
+      'Print balance',
+      name: 'print_balance',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `File opened successfully`
   String get successful_open {
     return Intl.message(
@@ -1758,6 +1785,76 @@ class S {
     );
   }
 
+  /// `Instructors`
+  String get instructors {
+    return Intl.message(
+      'Instructors',
+      name: 'instructors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Assessments`
+  String get assessments {
+    return Intl.message(
+      'Assessments',
+      name: 'assessments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No exams scheduled`
+  String get noExamsScheduled {
+    return Intl.message(
+      'No exams scheduled',
+      name: 'noExamsScheduled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No instructors assigned`
+  String get noInstructors {
+    return Intl.message(
+      'No instructors assigned',
+      name: 'noInstructors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Course Regent`
+  String get courseRegent {
+    return Intl.message(
+      'Course Regent',
+      name: 'courseRegent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Instructor`
+  String get instructor {
+    return Intl.message(
+      'Instructor',
+      name: 'instructor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lectures`
+  String get lectures {
+    return Intl.message(
+      'Lectures',
+      name: 'lectures',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Exams`
   String get exams {
     return Intl.message(
@@ -1775,6 +1872,62 @@ class S {
       name: 'courses',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `All`
+  String get all_feminine {
+    return Intl.message(
+      'All',
+      name: 'all_feminine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{type, select, all_dishes{All dishes} meat_dishes{Meat dishes} fish_dishes{Fish dishes} vegetarian_dishes{Vegetarian dishes} soups{Soups} salads{Salads} diet_dishes{Diet dishes} dishes_of_the_day{Dishes of the Day} other{Other}}`
+  String dish_type(Object type) {
+    return Intl.select(
+      type,
+      {
+        'all_dishes': 'All dishes',
+        'meat_dishes': 'Meat dishes',
+        'fish_dishes': 'Fish dishes',
+        'vegetarian_dishes': 'Vegetarian dishes',
+        'soups': 'Soups',
+        'salads': 'Salads',
+        'diet_dishes': 'Diet dishes',
+        'dishes_of_the_day': 'Dishes of the Day',
+        'other': 'Other',
+      },
+      name: 'dish_type',
+      desc: '',
+      args: [type],
+    );
+  }
+
+  /// `Favorites`
+  String get favorite_filter {
+    return Intl.message(
+      'Favorites',
+      name: 'favorite_filter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{period, select, lunch{Lunch} dinner{Dinner} other{Other}}`
+  String restaurant_period(Object period) {
+    return Intl.select(
+      period,
+      {
+        'lunch': 'Lunch',
+        'dinner': 'Dinner',
+        'other': 'Other',
+      },
+      name: 'restaurant_period',
+      desc: '',
+      args: [period],
     );
   }
 }

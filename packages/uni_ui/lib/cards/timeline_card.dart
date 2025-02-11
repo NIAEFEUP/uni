@@ -18,11 +18,15 @@ class TimelineItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Container(
-        width: 50,
+        width: 60,
         child: Column(
           children: [
-            Text(title, style: Theme.of(context).textTheme.bodyLarge),
-            Text(subtitle, style: Theme.of(context).textTheme.labelLarge)
+            Text(title,
+                style: Theme.of(context).textTheme.bodyLarge,
+                textAlign: TextAlign.center),
+            Text(subtitle,
+                style: Theme.of(context).textTheme.labelLarge,
+                textAlign: TextAlign.center),
           ],
         ),
       ),
