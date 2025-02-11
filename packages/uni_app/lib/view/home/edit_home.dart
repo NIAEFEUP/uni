@@ -1,7 +1,7 @@
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
-import 'package:uni/utils/favorite_widget_type2.dart';
+import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets/edit/draggable_square.dart';
 import 'package:uni/view/home/widgets/edit/draggable_tile.dart';
@@ -18,7 +18,7 @@ class EditHomeViewState extends State<EditHomeView> {
   List<DraggableTile> activeCards = [];
   List<DraggableSquare> listlessCards = [];
 
-  (String, Icon) formatDraggableTile(FavoriteWidgetType2 favorite) {
+  (String, Icon) formatDraggableTile(FavoriteWidgetType favorite) {
     String title;
     Icon icon;
 
@@ -64,8 +64,8 @@ class EditHomeViewState extends State<EditHomeView> {
   void initState() {
     super.initState();
 
-    const allCards = FavoriteWidgetType2.values;
-    final favoriteCards = PreferencesController.getFavoriteCards2();
+    const allCards = FavoriteWidgetType.values;
+    final favoriteCards = PreferencesController.getFavoriteCards();
 
     activeCards = favoriteCards.map((favorite) {
       final data = formatDraggableTile(favorite);
@@ -88,10 +88,10 @@ class EditHomeViewState extends State<EditHomeView> {
   }
 
   void saveCards() {
-    PreferencesController.saveFavoriteCards2(
+    PreferencesController.saveFavoriteCards(
       activeCards
           .map(
-            (tile) => FavoriteWidgetType2.values.firstWhere(
+            (tile) => FavoriteWidgetType.values.firstWhere(
               (favorite) => favorite.name == tile.title.toLowerCase(),
             ),
           )

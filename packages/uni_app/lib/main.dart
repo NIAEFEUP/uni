@@ -41,7 +41,7 @@ import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/exams/exams.dart';
 import 'package:uni/view/faculty/faculty.dart';
 import 'package:uni/view/home/edit_home.dart';
-import 'package:uni/view/home/home2.dart';
+import 'package:uni/view/home/home.dart';
 import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/locations/locations.dart';
@@ -261,7 +261,7 @@ class ApplicationState extends State<Application> {
               ),
               '/${NavigationItem.navPersonalArea.route}':
                   PageTransition.makePageTransition(
-                page: const HomePageView2(),
+                page: const HomePageView(),
                 settings: settings,
               ),
               '/${NavigationItem.navSchedule.route}':

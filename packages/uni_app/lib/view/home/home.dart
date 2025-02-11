@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
-import 'package:uni/utils/favorite_widget_type2.dart';
+import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
@@ -18,27 +18,27 @@ import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/icons.dart';
 
-class HomePageView2 extends StatefulWidget {
-  const HomePageView2({super.key});
+class HomePageView extends StatefulWidget {
+  const HomePageView({super.key});
 
   @override
   State<StatefulWidget> createState() => HomePageView2State();
 }
 
-class HomePageView2State extends State<HomePageView2> {
-  List<FavoriteWidgetType2> favoriteCards =
+class HomePageView2State extends State<HomePageView> {
+  List<FavoriteWidgetType> favoriteCards =
       PreferencesController.getFavoriteCards2();
 
   bool isBannerViewed = true;
 
   double appBarSize = 100;
 
-  static Map<FavoriteWidgetType2, GenericHomecard> typeToCard = {
-    FavoriteWidgetType2.schedule: const ScheduleHomeCard(),
-    FavoriteWidgetType2.exams: const ExamHomeCard(),
-    FavoriteWidgetType2.library: const LibraryHomeCard(),
-    FavoriteWidgetType2.restaurants: const RestaurantHomeCard(),
-    FavoriteWidgetType2.calendar: const CalendarHomeCard(),
+  static Map<FavoriteWidgetType, GenericHomecard> typeToCard = {
+    FavoriteWidgetType.schedule: const ScheduleHomeCard(),
+    FavoriteWidgetType.exams: const ExamHomeCard(),
+    FavoriteWidgetType.library: const LibraryHomeCard(),
+    FavoriteWidgetType.restaurants: const RestaurantHomeCard(),
+    FavoriteWidgetType.calendar: const CalendarHomeCard(),
   };
 
   @override

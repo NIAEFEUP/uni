@@ -73,7 +73,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     final favoriteCardTypes = PreferencesController.getFavoriteCards();
 
     if (context.mounted &&
-        !favoriteCardTypes.contains(FavoriteWidgetType.restaurant)) {
+        !favoriteCardTypes.contains(FavoriteWidgetType.restaurants)) {
       showRestaurantCardHomeDialog(
         context,
         favoriteCardTypes,
@@ -335,7 +335,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
           ElevatedButton(
             onPressed: () {
               updateHomePage(
-                favoriteCardTypes + [FavoriteWidgetType.restaurant],
+                favoriteCardTypes + [FavoriteWidgetType.restaurants],
               );
               Navigator.of(context).pop();
             },

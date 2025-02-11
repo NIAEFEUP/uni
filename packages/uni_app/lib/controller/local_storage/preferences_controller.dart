@@ -9,7 +9,6 @@ import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
-import 'package:uni/utils/favorite_widget_type2.dart';
 
 /// Manages the app's Shared Preferences.
 ///
@@ -31,15 +30,9 @@ class PreferencesController {
   static const String _locale = 'app_locale';
   static const String _lastCacheCleanUpDate = 'last_clean';
   static const String _favoriteCards = 'favorite_cards';
-  static const String _favoriteCards2 = 'favorite_cards2';
-  static final List<FavoriteWidgetType2> _homeDefaultcards = [
-    FavoriteWidgetType2.schedule,
-    FavoriteWidgetType2.exams,
-  ];
-  static final List<FavoriteWidgetType> _defaultFavoriteCards = [
+  static final List<FavoriteWidgetType> _homeDefaultcards = [
     FavoriteWidgetType.schedule,
     FavoriteWidgetType.exams,
-    FavoriteWidgetType.busStops,
   ];
   static const String _hiddenExams = 'hidden_exams';
   static const String _favoriteRestaurants = 'favorite_restaurants';
@@ -179,17 +172,17 @@ class PreferencesController {
     await _secureStorage.delete(key: _userSession);
   }
 
-  static Future<void> saveFavoriteCards2(
-    List<FavoriteWidgetType2> newFavorites,
+  static Future<void> saveFavoriteCards(
+    List<FavoriteWidgetType> newFavorites,
   ) async {
     await prefs.setStringList(
-      _favoriteCards2,
+      _favoriteCards,
       newFavorites.map((elem) => elem.name).toList(),
     );
   }
 
-  static List<FavoriteWidgetType2> getFavoriteCards2() {
-    final storedFavorites = prefs.getStringList(_favoriteCards2);
+  static List<FavoriteWidgetType> getFavoriteCards() {
+    final storedFavorites = prefs.getStringList(_favoriteCards);
 
     if (storedFavorites == null) {
       return _homeDefaultcards;
@@ -197,37 +190,8 @@ class PreferencesController {
 
     return storedFavorites
         .map(
-          (elem) =>
-              FavoriteWidgetType2.values.firstWhere((e) => e.name == elem),
+          (elem) => FavoriteWidgetType.values.firstWhere((e) => e.name == elem),
         )
-        .toList();
-  }
-
-  /// Replaces the user's favorite widgets with [newFavorites].
-  static Future<void> saveFavoriteCards(
-    List<FavoriteWidgetType> newFavorites,
-  ) async {
-    await prefs.setStringList(
-      _favoriteCards,
-      newFavorites.map((a) => a.index.toString()).toList(),
-    );
-  }
-
-  /// Returns a list containing the user's favorite widgets.
-  static List<FavoriteWidgetType> getFavoriteCards() {
-    final storedFavorites = prefs
-        .getStringList(_favoriteCards)
-        ?.where(
-          (element) => int.parse(element) < FavoriteWidgetType.values.length,
-        )
-        .toList();
-
-    if (storedFavorites == null) {
-      return _defaultFavoriteCards;
-    }
-
-    return storedFavorites
-        .map((i) => FavoriteWidgetType.values[int.parse(i)])
         .toList();
   }
 
