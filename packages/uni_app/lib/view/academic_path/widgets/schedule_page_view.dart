@@ -16,30 +16,19 @@ class SchedulePageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final reorderedDates = _getReorderedWeekDates(currentWeek.start);
-
+    final daysOfTheWeek =
+        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
+    final reorderedDaysOfTheWeek = [
+      daysOfTheWeek[6],
+      ...daysOfTheWeek.sublist(0, 6),
+    ];
     final todayIndex = reorderedDates
         .indexWhere((date) => date.isAtSameMomentAs(currentWeek.start));
-
     final firstAvailableIndex = reorderedDates.indexWhere(
       (date) =>
           date.isAfter(currentWeek.start) &&
           _lecturesOfDay(lectures, date).isNotEmpty,
     );
-
-    final lecturesToday =
-        _lecturesOfDay(lectures, reorderedDates[todayIndex]).isNotEmpty;
-
-    final daysOfTheWeek =
-        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
-
-    final reorderedDaysOfTheWeek = [
-      daysOfTheWeek[6],
-      ...daysOfTheWeek.sublist(0, 6),
-    ];
-
-    final tabEnabled = reorderedDates
-        .map((day) => _lecturesOfDay(lectures, day).isNotEmpty)
-        .toList();
 
     return Timeline(
       tabs: reorderedDates
@@ -52,7 +41,7 @@ class SchedulePageView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      reorderedDaysOfTheWeek[reorderedDates.indexOf(date) % 7]
+                      reorderedDaysOfTheWeek[(date.weekday) % 7]
                           .substring(0, 3),
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
@@ -81,15 +70,23 @@ class SchedulePageView extends StatelessWidget {
             ),
           )
           .toList(),
-      initialTab: lecturesToday ? todayIndex : firstAvailableIndex,
-      tabEnabled: tabEnabled,
+      initialTab:
+          _lecturesOfDay(lectures, reorderedDates[todayIndex]).isNotEmpty
+              ? todayIndex
+              : firstAvailableIndex,
+      tabEnabled: reorderedDates
+          .map((day) => _lecturesOfDay(lectures, day).isNotEmpty)
+          .toList(),
     );
   }
 
   List<DateTime> _getReorderedWeekDates(DateTime startOfWeek) {
-    final sunday =
+    final initialSunday =
         startOfWeek.subtract(Duration(days: startOfWeek.weekday % 7));
-    return List.generate(14, (index) => sunday.add(Duration(days: index)));
+    return List.generate(
+      14,
+      (index) => initialSunday.add(Duration(days: index)),
+    );
   }
 
   List<Lecture> _lecturesOfDay(List<Lecture> lectures, DateTime day) {
