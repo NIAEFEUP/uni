@@ -6,7 +6,7 @@ import 'package:uni/view/academic_path/widgets/schedule_day_timeline.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/timeline/timeline.dart';
 
-class SchedulePageView extends StatefulWidget {
+class SchedulePageView extends StatelessWidget {
   SchedulePageView(this.lectures, {required DateTime now, super.key})
       : currentWeek = Week(start: now);
 
@@ -14,30 +14,15 @@ class SchedulePageView extends StatefulWidget {
   final Week currentWeek;
 
   @override
-  SchedulePageViewState createState() => SchedulePageViewState();
-}
-
-class SchedulePageViewState extends State<SchedulePageView> {
-  late List<DateTime> reorderedDates;
-  late int initialTab;
-
-  @override
-  void initState() {
-    super.initState();
-    reorderedDates = _getReorderedWeekDates(widget.currentWeek.start);
+  Widget build(BuildContext context) {
+    final reorderedDates = _getReorderedWeekDates(currentWeek.start);
     final todayIndex = reorderedDates
-        .indexWhere((date) => date.isAtSameMomentAs(widget.currentWeek.start));
+        .indexWhere((date) => date.isAtSameMomentAs(currentWeek.start));
     final firstAvailableIndex = reorderedDates.indexWhere(
-      (date) => _lecturesOfDay(widget.lectures, date).isNotEmpty,
+      (date) => _lecturesOfDay(lectures, date).isNotEmpty,
     );
     final lecturesToday =
-        _lecturesOfDay(widget.lectures, reorderedDates[todayIndex]).isNotEmpty;
-
-    initialTab = lecturesToday ? todayIndex : firstAvailableIndex;
-  }
-
-  @override
-  Widget build(BuildContext context) {
+        _lecturesOfDay(lectures, reorderedDates[todayIndex]).isNotEmpty;
     final daysOfTheWeek =
         Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
     final reorderedDaysOfTheWeek = [
@@ -45,7 +30,7 @@ class SchedulePageViewState extends State<SchedulePageView> {
       ...daysOfTheWeek.sublist(0, 6),
     ];
     final tabEnabled = reorderedDates
-        .map((day) => _lecturesOfDay(widget.lectures, day).isNotEmpty)
+        .map((day) => _lecturesOfDay(lectures, day).isNotEmpty)
         .toList();
 
     return Timeline(
@@ -83,11 +68,11 @@ class SchedulePageViewState extends State<SchedulePageView> {
             (day) => ScheduleDayTimeline(
               key: Key('schedule-page-day-view-${day.weekday}'),
               day: day,
-              lectures: _lecturesOfDay(widget.lectures, day),
+              lectures: _lecturesOfDay(lectures, day),
             ),
           )
           .toList(),
-      initialTab: initialTab,
+      initialTab: lecturesToday ? todayIndex : firstAvailableIndex,
       tabEnabled: tabEnabled,
     );
   }
