@@ -16,27 +16,35 @@ class SchedulePageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final reorderedDates = _getReorderedWeekDates(currentWeek.start);
+
     final todayIndex = reorderedDates
         .indexWhere((date) => date.isAtSameMomentAs(currentWeek.start));
+
     final firstAvailableIndex = reorderedDates.indexWhere(
-      (date) => _lecturesOfDay(lectures, date).isNotEmpty,
+      (date) =>
+          date.isAfter(currentWeek.start) &&
+          _lecturesOfDay(lectures, date).isNotEmpty,
     );
+
     final lecturesToday =
         _lecturesOfDay(lectures, reorderedDates[todayIndex]).isNotEmpty;
+
     final daysOfTheWeek =
         Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
+
     final reorderedDaysOfTheWeek = [
       daysOfTheWeek[6],
       ...daysOfTheWeek.sublist(0, 6),
     ];
+
     final tabEnabled = reorderedDates
         .map((day) => _lecturesOfDay(lectures, day).isNotEmpty)
         .toList();
 
     return Timeline(
-      tabs: reorderedDaysOfTheWeek
+      tabs: reorderedDates
           .map(
-            (day) => SizedBox(
+            (date) => SizedBox(
               width: 30,
               height: 34,
               child: Column(
@@ -44,7 +52,8 @@ class SchedulePageView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      day.substring(0, 3),
+                      reorderedDaysOfTheWeek[reorderedDates.indexOf(date) % 7]
+                          .substring(0, 3),
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
                       maxLines: 1,
@@ -52,7 +61,7 @@ class SchedulePageView extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      '${reorderedDates[reorderedDaysOfTheWeek.indexOf(day)].day}',
+                      '${date.day}',
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
                       maxLines: 1,
@@ -80,7 +89,7 @@ class SchedulePageView extends StatelessWidget {
   List<DateTime> _getReorderedWeekDates(DateTime startOfWeek) {
     final sunday =
         startOfWeek.subtract(Duration(days: startOfWeek.weekday % 7));
-    return List.generate(7, (index) => sunday.add(Duration(days: index)));
+    return List.generate(14, (index) => sunday.add(Duration(days: index)));
   }
 
   List<Lecture> _lecturesOfDay(List<Lecture> lectures, DateTime day) {
