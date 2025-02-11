@@ -66,6 +66,7 @@ class HomePageView2State extends State<HomePageView2> {
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         child: ListView.separated(
+          shrinkWrap: true,
           itemCount: favoriteCards.length,
           separatorBuilder: (_, __) => const SizedBox(
             height: 10,

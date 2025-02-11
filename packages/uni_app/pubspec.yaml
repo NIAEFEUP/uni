@@ -18,6 +18,7 @@ dependencies:
   app_links: ^3.5.1
   battery_plus: ^5.0.2
   cached_network_image: ^3.3.1
+  carousel_slider: ^5.0.0
   collection: ^1.16.0
   connectivity_plus: ^5.0.2
   crypto: ^3.0.1
@@ -64,6 +65,7 @@ dependencies:
   sentry_flutter: ^8.9.0
   shared_preferences: ^2.2.2
   shimmer: ^3.0.0
+  smooth_page_indicator: ^1.2.0+3
   sqflite: ^2.0.3
   synchronized: ^3.0.0
   timelines: ^0.1.0
