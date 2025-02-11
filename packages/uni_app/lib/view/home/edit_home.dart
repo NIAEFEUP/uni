@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/utils/favorite_widget_type2.dart';
 import 'package:uni/utils/navigation_items.dart';
-import 'package:uni/view/home/widgets2/edit/draggable_element.dart';
-import 'package:uni/view/home/widgets2/edit/draggable_square.dart';
-import 'package:uni/view/home/widgets2/edit/draggable_tile.dart';
+import 'package:uni/view/home/widgets/edit/draggable_square.dart';
+import 'package:uni/view/home/widgets/edit/draggable_tile.dart';
 import 'package:uni_ui/icons.dart';
 
 class EditHomeView extends StatefulWidget {

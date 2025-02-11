@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/view/home/widgets2/edit/draggable_element.dart';
+import 'package:uni/view/home/widgets/edit/draggable_element.dart';
 import 'package:uni_ui/icons.dart';
 
 class DraggableTile extends StatelessWidget {

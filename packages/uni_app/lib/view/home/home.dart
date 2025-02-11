@@ -1,27 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
-import 'package:uni/generated/l10n.dart';
-import 'package:uni/utils/favorite_widget_type.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/providers/lazy/lecture_provider.dart';
+import 'package:uni/utils/favorite_widget_type2.dart';
+import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
-import 'package:uni/view/home/widgets/main_cards_list.dart';
+import 'package:uni/view/home/widgets/calendar_home_card.dart';
+import 'package:uni/view/home/widgets/exam_home_card.dart';
+import 'package:uni/view/home/widgets/generic_home_card.dart';
+import 'package:uni/view/home/widgets/library_home_card.dart';
+import 'package:uni/view/home/widgets/restaurant_home_card.dart';
+import 'package:uni/view/home/widgets/schedule_home_card.dart';
 import 'package:uni/view/home/widgets/tracking_banner.dart';
 import 'package:uni/view/home/widgets/uni_logo.dart';
+import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni_ui/cards/schedule_card.dart';
+import 'package:uni_ui/icons.dart';
 
-class HomePageView extends StatefulWidget {
-  const HomePageView({super.key});
+class HomePageView2 extends StatefulWidget {
+  const HomePageView2({super.key});
 
   @override
-  State<StatefulWidget> createState() => HomePageViewState();
+  State<StatefulWidget> createState() => HomePageView2State();
 }
 
-class HomePageViewState extends GeneralPageViewState {
+class HomePageView2State extends State<HomePageView2> {
+  List<FavoriteWidgetType2> favoriteCards =
+      PreferencesController.getFavoriteCards2();
+
   bool isBannerViewed = true;
-  bool isEditing = false;
-  List<FavoriteWidgetType> favoriteCardTypes =
-      PreferencesController.getFavoriteCards();
+
+  double appBarSize = 100;
+
+  static Map<FavoriteWidgetType2, GenericHomecard> typeToCard = {
+    FavoriteWidgetType2.schedule: const ScheduleHomeCard(),
+    FavoriteWidgetType2.exams: const ExamHomeCard(),
+    FavoriteWidgetType2.library: const LibraryHomeCard(),
+    FavoriteWidgetType2.restaurants: const RestaurantHomeCard(),
+    FavoriteWidgetType2.calendar: const CalendarHomeCard(),
+  };
 
   @override
   void initState() {
@@ -40,99 +58,111 @@ class HomePageViewState extends GeneralPageViewState {
     await checkBannerViewed();
   }
 
-  void setFavoriteCards(List<FavoriteWidgetType> favorites) {
-    setState(() {
-      favoriteCardTypes = favorites;
-    });
-    PreferencesController.saveFavoriteCards(favorites);
-  }
-
   @override
-  Widget? getHeader(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          PageTitle(
-            name: S.of(context).nav_title('area'),
-            center: false,
-            pad: false,
+  Widget build(BuildContext context) {
+    return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Colors.white,
+        shape: const CircleBorder(),
+        onPressed: () => {
+          Navigator.pushNamed(
+            context,
+            '/${NavigationItem.navEditPersonalArea.route}',
           ),
-          if (isEditing)
-            ElevatedButton(
-              onPressed: () => setState(() {
-                isEditing = false;
-              }),
-              child: Text(
-                S.of(context).edit_on,
-              ),
-            )
-          else
-            OutlinedButton(
-              onPressed: () => setState(() {
-                isEditing = true;
-              }),
-              child: Text(
-                S.of(context).edit_off,
-              ),
-            ),
-        ],
+        },
+        child: const UniIcon(UniIcons.edit),
+      ),
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      appBar: homeAppBar(context),
+      bottomNavigationBar: const AppBottomNavbar(),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        child: ListView.separated(
+          itemCount: favoriteCards.length + 1,
+          separatorBuilder: (_, __) => const SizedBox(
+            height: 10,
+          ),
+          itemBuilder: (_, index) {
+            if (index == 0) {
+              return Visibility(
+                visible: !isBannerViewed,
+                child: TrackingBanner(setBannerViewed),
+              );
+            } else {
+              return typeToCard[favoriteCards[index - 1]];
+            }
+          },
+        ),
       ),
     );
   }
 
-  void toggleEditing() {
-    setState(() {
-      isEditing = !isEditing;
-    });
-  }
-
-  @override
-  Widget getBody(BuildContext context) {
-    return Column(
-      children: [
-        Visibility(
-          visible: !isBannerViewed,
-          child: TrackingBanner(setBannerViewed),
-        ),
-        Expanded(
-          child: MainCardsList(
-            favoriteCardTypes,
-            saveFavoriteCards: setFavoriteCards,
-            isEditing: isEditing,
-            toggleEditing: toggleEditing,
+  PreferredSize homeAppBar(BuildContext context) {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(appBarSize),
+      child: Container(
+        decoration: const BoxDecoration(
+          gradient: RadialGradient(
+            colors: [
+              Color(0xFF280709),
+              Color(0xFF511515),
+            ],
+            center: Alignment.topLeft,
+            radius: 1.5,
+            stops: [0, 1],
           ),
         ),
-      ],
-    );
-  }
-
-  @override
-  Future<void> onRefresh(BuildContext context) async {
-    final cards = favoriteCardTypes
-        .map(
-          (e) =>
-              MainCardsList.cardCreators[e]!(const Key(''), editingMode: false),
-        )
-        .toList();
-
-    for (final card in cards) {
-      card.onRefresh(context);
-    }
-  }
-
-  @override
-  String? getTitle() => null;
-
-  @override
-  AppTopNavbar? getTopNavbar(BuildContext context) {
-    return const AppTopNavbar(
-      leftButton: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8),
-        child: UniLogo(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+          child: Column(
+            children: [
+              const SafeArea(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    UniLogo(iconColor: Colors.white), // TODO: #1450
+                    ProfileButton(),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: LazyConsumer<LectureProvider, List<Lecture>>(
+                  builder: (context, lectures) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      if (lectures.isNotEmpty) {
+                        setState(() {
+                          appBarSize = 200;
+                        });
+                      }
+                    });
+                    return Column(
+                      // TODO: better implementation avoiding column
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ScheduleCard(
+                          name: lectures[0].subject,
+                          acronym: 'TESTE',
+                          room: lectures[0].room,
+                          type: lectures[0].typeClass,
+                        ),
+                      ],
+                    );
+                  },
+                  hasContent: (lectures) => lectures.isNotEmpty,
+                  onNullContent: const SizedBox.shrink(),
+                  mapper: (lectures) => lectures
+                      .where(
+                        (lecture) => lecture.endTime.isAfter(DateTime.now()),
+                      )
+                      .toList(),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
-      rightButton: ProfileButton(),
     );
   }
 }

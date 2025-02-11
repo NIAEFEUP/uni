@@ -3,7 +3,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/home/widgets/bus_stop_card.dart';
+// import 'package:uni/view/home/widgets/bus_stop_card.dart';
 import 'package:uni/view/transports/widgets/map_snapshot_card.dart';
 
 class TransportsPageView extends StatefulWidget {
@@ -16,7 +16,7 @@ class TransportsPageView extends StatefulWidget {
 class TransportsPageViewState extends GeneralPageViewState {
   List<GenericCard> transportsCards = [
     MapCard(),
-    BusStopCard(),
+    // BusStopCard(),
     // Add more cards if needed
   ];
 

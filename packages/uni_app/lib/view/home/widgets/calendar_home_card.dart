@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
-import 'package:uni/view/home/widgets2/generic_home_card.dart';
+import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/calendar/calendar.dart';
 import 'package:uni_ui/calendar/calendar_item.dart';
