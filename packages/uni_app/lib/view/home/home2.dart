@@ -36,7 +36,6 @@ class HomePageView2State extends State<HomePageView2> {
     FavoriteWidgetType2.library: const LibraryHomeCard(),
     FavoriteWidgetType2.restaurants: const RestaurantHomeCard(),
     FavoriteWidgetType2.calendar: const CalendarHomeCard(),
-    // FavoriteWidgetType2.ucs:
   };
 
   @override

@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets2/generic_home_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/calendar/calendar.dart';
 import 'package:uni_ui/calendar/calendar_item.dart';
 
 class CalendarHomeCard extends GenericHomecard {
-  const CalendarHomeCard({super.key, super.title = 'Calendar'});
+  const CalendarHomeCard({
+    super.key,
+    super.title = 'Calendar',
+    super.externalInfo = true,
+  });
 
   @override
-  void onClick(BuildContext context) {}
+  void onClick(BuildContext context) =>
+      Navigator.pushNamed(context, '/${NavigationItem.navCalendar.route}');
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -32,9 +38,11 @@ class CalendarHomeCard extends GenericHomecard {
 
   List<CalendarItem> buildCalendarItems(List<CalendarEvent> events) {
     final items = events
-        .map((event) => CalendarItem(
-              eventName: event.name,
-            ))
+        .map(
+          (event) => CalendarItem(
+            eventName: event.name,
+          ),
+        )
         .toList();
 
     return items; // TODO: wait for calendar events date regex

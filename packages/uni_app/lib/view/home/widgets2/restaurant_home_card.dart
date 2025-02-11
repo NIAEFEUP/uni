@@ -7,6 +7,7 @@ import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets2/generic_home_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -15,10 +16,15 @@ import 'package:uni_ui/cards/restaurant_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
 
 class RestaurantHomeCard extends GenericHomecard {
-  const RestaurantHomeCard({super.key, super.title = 'Restaurants'});
+  const RestaurantHomeCard({
+    super.key,
+    super.title = 'Restaurants',
+    super.externalInfo = true,
+  });
 
   @override
-  void onClick(BuildContext context) => {};
+  void onClick(BuildContext context) =>
+      Navigator.pushNamed(context, '/${NavigationItem.navRestaurants.route}');
 
   @override
   Widget buildCardContent(BuildContext context) => const RestaurantSlider();
@@ -56,7 +62,11 @@ class RestaurantSliderState extends State<RestaurantSlider> {
                 onPageChanged: (index, _) => setState(() {
                   _currentIndex = index;
                 }),
+                viewportFraction: 0.9,
               ),
+            ),
+            const SizedBox(
+              height: 5,
             ),
             AnimatedSmoothIndicator(
               activeIndex: _currentIndex,
