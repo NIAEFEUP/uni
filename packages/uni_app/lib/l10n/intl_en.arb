@@ -345,5 +345,11 @@
   "bug_description_other": "Other",
   "@bug_description_other": {},
   "leave_feedback": "Leave Feedback",
-  "@leave_feedback": {}
+  "@leave_feedback": {},
+  "add_photo": "Add photo",
+  "@add_photo": {},
+  "failed_upload": "Failed to upload",
+  "@failed_upload": {},
+  "successful_upload": "Successful upload",
+  "@successful_upload": {}
 }

@@ -1,4 +1,6 @@
 // Stores information about Bug Report
+import 'dart:io';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uni/model/converters/tuple_converter.dart';
 

@@ -1502,6 +1502,31 @@ class S {
       args: [],
     );
   }
+
+  /// `Add photo`
+  String get add_photo {
+    return Intl.message('Add photo', name: 'add_photo', desc: '', args: []);
+  }
+
+  /// `Failed to upload`
+  String get failed_upload {
+    return Intl.message(
+      'Failed to upload',
+      name: 'failed_upload',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successful upload`
+  String get successful_upload {
+    return Intl.message(
+      'Successful upload',
+      name: 'successful_upload',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

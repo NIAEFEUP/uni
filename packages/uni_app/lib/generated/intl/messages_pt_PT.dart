@@ -38,6 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Conta Corrente",
     ),
     "add": MessageLookupByLibrary.simpleMessage("Adicionar"),
+    "add_photo": MessageLookupByLibrary.simpleMessage("Adicionar foto"),
     "add_quota": MessageLookupByLibrary.simpleMessage("Adicionar quota"),
     "add_widget": MessageLookupByLibrary.simpleMessage("Adicionar widget"),
     "agree_terms": MessageLookupByLibrary.simpleMessage(
@@ -158,6 +159,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Falha ao autenticar",
     ),
     "failed_login": MessageLookupByLibrary.simpleMessage("O login falhou"),
+    "failed_upload": MessageLookupByLibrary.simpleMessage(
+      "Falha de carregamento",
+    ),
     "fee_date": MessageLookupByLibrary.simpleMessage(
       "Data limite próxima prestação:",
     ),
@@ -362,6 +366,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "success": MessageLookupByLibrary.simpleMessage("Enviado com sucesso"),
     "successful_open": MessageLookupByLibrary.simpleMessage(
       "Ficheiro aberto com sucesso",
+    ),
+    "successful_upload": MessageLookupByLibrary.simpleMessage(
+      "Carregamento efetuado com sucesso",
     ),
     "tele_assistance": MessageLookupByLibrary.simpleMessage(
       "Atendimento telefónico",

@@ -1,6 +1,11 @@
+import 'dart:io';
+
+import 'package:app_settings/app_settings.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart' as picker;
 import 'package:logger/logger.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/generated/l10n.dart';
@@ -8,6 +13,8 @@ import 'package:uni/model/entities/bug_report.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
+
+
 
 class BugReportForm extends StatefulWidget {
   const BugReportForm({super.key});
@@ -28,6 +35,7 @@ class BugReportFormState extends State<BugReportForm> {
 
   static final _formKey = GlobalKey<FormState>();
 
+
   final Map<int,String> bugDescriptions = {
     0: 'bug_description_visual_detail',
     1: 'bug_description_error',
@@ -37,6 +45,7 @@ class BugReportFormState extends State<BugReportForm> {
   };
   List<DropdownMenuItem<int>> bugList = [];
 
+  File? pickedFile;
   static int _selectedBug = 0;
   static final TextEditingController titleController = TextEditingController();
   static final TextEditingController descriptionController =
@@ -70,7 +79,7 @@ class BugReportFormState extends State<BugReportForm> {
     return Form(
       key: _formKey,
       child: Column(
-        children: [
+        children: <Widget>[
           const Padding(padding: EdgeInsets.only(bottom: 10)),
           PageTitle(
             name: S.of(context).leave_feedback,
@@ -150,7 +159,17 @@ class BugReportFormState extends State<BugReportForm> {
               ),
             ),
           ),
-
+      Align(
+        alignment: Alignment.centerLeft,
+        child: ElevatedButton.icon(
+          icon: Icon(Icons.add,color:Theme.of(context).colorScheme.onTertiary),
+          style: ElevatedButton.styleFrom(backgroundColor:Theme.of(context).colorScheme.tertiary),
+          onPressed: () {
+            pickImage();
+          },
+          label:Text(S.of(context).add_photo),
+      ),
+      ),
     Container(
     padding: EdgeInsets.zero,
     margin: const EdgeInsets.only(bottom: 20),
@@ -256,6 +275,29 @@ class BugReportFormState extends State<BugReportForm> {
     );
   }
 
+  Future<File?> pickImage() async {
+    var status = await Permission.photos.request();
+    final pickerInstance = picker.ImagePicker();
+    if(status.isPermanentlyDenied || status.isDenied){
+      await AppSettings.openAppSettings();
+    }
+    else{
+      try {
+        final image = await pickerInstance.pickImage(source: picker.ImageSource.gallery);
+        if (image == null) return pickedFile;
+        pickedFile = File(image.path);
+        setState(() => pickedFile);
+        await ToastMessage.success(context, S.of(context).successful_upload);
+        return File(pickedFile!.path);
+
+      } catch (e) {
+        await ToastMessage.error(context, S.of(context).failed_upload);
+      }
+
+    }
+
+  }
+
 
 
 
@@ -338,6 +380,8 @@ class BugReportFormState extends State<BugReportForm> {
     titleController.clear();
     descriptionController.clear();
     emailController.clear();
+    pickedFile=null;
+
 
     if (!mounted) {
       return;
