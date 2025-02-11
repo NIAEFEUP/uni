@@ -49,6 +49,9 @@ class MapPageState extends GeneralPageViewState {
 
   @override
   AppTopNavbar? getTopNavbar(BuildContext context) => null;
+
+  @override
+  bool getResizeToAvoidBottomInset() => false;
 }
 
 class MapPageView extends StatefulWidget {
