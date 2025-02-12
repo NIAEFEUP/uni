@@ -51,6 +51,10 @@ class _TimelineState extends State<Timeline> {
 
           _scrollToCenterTab(firstVisibleIndex);
         }
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _scrollToCenterTab(_currentIndex);
+        });
       }
     });
   }

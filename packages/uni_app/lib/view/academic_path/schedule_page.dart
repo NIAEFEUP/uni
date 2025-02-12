@@ -24,8 +24,7 @@ class SchedulePage extends StatelessWidget {
           builder: (context, lectures) {
             return SchedulePageView(
               lectures,
-              now:
-                  now, // replace by now.add(const Duration(days: 2)) to see the initial tab scrolling bug
+              now: now,
             );
           },
           hasContent: (lectures) => lectures.isNotEmpty,
