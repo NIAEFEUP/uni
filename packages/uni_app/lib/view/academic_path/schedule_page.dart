@@ -13,6 +13,12 @@ class SchedulePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final initialSunday = now.subtract(Duration(days: now.weekday % 7));
+    final startOfWeek = now.isAfter(initialSunday.add(const Duration(days: 7)))
+        ? initialSunday.add(const Duration(days: 7))
+        : initialSunday;
+    final endOfNextWeek = startOfWeek.add(const Duration(days: 14));
+
     return MediaQuery.removePadding(
       context: context,
       removeBottom: true,
@@ -29,6 +35,13 @@ class SchedulePage extends StatelessWidget {
           },
           hasContent: (lectures) => lectures.isNotEmpty,
           onNullContent: const EmptyWeek(),
+          mapper: (lectures) => lectures
+              .where(
+                (lecture) =>
+                    lecture.startTime.isAfter(startOfWeek) &&
+                    lecture.startTime.isBefore(endOfNextWeek),
+              )
+              .toList(),
         ),
       ),
     );
