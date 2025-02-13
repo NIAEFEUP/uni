@@ -20,7 +20,7 @@ class FloorOccupationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 3),
       child: Column(
         children: [
           Row(
@@ -39,7 +39,7 @@ class FloorOccupationWidget extends StatelessWidget {
           LinearPercentIndicator(
             lineHeight: 8.0,
             percent: occupation / capacity,
-            backgroundColor: Theme.of(context).colorScheme.surface,
+            backgroundColor: const Color.fromRGBO(177, 77, 84, 0.25),
             progressColor: Theme.of(context).primaryColor,
             barRadius: const Radius.circular(10),
             padding: EdgeInsets.zero,
@@ -79,7 +79,7 @@ class LibraryOccupationCard extends StatelessWidget {
               style: Theme.of(context).textTheme.displayMedium,
             ),
             circularStrokeCap: CircularStrokeCap.round,
-            backgroundColor: Theme.of(context).colorScheme.surface,
+            backgroundColor: const Color.fromRGBO(177, 77, 84, 0.25),
             progressColor: Theme.of(context).primaryColor,
           ),
           const SizedBox(width: 10),
