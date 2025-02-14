@@ -72,6 +72,9 @@ class AllServiceCardsState extends State<AllServiceCards> {
                   '9:00h - 11:30h',
                   '12:30h - 18:00h',
                 ],
+                location: 'B000',
+                telephone: '',
+                email: 'editorial@aefeup.pt',
               ),
               ServicesCard(
                 name: S.of(context).dona_bia,
@@ -79,6 +82,9 @@ class AllServiceCardsState extends State<AllServiceCards> {
                   '8:30h - 12:00h',
                   '13:30h - 19:00h',
                 ],
+                location: '',
+                telephone: '',
+                email: '',
               ),
               const ServicesCard(
                 name: 'Infodesk',
@@ -86,12 +92,18 @@ class AllServiceCardsState extends State<AllServiceCards> {
                   '9:30h - 13:00h',
                   '14:00h - 17:30h',
                 ],
+                location: '',
+                telephone: '',
+                email: '',
               ),
               ServicesCard(
                 name: S.of(context).academic_services,
                 openingHours: const [
                   '11:00h - 16:00h',
                 ],
+                location: '',
+                telephone: '',
+                email: '',
               ),
               ServicesCard(
                 name: S.of(context).multimedia_center,
@@ -99,6 +111,9 @@ class AllServiceCardsState extends State<AllServiceCards> {
                   '9:00h - 12:30h',
                   '14:30h - 17:00h',
                 ],
+                location: '',
+                telephone: '',
+                email: '',
               ),
             ],
           ),
