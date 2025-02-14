@@ -290,7 +290,6 @@ class PreferencesController {
     return prefs.getString(_schoolYearValue);
   }
 
-
   static Future<void> setServiceCardsIsGrid(bool value) async {
     await prefs.setBool(_serviceCardsIsGrid, value);
   }
@@ -298,6 +297,7 @@ class PreferencesController {
   static bool getServiceCardsIsGrid() {
     return prefs.getBool(_serviceCardsIsGrid) ?? true;
   }
+
   static Future<void> setSelectedDishType(int? value) async {
     await prefs.setInt(_selectedDishType, value ?? 1);
     if (value == null) {

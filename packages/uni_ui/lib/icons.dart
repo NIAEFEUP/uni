@@ -61,6 +61,7 @@ class UniIcons {
   static const arrowSquareOut = PhosphorIconsDuotone.arrowSquareOut;
   static const grid = PhosphorIconsDuotone.squaresFour;
   static const list = PhosphorIconsDuotone.listBullets;
+  static const phone = PhosphorIconsDuotone.phone;
 }
 
 // The same as default Icon class from material.dart but allowing to use PhosphorIcons duotone icons

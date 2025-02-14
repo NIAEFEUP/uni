@@ -7,6 +7,7 @@ import 'package:uni/view/calendar/widgets/calendar_card.dart';
 import 'package:uni/view/common_widgets/generic_expansion_card.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/faculty/widgets/service_cards.dart';
+import 'package:uni_ui/modal/widgets/service_info.dart';
 
 class FacultyPageView extends StatefulWidget {
   const FacultyPageView({super.key});

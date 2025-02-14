@@ -12,7 +12,6 @@ class AllServiceCards extends StatefulWidget {
 }
 
 class AllServiceCardsState extends State<AllServiceCards> {
-
   late bool isGrid;
 
   @override
@@ -21,14 +20,14 @@ class AllServiceCardsState extends State<AllServiceCards> {
     isGrid = PreferencesController.getServiceCardsIsGrid();
   }
 
-  void changeCardsToGrid(){
+  void changeCardsToGrid() {
     setState(() {
       PreferencesController.setServiceCardsIsGrid(true);
       isGrid = true;
     });
   }
 
-  void changeCardsToList(){
+  void changeCardsToList() {
     setState(() {
       PreferencesController.setServiceCardsIsGrid(false);
       isGrid = false;
@@ -51,10 +50,9 @@ class AllServiceCardsState extends State<AllServiceCards> {
               onPressed: changeCardsToList,
               icon: const UniIcon(UniIcons.list),
             ),
-
             IconButton(
-                onPressed: changeCardsToGrid,
-                icon: const UniIcon(UniIcons.grid),
+              onPressed: changeCardsToGrid,
+              icon: const UniIcon(UniIcons.grid),
             ),
           ],
         ),
