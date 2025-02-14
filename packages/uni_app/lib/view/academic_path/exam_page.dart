@@ -28,92 +28,50 @@ class _ExamsPageState extends State<ExamsPage> {
 
   @override
   Widget build(BuildContext context) {
+    /*
+      If we want to filters exams again
+        filteredExamTypes[Exam.getExamTypeLong(exam.examType)] ??
+     */
     return MediaQuery.removePadding(
       context: context,
       removeBottom: true,
       child: LazyConsumer<ExamProvider, List<Exam>>(
         builder: (context, exams) {
-          // Mock exams for testing
-          exams = [
-            Exam(
-              '1',
-              DateTime.now().add(Duration(days: 5)),
-              DateTime.now().add(Duration(days: 5, hours: 2)),
-              'LCOM',
-              'Computer Laboratory',
-              ['B315', 'B316'],
-              'MT',
-              'FEUP',
-            ),
-            Exam(
-              '2',
-              DateTime.now().add(Duration(days: 10)),
-              DateTime.now().add(Duration(days: 10, hours: 2)),
-              'ES',
-              'Software Engineering',
-              ['B102'],
-              'EN',
-              'FEUP',
-            ),
-            Exam(
-              '3',
-              DateTime.now().add(Duration(days: 15)),
-              DateTime.now().add(Duration(days: 15, hours: 2)),
-              'ME',
-              'Statistical Methods',
-              ['B103'],
-              'EN',
-              'FEUP',
-            ),
-            Exam(
-              '4',
-              DateTime.now().add(Duration(days: 20)),
-              DateTime.now().add(Duration(days: 20, hours: 2)),
-              'LTW',
-              'Web Languages and Technologies',
-              ['B104'],
-              'ER',
-              'FEUP',
-            ),
-          ];
-
           final examsByMonth = _examsByMonth(exams);
-          final tabs = exams.map((exam) {
+          final allMonths = List.generate(12, (index) => index + 1);
+          final tabs = allMonths.map((month) {
+            final date = DateTime(DateTime.now().year, month);
             return Column(
               children: [
                 Text(
-                  exam.start.shortMonth(
+                  date.shortMonth(
                     Provider.of<LocaleNotifier>(context).getLocale(),
                   ),
-                  style: lightTheme.textTheme.bodySmall,
                 ),
                 Text(
-                  '${exam.start.day}',
-                  style: lightTheme.textTheme.bodySmall,
+                  '${date.month}',
                 ),
               ],
             );
           }).toList();
-          final content = examsByMonth.entries.map((entry) {
-            final month = entry.key;
-            final exams = entry.value;
+          final content = allMonths.map((month) {
+            final monthKey = '${DateTime.now().year}-$month';
+            final exams = examsByMonth[monthKey] ?? [];
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Text(
-                    DateTime(
-                      int.parse(month.split('-')[0]),
-                      int.parse(month.split('-')[1]),
-                    )
-                        .fullMonth(
-                          Provider.of<LocaleNotifier>(context).getLocale(),
-                        )
-                        .capitalize(),
-                    style: Theme.of(context).textTheme.headlineMedium,
+                if (exams.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      DateTime(DateTime.now().year, month)
+                          .fullMonth(
+                            Provider.of<LocaleNotifier>(context).getLocale(),
+                          )
+                          .capitalize(),
+                      style: lightTheme.textTheme.headlineLarge,
+                    ),
                   ),
-                ),
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -129,7 +87,7 @@ class _ExamsPageState extends State<ExamsPage> {
                               Provider.of<LocaleNotifier>(context).getLocale(),
                             )
                             .capitalize(),
-                        isActive: _nextExam(exams) == exam,
+                        // isActive: _nextExam(exams) == exam, //TODO: Emphasize next exam together with the exam card.
                         card: ExamCard(
                           name: exam.subject,
                           acronym: exam.subjectAcronym,
@@ -145,7 +103,8 @@ class _ExamsPageState extends State<ExamsPage> {
                                 hiddenExams.add(exam.id);
                               }
                               PreferencesController.saveHiddenExams(
-                                  hiddenExams);
+                                hiddenExams,
+                              );
                             });
                           },
                         ),
@@ -156,11 +115,20 @@ class _ExamsPageState extends State<ExamsPage> {
               ],
             );
           }).toList();
-
-          return Column(
-            children: [
-              Expanded(child: Timeline(tabs: tabs, content: content)),
-            ],
+          return Padding(
+            padding: const EdgeInsets.all(8),
+            child: Timeline(
+              tabs: tabs,
+              content: content,
+              initialTab: allMonths.indexWhere((month) {
+                final monthKey = '${DateTime.now().year}-$month';
+                return examsByMonth.containsKey(monthKey);
+              }),
+              tabEnabled: allMonths.map((month) {
+                final monthKey = '${DateTime.now().year}-$month';
+                return examsByMonth.containsKey(monthKey);
+              }).toList(),
+            ),
           );
         },
         hasContent: (exams) => exams.isNotEmpty,
@@ -191,12 +159,12 @@ class _ExamsPageState extends State<ExamsPage> {
     return months;
   }
 
-  Exam? _nextExam(List<Exam> exams) {
+  /*Exam? _nextExam(List<Exam> exams) {
     final now = DateTime.now();
     final nextExams = exams.where((exam) => exam.start.isAfter(now)).toList()
       ..sort((a, b) => a.start.compareTo(b.start));
     return nextExams.isNotEmpty ? nextExams.first : null;
-  }
+  }*/
 
   /*
   @override

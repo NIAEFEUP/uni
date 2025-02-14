@@ -17,15 +17,11 @@ class TimelineItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Container(
-        width: 60,
+        width: 50,
         child: Column(
           children: [
-            Text(title,
-                style: Theme.of(context).textTheme.bodyLarge,
-                textAlign: TextAlign.center),
-            Text(subtitle,
-                style: Theme.of(context).textTheme.labelLarge,
-                textAlign: TextAlign.center),
+            Text(title, style: Theme.of(context).textTheme.bodyLarge),
+            Text(subtitle, style: Theme.of(context).textTheme.labelLarge)
           ],
         ),
       ),
@@ -54,7 +50,7 @@ class TimelineItem extends StatelessWidget {
                 : null),
         Container(
             margin: EdgeInsets.only(bottom: 5, left: 10, right: 10),
-            height: 55,
+            height: isActive ? 75 : 55,
             width: 3,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -72,6 +68,8 @@ class CardTimeline extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
       itemCount: items.length,
       itemBuilder: (context, index) => items[index],
     );
