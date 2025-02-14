@@ -7,27 +7,36 @@ import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/timeline/timeline.dart';
 
 class SchedulePageView extends StatelessWidget {
-  SchedulePageView(this.lectures, {required DateTime now, super.key})
-      : currentWeek = Week(start: now);
+  SchedulePageView(
+    this.lectures, {
+    required this.now,
+    required DateTime startOfWeek,
+    super.key,
+  }) : currentWeek = Week(start: startOfWeek);
 
+  final DateTime now;
   final List<Lecture> lectures;
   final Week currentWeek;
 
   @override
   Widget build(BuildContext context) {
-    final reorderedDates = _getReorderedWeekDates(currentWeek.start);
+    final reorderedDates = List.generate(
+      14,
+      (index) => currentWeek.start.add(Duration(days: index)),
+    );
+
     final daysOfTheWeek =
         Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
     final reorderedDaysOfTheWeek = [
       daysOfTheWeek[6],
       ...daysOfTheWeek.sublist(0, 6),
     ];
-    final todayIndex = reorderedDates
-        .indexWhere((date) => date.isAtSameMomentAs(currentWeek.start));
-    final firstAvailableIndex = reorderedDates.indexWhere(
+
+    final todayIndex = reorderedDates.indexWhere(
       (date) =>
-          date.isAfter(currentWeek.start) &&
-          _lecturesOfDay(lectures, date).isNotEmpty,
+          date.year == now.year &&
+          date.month == now.month &&
+          date.day == now.day,
     );
 
     return Timeline(
@@ -63,38 +72,34 @@ class SchedulePageView extends StatelessWidget {
           .toList(),
       content: reorderedDates
           .map(
-            (day) => ScheduleDayTimeline(
-              key: Key('schedule-page-day-view-${day.weekday}'),
-              day: day,
-              lectures: _lecturesOfDay(lectures, day),
+            (date) => ScheduleDayTimeline(
+              key: Key('schedule-page-day-view-${date.weekday}'),
+              now: now,
+              day: date,
+              lectures: _lecturesOfDay(lectures, date),
             ),
           )
           .toList(),
-      initialTab:
-          _lecturesOfDay(lectures, reorderedDates[todayIndex]).isNotEmpty
-              ? todayIndex
-              : firstAvailableIndex,
+      initialTab: (todayIndex != -1 &&
+              _lecturesOfDay(lectures, reorderedDates[todayIndex]).isNotEmpty)
+          ? todayIndex
+          : reorderedDates.indexWhere(
+              (date) =>
+                  date.isAfter(now) &&
+                  _lecturesOfDay(lectures, date).isNotEmpty,
+            ),
       tabEnabled: reorderedDates
-          .map((day) => _lecturesOfDay(lectures, day).isNotEmpty)
+          .map((date) => _lecturesOfDay(lectures, date).isNotEmpty)
           .toList(),
     );
   }
 
-  List<DateTime> _getReorderedWeekDates(DateTime startOfWeek) {
-    final initialSunday =
-        startOfWeek.subtract(Duration(days: startOfWeek.weekday % 7));
-    return List.generate(
-      14,
-      (index) => initialSunday.add(Duration(days: index)),
-    );
-  }
-
-  List<Lecture> _lecturesOfDay(List<Lecture> lectures, DateTime day) {
+  List<Lecture> _lecturesOfDay(List<Lecture> lectures, DateTime date) {
     return lectures.where((lecture) {
       final startTime = lecture.startTime;
-      return startTime.year == day.year &&
-          startTime.month == day.month &&
-          startTime.day == day.day;
+      return startTime.year == date.year &&
+          startTime.month == date.month &&
+          startTime.day == date.day;
     }).toList();
   }
 }

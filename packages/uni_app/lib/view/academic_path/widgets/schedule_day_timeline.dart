@@ -7,12 +7,14 @@ import 'package:uni_ui/cards/timeline_card.dart';
 class ScheduleDayTimeline extends StatelessWidget {
   const ScheduleDayTimeline({
     super.key,
+    required this.now,
     required this.day,
     required this.lectures,
   });
 
-  final List<Lecture> lectures;
+  final DateTime now;
   final DateTime day;
+  final List<Lecture> lectures;
 
   @override
   Widget build(BuildContext context) {
@@ -57,14 +59,13 @@ class ScheduleDayTimeline extends StatelessWidget {
         .toList();
   }
 
+  // maybe should be changed to the backend, just extract the filtered name directly
   String _filterSubjectName(String subject) {
-    // maybe should be changed to the backend, just extract the filtered name directly
     return RegExp(r' - ([^()]*)(?: \(|$)').firstMatch(subject)?.group(1) ??
         subject;
   }
 
   bool _isLectureActive(Lecture lecture) {
-    final now = DateTime.now();
     return now.isAfter(lecture.startTime) && now.isBefore(lecture.endTime);
   }
 }

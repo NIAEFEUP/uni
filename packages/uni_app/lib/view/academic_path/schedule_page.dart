@@ -13,12 +13,6 @@ class SchedulePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final initialSunday = now.subtract(Duration(days: now.weekday % 7));
-    final startOfWeek = now.isAfter(initialSunday.add(const Duration(days: 7)))
-        ? initialSunday.add(const Duration(days: 7))
-        : initialSunday;
-    final endOfNextWeek = startOfWeek.add(const Duration(days: 14));
-
     return MediaQuery.removePadding(
       context: context,
       removeBottom: true,
@@ -28,22 +22,43 @@ class SchedulePage extends StatelessWidget {
         },
         child: LazyConsumer<LectureProvider, List<Lecture>>(
           builder: (context, lectures) {
+            final startOfWeek = _getStartOfWeek(now, lectures);
+
             return SchedulePageView(
               lectures,
+              startOfWeek: startOfWeek,
               now: now,
             );
           },
           hasContent: (lectures) => lectures.isNotEmpty,
           onNullContent: const EmptyWeek(),
-          mapper: (lectures) => lectures
-              .where(
-                (lecture) =>
-                    lecture.startTime.isAfter(startOfWeek) &&
-                    lecture.startTime.isBefore(endOfNextWeek),
-              )
-              .toList(),
+          mapper: (lectures) {
+            final startOfWeek = _getStartOfWeek(now, lectures);
+            final endOfNextWeek = startOfWeek.add(const Duration(days: 14));
+
+            return lectures
+                .where(
+                  (lecture) =>
+                      lecture.startTime.isAfter(startOfWeek) &&
+                      lecture.startTime.isBefore(endOfNextWeek),
+                )
+                .toList();
+          },
         ),
       ),
     );
+  }
+
+  DateTime _getStartOfWeek(DateTime now, List<Lecture> lectures) {
+    final initialSunday = now.subtract(Duration(days: now.weekday % 7));
+    final secondSunday = initialSunday.add(const Duration(days: 7));
+
+    final hasLecturesThisWeek = lectures.any(
+      (lecture) =>
+          lecture.startTime.isAfter(now) &&
+          lecture.startTime.isBefore(secondSunday),
+    );
+
+    return !hasLecturesThisWeek ? secondSunday : initialSunday;
   }
 }
