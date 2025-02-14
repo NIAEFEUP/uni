@@ -10,20 +10,19 @@ class AppCourseUnitsDatabase extends AppDatabase<List<CourseUnit>> {
           'course_units.db',
           [createScript],
           onUpgrade: migrate,
-          version: 2,
+          version: 3,
         );
   static const String createScript =
       '''CREATE TABLE course_units(ucurr_id INTEGER, ucurr_codigo TEXT, ucurr_sigla TEXT , '''
       '''ucurr_nome TEXT, ano INTEGER, ocorr_id INTEGER, per_codigo TEXT, '''
       '''per_nome TEXT, tipo TEXT, estado TEXT, resultado_melhor TEXT, resultado_ects TEXT, '''
-      '''ectsGrade TEXT, resultado_insc TEXT, creditos_ects REAL, schoolYear TEXT)''';
+      '''ectsGrade TEXT, resultado_insc TEXT, creditos_ects REAL, schoolYear TEXT, '''
+      '''fest_id INTEGER)''';
 
   Future<List<CourseUnit>> courseUnits() async {
     final db = await getDatabase();
     final List<Map<String, dynamic>> maps = await db.query('course_units');
-    return List.generate(maps.length, (i) {
-      return CourseUnit.fromJson(maps[i]);
-    });
+    return maps.map(CourseUnit.fromJson).toList();
   }
 
   Future<void> _insertCourseUnits(List<CourseUnit> courseUnits) async {
