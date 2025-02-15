@@ -1518,13 +1518,23 @@ class S {
     );
   }
 
-  /// `Successful upload`
-  String get successful_upload {
+  /// `No images selected`
+  String get no_selected_images {
     return Intl.message(
-      'Successful upload',
-      name: 'successful_upload',
+      'No images selected',
+      name: 'no_selected_images',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `{number} out of 5 selected`
+  String Selected_images(Object number) {
+    return Intl.message(
+      '$number out of 5 selected',
+      name: 'Selected_images',
+      desc: '',
+      args: [number],
     );
   }
 }

@@ -14,8 +14,6 @@ import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 
-
-
 class BugReportForm extends StatefulWidget {
   const BugReportForm({super.key});
 
@@ -35,8 +33,7 @@ class BugReportFormState extends State<BugReportForm> {
 
   static final _formKey = GlobalKey<FormState>();
 
-
-  final Map<int,String> bugDescriptions = {
+  final Map<int, String> bugDescriptions = {
     0: 'bug_description_visual_detail',
     1: 'bug_description_error',
     2: 'bug_description_Suggestion',
@@ -45,11 +42,11 @@ class BugReportFormState extends State<BugReportForm> {
   };
   List<DropdownMenuItem<int>> bugList = [];
 
-  File? pickedFile;
+  List<picker.XFile> pickedFiles=[];
   static int _selectedBug = 0;
   static final TextEditingController titleController = TextEditingController();
   static final TextEditingController descriptionController =
-  TextEditingController();
+      TextEditingController();
   static final TextEditingController emailController = TextEditingController();
 
   bool _isButtonTapped = false;
@@ -67,10 +64,10 @@ class BugReportFormState extends State<BugReportForm> {
     bugList = bugD.entries
         .map(
           (entry) => DropdownMenuItem(
-        value: entry.key,
-        child: Text(entry.value),
-        ),
-    )
+            value: entry.key,
+            child: Text(entry.value),
+          ),
+        )
         .toList();
   }
 
@@ -88,7 +85,6 @@ class BugReportFormState extends State<BugReportForm> {
           const Padding(padding: EdgeInsets.only(bottom: 10)),
           bugReportIntro(context),
           dropdownBugSelectWidget(context),
-
           Padding(
             padding: const EdgeInsets.only(bottom: 30),
             child: TextField(
@@ -103,12 +99,12 @@ class BugReportFormState extends State<BugReportForm> {
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+                  borderSide:
+                      BorderSide(color: Theme.of(context).colorScheme.primary),
                 ),
               ),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.only(bottom: 30),
             child: TextFormField(
@@ -120,13 +116,14 @@ class BugReportFormState extends State<BugReportForm> {
                 floatingLabelBehavior: FloatingLabelBehavior.always,
                 border: OutlineInputBorder(
                   borderSide: BorderSide(
-                    color:   Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+                  borderSide:
+                      BorderSide(color: Theme.of(context).colorScheme.primary),
                 ),
               ),
               validator: (value) {
@@ -139,7 +136,6 @@ class BugReportFormState extends State<BugReportForm> {
               },
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.only(bottom: 30),
             child: TextField(
@@ -154,74 +150,89 @@ class BugReportFormState extends State<BugReportForm> {
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+                  borderSide:
+                      BorderSide(color: Theme.of(context).colorScheme.primary),
                 ),
               ),
             ),
           ),
-      Align(
-        alignment: Alignment.centerLeft,
-        child: ElevatedButton.icon(
-          icon: Icon(Icons.add,color:Theme.of(context).colorScheme.onTertiary),
-          style: ElevatedButton.styleFrom(backgroundColor:Theme.of(context).colorScheme.tertiary),
-          onPressed: () {
-            pickImage();
-          },
-          label:Text(S.of(context).add_photo),
-      ),
-      ),
-    Container(
-    padding: EdgeInsets.zero,
-    margin: const EdgeInsets.only(bottom: 20),
-    child: ListTileTheme(
-    contentPadding: EdgeInsets.zero,
-    child: RadioListTile(
-    toggleable: true,
-    value:true,
-    title: Text(
-    S.of(context).consent,
-    style: Theme.of(context).textTheme.bodyLarge,
-    textAlign: TextAlign.left,
-    ),
-    onChanged: (newValue) {
-    setState(() {
-    _isConsentGiven = !_isConsentGiven;
-    });
-    },
-    controlAffinity: ListTileControlAffinity.leading,
-    activeColor: Theme.of(context).colorScheme.primary,
-    groupValue: _isConsentGiven,
-    ),
-    ),
-    ),
-
-    ElevatedButton(
-    style: ElevatedButton.styleFrom(
-    // Conditionally change button color based on consent checkbox
-    backgroundColor: _isConsentGiven
-    ? Theme.of(context).colorScheme.primary // Red color when consent is given
-        : Theme.of(context).dividerColor, // Light grey color when not given
-    ),
-    onPressed: !_isConsentGiven
-    ? null
-        : () {
-    if (_formKey.currentState!.validate() && !_isButtonTapped) {
-    if (!FocusScope.of(context).hasPrimaryFocus) {
-    FocusScope.of(context).unfocus();
-    }
-    submitBugReport();
-    }
-    },
-    child: Text(
-    S.of(context).send,
-    style: Theme.of(context).textTheme.titleLarge!.copyWith(color:_isConsentGiven? Theme.of(context).colorScheme.onPrimary:Theme.of(context).colorScheme.onTertiary),
-    ),
-    ),
+          Align(
+            alignment: Alignment.centerLeft,
+           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children:[ElevatedButton.icon(
+              icon: Icon(
+                Icons.add,
+                color: Theme.of(context).colorScheme.onTertiary,
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
+              ),
+              onPressed: () {
+                pickImages();
+              },
+              label: Text(S.of(context).add_photo),
+            ),
+            pickedFiles.isNotEmpty?Text(S.of(context).Selected_images(pickedFiles.length)):Text(S.of(context).no_selected_images),],
+          ),
+          ),
+          Container(
+            padding: EdgeInsets.zero,
+            margin: const EdgeInsets.only(bottom: 20),
+            child: ListTileTheme(
+              contentPadding: EdgeInsets.zero,
+              child: RadioListTile(
+                toggleable: true,
+                value: true,
+                title: Text(
+                  S.of(context).consent,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  textAlign: TextAlign.left,
+                ),
+                onChanged: (newValue) {
+                  setState(() {
+                    _isConsentGiven = !_isConsentGiven;
+                  });
+                },
+                controlAffinity: ListTileControlAffinity.leading,
+                activeColor: Theme.of(context).colorScheme.primary,
+                groupValue: _isConsentGiven,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              // Conditionally change button color based on consent checkbox
+              backgroundColor: _isConsentGiven
+                  ? Theme.of(context)
+                      .colorScheme
+                      .primary // Red color when consent is given
+                  : Theme.of(context)
+                      .dividerColor, // Light grey color when not given
+            ),
+            onPressed: !_isConsentGiven
+                ? null
+                : () {
+                    if (_formKey.currentState!.validate() && !_isButtonTapped) {
+                      if (!FocusScope.of(context).hasPrimaryFocus) {
+                        FocusScope.of(context).unfocus();
+                      }
+                      submitBugReport();
+                    }
+                  },
+            child: Text(
+              S.of(context).send,
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: _isConsentGiven
+                        ? Theme.of(context).colorScheme.onPrimary
+                        : Theme.of(context).colorScheme.onTertiary,
+                  ),
+            ),
+          ),
         ],
       ),
     );
   }
-
 
   /// Returns a widget for the overview text of the bug report form
 
@@ -275,31 +286,25 @@ class BugReportFormState extends State<BugReportForm> {
     );
   }
 
-  Future<File?> pickImage() async {
+  Future<void> pickImages() async {
     var status = await Permission.photos.request();
-    final pickerInstance = picker.ImagePicker();
-    if(status.isPermanentlyDenied || status.isDenied){
+    if (status.isPermanentlyDenied || status.isDenied) {
       await AppSettings.openAppSettings();
-    }
-    else{
+    } else {
       try {
-        final image = await pickerInstance.pickImage(source: picker.ImageSource.gallery);
-        if (image == null) return pickedFile;
-        pickedFile = File(image.path);
-        setState(() => pickedFile);
-        await ToastMessage.success(context, S.of(context).successful_upload);
-        return File(pickedFile!.path);
-
+        final selectedimages = await picker.ImagePicker().pickMultiImage(
+          limit: 5,
+        );
+        if (selectedimages.isNotEmpty) {
+          setState(() {
+            pickedFiles.addAll(selectedimages);
+          });
+        }
       } catch (e) {
         await ToastMessage.error(context, S.of(context).failed_upload);
       }
-
     }
-
   }
-
-
-
 
 
   /// Submits the user's bug report
@@ -380,8 +385,7 @@ class BugReportFormState extends State<BugReportForm> {
     titleController.clear();
     descriptionController.clear();
     emailController.clear();
-    pickedFile=null;
-
+    pickedFiles.clear();
 
     if (!mounted) {
       return;

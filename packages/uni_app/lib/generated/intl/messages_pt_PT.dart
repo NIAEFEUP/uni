@@ -20,16 +20,19 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'pt_PT';
 
-  static String m0(time) => "última atualização às ${time}";
+  static String m0(number) => "${number} de 5 selecionadas";
 
-  static String m1(time) =>
+  static String m1(time) => "última atualização às ${time}";
+
+  static String m2(time) =>
       "${Intl.plural(time, zero: 'Atualizado há ${time} minutos', one: 'Atualizado há ${time} minuto', other: 'Atualizado há ${time} minutos')}";
 
-  static String m2(title) =>
+  static String m3(title) =>
       "${Intl.select(title, {'horario': 'Horário', 'exames': 'Exames', 'area': 'Área Pessoal', 'cadeiras': 'Cadeiras', 'autocarros': 'Autocarros', 'locais': 'Locais', 'restaurantes': 'Restaurantes', 'calendario': 'Calendário', 'biblioteca': 'Biblioteca', 'percurso_academico': 'Percurso Académico', 'transportes': 'Transportes', 'faculdade': 'Faculdade', 'other': 'Outros'})}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "Selected_images": m0,
     "about": MessageLookupByLibrary.simpleMessage("Sobre nós"),
     "academic_services": MessageLookupByLibrary.simpleMessage(
       "Serviços académicos",
@@ -195,8 +198,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "keep_login": MessageLookupByLibrary.simpleMessage("Manter sessão"),
     "language": MessageLookupByLibrary.simpleMessage("Idioma"),
-    "last_refresh_time": m0,
-    "last_timestamp": m1,
+    "last_refresh_time": m1,
+    "last_timestamp": m2,
     "leave_feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
     "library_occupation": MessageLookupByLibrary.simpleMessage(
       "Ocupação da Biblioteca",
@@ -219,7 +222,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "multimedia_center": MessageLookupByLibrary.simpleMessage(
       "Centro de multimédia",
     ),
-    "nav_title": m2,
+    "nav_title": m3,
     "news": MessageLookupByLibrary.simpleMessage("Notícias"),
     "no": MessageLookupByLibrary.simpleMessage("Não"),
     "no_app": MessageLookupByLibrary.simpleMessage(
@@ -299,6 +302,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_selected_exams": MessageLookupByLibrary.simpleMessage(
       "Não existem exames para apresentar",
     ),
+    "no_selected_images": MessageLookupByLibrary.simpleMessage(
+      "Nenhuma imagem selecionada",
+    ),
     "no_trips": MessageLookupByLibrary.simpleMessage(
       "Não há viagens planeadas de momento",
     ),
@@ -366,9 +372,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "success": MessageLookupByLibrary.simpleMessage("Enviado com sucesso"),
     "successful_open": MessageLookupByLibrary.simpleMessage(
       "Ficheiro aberto com sucesso",
-    ),
-    "successful_upload": MessageLookupByLibrary.simpleMessage(
-      "Carregamento efetuado com sucesso",
     ),
     "tele_assistance": MessageLookupByLibrary.simpleMessage(
       "Atendimento telefónico",
