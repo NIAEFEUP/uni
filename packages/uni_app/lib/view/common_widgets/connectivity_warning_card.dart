@@ -48,6 +48,15 @@ class _ConnectivityWarningState extends State<ConnectivityWarning> {
   Widget build(BuildContext context) {
     return Visibility(
       visible: isOffline,
+      child: Tooltip(
+        message: S.of(context).internet_status_exception,
+        child: Icon(
+          Icons.info_outline,
+          color: Theme.of(context).primaryColor,
+          size: 21,
+        ),
+      ),
+      /*
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 18),
         child: Row(
@@ -65,6 +74,7 @@ class _ConnectivityWarningState extends State<ConnectivityWarning> {
           ],
         ),
       ),
+      */
     );
   }
 }
