@@ -1933,6 +1933,26 @@ class S {
       args: [period],
     );
   }
+
+  /// `No courses we're found`
+  String get no_courses {
+    return Intl.message(
+      'No courses we\'re found',
+      name: 'no_courses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try to refresh the page`
+  String get no_courses_description {
+    return Intl.message(
+      'Try to refresh the page',
+      name: 'no_courses_description',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

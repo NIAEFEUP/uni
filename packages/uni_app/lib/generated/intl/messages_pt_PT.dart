@@ -232,6 +232,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "no_college": MessageLookupByLibrary.simpleMessage("sem faculdade"),
         "no_course_units": MessageLookupByLibrary.simpleMessage(
             "Sem cadeiras no período selecionado"),
+        "no_courses": MessageLookupByLibrary.simpleMessage(
+            "Não foram encontrados cursos"),
+        "no_courses_description":
+            MessageLookupByLibrary.simpleMessage("Tenta refrescar a página"),
         "no_data": MessageLookupByLibrary.simpleMessage(
             "Não há dados a mostrar neste momento"),
         "no_date": MessageLookupByLibrary.simpleMessage("Sem data"),
