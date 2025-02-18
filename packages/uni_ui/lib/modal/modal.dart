@@ -16,7 +16,7 @@ class ModalDialog extends StatelessWidget {
           radius: SmoothBorderRadius(cornerRadius: 30, cornerSmoothing: 1),
           child: Container(
             padding: const EdgeInsets.all(20.0),
-            color: Theme.of(context).colorScheme.surface,
+            color: Theme.of(context).colorScheme.secondary,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
