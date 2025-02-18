@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart' as picker;
 import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:sentry/sentry_io.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/bug_report.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
@@ -41,8 +41,7 @@ class BugReportFormState extends State<BugReportForm> {
     4: 'bug_description_other',
   };
   List<DropdownMenuItem<int>> bugList = [];
-
-  List<picker.XFile> pickedFiles=[];
+  List<picker.XFile> pickedFiles = [];
   static int _selectedBug = 0;
   static final TextEditingController titleController = TextEditingController();
   static final TextEditingController descriptionController =
@@ -158,23 +157,45 @@ class BugReportFormState extends State<BugReportForm> {
           ),
           Align(
             alignment: Alignment.centerLeft,
-           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children:[ElevatedButton.icon(
-              icon: Icon(
-                Icons.add,
-                color: Theme.of(context).colorScheme.onTertiary,
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.tertiary,
-              ),
-              onPressed: () {
-                pickImages();
-              },
-              label: Text(S.of(context).add_photo),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ElevatedButton.icon(
+                  icon: Icon(
+                    Icons.add,
+                    color: Theme.of(context).colorScheme.onTertiary,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.tertiary,
+                  ),
+                  onPressed: () {
+                    pickImages();
+                  },
+                  label: Text(S.of(context).add_photo),
+                ),
+                   /* Expanded(
+                    child: pickedFiles.isNotEmpty
+                    ? Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: GridView.builder(
+                    itemCount: pickedFiles.length,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3),
+                    itemBuilder: (context, index) {
+                    return Image.file(
+                    File(pickedFiles[index].path),
+                    fit: BoxFit.cover,
+                    );
+                    },
+                    ),
+                    )
+                        : Text(S.of(context).no_selected_images),
+                    ),*/
+                    pickedFiles.isNotEmpty
+                    ? Text(S.of(context).Selected_images(pickedFiles.length))
+                    : Text(S.of(context).no_selected_images),
+                 ],
             ),
-            pickedFiles.isNotEmpty?Text(S.of(context).Selected_images(pickedFiles.length)):Text(S.of(context).no_selected_images),],
-          ),
           ),
           Container(
             padding: EdgeInsets.zero,
@@ -306,7 +327,6 @@ class BugReportFormState extends State<BugReportForm> {
     }
   }
 
-
   /// Submits the user's bug report
   ///
   /// If successful, an issue based on the bug
@@ -332,7 +352,7 @@ class BugReportFormState extends State<BugReportForm> {
     var toastMsg = '';
     bool status;
     try {
-      await submitSentryEvent(bugReport);
+      await submitSentryEvent(bugReport,pickedFiles);
       Logger().i('Successfully submitted bug report.');
       if (context.mounted) {
         toastMsg = s.success;
@@ -362,13 +382,17 @@ class BugReportFormState extends State<BugReportForm> {
     }
   }
 
-  Future<void> submitSentryEvent(Map<String, dynamic> bugReport) async {
+  Future<void> submitSentryEvent(Map<String, dynamic> bugReport,  List<picker.XFile> pickedFiles ) async {
     final sentryId = await Sentry.captureMessage(
       'User Feedback',
       withScope: (scope) {
         scope
           ..setTag('report', 'true')
           ..setTag('report.type', bugReport['bugLabel'] as String);
+        for(var file in pickedFiles) {
+            scope.addAttachment(IoSentryAttachment.fromPath(file.path),);
+        }
+
       },
     );
 
@@ -385,12 +409,12 @@ class BugReportFormState extends State<BugReportForm> {
     titleController.clear();
     descriptionController.clear();
     emailController.clear();
-    pickedFiles.clear();
 
     if (!mounted) {
       return;
     }
     setState(() {
+      pickedFiles.clear();
       _selectedBug = 0;
       _isConsentGiven = false;
     });
