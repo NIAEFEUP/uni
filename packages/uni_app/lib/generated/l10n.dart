@@ -10,7 +10,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
 
 class S {
   S();
@@ -988,6 +988,16 @@ class S {
     );
   }
 
+  /// `You have no classes this week`
+  String get no_classes_this_week {
+    return Intl.message(
+      'You have no classes this week',
+      name: 'no_classes_this_week',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No classes to present`
   String get no_classes {
     return Intl.message(
@@ -1763,6 +1773,16 @@ class S {
     return Intl.message(
       'Check your internet connection',
       name: 'internet_status_exception',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Schedule`
+  String get schedule {
+    return Intl.message(
+      'Schedule',
+      name: 'schedule',
       desc: '',
       args: [],
     );
