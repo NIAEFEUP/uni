@@ -6,18 +6,22 @@ class Timeline extends StatefulWidget {
   const Timeline({
     required this.tabs,
     required this.content,
+    required this.initialTab,
+    required this.tabEnabled,
     super.key,
   });
 
   final List<Widget> tabs;
   final List<Widget> content;
+  final int initialTab;
+  final List<bool> tabEnabled;
 
   @override
   State<Timeline> createState() => _TimelineState();
 }
 
 class _TimelineState extends State<Timeline> {
-  int _currentIndex = 0;
+  late int _currentIndex;
   final ItemScrollController _itemScrollController = ItemScrollController();
   final ItemPositionsListener _itemPositionsListener =
       ItemPositionsListener.create();
@@ -27,6 +31,7 @@ class _TimelineState extends State<Timeline> {
   @override
   void initState() {
     super.initState();
+    _currentIndex = widget.initialTab;
 
     _tabKeys.addAll(List.generate(widget.tabs.length, (index) => GlobalKey()));
 
@@ -57,6 +62,7 @@ class _TimelineState extends State<Timeline> {
   }
 
   void _onTabTapped(int index) {
+    if (!widget.tabEnabled[index]) return;
     _itemScrollController.scrollTo(
       index: index,
       duration: const Duration(milliseconds: 300),
@@ -98,21 +104,33 @@ class _TimelineState extends State<Timeline> {
             children: widget.tabs.asMap().entries.map((entry) {
               int index = entry.key;
               Widget tab = entry.value;
+              bool isSelected = _currentIndex == index;
+              TextStyle textStyle = Theme.of(context).textTheme.bodySmall!;
               return GestureDetector(
                 onTap: () => _onTabTapped(index),
                 child: Padding(
-                  padding: const EdgeInsets.all(7.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 5.0),
                   child: GenericSquircle(borderRadius: 10, child: Container(
                       key: _tabKeys[index],
                       padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 15.0),
-                      color: _currentIndex == index
+                          vertical: 9.0, horizontal: 8.0),
+                      color: isSelected
                           ? Theme.of(context)
                               .colorScheme
                               .tertiary
                               .withOpacity(0.25)
                           : Colors.transparent,
-                      child: tab,
+                      child: DefaultTextStyle(
+                        style: textStyle.copyWith(
+                          color: widget.tabEnabled[index]
+                              ? (isSelected
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Colors.black)
+                              : Colors.grey,
+                        ),
+                        child: tab,
+                      ),
                     ),
                   ),
                 ),
@@ -122,9 +140,11 @@ class _TimelineState extends State<Timeline> {
         ),
         Expanded(
           child: ScrollablePositionedList.builder(
+            padding: const EdgeInsets.only(bottom: 88),
             itemCount: widget.content.length,
             itemScrollController: _itemScrollController,
             itemPositionsListener: _itemPositionsListener,
+            initialScrollIndex: _currentIndex,
             itemBuilder: (context, index) {
               return widget.content[index];
             },
