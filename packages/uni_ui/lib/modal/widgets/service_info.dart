@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:uni_ui/theme.dart';
 
 class ModalServiceInfo extends StatelessWidget {
   const ModalServiceInfo({required this.name, required this.durations});

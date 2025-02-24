@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni_ui/cards/service_card.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
 import 'package:uni_ui/modal/widgets/service_info.dart';
-import 'package:uni/controller/networking/url_launcher.dart';
 
 class ServicesCard extends StatelessWidget {
   const ServicesCard({
@@ -43,23 +43,42 @@ class ServicesCard extends StatelessWidget {
 
   Future<void> popUp(BuildContext context) {
     return showDialog(
-        context: context,
-        builder: (context) {
-          return ModalDialog(
-            children: [
-              ModalServiceInfo(name: name, durations: openingHours),
-              if(location != '') ModalInfoRow(title: "Location", description: location, icon: UniIcon(UniIcons.location)),
-              if (telephone != '') GestureDetector(
-                  onTap: () => launchUrlWithToast(context,'tel:' + telephone.substring(5)),
-                  child: ModalInfoRow(title: S.of(context).telephone, description: telephone, icon: UniIcon(UniIcons.phone), optionalIcon: UniIcon(UniIcons.caretRight),),
+      context: context,
+      builder: (context) {
+        return ModalDialog(
+          children: [
+            ModalServiceInfo(name: name, durations: openingHours),
+            if (location != '')
+              ModalInfoRow(
+                  title: 'Location',
+                  description: location,
+                  icon: const UniIcon(UniIcons.location),
               ),
-              if (email != '') GestureDetector(
-                  onTap: () => launchUrlWithToast(context,'mailto:' + email),
-                  child: ModalInfoRow(title: "Email", description: email, icon: UniIcon(UniIcons.email), optionalIcon: UniIcon(UniIcons.caretRight),),
+            if (telephone != '')
+              GestureDetector(
+                onTap: () => launchUrlWithToast(
+                    context, 'tel:${telephone.substring(5)}',
+                ),
+                child: ModalInfoRow(
+                  title: S.of(context).telephone,
+                  description: telephone,
+                  icon: const UniIcon(UniIcons.phone),
+                  optionalIcon: const UniIcon(UniIcons.caretRight),
+                ),
               ),
-            ],
-          );
-        },
+            if (email != '')
+              GestureDetector(
+                onTap: () => launchUrlWithToast(context, 'mailto:$email'),
+                child: ModalInfoRow(
+                  title: 'Email',
+                  description: email,
+                  icon: const UniIcon(UniIcons.email),
+                  optionalIcon: const UniIcon(UniIcons.caretRight),
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 }

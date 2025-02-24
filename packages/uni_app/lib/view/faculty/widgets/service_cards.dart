@@ -67,7 +67,7 @@ class AllServiceCardsState extends State<AllServiceCards> {
             shrinkWrap: true,
             children: [
               ServicesCard(
-                name: 'FEUP ' + S.of(context).copy_center,
+                name: 'FEUP ${S.of(context).copy_center}',
                 openingHours: const [
                   '9:00h - 11:30h',
                   '12:30h - 18:00h',
@@ -76,7 +76,7 @@ class AllServiceCardsState extends State<AllServiceCards> {
                 telephone: '+351 220 994 122',
               ),
               ServicesCard(
-                name: 'AEFEUP ' + S.of(context).copy_center,
+                name: 'AEFEUP ${S.of(context).copy_center}',
                 openingHours: const [
                   '9:00h - 11:30h',
                   '12:30h - 18:00h',
