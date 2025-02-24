@@ -102,7 +102,7 @@ class AllServiceCardsState extends State<AllServiceCards> {
                   '11:00h - 16:00h',
                 ],
                 location: '',
-                telephone: '',
+                telephone: '+351 225 081 977',
                 email: '',
               ),
               ServicesCard(
