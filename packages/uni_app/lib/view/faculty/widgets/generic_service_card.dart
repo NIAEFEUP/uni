@@ -12,9 +12,9 @@ class ServicesCard extends StatelessWidget {
     super.key,
     required this.name,
     required this.openingHours,
-    required this.location,
-    required this.telephone,
-    required this.email,
+    this.location = '',
+    this.telephone = '',
+    this.email = '',
   });
 
   final String name;
@@ -53,7 +53,7 @@ class ServicesCard extends StatelessWidget {
                   onTap: () => launchUrlWithToast(context,'tel:' + telephone.substring(5)),
                   child: ModalInfoRow(title: S.of(context).telephone, description: telephone, icon: UniIcon(UniIcons.phone), optionalIcon: UniIcon(UniIcons.caretRight),),
               ),
-              if (telephone != '') GestureDetector(
+              if (email != '') GestureDetector(
                   onTap: () => launchUrlWithToast(context,'mailto:' + email),
                   child: ModalInfoRow(title: "Email", description: email, icon: UniIcon(UniIcons.email), optionalIcon: UniIcon(UniIcons.caretRight),),
               ),

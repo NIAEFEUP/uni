@@ -67,13 +67,22 @@ class AllServiceCardsState extends State<AllServiceCards> {
             shrinkWrap: true,
             children: [
               ServicesCard(
-                name: S.of(context).copy_center,
+                name: 'FEUP ' + S.of(context).copy_center,
                 openingHours: const [
                   '9:00h - 11:30h',
                   '12:30h - 18:00h',
                 ],
-                location: 'B000',
-                telephone: '',
+                location: S.of(context).copy_center_building.split(' | ')[0],
+                telephone: '+351 220 994 122',
+              ),
+              ServicesCard(
+                name: 'AEFEUP ' + S.of(context).copy_center,
+                openingHours: const [
+                  '9:00h - 11:30h',
+                  '12:30h - 18:00h',
+                ],
+                location: S.of(context).copy_center_building.split(' | ')[1],
+                telephone: '+351 220 994 132',
                 email: 'editorial@aefeup.pt',
               ),
               ServicesCard(
@@ -82,9 +91,9 @@ class AllServiceCardsState extends State<AllServiceCards> {
                   '8:30h - 12:00h',
                   '13:30h - 19:00h',
                 ],
-                location: '',
-                telephone: '',
-                email: '',
+                location: S.of(context).dona_bia_building,
+                telephone: '+351 225 081 416',
+                email: 'papelaria.fe.up@gmail.com',
               ),
               const ServicesCard(
                 name: 'Infodesk',
@@ -92,18 +101,16 @@ class AllServiceCardsState extends State<AllServiceCards> {
                   '9:30h - 13:00h',
                   '14:00h - 17:30h',
                 ],
-                location: '',
-                telephone: '',
-                email: '',
+                location: 'FEUP Entrance',
+                telephone: '+351 225 081 400',
+                email: 'infodesk@fe.up.pt',
               ),
               ServicesCard(
                 name: S.of(context).academic_services,
                 openingHours: const [
                   '11:00h - 16:00h',
                 ],
-                location: '',
                 telephone: '+351 225 081 977',
-                email: '',
               ),
               ServicesCard(
                 name: S.of(context).multimedia_center,
@@ -111,9 +118,9 @@ class AllServiceCardsState extends State<AllServiceCards> {
                   '9:00h - 12:30h',
                   '14:30h - 17:00h',
                 ],
-                location: '',
-                telephone: '',
-                email: '',
+                location: '${S.of(context).room} B123',
+                telephone: '+351 225 081 466',
+                email: 'imprimir@fe.up.pt',
               ),
             ],
           ),
