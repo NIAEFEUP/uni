@@ -31,6 +31,7 @@ List<Lecture> getLecturesFromApiResponse(
       .map(
         (lecture) => Lecture(
           lecture.units.first.acronym,
+          lecture.units.first.name,
           lecture.typology.acronym,
           lecture.start,
           lecture.end,
