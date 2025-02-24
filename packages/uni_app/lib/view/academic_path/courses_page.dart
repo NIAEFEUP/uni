@@ -4,6 +4,7 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/academic_path/widgets/course_units_view.dart';
+import 'package:uni/view/academic_path/widgets/no_courses_widget.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/courses/average_bar.dart';
 import 'package:uni_ui/courses/course_info.dart';
@@ -63,14 +64,16 @@ class CoursesPageState extends State<CoursesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: LazyConsumer<ProfileProvider, Profile>(
-        builder: (context, profile) {
-          final courses = profile.courses;
-          final course = courses[courseUnitIndex];
+    const bottomNavbarHeight = 120.0;
 
-          return ListView(
+    return LazyConsumer<ProfileProvider, Profile>(
+      builder: (context, profile) {
+        final courses = profile.courses;
+        final course = courses[courseUnitIndex];
+
+        return Padding(
+          padding: const EdgeInsets.all(16),
+          child: ListView(
             children: [
               Center(
                 child: CourseSelection(
@@ -106,10 +109,22 @@ class CoursesPageState extends State<CoursesPage> {
                 course: course,
               ),
             ],
-          );
-        },
-        hasContent: (profile) => profile.courses.isNotEmpty,
-        onNullContent: Container(),
+          ),
+        );
+      },
+      hasContent: (profile) => profile.courses.isNotEmpty,
+      onNullContent: LayoutBuilder(
+        // Band-aid for allowing refresh on null content
+        builder: (context, constraints) => SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Container(
+            height: constraints.maxHeight, // Height of bottom navbar
+            padding: const EdgeInsets.only(bottom: bottomNavbarHeight),
+            child: const Center(
+              child: NoCoursesWidget(),
+            ),
+          ),
+        ),
       ),
     );
   }

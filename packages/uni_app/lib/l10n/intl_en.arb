@@ -192,6 +192,8 @@
   "@no_bus_stops": {},
   "no_class": "There are no classes to display",
   "@no_class": {},
+  "no_classes_this_week": "You have no classes this week",
+  "@no_classes_this_week": {},
   "no_classes": "No classes to present",
   "@no_classes": {},
   "no_classes_on": "You don't have classes on",
@@ -348,6 +350,8 @@
   "@wrong_credentials_exception": {},
   "internet_status_exception": "Check your internet connection",
   "@internet_status_exception": {},
+  "schedule": "Schedule",
+  "@schedule": {},
   "instructors": "Instructors",
   "@instructors": {},
   "assessments": "Assessments",
@@ -375,5 +379,9 @@
   "favorite_filter": "Favorites",
   "@favorite_filter": {},
   "restaurant_period": "{period, select, lunch{Lunch} dinner{Dinner} other{Other}}",
-  "@restaurant_period": {}
+  "@restaurant_period": {},
+  "no_courses": "No courses we're found",
+  "@no_courses": {},
+  "no_courses_description": "Try to refresh the page",
+  "@no_courses_description": {}
 }
