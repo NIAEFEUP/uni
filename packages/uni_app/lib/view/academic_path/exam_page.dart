@@ -133,26 +133,27 @@ class _ExamsPageState extends State<ExamsPage> {
             ),
           );
         },
-      hasContent: (exams) => exams.isNotEmpty,
-      onNullContent: LayoutBuilder(
-        // Band-aid for allowing refresh on null content
-        builder: (context, constraints) => SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Container(
-            height: constraints.maxHeight, // Height of bottom navbar
-            padding: const EdgeInsets.only(bottom: bottomNavbarHeight),
-            child: Center(
-              heightFactor: 1.2,
-              child: ImageLabel(
-                imagePath: 'assets/images/vacation.png',
-                label: S.of(context).no_exams_label,
-                labelTextStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: Theme.of(context).colorScheme.primary,
+        hasContent: (exams) => exams.isNotEmpty,
+        onNullContent: LayoutBuilder(
+          // Band-aid for allowing refresh on null content
+          builder: (context, constraints) => SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Container(
+              height: constraints.maxHeight, // Height of bottom navbar
+              padding: const EdgeInsets.only(bottom: bottomNavbarHeight),
+              child: Center(
+                heightFactor: 1.2,
+                child: ImageLabel(
+                  imagePath: 'assets/images/vacation.png',
+                  label: S.of(context).no_exams_label,
+                  labelTextStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  sublabel: S.of(context).no_exams,
+                  sublabelTextStyle: const TextStyle(fontSize: 15),
                 ),
-                sublabel: S.of(context).no_exams,
-                sublabelTextStyle: const TextStyle(fontSize: 15),
               ),
             ),
           ),
