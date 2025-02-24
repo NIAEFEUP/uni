@@ -23,6 +23,7 @@ dependencies:
   crypto: ^3.0.1
   cupertino_icons: ^1.0.2
   currency_text_input_formatter: ^2.1.5
+  device_calendar: ^4.3.3
   diacritic: ^0.1.5
   email_validator: ^2.0.1
   expandable: ^5.0.1

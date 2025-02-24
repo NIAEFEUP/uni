@@ -11,6 +11,9 @@ import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
+import 'package:device_calendar/device_calendar.dart';
+import 'package:flutter/services.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class SchedulePage extends StatefulWidget {
   SchedulePage({super.key, DateTime? now}) : now = now ?? DateTime.now();
@@ -60,6 +63,16 @@ class SchedulePageViewState extends State<SchedulePageView>
   TabController? tabController;
   late final List<Lecture> lecturesThisWeek;
 
+  late DeviceCalendarPlugin _deviceCalendarPlugin;
+  List<Calendar> _calendars = [];
+  Calendar? _selectedCalendar;
+
+  List<Calendar> get _writableCalendars =>
+      _calendars.where((c) => c.isReadOnly == false).toList();
+
+  List<Calendar> get _readOnlyCalendars =>
+      _calendars.where((c) => c.isReadOnly == true).toList();
+
   @override
   void initState() {
     super.initState();
@@ -69,6 +82,8 @@ class SchedulePageViewState extends State<SchedulePageView>
     );
 
     var weekDay = widget.currentWeek.start.weekday;
+
+    _deviceCalendarPlugin = DeviceCalendarPlugin();
 
     lecturesThisWeek = <Lecture>[];
     widget.currentWeek.weekdays.take(6).forEach((day) {
@@ -110,6 +125,62 @@ class SchedulePageViewState extends State<SchedulePageView>
     final queryData = MediaQuery.of(context);
     return Column(
       children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: Row(
+            mainAxisAlignment:
+                MainAxisAlignment.spaceEvenly, // Adjust alignment as needed
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: () async {
+                  print('retrieve calendars button Pressed');
+                  _retrieveCalendars();
+                },
+                child: const Text('Retrieve calendars'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  print('add to calendar button Pressed');
+
+                  if (_calendars.isEmpty) {
+                    print('no calendars on calendar list');
+                  } else {
+                    _selectedCalendar = _calendars.last;
+
+                    final DateTime tomorrow =
+                        DateTime.now().add(Duration(days: 1));
+
+                    addLecturesToCalendar(_selectedCalendar!, widget.lectures);
+                  }
+                },
+                child: const Text('Add to calendar'),
+              ),
+            ],
+          ),
+        ),
+        if (_calendars.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: SizedBox(
+              height: 150, // Adjust height as needed
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: _calendars.length,
+                itemBuilder: (context, index) {
+                  final calendar = _calendars[index];
+                  return ListTile(
+                    title: Text(calendar.name ?? 'Unnamed Calendar'),
+                    onTap: () {
+                      setState(() {
+                        _selectedCalendar = calendar;
+                      });
+                      print('Selected Calendar: ${calendar.name}');
+                    },
+                  );
+                },
+              ),
+            ),
+          ),
         TabBar(
           controller: tabController,
           isScrollable: true,
@@ -209,5 +280,50 @@ class SchedulePageViewState extends State<SchedulePageView>
         labelTextStyle: const TextStyle(fontSize: 15),
       ),
     );
+  }
+
+  void _retrieveCalendars() async {
+    print("retrieve calendars called");
+    try {
+      var permissionsGranted = await _deviceCalendarPlugin.hasPermissions();
+      print("permissions checked");
+      if (permissionsGranted.isSuccess &&
+          (permissionsGranted.data == null ||
+              permissionsGranted.data == false)) {
+        permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
+
+        if (!permissionsGranted.isSuccess ||
+            permissionsGranted.data == null ||
+            permissionsGranted.data == false) {
+          return;
+        }
+      }
+
+      final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
+      setState(() {
+        _calendars = calendarsResult.data as List<Calendar>;
+      });
+    } on PlatformException catch (e, s) {
+      debugPrint('RETRIEVE_CALENDARS: $e, $s');
+    }
+  }
+
+  void addLecturesToCalendar(
+      Calendar selectedCalendar, List<Lecture> lectures) {
+    final now = DateTime.now();
+
+    lectures
+        .where((lecture) => lecture.endTime.isAfter(now))
+        .forEach((lecture) {
+      final event = Event(
+        selectedCalendar.id,
+        title: '${lecture.subject} (${lecture.typeClass})',
+        location: lecture.room,
+        start: tz.TZDateTime.from(lecture.startTime, tz.local),
+        end: tz.TZDateTime.from(lecture.endTime, tz.local),
+      );
+
+      _deviceCalendarPlugin.createOrUpdateEvent(event);
+    });
   }
 }
