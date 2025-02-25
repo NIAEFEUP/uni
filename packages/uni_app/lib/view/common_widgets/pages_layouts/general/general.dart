@@ -45,7 +45,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   // The content of the page
   Widget getBody(BuildContext context);
 
-  // 
+  //
   bool getResizeToAvoidBottomInset() => true;
 
   @override
