@@ -39,12 +39,18 @@ class DayOfWeekTab extends StatelessWidget {
                   style: isSelected
                       ? Theme.of(context).textTheme.bodySmall
                       : Theme.of(context).textTheme.bodyLarge,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
                 ),
                 Text(
                   day,
                   style: isSelected
                       ? Theme.of(context).textTheme.bodySmall
                       : Theme.of(context).textTheme.bodyLarge,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
                 ),
               ],
             ),
