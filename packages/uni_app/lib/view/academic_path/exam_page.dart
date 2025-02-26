@@ -43,17 +43,32 @@ class _ExamsPageState extends State<ExamsPage> {
           final allMonths = List.generate(12, (index) => index + 1);
           final tabs = allMonths.map((month) {
             final date = DateTime(DateTime.now().year, month);
-            return Column(
-              children: [
-                Text(
-                  date.shortMonth(
-                    Provider.of<LocaleNotifier>(context).getLocale(),
+            return SizedBox(
+              width: 30,
+              height: 34,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      date.shortMonth(
+                        Provider.of<LocaleNotifier>(context).getLocale(),
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                    ),
                   ),
-                ),
-                Text(
-                  '${date.month}',
-                ),
-              ],
+                  Expanded(
+                    child: Text(
+                      '${date.month}',
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                    ),
+                  ),
+                ],
+              ),
             );
           }).toList();
           final content = allMonths.map((month) {
@@ -64,7 +79,7 @@ class _ExamsPageState extends State<ExamsPage> {
               children: [
                 if (exams.isNotEmpty)
                   Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
                     child: Text(
                       DateTime(DateTime.now().year, month)
                           .fullMonth(
@@ -81,7 +96,7 @@ class _ExamsPageState extends State<ExamsPage> {
                   itemBuilder: (context, index) {
                     final exam = exams[index];
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
                       child: TimelineItem(
                         title: exam.start.day.toString(),
                         subtitle: exam.start
@@ -117,20 +132,17 @@ class _ExamsPageState extends State<ExamsPage> {
               ],
             );
           }).toList();
-          return Padding(
-            padding: const EdgeInsets.all(8),
-            child: Timeline(
-              tabs: tabs,
-              content: content,
-              initialTab: allMonths.indexWhere((month) {
-                final monthKey = '${DateTime.now().year}-$month';
-                return examsByMonth.containsKey(monthKey);
-              }),
-              tabEnabled: allMonths.map((month) {
-                final monthKey = '${DateTime.now().year}-$month';
-                return examsByMonth.containsKey(monthKey);
-              }).toList(),
-            ),
+          return Timeline(
+            tabs: tabs,
+            content: content,
+            initialTab: allMonths.indexWhere((month) {
+              final monthKey = '${DateTime.now().year}-$month';
+              return examsByMonth.containsKey(monthKey);
+            }),
+            tabEnabled: allMonths.map((month) {
+              final monthKey = '${DateTime.now().year}-$month';
+              return examsByMonth.containsKey(monthKey);
+            }).toList(),
           );
         },
         hasContent: (exams) => exams.isNotEmpty,
