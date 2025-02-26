@@ -23,6 +23,7 @@ class DaysOfWeekTabBar extends StatelessWidget {
       tabAlignment: TabAlignment.center,
       tabs: createTabs(context),
       dividerHeight: 0,
+      overlayColor: WidgetStateProperty.all(Colors.transparent),
     );
   }
 
