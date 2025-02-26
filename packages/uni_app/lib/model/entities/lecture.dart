@@ -9,6 +9,7 @@ part '../../generated/model/entities/lecture.g.dart';
 class Lecture {
   /// Creates an instance of the class [Lecture].
   Lecture(
+    this.acronym,
     this.subject,
     this.typeClass,
     this.startTime,
@@ -23,6 +24,7 @@ class Lecture {
       _$LectureFromJson(json);
 
   factory Lecture.fromApi(
+    String acronym,
     String subject,
     String typeClass,
     DateTime startTime,
@@ -34,6 +36,7 @@ class Lecture {
   ) {
     final endTime = startTime.add(Duration(minutes: 30 * blocks));
     final lecture = Lecture(
+      acronym,
       subject,
       typeClass,
       startTime,
@@ -46,37 +49,7 @@ class Lecture {
     return lecture;
   }
 
-  factory Lecture.fromHtml(
-    String subject,
-    String typeClass,
-    DateTime day,
-    String startTimeString,
-    int blocks,
-    String room,
-    String teacher,
-    String classNumber,
-    int occurrId,
-  ) {
-    final startTimeList = startTimeString.split(':');
-    final startTime = day.add(
-      Duration(
-        hours: int.parse(startTimeList[0]),
-        minutes: int.parse(startTimeList[1]),
-      ),
-    );
-    final endTime = startTime.add(Duration(minutes: 30 * blocks));
-    return Lecture(
-      subject,
-      typeClass,
-      startTime,
-      endTime,
-      room,
-      teacher,
-      classNumber,
-      occurrId,
-    );
-  }
-
+  String acronym;
   String subject;
   String typeClass;
   String room;
@@ -89,7 +62,7 @@ class Lecture {
 
   @override
   String toString() {
-    return '$subject $typeClass\n$startTime $endTime\n $room  '
+    return '$acronym \n$subject $typeClass\n$startTime $endTime\n $room  '
         '$teacher\n';
   }
 
@@ -100,6 +73,7 @@ class Lecture {
 
   @override
   int get hashCode => Object.hash(
+        acronym,
         subject,
         startTime,
         endTime,
@@ -113,6 +87,7 @@ class Lecture {
   @override
   bool operator ==(Object other) =>
       other is Lecture &&
+      acronym == other.acronym &&
       subject == other.subject &&
       startTime == other.startTime &&
       endTime == other.endTime &&

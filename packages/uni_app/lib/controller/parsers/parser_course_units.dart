@@ -85,6 +85,7 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
         name: name,
         curricularYear: int.tryParse(year),
         semesterCode: semester,
+        festId: course.festId,
       );
       courseUnits.add(courseUnit);
     }

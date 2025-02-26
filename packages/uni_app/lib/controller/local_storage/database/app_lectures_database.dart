@@ -16,10 +16,10 @@ class AppLecturesDatabase extends AppDatabase<List<Lecture>> {
             createScript,
           ],
           onUpgrade: migrate,
-          version: 10,
+          version: 11,
         );
   static const createScript = '''
-CREATE TABLE lectures(subject TEXT, typeClass TEXT,
+CREATE TABLE lectures(acronym TEXT, subject TEXT, typeClass TEXT,
           startTime TEXT, endTime TEXT, room TEXT, teacher TEXT, classNumber TEXT, occurrId INTEGER)''';
 
   /// Returns a list containing all of the lectures stored in this database.

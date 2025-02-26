@@ -8,6 +8,7 @@ const Color grayMiddle = Color.fromARGB(255, 127, 127, 127);
 const Color background = Color.fromARGB(255, 255, 255, 255);
 const Color details = Color.fromARGB(235, 177, 77, 84);
 const Color divider = Color.fromARGB(255, 229, 229, 229);
+const Color focused = Color.fromARGB(64, 177, 77, 84);
 
 const _lightTextTheme = TextTheme(
     displayLarge: TextStyle(
@@ -80,6 +81,8 @@ ThemeData lightTheme = ThemeData(
   hintColor: details,
   indicatorColor: details,
   secondaryHeaderColor: secondary,
+  focusColor: focused,
+  shadowColor: grayMiddle,
   iconTheme: const IconThemeData(color: primaryVibrant),
 );
 

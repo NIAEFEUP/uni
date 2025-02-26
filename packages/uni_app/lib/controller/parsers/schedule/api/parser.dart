@@ -62,6 +62,7 @@ Future<List<Lecture>> parseSchedule(
     final occurrId = lecture['ocorrencia_id'] as int;
 
     final lec = Lecture.fromApi(
+      '',
       subject,
       typeClass,
       startTime,

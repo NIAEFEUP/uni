@@ -10,7 +10,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
 
 class S {
   S();
@@ -200,10 +200,20 @@ class S {
     );
   }
 
-  /// `Average: `
+  /// `Available amount`
+  String get available_amount {
+    return Intl.message(
+      'Available amount',
+      name: 'available_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Average`
   String get average {
     return Intl.message(
-      'Average: ',
+      'Average',
       name: 'average',
       desc: '',
       args: [],
@@ -973,6 +983,16 @@ class S {
     return Intl.message(
       'There are no classes to display',
       name: 'no_class',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have no classes this week`
+  String get no_classes_this_week {
+    return Intl.message(
+      'You have no classes this week',
+      name: 'no_classes_this_week',
       desc: '',
       args: [],
     );
@@ -1758,6 +1778,16 @@ class S {
     );
   }
 
+  /// `Schedule`
+  String get schedule {
+    return Intl.message(
+      'Schedule',
+      name: 'schedule',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Instructors`
   String get instructors {
     return Intl.message(
@@ -1843,6 +1873,82 @@ class S {
     return Intl.message(
       'Courses',
       name: 'courses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All`
+  String get all_feminine {
+    return Intl.message(
+      'All',
+      name: 'all_feminine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{type, select, all_dishes{All dishes} meat_dishes{Meat dishes} fish_dishes{Fish dishes} vegetarian_dishes{Vegetarian dishes} soups{Soups} salads{Salads} diet_dishes{Diet dishes} dishes_of_the_day{Dishes of the Day} other{Other}}`
+  String dish_type(Object type) {
+    return Intl.select(
+      type,
+      {
+        'all_dishes': 'All dishes',
+        'meat_dishes': 'Meat dishes',
+        'fish_dishes': 'Fish dishes',
+        'vegetarian_dishes': 'Vegetarian dishes',
+        'soups': 'Soups',
+        'salads': 'Salads',
+        'diet_dishes': 'Diet dishes',
+        'dishes_of_the_day': 'Dishes of the Day',
+        'other': 'Other',
+      },
+      name: 'dish_type',
+      desc: '',
+      args: [type],
+    );
+  }
+
+  /// `Favorites`
+  String get favorite_filter {
+    return Intl.message(
+      'Favorites',
+      name: 'favorite_filter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{period, select, lunch{Lunch} dinner{Dinner} other{Other}}`
+  String restaurant_period(Object period) {
+    return Intl.select(
+      period,
+      {
+        'lunch': 'Lunch',
+        'dinner': 'Dinner',
+        'other': 'Other',
+      },
+      name: 'restaurant_period',
+      desc: '',
+      args: [period],
+    );
+  }
+
+  /// `No courses we're found`
+  String get no_courses {
+    return Intl.message(
+      'No courses we\'re found',
+      name: 'no_courses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try to refresh the page`
+  String get no_courses_description {
+    return Intl.message(
+      'Try to refresh the page',
+      name: 'no_courses_description',
       desc: '',
       args: [],
     );

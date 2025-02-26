@@ -30,7 +30,7 @@ class ProfileListTile extends StatelessWidget {
         style: Theme.of(context).textTheme.headlineSmall,
       ),
       subtitle: subtitle != null ? Text(subtitle!) : null,
-      trailing: trailing, 
+      trailing: trailing,
       onTap: onTap,
     );
   }

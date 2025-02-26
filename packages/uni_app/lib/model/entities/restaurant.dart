@@ -9,6 +9,8 @@ part '../../generated/model/entities/restaurant.g.dart';
 class Restaurant {
   Restaurant(
     this.id,
+    this.typePt,
+    this.typeEn,
     this.namePt,
     this.nameEn,
     this.period,
@@ -26,6 +28,10 @@ class Restaurant {
       _$RestaurantFromJson(json);
   @JsonKey(name: 'id')
   final int? id;
+  @JsonKey(name: 'typePt')
+  final String? typePt;
+  @JsonKey(name: 'typeEn')
+  final String? typeEn;
   @JsonKey(name: 'namePt')
   final String namePt;
   @JsonKey(name: 'nameEn')

@@ -49,7 +49,6 @@ import 'package:uni/view/profile/profile.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/splash/splash.dart';
-import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
 import 'package:uni_ui/theme.dart';
 import 'package:upgrader/upgrader.dart';
@@ -73,19 +72,10 @@ Future<String> firstRoute() async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.immersiveSticky,
-    overlays: [
-      SystemUiOverlay.top,
-      SystemUiOverlay.bottom,
-    ],
-  );
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: Colors.transparent,
-      systemNavigationBarIconBrightness: Brightness.light,
     ),
   );
 
@@ -240,7 +230,6 @@ class ApplicationState extends State<Application> {
           title: 'uni',
           navigatorKey: Application.navigatorKey,
           theme: lightTheme,
-          darkTheme: applicationDarkTheme,
           themeMode: ThemeMode.light, // themeNotifier.getTheme(),
           locale: localeNotifier.getLocale().localeCode,
           localizationsDelegates: const [
