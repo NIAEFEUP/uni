@@ -24,27 +24,31 @@ class CourseCard extends StatelessWidget {
           ? Theme.of(context).colorScheme.surfaceDim
           : Theme.of(context).colorScheme.surfaceContainerLow,
       tooltip: '',
-      child: SizedBox(
-        width: 65,
-        child: Column(
-          children: [
-            PhosphorIcon(
-              _getIconData(courseInfo.abbreviation, selected),
-              size: 32,
-            ),
-            Text(
-              courseInfo.abbreviation,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge
-                  ?.apply(color: Theme.of(context).colorScheme.primary),
-            ),
-            Text(
+      child: IntrinsicWidth(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              PhosphorIcon(
+                _getIconData(courseInfo.abbreviation, selected),
+                size: 32,
+              ),
+              Text(
+                courseInfo.abbreviation,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.apply(color: Theme.of(context).colorScheme.primary),
+              ),
+              Text(
                 courseInfo.conclusionYear == null
                     ? 'now'
                     : '${courseInfo.enrollmentYear}/${courseInfo.conclusionYear}',
-                style: Theme.of(context).textTheme.bodySmall),
-          ],
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
+          ),
         ),
       ),
     );
