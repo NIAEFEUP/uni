@@ -10,76 +10,70 @@ void main() async {
   await initTestEnvironment();
 
   group('SchedulePage', () {
-    const blocks = 4;
     const classNumber = 'MIEIC03';
     final now = DateTime(2021, 06, 05);
-    final day0 = DateTime(2021, 06, 07);
-    final day1 = DateTime(2021, 06, 08);
-    final day2 = DateTime(2021, 06, 09);
-    final day3 = DateTime(2021, 06, 10);
-    final day4 = DateTime(2021, 06, 11);
 
-    final lecture1 = Lecture.fromHtml(
+    final lecture1 = Lecture(
       'SOPE',
+      'Sistemas Operativos',
       'T',
-      day0,
-      '10:00',
-      blocks,
+      DateTime(2021, 06, 07, 10),
+      DateTime(2021, 06, 07, 12),
       'B315',
       'JAS',
       classNumber,
       484378,
     );
-    final lecture2 = Lecture.fromHtml(
+    final lecture2 = Lecture(
+      'Sistemas',
       'SDIS',
       'T',
-      day0,
-      '13:00',
-      blocks,
+      DateTime(2021, 06, 07, 13),
+      DateTime(2021, 06, 07, 15),
       'B315',
       'PMMS',
       classNumber,
       484381,
     );
-    final lecture3 = Lecture.fromHtml(
+    final lecture3 = Lecture(
+      'Análise Matemática',
       'AMAT',
       'T',
-      day1,
-      '12:00',
-      blocks,
+      DateTime(2021, 06, 08, 12),
+      DateTime(2021, 06, 08, 14),
       'B315',
       'PMMS',
       classNumber,
       484362,
     );
-    final lecture4 = Lecture.fromHtml(
+    final lecture4 = Lecture(
+      'Programação',
       'PROG',
       'T',
-      day2,
-      '10:00',
-      blocks,
+      DateTime(2021, 06, 09, 10),
+      DateTime(2021, 06, 09, 12),
       'B315',
       'JAS',
       classNumber,
       484422,
     );
-    final lecture5 = Lecture.fromHtml(
+    final lecture5 = Lecture(
+      'Programação para Informáticos',
       'PPIN',
       'T',
-      day3,
-      '14:00',
-      blocks,
+      DateTime(2021, 06, 10, 14),
+      DateTime(2021, 06, 10, 16),
       'B315',
       'SSN',
       classNumber,
       47775,
     );
-    final lecture6 = Lecture.fromHtml(
+    final lecture6 = Lecture(
+      'Sistemas',
       'SDIS',
       'T',
-      day4,
-      '15:00',
-      blocks,
+      DateTime(2021, 06, 11, 15),
+      DateTime(2021, 06, 11, 17),
       'B315',
       'PMMS',
       classNumber,

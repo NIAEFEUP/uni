@@ -7,6 +7,7 @@ part of '../../../model/entities/lecture.dart';
 // **************************************************************************
 
 Lecture _$LectureFromJson(Map<String, dynamic> json) => Lecture(
+      json['acronym'] as String,
       json['subject'] as String,
       json['typeClass'] as String,
       const DateTimeConverter().fromJson(json['startTime'] as String),
@@ -18,6 +19,7 @@ Lecture _$LectureFromJson(Map<String, dynamic> json) => Lecture(
     );
 
 Map<String, dynamic> _$LectureToJson(Lecture instance) => <String, dynamic>{
+      'acronym': instance.acronym,
       'subject': instance.subject,
       'typeClass': instance.typeClass,
       'room': instance.room,

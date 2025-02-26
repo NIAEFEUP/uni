@@ -1,5 +1,5 @@
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
+import 'package:uni_ui/common/generic_squircle.dart';
 
 class AverageBar extends StatelessWidget {
   const AverageBar(
@@ -11,21 +11,22 @@ class AverageBar extends StatelessWidget {
       super.key});
 
   final double average;
-  final int completedCredits;
-  final int totalCredits;
+  final double completedCredits;
+  final double totalCredits;
   final String statusText;
   final String averageText;
+
+  String _displayNumber(double number) {
+    return number == number.toInt()
+        ? number.toInt().toString()
+        : number.toStringAsFixed(1);
+  }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return Row(children: [
-        ClipSmoothRect(
-            radius: SmoothBorderRadius(
-              cornerRadius: 10,
-              cornerSmoothing: 1,
-            ),
-            child: Container(
+        GenericSquircle(child: Container(
                 decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.secondary,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -54,7 +55,8 @@ class AverageBar extends StatelessWidget {
                           message: "European Credit System",
                           child: Text("ECTS"),
                         ),
-                        Text('$completedCredits/$totalCredits'),
+                        Text(
+                            '${_displayNumber(completedCredits)}/${_displayNumber(totalCredits)}'),
                       ]),
                   LinearProgressIndicator(
                       minHeight: 8,
