@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
-import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/utils/string_formatter.dart';
-import 'package:uni/view/common_widgets/expanded_image_label.dart';
+import 'package:uni/view/academic_path/widgets/no_exams_widget.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/cards/exam_card.dart';
@@ -153,19 +152,8 @@ class _ExamsPageState extends State<ExamsPage> {
             child: Container(
               height: constraints.maxHeight, // Height of bottom navbar
               padding: const EdgeInsets.only(bottom: bottomNavbarHeight),
-              child: Center(
-                heightFactor: 1.2,
-                child: ImageLabel(
-                  imagePath: 'assets/images/vacation.png',
-                  label: S.of(context).no_exams_label,
-                  labelTextStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  sublabel: S.of(context).no_exams,
-                  sublabelTextStyle: const TextStyle(fontSize: 15),
-                ),
+              child: const Center(
+                child: NoExamsWidget(),
               ),
             ),
           ),
