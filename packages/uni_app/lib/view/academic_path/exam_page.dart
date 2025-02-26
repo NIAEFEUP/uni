@@ -43,17 +43,32 @@ class _ExamsPageState extends State<ExamsPage> {
           final allMonths = List.generate(12, (index) => index + 1);
           final tabs = allMonths.map((month) {
             final date = DateTime(DateTime.now().year, month);
-            return Column(
-              children: [
-                Text(
-                  date.shortMonth(
-                    Provider.of<LocaleNotifier>(context).getLocale(),
+            return SizedBox(
+              width: 30,
+              height: 34,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      date.shortMonth(
+                        Provider.of<LocaleNotifier>(context).getLocale(),
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                    ),
                   ),
-                ),
-                Text(
-                  '${date.month}',
-                ),
-              ],
+                  Expanded(
+                    child: Text(
+                      '${date.month}',
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                    ),
+                  ),
+                ],
+              ),
             );
           }).toList();
           final content = allMonths.map((month) {
