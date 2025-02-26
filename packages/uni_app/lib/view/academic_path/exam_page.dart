@@ -79,7 +79,7 @@ class _ExamsPageState extends State<ExamsPage> {
               children: [
                 if (exams.isNotEmpty)
                   Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
                     child: Text(
                       DateTime(DateTime.now().year, month)
                           .fullMonth(
@@ -96,7 +96,7 @@ class _ExamsPageState extends State<ExamsPage> {
                   itemBuilder: (context, index) {
                     final exam = exams[index];
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
                       child: TimelineItem(
                         title: exam.start.day.toString(),
                         subtitle: exam.start
@@ -132,20 +132,17 @@ class _ExamsPageState extends State<ExamsPage> {
               ],
             );
           }).toList();
-          return Padding(
-            padding: const EdgeInsets.all(8),
-            child: Timeline(
-              tabs: tabs,
-              content: content,
-              initialTab: allMonths.indexWhere((month) {
-                final monthKey = '${DateTime.now().year}-$month';
-                return examsByMonth.containsKey(monthKey);
-              }),
-              tabEnabled: allMonths.map((month) {
-                final monthKey = '${DateTime.now().year}-$month';
-                return examsByMonth.containsKey(monthKey);
-              }).toList(),
-            ),
+          return Timeline(
+            tabs: tabs,
+            content: content,
+            initialTab: allMonths.indexWhere((month) {
+              final monthKey = '${DateTime.now().year}-$month';
+              return examsByMonth.containsKey(monthKey);
+            }),
+            tabEnabled: allMonths.map((month) {
+              final monthKey = '${DateTime.now().year}-$month';
+              return examsByMonth.containsKey(monthKey);
+            }).toList(),
           );
         },
         hasContent: (exams) => exams.isNotEmpty,
