@@ -40,6 +40,7 @@ class CalendarHomeCard extends GenericHomecard {
     final items = events
         .map(
           (event) => CalendarItem(
+            eventPeriod: event.date,
             eventName: event.name,
           ),
         )

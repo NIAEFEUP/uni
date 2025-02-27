@@ -56,7 +56,7 @@ class ScheduleHomeCard extends GenericHomecard {
               isActive: now.isAfter(element.startTime) &&
                   now.isBefore(element.endTime),
               name: element.subject,
-              acronym: "LCOM", // TODO once schedule is merged
+              acronym: element.acronym, // TODO once schedule is merged
               room: element.room,
               type: element.typeClass,
             ),

@@ -1,1 +1,1 @@
-enum FavoriteWidgetType { schedule, exams, library, restaurants, calendar, ucs }
+enum FavoriteWidgetType { schedule, exams, library, restaurants, calendar }

@@ -27,7 +27,7 @@ class HomePageView extends StatefulWidget {
 
 class HomePageView2State extends State<HomePageView> {
   List<FavoriteWidgetType> favoriteCards =
-      PreferencesController.getFavoriteCards2();
+      PreferencesController.getFavoriteCards();
 
   bool isBannerViewed = true;
 
@@ -61,6 +61,7 @@ class HomePageView2State extends State<HomePageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
@@ -143,7 +144,7 @@ class HomePageView2State extends State<HomePageView> {
                       children: [
                         ScheduleCard(
                           name: lectures[0].subject,
-                          acronym: 'TESTE',
+                          acronym: lectures[0].acronym,
                           room: lectures[0].room,
                           type: lectures[0].typeClass,
                         ),
