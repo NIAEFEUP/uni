@@ -38,7 +38,7 @@ class HomePageView2State extends State<HomePageView> {
     FavoriteWidgetType.exams: const ExamHomeCard(),
     FavoriteWidgetType.library: const LibraryHomeCard(),
     FavoriteWidgetType.restaurants: const RestaurantHomeCard(),
-    FavoriteWidgetType.calendar: const CalendarHomeCard(),
+    // FavoriteWidgetType.calendar: const CalendarHomeCard(), TODO: enable this when dates are properly formatted
   };
 
   @override
