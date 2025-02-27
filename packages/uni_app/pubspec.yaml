@@ -130,7 +130,7 @@ flutter_intl:
 
 flutter_native_splash:
   color: "#280709"
-  image: assets/icon/android_icon_foreground.png
+  image: assets/images/uni_splash.png
   android_12:
-    image: assets/icon/android_icon_foreground.png
+    image: assets/images/uni_splash.png
     color: "280709"
