@@ -15,14 +15,17 @@ class CourseCard extends StatelessWidget {
   final bool selected;
   final void Function() onTap;
 
+  Color get grayColor => Colors.grey.shade100;
+  Color get onGrayColor => Colors.grey.shade600;
+
   @override
   Widget build(BuildContext context) {
     return GenericCard(
       key: key,
       onClick: onTap,
       color: selected
-          ? Theme.of(context).colorScheme.surfaceDim
-          : Theme.of(context).colorScheme.surfaceContainerLow,
+          ? Theme.of(context).colorScheme.surfaceContainerLow
+          : grayColor,
       tooltip: '',
       child: IntrinsicWidth(
         child: Padding(
@@ -33,19 +36,25 @@ class CourseCard extends StatelessWidget {
               PhosphorIcon(
                 _getIconData(courseInfo.abbreviation, selected),
                 size: 32,
+                color: selected
+                    ? Theme.of(context).colorScheme.primary
+                    : onGrayColor,
               ),
               Text(
                 courseInfo.abbreviation,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge
-                    ?.apply(color: Theme.of(context).colorScheme.primary),
+                style: Theme.of(context).textTheme.titleLarge?.apply(
+                    color: selected
+                        ? Theme.of(context).colorScheme.primary
+                        : onGrayColor),
               ),
               Text(
                 courseInfo.conclusionYear == null
                     ? 'now'
                     : '${courseInfo.enrollmentYear}/${courseInfo.conclusionYear}',
-                style: Theme.of(context).textTheme.bodySmall,
+                style: Theme.of(context).textTheme.bodySmall?.apply(
+                    color: selected
+                        ? Theme.of(context).colorScheme.primary
+                        : onGrayColor),
               ),
             ],
           ),
