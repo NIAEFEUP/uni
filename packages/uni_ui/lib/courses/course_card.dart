@@ -17,6 +17,7 @@ class CourseCard extends StatelessWidget {
   final void Function() onTap;
 
   Color get grayColor => Colors.grey.shade100;
+
   Color get onGrayColor => Colors.grey.shade600;
 
   @override
@@ -28,9 +29,10 @@ class CourseCard extends StatelessWidget {
           ? Theme.of(context).colorScheme.surfaceContainerLow
           : grayColor,
       tooltip: '',
-      child: IntrinsicWidth(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: 55),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
