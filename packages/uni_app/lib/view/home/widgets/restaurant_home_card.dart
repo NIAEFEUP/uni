@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -53,17 +53,11 @@ class RestaurantSliderState extends State<RestaurantSlider> {
 
         return Column(
           children: [
-            CarouselSlider(
-              items: [
-                ...getRestaurantInformation(context, favoriteRestaurants),
-              ],
-              options: CarouselOptions(
-                enableInfiniteScroll: false,
-                onPageChanged: (index, _) => setState(() {
-                  _currentIndex = index;
-                }),
-                viewportFraction: 0.9,
-              ),
+            ExpandablePageView(
+              children: getRestaurantInformation(context, favoriteRestaurants),
+              onPageChanged: (value) => setState(() {
+                _currentIndex = value;
+              }),
             ),
             const SizedBox(
               height: 5,
@@ -80,7 +74,12 @@ class RestaurantSliderState extends State<RestaurantSlider> {
           ],
         );
       },
-      hasContent: (restaurants) => restaurants.isNotEmpty,
+      hasContent: (restaurants) => restaurants
+          .where(
+            (restaurant) => PreferencesController.getFavoriteRestaurants()
+                .contains(restaurant.namePt + restaurant.period),
+          )
+          .isNotEmpty,
       onNullContent: const Text('Sem restaurantes favoritos'),
     );
   }
