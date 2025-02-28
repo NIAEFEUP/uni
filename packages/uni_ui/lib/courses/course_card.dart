@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/courses/course_info.dart';
+import 'package:uni_ui/icons.dart';
 
 class CourseCard extends StatelessWidget {
   const CourseCard({
@@ -33,7 +34,7 @@ class CourseCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              PhosphorIcon(
+              UniIcon(
                 _getIconData(courseInfo.abbreviation, selected),
                 size: 32,
                 color: selected
