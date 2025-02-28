@@ -116,19 +116,19 @@ class HomePageView2State extends State<HomePageView> {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
-          child: Column(
-            children: [
-              const SafeArea(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    UniLogo(iconColor: Colors.white), // TODO: #1450
-                    ProfileButton(),
-                  ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SafeArea(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      UniLogo(iconColor: Colors.white), // TODO: #1450
+                      ProfileButton(),
+                    ],
+                  ),
                 ),
-              ),
-              Expanded(
-                child: LazyConsumer<LectureProvider, List<Lecture>>(
+                LazyConsumer<LectureProvider, List<Lecture>>(
                   builder: (context, lectures) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       if (lectures.isNotEmpty) {
@@ -137,17 +137,14 @@ class HomePageView2State extends State<HomePageView> {
                         });
                       }
                     });
-                    return Column(
-                      // TODO: better implementation avoiding column
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ScheduleCard(
-                          name: lectures[0].subject,
-                          acronym: lectures[0].acronym,
-                          room: lectures[0].room,
-                          type: lectures[0].typeClass,
-                        ),
-                      ],
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 25),
+                      child: ScheduleCard(
+                        name: lectures[0].subject,
+                        acronym: lectures[0].acronym,
+                        room: lectures[0].room,
+                        type: lectures[0].typeClass,
+                      ),
                     );
                   },
                   hasContent: (lectures) => lectures.isNotEmpty,
@@ -158,8 +155,8 @@ class HomePageView2State extends State<HomePageView> {
                       )
                       .toList(),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
