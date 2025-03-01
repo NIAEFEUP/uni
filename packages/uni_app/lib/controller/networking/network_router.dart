@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:http/http.dart' as http;
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/http/client/authenticated.dart';
 import 'package:uni/http/client/timeout.dart';
 import 'package:uni/session/authentication_controller.dart';
@@ -24,19 +25,18 @@ class NetworkRouter {
   /// The timeout for Sigarra login requests.
   static const Duration _requestTimeout = Duration(seconds: 30);
 
-  /// Returns the base url of the user's faculties.
-  static List<String> getBaseUrls(List<String> faculties) {
-    return faculties.map(getBaseUrl).toList();
-  }
-
   /// Returns the base url of the user's faculty.
-  static String getBaseUrl(String faculty) {
-    return 'https://sigarra.up.pt/$faculty/pt/';
+  static String getBaseUrl(String faculty, {bool languageSensitive = false}) {
+    final languageCode = languageSensitive 
+      ? PreferencesController.getLocale().localeCode 
+      : 'pt';
+
+    return 'https://sigarra.up.pt/$faculty/$languageCode/';
   }
 
   /// Returns the base url from the user's previous session.
-  static List<String> getBaseUrlsFromSession(Session session) {
-    return NetworkRouter.getBaseUrls(session.faculties);
+  static List<String> getBaseUrlsFromSession(Session session, {bool languageSensitive = false}) {
+    return session.faculties.map((faculty) => getBaseUrl(faculty, languageSensitive: languageSensitive)).toList();
   }
 
   static Future<http.Response> getWithCookies(
