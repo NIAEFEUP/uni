@@ -51,7 +51,7 @@ class _ConnectivityWarningState extends State<ConnectivityWarning> {
       child: Tooltip(
         message: S.of(context).internet_status_exception,
         child: Icon(
-          Icons.info_outline,
+          Icons.signal_wifi_off,
           color: Theme.of(context).primaryColor,
           size: 21,
         ),
