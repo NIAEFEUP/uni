@@ -138,6 +138,8 @@ class CourseUnitDetailPageViewState
         .courseUnitsFiles[widget.courseUnit];
 
     if (files == null || files.isEmpty) {
+      //TODO: change here the image
+      //use ImageLabel from exams.dart
       return Center(
         child: Text(
           S.of(context).no_files_found,
