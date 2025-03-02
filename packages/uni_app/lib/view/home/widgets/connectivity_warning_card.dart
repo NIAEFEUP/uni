@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
-import '../../generated/l10n.dart';
+import '../../../generated/l10n.dart';
 
 class ConnectivityWarning extends StatefulWidget {
   const ConnectivityWarning({super.key});
@@ -49,32 +49,24 @@ class _ConnectivityWarningState extends State<ConnectivityWarning> {
     return Visibility(
       visible: isOffline,
       child: Tooltip(
+        margin: const EdgeInsets.only(right: 62, bottom: 22),
         message: S.of(context).internet_status_exception,
+        triggerMode: TooltipTriggerMode.tap, // Show immediately on tap
+        waitDuration: Duration.zero, // No delay before showing
+        showDuration: const Duration(seconds: 2), // Keep tooltip visible for a while
+        decoration: BoxDecoration(
+          color: Theme.of(context).dialogBackgroundColor,
+          borderRadius: BorderRadius.circular(8), // Smooth rounded corners
+        ),
+        textStyle: TextStyle(
+          color: Theme.of(context).primaryColor,
+        ),
         child: Icon(
           Icons.signal_wifi_off,
           color: Theme.of(context).primaryColor,
           size: 21,
         ),
       ),
-      /*
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 18),
-        child: Row(
-          children: [
-            Icon(
-              Icons.info_outline,
-              color: Theme.of(context).primaryColor,
-              size: 21,
-            ),
-            const SizedBox(width: 8),
-            Text(
-              S.of(context).internet_status_exception,
-              style: Theme.of(context).textTheme.bodyMedium,
-              ),
-          ],
-        ),
-      ),
-      */
     );
   }
 }
