@@ -21,10 +21,10 @@ class HomePageView extends StatefulWidget {
   const HomePageView({super.key});
 
   @override
-  State<StatefulWidget> createState() => HomePageView2State();
+  State<StatefulWidget> createState() => HomePageViewState();
 }
 
-class HomePageView2State extends State<HomePageView> {
+class HomePageViewState extends State<HomePageView> {
   List<FavoriteWidgetType> favoriteCards =
       PreferencesController.getFavoriteCards();
 

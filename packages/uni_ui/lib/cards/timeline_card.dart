@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uni_ui/theme.dart';
 
 class TimelineItem extends StatelessWidget {
   const TimelineItem(

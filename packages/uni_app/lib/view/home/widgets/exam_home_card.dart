@@ -53,7 +53,9 @@ class ExamHomeCard extends GenericHomecard {
   }
 
   List<TimelineItem> buildTimelineItems(
-      BuildContext context, List<Exam> exams) {
+    BuildContext context,
+    List<Exam> exams,
+  ) {
     final items = exams
         .map(
           (exam) => TimelineItem(
