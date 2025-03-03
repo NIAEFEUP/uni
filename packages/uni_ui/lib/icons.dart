@@ -24,7 +24,7 @@ class UniIcons {
 
   static const caretDown = PhosphorIconsDuotone.caretDown;
   static const caretUp = PhosphorIconsDuotone.caretUp;
-  static const caretRight = PhosphorIconsDuotone.caretRight;
+  static const caretRight = PhosphorIconsRegular.caretRight;
 
   static const file = PhosphorIconsDuotone.file;
   static const fileDoc = PhosphorIconsDuotone.fileDoc;

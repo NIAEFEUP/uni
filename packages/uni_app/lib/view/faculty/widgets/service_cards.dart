@@ -62,7 +62,7 @@ class AllServiceCardsState extends State<AllServiceCards> {
             crossAxisCount: isGrid ? 2 : 1,
             mainAxisSpacing: 2,
             crossAxisSpacing: 2,
-            childAspectRatio: isGrid ? 1.97 : 3.97,
+            childAspectRatio: isGrid ? 1.84 : 3.7,
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: [
