@@ -5,6 +5,7 @@ const Color primaryVibrant = Color.fromARGB(255, 102, 9, 16);
 const Color secondary = Color.fromARGB(255, 255, 245, 243);
 const Color grayText = Color.fromARGB(255, 48, 48, 48);
 const Color grayMiddle = Color.fromARGB(255, 127, 127, 127);
+const Color grayLight = Color.fromARGB(255, 245, 245, 245);
 const Color background = Color.fromARGB(255, 255, 255, 255);
 const Color details = Color.fromARGB(235, 177, 77, 84);
 const Color divider = Color.fromARGB(255, 229, 229, 229);

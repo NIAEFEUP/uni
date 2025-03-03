@@ -3,6 +3,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/courses/course_info.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart';
 
 class CourseCard extends StatelessWidget {
   const CourseCard({
@@ -16,10 +17,6 @@ class CourseCard extends StatelessWidget {
   final bool selected;
   final void Function() onTap;
 
-  Color get grayColor => Colors.grey.shade100;
-
-  Color get onGrayColor => Colors.grey.shade600;
-
   @override
   Widget build(BuildContext context) {
     return GenericCard(
@@ -27,7 +24,7 @@ class CourseCard extends StatelessWidget {
       onClick: onTap,
       color: selected
           ? Theme.of(context).colorScheme.surfaceContainerLow
-          : grayColor,
+          : grayLight,
       tooltip: '',
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -41,14 +38,14 @@ class CourseCard extends StatelessWidget {
                 size: 32,
                 color: selected
                     ? Theme.of(context).colorScheme.primary
-                    : onGrayColor,
+                    : grayMiddle,
               ),
               Text(
                 courseInfo.abbreviation,
                 style: Theme.of(context).textTheme.titleLarge?.apply(
                     color: selected
                         ? Theme.of(context).colorScheme.primary
-                        : onGrayColor),
+                        : grayMiddle),
               ),
               Text(
                 courseInfo.conclusionYear == null
@@ -57,7 +54,7 @@ class CourseCard extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodySmall?.apply(
                     color: selected
                         ? Theme.of(context).colorScheme.primary
-                        : onGrayColor),
+                        : grayMiddle),
               ),
             ],
           ),
