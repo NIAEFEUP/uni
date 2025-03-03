@@ -21,7 +21,7 @@ class ScheduleHomeCard extends GenericHomecard {
       builder: (context, lectures) => CardTimeline(
         items: buildTimelineItems(lectures).sublist(0, 2),
       ),
-      hasContent: (_) => true,
+      hasContent: (lectures) => lectures.isNotEmpty,
       onNullContent: Text(
         'Sem aulas',
         style: Theme.of(context).textTheme.titleLarge,

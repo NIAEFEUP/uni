@@ -134,7 +134,7 @@ class EditHomeViewState extends State<EditHomeView> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(125),
         child: Container(
-          height: 75,
+          height: 90,
           decoration: const BoxDecoration(
             gradient: RadialGradient(
               colors: [
@@ -248,22 +248,14 @@ class EditHomeViewState extends State<EditHomeView> {
                           ],
                   ),
                 ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    backgroundColor: const WidgetStatePropertyAll(Colors.white),
-                  ),
-                  onPressed: () => Navigator.pushNamed(
-                    context,
-                    '/${NavigationItem.navPersonalArea.route}',
-                  ),
-                  child: const Text(
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushNamed('/${NavigationItem.navPersonalArea.route}');
+                  },
+                  child: Text(
                     'Save',
-                    style: TextStyle(color: Colors.black),
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
               ],
