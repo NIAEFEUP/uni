@@ -168,35 +168,39 @@ class BugReportFormState extends State<BugReportForm> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.tertiary,
                   ),
-                  onPressed: () {
-                    pickImages();
-                  },
+                  onPressed: pickImages,
                   label: Text(S.of(context).add_photo),
                 ),
-                   /* Expanded(
-                    child: pickedFiles.isNotEmpty
-                    ? Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: GridView.builder(
-                    itemCount: pickedFiles.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3),
-                    itemBuilder: (context, index) {
-                    return Image.file(
-                    File(pickedFiles[index].path),
-                    fit: BoxFit.cover,
-                    );
-                    },
+                if (pickedFiles.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child:
+                      Container(
+                        height:200,
+                        child:GridView.builder(
+                          gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                          itemCount: pickedFiles.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Stack(
+                              children: [Image.file(File(pickedFiles[index].path),
+                            fit: BoxFit.cover,
+                            ),
+                              Align( alignment:Alignment.topRight,
+                                child: IconButton(onPressed: () async {
+                              await unselect(index);}, icon:Icon(Icons.cancel_outlined,color: Theme.of(context).colorScheme.tertiary,),),
+
+                              ),],
+                            );
+                          },
+                        ),
+                      ),
                     ),
-                    )
-                        : Text(S.of(context).no_selected_images),
-                    ),*/
-                    pickedFiles.isNotEmpty
+                     /*pickedFiles.isNotEmpty
                     ? Text(S.of(context).Selected_images(pickedFiles.length))
-                    : Text(S.of(context).no_selected_images),
-                 ],
-            ),
-          ),
+                    : Text(S.of(context).no_selected_images),*/
+                ],),),
           Container(
             padding: EdgeInsets.zero,
             margin: const EdgeInsets.only(bottom: 20),
@@ -251,8 +255,7 @@ class BugReportFormState extends State<BugReportForm> {
             ),
           ),
         ],
-      ),
-    );
+      ),);
   }
 
   /// Returns a widget for the overview text of the bug report form
@@ -306,19 +309,28 @@ class BugReportFormState extends State<BugReportForm> {
       ),
     );
   }
+  Future<void> unselect(int index) async{
+    pickedFiles.removeAt(index);
+    setState(() {
+    });
+
+  }
 
   Future<void> pickImages() async {
     var status = await Permission.photos.request();
+
     if (status.isPermanentlyDenied || status.isDenied) {
       await AppSettings.openAppSettings();
     } else {
       try {
-        final selectedimages = await picker.ImagePicker().pickMultiImage(
+        final imagePicker= picker.ImagePicker();
+        final List<picker.XFile>? selectedImages = await imagePicker.pickMultiImage(
           limit: 5,
         );
-        if (selectedimages.isNotEmpty) {
+        if (selectedImages!.isNotEmpty) {
+          pickedFiles!.addAll(selectedImages);
           setState(() {
-            pickedFiles.addAll(selectedimages);
+
           });
         }
       } catch (e) {
