@@ -1,5 +1,5 @@
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
+import 'package:uni_ui/common/generic_squircle.dart';
 
 class AverageBar extends StatelessWidget {
   const AverageBar(
@@ -26,12 +26,7 @@ class AverageBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return Row(children: [
-        ClipSmoothRect(
-            radius: SmoothBorderRadius(
-              cornerRadius: 10,
-              cornerSmoothing: 1,
-            ),
-            child: Container(
+        GenericSquircle(child: Container(
                 decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.secondary,
                     borderRadius: BorderRadius.all(Radius.circular(5))),

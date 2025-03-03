@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
-import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/utils/string_formatter.dart';
-import 'package:uni/view/common_widgets/expanded_image_label.dart';
+import 'package:uni/view/academic_path/widgets/no_exams_widget.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/cards/exam_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
+import 'package:uni_ui/theme.dart';
+import 'package:uni_ui/timeline/timeline.dart';
 
 class ExamsPage extends StatefulWidget {
   const ExamsPage({super.key});
@@ -32,105 +33,127 @@ class _ExamsPageState extends State<ExamsPage> {
       If we want to filters exams again
         filteredExamTypes[Exam.getExamTypeLong(exam.examType)] ??
      */
-
-    return LazyConsumer<ExamProvider, List<Exam>>(
-      builder: (context, exams) => ListView(
-        children: _examsByMonth(exams)
-            .entries
-            .map(
-              (entry) => Padding(
-                padding: const EdgeInsets.all(8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      DateTime(
-                        int.parse(entry.key.split('-')[0]),
-                        int.parse(entry.key.split('-')[1]),
-                      )
+    return MediaQuery.removePadding(
+      context: context,
+      removeBottom: true,
+      child: LazyConsumer<ExamProvider, List<Exam>>(
+        builder: (context, exams) {
+          final examsByMonth = _examsByMonth(exams);
+          final allMonths = List.generate(12, (index) => index + 1);
+          final tabs = allMonths.map((month) {
+            final date = DateTime(DateTime.now().year, month);
+            return SizedBox(
+              width: 30,
+              height: 34,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      date.shortMonth(
+                        Provider.of<LocaleNotifier>(context).getLocale(),
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      '${date.month}',
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }).toList();
+          final content = allMonths.map((month) {
+            final monthKey = '${DateTime.now().year}-$month';
+            final exams = examsByMonth[monthKey] ?? [];
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (exams.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
+                    child: Text(
+                      DateTime(DateTime.now().year, month)
                           .fullMonth(
                             Provider.of<LocaleNotifier>(context).getLocale(),
                           )
                           .capitalize(),
-                      style: Theme.of(context).textTheme.headlineMedium,
+                      style: lightTheme.textTheme.headlineLarge,
                     ),
-                    const SizedBox(height: 8),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: entry.value.length,
-                      prototypeItem: const TimelineItem(
-                        title: '1',
-                        subtitle: 'Jan',
+                  ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: exams.length,
+                  itemBuilder: (context, index) {
+                    final exam = exams[index];
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                      child: TimelineItem(
+                        title: exam.start.day.toString(),
+                        subtitle: exam.start
+                            .shortMonth(
+                              Provider.of<LocaleNotifier>(context).getLocale(),
+                            )
+                            .capitalize(),
+                        // isActive: _nextExam(exams) == exam, //TODO: Emphasize next exam together with the exam card.
                         card: ExamCard(
-                          name: 'Computer Laboratory',
-                          acronym: 'LCOM',
-                          rooms: ['B315', 'B224', 'B207'],
-                          type: 'MT',
-                          startTime: '12:00',
+                          name: exam.subject,
+                          acronym: exam.subjectAcronym,
+                          rooms: exam.rooms,
+                          type: exam.examType,
+                          startTime: exam.formatTime(exam.start),
+                          isInvisible: hiddenExams.contains(exam.id),
+                          iconAction: () {
+                            setState(() {
+                              if (hiddenExams.contains(exam.id)) {
+                                hiddenExams.remove(exam.id);
+                              } else {
+                                hiddenExams.add(exam.id);
+                              }
+                              PreferencesController.saveHiddenExams(
+                                hiddenExams,
+                              );
+                            });
+                          },
                         ),
                       ),
-                      itemBuilder: (context, index) {
-                        final exam = entry.value[index];
-                        return TimelineItem(
-                          title: exam.start.day.toString(),
-                          subtitle: exam.start
-                              .shortMonth(
-                                Provider.of<LocaleNotifier>(context)
-                                    .getLocale(),
-                              )
-                              .capitalize(),
-                          isActive: _nextExam(exams) == exam,
-                          card: ExamCard(
-                            name: exam.subject,
-                            acronym: exam.subjectAcronym,
-                            rooms: exam.rooms,
-                            type: exam.examType,
-                            startTime: exam.formatTime(exam.start),
-                            isInvisible: hiddenExams.contains(exam.id),
-                            iconAction: () {
-                              setState(() {
-                                if (hiddenExams.contains(exam.id)) {
-                                  hiddenExams.remove(exam.id);
-                                } else {
-                                  hiddenExams.add(exam.id);
-                                }
-
-                                PreferencesController.saveHiddenExams(
-                                  hiddenExams,
-                                );
-                              });
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                    );
+                  },
                 ),
-              ),
-            )
-            .toList(),
-      ),
-      hasContent: (exams) => exams.isNotEmpty,
-      onNullContent: LayoutBuilder(
-        // Band-aid for allowing refresh on null content
-        builder: (context, constraints) => SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Container(
-            height: constraints.maxHeight, // Height of bottom navbar
-            padding: const EdgeInsets.only(bottom: bottomNavbarHeight),
-            child: Center(
-              heightFactor: 1.2,
-              child: ImageLabel(
-                imagePath: 'assets/images/vacation.png',
-                label: S.of(context).no_exams_label,
-                labelTextStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                sublabel: S.of(context).no_exams,
-                sublabelTextStyle: const TextStyle(fontSize: 15),
+              ],
+            );
+          }).toList();
+          return Timeline(
+            tabs: tabs,
+            content: content,
+            initialTab: allMonths.indexWhere((month) {
+              final monthKey = '${DateTime.now().year}-$month';
+              return examsByMonth.containsKey(monthKey);
+            }),
+            tabEnabled: allMonths.map((month) {
+              final monthKey = '${DateTime.now().year}-$month';
+              return examsByMonth.containsKey(monthKey);
+            }).toList(),
+          );
+        },
+        hasContent: (exams) => exams.isNotEmpty,
+        onNullContent: LayoutBuilder(
+          // Band-aid for allowing refresh on null content
+          builder: (context, constraints) => SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Container(
+              height: constraints.maxHeight, // Height of bottom navbar
+              padding: const EdgeInsets.only(bottom: bottomNavbarHeight),
+              child: const Center(
+                child: NoExamsWidget(),
               ),
             ),
           ),
@@ -148,12 +171,12 @@ class _ExamsPageState extends State<ExamsPage> {
     return months;
   }
 
-  Exam? _nextExam(List<Exam> exams) {
+  /*Exam? _nextExam(List<Exam> exams) {
     final now = DateTime.now();
     final nextExams = exams.where((exam) => exam.start.isAfter(now)).toList()
       ..sort((a, b) => a.start.compareTo(b.start));
     return nextExams.isNotEmpty ? nextExams.first : null;
-  }
+  }*/
 
   /*
   @override

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
-import 'package:uni/view/academic_path/widgets/empty_week.dart';
+import 'package:uni/view/academic_path/widgets/no_classes_widget.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_view.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
@@ -13,6 +13,8 @@ class SchedulePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const bottomNavbarHeight = 120.0;
+
     return MediaQuery.removePadding(
       context: context,
       removeBottom: true,
@@ -31,7 +33,19 @@ class SchedulePage extends StatelessWidget {
             );
           },
           hasContent: (lectures) => lectures.isNotEmpty,
-          onNullContent: const EmptyWeek(),
+          onNullContent: LayoutBuilder(
+            builder: (context, constraints) => SingleChildScrollView(
+              physics:
+                  const AlwaysScrollableScrollPhysics(), // Ensures refresh works
+              child: Container(
+                height: constraints.maxHeight,
+                padding: const EdgeInsets.only(bottom: bottomNavbarHeight),
+                child: const Center(
+                  child: NoClassesWidget(),
+                ),
+              ),
+            ),
+          ),
           mapper: (lectures) {
             final startOfWeek = _getStartOfWeek(now, lectures);
             final endOfNextWeek = startOfWeek.add(const Duration(days: 14));
