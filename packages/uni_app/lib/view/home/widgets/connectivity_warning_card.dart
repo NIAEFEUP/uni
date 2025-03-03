@@ -22,21 +22,20 @@ class _ConnectivityWarningState extends State<ConnectivityWarning> {
     super.initState();
     checkInitialConnection();
 
-    connectivitySubscription = Connectivity()
-        .onConnectivityChanged
-        .listen((result) {
-          setState(() {
-            isOffline = result == ConnectivityResult.none;
-          });
+    connectivitySubscription =
+        Connectivity().onConnectivityChanged.listen((result) {
+      setState(() {
+        isOffline = result == ConnectivityResult.none;
+      });
     });
   }
 
-   Future<void> checkInitialConnection() async {
+  Future<void> checkInitialConnection() async {
     final result = await Connectivity().checkConnectivity();
     setState(() {
       isOffline = result == ConnectivityResult.none;
     });
-   }
+  }
 
   @override
   void dispose() {
@@ -51,12 +50,12 @@ class _ConnectivityWarningState extends State<ConnectivityWarning> {
       child: Tooltip(
         margin: const EdgeInsets.only(right: 62, bottom: 22),
         message: S.of(context).internet_status_exception,
-        triggerMode: TooltipTriggerMode.tap, // Show immediately on tap
-        waitDuration: Duration.zero, // No delay before showing
-        showDuration: const Duration(seconds: 2), // Keep tooltip visible for a while
+        triggerMode: TooltipTriggerMode.tap,
+        waitDuration: Duration.zero,
+        showDuration: const Duration(seconds: 2),
         decoration: BoxDecoration(
           color: Theme.of(context).dialogBackgroundColor,
-          borderRadius: BorderRadius.circular(8), // Smooth rounded corners
+          borderRadius: BorderRadius.circular(8),
         ),
         textStyle: TextStyle(
           color: Theme.of(context).primaryColor,

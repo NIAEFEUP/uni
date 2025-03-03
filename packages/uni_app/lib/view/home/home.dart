@@ -52,46 +52,46 @@ class HomePageViewState extends GeneralPageViewState {
   Widget? getHeader(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: [
-    Container(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          PageTitle(
-            name: S.of(context).nav_title('area'),
-            center: false,
-            pad: false,
-          ),
-          Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const ConnectivityWarning(),
-              const SizedBox(width: 10),
-              if (isEditing)
-                ElevatedButton(
-                  onPressed: () => setState(() {
-                    isEditing = false;
-                  }),
-                  child: Text(
-                    S.of(context).edit_on,
-                  ),
-                )
-              else
-                OutlinedButton(
-                  onPressed: () => setState(() {
-                    isEditing = true;
-                  }),
-                  child: Text(
-                    S.of(context).edit_off,
-                  ),
-                ),
+              PageTitle(
+                name: S.of(context).nav_title('area'),
+                center: false,
+                pad: false,
+              ),
+              Row(
+                children: [
+                  const ConnectivityWarning(),
+                  const SizedBox(width: 10),
+                  if (isEditing)
+                    ElevatedButton(
+                      onPressed: () => setState(() {
+                        isEditing = false;
+                      }),
+                      child: Text(
+                        S.of(context).edit_on,
+                      ),
+                    )
+                  else
+                    OutlinedButton(
+                      onPressed: () => setState(() {
+                        isEditing = true;
+                      }),
+                      child: Text(
+                        S.of(context).edit_off,
+                      ),
+                    ),
+                ],
+              ),
             ],
           ),
-        ],
-      ),
-    ),
-      //const ConnectivityWarning(),
-    ],
+        ),
+        //const ConnectivityWarning(),
+      ],
     );
   }
 

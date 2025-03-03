@@ -16,30 +16,30 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leftButton;
 
   Widget _createTopWidgets(BuildContext context) {
-     return Padding(
-            padding: EdgeInsets.fromLTRB(leftButton == null ? 20 : 12, 0, 20, 0),
-            child: Row(
-              children: [
-                if (leftButton != null)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: leftButton,
-                  ),
-                Expanded(
-                  child: PageTitle(
-                    name: title ?? '',
-                    pad: false,
-                    center: false,
-                  ),
-                ),
-                if (rightButton != null)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: rightButton,
-                  ),
-              ],
+    return Padding(
+      padding: EdgeInsets.fromLTRB(leftButton == null ? 20 : 12, 0, 20, 0),
+      child: Row(
+        children: [
+          if (leftButton != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: leftButton,
             ),
-          );
+          Expanded(
+            child: PageTitle(
+              name: title ?? '',
+              pad: false,
+              center: false,
+            ),
+          ),
+          if (rightButton != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: rightButton,
+            ),
+        ],
+      ),
+    );
   }
 
   @override
