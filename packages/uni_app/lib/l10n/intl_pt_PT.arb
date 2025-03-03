@@ -349,11 +349,6 @@
   "add_photo": "Adicionar foto",
   "@add_photo": {},
   "failed_upload": "Falha de carregamento",
-  "@failed_upload": {},
-  "no_selected_images": "Nenhuma imagem selecionada",
-  "@no_selected_images": {},
-  "Selected_images": "{number} de 5 selecionadas",
-  "@Selected_images":{
-    "number": {}
-  }
+  "@failed_upload": {}
+
 }

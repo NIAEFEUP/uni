@@ -349,11 +349,5 @@
   "add_photo": "Add photo",
   "@add_photo": {},
   "failed_upload": "Failed to upload",
-  "@failed_upload": {},
-  "no_selected_images": "No images selected",
-  "@no_selected_images": {},
-  "Selected_images": "{number} out of 5 selected",
-  "@Selected_images":{
-    "number": {}
-  }
+  "@failed_upload": {}
 }

@@ -197,9 +197,6 @@ class BugReportFormState extends State<BugReportForm> {
                         ),
                       ),
                     ),
-                     /*pickedFiles.isNotEmpty
-                    ? Text(S.of(context).Selected_images(pickedFiles.length))
-                    : Text(S.of(context).no_selected_images),*/
                 ],),),
           Container(
             padding: EdgeInsets.zero,
