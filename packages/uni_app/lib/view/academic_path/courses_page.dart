@@ -32,7 +32,7 @@ class CoursesPageState extends State<CoursesPage> {
   double _getTotalCredits(Profile profile, Course course) {
     return profile.courseUnits
         .where((courseUnit) => courseUnit.festId == course.festId)
-        .map((courseUnit) => (courseUnit.ects ?? 0) as double)
+        .map((courseUnit) => (courseUnit.ects ?? 0).toDouble())
         .fold(0, (a, b) => a + b);
   }
 
@@ -72,7 +72,7 @@ class CoursesPageState extends State<CoursesPage> {
         final course = courses[courseUnitIndex];
 
         return Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
           child: ListView(
             children: [
               Center(

@@ -45,6 +45,9 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   // The content of the page
   Widget getBody(BuildContext context);
 
+  //
+  bool getResizeToAvoidBottomInset() => true;
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -102,6 +105,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
       context,
       _loading
           ? const Center(child: CircularProgressIndicator())
+          // TODO: Add 100 of padding bottom
           : getBody(context),
     );
   }
@@ -121,6 +125,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
           header: getHeader(context),
           body: body,
         ),
+        resizeToAvoidBottomInset: getResizeToAvoidBottomInset(),
       ),
     );
   }

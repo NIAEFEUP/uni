@@ -1,5 +1,5 @@
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
+import 'package:uni_ui/common/generic_squircle.dart';
 
 class GenericCard extends StatelessWidget {
   const GenericCard({
@@ -46,22 +46,18 @@ class GenericCard extends StatelessWidget {
             ),
           ],
         ),
-        child: ClipSmoothRect(
-          radius: SmoothBorderRadius(
-            cornerRadius: borderRadius ?? 20,
-            cornerSmoothing: 1,
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: color ??
-                  cardTheme.color ??
-                  theme.colorScheme.surfaceContainer,
-              gradient: gradient,
-            ),
-            child: Padding(
-              padding: padding ?? const EdgeInsets.all(10),
-              child: GestureDetector(
-                onTap: onClick,
+        child: GestureDetector(
+          onTap: onClick,
+          child: GenericSquircle(
+            child: Container(
+              decoration: BoxDecoration(
+                color: color ??
+                    cardTheme.color ??
+                    theme.colorScheme.surfaceContainer,
+                gradient: gradient,
+              ),
+              child: Padding(
+                padding: padding ?? const EdgeInsets.all(10),
                 child: child,
               ),
             ),

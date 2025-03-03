@@ -40,6 +40,19 @@ class UniIcons {
   static const edit = PhosphorIconsDuotone.pencilSimple;
   static const more = PhosphorIconsDuotone.dotsThreeOutlineVertical;
 
+  // Locations pins icons
+  static const money = PhosphorIconsDuotone.money;
+  static const coffee = PhosphorIconsDuotone.coffee;
+  static const printer = PhosphorIconsDuotone.printer;
+  static const lockers = PhosphorIconsDuotone.lockers;
+  static const bookOpen = PhosphorIconsDuotone.bookOpen;
+  static const bookOpenUser = PhosphorIconsDuotone.bookOpenUser;
+  static const starFour = PhosphorIconsDuotone.starFour;
+  static const storefront = PhosphorIconsDuotone.storefront;
+  static const questionMark = PhosphorIconsDuotone.questionMark;
+  static const toilet = PhosphorIconsDuotone.toiletPaper;
+
+  // Restaurants icons
   static const canteen = PhosphorIconsDuotone.cookingPot;
   static const snackBar = PhosphorIconsDuotone.hamburger;
   static const soup = PhosphorIconsDuotone.bowlSteam;
@@ -49,7 +62,6 @@ class UniIcons {
   static const salad = PhosphorIconsDuotone.carrot;
   static const diet = PhosphorIconsDuotone.clipboardText;
   static const dishOfTheDay = PhosphorIconsDuotone.calendarDot;
-
   static const heartOutline = PhosphorIconsRegular.heart;
   static const heartFill = PhosphorIconsFill.heart;
 
@@ -76,11 +88,13 @@ class UniIcon extends PhosphorIcon {
     Color? color,
     String? semanticLabel,
     TextDirection? textDirection,
+    bool solid = false,
   }) : super(
           icon,
           size: size,
           color: color,
           semanticLabel: semanticLabel,
           textDirection: textDirection,
+          duotoneSecondaryOpacity: solid ? 1 : 0.20,
         );
 }

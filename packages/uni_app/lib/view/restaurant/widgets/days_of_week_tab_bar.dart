@@ -19,10 +19,11 @@ class DaysOfWeekTabBar extends StatelessWidget {
       isScrollable: true,
       padding: EdgeInsets.zero,
       indicator: const BoxDecoration(),
-      labelPadding: const EdgeInsets.symmetric(horizontal: 3),
+      labelPadding: const EdgeInsets.symmetric(horizontal: 5),
       tabAlignment: TabAlignment.center,
       tabs: createTabs(context),
       dividerHeight: 0,
+      overlayColor: WidgetStateProperty.all(Colors.transparent),
     );
   }
 
