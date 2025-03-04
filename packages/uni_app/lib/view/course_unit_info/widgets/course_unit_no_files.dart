@@ -8,7 +8,7 @@ class NoFilesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ImageLabel(
-      imagePath: 'assets/images/school.png',
+      imagePath: 'assets/images/files.png',
       label: S.of(context).no_files_label,
       labelTextStyle: TextStyle(
         fontWeight: FontWeight.bold,
