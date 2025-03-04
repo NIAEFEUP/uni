@@ -46,17 +46,18 @@ class GenericCard extends StatelessWidget {
             ),
           ],
         ),
-        child: GenericSquircle(child: Container(
-            decoration: BoxDecoration(
-              color: color ??
-                  cardTheme.color ??
-                  theme.colorScheme.surfaceContainer,
-              gradient: gradient,
-            ),
-            child: Padding(
-              padding: padding ?? const EdgeInsets.all(10),
-              child: GestureDetector(
-                onTap: onClick,
+        child: GestureDetector(
+          onTap: onClick,
+          child: GenericSquircle(
+            child: Container(
+              decoration: BoxDecoration(
+                color: color ??
+                    cardTheme.color ??
+                    theme.colorScheme.surfaceContainer,
+                gradient: gradient,
+              ),
+              child: Padding(
+                padding: padding ?? const EdgeInsets.all(10),
                 child: child,
               ),
             ),
