@@ -1,0 +1,133 @@
+[
+    {
+        "name": "Início de aulas do 1º Ano/2º Ciclo",
+        "start_date": "2024-09-23",
+        "end_date": "2024-09-23"
+    },
+    {
+        "name": "Início de aulas, outros",
+        "start_date": "2024-09-16",
+        "end_date": "2024-09-16"
+    },
+    {
+        "name": "Semana Projeto FEUP (1º ano)",
+        "start_date": "2024-09-16",
+        "end_date": "2024-09-20"
+    },
+    {
+        "name": "Comemoração Novos Mestres",
+        "start_date": "2024-11-23",
+        "end_date": "2024-11-23"
+    },
+    {
+        "name": "Sem. FEUP e Mobil. Docente [2]",
+        "start_date": "2024-10-28",
+        "end_date": "2024-11-01"
+    },
+    {
+        "name": "Férias de Natal",
+        "start_date": "2024-12-23",
+        "end_date": "2025-01-03"
+    },
+    {
+        "name": "Fim de aulas do 1º Ano/1º Ciclo",
+        "start_date": "2025-01-10",
+        "end_date": "2025-01-10"
+    },
+    {
+        "name": "Fim de aulas, outros",
+        "start_date": "2024-12-20",
+        "end_date": "2024-12-20"
+    },
+    {
+        "name": "Exames do 1º Ano/1º Ciclo [3]",
+        "start_date": "2025-01-20",
+        "end_date": "2025-02-06"
+    },
+    {
+        "name": "Exames, outros [3]",
+        "start_date": "2025-01-06",
+        "end_date": "2025-02-07"
+    },
+    {
+        "name": "Lançamento de classificações:",
+        "start_date": "2025-02-21",
+        "end_date": "2025-02-21"
+    },
+    {
+        "name": "Época esp. para conclusão de ciclo de estudos 1ª chamada.[4]",
+        "start_date": "2025-03-05",
+        "end_date": "2025-03-21"
+    },
+    {
+        "name": "Lançamento classificações - Época esp. concl. ciclo de estudos, 1ª chamada",
+        "start_date": "2025-03-28",
+        "end_date": "2025-03-28"
+    },
+     {
+        "name": "Época exames Estatutos Especiais",
+        "start_date": "",
+        "end_date": "2025-05-02"
+    },
+   {
+        "name": "Lançamento classificações 1º semestre dos exames para estatutos especiais",
+        "start_date": "2025-05-16",
+        "end_date": "2025-05-16"
+    },
+    {
+        "name": "Início de aulas",
+        "start_date": "2025-02-10",
+        "end_date": "2025-02-10"
+    },
+    {
+        "name": "Férias de Carnaval",
+        "start_date": "2025-03-03",
+        "end_date": "2025-03-04"
+    },
+    {
+        "name": "Férias da Páscoa",
+        "start_date": "2025-04-14",
+        "end_date": "2025-04-21"
+    },
+    {
+        "name": "Sem. Académica e Mobil. Docente",
+        "start_date": "2025-05-05",
+        "end_date": "2025-05-09"
+    },
+    {
+        "name": "Fim de aulas",
+        "start_date": "2025-05-30",
+        "end_date": "2025-05-30"
+    },
+    {
+        "name": "Exames [3]",
+        "start_date": "2025-06-02",
+        "end_date": "2025-07-11"
+    },
+    {
+        "name": "Lançamento de classificações:",
+        "start_date": "2025-07-18",
+        "end_date": "2025-07-18"
+    },
+    {
+        "name": "Época esp. para conclusão de ciclo de estudos 2ª chamada",
+        "start_date": "2025-09-01",
+        "end_date": "2025-09-12"
+    },
+    {
+        "name": "Lançamento classificações - Época esp. conclusão de ciclo de estudos, 2ª chamada",
+        "start_date": "2025-09-19",
+        "end_date": "2025-09-19"
+    },
+       {
+        "name": "Época exames Estatutos Especiais",
+        "start_date": "",
+        "end_date": "2025-11-28"
+    },
+    {
+        "name": "Lançamento de classificações, época exames estatutos especiais",
+        "start_date": "2025-12-12",
+        "end_date": "2025-12-12"
+    }
+
+]
