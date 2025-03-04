@@ -74,13 +74,17 @@ class RestaurantSliderState extends State<RestaurantSlider> {
           ],
         );
       },
-      hasContent: (restaurants) => restaurants
-          .where(
-            (restaurant) => PreferencesController.getFavoriteRestaurants()
-                .contains(restaurant.namePt + restaurant.period),
-          )
-          .isNotEmpty,
-      onNullContent: const Text('Sem restaurantes favoritos'),
+      hasContent: (restaurants) {
+        final favoriteRestaurants = restaurants
+            .where(
+              (restaurant) => PreferencesController.getFavoriteRestaurants()
+                  .contains(restaurant.namePt + restaurant.period),
+            )
+            .toList();
+        return getRestaurantInformation(context, favoriteRestaurants)
+            .isNotEmpty;
+      },
+      onNullContent: const Text('Nenhum restaurante favorito aberto'),
     );
   }
 }
