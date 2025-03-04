@@ -6,6 +6,7 @@ import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/utils/string_formatter.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
+import 'package:uni/view/home/widgets/timeline_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/cards/exam_card.dart';
@@ -39,6 +40,7 @@ class ExamHomeCard extends GenericHomecard {
           onNullContent: const Center(
             child: Text('Sem exames'),
           ),
+          contentLoadingWidget: const ShimmerCardTimeline(),
         );
       },
     );
