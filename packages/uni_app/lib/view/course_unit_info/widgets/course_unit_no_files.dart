@@ -8,14 +8,14 @@ class NoFilesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ImageLabel(
-      imagePath: 'assets/images/files.png',
+      imagePath: 'assets/images/school.png',
       label: S.of(context).no_files_label,
       labelTextStyle: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 18,
         color: Theme.of(context).colorScheme.primary,
       ),
-      sublabel: S.of(context).no_exams,
+      sublabel: S.of(context).no_files,
       sublabelTextStyle: const TextStyle(fontSize: 15),
     );
   }
