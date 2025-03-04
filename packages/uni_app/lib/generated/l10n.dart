@@ -28,9 +28,10 @@ class S {
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
+    final name =
+        (locale.countryCode?.isEmpty ?? false)
+            ? locale.languageCode
+            : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -1514,26 +1515,6 @@ class S {
       name: 'failed_upload',
       desc: '',
       args: [],
-    );
-  }
-
-  /// `No images selected`
-  String get no_selected_images {
-    return Intl.message(
-      'No images selected',
-      name: 'no_selected_images',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `{number} out of 5 selected`
-  String Selected_images(Object number) {
-    return Intl.message(
-      '$number out of 5 selected',
-      name: 'Selected_images',
-      desc: '',
-      args: [number],
     );
   }
 }

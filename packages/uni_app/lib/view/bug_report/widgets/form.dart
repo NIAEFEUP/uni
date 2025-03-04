@@ -44,8 +44,7 @@ class BugReportFormState extends State<BugReportForm> {
   List<picker.XFile> pickedFiles = [];
   static int _selectedBug = 0;
   static final TextEditingController titleController = TextEditingController();
-  static final TextEditingController descriptionController =
-      TextEditingController();
+  static final TextEditingController descriptionController = TextEditingController();
   static final TextEditingController emailController = TextEditingController();
 
   bool _isButtonTapped = false;
