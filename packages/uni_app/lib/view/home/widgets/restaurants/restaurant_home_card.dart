@@ -9,6 +9,7 @@ import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
+import 'package:uni/view/home/widgets/restaurants/restaurants_card_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
@@ -51,10 +52,13 @@ class RestaurantSliderState extends State<RestaurantSlider> {
             )
             .toList();
 
+        final dailyRestaurants =
+            getRestaurantInformation(context, favoriteRestaurants);
+
         return Column(
           children: [
             ExpandablePageView(
-              children: getRestaurantInformation(context, favoriteRestaurants),
+              children: dailyRestaurants,
               onPageChanged: (value) => setState(() {
                 _currentIndex = value;
               }),
@@ -64,7 +68,7 @@ class RestaurantSliderState extends State<RestaurantSlider> {
             ),
             AnimatedSmoothIndicator(
               activeIndex: _currentIndex,
-              count: favoriteRestaurants.length,
+              count: dailyRestaurants.length,
               effect: WormEffect(
                 dotHeight: 4,
                 dotWidth: 4,
@@ -85,6 +89,7 @@ class RestaurantSliderState extends State<RestaurantSlider> {
             .isNotEmpty;
       },
       onNullContent: const Text('Nenhum restaurante favorito aberto'),
+      contentLoadingWidget: const ShimmerRestaurantsHomeCard(),
     );
   }
 }
