@@ -44,7 +44,8 @@ class BugReportFormState extends State<BugReportForm> {
   List<picker.XFile> pickedFiles = [];
   static int _selectedBug = 0;
   static final TextEditingController titleController = TextEditingController();
-  static final TextEditingController descriptionController = TextEditingController();
+  static final TextEditingController descriptionController =
+      TextEditingController();
   static final TextEditingController emailController = TextEditingController();
 
   bool _isButtonTapped = false;
@@ -171,32 +172,46 @@ class BugReportFormState extends State<BugReportForm> {
                   label: Text(S.of(context).add_photo),
                 ),
                 if (pickedFiles.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child:
-                      Container(
-                        height:200,
-                        child:GridView.builder(
-                          gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-                          itemCount: pickedFiles.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return Stack(
-                              children: [Image.file(File(pickedFiles[index].path),
-                            fit: BoxFit.cover,
-                            ),
-                              Align( alignment:Alignment.topRight,
-                                child: IconButton(onPressed: () async {
-                              await unselect(index);}, icon:Icon(Icons.cancel_outlined,color: Theme.of(context).colorScheme.tertiary,),),
-
-                              ),],
-                            );
-                          },
-                        ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Container(
+                      height: 200,
+                      child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3),
+                        itemCount: pickedFiles.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Stack(
+                            children: [
+                              Image.file(
+                                File(pickedFiles[index].path),
+                                fit: BoxFit.cover,
+                              ),
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: IconButton(
+                                  onPressed: () async {
+                                    await unselect(index);
+                                  },
+                                  icon: Icon(
+                                    Icons.cancel_outlined,
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
                     ),
-                ],),),
+                  ),
+              ],
+            ),
+          ),
           Container(
             padding: EdgeInsets.zero,
             margin: const EdgeInsets.only(bottom: 20),
@@ -251,7 +266,8 @@ class BugReportFormState extends State<BugReportForm> {
             ),
           ),
         ],
-      ),);
+      ),
+    );
   }
 
   /// Returns a widget for the overview text of the bug report form
@@ -305,11 +321,10 @@ class BugReportFormState extends State<BugReportForm> {
       ),
     );
   }
-  Future<void> unselect(int index) async{
-    pickedFiles.removeAt(index);
-    setState(() {
-    });
 
+  Future<void> unselect(int index) async {
+    pickedFiles.removeAt(index);
+    setState(() {});
   }
 
   Future<void> pickImages() async {
@@ -319,15 +334,14 @@ class BugReportFormState extends State<BugReportForm> {
       await AppSettings.openAppSettings();
     } else {
       try {
-        final imagePicker= picker.ImagePicker();
-        final List<picker.XFile>? selectedImages = await imagePicker.pickMultiImage(
+        final imagePicker = picker.ImagePicker();
+        final List<picker.XFile>? selectedImages =
+            await imagePicker.pickMultiImage(
           limit: 5,
         );
         if (selectedImages!.isNotEmpty) {
           pickedFiles!.addAll(selectedImages);
-          setState(() {
-
-          });
+          setState(() {});
         }
       } catch (e) {
         await ToastMessage.error(context, S.of(context).failed_upload);
@@ -360,7 +374,7 @@ class BugReportFormState extends State<BugReportForm> {
     var toastMsg = '';
     bool status;
     try {
-      await submitSentryEvent(bugReport,pickedFiles);
+      await submitSentryEvent(bugReport, pickedFiles);
       Logger().i('Successfully submitted bug report.');
       if (context.mounted) {
         toastMsg = s.success;
@@ -390,17 +404,19 @@ class BugReportFormState extends State<BugReportForm> {
     }
   }
 
-  Future<void> submitSentryEvent(Map<String, dynamic> bugReport,  List<picker.XFile> pickedFiles ) async {
+  Future<void> submitSentryEvent(
+      Map<String, dynamic> bugReport, List<picker.XFile> pickedFiles) async {
     final sentryId = await Sentry.captureMessage(
       'User Feedback',
       withScope: (scope) {
         scope
           ..setTag('report', 'true')
           ..setTag('report.type', bugReport['bugLabel'] as String);
-        for(var file in pickedFiles) {
-            scope.addAttachment(IoSentryAttachment.fromPath(file.path),);
+        for (var file in pickedFiles) {
+          scope.addAttachment(
+            IoSentryAttachment.fromPath(file.path),
+          );
         }
-
       },
     );
 
