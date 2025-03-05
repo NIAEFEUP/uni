@@ -55,12 +55,6 @@ class AcademicPathPageViewState extends GeneralPageViewState
         Row(children:
         [const Icon(UniIcons.exam),
           Expanded(child: Text(S.of(context).exams, overflow: TextOverflow.ellipsis),),],),),
-        /* OLD CODE:
-              TabIcon(icon: UniIcons.course, text: Text(S.of(context).courses, overflow: TextOverflow.ellipsis),), TabIcon(
-              icon: UniIcons.lecture,
-              text: S.of(context).schedule,
-            ),
-            TabIcon(icon: UniIcons.exam, text: S.of(context).exams),*/
       ],
     );
   }
