@@ -27,8 +27,7 @@ class SchedulePage extends StatelessWidget {
       hasContent: (lectures) => lectures.isNotEmpty,
       onNullContent: LayoutBuilder(
         builder: (context, constraints) => SingleChildScrollView(
-          physics:
-              const AlwaysScrollableScrollPhysics(), // Ensures refresh works
+          physics: const AlwaysScrollableScrollPhysics(),
           child: Container(
             height: constraints.maxHeight,
             padding: const EdgeInsets.only(bottom: bottomNavbarHeight),
@@ -39,7 +38,16 @@ class SchedulePage extends StatelessWidget {
         ),
       ),
       mapper: (lectures) {
-        return [];
+        final startOfWeek = _getStartOfWeek(now, lectures);
+        final endOfNextWeek = startOfWeek.add(const Duration(days: 14));
+
+        return lectures
+            .where(
+              (lecture) =>
+                  lecture.startTime.isAfter(startOfWeek) &&
+                  lecture.startTime.isBefore(endOfNextWeek),
+            )
+            .toList();
       },
     );
   }
