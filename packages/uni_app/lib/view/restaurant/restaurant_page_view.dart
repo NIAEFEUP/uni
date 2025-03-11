@@ -17,6 +17,10 @@ import 'package:uni/view/restaurant/widgets/favorite_restaurants_button.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
 import 'package:uni_ui/cards/restaurant_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
+import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/modal/modal.dart';
+import 'package:uni_ui/modal/widgets/info_row.dart';
+import 'package:uni_ui/modal/widgets/service_info.dart';
 
 class RestaurantPageView extends StatefulWidget {
   const RestaurantPageView({super.key});
@@ -248,7 +252,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     );
   }
 
-  RestaurantCard? createNewRestaurant(
+  GestureDetector? createNewRestaurant(
     BuildContext context,
     Restaurant restaurant,
     DayOfWeek dayOfWeek,
@@ -257,22 +261,55 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     final menuItems =
         getRestaurantMenuItems(dayOfWeek, restaurant, locale) ?? [];
     return menuItems.isNotEmpty
-        ? RestaurantCard(
-            name: RestaurantUtils.getRestaurantName(
-              context,
-              locale,
-              restaurant.namePt,
-              restaurant.namePt,
-              restaurant.period,
+        ? GestureDetector(
+            onTap: () => showDialog<ModalDialog>(
+              context: context,
+              builder: (context) {
+                return ModalDialog(
+                  children: [
+                    ModalServiceInfo(
+                      name: restaurant.namePt,
+                      durations: const ['1'],
+                    ),
+                    const ModalInfoRow(
+                      title: 'Ver menu',
+                      description: '',
+                      icon: UniIcon(UniIcons.map),
+                      optionalIcon: UniIcon(UniIcons.caretRight),
+                    ),
+                    const ModalInfoRow(
+                      title: 'Email',
+                      description: 'cantina@up.pt',
+                      icon: UniIcon(UniIcons.paperPlaneTilt),
+                      optionalIcon: UniIcon(UniIcons.caretRight),
+                    ),
+                    ModalInfoRow(
+                      title: S.of(context).telephone,
+                      description: '+351 123 456 789',
+                      icon: const UniIcon(UniIcons.phone),
+                      optionalIcon: const UniIcon(UniIcons.caretRight),
+                    ),
+                  ],
+                );
+              },
             ),
-            icon: RestaurantUtils.getIcon(
-              restaurant.typeEn ?? restaurant.typePt,
+            child: RestaurantCard(
+              name: RestaurantUtils.getRestaurantName(
+                context,
+                locale,
+                restaurant.namePt,
+                restaurant.namePt,
+                restaurant.period,
+              ),
+              icon: RestaurantUtils.getIcon(
+                restaurant.typeEn ?? restaurant.typePt,
+              ),
+              isFavorite: PreferencesController.getFavoriteRestaurants()
+                  .contains(restaurant.namePt + restaurant.period),
+              onFavoriteToggle: () =>
+                  {_toggleFavorite(restaurant.namePt, restaurant.period)},
+              menuItems: menuItems,
             ),
-            isFavorite: PreferencesController.getFavoriteRestaurants()
-                .contains(restaurant.namePt + restaurant.period),
-            onFavoriteToggle: () =>
-                {_toggleFavorite(restaurant.namePt, restaurant.period)},
-            menuItems: menuItems,
           )
         : null;
   }
