@@ -26,6 +26,7 @@ dependencies:
   diacritic: ^0.1.5
   email_validator: ^2.0.1
   expandable: ^5.0.1
+  expandable_page_view: ^1.0.17
   expansion_tile_card: ^3.0.0
   figma_squircle: ^0.5.3
   flutter:
@@ -64,6 +65,7 @@ dependencies:
   sentry_flutter: ^8.9.0
   shared_preferences: ^2.2.2
   shimmer: ^3.0.0
+  smooth_page_indicator: ^1.2.0+3
   sqflite: ^2.0.3
   synchronized: ^3.0.0
   timelines: ^0.1.0
