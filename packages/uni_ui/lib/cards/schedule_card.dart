@@ -43,9 +43,9 @@ class ScheduleCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                 Row(
                   children: [
                     if (isActive) ...[
@@ -80,20 +80,9 @@ class ScheduleCard extends StatelessWidget {
                 ),
                 SizedBox(height: 5),
                 if (isActive)
-                  Row(children: [
-                    CircleAvatar(
-                        radius: 15,
-                        backgroundImage: AssetImage(
-                          teacherPhoto ??
-                              'assets/images/profile_placeholder.png', // to change
-                        )),
-                    const SizedBox(width: 8), //TODO: create gap()?
-                    Text(teacherName ?? 'Teacher X',
-                        style: Theme.of(context).textTheme.titleSmall),
-                  ])
-              ],
-            ),
-          ),
+                  Text(teacherName ?? 'Unknown',
+                      style: Theme.of(context).textTheme.titleSmall),
+              ])),
           Column(
             children: [
               PhosphorIcon(

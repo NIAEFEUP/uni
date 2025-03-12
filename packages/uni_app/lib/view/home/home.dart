@@ -10,7 +10,6 @@ import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/widgets/refresh_state.dart';
 import 'package:uni/view/home/widgets/exams/exam_home_card.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/library/library_home_card.dart';
