@@ -6,6 +6,7 @@ import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/refresh_state.dart';
 import 'package:uni/view/home/widgets/exams/exam_home_card.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/library/library_home_card.dart';
@@ -77,23 +78,26 @@ class HomePageViewState extends State<HomePageView> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: homeAppBar(context),
       bottomNavigationBar: const AppBottomNavbar(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        child: ListView.separated(
-          itemCount: favoriteCards.length + 1,
-          separatorBuilder: (_, __) => const SizedBox(
-            height: 10,
+      body: RefreshIndicator(
+        onRefresh: () async {},
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          child: ListView.separated(
+            itemCount: favoriteCards.length + 1,
+            separatorBuilder: (_, __) => const SizedBox(
+              height: 10,
+            ),
+            itemBuilder: (_, index) {
+              if (index == 0) {
+                return Visibility(
+                  visible: !isBannerViewed,
+                  child: TrackingBanner(setBannerViewed),
+                );
+              } else {
+                return typeToCard[favoriteCards[index - 1]];
+              }
+            },
           ),
-          itemBuilder: (_, index) {
-            if (index == 0) {
-              return Visibility(
-                visible: !isBannerViewed,
-                child: TrackingBanner(setBannerViewed),
-              );
-            } else {
-              return typeToCard[favoriteCards[index - 1]];
-            }
-          },
         ),
       ),
     );
@@ -154,6 +158,7 @@ class HomePageViewState extends State<HomePageView> {
                         (lecture) => lecture.endTime.isAfter(DateTime.now()),
                       )
                       .toList(),
+                  contentLoadingWidget: Container(),
                 ),
               ],
             ),
