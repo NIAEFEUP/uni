@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
@@ -24,7 +25,7 @@ class ScheduleHomeCard extends GenericHomecard {
       ),
       hasContent: (lectures) => lectures.isNotEmpty,
       onNullContent: Text(
-        'Sem aulas',
+        S.of(context).no_classes,
         style: Theme.of(context).textTheme.titleLarge,
         textAlign: TextAlign.center,
       ),

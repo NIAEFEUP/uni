@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
+import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
+import 'package:uni/model/providers/lazy/restaurant_provider.dart';
+import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
@@ -31,7 +35,7 @@ class HomePageViewState extends State<HomePageView> {
 
   bool isBannerViewed = true;
 
-  double appBarSize = 100;
+  double appBarSize = 150;
 
   static Map<FavoriteWidgetType, GenericHomecard> typeToCard = {
     FavoriteWidgetType.schedule: const ScheduleHomeCard(),
@@ -41,10 +45,27 @@ class HomePageViewState extends State<HomePageView> {
     // FavoriteWidgetType.calendar: const CalendarHomeCard(), TODO: enable this when dates are properly formatted
   };
 
+  static Map<FavoriteWidgetType, StateProviderNotifier<dynamic>>
+      typeToProvider = {
+    FavoriteWidgetType.schedule: LectureProvider(),
+    FavoriteWidgetType.exams: ExamProvider(),
+    FavoriteWidgetType.library: LibraryOccupationProvider(),
+    FavoriteWidgetType.restaurants: RestaurantProvider(),
+  };
+
   @override
   void initState() {
     super.initState();
     checkBannerViewed();
+  }
+
+  Future<void> refreshPage(BuildContext context) async {
+    for (final card in favoriteCards) {
+      if (typeToProvider[card] != null) {
+        await typeToProvider[card]!.forceRefresh(context);
+      }
+    }
+    setState(() {});
   }
 
   Future<void> checkBannerViewed() async {
@@ -60,43 +81,47 @@ class HomePageViewState extends State<HomePageView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.white,
-        shape: const CircleBorder(),
-        onPressed: () => {
-          Navigator.pushNamed(
-            context,
-            '/${NavigationItem.navEditPersonalArea.route}',
-          ),
-        },
-        child: const UniIcon(UniIcons.edit),
-      ),
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: homeAppBar(context),
-      bottomNavigationBar: const AppBottomNavbar(),
-      body: RefreshIndicator(
-        onRefresh: () async {},
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-          child: ListView.separated(
-            itemCount: favoriteCards.length + 1,
-            separatorBuilder: (_, __) => const SizedBox(
-              height: 10,
+    return MediaQuery.removePadding(
+      context: context,
+      removeBottom: true,
+      child: Scaffold(
+        extendBody: true,
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Colors.white,
+          shape: const CircleBorder(),
+          onPressed: () => {
+            Navigator.pushNamed(
+              context,
+              '/${NavigationItem.navEditPersonalArea.route}',
             ),
-            itemBuilder: (_, index) {
-              if (index == 0) {
-                return Visibility(
-                  visible: !isBannerViewed,
-                  child: TrackingBanner(setBannerViewed),
-                );
-              } else {
-                return typeToCard[favoriteCards[index - 1]];
-              }
-            },
+          },
+          child: const UniIcon(UniIcons.edit),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        appBar: homeAppBar(context),
+        bottomNavigationBar: const AppBottomNavbar(),
+        body: RefreshIndicator(
+          onRefresh: () async => refreshPage(context),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            child: ListView.separated(
+              itemCount: favoriteCards.length + 1,
+              separatorBuilder: (_, __) => const SizedBox(
+                height: 10,
+              ),
+              itemBuilder: (_, index) {
+                if (index == 0) {
+                  return Visibility(
+                    visible: !isBannerViewed,
+                    child: TrackingBanner(setBannerViewed),
+                  );
+                } else {
+                  return typeToCard[favoriteCards[index - 1]];
+                }
+              },
+            ),
           ),
         ),
       ),
