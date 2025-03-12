@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 
 abstract class GenericHomecard extends StatelessWidget {
   const GenericHomecard({
@@ -42,7 +43,7 @@ abstract class GenericHomecard extends StatelessWidget {
                       splashFactory: NoSplash.splashFactory,
                     ),
                     onPressed: () => onClick(context),
-                    child: const Text('Ver mais'),
+                    child: Text(S.of(context).see_more),
                   ),
               ],
             ),

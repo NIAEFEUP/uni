@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
@@ -88,7 +89,7 @@ class RestaurantSliderState extends State<RestaurantSlider> {
         return getRestaurantInformation(context, favoriteRestaurants)
             .isNotEmpty;
       },
-      onNullContent: const Text('Nenhum restaurante favorito aberto'),
+      onNullContent: Text(S.of(context).no_favorite_restaurants),
       contentLoadingWidget: const ShimmerRestaurantsHomeCard(),
     );
   }

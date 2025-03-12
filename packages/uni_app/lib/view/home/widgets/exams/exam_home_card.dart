@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/date_time_formatter.dart';
@@ -37,8 +38,8 @@ class ExamHomeCard extends GenericHomecard {
           },
           hasContent: (allExams) =>
               getVisibleExams(allExams, hiddenExams).isNotEmpty,
-          onNullContent: const Center(
-            child: Text('Sem exames'),
+          onNullContent: Center(
+            child: Text(S.of(context).no_exams),
           ),
           contentLoadingWidget: const ShimmerCardTimeline(),
         );
