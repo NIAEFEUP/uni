@@ -26,7 +26,8 @@ class AverageBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return Row(children: [
-        GenericSquircle(child: Container(
+        GenericSquircle(
+            child: Container(
                 decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.secondary,
                     borderRadius: BorderRadius.all(Radius.circular(5))),

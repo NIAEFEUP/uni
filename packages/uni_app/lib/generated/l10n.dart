@@ -10,7 +10,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
+// ignore_for_file: avoid_redundant_argument_values
 
 class S {
   S();
@@ -1098,10 +1098,10 @@ class S {
     );
   }
 
-  /// `No favorite restaurants`
+  /// `No favorite restaurants open`
   String get no_favorite_restaurants {
     return Intl.message(
-      'No favorite restaurants',
+      'No favorite restaurants open',
       name: 'no_favorite_restaurants',
       desc: '',
       args: [],
@@ -1683,6 +1683,16 @@ class S {
     return Intl.message(
       'Year',
       name: 'year',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See more`
+  String get see_more {
+    return Intl.message(
+      'See more',
+      name: 'see_more',
       desc: '',
       args: [],
     );

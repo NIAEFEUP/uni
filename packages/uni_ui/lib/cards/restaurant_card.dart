@@ -11,6 +11,7 @@ class RestaurantCard extends StatelessWidget {
     required this.menuItems,
     required this.isFavorite,
     required this.onFavoriteToggle,
+    this.showFavoriteButton = true,
   });
 
   final String name;
@@ -18,6 +19,7 @@ class RestaurantCard extends StatelessWidget {
   final List<RestaurantMenuItem> menuItems;
   final bool isFavorite;
   final VoidCallback onFavoriteToggle;
+  final bool showFavoriteButton;
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +31,12 @@ class RestaurantCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             RestaurantCardHeader(
-                name: name,
-                icon: icon,
-                isFavorite: isFavorite,
-                onFavoriteToggle: onFavoriteToggle),
+              name: name,
+              icon: icon,
+              isFavorite: isFavorite,
+              onFavoriteToggle: onFavoriteToggle,
+              showFavoriteButton: showFavoriteButton,
+            ),
             Column(children: menuItems),
           ],
         ));
@@ -40,18 +44,19 @@ class RestaurantCard extends StatelessWidget {
 }
 
 class RestaurantCardHeader extends StatelessWidget {
-  const RestaurantCardHeader({
-    super.key,
-    required this.name,
-    required this.icon,
-    required this.isFavorite,
-    required this.onFavoriteToggle,
-  });
+  const RestaurantCardHeader(
+      {super.key,
+      required this.name,
+      required this.icon,
+      required this.isFavorite,
+      required this.onFavoriteToggle,
+      this.showFavoriteButton = true});
 
   final String name;
   final Icon icon;
   final bool isFavorite;
   final VoidCallback onFavoriteToggle;
+  final bool showFavoriteButton;
 
   @override
   Widget build(BuildContext context) {
@@ -75,10 +80,12 @@ class RestaurantCardHeader extends StatelessWidget {
               overflow: TextOverflow.clip,
             ),
           ),
-          Expanded(
-            flex: 1,
-            child: CardFavoriteButton(isFavorite, onFavoriteToggle),
-          ),
+          if (showFavoriteButton)
+            Expanded(
+              flex: 1,
+              child: CardFavoriteButton(isFavorite, onFavoriteToggle),
+            ),
+          if (!showFavoriteButton) Expanded(child: SizedBox(width: 8)),
         ],
       ),
     );

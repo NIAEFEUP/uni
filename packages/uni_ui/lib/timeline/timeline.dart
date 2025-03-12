@@ -111,7 +111,9 @@ class _TimelineState extends State<Timeline> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 10.0, horizontal: 5.0),
-                  child: GenericSquircle(borderRadius: 10, child: Container(
+                  child: GenericSquircle(
+                    borderRadius: 10,
+                    child: Container(
                       key: _tabKeys[index],
                       padding: const EdgeInsets.symmetric(
                           vertical: 9.0, horizontal: 8.0),

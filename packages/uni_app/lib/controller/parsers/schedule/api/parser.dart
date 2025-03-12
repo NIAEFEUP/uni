@@ -63,7 +63,7 @@ Future<List<Lecture>> parseSchedule(
 
     final lec = Lecture.fromApi(
       '',
-      subject,
+      _filterSubjectName(subject),
       typeClass,
       startTime,
       blocks,
@@ -77,4 +77,9 @@ Future<List<Lecture>> parseSchedule(
   }
 
   return lectures.toList()..sort((a, b) => a.compare(b));
+}
+
+String _filterSubjectName(String subject) {
+  return RegExp(r' - ([^()]*)(?: \(|$)').firstMatch(subject)?.group(1) ??
+      subject;
 }

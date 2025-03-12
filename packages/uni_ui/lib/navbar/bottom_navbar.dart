@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:uni_ui/navbar/bottom_navbar_item.dart';
 import 'package:uni_ui/common/generic_squircle.dart';
@@ -15,8 +14,7 @@ class _BottomNavbarContainer extends StatelessWidget {
       margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
       decoration: ShapeDecoration(
         color: Theme.of(context).colorScheme.primary,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         shadows: [
           BoxShadow(
             color: Theme.of(context).colorScheme.shadow.withAlpha(0x7f),
