@@ -74,6 +74,7 @@ class ExamHomeCard extends GenericHomecard {
               acronym: exam.subjectAcronym,
               rooms: exam.rooms,
               type: exam.examType,
+              startTime: exam.startTime,
             ),
           ),
         )

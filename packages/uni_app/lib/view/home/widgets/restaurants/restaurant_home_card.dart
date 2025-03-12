@@ -122,6 +122,7 @@ List<RestaurantCard> getRestaurantInformation(
           .contains(restaurant.namePt + restaurant.period),
       onFavoriteToggle: () => {},
       menuItems: menuItems,
+      showFavoriteButton: false,
     );
   }).toList();
 
