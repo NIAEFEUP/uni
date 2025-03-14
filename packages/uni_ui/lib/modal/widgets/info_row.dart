@@ -39,7 +39,7 @@ class ModalInfoRow extends StatelessWidget {
                 ],
               ),
             ),
-            const Spacer(),
+            // const Spacer(),
             optionalIcon,
           ],
         ));

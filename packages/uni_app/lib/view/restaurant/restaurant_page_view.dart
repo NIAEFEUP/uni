@@ -21,6 +21,7 @@ import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
 import 'package:uni_ui/modal/widgets/service_info.dart';
+import 'package:uni_ui/theme.dart';
 
 class RestaurantPageView extends StatefulWidget {
   const RestaurantPageView({super.key});
@@ -269,24 +270,15 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
                   children: [
                     ModalServiceInfo(
                       name: restaurant.namePt,
-                      durations: const ['1'],
-                    ),
-                    const ModalInfoRow(
-                      title: 'Ver menu',
-                      description: '',
-                      icon: UniIcon(UniIcons.map),
-                      optionalIcon: UniIcon(UniIcons.caretRight),
-                    ),
-                    const ModalInfoRow(
-                      title: 'Email',
-                      description: 'cantina@up.pt',
-                      icon: UniIcon(UniIcons.paperPlaneTilt),
-                      optionalIcon: UniIcon(UniIcons.caretRight),
+                      durations: restaurant.openingHours,
                     ),
                     ModalInfoRow(
-                      title: S.of(context).telephone,
-                      description: '+351 123 456 789',
-                      icon: const UniIcon(UniIcons.phone),
+                      title: 'Email',
+                      description: restaurant.email,
+                      icon: UniIcon(
+                        UniIcons.paperPlaneTilt,
+                        color: lightTheme.primaryColor,
+                      ),
                       optionalIcon: const UniIcon(UniIcons.caretRight),
                     ),
                   ],
