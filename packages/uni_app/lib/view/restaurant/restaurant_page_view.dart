@@ -9,6 +9,7 @@ import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/widgets/days_of_week_tab_bar.dart';
@@ -263,28 +264,39 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
         getRestaurantMenuItems(dayOfWeek, restaurant, locale) ?? [];
     return menuItems.isNotEmpty
         ? GestureDetector(
-            onTap: () => showDialog<ModalDialog>(
-              context: context,
-              builder: (context) {
-                return ModalDialog(
-                  children: [
-                    ModalServiceInfo(
-                      name: restaurant.namePt,
-                      durations: restaurant.openingHours,
-                    ),
-                    ModalInfoRow(
-                      title: 'Email',
-                      description: restaurant.email,
-                      icon: UniIcon(
-                        UniIcons.paperPlaneTilt,
-                        color: lightTheme.primaryColor,
-                      ),
-                      optionalIcon: const UniIcon(UniIcons.caretRight),
-                    ),
-                  ],
+            onTap: () {
+              if (restaurant.openingHours.isNotEmpty) {
+                showDialog<ModalDialog>(
+                  context: context,
+                  builder: (context) {
+                    return ModalDialog(
+                      children: [
+                        ModalServiceInfo(
+                          name: restaurant.namePt,
+                          durations: restaurant.openingHours
+                            ..sort((a, b) => a.compareTo(b)),
+                        ),
+                        if (restaurant.email != '')
+                          ModalInfoRow(
+                            title: S.of(context).email,
+                            description: restaurant.email,
+                            icon: UniIcon(
+                              UniIcons.paperPlaneTilt,
+                              color: lightTheme.primaryColor,
+                            ),
+                            optionalIcon: const UniIcon(UniIcons.caretRight),
+                          ),
+                      ],
+                    );
+                  },
                 );
-              },
-            ),
+              } else {
+                ToastMessage.warning(
+                  context,
+                  S.of(context).no_info,
+                );
+              }
+            },
             child: RestaurantCard(
               name: RestaurantUtils.getRestaurantName(
                 context,

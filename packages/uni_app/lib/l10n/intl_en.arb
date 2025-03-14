@@ -385,5 +385,7 @@
   "no_courses": "No courses we're found",
   "@no_courses": {},
   "no_courses_description": "Try to refresh the page",
-  "@no_courses_description": {}
+  "@no_courses_description": {},
+  "email": "Email",
+  "@email": {}
 }
