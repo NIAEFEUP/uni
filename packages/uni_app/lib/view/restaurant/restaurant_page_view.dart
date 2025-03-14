@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/restaurant.dart';
@@ -280,6 +281,10 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
                           ModalInfoRow(
                             title: S.of(context).email,
                             description: restaurant.email,
+                            onPressed: () => launchUrlWithToast(
+                              context,
+                              'mailto:${restaurant.email}',
+                            ),
                             icon: UniIcon(
                               UniIcons.paperPlaneTilt,
                               color: lightTheme.primaryColor,
