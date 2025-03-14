@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uni_ui/theme.dart';
 
 class TimelineItem extends StatelessWidget {
   const TimelineItem(
@@ -29,8 +28,8 @@ class TimelineItem extends StatelessWidget {
       Column(children: [
         Container(
             margin: EdgeInsets.only(bottom: 5, left: 10, right: 10),
-            width: 25,
-            height: 25,
+            width: 20,
+            height: 20,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: isActive ? Theme.of(context).primaryColor : Colors.white,

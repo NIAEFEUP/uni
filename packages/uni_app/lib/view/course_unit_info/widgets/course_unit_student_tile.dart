@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/session/flows/base/session.dart';
-import 'package:uni_ui/theme.dart';
 
 class CourseUnitStudentTile extends StatelessWidget {
   const CourseUnitStudentTile(this.student, this.session, {super.key});
@@ -59,17 +58,17 @@ class CourseUnitStudentTile extends StatelessWidget {
                       Text(
                         firstName,
                         overflow: TextOverflow.fade,
-                        style: lightTheme.textTheme.titleLarge?.copyWith(
-                          color: grayText,
-                        ),
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: const Color.fromARGB(255, 48, 48, 48),
+                            ),
                         textAlign: TextAlign.center,
                       ),
                       Text(
                         lastName,
                         overflow: TextOverflow.ellipsis,
-                        style: lightTheme.textTheme.titleLarge?.copyWith(
-                          color: grayText,
-                        ),
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: const Color.fromARGB(255, 48, 48, 48),
+                            ),
                         textAlign: TextAlign.center,
                       ),
                     ],

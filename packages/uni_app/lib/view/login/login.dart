@@ -23,7 +23,6 @@ import 'package:uni/view/login/widgets/f_login_button.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/view/login/widgets/remember_me_checkbox.dart';
 import 'package:uni/view/login/widgets/terms_and_conditions_button.dart';
-import 'package:uni_ui/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginPageView extends StatefulWidget {
@@ -215,7 +214,7 @@ class LoginPageViewState extends State<LoginPageView>
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: lightTheme,
+      data: Theme.of(context),
       child: Builder(
         builder: (context) => Scaffold(
           resizeToAvoidBottomInset: false,
@@ -314,9 +313,9 @@ class LoginPageViewState extends State<LoginPageView>
                       });
                     },
                     padding: const EdgeInsets.symmetric(horizontal: 37),
-                    theme: lightTheme.textTheme.bodyLarge?.copyWith(
-                      color: const Color(0xFFFFFFFF),
-                    ),
+                    theme: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: const Color(0xFFFFFFFF),
+                        ),
                   ),
                 ),
                 Align(
@@ -351,9 +350,9 @@ class LoginPageViewState extends State<LoginPageView>
         return AlertDialog(
           title: Text(
             S.of(context).login_with_credentials,
-            style: lightTheme.textTheme.headlineLarge?.copyWith(
-              color: const Color(0xFF280709),
-            ),
+            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                  color: const Color(0xFF280709),
+                ),
             textAlign: TextAlign.center,
           ),
           shape: RoundedRectangleBorder(
@@ -398,9 +397,9 @@ class LoginPageViewState extends State<LoginPageView>
                         },
                         textColor: const Color(0xFF280709),
                         padding: EdgeInsets.zero,
-                        theme: lightTheme.textTheme.bodyLarge?.copyWith(
-                          color: const Color(0xFF280709),
-                        ),
+                        theme: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: const Color(0xFF280709),
+                            ),
                       ),
                     ],
                   ),

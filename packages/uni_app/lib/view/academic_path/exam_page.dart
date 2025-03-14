@@ -10,7 +10,6 @@ import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/cards/exam_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
-import 'package:uni_ui/theme.dart';
 import 'package:uni_ui/timeline/timeline.dart';
 
 class ExamsPage extends StatefulWidget {
@@ -85,7 +84,7 @@ class _ExamsPageState extends State<ExamsPage> {
                             Provider.of<LocaleNotifier>(context).getLocale(),
                           )
                           .capitalize(),
-                      style: lightTheme.textTheme.headlineLarge,
+                      style: Theme.of(context).textTheme.headlineLarge,
                     ),
                   ),
                 ListView.builder(
