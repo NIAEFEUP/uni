@@ -30,10 +30,9 @@ class PreferencesController {
   static const String _locale = 'app_locale';
   static const String _lastCacheCleanUpDate = 'last_clean';
   static const String _favoriteCards = 'favorite_cards';
-  static final List<FavoriteWidgetType> _defaultFavoriteCards = [
+  static final List<FavoriteWidgetType> _homeDefaultcards = [
     FavoriteWidgetType.schedule,
     FavoriteWidgetType.exams,
-    FavoriteWidgetType.busStops,
   ];
   static const String _hiddenExams = 'hidden_exams';
   static const String _favoriteRestaurants = 'favorite_restaurants';
@@ -174,31 +173,26 @@ class PreferencesController {
     await _secureStorage.delete(key: _userSession);
   }
 
-  /// Replaces the user's favorite widgets with [newFavorites].
   static Future<void> saveFavoriteCards(
     List<FavoriteWidgetType> newFavorites,
   ) async {
     await prefs.setStringList(
       _favoriteCards,
-      newFavorites.map((a) => a.index.toString()).toList(),
+      newFavorites.map((elem) => elem.name).toList(),
     );
   }
 
-  /// Returns a list containing the user's favorite widgets.
   static List<FavoriteWidgetType> getFavoriteCards() {
-    final storedFavorites = prefs
-        .getStringList(_favoriteCards)
-        ?.where(
-          (element) => int.parse(element) < FavoriteWidgetType.values.length,
-        )
-        .toList();
+    final storedFavorites = prefs.getStringList(_favoriteCards);
 
     if (storedFavorites == null) {
-      return _defaultFavoriteCards;
+      return _homeDefaultcards;
     }
 
     return storedFavorites
-        .map((i) => FavoriteWidgetType.values[int.parse(i)])
+        .map(
+          (elem) => FavoriteWidgetType.values.firstWhere((e) => e.name == elem),
+        )
         .toList();
   }
 
