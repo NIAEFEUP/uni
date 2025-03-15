@@ -6,6 +6,8 @@ import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/calendar/widgets/calendar_card.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/faculty/widgets/service_cards.dart';
+import 'package:uni/view/home/widgets/library/library_home_card.dart';
+import 'package:uni/view/home/widgets/calendar/calendar_home_card.dart';
 
 class FacultyPageView extends StatefulWidget {
   const FacultyPageView({super.key});
@@ -23,8 +25,11 @@ class FacultyPageViewState extends GeneralPageViewState {
   Widget getBody(BuildContext context) {
     return ListView(
       children: [
-        //LibraryOccupationCard(),
-        CalendarCard(),
+        const Padding(
+            padding: EdgeInsets.all(16),
+          child: LibraryHomeCard(),
+        ),
+        const CalendarHomeCard(),
         const AllServiceCards(),
       ],
     );

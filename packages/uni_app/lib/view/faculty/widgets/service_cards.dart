@@ -42,7 +42,7 @@ class AllServiceCardsState extends State<AllServiceCards> {
           children: [
             const SizedBox(width: 20),
             Text(
-              'Services',
+              'Services', 
               style: Theme.of(context).textTheme.headlineLarge,
             ),
             const Spacer(),
