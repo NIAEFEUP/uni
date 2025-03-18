@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/courses/course_info.dart';
+import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart';
 
 class CourseCard extends StatelessWidget {
   const CourseCard({
@@ -21,30 +23,41 @@ class CourseCard extends StatelessWidget {
       key: key,
       onClick: onTap,
       color: selected
-          ? Theme.of(context).colorScheme.surfaceDim
-          : Theme.of(context).colorScheme.surfaceContainerLow,
+          ? Theme.of(context).colorScheme.surfaceContainerLow
+          : grayLight,
       tooltip: '',
-      child: SizedBox(
-        width: 65,
-        child: Column(
-          children: [
-            PhosphorIcon(
-              _getIconData(courseInfo.abbreviation, selected),
-              size: 32,
-            ),
-            Text(
-              courseInfo.abbreviation,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge
-                  ?.apply(color: Theme.of(context).colorScheme.primary),
-            ),
-            Text(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: 55),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              UniIcon(
+                _getIconData(courseInfo.abbreviation, selected),
+                size: 32,
+                color: selected
+                    ? Theme.of(context).colorScheme.primary
+                    : grayMiddle,
+              ),
+              Text(
+                courseInfo.abbreviation,
+                style: Theme.of(context).textTheme.titleLarge?.apply(
+                    color: selected
+                        ? Theme.of(context).colorScheme.primary
+                        : grayMiddle),
+              ),
+              Text(
                 courseInfo.conclusionYear == null
                     ? 'now'
                     : '${courseInfo.enrollmentYear}/${courseInfo.conclusionYear}',
-                style: Theme.of(context).textTheme.bodySmall),
-          ],
+                style: Theme.of(context).textTheme.bodySmall?.apply(
+                    color: selected
+                        ? Theme.of(context).colorScheme.primary
+                        : grayMiddle),
+              ),
+            ],
+          ),
         ),
       ),
     );

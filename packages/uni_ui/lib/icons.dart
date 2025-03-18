@@ -6,7 +6,8 @@ class UniIcons {
   static const lecture = PhosphorIconsDuotone.lectern;
   static const exam = PhosphorIconsDuotone.exam;
   static const course = PhosphorIconsDuotone.certificate;
-  static const calendar = PhosphorIconsDuotone.calendarDots;
+  static const library = PhosphorIconsDuotone.books;
+  static const calendar = PhosphorIconsDuotone.calendar;
   static const courses = PhosphorIconsDuotone.certificate;
   static const classes = PhosphorIconsDuotone.usersThree;
   static const files = PhosphorIconsDuotone.folderOpen;
@@ -36,6 +37,8 @@ class UniIcons {
   static const restaurant = PhosphorIconsDuotone.forkKnife;
   static const faculty = PhosphorIconsDuotone.buildings;
   static const map = PhosphorIconsDuotone.mapTrifold;
+  static const edit = PhosphorIconsDuotone.pencilSimple;
+  static const more = PhosphorIconsDuotone.dotsThreeOutlineVertical;
 
   // Locations pins icons
   static const money = PhosphorIconsDuotone.money;

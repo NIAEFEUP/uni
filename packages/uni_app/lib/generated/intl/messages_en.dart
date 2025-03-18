@@ -7,8 +7,7 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
-// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
+// ignore_for_file:unused_import, file_names
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -20,7 +19,7 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(type) => "${Intl.select(type, {
+  static m0(type) => "${Intl.select(type, {
             'all_dishes': 'All dishes',
             'meat_dishes': 'Meat dishes',
             'fish_dishes': 'Fish dishes',
@@ -32,12 +31,12 @@ class MessageLookup extends MessageLookupByLibrary {
             'other': 'Other',
           })}";
 
-  static String m1(time) => "last refresh at ${time}";
+  static m1(time) => "last refresh at ${time}";
 
-  static String m2(time) =>
+  static m2(time) =>
       "${Intl.plural(time, zero: 'Refreshed ${time} minutes ago', one: 'Refreshed ${time} minute ago', other: 'Refreshed ${time} minutes ago')}";
 
-  static String m3(title) => "${Intl.select(title, {
+  static m3(title) => "${Intl.select(title, {
             'horario': 'Schedule',
             'exames': 'Exams',
             'area': 'Personal Area',
@@ -53,14 +52,14 @@ class MessageLookup extends MessageLookupByLibrary {
             'other': 'Other',
           })}";
 
-  static String m4(period) => "${Intl.select(period, {
+  static m4(period) => "${Intl.select(period, {
             'lunch': 'Lunch',
             'dinner': 'Dinner',
             'other': 'Other',
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+  static _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("About us"),
         "academic_services":
             MessageLookupByLibrary.simpleMessage("Academic services"),
@@ -246,10 +245,14 @@ class MessageLookup extends MessageLookupByLibrary {
             "You have no exams scheduled\n"),
         "no_exams_label": MessageLookupByLibrary.simpleMessage(
             "Looks like you are on vacation!"),
-        "no_favorite_restaurants":
-            MessageLookupByLibrary.simpleMessage("No favorite restaurants"),
+        "no_favorite_restaurants": MessageLookupByLibrary.simpleMessage(
+            "No favorite restaurants open"),
+        "no_files":
+            MessageLookupByLibrary.simpleMessage("There\'s no files attached"),
         "no_files_found":
             MessageLookupByLibrary.simpleMessage("No files found"),
+        "no_files_label":
+            MessageLookupByLibrary.simpleMessage("You have nothing to see!"),
         "no_info": MessageLookupByLibrary.simpleMessage(
             "There is no information to display"),
         "no_internet": MessageLookupByLibrary.simpleMessage(
@@ -315,6 +318,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "school_calendar":
             MessageLookupByLibrary.simpleMessage("School Calendar"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
+        "see_more": MessageLookupByLibrary.simpleMessage("See more"),
         "semester": MessageLookupByLibrary.simpleMessage("Semester"),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
         "sent_error": MessageLookupByLibrary.simpleMessage(
