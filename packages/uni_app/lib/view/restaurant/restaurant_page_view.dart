@@ -287,7 +287,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
                             ),
                             icon: UniIcon(
                               UniIcons.paperPlaneTilt,
-                              color: lightTheme.primaryColor,
+                              color: Theme.of(context).primaryColor,
                             ),
                             optionalIcon: const UniIcon(UniIcons.caretRight),
                           ),
