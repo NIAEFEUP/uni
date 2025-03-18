@@ -36,10 +36,4 @@ class FacultyPageViewState extends GeneralPageViewState {
       ],
     );
   }
-
-  @override
-  Future<void> onRefresh(BuildContext context) async {
-    return Provider.of<LibraryOccupationProvider>(context, listen: false)
-        .forceRefresh(context);
-  }
 }
