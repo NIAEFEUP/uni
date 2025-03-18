@@ -52,7 +52,10 @@ class ServicesCard extends StatelessWidget {
               ModalInfoRow(
                 title: 'Location',
                 description: location,
-                icon: const UniIcon(UniIcons.location),
+                icon: UniIcon(
+                  UniIcons.location,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
             if (telephone != '')
               GestureDetector(
@@ -63,8 +66,14 @@ class ServicesCard extends StatelessWidget {
                 child: ModalInfoRow(
                   title: S.of(context).telephone,
                   description: telephone,
-                  icon: const UniIcon(UniIcons.phone),
-                  optionalIcon: const UniIcon(UniIcons.caretRight),
+                  icon: UniIcon(
+                    UniIcons.phone,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  optionalIcon: UniIcon(
+                    UniIcons.caretRight,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
               ),
             if (email != '')
@@ -73,8 +82,14 @@ class ServicesCard extends StatelessWidget {
                 child: ModalInfoRow(
                   title: 'Email',
                   description: email,
-                  icon: const UniIcon(UniIcons.email),
-                  optionalIcon: const UniIcon(UniIcons.caretRight),
+                  icon: UniIcon(
+                    UniIcons.email,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  optionalIcon: UniIcon(
+                    UniIcons.caretRight,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
               ),
           ],
