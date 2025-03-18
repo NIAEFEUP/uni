@@ -14,41 +14,45 @@ class SchedulePage extends StatelessWidget {
   Widget build(BuildContext context) {
     const bottomNavbarHeight = 120.0;
 
-    return LazyConsumer<LectureProvider, List<Lecture>>(
-      builder: (context, lectures) {
-        final startOfWeek = _getStartOfWeek(now, lectures);
+    return MediaQuery.removePadding(
+      context: context,
+      removeBottom: true,
+      child: LazyConsumer<LectureProvider, List<Lecture>>(
+        builder: (context, lectures) {
+          final startOfWeek = _getStartOfWeek(now, lectures);
 
-        return SchedulePageView(
-          lectures,
-          startOfWeek: startOfWeek,
-          now: now,
-        );
-      },
-      hasContent: (lectures) => lectures.isNotEmpty,
-      onNullContent: LayoutBuilder(
-        builder: (context, constraints) => SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Container(
-            height: constraints.maxHeight,
-            padding: const EdgeInsets.only(bottom: bottomNavbarHeight),
-            child: const Center(
-              child: NoClassesWidget(),
+          return SchedulePageView(
+            lectures,
+            startOfWeek: startOfWeek,
+            now: now,
+          );
+        },
+        hasContent: (lectures) => lectures.isNotEmpty,
+        onNullContent: LayoutBuilder(
+          builder: (context, constraints) => SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Container(
+              height: constraints.maxHeight,
+              padding: const EdgeInsets.only(bottom: bottomNavbarHeight),
+              child: const Center(
+                child: NoClassesWidget(),
+              ),
             ),
           ),
         ),
-      ),
-      mapper: (lectures) {
-        final startOfWeek = _getStartOfWeek(now, lectures);
-        final endOfNextWeek = startOfWeek.add(const Duration(days: 14));
+        mapper: (lectures) {
+          final startOfWeek = _getStartOfWeek(now, lectures);
+          final endOfNextWeek = startOfWeek.add(const Duration(days: 14));
 
-        return lectures
-            .where(
-              (lecture) =>
-                  lecture.startTime.isAfter(startOfWeek) &&
-                  lecture.startTime.isBefore(endOfNextWeek),
-            )
-            .toList();
-      },
+          return lectures
+              .where(
+                (lecture) =>
+                    lecture.startTime.isAfter(startOfWeek) &&
+                    lecture.startTime.isBefore(endOfNextWeek),
+              )
+              .toList();
+        },
+      ),
     );
   }
 
