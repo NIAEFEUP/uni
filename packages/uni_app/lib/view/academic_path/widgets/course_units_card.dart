@@ -58,10 +58,7 @@ class CourseUnitsCard extends GenericCard {
     return Column(
       children: courseUnits
           .map(
-            (courseUnit) => Padding(
-              padding: const EdgeInsets.all(5),
-              child: CourseUnitCard(courseUnit),
-            ),
+            CourseUnitCard.new,
           )
           .toList(),
     );

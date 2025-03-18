@@ -23,7 +23,7 @@ class ScheduleDayTimeline extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+      padding: const EdgeInsets.fromLTRB(0, 8, 0, 24),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,

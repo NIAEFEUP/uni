@@ -17,7 +17,7 @@ class CourseUnitCard extends GenericCard {
   @override
   Widget buildCardContent(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
       child: Row(
         children: [
           if (courseUnit.ects != null)

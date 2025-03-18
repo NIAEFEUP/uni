@@ -27,8 +27,6 @@ class _ExamsPageState extends State<ExamsPage> {
 
   @override
   Widget build(BuildContext context) {
-    const bottomNavbarHeight = 120.0;
-
     /*
       If we want to filters exams again
         filteredExamTypes[Exam.getExamTypeLong(exam.examType)] ??
@@ -95,7 +93,7 @@ class _ExamsPageState extends State<ExamsPage> {
                   itemBuilder: (context, index) {
                     final exam = exams[index];
                     return Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                      padding: const EdgeInsets.only(bottom: 4, top: 4),
                       child: TimelineItem(
                         title: exam.start.day.toString(),
                         subtitle: exam.start
@@ -149,9 +147,8 @@ class _ExamsPageState extends State<ExamsPage> {
           // Band-aid for allowing refresh on null content
           builder: (context, constraints) => SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
-            child: Container(
+            child: SizedBox(
               height: constraints.maxHeight, // Height of bottom navbar
-              padding: const EdgeInsets.only(bottom: bottomNavbarHeight),
               child: const Center(
                 child: NoExamsWidget(),
               ),
