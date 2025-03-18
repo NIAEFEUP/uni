@@ -248,8 +248,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "Looks like you are on vacation!"),
         "no_favorite_restaurants": MessageLookupByLibrary.simpleMessage(
             "No favorite restaurants open"),
+        "no_files":
+            MessageLookupByLibrary.simpleMessage("There\'s no files attached"),
         "no_files_found":
             MessageLookupByLibrary.simpleMessage("No files found"),
+        "no_files_label":
+            MessageLookupByLibrary.simpleMessage("You have nothing to see!"),
         "no_info": MessageLookupByLibrary.simpleMessage(
             "There is no information to display"),
         "no_internet": MessageLookupByLibrary.simpleMessage(
