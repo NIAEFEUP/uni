@@ -115,13 +115,12 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
 
   Widget getScaffold(BuildContext context, Widget body) {
     return MediaQuery.removePadding(
-      // Prevent misalignment of navbar icons
       context: context,
       removeBottom: true,
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: getTopNavbar(context),
-        extendBody: true, // Allow body to appear behind the bottom navbar
+        extendBody: true,
         bottomNavigationBar: const AppBottomNavbar(),
         body: RefreshState(
           onRefresh: onRefresh,

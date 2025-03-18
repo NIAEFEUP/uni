@@ -4,7 +4,6 @@ import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/student_number_getter.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_student_tile.dart';
-import 'package:uni_ui/theme.dart';
 
 class CourseUnitClassesView extends StatefulWidget {
   const CourseUnitClassesView(this.classes, {super.key});
@@ -108,8 +107,8 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? lightTheme.colorScheme.primary
-                        : lightTheme.colorScheme.secondary,
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.secondary,
                     borderRadius: BorderRadius.circular(25),
                     boxShadow: [
                       BoxShadow(
@@ -130,10 +129,10 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
                         ? '${courseUnitClass.className} *'
                         : courseUnitClass.className,
                     style: isSelected
-                        ? lightTheme.textTheme.labelMedium?.copyWith(
-                            color: lightTheme.colorScheme.onPrimary,
-                          )
-                        : lightTheme.textTheme.labelMedium,
+                        ? Theme.of(context).textTheme.labelMedium?.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            )
+                        : Theme.of(context).textTheme.labelMedium,
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

@@ -48,7 +48,7 @@ class ScheduleDayTimeline extends StatelessWidget {
             subtitle: DateFormat('HH:mm').format(lecture.endTime),
             card: ScheduleCard(
               isActive: _isLectureActive(lecture),
-              name: _filterSubjectName(lecture.subject),
+              name: lecture.subject,
               acronym: lecture.acronym,
               room: lecture.room,
               type: lecture.typeClass,
@@ -57,12 +57,6 @@ class ScheduleDayTimeline extends StatelessWidget {
           ),
         )
         .toList();
-  }
-
-  // maybe should be changed to the backend, just extract the filtered name directly
-  String _filterSubjectName(String subject) {
-    return RegExp(r' - ([^()]*)(?: \(|$)').firstMatch(subject)?.group(1) ??
-        subject;
   }
 
   bool _isLectureActive(Lecture lecture) {

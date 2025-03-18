@@ -10,6 +10,8 @@ import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni_ui/cards/file_card.dart';
 import 'package:uni_ui/cards/folder_card.dart';
 
+import 'course_unit_no_files.dart';
+
 class CourseUnitFilesView extends StatelessWidget {
   const CourseUnitFilesView(this.files, {super.key});
   final List<CourseUnitFileDirectory> files;
@@ -22,10 +24,16 @@ class CourseUnitFilesView extends StatelessWidget {
         .toList();
 
     return cards.isEmpty
-        ? Center(
-            child: Container(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Text(S.of(context).no_files_found),
+        ? LayoutBuilder(
+            builder: (context, constraints) => SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Container(
+                height: constraints.maxHeight,
+                padding: const EdgeInsets.only(bottom: 120),
+                child: const Center(
+                  child: NoFilesWidget(),
+                ),
+              ),
             ),
           )
         : Container(

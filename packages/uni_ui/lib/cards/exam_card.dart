@@ -47,6 +47,7 @@ class ExamCard extends StatelessWidget {
           children: [
             Expanded(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(

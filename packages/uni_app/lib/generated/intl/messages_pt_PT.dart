@@ -244,10 +244,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Não possui exames marcados"),
         "no_exams_label":
             MessageLookupByLibrary.simpleMessage("Parece que estás de férias!"),
-        "no_favorite_restaurants":
-            MessageLookupByLibrary.simpleMessage("Sem restaurantes favoritos"),
+        "no_favorite_restaurants": MessageLookupByLibrary.simpleMessage(
+            "Sem restaurantes favoritos abertos"),
+        "no_files": MessageLookupByLibrary.simpleMessage(
+            "Não possui ficheiros anexados"),
         "no_files_found":
             MessageLookupByLibrary.simpleMessage("Nenhum ficheiro encontrado"),
+        "no_files_label":
+            MessageLookupByLibrary.simpleMessage("Não tens nada para ver!"),
         "no_info": MessageLookupByLibrary.simpleMessage(
             "Não existem informações para apresentar"),
         "no_internet":
@@ -314,6 +318,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "school_calendar":
             MessageLookupByLibrary.simpleMessage("Calendário Escolar"),
         "search": MessageLookupByLibrary.simpleMessage("Pesquisar"),
+        "see_more": MessageLookupByLibrary.simpleMessage("Ver mais"),
         "semester": MessageLookupByLibrary.simpleMessage("Semestre"),
         "send": MessageLookupByLibrary.simpleMessage("Enviar"),
         "sent_error":

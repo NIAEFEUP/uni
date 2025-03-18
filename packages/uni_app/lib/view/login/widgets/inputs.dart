@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni_ui/theme.dart';
 
 /// Creates the widget for the username input.
 Widget createUsernameInput(
@@ -10,7 +9,7 @@ Widget createUsernameInput(
   FocusNode passwordFocus,
 ) {
   return TextFormField(
-    style: lightTheme.textTheme.titleMedium,
+    style: Theme.of(context).textTheme.titleMedium,
     enableSuggestions: false,
     autocorrect: false,
     controller: usernameController,
@@ -22,6 +21,7 @@ Widget createUsernameInput(
     textInputAction: TextInputAction.next,
     textAlign: TextAlign.left,
     decoration: textFieldDecoration(
+      context,
       S.of(context).student_number,
       textColor: Theme.of(context).indicatorColor,
     ),
@@ -38,7 +38,7 @@ Widget createPasswordInput(
   required bool obscurePasswordInput,
 }) {
   return TextFormField(
-    style: lightTheme.textTheme.titleMedium,
+    style: Theme.of(context).textTheme.titleMedium,
     enableSuggestions: false,
     autocorrect: false,
     controller: passwordController,
@@ -63,13 +63,14 @@ Widget createPasswordInput(
 
 /// Decoration for the username field.
 InputDecoration textFieldDecoration(
+  BuildContext context,
   String placeholder, {
   required Color textColor,
 }) {
   return InputDecoration(
-    hintStyle: lightTheme.textTheme.titleMedium?.copyWith(
-      color: const Color(0xFF3C0A0E),
-    ),
+    hintStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
+          color: const Color(0xFF3C0A0E),
+        ),
     hintText: placeholder,
     contentPadding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
     border: const UnderlineInputBorder(),
@@ -87,9 +88,9 @@ InputDecoration passwordFieldDecoration(
   required bool obscurePasswordInput,
 }) {
   return InputDecoration(
-    hintStyle: lightTheme.textTheme.titleMedium?.copyWith(
-      color: const Color(0xFF3C0A0E),
-    ),
+    hintStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
+          color: const Color(0xFF3C0A0E),
+        ),
     hintText: placeholder,
     contentPadding: const EdgeInsets.fromLTRB(10, 25, 0, 0),
     border: const UnderlineInputBorder(),
