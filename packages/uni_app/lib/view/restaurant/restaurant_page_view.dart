@@ -23,7 +23,6 @@ import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
 import 'package:uni_ui/modal/widgets/service_info.dart';
-import 'package:uni_ui/theme.dart';
 
 class RestaurantPageView extends StatefulWidget {
   const RestaurantPageView({super.key});
