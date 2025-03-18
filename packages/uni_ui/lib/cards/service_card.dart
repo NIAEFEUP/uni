@@ -39,7 +39,6 @@ class ServiceCard extends StatelessWidget {
                 ),
               ],
             ),
-
             Column(
               children: openingHours.length == 0
                   ? []

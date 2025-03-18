@@ -50,14 +50,15 @@ class ServicesCard extends StatelessWidget {
             ModalServiceInfo(name: name, durations: openingHours),
             if (location != '')
               ModalInfoRow(
-                  title: 'Location',
-                  description: location,
-                  icon: const UniIcon(UniIcons.location),
+                title: 'Location',
+                description: location,
+                icon: const UniIcon(UniIcons.location),
               ),
             if (telephone != '')
               GestureDetector(
                 onTap: () => launchUrlWithToast(
-                    context, 'tel:${telephone.substring(5)}',
+                  context,
+                  'tel:${telephone.substring(5)}',
                 ),
                 child: ModalInfoRow(
                   title: S.of(context).telephone,

@@ -26,7 +26,7 @@ class FacultyPageViewState extends GeneralPageViewState {
     return ListView(
       children: [
         const Padding(
-            padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16),
           child: LibraryHomeCard(),
         ),
         const Padding(
