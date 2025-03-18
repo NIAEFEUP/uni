@@ -36,11 +36,8 @@ class CourseUnitFilesView extends StatelessWidget {
               ),
             ),
           )
-        : Container(
-            padding: const EdgeInsets.only(left: 0, right: 0),
-            child: ListView(
-              children: cards,
-            ),
+        : ListView(
+            children: cards,
           );
   }
 

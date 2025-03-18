@@ -144,8 +144,6 @@ abstract class GenericCard extends StatelessWidget {
                   ),
                   Container(
                     padding: const EdgeInsets.only(
-                      left: padding,
-                      right: padding,
                       bottom: padding,
                     ),
                     child: buildCardContent(context),
