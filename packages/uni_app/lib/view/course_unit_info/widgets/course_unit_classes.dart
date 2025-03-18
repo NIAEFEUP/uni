@@ -149,7 +149,7 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
   Widget _buildStudentList(SessionProvider session) {
     final currentClass = widget.classes[selectedIndex];
     return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+      padding: const EdgeInsets.only(left: 0, right: 0, bottom: 8),
       child: GridView.builder(
         key: ValueKey(currentClass.className),
         shrinkWrap: true,

@@ -106,7 +106,10 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
       _loading
           ? const Center(child: CircularProgressIndicator())
           // TODO: Add 100 of padding bottom
-          : getBody(context),
+          : Padding(
+              padding: const EdgeInsets.only(right: 20, left: 20, bottom: 50),
+              child: getBody(context),
+            ),
     );
   }
 

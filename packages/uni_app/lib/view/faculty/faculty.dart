@@ -29,12 +29,17 @@ class FacultyPageViewState extends GeneralPageViewState {
 
   @override
   Widget getBody(BuildContext context) {
-    return ListView(
-      children: [
-        LibraryOccupationCard(),
-        CalendarCard(),
-        ...getUtilsSection(),
-      ],
+    return MediaQuery.removePadding(
+      removeLeft: true,
+      removeRight: true,
+      context: context,
+      child: ListView(
+        children: [
+          LibraryOccupationCard(),
+          CalendarCard(),
+          ...getUtilsSection(),
+        ],
+      ),
     );
   }
 

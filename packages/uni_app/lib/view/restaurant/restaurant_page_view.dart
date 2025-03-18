@@ -231,7 +231,6 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
       }
       return ListView.separated(
         controller: scrollViewController,
-        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 110),
         itemCount: restaurantsWidgets.length,
         itemBuilder: (context, index) {
           return restaurantsWidgets[index];
