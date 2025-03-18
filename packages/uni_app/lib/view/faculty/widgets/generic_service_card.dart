@@ -29,11 +29,11 @@ class ServicesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-       return ServiceCard(
-        name: name,
-        openingHours: openingHours,
-        tooltip: '',
-         function: onClick,
+    return ServiceCard(
+      name: name,
+      openingHours: openingHours,
+      tooltip: '',
+      function: onClick,
     );
   }
 
