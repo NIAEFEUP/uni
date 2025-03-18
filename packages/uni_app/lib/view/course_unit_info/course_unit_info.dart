@@ -9,6 +9,7 @@ import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_no_files.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/tabs/tab_icon.dart';
@@ -138,10 +139,16 @@ class CourseUnitDetailPageViewState
         .courseUnitsFiles[widget.courseUnit];
 
     if (files == null || files.isEmpty) {
-      return Center(
-        child: Text(
-          S.of(context).no_files_found,
-          textAlign: TextAlign.center,
+      return LayoutBuilder(
+        builder: (context, constraints) => SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Container(
+            height: constraints.maxHeight,
+            padding: const EdgeInsets.only(bottom: 120),
+            child: const Center(
+              child: NoFilesWidget(),
+            ),
+          ),
         ),
       );
     }
