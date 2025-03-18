@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:uni_ui/cards/generic_card.dart';
+import 'package:uni_ui/icons.dart';
 
 class ServiceCard extends StatelessWidget {
   const ServiceCard({
@@ -8,8 +8,10 @@ class ServiceCard extends StatelessWidget {
     required this.name,
     required this.openingHours,
     required this.tooltip,
+    this.function,
   });
 
+  final void Function(BuildContext)? function;
   final String name;
   final List<String> openingHours;
   final String tooltip;
@@ -19,6 +21,7 @@ class ServiceCard extends StatelessWidget {
     return GenericCard(
       key: key,
       tooltip: tooltip,
+      onClick: () => function?.call(context),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,12 +50,7 @@ class ServiceCard extends StatelessWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          PhosphorIcon(
-                            PhosphorIcons.clock(PhosphorIconsStyle.duotone),
-                            color:
-                                Theme.of(context).textTheme.bodyMedium!.color,
-                            size: 20,
-                          ),
+                          UniIcon(UniIcons.clock,color: Theme.of(context).shadowColor,),
                           const SizedBox(width: 5),
                           Column(
                             children: openingHours.map((hour) {

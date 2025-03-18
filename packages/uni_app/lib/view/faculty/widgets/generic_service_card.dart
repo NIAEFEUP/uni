@@ -29,15 +29,11 @@ class ServicesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        onClick(context);
-      },
-      child: ServiceCard(
+       return ServiceCard(
         name: name,
         openingHours: openingHours,
         tooltip: '',
-      ),
+         function: onClick,
     );
   }
 
