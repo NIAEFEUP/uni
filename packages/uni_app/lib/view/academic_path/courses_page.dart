@@ -80,7 +80,7 @@ class CoursesPageState extends State<CoursesPage> {
                   courseInfos: courses.map((course) {
                     return CourseInfo(
                       abbreviation: _getCourseAbbreviation(course),
-                      enrollmentYear: course.firstEnrollment!,
+                      enrollmentYear: course.firstEnrollment,
                       conclusionYear: _getConclusionYear(course),
                     );
                   }).toList(),
@@ -98,7 +98,7 @@ class CoursesPageState extends State<CoursesPage> {
               Padding(
                 padding: const EdgeInsets.only(top: 40, bottom: 8),
                 child: AverageBar(
-                  average: (course.currentAverage ?? double.nan).toDouble(),
+                  average: (course.currentAverage ?? 0).toDouble(),
                   completedCredits: (course.finishedEcts ?? 0).toDouble(),
                   totalCredits: _getTotalCredits(profile, course),
                   statusText: course.state ?? '',
