@@ -39,7 +39,7 @@ class AverageBar extends StatelessWidget {
               children: [
                 Text(averageText),
                 Text(
-                  average.toString(),
+                  average != 0 ? average.toString() : '---',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
