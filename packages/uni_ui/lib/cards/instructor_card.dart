@@ -55,9 +55,13 @@ class InstructorCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Text(
-                    isRegent ? regentLabel : instructorLabel,
-                    style: Theme.of(context).textTheme.labelLarge,
+                  SizedBox(
+                    width: 95,
+                    child: Text(
+                      isRegent ? regentLabel : instructorLabel,
+                      style: Theme.of(context).textTheme.labelLarge,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ],
               ),
