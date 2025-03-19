@@ -86,6 +86,7 @@ class CoursesPageState extends State<CoursesPage> {
                   }).toList(),
                   onSelected: _onCourseUnitSelected,
                   selected: courseUnitIndex,
+                  nowText: S.of(context).now,
                 ),
               ),
               Padding(

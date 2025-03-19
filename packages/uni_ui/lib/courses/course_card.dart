@@ -10,11 +10,13 @@ class CourseCard extends StatelessWidget {
     super.key,
     required this.courseInfo,
     required this.selected,
+    required this.nowText,
     required this.onTap,
   });
 
   final CourseInfo courseInfo;
   final bool selected;
+  final String nowText;
   final void Function() onTap;
 
   String _getYearText() {
@@ -23,7 +25,7 @@ class CourseCard extends StatelessWidget {
     }
 
     if (courseInfo.conclusionYear == null) {
-      return 'now';
+      return nowText;
     }
 
     return '${courseInfo.enrollmentYear!}/${courseInfo.conclusionYear!}';
