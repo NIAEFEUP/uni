@@ -23,7 +23,7 @@ class CourseUnitsView extends StatefulWidget {
 }
 
 class _CourseUnitsViewState extends State<CourseUnitsView> {
-  bool isGrid = true;
+  bool isGrid = PreferencesController.getServiceCardsIsGrid();
   String? selectedSchoolYear = PreferencesController.getSchoolYearValue();
   String? selectedSemester = PreferencesController.getSemesterValue();
 
@@ -86,6 +86,7 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
                   onPressed: () {
                     setState(() {
                       isGrid = false;
+                      PreferencesController.setServiceCardsIsGrid(false);
                     });
                   },
                 ),
@@ -94,6 +95,7 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
                   onPressed: () {
                     setState(() {
                       isGrid = true;
+                      PreferencesController.setServiceCardsIsGrid(true);
                     });
                   },
                 ),
