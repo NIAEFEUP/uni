@@ -17,6 +17,7 @@ class ModalServiceInfo extends StatelessWidget {
               name,
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            Padding(padding: EdgeInsets.all(3)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -25,6 +26,7 @@ class ModalServiceInfo extends StatelessWidget {
                   //TODO: color: darkGray,
                   //TODO: duotoneSecondaryColor: normalGray,
                 ),
+                Padding(padding: EdgeInsets.all(2)),
                 Column(
                   children: durations.map((duration) {
                     return Text(duration,
