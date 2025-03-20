@@ -254,7 +254,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     );
   }
 
-  GestureDetector? createNewRestaurant(
+  RestaurantCard? createNewRestaurant(
     BuildContext context,
     Restaurant restaurant,
     DayOfWeek dayOfWeek,
@@ -263,8 +263,23 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     final menuItems =
         getRestaurantMenuItems(dayOfWeek, restaurant, locale) ?? [];
     return menuItems.isNotEmpty
-        ? GestureDetector(
-            onTap: () {
+        ? RestaurantCard(
+            name: RestaurantUtils.getRestaurantName(
+              context,
+              locale,
+              restaurant.namePt,
+              restaurant.namePt,
+              restaurant.period,
+            ),
+            icon: RestaurantUtils.getIcon(
+              restaurant.typeEn ?? restaurant.typePt,
+            ),
+            isFavorite: PreferencesController.getFavoriteRestaurants()
+                .contains(restaurant.namePt + restaurant.period),
+            onFavoriteToggle: () =>
+                {_toggleFavorite(restaurant.namePt, restaurant.period)},
+            menuItems: menuItems,
+            onClick: () {
               if (restaurant.openingHours.isNotEmpty) {
                 showDialog<ModalDialog>(
                   context: context,
@@ -294,30 +309,8 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
                     );
                   },
                 );
-              } else {
-                ToastMessage.warning(
-                  context,
-                  S.of(context).no_info,
-                );
               }
             },
-            child: RestaurantCard(
-              name: RestaurantUtils.getRestaurantName(
-                context,
-                locale,
-                restaurant.namePt,
-                restaurant.namePt,
-                restaurant.period,
-              ),
-              icon: RestaurantUtils.getIcon(
-                restaurant.typeEn ?? restaurant.typePt,
-              ),
-              isFavorite: PreferencesController.getFavoriteRestaurants()
-                  .contains(restaurant.namePt + restaurant.period),
-              onFavoriteToggle: () =>
-                  {_toggleFavorite(restaurant.namePt, restaurant.period)},
-              menuItems: menuItems,
-            ),
           )
         : null;
   }
