@@ -10,7 +10,6 @@ import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/widgets/days_of_week_tab_bar.dart';
@@ -277,7 +276,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
             isFavorite: PreferencesController.getFavoriteRestaurants()
                 .contains(restaurant.namePt + restaurant.period),
             onFavoriteToggle: () =>
-                {_toggleFavorite(restaurant.namePt, restaurant.period)},
+                _toggleFavorite(restaurant.namePt, restaurant.period),
             menuItems: menuItems,
             onClick: () {
               if (restaurant.openingHours.isNotEmpty) {
