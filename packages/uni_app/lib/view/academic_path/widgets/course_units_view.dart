@@ -107,9 +107,8 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
               shrinkWrap: true,
               childAspectRatio: isGrid
                   ? (width - 40) / (width * 2) * 5
-                  : (width - 32) /
-                      width *
-                      5, // Calculate aspect ratio, to avoid inconsistencies between grid and list view
+                  : (width - 32) / width * 5,
+              // Calculate aspect ratio, to avoid inconsistencies between grid and list view
               mainAxisSpacing: 8,
               crossAxisSpacing: 8,
               children: courseGradeCards,

@@ -36,6 +36,24 @@ class CoursesPageState extends State<CoursesPage> {
         .fold(0, (a, b) => a + b);
   }
 
+  int? _getEnrollmentYear(Course course) {
+    if (course.state == null) {
+      return null;
+    }
+
+    if (course.state != 'A Frequentar' &&
+        !(course.state?.startsWith('Concluído') ?? false)) {
+      return null;
+    }
+
+    if (course.firstEnrollment == null) {
+      final now = DateTime.now();
+      return DateTime(now.year, now.month - 8, now.day).year;
+    }
+
+    return course.firstEnrollment!;
+  }
+
   int? _getConclusionYear(Course course) {
     if (course.state == null || course.state == 'A Frequentar') {
       return null;
@@ -80,7 +98,7 @@ class CoursesPageState extends State<CoursesPage> {
                   courseInfos: courses.map((course) {
                     return CourseInfo(
                       abbreviation: _getCourseAbbreviation(course),
-                      enrollmentYear: course.firstEnrollment,
+                      enrollmentYear: _getEnrollmentYear(course),
                       conclusionYear: _getConclusionYear(course),
                     );
                   }).toList(),
