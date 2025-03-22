@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
-import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
@@ -16,6 +15,7 @@ import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
 import 'package:uni_ui/cards/restaurant_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
+import 'no_restaurants_home_card.dart';
 
 class RestaurantHomeCard extends GenericHomecard {
   const RestaurantHomeCard({
@@ -89,7 +89,7 @@ class RestaurantSliderState extends State<RestaurantSlider> {
         return getRestaurantInformation(context, favoriteRestaurants)
             .isNotEmpty;
       },
-      onNullContent: Text(S.of(context).no_favorite_restaurants),
+      onNullContent: const NoRestaurantsHomeCard(),
       contentLoadingWidget: const ShimmerRestaurantsHomeCard(),
     );
   }

@@ -6,6 +6,7 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/utils/string_formatter.dart';
+import 'package:uni/view/home/widgets/exams/no_exams_home_card.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/timeline_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -29,6 +30,30 @@ class ExamHomeCard extends GenericHomecard {
 
         return LazyConsumer<ExamProvider, List<Exam>>(
           builder: (context, allExams) {
+            // Simulate no exams by using an empty list
+            final visibleExams = <Exam>[];
+            final items = buildTimelineItems(context, visibleExams).sublist(0, 2);
+
+            return CardTimeline(items: items);
+          },
+          hasContent: (allExams) => false, // Simulate no content
+          onNullContent: const Center(
+            child: NoExamsHomeCard(),
+          ),
+          contentLoadingWidget: const ShimmerCardTimeline(),
+        );
+      },
+    );
+
+    /*
+    return StreamBuilder(
+      stream: PreferencesController.onHiddenExamsChange,
+      initialData: PreferencesController.getHiddenExams(),
+      builder: (context, snapshot) {
+        final hiddenExams = snapshot.data ?? [];
+
+        return LazyConsumer<ExamProvider, List<Exam>>(
+          builder: (context, allExams) {
             final visibleExams =
                 getVisibleExams(allExams, hiddenExams).toList();
             final items =
@@ -38,13 +63,15 @@ class ExamHomeCard extends GenericHomecard {
           },
           hasContent: (allExams) =>
               getVisibleExams(allExams, hiddenExams).isNotEmpty,
-          onNullContent: Center(
-            child: Text(S.of(context).no_exams),
+          onNullContent: const Center(
+            child: NoExamsHomeCard(),
           ),
           contentLoadingWidget: const ShimmerCardTimeline(),
         );
       },
     );
+
+     */
   }
 
   Iterable<Exam> getVisibleExams(

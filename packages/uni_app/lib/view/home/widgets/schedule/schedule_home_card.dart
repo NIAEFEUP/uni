@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/view/home/widgets/schedule/no_classes_home_card.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
@@ -21,6 +21,18 @@ class ScheduleHomeCard extends GenericHomecard {
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<LectureProvider, List<Lecture>>(
       builder: (context, lectures) => CardTimeline(
+        items: buildTimelineItems([]).sublist(0, 2), // Simulate no classes with an empty list
+      ),
+      hasContent: (lectures) => false, // Simulate no content
+      onNullContent: const Center(
+        child: NoClassesHomeCard(),
+      ),
+      contentLoadingWidget: const ShimmerCardTimeline(),
+    );
+
+    /*
+    return LazyConsumer<LectureProvider, List<Lecture>>(
+      builder: (context, lectures) => CardTimeline(
         items: buildTimelineItems(lectures).sublist(0, 2),
       ),
       hasContent: (lectures) => lectures.isNotEmpty,
@@ -34,6 +46,8 @@ class ScheduleHomeCard extends GenericHomecard {
           .toList(),
       contentLoadingWidget: const ShimmerCardTimeline(),
     );
+
+     */
   }
 
   @override
