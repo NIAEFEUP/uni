@@ -12,9 +12,11 @@ class ModalDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: Colors.transparent,
-      child: GenericSquircle(borderRadius: 30, child: Container(
+      child: GenericSquircle(
+          borderRadius: 30,
+          child: Container(
             padding: const EdgeInsets.all(20.0),
-            color: Theme.of(context).colorScheme.surface,
+            color: Theme.of(context).colorScheme.secondary,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,

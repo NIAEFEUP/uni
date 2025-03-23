@@ -5,6 +5,7 @@ const Color primaryVibrant = Color.fromARGB(255, 102, 9, 16);
 const Color secondary = Color.fromARGB(255, 255, 245, 243);
 const Color grayText = Color.fromARGB(255, 48, 48, 48);
 const Color grayMiddle = Color.fromARGB(255, 127, 127, 127);
+const Color grayLight = Color.fromARGB(255, 245, 245, 245);
 const Color background = Color.fromARGB(255, 255, 255, 255);
 const Color details = Color.fromARGB(235, 177, 77, 84);
 const Color divider = Color.fromARGB(255, 229, 229, 229);
@@ -87,13 +88,16 @@ ThemeData lightTheme = ThemeData(
 );
 
 class BadgeColors {
-  static const te = Color(0xFFfbc11f);
+  // Schedule
+  static const t = Color(0xFFfbc11f);
   static const tp = Color(0xFFd3944c);
   static const p = Color(0xFFab4d39);
   static const pl = Color(0xFF769c87);
   static const ot = Color(0xFF7ca5b8);
   static const tc = Color(0xFFcdbeb1);
   static const s = Color(0xFF917c9b);
+
+  // Exams
   static const mt = Color(0xFF7ca5b8);
   static const en = Color(0xFF769c87);
   static const er = Color(0xFFab4d39);

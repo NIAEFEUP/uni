@@ -10,7 +10,6 @@ class ScheduleCard extends StatelessWidget {
       required this.acronym,
       required this.room,
       required this.type,
-      // required this.badgeColor,
       this.isActive = false,
       this.teacherName,
       this.teacherPhoto});
@@ -19,10 +18,18 @@ class ScheduleCard extends StatelessWidget {
   final String acronym;
   final String room;
   final String type;
-  // final BadgeColors badgeColor;
   final bool isActive;
   final String? teacherName;
   final String? teacherPhoto;
+
+  static const Map<String, Color> scheduleTypeColors = {
+    'T': BadgeColors.t,
+    'TP': BadgeColors.tp,
+    'P': BadgeColors.p,
+    'PL': BadgeColors.pl,
+    'OT': BadgeColors.ot,
+    'TC': BadgeColors.tc,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +50,9 @@ class ScheduleCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                 Row(
                   children: [
                     if (isActive) ...[
@@ -66,7 +73,7 @@ class ScheduleCard extends StatelessWidget {
                     const SizedBox(width: 8), //TODO: Create a custom Gap()?
                     Badge(
                       label: Text(type),
-                      backgroundColor: BadgeColors.tp,
+                      backgroundColor: scheduleTypeColors[type],
                       textColor: Theme.of(context).colorScheme.surface,
                     ),
                   ],
@@ -78,22 +85,11 @@ class ScheduleCard extends StatelessWidget {
                       ? Theme.of(context).textTheme.titleSmall
                       : Theme.of(context).textTheme.bodySmall,
                 ),
-                SizedBox(height: 5),
-                if (isActive)
-                  Row(children: [
-                    CircleAvatar(
-                        radius: 15,
-                        backgroundImage: AssetImage(
-                          teacherPhoto ??
-                              'assets/images/profile_placeholder.png', // to change
-                        )),
-                    const SizedBox(width: 8), //TODO: create gap()?
-                    Text(teacherName!,
-                        style: Theme.of(context).textTheme.titleSmall),
-                  ])
-              ],
-            ),
-          ),
+                if (isActive && teacherName != null) SizedBox(height: 5),
+                if (isActive && teacherName != null)
+                  Text(teacherName!,
+                      style: Theme.of(context).textTheme.titleSmall),
+              ])),
           Column(
             children: [
               PhosphorIcon(

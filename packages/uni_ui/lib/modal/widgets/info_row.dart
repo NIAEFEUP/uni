@@ -7,12 +7,14 @@ class ModalInfoRow extends StatelessWidget {
       required this.title,
       required this.description,
       required this.icon,
+      this.optionalIcon = const SizedBox(),
       this.onPressed});
 
   final String title;
   final String description;
   final UniIcon icon;
   final void Function()? onPressed;
+  final Widget optionalIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,8 @@ class ModalInfoRow extends StatelessWidget {
                 ],
               ),
             ),
+            const Spacer(),
+            optionalIcon,
           ],
         ));
   }

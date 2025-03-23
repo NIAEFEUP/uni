@@ -40,6 +40,7 @@ import 'package:uni/view/common_widgets/page_transition.dart';
 import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/exams/exams.dart';
 import 'package:uni/view/faculty/faculty.dart';
+import 'package:uni/view/home/edit_home.dart';
 import 'package:uni/view/home/home.dart';
 import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -245,6 +246,11 @@ class ApplicationState extends State<Application> {
             final transitions = {
               '/splash': PageTransition.makePageTransition(
                 page: const SplashScreenView(),
+                settings: settings,
+              ),
+              '/${NavigationItem.navEditPersonalArea.route}':
+                  PageTransition.splashTransitionRoute(
+                page: const EditHomeView(),
                 settings: settings,
               ),
               '/${NavigationItem.navLogin.route}':
