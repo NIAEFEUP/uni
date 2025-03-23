@@ -37,6 +37,7 @@ List<Lecture> getLecturesFromApiResponse(
           lecture.end,
           lecture.rooms.first.name,
           lecture.persons.map((person) => person.acronym).join('+'),
+          // lecture.persons.first.sigarraId,
           lecture.classes.length > 1
               ? '${lecture.classes.first.acronym} + ${lecture.classes.length - 1}'
               : lecture.classes.first.acronym,
