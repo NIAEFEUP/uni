@@ -17,7 +17,7 @@ import 'package:uni_ui/cards/exam_card.dart';
 import 'package:uni_ui/cards/instructor_card.dart';
 import 'package:uni_ui/cards/remaining_instructors_card.dart';
 
-const double _horizontalSpacing = 8;
+const double _horizontalSpacing = 4;
 const double _verticalSpacing = 4;
 
 class CourseUnitSheetView extends StatelessWidget {
