@@ -280,6 +280,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "no_trips": MessageLookupByLibrary.simpleMessage(
             "Não há viagens planeadas de momento"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notificações"),
+        "now": MessageLookupByLibrary.simpleMessage("Agora"),
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Tipo de ocorrência"),
         "of_month": MessageLookupByLibrary.simpleMessage("de"),

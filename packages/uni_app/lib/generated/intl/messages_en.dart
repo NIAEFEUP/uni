@@ -281,6 +281,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "no_trips": MessageLookupByLibrary.simpleMessage(
             "No trips found at the moment"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+        "now": MessageLookupByLibrary.simpleMessage("Now"),
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Type of occurrence"),
         "of_month": MessageLookupByLibrary.simpleMessage("of"),
