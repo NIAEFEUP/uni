@@ -360,6 +360,8 @@
   "@schedule": {},
   "instructors": "Instructors",
   "@instructors": {},
+  "remaining_instructors": "Remaining Instructors",
+  "@remaining_instructors": {},
   "assessments": "Assessments",
   "@assessments": {},
   "noExamsScheduled": "No exams scheduled",
