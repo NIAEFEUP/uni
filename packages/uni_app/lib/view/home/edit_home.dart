@@ -1,6 +1,7 @@
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets/edit/draggable_square.dart';
@@ -23,23 +24,23 @@ class EditHomeViewState extends State<EditHomeView> {
     Icon icon;
 
     switch (favorite.name) {
-      case 'schedule':
-        title = 'Schedule';
+      case "schedule":
+        title = S.of(context).schedule;
         icon = const UniIcon(UniIcons.lecture);
-      case 'exams':
-        title = 'Exams';
+      case "exams":
+        title = S.of(context).exams;
         icon = const UniIcon(UniIcons.exam);
-      case 'library':
-        title = 'Library';
+      case "library":
+        title = S.of(context).library;
         icon = const UniIcon(UniIcons.library);
-      case 'restaurants':
-        title = 'Restaurants';
+      case "restaurants":
+        title = S.of(context).restaurants;
         icon = const UniIcon(UniIcons.restaurant);
-      case 'calendar':
-        title = 'Calendar';
+      case "calendar":
+        title = S.of(context).calendar;
         icon = const UniIcon(UniIcons.calendar);
-      case 'ucs':
-        title = 'UCS';
+      case "UCS":
+        title = S.of(context).ucs;
         icon = const UniIcon(UniIcons.graduationCap);
       default:
         title = '';
@@ -151,7 +152,7 @@ class EditHomeViewState extends State<EditHomeView> {
               return SafeArea(
                 child: Center(
                   child: Text(
-                    'Drag and drop elements',
+                    S.of(context).drag_and_drop,
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge, // titleMedium as in figma is with the wrong colors
@@ -219,7 +220,7 @@ class EditHomeViewState extends State<EditHomeView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Available elements',
+                  S.of(context).available_elements,
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge, // TODO: titleMedium not working
@@ -259,7 +260,7 @@ class EditHomeViewState extends State<EditHomeView> {
                         .pushNamed('/${NavigationItem.navPersonalArea.route}');
                   },
                   child: Text(
-                    'Save',
+                    S.of(context).save,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),

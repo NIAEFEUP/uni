@@ -390,5 +390,19 @@
   "no_courses_description": "Tenta refrescar a página",
   "@no_courses_description": {},
   "now": "Agora",
-  "@now": {}
+  "@now": {},
+  "drag_and_drop": "Arrasta e solta os elementos",
+  "@drag_and_drop": {},
+  "available_elements": "Elementos disponíveis",
+  "@available_elements": {},
+  "library": "Biblioteca",
+  "@library": {},
+  "restaurants": "Restaurantes",
+  "@restaurants": {},
+  "calendar": "Calendário",
+  "@calendar": {},
+  "ucs": "UCS",
+  "@ucs": {},
+  "save": "Guardar",
+  "@save": {}
 }
