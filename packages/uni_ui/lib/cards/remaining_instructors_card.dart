@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:figma_squircle/figma_squircle.dart';
+import 'package:uni_ui/cards/generic_card.dart';
 
 const double _avatarRadius = 20;
 
@@ -21,11 +21,12 @@ class RemainingInstructorsCard extends StatelessWidget {
 
         return SizedBox(
           width: cardWidth,
-          child: ClipSmoothRect(
-            radius: SmoothBorderRadius(
-              cornerRadius: 15,
-              cornerSmoothing: 1,
-            ),
+          child: GenericCard(
+            tooltip: "Remaining Instructors",
+            padding: EdgeInsets.all(0),
+            margin: EdgeInsets.all(0),
+            color: Colors.transparent,
+            shadowColor: Colors.transparent,
             child: Container(
               padding: const EdgeInsets.all(10),
               child: Row(
@@ -74,7 +75,7 @@ class RemainingInstructorsCard extends StatelessWidget {
                                   child: Text(
                                     '+$remainingCount',
                                     style:
-                                    Theme.of(context).textTheme.titleMedium,
+                                        Theme.of(context).textTheme.titleMedium,
                                   ),
                                 ),
                               ),
@@ -93,4 +94,3 @@ class RemainingInstructorsCard extends StatelessWidget {
     );
   }
 }
-

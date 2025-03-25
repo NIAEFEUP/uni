@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:figma_squircle/figma_squircle.dart';
+import 'package:uni_ui/cards/generic_card.dart';
 
 const double _avatarRadius = 20;
 
@@ -26,11 +26,11 @@ class InstructorCard extends StatelessWidget {
         final double cardWidth = (constraints.maxWidth / 2) - 4;
         return SizedBox(
           width: cardWidth,
-          child: ClipSmoothRect(
-            radius: SmoothBorderRadius(
-              cornerRadius: 15,
-              cornerSmoothing: 1,
-            ),
+          child: GenericCard(
+            tooltip: name,
+            padding: EdgeInsets.all(0),
+            margin: EdgeInsets.all(0),
+            shadowColor: Colors.transparent,
             child: Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -42,7 +42,8 @@ class InstructorCard extends StatelessWidget {
                   CircleAvatar(
                     radius: _avatarRadius,
                     backgroundImage: profileImage ??
-                        const AssetImage('assets/images/profile_placeholder.png'),
+                        const AssetImage(
+                            'assets/images/profile_placeholder.png'),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
