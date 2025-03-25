@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni_ui/theme.dart';
 
 class FLoginButton extends StatelessWidget {
   const FLoginButton({
@@ -31,9 +30,9 @@ class FLoginButton extends StatelessWidget {
           const SizedBox(width: 16),
           Text(
             S.of(context).login,
-            style: lightTheme.textTheme.headlineSmall?.copyWith(
-              color: const Color(0xFF303030),
-            ),
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: const Color(0xFF303030),
+                ),
             textAlign: TextAlign.left,
           ),
         ],

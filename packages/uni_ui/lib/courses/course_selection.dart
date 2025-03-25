@@ -6,11 +6,13 @@ class CourseSelection extends StatelessWidget {
   final List<CourseInfo> courseInfos;
   final void Function(int) onSelected;
   final int selected;
+  final String nowText;
 
   CourseSelection({
     required this.courseInfos,
     required this.onSelected,
     required this.selected,
+    required this.nowText,
   });
 
   @override
@@ -30,6 +32,7 @@ class CourseSelection extends StatelessWidget {
             courseInfo: courseInfos,
             selected: index == selected,
             onTap: () => {onSelected(index)},
+            nowText: nowText,
           );
         }).toList(),
       ),

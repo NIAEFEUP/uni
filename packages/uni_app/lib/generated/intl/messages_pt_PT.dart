@@ -7,8 +7,7 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
-// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
+// ignore_for_file:unused_import, file_names
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -20,7 +19,7 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'pt_PT';
 
-  static String m0(type) => "${Intl.select(type, {
+  static m0(type) => "${Intl.select(type, {
             'all_dishes': 'Todos os pratos',
             'meat_dishes': 'Pratos de Carne',
             'fish_dishes': 'Pratos de Peixe',
@@ -32,12 +31,12 @@ class MessageLookup extends MessageLookupByLibrary {
             'other': 'Outros',
           })}";
 
-  static String m1(time) => "última atualização às ${time}";
+  static m1(time) => "última atualização às ${time}";
 
-  static String m2(time) =>
+  static m2(time) =>
       "${Intl.plural(time, zero: 'Atualizado há ${time} minutos', one: 'Atualizado há ${time} minuto', other: 'Atualizado há ${time} minutos')}";
 
-  static String m3(title) => "${Intl.select(title, {
+  static m3(title) => "${Intl.select(title, {
             'horario': 'Horário',
             'exames': 'Exames',
             'area': 'Área Pessoal',
@@ -53,14 +52,14 @@ class MessageLookup extends MessageLookupByLibrary {
             'other': 'Outros',
           })}";
 
-  static String m4(period) => "${Intl.select(period, {
+  static m4(period) => "${Intl.select(period, {
             'lunch': 'Almoço',
             'dinner': 'Jantar',
             'other': 'Other',
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+  static _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("Sobre nós"),
         "academic_services":
             MessageLookupByLibrary.simpleMessage("Serviços académicos"),
@@ -245,10 +244,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Não possui exames marcados"),
         "no_exams_label":
             MessageLookupByLibrary.simpleMessage("Parece que estás de férias!"),
-        "no_favorite_restaurants":
-            MessageLookupByLibrary.simpleMessage("Sem restaurantes favoritos"),
+        "no_favorite_restaurants": MessageLookupByLibrary.simpleMessage(
+            "Sem restaurantes favoritos abertos"),
+        "no_files": MessageLookupByLibrary.simpleMessage(
+            "Não possui ficheiros anexados"),
         "no_files_found":
             MessageLookupByLibrary.simpleMessage("Nenhum ficheiro encontrado"),
+        "no_files_label":
+            MessageLookupByLibrary.simpleMessage("Não tens nada para ver!"),
         "no_info": MessageLookupByLibrary.simpleMessage(
             "Não existem informações para apresentar"),
         "no_internet":
@@ -277,6 +280,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "no_trips": MessageLookupByLibrary.simpleMessage(
             "Não há viagens planeadas de momento"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notificações"),
+        "now": MessageLookupByLibrary.simpleMessage("Agora"),
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Tipo de ocorrência"),
         "of_month": MessageLookupByLibrary.simpleMessage("de"),
@@ -315,6 +319,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "school_calendar":
             MessageLookupByLibrary.simpleMessage("Calendário Escolar"),
         "search": MessageLookupByLibrary.simpleMessage("Pesquisar"),
+        "see_more": MessageLookupByLibrary.simpleMessage("Ver mais"),
         "semester": MessageLookupByLibrary.simpleMessage("Semestre"),
         "send": MessageLookupByLibrary.simpleMessage("Enviar"),
         "sent_error":

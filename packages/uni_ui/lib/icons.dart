@@ -6,7 +6,8 @@ class UniIcons {
   static const lecture = PhosphorIconsDuotone.lectern;
   static const exam = PhosphorIconsDuotone.exam;
   static const course = PhosphorIconsDuotone.certificate;
-  static const calendar = PhosphorIconsDuotone.calendarDots;
+  static const library = PhosphorIconsDuotone.books;
+  static const calendar = PhosphorIconsDuotone.calendar;
   static const courses = PhosphorIconsDuotone.certificate;
   static const classes = PhosphorIconsDuotone.usersThree;
   static const files = PhosphorIconsDuotone.folderOpen;
@@ -24,6 +25,7 @@ class UniIcons {
 
   static const caretDown = PhosphorIconsDuotone.caretDown;
   static const caretUp = PhosphorIconsDuotone.caretUp;
+  static const caretRight = PhosphorIconsRegular.caretRight;
 
   static const file = PhosphorIconsDuotone.file;
   static const fileDoc = PhosphorIconsDuotone.fileDoc;
@@ -36,6 +38,8 @@ class UniIcons {
   static const restaurant = PhosphorIconsDuotone.forkKnife;
   static const faculty = PhosphorIconsDuotone.buildings;
   static const map = PhosphorIconsDuotone.mapTrifold;
+  static const edit = PhosphorIconsDuotone.pencilSimple;
+  static const more = PhosphorIconsDuotone.dotsThreeOutlineVertical;
 
   // Locations pins icons
   static const money = PhosphorIconsDuotone.money;
@@ -74,6 +78,7 @@ class UniIcons {
   static const arrowSquareOut = PhosphorIconsDuotone.arrowSquareOut;
   static const grid = PhosphorIconsDuotone.squaresFour;
   static const list = PhosphorIconsDuotone.listBullets;
+  static const phone = PhosphorIconsDuotone.phone;
 }
 
 // The same as default Icon class from material.dart but allowing to use PhosphorIcons duotone icons
