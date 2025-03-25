@@ -8,10 +8,12 @@ class RemainingInstructorsCard extends StatelessWidget {
     super.key,
     required this.remainingCount,
     required this.profileImages,
+    required this.tooltip,
   });
 
   final int remainingCount;
   final List<ImageProvider?> profileImages;
+  final String tooltip;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class RemainingInstructorsCard extends StatelessWidget {
         return SizedBox(
           width: cardWidth,
           child: GenericCard(
-            tooltip: "Remaining Instructors",
+            tooltip: tooltip,
             padding: EdgeInsets.all(0),
             margin: EdgeInsets.all(0),
             color: Colors.transparent,
