@@ -151,6 +151,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "ects": MessageLookupByLibrary.simpleMessage("ECTS realizados: "),
     "edit_off": MessageLookupByLibrary.simpleMessage("Editar"),
     "edit_on": MessageLookupByLibrary.simpleMessage("Concluir edição"),
+    "email": MessageLookupByLibrary.simpleMessage("Email"),
     "empty_text": MessageLookupByLibrary.simpleMessage(
       "Por favor preenche este campo",
     ),
@@ -221,6 +222,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "loading_terms": MessageLookupByLibrary.simpleMessage(
       "Carregando os Termos e Condições...",
     ),
+    "location": MessageLookupByLibrary.simpleMessage("Localização"),
     "login": MessageLookupByLibrary.simpleMessage("Entrar"),
     "login_with_credentials": MessageLookupByLibrary.simpleMessage(
       "Entrar com credenciais",

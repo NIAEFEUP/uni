@@ -404,5 +404,9 @@
   "ucs": "UCS",
   "@ucs": {},
   "save": "Guardar",
-  "@save": {}
+  "@save": {},
+  "location": "Localização",
+  "@location": {},
+  "email": "Email",
+  "@email": {}
 }

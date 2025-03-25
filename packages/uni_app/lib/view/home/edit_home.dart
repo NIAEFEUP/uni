@@ -22,24 +22,23 @@ class EditHomeViewState extends State<EditHomeView> {
   (String, Icon) formatDraggableTile(FavoriteWidgetType favorite) {
     String title;
     Icon icon;
-
     switch (favorite.name) {
-      case "schedule":
-        title = S.of(context).schedule;
+      case 'schedule':
+        title = S.of (context).schedule;
         icon = const UniIcon(UniIcons.lecture);
-      case "exams":
+      case 'exams':
         title = S.of(context).exams;
         icon = const UniIcon(UniIcons.exam);
-      case "library":
+      case 'library':
         title = S.of(context).library;
         icon = const UniIcon(UniIcons.library);
-      case "restaurants":
+      case 'restaurants':
         title = S.of(context).restaurants;
         icon = const UniIcon(UniIcons.restaurant);
-      case "calendar":
+      case 'calendar':
         title = S.of(context).calendar;
         icon = const UniIcon(UniIcons.calendar);
-      case "UCS":
+      case 'ucs':
         title = S.of(context).ucs;
         icon = const UniIcon(UniIcons.graduationCap);
       default:
@@ -64,28 +63,6 @@ class EditHomeViewState extends State<EditHomeView> {
   @override
   void initState() {
     super.initState();
-
-    const allCards = FavoriteWidgetType.values;
-    final favoriteCards = PreferencesController.getFavoriteCards();
-
-    activeCards = favoriteCards.map((favorite) {
-      final data = formatDraggableTile(favorite);
-      return DraggableTile(
-        icon: data.$2,
-        title: data.$1,
-        callback: removeActiveWhileDragging,
-      );
-    }).toList();
-
-    listlessCards =
-        allCards.where((card) => !favoriteCards.contains(card)).map((favorite) {
-      final data = formatDraggableTile(favorite);
-      return DraggableSquare(
-        icon: data.$2,
-        title: data.$1,
-        callback: removeListlessWhileDragging,
-      );
-    }).toList();
   }
 
   void saveCards() {
@@ -126,6 +103,32 @@ class EditHomeViewState extends State<EditHomeView> {
     });
 
     saveCards();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    const allCards = FavoriteWidgetType.values;
+    final favoriteCards = PreferencesController.getFavoriteCards();
+    activeCards = favoriteCards.map((favorite) {
+      final data = formatDraggableTile(favorite);
+      return DraggableTile(
+        icon: data.$2,
+        title: data.$1,
+        callback: removeActiveWhileDragging,
+      );
+    }).toList();
+
+    listlessCards =
+        allCards.where((card) => !favoriteCards.contains(card)).map((favorite) {
+          final data = formatDraggableTile(favorite);
+          return DraggableSquare(
+            icon: data.$2,
+            title: data.$1,
+            callback: removeListlessWhileDragging,
+          );
+        }).toList();
+
   }
 
   @override

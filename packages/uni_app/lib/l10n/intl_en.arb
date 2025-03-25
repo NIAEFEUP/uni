@@ -406,5 +406,9 @@
   "ucs": "UCS",
   "@ucs": {},
   "save": "Save",
-  "@save": {}
+  "@save": {},
+  "location": "Location",
+  "@location": {},
+  "email": "Email",
+  "@email": {}
 }
