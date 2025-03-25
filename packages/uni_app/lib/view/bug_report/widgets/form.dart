@@ -444,6 +444,7 @@ class BugReportFormState extends State<BugReportForm> {
     });
   }
 
+
   @override
   void dispose() {
     titleController.dispose();
