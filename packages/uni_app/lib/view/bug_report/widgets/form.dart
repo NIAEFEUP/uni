@@ -7,10 +7,11 @@ import 'package:image_picker/image_picker.dart' as picker;
 import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:sentry/sentry_io.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/bug_report.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:uni/view/bug_report/widgets/text_field.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 
@@ -29,6 +30,12 @@ class BugReportFormState extends State<BugReportForm> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     loadBugClassList();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print(pickedFiles.length);
   }
 
   static final _formKey = GlobalKey<FormState>();
@@ -84,133 +91,51 @@ class BugReportFormState extends State<BugReportForm> {
           const Padding(padding: EdgeInsets.only(bottom: 10)),
           bugReportIntro(context),
           dropdownBugSelectWidget(context),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 30),
-            child: TextField(
-              controller: titleController,
-              maxLines: 3,
-              decoration: InputDecoration(
-                labelText: S.of(context).title,
-                hintText: S.of(context).problem_id,
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide:
-                      BorderSide(color: Theme.of(context).colorScheme.primary),
-                ),
-              ),
-            ),
+          FormTextField(
+            titleController,
+            maxLines: 3,
+            hintText: S.of(context).problem_id,
+            labelText: S.of(context).title,
+            bottomMargin: 20,
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 30),
-            child: TextFormField(
-              controller: emailController,
-              maxLines: null,
-              decoration: InputDecoration(
-                labelText: S.of(context).contact,
-                hintText: S.of(context).desired_email,
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide:
-                      BorderSide(color: Theme.of(context).colorScheme.primary),
-                ),
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return null;
-                }
-                return EmailValidator.validate(value)
-                    ? null
-                    : S.of(context).valid_email;
-              },
-            ),
+          FormTextField(
+            emailController,
+            maxLines: 2,
+            description: S.of(context).contact,
+            labelText: S.of(context).desired_email,
+            bottomMargin: 20,
+            isOptional: true,
+            formatValidator: (value) {
+              if (value == null || value.isEmpty) {
+                return null;
+              }
+              return EmailValidator.validate(value)
+                  ? null
+                  : S.of(context).valid_email;
+            },
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 30),
-            child: TextField(
-              controller: descriptionController,
-              maxLines: 5,
-              decoration: InputDecoration(
-                labelText: S.of(context).description,
-                hintText: S.of(context).bug_description,
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide:
-                      BorderSide(color: Theme.of(context).colorScheme.primary),
-                ),
-              ),
-            ),
+          FormTextField(
+            descriptionController,
+            maxLines: 3,
+            hintText: S.of(context).description,
+            labelText: S.of(context).bug_description,
+            bottomMargin: 20,
           ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ElevatedButton.icon(
-                  icon: Icon(
-                    Icons.add,
-                    color: Theme.of(context).colorScheme.onTertiary,
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.tertiary,
-                  ),
-                  onPressed: pickImages,
-                  label: Text(S.of(context).add_photo),
+          Row(
+            children: [
+              ElevatedButton.icon(
+                icon: Icon(
+                  Icons.add,
+                  color: Theme.of(context).colorScheme.onTertiary,
                 ),
-                if (pickedFiles.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Container(
-                      height: 200,
-                      child: GridView.builder(
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3),
-                        itemCount: pickedFiles.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return Stack(
-                            children: [
-                              Image.file(
-                                File(pickedFiles[index].path),
-                                fit: BoxFit.cover,
-                              ),
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: IconButton(
-                                  onPressed: () async {
-                                    await unselect(index);
-                                  },
-                                  icon: Icon(
-                                    Icons.cancel_outlined,
-                                    color:
-                                        Theme.of(context).colorScheme.tertiary,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-              ],
-            ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.tertiary,
+                ),
+                onPressed: pickImages,
+                label: Text(S.of(context).add_photo),
+              ),
+              Text(pickedFiles.length.toString()),
+            ],
           ),
           Container(
             padding: EdgeInsets.zero,
@@ -238,13 +163,9 @@ class BugReportFormState extends State<BugReportForm> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              // Conditionally change button color based on consent checkbox
               backgroundColor: _isConsentGiven
-                  ? Theme.of(context)
-                      .colorScheme
-                      .primary // Red color when consent is given
-                  : Theme.of(context)
-                      .dividerColor, // Light grey color when not given
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).dividerColor,
             ),
             onPressed: !_isConsentGiven
                 ? null
@@ -271,7 +192,6 @@ class BugReportFormState extends State<BugReportForm> {
   }
 
   /// Returns a widget for the overview text of the bug report form
-
   Widget bugReportIntro(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(),
@@ -323,28 +243,31 @@ class BugReportFormState extends State<BugReportForm> {
   }
 
   Future<void> unselect(int index) async {
-    pickedFiles.removeAt(index);
-    setState(() {});
+    setState(() {
+      pickedFiles.removeAt(index);
+    });
   }
 
   Future<void> pickImages() async {
-    var status = await Permission.photos.request();
+    final status = await Permission.photos.request();
 
     if (status.isPermanentlyDenied || status.isDenied) {
       await AppSettings.openAppSettings();
     } else {
       try {
         final imagePicker = picker.ImagePicker();
-        final List<picker.XFile>? selectedImages =
-            await imagePicker.pickMultiImage(
-          limit: 5,
+        final selectedImages = await imagePicker.pickMultiImage(
+          limit: 2,
         );
-        if (selectedImages!.isNotEmpty) {
-          pickedFiles!.addAll(selectedImages);
-          setState(() {});
+        if (selectedImages.isNotEmpty) {
+          setState(() {
+            pickedFiles.addAll(selectedImages);
+          });
         }
-      } catch (e) {
-        await ToastMessage.error(context, S.of(context).failed_upload);
+      } catch (err) {
+        if (mounted) {
+          await ToastMessage.error(context, S.of(context).failed_upload);
+        }
       }
     }
   }
@@ -408,13 +331,17 @@ class BugReportFormState extends State<BugReportForm> {
       Map<String, dynamic> bugReport, List<picker.XFile> pickedFiles) async {
     final sentryId = await Sentry.captureMessage(
       'User Feedback',
-      withScope: (scope) {
+      withScope: (scope) async {
         scope
           ..setTag('report', 'true')
           ..setTag('report.type', bugReport['bugLabel'] as String);
-        for (var file in pickedFiles) {
+        for (final file in pickedFiles) {
+          final fileBytes = await File(file.path).readAsBytes();
           scope.addAttachment(
-            IoSentryAttachment.fromPath(file.path),
+            SentryAttachment.fromByteData(
+              fileBytes.buffer.asByteData(),
+              file.name,
+            ),
           );
         }
       },
