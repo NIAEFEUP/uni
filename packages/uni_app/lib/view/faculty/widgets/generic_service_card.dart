@@ -44,7 +44,7 @@ class ServicesCard extends StatelessWidget {
         return ModalDialog(
           children: [
             ModalServiceInfo(name: name, durations: openingHours),
-            if (location!=null)
+            if (location != null)
               ModalInfoRow(
                 title: S.of(context).location,
                 description: location!,
@@ -53,7 +53,7 @@ class ServicesCard extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary,
                 ),
               ),
-            if (telephone !=null)
+            if (telephone != null)
               GestureDetector(
                 onTap: () => launchUrlWithToast(
                   context,

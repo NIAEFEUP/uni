@@ -24,7 +24,7 @@ class EditHomeViewState extends State<EditHomeView> {
     Icon icon;
     switch (favorite.name) {
       case 'schedule':
-        title = S.of (context).schedule;
+        title = S.of(context).schedule;
         icon = const UniIcon(UniIcons.lecture);
       case 'exams':
         title = S.of(context).exams;
@@ -121,14 +121,13 @@ class EditHomeViewState extends State<EditHomeView> {
 
     listlessCards =
         allCards.where((card) => !favoriteCards.contains(card)).map((favorite) {
-          final data = formatDraggableTile(favorite);
-          return DraggableSquare(
-            icon: data.$2,
-            title: data.$1,
-            callback: removeListlessWhileDragging,
-          );
-        }).toList();
-
+      final data = formatDraggableTile(favorite);
+      return DraggableSquare(
+        icon: data.$2,
+        title: data.$1,
+        callback: removeListlessWhileDragging,
+      );
+    }).toList();
   }
 
   @override

@@ -12,9 +12,9 @@ import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
 
 class ScheduleHomeCard extends GenericHomecard {
-  const ScheduleHomeCard({
+  ScheduleHomeCard( {
     super.key,
-    super.title = 'Schedule',
+    required super.title,
   });
 
   @override

@@ -354,7 +354,7 @@
   "@wrong_credentials_exception": {},
   "internet_status_exception": "Verifique sua conexão com a internet",
   "@internet_status_exception": {},
-  "schedule": "Aulas",
+  "schedule": "Horário",
   "@schedule": {},
   "instructors": "Docentes",
   "@instructors": {},

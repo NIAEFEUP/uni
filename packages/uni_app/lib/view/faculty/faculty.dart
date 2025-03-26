@@ -23,16 +23,16 @@ class FacultyPageViewState extends GeneralPageViewState {
   @override
   Widget getBody(BuildContext context) {
     return ListView(
-      children: const [
+      children: [
         Padding(
-          padding: EdgeInsets.all(16),
-          child: LibraryHomeCard(),
+          padding: const EdgeInsets.all(16),
+          child: LibraryHomeCard(title: S.of(context).library_occupation,),
         ),
         Padding(
-          padding: EdgeInsets.all(16),
-          child: CalendarHomeCard(),
+          padding:const EdgeInsets.all(16),
+          child: CalendarHomeCard(title: S.of(context).calendar,),
         ),
-        AllServiceCards(),
+       const AllServiceCards(),
       ],
     );
   }

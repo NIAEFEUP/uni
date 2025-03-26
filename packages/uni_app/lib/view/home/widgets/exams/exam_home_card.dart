@@ -1,3 +1,4 @@
+import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
@@ -14,8 +15,8 @@ import 'package:uni_ui/cards/exam_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
 
 class ExamHomeCard extends GenericHomecard {
-  const ExamHomeCard({
-    super.title = 'Exams',
+  const ExamHomeCard( {
+    required super.title,
     super.key,
   });
 

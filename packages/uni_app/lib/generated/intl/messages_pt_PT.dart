@@ -383,7 +383,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "restaurants": MessageLookupByLibrary.simpleMessage("Restaurantes"),
     "room": MessageLookupByLibrary.simpleMessage("Sala"),
     "save": MessageLookupByLibrary.simpleMessage("Guardar"),
-    "schedule": MessageLookupByLibrary.simpleMessage("Aulas"),
+    "schedule": MessageLookupByLibrary.simpleMessage("Horário"),
     "school_calendar": MessageLookupByLibrary.simpleMessage(
       "Calendário Escolar",
     ),

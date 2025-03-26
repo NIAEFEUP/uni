@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
@@ -8,10 +9,11 @@ import 'package:uni_ui/calendar/calendar.dart';
 import 'package:uni_ui/calendar/calendar_item.dart';
 
 class CalendarHomeCard extends GenericHomecard {
-  const CalendarHomeCard({
+  const CalendarHomeCard( {
     super.key,
-    super.title = 'Calendar',
+    required super.title,
     super.externalInfo = true,
+
   });
 
   @override
@@ -27,9 +29,9 @@ class CalendarHomeCard extends GenericHomecard {
         );
       },
       hasContent: (events) => events.isNotEmpty,
-      onNullContent: const Center(
+      onNullContent: Center(
         child: Text(
-          'Nenhum evento encontrado',
+          S.of(context).no_events,
           style: TextStyle(fontSize: 18),
         ),
       ),

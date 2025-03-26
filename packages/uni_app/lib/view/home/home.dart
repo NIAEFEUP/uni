@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
@@ -11,7 +12,6 @@ import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni/view/home/widgets/exams/exam_home_card.dart';
-import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/library/library_home_card.dart';
 import 'package:uni/view/home/widgets/restaurants/restaurant_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/schedule_home_card.dart';
@@ -36,13 +36,7 @@ class HomePageViewState extends State<HomePageView> {
 
   double appBarSize = 150;
 
-  static Map<FavoriteWidgetType, GenericHomecard> typeToCard = {
-    FavoriteWidgetType.schedule: const ScheduleHomeCard(),
-    FavoriteWidgetType.exams: const ExamHomeCard(),
-    FavoriteWidgetType.library: const LibraryHomeCard(),
-    FavoriteWidgetType.restaurants: const RestaurantHomeCard(),
-    // FavoriteWidgetType.calendar: const CalendarHomeCard(), TODO: enable this when dates are properly formatted
-  };
+
 
   static Map<FavoriteWidgetType, StateProviderNotifier<dynamic>>
       typeToProvider = {
@@ -80,6 +74,13 @@ class HomePageViewState extends State<HomePageView> {
 
   @override
   Widget build(BuildContext context) {
+     final typeToCard = {
+      FavoriteWidgetType.schedule: ScheduleHomeCard(title:S.of(context).schedule ,),
+      FavoriteWidgetType.exams: ExamHomeCard(title: S.of(context).exams,),
+      FavoriteWidgetType.library: LibraryHomeCard(title:  S.of(context).library_occupation,),
+      FavoriteWidgetType.restaurants: RestaurantHomeCard(title: S.of(context).restaurants,),
+      // FavoriteWidgetType.calendar: const CalendarHomeCard(), TODO: enable this when dates are properly formatted
+    };
     return MediaQuery.removePadding(
       context: context,
       removeBottom: true,
