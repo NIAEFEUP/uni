@@ -12,7 +12,7 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
-import 'package:uni/view/bug_report/bug_report.dart';
+import 'package:uni/utils/navigation_items.dart';
 
 /// Wrapper around Consumer that ensures that the provider is initialized,
 /// meaning that it has loaded its data from storage and/or remote.
@@ -176,11 +176,9 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
                   width: 10,
                 ),
                 OutlinedButton(
-                  onPressed: () => Navigator.push(
+                  onPressed: () => Navigator.pushNamed(
                     context,
-                    MaterialPageRoute<BugReportPageView>(
-                      builder: (context) => const BugReportPageView(),
-                    ),
+                    '/${NavigationItem.navBugreport.route}',
                   ),
                   child: Text(S.of(context).report_error),
                 ),
