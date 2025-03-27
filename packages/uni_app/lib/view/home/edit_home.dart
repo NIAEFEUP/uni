@@ -2,7 +2,6 @@ import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
-import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets/edit/draggable_square.dart';
 import 'package:uni/view/home/widgets/edit/draggable_tile.dart';
 import 'package:uni_ui/icons.dart';
@@ -255,8 +254,7 @@ class EditHomeViewState extends State<EditHomeView> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context)
-                        .pushNamed('/${NavigationItem.navPersonalArea.route}');
+                    Navigator.pop(context);
                   },
                   child: Text(
                     'Save',
