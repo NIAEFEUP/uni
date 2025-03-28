@@ -43,26 +43,26 @@ class MapPageStateView extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    return LazyConsumer<FacultyLocationsProvider, List<LocationGroup>>(
-      builder: (context, locations) {
-        final filteredLocations = List<LocationGroup>.from(locations);
-        if (searchTerms.trim().isNotEmpty) {
-          filteredLocations.retainWhere((location) {
-            final allLocations = location.floors.values.expand((x) => x);
-            return allLocations.any((location) {
-              return removeDiacritics(
-                location.description().toLowerCase().trim(),
-              ).contains(
-                searchTerms,
-              );
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBody: true,
+      bottomNavigationBar: const AppBottomNavbar(),
+      body: LazyConsumer<FacultyLocationsProvider, List<LocationGroup>>(
+        builder: (context, locations) {
+          final filteredLocations = List<LocationGroup>.from(locations);
+          if (searchTerms.trim().isNotEmpty) {
+            filteredLocations.retainWhere((location) {
+              final allLocations = location.floors.values.expand((x) => x);
+              return allLocations.any((location) {
+                return removeDiacritics(
+                  location.description().toLowerCase().trim(),
+                ).contains(
+                  searchTerms,
+                );
+              });
             });
-          });
-        }
-        return Scaffold(
-          resizeToAvoidBottomInset: false,
-          extendBody: true,
-          bottomNavigationBar: const AppBottomNavbar(),
-          body: FlutterMap(
+          }
+          return FlutterMap(
             options: MapOptions(
               minZoom: 17,
               maxZoom: 18,
@@ -163,11 +163,11 @@ class MapPageStateView extends State<MapPage> {
                 ),
               ),
             ],
-          ),
-        );
-      },
-      hasContent: (locations) => locations.isNotEmpty,
-      onNullContent: Center(child: Text(S.of(context).no_places_info)),
+          );
+        },
+        hasContent: (locations) => locations.isNotEmpty,
+        onNullContent: Center(child: Text(S.of(context).no_places_info)),
+      ),
     );
   }
 }
