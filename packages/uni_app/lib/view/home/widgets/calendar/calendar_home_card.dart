@@ -23,39 +23,22 @@ class CalendarHomeCard extends GenericHomecard {
     return LazyConsumer<CalendarProvider, List<CalendarEvent>>(
       builder: (context, events) {
         return Calendar(
-          items: buildCalendarItems(events),
+          items: events.map(
+          (event) => CalendarItem(
+            eventPeriod: event.formattedPeriod[0],
+            eventName: event.name,
+          ),
+        )
+        .toList(),    
         );
       },
       hasContent: (events) => events.isNotEmpty,
       onNullContent: const Center(
         child: Text(
-          'Nenhum evento encontrado',
+          'Nenhum evento encontrado', // TODO: translate
           style: TextStyle(fontSize: 18),
         ),
       ),
     );
   }
-
-  List<CalendarItem> buildCalendarItems(List<CalendarEvent> events) {
-    final items = events
-        .map(
-          (event) => CalendarItem(
-            eventPeriod: event.date,
-            eventName: event.name,
-          ),
-        )
-        .toList();
-
-    return items; // TODO: wait for calendar events date regex
-  }
 }
-
-/*
-const CalendarItem({
-    super.key,
-    required this.eventName,
-    this.eventPeriod,
-    this.endYear,
-    this.onTap,
-  });
-*/

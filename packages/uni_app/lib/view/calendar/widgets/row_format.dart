@@ -12,7 +12,7 @@ class RowFormat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final eventperiod = eventPeriod(event.date, event.start, event.finish);
+    final eventperiod = event.formattedPeriod;
 
     return TimelineItem(
       title: eventperiod[0],
@@ -28,67 +28,5 @@ class RowFormat extends StatelessWidget {
         maxLines: 5,
       ),
     );
-  }
-
-  // TODO(thePeras): This shoudn't exist here
-  List<String> eventPeriod(String date, DateTime? start, DateTime? end) {
-    final period = <String>[];
-    String timePeriod;
-    String month;
-    String? month1;
-    String day;
-    String? day1;
-    String year;
-    String? year1;
-    if (start == null) {
-      period
-        ..add(date)
-        ..add('');
-      return period;
-    }
-    year = start.year.toString();
-    month = shortMonth(start);
-    day = start.day.toString();
-    if (end == null) {
-      timePeriod = '$day $month';
-      period
-        ..add(timePeriod)
-        ..add(year);
-      return period;
-    }
-    day1 = end.day.toString();
-    year1 = end.year.toString();
-    month1 = shortMonth(end);
-    if (year == year1 && month1 == month) {
-      timePeriod = '$day-$day1 $month';
-      period
-        ..add(timePeriod)
-        ..add(year);
-      return period;
-    }
-    if (year == year1 && month1 != month) {
-      timePeriod = '$day $month-$day1 $month1';
-      period
-        ..add(timePeriod)
-        ..add(year);
-      return period;
-    }
-    if (year1 != year) {
-      timePeriod = '$day $month-$day1 $month1';
-      period
-        ..add(timePeriod)
-        ..add(year);
-      return period;
-    }
-    period
-      ..add('the date')
-      ..add(date);
-    return period;
-  }
-
-  String shortMonth(DateTime date) {
-    return DateFormat.MMM(locale.localeCode.languageCode)
-        .format(date)
-        .replaceFirst('.', '');
   }
 }

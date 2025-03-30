@@ -20,6 +20,11 @@
         "end_date": "2024-11-23"
     },
     {
+        "name": "Dia da FEUP",
+        "start_date": "",
+        "end_date": ""
+    },
+    {
         "name": "Sem. FEUP e Mobil. Docente [2]",
         "start_date": "2024-10-28",
         "end_date": "2024-11-01"
@@ -83,6 +88,11 @@
         "name": "Férias de Carnaval",
         "start_date": "2025-03-03",
         "end_date": "2025-03-04"
+    },
+    {
+        "name": "Dia da U.Porto",
+        "start_date": "",
+        "end_date": ""
     },
     {
         "name": "Férias da Páscoa",
