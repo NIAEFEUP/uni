@@ -167,33 +167,45 @@ class EditHomeViewState extends State<EditHomeView> {
         builder: (context, candidate, rejected) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: ListView.separated(
-              itemBuilder: (_, index) {
-                if (index < activeCards.length) {
-                  return activeCards[index];
-                } else if (candidate.isNotEmpty) {
-                  return ClipSmoothRect(
-                    radius: SmoothBorderRadius(
-                      cornerRadius: 15,
-                      cornerSmoothing: 1,
+            child: ListView.builder(
+              itemCount: activeCards.length * 2 + 1,
+              itemBuilder: (context, index) {
+                if (index.isEven) {
+                  final dropIndex = (index / 2).floor();
+                  return DragTarget<(String, Icon)>(
+                    builder: (context, candidate, rejected) => Container(
+                      height: 20,
+                      color: candidate.isNotEmpty
+                          ? Theme.of(context)
+                              .colorScheme
+                              .secondary
+                              .withOpacity(0.25)
+                          : Colors.transparent,
                     ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .secondary
-                            .withOpacity(0.75),
-                      ),
-                      child: const ListTile(),
-                    ),
+                    onAcceptWithDetails: (details) {
+                      setState(() {
+                        activeCards
+                          ..removeWhere(
+                            (tile) => tile.title == details.data.$1,
+                          )
+                          ..insert(
+                            dropIndex,
+                            DraggableTile(
+                              key: ValueKey(details.data.$1),
+                              icon: details.data.$2,
+                              title: details.data.$1,
+                              callback: removeActiveWhileDragging,
+                            ),
+                          );
+                        saveCards();
+                      });
+                    },
                   );
+                } else {
+                  final cardIndex = ((index - 1) / 2).floor();
+                  return activeCards[cardIndex];
                 }
-                return Container();
               },
-              itemCount: activeCards.length + (candidate.isNotEmpty ? 1 : 0),
-              separatorBuilder: (_, __) => const SizedBox(
-                height: 15,
-              ),
             ),
           );
         },
