@@ -69,7 +69,8 @@ class ScheduleHomeCard extends GenericHomecard {
               room: element.room,
               type: element.typeClass,
               onTap: () {
-                final profile = Provider.of<ProfileProvider>(context, listen: false).state;
+                final profile =
+                    Provider.of<ProfileProvider>(context, listen: false).state;
                 if (profile != null) {
                   final courseUnit = profile.courseUnits.firstWhereOrNull(
                     (unit) => unit.abbreviation == element.acronym,
