@@ -1,10 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
+import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/timeline_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -21,7 +24,7 @@ class ScheduleHomeCard extends GenericHomecard {
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<LectureProvider, List<Lecture>>(
       builder: (context, lectures) => CardTimeline(
-        items: buildTimelineItems(lectures).sublist(0, 2),
+        items: buildTimelineItems(lectures, context).sublist(0, 2),
       ),
       hasContent: (lectures) => lectures.isNotEmpty,
       onNullContent: Text(
@@ -39,7 +42,10 @@ class ScheduleHomeCard extends GenericHomecard {
   @override
   void onClick(BuildContext context) => {};
 
-  List<TimelineItem> buildTimelineItems(List<Lecture> lectures) {
+  List<TimelineItem> buildTimelineItems(
+    List<Lecture> lectures,
+    BuildContext context,
+  ) {
     final now = DateTime.now();
     final week = Week(start: now);
 
@@ -62,6 +68,23 @@ class ScheduleHomeCard extends GenericHomecard {
               acronym: element.acronym, // TODO once schedule is merged
               room: element.room,
               type: element.typeClass,
+              onTap: () {
+                final profile = Provider.of<ProfileProvider>(context, listen: false).state;
+                if (profile != null) {
+                  final courseUnit = profile.courseUnits.firstWhereOrNull(
+                    (unit) => unit.abbreviation == element.acronym,
+                  );
+                  if (courseUnit != null && courseUnit.occurrId != null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<CourseUnitDetailPageView>(
+                        builder: (context) =>
+                            CourseUnitDetailPageView(courseUnit),
+                      ),
+                    );
+                  }
+                }
+              },
             ),
           ),
         )
