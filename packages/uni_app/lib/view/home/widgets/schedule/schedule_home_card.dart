@@ -45,7 +45,9 @@ class ScheduleHomeCard extends GenericHomecard {
   void onClick(BuildContext context) => {};
 
   List<TimelineItem> buildTimelineItems(
-      List<Lecture> lectures, BuildContext context,) {
+    List<Lecture> lectures,
+    BuildContext context,
+  ) {
     final now = DateTime.now();
     final week = Week(start: now);
     final session = Provider.of<SessionProvider>(context, listen: false).state!;
