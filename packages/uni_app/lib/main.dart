@@ -48,7 +48,6 @@ import 'package:uni/view/login/login.dart';
 import 'package:uni/view/map/map.dart';
 import 'package:uni/view/profile/profile.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
-import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/theme_notifier.dart';
 import 'package:uni_ui/theme.dart';
@@ -261,11 +260,6 @@ class ApplicationState extends State<Application> {
               '/${NavigationItem.navPersonalArea.route}':
                   PageTransition.makePageTransition(
                 page: const HomePageView(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navSchedule.route}':
-                  PageTransition.makePageTransition(
-                page: SchedulePage(),
                 settings: settings,
               ),
               '/${NavigationItem.navExams.route}':
