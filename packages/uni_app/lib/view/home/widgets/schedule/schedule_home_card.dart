@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -21,7 +23,7 @@ class ScheduleHomeCard extends GenericHomecard {
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<LectureProvider, List<Lecture>>(
       builder: (context, lectures) => CardTimeline(
-        items: buildTimelineItems(lectures).sublist(0, 2),
+        items: buildTimelineItems(lectures).sublist(0, min(lectures.length, 2)),
       ),
       hasContent: (lectures) => lectures.isNotEmpty,
       onNullContent: Text(

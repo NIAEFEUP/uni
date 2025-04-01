@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
@@ -31,8 +33,8 @@ class ExamHomeCard extends GenericHomecard {
           builder: (context, allExams) {
             final visibleExams =
                 getVisibleExams(allExams, hiddenExams).toList();
-            final items =
-                buildTimelineItems(context, visibleExams).sublist(0, 2);
+            final items = buildTimelineItems(context, visibleExams)
+                .sublist(0, min(visibleExams.length, 2));
 
             return CardTimeline(items: items);
           },
