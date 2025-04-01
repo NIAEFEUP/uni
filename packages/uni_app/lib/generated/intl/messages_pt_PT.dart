@@ -151,7 +151,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Inscrição para Melhoria"),
         "increment": MessageLookupByLibrary.simpleMessage("Incrementar 1,00€"),
         "internet_status_exception": MessageLookupByLibrary.simpleMessage(
-            "Verifique sua conexão com a internet"),
+            "Atenção: Sem conexão à internet"),
         "invalid_credentials":
             MessageLookupByLibrary.simpleMessage("Credenciais inválidas"),
         "keep_login": MessageLookupByLibrary.simpleMessage("Manter sessão"),

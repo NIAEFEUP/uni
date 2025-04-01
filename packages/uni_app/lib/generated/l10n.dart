@@ -1728,10 +1728,10 @@ class S {
     );
   }
 
-  /// `Check your internet connection`
+  /// `Attention: No internet connection`
   String get internet_status_exception {
     return Intl.message(
-      'Check your internet connection',
+      'Attention: No internet connection',
       name: 'internet_status_exception',
       desc: '',
       args: [],
