@@ -17,7 +17,10 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
       body: RefreshState(
         onRefresh: onRefresh,
         header: getHeader(context),
-        body: body,
+        body: Padding(
+          padding: const EdgeInsets.only(right: 20, left: 20, bottom: 10),
+          child: getBody(context),
+        ),
       ),
     );
   }
