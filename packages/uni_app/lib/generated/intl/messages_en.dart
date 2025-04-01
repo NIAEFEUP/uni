@@ -310,6 +310,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "The generated reference data will appear in Sigarra, checking account.\nProfile > Checking Account"),
         "reference_success": MessageLookupByLibrary.simpleMessage(
             "Reference created successfully!"),
+        "remaining_instructors":
+            MessageLookupByLibrary.simpleMessage("Remaining Instructors"),
         "remove": MessageLookupByLibrary.simpleMessage("Delete"),
         "report_error": MessageLookupByLibrary.simpleMessage("Report error"),
         "restaurant_main_page": MessageLookupByLibrary.simpleMessage(

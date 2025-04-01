@@ -1828,6 +1828,16 @@ class S {
     );
   }
 
+  /// `Remaining Instructors`
+  String get remaining_instructors {
+    return Intl.message(
+      'Remaining Instructors',
+      name: 'remaining_instructors',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Assessments`
   String get assessments {
     return Intl.message(
