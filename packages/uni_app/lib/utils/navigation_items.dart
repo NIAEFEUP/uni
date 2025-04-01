@@ -2,7 +2,6 @@ enum NavigationItem {
   navEditPersonalArea('edit'),
   navPersonalArea('area'),
   navExams('exames'),
-  navCourseUnits('cadeiras'),
   navStops('autocarros'),
   navLocations('locais', faculties: {'feup'}),
   navRestaurants('restaurantes'),
