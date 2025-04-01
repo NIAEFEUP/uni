@@ -9,21 +9,24 @@ class IconLabel extends StatelessWidget {
     this.labelTextStyle,
     this.sublabel = '',
     this.sublabelTextStyle,
+    this.iconSize = 25.0, // Default icon size
   });
-  final UniIcon icon;
+
+  final Icon icon;
   final String label;
   final TextStyle? labelTextStyle;
   final String sublabel;
   final TextStyle? sublabelTextStyle;
+  final double iconSize; // New icon size parameter
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Icon(
-          icon.icon, // Use icon.icon to get the IconData
-          size: 20,
+        icon,
+        const SizedBox(
+          height: 8,
         ),
         Text(
           label,

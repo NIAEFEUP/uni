@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:uni/view/home/widgets/schedule/no_classes_home_card.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
@@ -10,6 +9,10 @@ import 'package:uni/view/home/widgets/schedule/timeline_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
+import 'package:uni_ui/icons.dart';
+
+import '../../../../generated/l10n.dart';
+import '../../../common_widgets/icon_label.dart';
 
 class ScheduleHomeCard extends GenericHomecard {
   const ScheduleHomeCard({
@@ -21,33 +24,27 @@ class ScheduleHomeCard extends GenericHomecard {
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<LectureProvider, List<Lecture>>(
       builder: (context, lectures) => CardTimeline(
-        items: buildTimelineItems([]).sublist(0, 2), // Simulate no classes with an empty list
-      ),
-      hasContent: (lectures) => false, // Simulate no content
-      onNullContent: const Center(
-        child: NoClassesHomeCard(),
-      ),
-      contentLoadingWidget: const ShimmerCardTimeline(),
-    );
-
-    /*
-    return LazyConsumer<LectureProvider, List<Lecture>>(
-      builder: (context, lectures) => CardTimeline(
         items: buildTimelineItems(lectures).sublist(0, 2),
       ),
       hasContent: (lectures) => lectures.isNotEmpty,
-      onNullContent: Text(
-        S.of(context).no_classes,
-        style: Theme.of(context).textTheme.titleLarge,
-        textAlign: TextAlign.center,
+      onNullContent: Center(
+        child: IconLabel(
+          icon: const UniIcon(
+            size: 45,
+            UniIcons.beer,
+          ),
+          label: S.of(context).no_class,
+          labelTextStyle: TextStyle(
+            fontSize: 14,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
       ),
       mapper: (lectures) => lectures
           .where((lecture) => lecture.endTime.isAfter(DateTime.now()))
           .toList(),
       contentLoadingWidget: const ShimmerCardTimeline(),
     );
-
-     */
   }
 
   @override

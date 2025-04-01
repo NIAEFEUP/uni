@@ -67,6 +67,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Checking account"),
         "add": MessageLookupByLibrary.simpleMessage("Add"),
         "add_quota": MessageLookupByLibrary.simpleMessage("Add quota"),
+        "add_restaurants":
+            MessageLookupByLibrary.simpleMessage("Add restaurants"),
         "add_widget": MessageLookupByLibrary.simpleMessage("Add widget"),
         "agree_terms": MessageLookupByLibrary.simpleMessage(
             "By entering you agree with these"),

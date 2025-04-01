@@ -7,30 +7,29 @@ class NoRestaurantsHomeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-          Navigator.pushNamed(context, '/restaurantPage');
-      },
-      child: Text(
-        S.of(context).no_favorite_restaurants,
-        style: TextStyle(
-          fontSize: 17,
-          color: Theme.of(context).colorScheme.primary,
+    return Column(
+      children: [
+        Center(
+          child: Text(
+            S.of(context).no_favorite_restaurants,
+          ),
         ),
-      ),
+        const SizedBox(
+          height: 10,
+        ),
+        ElevatedButton(
+          onPressed: () {
+            //Navigator.pushNamed(context, '/restaurantPage');
+          },
+          child: Text(
+            S.of(context).add_restaurants,
+            style: TextStyle(
+              fontSize: 17,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+        ),
+      ],
     );
-
-    /*
-    return ImageLabel(
-        /* just a scratch */
-        imagePath: 'assets/images/school.png',
-        label: S.of(context).no_favorite_restaurants,
-        labelTextStyle: TextStyle(
-        fontSize: 17,
-        color: Theme.of(context).colorScheme.primary,
-      ),
-    );
-
-     */
   }
 }
