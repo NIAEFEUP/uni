@@ -159,7 +159,7 @@ class HomePageViewState extends State<HomePageView> {
                 LazyConsumer<LectureProvider, List<Lecture>>(
                   builder: (context, lectures) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
-                      if (lectures.isNotEmpty) {
+                      if (lectures.isNotEmpty && appBarSize != 200) {
                         setState(() {
                           appBarSize = 200;
                         });
