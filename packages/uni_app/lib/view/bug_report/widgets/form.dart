@@ -24,8 +24,8 @@ class BugReportForm extends StatefulWidget {
 /// Manages the 'Bugs and Suggestions' section of the app
 class BugReportFormState extends State<BugReportForm> {
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     loadBugClassList();
   }
 
