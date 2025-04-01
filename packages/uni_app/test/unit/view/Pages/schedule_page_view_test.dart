@@ -21,6 +21,8 @@ void main() async {
       DateTime(2021, 06, 07, 12),
       'B315',
       'JAS',
+      '',
+      0,
       classNumber,
       484378,
     );
@@ -32,6 +34,8 @@ void main() async {
       DateTime(2021, 06, 07, 15),
       'B315',
       'PMMS',
+      '',
+      0,
       classNumber,
       484381,
     );
@@ -43,6 +47,8 @@ void main() async {
       DateTime(2021, 06, 08, 14),
       'B315',
       'PMMS',
+      '',
+      0,
       classNumber,
       484362,
     );
@@ -54,6 +60,8 @@ void main() async {
       DateTime(2021, 06, 09, 12),
       'B315',
       'JAS',
+      '',
+      0,
       classNumber,
       484422,
     );
@@ -65,6 +73,8 @@ void main() async {
       DateTime(2021, 06, 10, 16),
       'B315',
       'SSN',
+      '',
+      0,
       classNumber,
       47775,
     );
@@ -76,6 +86,8 @@ void main() async {
       DateTime(2021, 06, 11, 17),
       'B315',
       'PMMS',
+      '',
+      0,
       classNumber,
       12345,
     );
