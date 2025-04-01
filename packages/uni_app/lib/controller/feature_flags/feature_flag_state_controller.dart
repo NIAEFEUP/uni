@@ -1,0 +1,18 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
+class FeatureFlagStateController {
+  FeatureFlagStateController(this.preferences);
+
+  final SharedPreferences preferences;
+  static const _flagPrefix = '__feature_flag__';
+
+  String _getKey(String code) => '$_flagPrefix$code';
+
+  bool isEnabled(String code) {
+    return preferences.getBool(_getKey(code)) ?? false;
+  }
+
+  Future<void> saveEnabled(String code, {required bool enabled}) {
+    return preferences.setBool(_getKey(code), enabled);
+  }
+}

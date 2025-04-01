@@ -1737,6 +1737,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Experimental features`
+  String get feature_flags {
+    return Intl.message(
+      'Experimental features',
+      name: 'feature_flags',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Library modules`
+  String get library_modules {
+    return Intl.message(
+      'Library modules',
+      name: 'library_modules',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

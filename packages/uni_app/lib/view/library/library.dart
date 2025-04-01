@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/controller/feature_flags/feature_flag_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/common_widgets/experimental_feature_wrapper.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -20,23 +22,38 @@ class LibraryPage extends StatefulWidget {
 class LibraryPageState extends SecondaryPageViewState<LibraryPage> {
   @override
   Widget getBody(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: [
-        LibraryOccupationCard(),
-        PageTitle(name: S.of(context).floors),
-        LazyConsumer<LibraryOccupationProvider, LibraryOccupation>(
-          builder: getFloorRows,
-          hasContent: (occupation) => occupation.floors.isNotEmpty,
-          onNullContent: Center(
-            child: Text(
-              S.of(context).no_library_info,
-              style: const TextStyle(fontSize: 18),
+    return ExperimentalFeatureWrapper(
+      featureFlag: Provider.of<FeatureFlagController>(context)
+          .getFeatureFlag('library')!,
+      onEnabled: (context) {
+        return ListView(
+          shrinkWrap: true,
+          children: [
+            ExperimentalFeatureWrapper(
+              featureFlag: Provider.of<FeatureFlagController>(context)
+                  .getFeatureFlag('library_occupation')!,
+              onEnabled: (_) => LibraryOccupationCard(),
             ),
-          ),
-          contentLoadingWidget: const CircularProgressIndicator(),
-        ),
-      ],
+            PageTitle(name: S.of(context).floors),
+            ExperimentalFeatureWrapper(
+              featureFlag: Provider.of<FeatureFlagController>(context)
+                  .getFeatureFlag('library_floors')!,
+              onEnabled: (_) =>
+                  LazyConsumer<LibraryOccupationProvider, LibraryOccupation>(
+                builder: getFloorRows,
+                hasContent: (occupation) => occupation.floors.isNotEmpty,
+                onNullContent: Center(
+                  child: Text(
+                    S.of(context).no_library_info,
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                ),
+                contentLoadingWidget: const CircularProgressIndicator(),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 

@@ -3,6 +3,7 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
+import 'package:uni/view/settings/widgets/feature_flags/feature_flags_dialog.dart';
 import 'package:uni/view/settings/widgets/locale_switch_button.dart';
 import 'package:uni/view/settings/widgets/notifications_dialog.dart';
 import 'package:uni/view/settings/widgets/theme_switch_button.dart';
@@ -59,6 +60,14 @@ class SettingsPageState extends SecondaryPageViewState<SettingsPage> {
                       '/${NavigationItem.navBugreport.route}',
                     );
                   },
+                ),
+                ListTile(
+                  title: Text(S.of(context).feature_flags),
+                  trailing: const Icon(Icons.arrow_forward_ios),
+                  onTap: () => showDialog<FeatureFlagsDialog>(
+                    context: context,
+                    builder: (context) => const FeatureFlagsDialog(),
+                  ),
                 ),
                 ListTile(
                   title: Text(S.of(context).about),
