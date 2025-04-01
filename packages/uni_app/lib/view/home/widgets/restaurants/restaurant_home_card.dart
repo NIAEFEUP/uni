@@ -29,11 +29,13 @@ class RestaurantHomeCard extends GenericHomecard {
       Navigator.pushNamed(context, '/${NavigationItem.navRestaurants.route}');
 
   @override
-  Widget buildCardContent(BuildContext context) => const RestaurantSlider();
+  Widget buildCardContent(BuildContext context) => RestaurantSlider(onClick: onClick);
 }
 
 class RestaurantSlider extends StatefulWidget {
-  const RestaurantSlider({super.key});
+  const RestaurantSlider({super.key, required this.onClick});
+
+  final void Function(BuildContext) onClick;
 
   @override
   RestaurantSliderState createState() => RestaurantSliderState();
@@ -49,12 +51,12 @@ class RestaurantSliderState extends State<RestaurantSlider> {
         final favoriteRestaurants = restaurants
             .where(
               (restaurant) => PreferencesController.getFavoriteRestaurants()
-                  .contains(restaurant.namePt + restaurant.period),
-            )
+              .contains(restaurant.namePt + restaurant.period),
+        )
             .toList();
 
         final dailyRestaurants =
-            getRestaurantInformation(context, favoriteRestaurants);
+        getRestaurantInformation(context, favoriteRestaurants);
 
         return Column(
           children: [
@@ -83,7 +85,7 @@ class RestaurantSliderState extends State<RestaurantSlider> {
         // Temporarily return false to test NoRestaurantsHomeCard
         return false;
       },
-      onNullContent: const NoRestaurantsHomeCard(),
+      onNullContent: NoRestaurantsHomeCard(onClick: widget.onClick),
       contentLoadingWidget: const ShimmerRestaurantsHomeCard(),
     );
   }

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../../generated/l10n.dart';
 
 class NoRestaurantsHomeCard extends StatelessWidget {
-  const NoRestaurantsHomeCard({super.key});
+  const NoRestaurantsHomeCard({super.key, required this.onClick});
+
+  final void Function(BuildContext) onClick;
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +20,7 @@ class NoRestaurantsHomeCard extends StatelessWidget {
           height: 10,
         ),
         ElevatedButton(
-          onPressed: () {
-            //Navigator.pushNamed(context, '/restaurantPage');
-          },
+          onPressed: () => onClick(context),
           child: Text(
             S.of(context).add_restaurants,
             style: TextStyle(
