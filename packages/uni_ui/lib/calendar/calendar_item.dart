@@ -1,4 +1,3 @@
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 
 class _CalendarItemDate extends StatelessWidget {
@@ -137,11 +136,8 @@ class CalendarItem extends StatelessWidget {
             width: 140,
             decoration: ShapeDecoration(
               color: Theme.of(context).colorScheme.secondary,
-              shape: SmoothRectangleBorder(
-                borderRadius: SmoothBorderRadius(
-                  cornerRadius: 12,
-                  cornerSmoothing: 1,
-                ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
               shadows: [
                 BoxShadow(

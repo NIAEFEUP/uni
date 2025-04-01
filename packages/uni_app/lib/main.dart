@@ -37,21 +37,19 @@ import 'package:uni/view/bug_report/bug_report.dart';
 import 'package:uni/view/bus_stop_next_arrivals/bus_stop_next_arrivals.dart';
 import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/common_widgets/page_transition.dart';
-import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/exams/exams.dart';
 import 'package:uni/view/faculty/faculty.dart';
+import 'package:uni/view/home/edit_home.dart';
 import 'package:uni/view/home/home.dart';
 import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locale_notifier.dart';
-import 'package:uni/view/locations/locations.dart';
 import 'package:uni/view/login/login.dart';
+import 'package:uni/view/map/map.dart';
 import 'package:uni/view/profile/profile.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
-import 'package:uni/view/schedule/schedule.dart';
-import 'package:uni/view/settings/settings.dart';
-import 'package:uni/view/theme.dart';
+import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/theme_notifier.dart';
-import 'package:uni/view/transports/transports.dart';
+import 'package:uni_ui/theme.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:workmanager/workmanager.dart';
 
@@ -72,6 +70,13 @@ Future<String> firstRoute() async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ),
+  );
 
   PreferencesController.prefs = await SharedPreferences.getInstance();
 
@@ -125,7 +130,7 @@ Future<void> main() async {
   final savedTheme = PreferencesController.getThemeMode();
   final savedLocale = PreferencesController.getLocale();
 
-  final route = await firstRoute();
+  const route = '/splash';
 
   await SentryFlutter.init(
     (options) {
@@ -178,7 +183,7 @@ Future<void> main() async {
                 create: (_) => ThemeNotifier(savedTheme),
               ),
             ],
-            child: Application(route),
+            child: const Application(route),
           ),
         ),
       );
@@ -216,9 +221,6 @@ class ApplicationState extends State<Application> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
     return Consumer2<ThemeNotifier, LocaleNotifier>(
       builder: (context, themeNotifier, localeNotifier, _) => UpgradeAlert(
         navigatorKey: Application.navigatorKey,
@@ -226,9 +228,8 @@ class ApplicationState extends State<Application> {
         child: MaterialApp(
           title: 'uni',
           navigatorKey: Application.navigatorKey,
-          theme: applicationLightTheme,
-          darkTheme: applicationDarkTheme,
-          themeMode: themeNotifier.getTheme(),
+          theme: lightTheme,
+          themeMode: ThemeMode.light, // themeNotifier.getTheme(),
           locale: localeNotifier.getLocale().localeCode,
           localizationsDelegates: const [
             S.delegate,
@@ -241,19 +242,23 @@ class ApplicationState extends State<Application> {
           navigatorObservers: navigatorObservers,
           onGenerateRoute: (settings) {
             final transitions = {
+              '/splash': PageTransition.makePageTransition(
+                page: const SplashScreenView(),
+                settings: settings,
+              ),
+              '/${NavigationItem.navEditPersonalArea.route}':
+                  PageTransition.splashTransitionRoute(
+                page: const EditHomeView(),
+                settings: settings,
+              ),
               '/${NavigationItem.navLogin.route}':
-                  PageTransition.makePageTransition(
+                  PageTransition.splashTransitionRoute(
                 page: const LoginPageView(),
                 settings: settings,
               ),
               '/${NavigationItem.navPersonalArea.route}':
                   PageTransition.makePageTransition(
                 page: const HomePageView(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navSchedule.route}':
-                  PageTransition.makePageTransition(
-                page: SchedulePage(),
                 settings: settings,
               ),
               '/${NavigationItem.navExams.route}':
@@ -266,14 +271,9 @@ class ApplicationState extends State<Application> {
                 page: const BusStopNextArrivalsPage(),
                 settings: settings,
               ),
-              '/${NavigationItem.navCourseUnits.route}':
+              '/${NavigationItem.navMap.route}':
                   PageTransition.makePageTransition(
-                page: const CourseUnitsPageView(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navLocations.route}':
-                  PageTransition.makePageTransition(
-                page: const LocationsPage(),
+                page: const MapPage(),
                 settings: settings,
               ),
               '/${NavigationItem.navRestaurants.route}':
@@ -301,19 +301,9 @@ class ApplicationState extends State<Application> {
                 page: const AcademicPathPageView(),
                 settings: settings,
               ),
-              '/${NavigationItem.navTransports.route}':
-                  PageTransition.makePageTransition(
-                page: const TransportsPageView(),
-                settings: settings,
-              ),
               '/${NavigationItem.navProfile.route}':
                   PageTransition.makePageTransition(
                 page: const ProfilePageView(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navSettings.route}':
-                  PageTransition.makePageTransition(
-                page: const SettingsPage(),
                 settings: settings,
               ),
               '/${NavigationItem.navBugreport.route}':

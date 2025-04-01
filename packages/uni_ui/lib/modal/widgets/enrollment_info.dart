@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uni_ui/theme.dart';
 
 class ModalEnrollementInfo extends StatelessWidget {
   const ModalEnrollementInfo({required this.enrollements});
@@ -27,11 +26,7 @@ class ModalEnrollementInfo extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(entry.key,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.copyWith(
-                                  color: Theme.of(context).primaryColor)),
+                          style: Theme.of(context).textTheme.bodyLarge),
                       Container(
                           padding: const EdgeInsets.all(4.0),
                           margin: const EdgeInsets.all(3.0),
@@ -39,15 +34,8 @@ class ModalEnrollementInfo extends StatelessWidget {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
                               color: Theme.of(context).primaryColor),
-                          child: Text(
-                            entry.value,
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelSmall
-                                ?.copyWith(
-                                  color: pureWhite,
-                                ),
-                          ))
+                          child: Text(entry.value,
+                              style: Theme.of(context).textTheme.titleSmall))
                     ],
                   );
                 }).toList())

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
+import 'package:uni_ui/icons.dart';
 
 class WcLocation implements Location {
   WcLocation(this.floor, {this.locationGroupId});
@@ -10,7 +10,7 @@ class WcLocation implements Location {
   final weight = 1;
 
   @override
-  final icon = Icons.wc;
+  final icon = UniIcons.toilet;
 
   final int? locationGroupId;
 
