@@ -49,12 +49,12 @@ class RestaurantSliderState extends State<RestaurantSlider> {
         final favoriteRestaurants = restaurants
             .where(
               (restaurant) => PreferencesController.getFavoriteRestaurants()
-                  .contains(restaurant.namePt + restaurant.period),
-            )
+              .contains(restaurant.namePt + restaurant.period),
+        )
             .toList();
 
         final dailyRestaurants =
-            getRestaurantInformation(context, favoriteRestaurants);
+        getRestaurantInformation(context, favoriteRestaurants);
 
         return Column(
           children: [
@@ -80,14 +80,8 @@ class RestaurantSliderState extends State<RestaurantSlider> {
         );
       },
       hasContent: (restaurants) {
-        final favoriteRestaurants = restaurants
-            .where(
-              (restaurant) => PreferencesController.getFavoriteRestaurants()
-                  .contains(restaurant.namePt + restaurant.period),
-            )
-            .toList();
-        return getRestaurantInformation(context, favoriteRestaurants)
-            .isNotEmpty;
+        // Temporarily return false to test NoRestaurantsHomeCard
+        return false;
       },
       onNullContent: const NoRestaurantsHomeCard(),
       contentLoadingWidget: const ShimmerRestaurantsHomeCard(),

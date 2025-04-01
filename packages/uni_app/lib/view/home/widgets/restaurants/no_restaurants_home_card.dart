@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uni/view/common_widgets/expanded_image_label.dart';
 
 import '../../../../generated/l10n.dart';
 
@@ -8,6 +7,20 @@ class NoRestaurantsHomeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+          Navigator.pushNamed(context, '/restaurantPage');
+      },
+      child: Text(
+        S.of(context).no_favorite_restaurants,
+        style: TextStyle(
+          fontSize: 17,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      ),
+    );
+
+    /*
     return ImageLabel(
         /* just a scratch */
         imagePath: 'assets/images/school.png',
@@ -17,5 +30,7 @@ class NoRestaurantsHomeCard extends StatelessWidget {
         color: Theme.of(context).colorScheme.primary,
       ),
     );
+
+     */
   }
 }
