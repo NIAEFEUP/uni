@@ -32,7 +32,9 @@ class AverageBar extends StatelessWidget {
               color: Theme.of(context).colorScheme.secondary,
               borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
-            constraints: BoxConstraints(minWidth: constraints.maxWidth * 0.25 , maxWidth: constraints.maxWidth * 0.30),
+            constraints: BoxConstraints(
+                minWidth: constraints.maxWidth * 0.25,
+                maxWidth: constraints.maxWidth * 0.30),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
