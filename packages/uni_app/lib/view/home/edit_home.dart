@@ -176,10 +176,7 @@ class EditHomeViewState extends State<EditHomeView> {
                     builder: (context, candidate, rejected) => Container(
                       height: 20,
                       color: candidate.isNotEmpty
-                          ? Theme.of(context)
-                              .colorScheme
-                              .secondary
-                              .withOpacity(0.25)
+                          ? Theme.of(context).shadowColor.withOpacity(0.2)
                           : Colors.transparent,
                     ),
                     onAcceptWithDetails: (details) {
