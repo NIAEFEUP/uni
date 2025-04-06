@@ -29,7 +29,8 @@ class RestaurantHomeCard extends GenericHomecard {
       Navigator.pushNamed(context, '/${NavigationItem.navRestaurants.route}');
 
   @override
-  Widget buildCardContent(BuildContext context) => RestaurantSlider(onClick: onClick);
+  Widget buildCardContent(BuildContext context) =>
+      RestaurantSlider(onClick: onClick);
 }
 
 class RestaurantSlider extends StatefulWidget {
@@ -51,12 +52,12 @@ class RestaurantSliderState extends State<RestaurantSlider> {
         final favoriteRestaurants = restaurants
             .where(
               (restaurant) => PreferencesController.getFavoriteRestaurants()
-              .contains(restaurant.namePt + restaurant.period),
-        )
+                  .contains(restaurant.namePt + restaurant.period),
+            )
             .toList();
 
         final dailyRestaurants =
-        getRestaurantInformation(context, favoriteRestaurants);
+            getRestaurantInformation(context, favoriteRestaurants);
 
         return Column(
           children: [
