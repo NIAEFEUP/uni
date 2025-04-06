@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uni_ui/icons.dart';
 
 class IconLabel extends StatelessWidget {
   const IconLabel({

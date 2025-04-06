@@ -22,9 +22,10 @@ class NoRestaurantsHomeCard extends StatelessWidget {
         ElevatedButton(
           onPressed: () => onClick(context),
           style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          )),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
           child: Text(
             S.of(context).add_restaurants,
             style: TextStyle(
