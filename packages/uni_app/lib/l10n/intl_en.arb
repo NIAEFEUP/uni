@@ -216,6 +216,10 @@
   "@no_exams": {},
   "no_exams_label": "Looks like you are on vacation!",
   "@no_exams_label": {},
+  "no_files": "There's no files attached",
+  "@no_files": {},
+  "no_files_label": "You have nothing to see!",
+  "@no_files_label": {},
   "no_favorite_restaurants": "No favorite restaurants open",
   "@no_favorite_restaurants": {},
   "no_info": "There is no information to display",
@@ -358,6 +362,8 @@
   "@schedule": {},
   "instructors": "Instructors",
   "@instructors": {},
+  "remaining_instructors": "Remaining Instructors",
+  "@remaining_instructors": {},
   "assessments": "Assessments",
   "@assessments": {},
   "noExamsScheduled": "No exams scheduled",
@@ -387,5 +393,7 @@
   "no_courses": "No courses we're found",
   "@no_courses": {},
   "no_courses_description": "Try to refresh the page",
-  "@no_courses_description": {}
+  "@no_courses_description": {},
+  "now": "Now",
+  "@now": {}
 }

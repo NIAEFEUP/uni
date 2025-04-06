@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/view/academic_path/widgets/no_classes_widget.dart';
@@ -18,47 +17,41 @@ class SchedulePage extends StatelessWidget {
     return MediaQuery.removePadding(
       context: context,
       removeBottom: true,
-      child: RefreshIndicator(
-        onRefresh: () async {
-          await context.read<LectureProvider>().forceRefresh(context);
-        },
-        child: LazyConsumer<LectureProvider, List<Lecture>>(
-          builder: (context, lectures) {
-            final startOfWeek = _getStartOfWeek(now, lectures);
+      child: LazyConsumer<LectureProvider, List<Lecture>>(
+        builder: (context, lectures) {
+          final startOfWeek = _getStartOfWeek(now, lectures);
 
-            return SchedulePageView(
-              lectures,
-              startOfWeek: startOfWeek,
-              now: now,
-            );
-          },
-          hasContent: (lectures) => lectures.isNotEmpty,
-          onNullContent: LayoutBuilder(
-            builder: (context, constraints) => SingleChildScrollView(
-              physics:
-                  const AlwaysScrollableScrollPhysics(), // Ensures refresh works
-              child: Container(
-                height: constraints.maxHeight,
-                padding: const EdgeInsets.only(bottom: bottomNavbarHeight),
-                child: const Center(
-                  child: NoClassesWidget(),
-                ),
+          return SchedulePageView(
+            lectures,
+            startOfWeek: startOfWeek,
+            now: now,
+          );
+        },
+        hasContent: (lectures) => lectures.isNotEmpty,
+        onNullContent: LayoutBuilder(
+          builder: (context, constraints) => SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Container(
+              height: constraints.maxHeight,
+              padding: const EdgeInsets.only(bottom: bottomNavbarHeight),
+              child: const Center(
+                child: NoClassesWidget(),
               ),
             ),
           ),
-          mapper: (lectures) {
-            final startOfWeek = _getStartOfWeek(now, lectures);
-            final endOfNextWeek = startOfWeek.add(const Duration(days: 14));
-
-            return lectures
-                .where(
-                  (lecture) =>
-                      lecture.startTime.isAfter(startOfWeek) &&
-                      lecture.startTime.isBefore(endOfNextWeek),
-                )
-                .toList();
-          },
         ),
+        mapper: (lectures) {
+          final startOfWeek = _getStartOfWeek(now, lectures);
+          final endOfNextWeek = startOfWeek.add(const Duration(days: 14));
+
+          return lectures
+              .where(
+                (lecture) =>
+                    lecture.startTime.isAfter(startOfWeek) &&
+                    lecture.startTime.isBefore(endOfNextWeek),
+              )
+              .toList();
+        },
       ),
     );
   }
