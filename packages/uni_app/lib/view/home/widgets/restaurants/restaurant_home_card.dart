@@ -83,8 +83,14 @@ class RestaurantSliderState extends State<RestaurantSlider> {
         );
       },
       hasContent: (restaurants) {
-        // Temporarily return false to test NoRestaurantsHomeCard
-        return false;
+        final favoriteRestaurants = restaurants
+            .where(
+              (restaurant) => PreferencesController.getFavoriteRestaurants()
+                  .contains(restaurant.namePt + restaurant.period),
+            )
+            .toList();
+        return getRestaurantInformation(context, favoriteRestaurants)
+            .isNotEmpty;
       },
       onNullContent: NoRestaurantsHomeCard(onClick: widget.onClick),
       contentLoadingWidget: const ShimmerRestaurantsHomeCard(),
