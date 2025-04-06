@@ -248,8 +248,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Parece que estás de férias!"),
         "no_favorite_restaurants": MessageLookupByLibrary.simpleMessage(
             "Sem restaurantes favoritos abertos"),
+        "no_files": MessageLookupByLibrary.simpleMessage(
+            "Não possui ficheiros anexados"),
         "no_files_found":
             MessageLookupByLibrary.simpleMessage("Nenhum ficheiro encontrado"),
+        "no_files_label":
+            MessageLookupByLibrary.simpleMessage("Não tens nada para ver!"),
         "no_info": MessageLookupByLibrary.simpleMessage(
             "Não existem informações para apresentar"),
         "no_internet":
@@ -278,6 +282,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "no_trips": MessageLookupByLibrary.simpleMessage(
             "Não há viagens planeadas de momento"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notificações"),
+        "now": MessageLookupByLibrary.simpleMessage("Agora"),
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Tipo de ocorrência"),
         "of_month": MessageLookupByLibrary.simpleMessage("de"),
@@ -306,6 +311,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Os dados da referência gerada aparecerão no Sigarra, conta corrente. Perfil > Conta Corrente"),
         "reference_success": MessageLookupByLibrary.simpleMessage(
             "Referência criada com sucesso!"),
+        "remaining_instructors":
+            MessageLookupByLibrary.simpleMessage("Docentes Restantes"),
         "remove": MessageLookupByLibrary.simpleMessage("Remover"),
         "report_error": MessageLookupByLibrary.simpleMessage("Reportar erro"),
         "restaurant_main_page": MessageLookupByLibrary.simpleMessage(

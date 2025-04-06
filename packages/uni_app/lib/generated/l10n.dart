@@ -1108,6 +1108,26 @@ class S {
     );
   }
 
+  /// `There's no files attached`
+  String get no_files {
+    return Intl.message(
+      'There\'s no files attached',
+      name: 'no_files',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have nothing to see!`
+  String get no_files_label {
+    return Intl.message(
+      'You have nothing to see!',
+      name: 'no_files_label',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No favorite restaurants open`
   String get no_favorite_restaurants {
     return Intl.message(
@@ -1818,6 +1838,16 @@ class S {
     );
   }
 
+  /// `Remaining Instructors`
+  String get remaining_instructors {
+    return Intl.message(
+      'Remaining Instructors',
+      name: 'remaining_instructors',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Assessments`
   String get assessments {
     return Intl.message(
@@ -1969,6 +1999,16 @@ class S {
     return Intl.message(
       'Try to refresh the page',
       name: 'no_courses_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Now`
+  String get now {
+    return Intl.message(
+      'Now',
+      name: 'now',
       desc: '',
       args: [],
     );

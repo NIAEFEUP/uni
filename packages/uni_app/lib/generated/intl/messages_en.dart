@@ -249,8 +249,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "Looks like you are on vacation!"),
         "no_favorite_restaurants": MessageLookupByLibrary.simpleMessage(
             "No favorite restaurants open"),
+        "no_files":
+            MessageLookupByLibrary.simpleMessage("There\'s no files attached"),
         "no_files_found":
             MessageLookupByLibrary.simpleMessage("No files found"),
+        "no_files_label":
+            MessageLookupByLibrary.simpleMessage("You have nothing to see!"),
         "no_info": MessageLookupByLibrary.simpleMessage(
             "There is no information to display"),
         "no_internet": MessageLookupByLibrary.simpleMessage(
@@ -279,6 +283,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "no_trips": MessageLookupByLibrary.simpleMessage(
             "No trips found at the moment"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+        "now": MessageLookupByLibrary.simpleMessage("Now"),
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Type of occurrence"),
         "of_month": MessageLookupByLibrary.simpleMessage("of"),
@@ -306,6 +311,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "The generated reference data will appear in Sigarra, checking account.\nProfile > Checking Account"),
         "reference_success": MessageLookupByLibrary.simpleMessage(
             "Reference created successfully!"),
+        "remaining_instructors":
+            MessageLookupByLibrary.simpleMessage("Remaining Instructors"),
         "remove": MessageLookupByLibrary.simpleMessage("Delete"),
         "report_error": MessageLookupByLibrary.simpleMessage("Report error"),
         "restaurant_main_page": MessageLookupByLibrary.simpleMessage(

@@ -23,7 +23,7 @@ class CourseUnitsView extends StatefulWidget {
 }
 
 class _CourseUnitsViewState extends State<CourseUnitsView> {
-  bool isGrid = true;
+  bool isGrid = PreferencesController.getServiceCardsIsGrid();
   String? selectedSchoolYear = PreferencesController.getSchoolYearValue();
   String? selectedSemester = PreferencesController.getSemesterValue();
 
@@ -86,6 +86,7 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
                   onPressed: () {
                     setState(() {
                       isGrid = false;
+                      PreferencesController.setServiceCardsIsGrid(false);
                     });
                   },
                 ),
@@ -94,6 +95,7 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
                   onPressed: () {
                     setState(() {
                       isGrid = true;
+                      PreferencesController.setServiceCardsIsGrid(true);
                     });
                   },
                 ),
@@ -105,9 +107,8 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
               shrinkWrap: true,
               childAspectRatio: isGrid
                   ? (width - 40) / (width * 2) * 5
-                  : (width - 32) /
-                      width *
-                      5, // Calculate aspect ratio, to avoid inconsistencies between grid and list view
+                  : (width - 32) / width * 5,
+              // Calculate aspect ratio, to avoid inconsistencies between grid and list view
               mainAxisSpacing: 8,
               crossAxisSpacing: 8,
               children: courseGradeCards,
@@ -132,7 +133,7 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
   CourseGradeCard _toCourseGradeCard(CourseUnit unit, BuildContext context) {
     return CourseGradeCard(
       courseName: unit.name,
-      ects: unit.ects! as double,
+      ects: (unit.ects ?? 0).toDouble(),
       grade: unit.grade != null ? double.tryParse(unit.grade!)?.round() : null,
       tooltip: unit.name,
       onTap: () => _toCourseGradeCardOnTap(unit, context),
