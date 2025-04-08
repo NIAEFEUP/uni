@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart'; // Import for debugPrint
 import 'package:flutter/services.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 

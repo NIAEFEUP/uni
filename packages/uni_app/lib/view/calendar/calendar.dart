@@ -21,7 +21,7 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
   Widget getBody(BuildContext context) {
     return LazyConsumer<CalendarProvider, List<CalendarEvent>>(
       builder: getTimeline,
-      hasContent: (calendar) => false,
+      hasContent: (calendar) => calendar.isNotEmpty,
       onNullContent: Center(
         child: Text(
           S.of(context).no_events,
