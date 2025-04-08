@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni_ui/common/generic_squircle.dart';
 
 import '../../../../generated/l10n.dart';
 
@@ -23,7 +24,7 @@ class NoRestaurantsHomeCard extends StatelessWidget {
           onPressed: () => onClick(context),
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(15),
             ),
           ),
           child: Text(
