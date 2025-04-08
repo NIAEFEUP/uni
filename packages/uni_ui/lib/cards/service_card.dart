@@ -56,15 +56,18 @@ class ServiceCard extends StatelessWidget {
                             color: Theme.of(context).shadowColor,
                           ),
                           const SizedBox(width: 5),
-                          Column(
-                            children: openingHours.map((hour) {
-                              return Text(
-                                hour,
-                                style: Theme.of(context).textTheme.bodyLarge,
-                                overflow: TextOverflow.ellipsis,
-                              );
-                            }).toList(),
-                          )
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: openingHours.map((hour) {
+                                return Text(
+                                  hour,
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                  overflow: TextOverflow.ellipsis,
+                                );
+                              }).toList(),
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 5),
