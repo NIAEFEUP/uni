@@ -23,9 +23,10 @@ class ServiceCard extends StatelessWidget {
       tooltip: tooltip,
       onClick: () => function?.call(context),
       child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 6),
             Row(
               mainAxisAlignment: openingHours.length == 0
                   ? MainAxisAlignment.center
@@ -60,11 +61,13 @@ class ServiceCard extends StatelessWidget {
                               return Text(
                                 hour,
                                 style: Theme.of(context).textTheme.bodyLarge,
+                                overflow: TextOverflow.ellipsis,
                               );
                             }).toList(),
                           )
                         ],
                       ),
+                      const SizedBox(height: 5),
                     ],
             ),
           ]),
