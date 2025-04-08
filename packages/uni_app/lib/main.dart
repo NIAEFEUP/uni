@@ -15,6 +15,7 @@ import 'package:ua_client_hints/ua_client_hints.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
 import 'package:uni/controller/cleanup.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
+import 'package:uni/controller/local_storage/migrations/migration_controller.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
@@ -70,6 +71,8 @@ Future<String> firstRoute() async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await MigrationController.runMigrations();
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
