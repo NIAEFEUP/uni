@@ -392,5 +392,7 @@
   "no_courses_description": "Tenta refrescar a página",
   "@no_courses_description": {},
   "now": "Agora",
-  "@now": {}
+  "@now": {},
+  "until": "Até",
+  "@until": {}
 }

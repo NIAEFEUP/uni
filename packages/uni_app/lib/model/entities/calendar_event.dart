@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:intl/intl.dart';
+import 'package:uni/generated/l10n.dart';
 
 part '../../generated/model/entities/calendar_event.g.dart';
 
@@ -35,7 +36,7 @@ class CalendarEvent {
       final monthFormatter = DateFormat.MMM('pt');
       final day = endDate!.day.toString();
       final month = monthFormatter.format(endDate!);
-      return ['Até $day $month', endDate!.year.toString()]; //TODO: translate
+      return ['${S.current.until} $day $month', endDate!.year.toString()];
     }
 
     final monthFormatter = DateFormat.MMM('pt');
@@ -45,7 +46,6 @@ class CalendarEvent {
     final String year = startDate!.year.toString();
     final String month = monthFormatter.format(startDate!);
     final String day = startDate!.day.toString();
-
 
     if (endDate == null || startDate == endDate) {
       timePeriod = '$day $month';
@@ -68,10 +68,10 @@ class CalendarEvent {
       period
         ..add(timePeriod)
         ..add(year);
-    } 
-    else {
-      timePeriod = '$day $month  - $dayEnd $monthEnd'; // e.g., 30 Jan 2023 - 5 Fev 2024
-      
+    } else {
+      timePeriod =
+          '$day $month  - $dayEnd $monthEnd'; // e.g., 30 Jan 2023 - 5 Fev 2024
+
       period
         ..add(timePeriod)
         ..add('$year - $yearEnd');

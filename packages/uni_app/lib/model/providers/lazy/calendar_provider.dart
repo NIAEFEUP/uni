@@ -14,7 +14,8 @@ class CalendarProvider extends StateProviderNotifier<List<CalendarEvent>> {
     StateProviders stateProviders,
   ) async {
     try {
-      final calendar = await CalendarFetcherJson().getCalendar('pt'); // TODO: get locale from state
+      final calendar = await CalendarFetcherJson()
+          .getCalendar('pt'); // TODO: get locale from state
       return calendar;
     } catch (e, stackTrace) {
       return [];

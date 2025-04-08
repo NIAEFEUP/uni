@@ -21,11 +21,11 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
   Widget getBody(BuildContext context) {
     return LazyConsumer<CalendarProvider, List<CalendarEvent>>(
       builder: getTimeline,
-      hasContent: (calendar) => calendar.isNotEmpty,
-      onNullContent: const Center(
+      hasContent: (calendar) => false,
+      onNullContent: Center(
         child: Text(
-          'Nenhum evento encontrado', // TODO: translate
-          style: TextStyle(fontSize: 18),
+          S.of(context).no_events,
+          style: Theme.of(context).textTheme.headlineLarge,
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
@@ -23,20 +24,21 @@ class CalendarHomeCard extends GenericHomecard {
     return LazyConsumer<CalendarProvider, List<CalendarEvent>>(
       builder: (context, events) {
         return Calendar(
-          items: events.map(
-          (event) => CalendarItem(
-            eventPeriod: event.formattedPeriod[0],
-            eventName: event.name,
-          ),
-        )
-        .toList(),    
+          items: events
+              .map(
+                (event) => CalendarItem(
+                  eventPeriod: event.formattedPeriod[0],
+                  eventName: event.name,
+                ),
+              )
+              .toList(),
         );
       },
       hasContent: (events) => events.isNotEmpty,
-      onNullContent: const Center(
+      onNullContent: Center(
         child: Text(
-          'Nenhum evento encontrado', // TODO: translate
-          style: TextStyle(fontSize: 18),
+          S.of(context).no_events,
+          style: Theme.of(context).textTheme.headlineLarge,
         ),
       ),
     );

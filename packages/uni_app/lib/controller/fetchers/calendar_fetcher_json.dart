@@ -21,9 +21,8 @@ class CalendarFetcherJson {
       map['start_date'] = (startDateStr != null && startDateStr.isNotEmpty)
           ? startDateStr
           : null;
-      map['end_date'] = (endDateStr != null && endDateStr.isNotEmpty)
-          ? endDateStr
-          : null;
+      map['end_date'] =
+          (endDateStr != null && endDateStr.isNotEmpty) ? endDateStr : null;
 
       events.add(CalendarEvent.fromJson(map));
     }
