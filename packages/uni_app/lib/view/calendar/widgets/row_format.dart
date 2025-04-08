@@ -17,14 +17,10 @@ class RowFormat extends StatelessWidget {
     return TimelineItem(
       title: eventperiod[0],
       subtitle: eventperiod[1],
+      titleWidth: 90,
       card: Text(
         event.name,
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.primary,
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-          height: 1,
-        ),
+        style: Theme.of(context).textTheme.headlineSmall,
         maxLines: 5,
       ),
     );

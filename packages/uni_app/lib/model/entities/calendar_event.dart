@@ -35,11 +35,10 @@ class CalendarEvent {
       final monthFormatter = DateFormat.MMM('pt');
       final day = endDate!.day.toString();
       final month = monthFormatter.format(endDate!);
-      return ['Até $day $month', ''];
+      return ['Até $day $month', endDate!.year.toString()]; //TODO: translate
     }
 
     final monthFormatter = DateFormat.MMM('pt');
-
     final period = <String>[];
     String timePeriod;
 
@@ -69,12 +68,13 @@ class CalendarEvent {
       period
         ..add(timePeriod)
         ..add(year);
-    } else {
-      // Spans across years
-      timePeriod = '$day $month - $dayEnd $monthEnd';
+    } 
+    else {
+      timePeriod = '$day $month  - $dayEnd $monthEnd'; // e.g., 30 Jan 2023 - 5 Fev 2024
+      
       period
         ..add(timePeriod)
-        ..add(''); 
+        ..add('$year - $yearEnd');
     }
     return period;
   }

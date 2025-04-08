@@ -24,7 +24,7 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
       hasContent: (calendar) => calendar.isNotEmpty,
       onNullContent: const Center(
         child: Text(
-          'Nenhum evento encontrado',
+          'Nenhum evento encontrado', // TODO: translate
           style: TextStyle(fontSize: 18),
         ),
       ),
