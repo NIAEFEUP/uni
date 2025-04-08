@@ -8,6 +8,7 @@ build/
 *.bin
 .flutter-plugins*
 packages/uni_ui/pubspec.lock
+packages/uni_lint/pubspec.lock
 
 # IDE files
 .DS_Store
@@ -19,3 +20,6 @@ packages/uni_ui/pubspec.lock
 # Key properties
 uni/android/key.properties
 **.jks
+
+# Custom Lint log
+custom_lint.log

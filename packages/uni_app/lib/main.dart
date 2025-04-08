@@ -37,7 +37,6 @@ import 'package:uni/view/bug_report/bug_report.dart';
 import 'package:uni/view/bus_stop_next_arrivals/bus_stop_next_arrivals.dart';
 import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/common_widgets/page_transition.dart';
-import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/exams/exams.dart';
 import 'package:uni/view/faculty/faculty.dart';
 import 'package:uni/view/home/edit_home.dart';
@@ -48,7 +47,6 @@ import 'package:uni/view/login/login.dart';
 import 'package:uni/view/map/map.dart';
 import 'package:uni/view/profile/profile.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
-import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/theme_notifier.dart';
 import 'package:uni_ui/theme.dart';
@@ -263,11 +261,6 @@ class ApplicationState extends State<Application> {
                 page: const HomePageView(),
                 settings: settings,
               ),
-              '/${NavigationItem.navSchedule.route}':
-                  PageTransition.makePageTransition(
-                page: SchedulePage(),
-                settings: settings,
-              ),
               '/${NavigationItem.navExams.route}':
                   PageTransition.makePageTransition(
                 page: const ExamsPageView(),
@@ -276,11 +269,6 @@ class ApplicationState extends State<Application> {
               '/${NavigationItem.navStops.route}':
                   PageTransition.makePageTransition(
                 page: const BusStopNextArrivalsPage(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navCourseUnits.route}':
-                  PageTransition.makePageTransition(
-                page: const CourseUnitsPageView(),
                 settings: settings,
               ),
               '/${NavigationItem.navMap.route}':
