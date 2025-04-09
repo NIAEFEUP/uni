@@ -175,9 +175,13 @@ class EditHomeViewState extends State<EditHomeView> {
                   return DragTarget<(String, Icon)>(
                     builder: (context, candidate, rejected) => Container(
                       height: 20,
-                      color: candidate.isNotEmpty
-                          ? Theme.of(context).shadowColor.withOpacity(0.2)
-                          : Colors.transparent,
+                      margin: const EdgeInsets.only(top: 2, bottom: 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: candidate.isNotEmpty
+                            ? Theme.of(context).shadowColor.withOpacity(0.2)
+                            : Colors.transparent,
+                      ),
                     ),
                     onAcceptWithDetails: (details) {
                       setState(() {
