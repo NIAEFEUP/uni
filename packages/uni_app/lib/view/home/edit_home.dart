@@ -268,8 +268,10 @@ class EditHomeViewState extends State<EditHomeView> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context)
-                        .pushNamed('/${NavigationItem.navPersonalArea.route}');
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/${NavigationItem.navPersonalArea.route}',
+                      (route) => false,
+                    );
                   },
                   child: Text(
                     'Save',
