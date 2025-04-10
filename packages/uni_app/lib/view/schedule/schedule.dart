@@ -1,5 +1,8 @@
+import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:timezone/timezone.dart' as tz;
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
@@ -11,9 +14,7 @@ import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
-import 'package:device_calendar/device_calendar.dart';
-import 'package:flutter/services.dart';
-import 'package:timezone/timezone.dart' as tz;
+import 'package:uni_ui/modal/modal.dart';
 
 class SchedulePage extends StatefulWidget {
   SchedulePage({super.key, DateTime? now}) : now = now ?? DateTime.now();
@@ -69,9 +70,6 @@ class SchedulePageViewState extends State<SchedulePageView>
 
   List<Calendar> get _writableCalendars =>
       _calendars.where((c) => c.isReadOnly == false).toList();
-
-  List<Calendar> get _readOnlyCalendars =>
-      _calendars.where((c) => c.isReadOnly == true).toList();
 
   @override
   void initState() {
@@ -133,54 +131,14 @@ class SchedulePageViewState extends State<SchedulePageView>
             children: <Widget>[
               ElevatedButton(
                 onPressed: () async {
-                  print('retrieve calendars button Pressed');
-                  _retrieveCalendars();
+                  await _retrieveCalendars();
+                  await showCalendarModal();
                 },
-                child: const Text('Retrieve calendars'),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  print('add to calendar button Pressed');
-
-                  if (_calendars.isEmpty) {
-                    print('no calendars on calendar list');
-                  } else {
-                    _selectedCalendar = _calendars.last;
-
-                    final DateTime tomorrow =
-                        DateTime.now().add(Duration(days: 1));
-
-                    addLecturesToCalendar(_selectedCalendar!, widget.lectures);
-                  }
-                },
-                child: const Text('Add to calendar'),
+                child: const Text('Save lectures'),
               ),
             ],
           ),
         ),
-        if (_calendars.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: SizedBox(
-              height: 150, // Adjust height as needed
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: _calendars.length,
-                itemBuilder: (context, index) {
-                  final calendar = _calendars[index];
-                  return ListTile(
-                    title: Text(calendar.name ?? 'Unnamed Calendar'),
-                    onTap: () {
-                      setState(() {
-                        _selectedCalendar = calendar;
-                      });
-                      print('Selected Calendar: ${calendar.name}');
-                    },
-                  );
-                },
-              ),
-            ),
-          ),
         TabBar(
           controller: tabController,
           isScrollable: true,
@@ -282,11 +240,9 @@ class SchedulePageViewState extends State<SchedulePageView>
     );
   }
 
-  void _retrieveCalendars() async {
-    print("retrieve calendars called");
+  Future<void> _retrieveCalendars() async {
     try {
       var permissionsGranted = await _deviceCalendarPlugin.hasPermissions();
-      print("permissions checked");
       if (permissionsGranted.isSuccess &&
           (permissionsGranted.data == null ||
               permissionsGranted.data == false)) {
@@ -300,18 +256,24 @@ class SchedulePageViewState extends State<SchedulePageView>
       }
 
       final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
-      setState(() {
-        _calendars = calendarsResult.data as List<Calendar>;
-      });
-    } on PlatformException catch (e, s) {
-      debugPrint('RETRIEVE_CALENDARS: $e, $s');
+      try {
+        setState(() {
+          _calendars = List<Calendar>.from(calendarsResult.data ?? []);
+        });
+      } catch (err, st) {
+        debugPrint('Error inside setState: $err');
+        debugPrint('Stack trace:\n$st');
+      }
+    } on PlatformException catch (e, st) {
+      debugPrint('RETRIEVE_CALENDARS: $e, $st');
     }
   }
 
-  void addLecturesToCalendar(
-      Calendar selectedCalendar, List<Lecture> lectures) {
+  Future<void> addLecturesToCalendar(
+    Calendar selectedCalendar,
+    List<Lecture> lectures,
+  ) async {
     final now = DateTime.now();
-
     lectures
         .where((lecture) => lecture.endTime.isAfter(now))
         .forEach((lecture) {
@@ -325,5 +287,80 @@ class SchedulePageViewState extends State<SchedulePageView>
 
       _deviceCalendarPlugin.createOrUpdateEvent(event);
     });
+  }
+
+  Future<void> showCalendarModal() {
+    return showDialog<void>(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return ModalDialog(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Text(
+                    'Select Calendar',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                if (_writableCalendars.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    child: Align(
+                      child: Text(
+                        'No calendars available',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ),
+                  )
+                else
+                  Flexible(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: _writableCalendars.length,
+                      itemBuilder: (context, index) {
+                        final calendar = _writableCalendars[index];
+                        return ListTile(
+                          title: Text(calendar.name ?? 'Unnamed Calendar'),
+                          selected: _selectedCalendar?.id == calendar.id,
+                          selectedTileColor:
+                              Theme.of(context).primaryColor.withOpacity(0.2),
+                          tileColor: Theme.of(context).colorScheme.surface,
+                          onTap: () {
+                            setModalState(() {
+                              _selectedCalendar = calendar;
+                            });
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: ElevatedButton(
+                    onPressed: _selectedCalendar == null
+                        ? null
+                        : () async {
+                            if (_writableCalendars.isNotEmpty) {
+                              await addLecturesToCalendar(
+                                _selectedCalendar!,
+                                widget.lectures,
+                              );
+                            }
+                            if (mounted) {
+                              Navigator.of(context).pop();
+                            }
+                          },
+                    child: const Text('Add to calendar'),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 }
