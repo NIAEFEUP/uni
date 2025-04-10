@@ -46,6 +46,7 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
 
   List<DropdownMenuItem<int>> bugList = [];
   List<picker.XFile> pickedFiles = [];
+  List<Widget> previewImages = [];
 
   static int _selectedBug = 0;
   final TextEditingController titleController = TextEditingController();
@@ -133,6 +134,12 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
                 ),
                 Text(pickedFiles.length.toString()),
               ],
+            ),
+            Container(
+              margin: const EdgeInsets.all(1),
+              child: Row(
+                children: previewImages,
+              ),
             ),
             Container(
               padding: EdgeInsets.zero,
@@ -255,6 +262,18 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
         if (selectedImages.isNotEmpty) {
           setState(() {
             pickedFiles.addAll(selectedImages);
+            List<Widget> images = [];
+            for(var i=0; i < pickedFiles.length; i++){
+              images.add(Padding(
+                padding: EdgeInsets.all(8.0/ (pickedFiles.length > 3 ? pickedFiles.length/3 : 1)),
+                child: SizedBox(
+                      width: 100/ (pickedFiles.length > 3 ? pickedFiles.length/3 : 1),
+                    child: Image.file(File(pickedFiles[i].path)),
+                  ),
+              ),
+              );
+            }
+            previewImages = images;
           });
         }
       } catch (err) {
