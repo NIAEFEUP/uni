@@ -104,7 +104,7 @@ List<RestaurantCard> getRestaurantInformation(
   final today = parseDateTime(DateTime.now());
 
   final restaurantsWidgets = favoriteRestaurants
-      .where((element) => element.meals[today]?.isNotEmpty ?? false)
+      .where((element) => element.getMealsOfDay(today).isNotEmpty)
       .map((restaurant) {
     final menuItems = getMainMenus(today, restaurant, locale);
     return RestaurantCard(
@@ -134,9 +134,9 @@ List<RestaurantMenuItem> getMainMenus(
   Restaurant restaurant,
   AppLocale locale,
 ) {
-  final meals = restaurant.meals[dayOfWeek];
+  final meals = restaurant.getMealsOfDay(dayOfWeek);
 
-  if (meals == null || meals.isEmpty) {
+  if (meals.isEmpty) {
     return [];
   }
 

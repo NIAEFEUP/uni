@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/floor_occupation.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
