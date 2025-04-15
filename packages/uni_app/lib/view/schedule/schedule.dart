@@ -1,6 +1,6 @@
-import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:timezone/timezone.dart' as tz;
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
@@ -8,12 +8,12 @@ import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/model/utils/time/weekday_mapper.dart';
 import 'package:uni/utils/calendar_service.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/common_widgets/calendar_selection_modal.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
-import 'package:uni_ui/modal/modal.dart';
 
 class SchedulePage extends StatefulWidget {
   SchedulePage({super.key, DateTime? now}) : now = now ?? DateTime.now();
@@ -62,12 +62,6 @@ class SchedulePageViewState extends State<SchedulePageView>
     with TickerProviderStateMixin {
   TabController? tabController;
   late final List<Lecture> lecturesThisWeek;
-
-  List<Calendar> _calendars = [];
-  Calendar? _selectedCalendar;
-
-  List<Calendar> get _writableCalendars =>
-      _calendars.where((c) => c.isReadOnly == false).toList();
 
   @override
   void initState() {
@@ -128,23 +122,20 @@ class SchedulePageViewState extends State<SchedulePageView>
               ElevatedButton(
                 onPressed: () async {
                   final calendarService = CalendarService();
-                  final calendars =
+                  final writableCalendars =
                       await calendarService.retrieveWritableCalendars();
-
-                  if (mounted) {
-                    setState(() {
-                      _calendars = calendars;
-                    });
-                    final lectureEventDrafts = widget.lectures
-                        .where((lecture) =>
-                            lecture.endTime.isAfter(DateTime.now()))
-                        .map(calendarService.createLectureEventDraft)
-                        .toList();
-                    await showCalendarModal(
-                      calendarService,
-                      lectureEventDrafts,
-                    );
-                  }
+                  final lectureEventDrafts = widget.lectures
+                      .where(
+                        (lecture) => lecture.endTime.isAfter(DateTime.now()),
+                      )
+                      .map(createLectureEventDraft)
+                      .toList();
+                  await showCalendarModal(
+                    context: context,
+                    writableCalendars: writableCalendars,
+                    calendarService: calendarService,
+                    eventDrafts: lectureEventDrafts,
+                  );
                 },
                 child: const Text('Save lectures'),
               ),
@@ -252,81 +243,14 @@ class SchedulePageViewState extends State<SchedulePageView>
     );
   }
 
-  Future<void> showCalendarModal(
-    CalendarService calendarService,
-    List<EventDraft> eventDrafts,
-  ) async {
-    return showDialog<void>(
-      context: context,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setModalState) {
-            return ModalDialog(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text(
-                    'Select Calendar',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                if (_writableCalendars.isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: Align(
-                      child: Text(
-                        'No calendars available',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ),
-                  )
-                else
-                  Flexible(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: _writableCalendars.length,
-                      itemBuilder: (context, index) {
-                        final calendar = _writableCalendars[index];
-                        return ListTile(
-                          title: Text(calendar.name ?? 'Unnamed Calendar'),
-                          selected: _selectedCalendar?.id == calendar.id,
-                          selectedTileColor:
-                              Theme.of(context).primaryColor.withOpacity(0.2),
-                          tileColor: Theme.of(context).colorScheme.surface,
-                          onTap: () {
-                            setModalState(() {
-                              _selectedCalendar = calendar;
-                            });
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: ElevatedButton(
-                    onPressed: _selectedCalendar == null
-                        ? null
-                        : () async {
-                            if (_writableCalendars.isNotEmpty) {
-                              await calendarService.addEventsToCalendar(
-                                _selectedCalendar!,
-                                eventDrafts,
-                              );
-                            }
-                            if (mounted) {
-                              Navigator.of(context).pop();
-                            }
-                          },
-                    child: const Text('Add to calendar'),
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
+  EventDraft createLectureEventDraft(
+    Lecture lecture,
+  ) {
+    return EventDraft(
+      title: '${lecture.subject} (${lecture.typeClass})',
+      location: lecture.room,
+      start: tz.TZDateTime.from(lecture.startTime, tz.local),
+      end: tz.TZDateTime.from(lecture.endTime, tz.local),
     );
   }
 }

@@ -1,8 +1,10 @@
-import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:timezone/timezone.dart' as tz;
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/exam.dart';
+import 'package:uni/utils/calendar_service.dart';
+import 'package:uni/view/common_widgets/calendar_selection_modal.dart';
 import 'package:uni/view/exams/widgets/exam_time.dart';
 import 'package:uni/view/exams/widgets/exam_title.dart';
 
@@ -104,9 +106,21 @@ class _ExamRowState extends State<ExamRow> {
                         ),
                       IconButton(
                         icon: Icon(MdiIcons.calendarPlus, size: 30),
-                        onPressed: () => Add2Calendar.addEvent2Cal(
-                          createExamEvent(),
-                        ),
+                        onPressed: () async {
+                          final calendarService = CalendarService();
+                          final writableCalendars =
+                              await calendarService.retrieveWritableCalendars();
+
+                          final examEventDraft =
+                              createExamEventDraft(widget.exam);
+
+                          await showCalendarModal(
+                            context: context,
+                            writableCalendars: writableCalendars,
+                            calendarService: calendarService,
+                            eventDrafts: [examEventDraft],
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -143,12 +157,14 @@ class _ExamRowState extends State<ExamRow> {
         .toList();
   }
 
-  Event createExamEvent() {
-    return Event(
+  EventDraft createExamEventDraft(
+    Exam exam,
+  ) {
+    return EventDraft(
       title: '${widget.exam.examType} ${widget.exam.subjectAcronym}',
       location: widget.exam.rooms.toString(),
-      startDate: widget.exam.start,
-      endDate: widget.exam.finish,
+      start: tz.TZDateTime.from(widget.exam.start, tz.local),
+      end: tz.TZDateTime.from(widget.exam.finish, tz.local),
     );
   }
 }
