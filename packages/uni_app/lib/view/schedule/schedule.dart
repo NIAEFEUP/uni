@@ -1,13 +1,12 @@
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:timezone/timezone.dart' as tz;
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/model/utils/time/weekday_mapper.dart';
+import 'package:uni/utils/calendar_service.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
@@ -64,7 +63,6 @@ class SchedulePageViewState extends State<SchedulePageView>
   TabController? tabController;
   late final List<Lecture> lecturesThisWeek;
 
-  late DeviceCalendarPlugin _deviceCalendarPlugin;
   List<Calendar> _calendars = [];
   Calendar? _selectedCalendar;
 
@@ -80,8 +78,6 @@ class SchedulePageViewState extends State<SchedulePageView>
     );
 
     var weekDay = widget.currentWeek.start.weekday;
-
-    _deviceCalendarPlugin = DeviceCalendarPlugin();
 
     lecturesThisWeek = <Lecture>[];
     widget.currentWeek.weekdays.take(6).forEach((day) {
@@ -131,8 +127,16 @@ class SchedulePageViewState extends State<SchedulePageView>
             children: <Widget>[
               ElevatedButton(
                 onPressed: () async {
-                  await _retrieveCalendars();
-                  await showCalendarModal();
+                  final calendarService = CalendarService();
+                  final calendars =
+                      await calendarService.retrieveWritableCalendars();
+
+                  if (mounted) {
+                    setState(() {
+                      _calendars = calendars;
+                    });
+                    await showCalendarModal(calendarService);
+                  }
                 },
                 child: const Text('Save lectures'),
               ),
@@ -240,56 +244,7 @@ class SchedulePageViewState extends State<SchedulePageView>
     );
   }
 
-  Future<void> _retrieveCalendars() async {
-    try {
-      var permissionsGranted = await _deviceCalendarPlugin.hasPermissions();
-      if (permissionsGranted.isSuccess &&
-          (permissionsGranted.data == null ||
-              permissionsGranted.data == false)) {
-        permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
-
-        if (!permissionsGranted.isSuccess ||
-            permissionsGranted.data == null ||
-            permissionsGranted.data == false) {
-          return;
-        }
-      }
-
-      final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
-      try {
-        setState(() {
-          _calendars = List<Calendar>.from(calendarsResult.data ?? []);
-        });
-      } catch (err, st) {
-        debugPrint('Error inside setState: $err');
-        debugPrint('Stack trace:\n$st');
-      }
-    } on PlatformException catch (e, st) {
-      debugPrint('RETRIEVE_CALENDARS: $e, $st');
-    }
-  }
-
-  Future<void> addLecturesToCalendar(
-    Calendar selectedCalendar,
-    List<Lecture> lectures,
-  ) async {
-    final now = DateTime.now();
-    lectures
-        .where((lecture) => lecture.endTime.isAfter(now))
-        .forEach((lecture) {
-      final event = Event(
-        selectedCalendar.id,
-        title: '${lecture.subject} (${lecture.typeClass})',
-        location: lecture.room,
-        start: tz.TZDateTime.from(lecture.startTime, tz.local),
-        end: tz.TZDateTime.from(lecture.endTime, tz.local),
-      );
-
-      _deviceCalendarPlugin.createOrUpdateEvent(event);
-    });
-  }
-
-  Future<void> showCalendarModal() {
+  Future<void> showCalendarModal(CalendarService calendarService) async {
     return showDialog<void>(
       context: context,
       builder: (context) {
@@ -344,7 +299,7 @@ class SchedulePageViewState extends State<SchedulePageView>
                         ? null
                         : () async {
                             if (_writableCalendars.isNotEmpty) {
-                              await addLecturesToCalendar(
+                              await calendarService.addLecturesToCalendar(
                                 _selectedCalendar!,
                                 widget.lectures,
                               );
