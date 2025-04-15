@@ -73,6 +73,31 @@ class RestaurantUtils {
     return false;
   }
 
+  static int getMealTypeId(String mealType) {
+    switch (mealType) {
+      case 'Carne':
+      case 'Prato de Carne':
+        return 1;
+      case 'Pescado':
+      case 'Peixe':
+      case 'Prato de Peixe':
+        return 2;
+      case 'Vegetariano':
+      case 'Prato Vegetariano':
+        return 3;
+      case 'Sopa':
+        return 4;
+      case 'Hortícola':
+        return 5;
+      case 'Dieta':
+        return 6;
+      case 'Prato do Dia':
+        return 7;
+      default:
+        return 0;
+    }
+  }
+
   static String getLocaleTranslation(
     AppLocale locale,
     String portugueseTranslation,

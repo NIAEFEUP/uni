@@ -284,7 +284,10 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   ) {
     final meals = restaurant.meals[dayOfWeek];
 
-    meals?.sort((a, b) => a.type.compareTo(b.type));
+    meals?.sort((a, b) {
+      return RestaurantUtils.getMealTypeId(a.type)
+          .compareTo(RestaurantUtils.getMealTypeId(b.type));
+    });
 
     final menuItems = <RestaurantMenuItem>[];
     for (final meal in meals!) {
@@ -301,6 +304,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
         );
       }
     }
+
     return menuItems;
   }
 
