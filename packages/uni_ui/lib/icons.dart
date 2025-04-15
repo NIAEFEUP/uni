@@ -24,6 +24,7 @@ class UniIcons {
   static const folderClosed = PhosphorIconsDuotone.folderSimple;
 
   static const caretDown = PhosphorIconsDuotone.caretDown;
+  static const caretDownRegular = PhosphorIconsRegular.caretDown;
   static const caretUp = PhosphorIconsDuotone.caretUp;
   static const caretRight = PhosphorIconsRegular.caretRight;
 
