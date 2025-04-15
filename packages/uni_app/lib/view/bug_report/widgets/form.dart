@@ -41,13 +41,13 @@ class BugReportFormState extends State<BugReportForm> {
     ),
     4: ('Outro', 'Other'),
   };
+
   List<DropdownMenuItem<int>> bugList = [];
 
-  static int _selectedBug = 0;
-  static final TextEditingController titleController = TextEditingController();
-  static final TextEditingController descriptionController =
-      TextEditingController();
-  static final TextEditingController emailController = TextEditingController();
+  int _selectedBug = 0;
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
 
   bool _isButtonTapped = false;
   bool _isConsentGiven = false;
@@ -83,7 +83,7 @@ class BugReportFormState extends State<BugReportForm> {
         children: [
           const Padding(padding: EdgeInsets.only(bottom: 10)),
           PageTitle(
-            name: S.of(context).report_error_suggestion,
+            name: S.of(context).leave_feedback,
             pad: false,
           ),
           const Padding(padding: EdgeInsets.only(bottom: 10)),

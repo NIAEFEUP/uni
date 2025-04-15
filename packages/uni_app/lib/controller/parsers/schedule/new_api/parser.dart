@@ -31,6 +31,7 @@ List<Lecture> getLecturesFromApiResponse(
       .map(
         (lecture) => Lecture(
           lecture.units.first.acronym,
+          _filterSubjectName(lecture.units.first.name),
           lecture.typology.acronym,
           lecture.start,
           lecture.end,
@@ -43,4 +44,9 @@ List<Lecture> getLecturesFromApiResponse(
         ),
       )
       .toList();
+}
+
+String _filterSubjectName(String subject) {
+  return RegExp(r' - ([^()]*)(?: \(|$)').firstMatch(subject)?.group(1) ??
+      subject;
 }

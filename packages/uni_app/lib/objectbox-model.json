@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:8291520291398480120",
-      "lastPropertyId": "3:6529611542004519423",
+      "lastPropertyId": "5:2290575640408544292",
       "name": "CalendarEvent",
       "properties": [
         {
@@ -23,6 +23,16 @@
           "name": "id",
           "type": 6,
           "flags": 1
+        },
+        {
+          "id": "4:606101617154450710",
+          "name": "start",
+          "type": 10
+        },
+        {
+          "id": "5:2290575640408544292",
+          "name": "finish",
+          "type": 10
         }
       ],
       "relations": []
@@ -78,7 +88,7 @@
     },
     {
       "id": "3:3729519930345414950",
-      "lastPropertyId": "14:3610253024990071574",
+      "lastPropertyId": "15:1908906956891695493",
       "name": "CourseUnit",
       "properties": [
         {
@@ -151,6 +161,11 @@
           "id": "14:3610253024990071574",
           "name": "schoolYear",
           "type": 9
+        },
+        {
+          "id": "15:1908906956891695493",
+          "name": "festId",
+          "type": 6
         }
       ],
       "relations": []
@@ -235,7 +250,7 @@
     },
     {
       "id": "6:2088655015871788343",
-      "lastPropertyId": "8:6414981311969213465",
+      "lastPropertyId": "9:1980793363502664287",
       "name": "Lecture",
       "properties": [
         {
@@ -278,6 +293,11 @@
           "name": "occurrId",
           "type": 6,
           "flags": 129
+        },
+        {
+          "id": "9:1980793363502664287",
+          "name": "acronym",
+          "type": 9
         }
       ],
       "relations": []
@@ -362,7 +382,7 @@
     },
     {
       "id": "9:8593806623526644439",
-      "lastPropertyId": "6:1619262703215131232",
+      "lastPropertyId": "8:3942026488437724941",
       "name": "Restaurant",
       "properties": [
         {
@@ -395,6 +415,16 @@
           "name": "uniqueId",
           "type": 6,
           "flags": 1
+        },
+        {
+          "id": "7:7030617389033595119",
+          "name": "typePt",
+          "type": 9
+        },
+        {
+          "id": "8:3942026488437724941",
+          "name": "typeEn",
+          "type": 9
         }
       ],
       "relations": []
