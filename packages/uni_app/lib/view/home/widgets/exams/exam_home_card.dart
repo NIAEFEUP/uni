@@ -1,14 +1,12 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/utils/string_formatter.dart';
-import 'package:uni/view/course_unit_info/course_unit_info.dart';
+import 'package:uni/view/academic_path/academic_path.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/timeline_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -78,30 +76,22 @@ class ExamHomeCard extends GenericHomecard {
               rooms: exam.rooms,
               type: exam.examType,
               startTime: exam.startTime,
-              onTap: () {
-                final profile =
-                    Provider.of<ProfileProvider>(context, listen: false).state;
-                if (profile != null) {
-                  final courseUnit = profile.courseUnits.firstWhereOrNull(
-                    (unit) => unit.abbreviation == exam.subjectAcronym,
-                  );
-                  if (courseUnit != null && courseUnit.occurrId != null) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<CourseUnitDetailPageView>(
-                        builder: (context) =>
-                            CourseUnitDetailPageView(courseUnit),
-                      ),
-                    );
-                  }
-                }
-              },
             ),
           ),
         )
         .toList();
 
     return items;
+  }
+
+  @override
+  void onCardClick(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (context) => const AcademicPathPageView(initialTabIndex: 2),
+      ),
+    );
   }
 
   @override

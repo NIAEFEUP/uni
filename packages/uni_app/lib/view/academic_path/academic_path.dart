@@ -11,13 +11,18 @@ import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/tabs/tab_icon.dart';
 
 class AcademicPathPageView extends StatefulWidget {
-  const AcademicPathPageView({super.key});
+  const AcademicPathPageView({
+    super.key,
+    this.initialTabIndex = 0,
+  });
+  final int initialTabIndex;
 
   @override
   State<StatefulWidget> createState() => AcademicPathPageViewState();
 }
 
-class AcademicPathPageViewState extends GeneralPageViewState
+class AcademicPathPageViewState
+    extends GeneralPageViewState<AcademicPathPageView>
     with SingleTickerProviderStateMixin {
   @override
   String? getTitle() =>
@@ -28,7 +33,11 @@ class AcademicPathPageViewState extends GeneralPageViewState
   @override
   void initState() {
     super.initState();
-    tabController = TabController(vsync: this, length: 3);
+    tabController = TabController(
+      vsync: this,
+      length: 3,
+      initialIndex: widget.initialTabIndex,
+    );
   }
 
   @override
