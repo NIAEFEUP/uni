@@ -30,7 +30,7 @@ class DishTypeFilterButton extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'Filter Dishes',
+            S.of(context).dish_types,
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           const SizedBox(width: 8),
@@ -67,7 +67,7 @@ class DishTypeFilterButton extends StatelessWidget {
               children: [
                 CheckboxListTile(
                   title: Text(
-                    'Select All',
+                    S.of(context).select_all,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   value: isAllSelected,
@@ -115,9 +115,10 @@ class DishTypeFilterButton extends StatelessWidget {
                         onSelectionChanged(tempSelected);
                         Navigator.of(context).pop();
                       },
-                      child: const Text(
-                        'Apply',
-                        style: TextStyle(fontSize: 12, color: Colors.white),
+                      child: Text(
+                        S.of(context).apply,
+                        style:
+                            const TextStyle(fontSize: 12, color: Colors.white),
                       ),
                     ),
                   ],

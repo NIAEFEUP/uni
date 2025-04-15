@@ -330,6 +330,16 @@ class S {
     );
   }
 
+  /// `Apply`
+  String get apply {
+    return Intl.message(
+      'Apply',
+      name: 'apply',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Change`
   String get change {
     return Intl.message(
@@ -1946,6 +1956,26 @@ class S {
       name: 'dish_type',
       desc: '',
       args: [type],
+    );
+  }
+
+  /// `Dish Types`
+  String get dish_types {
+    return Intl.message(
+      'Dish Types',
+      name: 'dish_types',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select All`
+  String get select_all {
+    return Intl.message(
+      'Select All',
+      name: 'select_all',
+      desc: '',
+      args: [],
     );
   }
 
