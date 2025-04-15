@@ -89,8 +89,11 @@ class _PlausibleProviderState extends State<PlausibleProvider> {
 
   Future<void> _updateConnectivityState() async {
     final connectivity = Connectivity();
-    final List<ConnectivityResult> connected=await connectivity.checkConnectivity();
-    connected.contains(ConnectivityResult.wifi)? _connectivityResult=ConnectivityResult.wifi: _connectivityResult=ConnectivityResult.none;
+    final List<ConnectivityResult> connected =
+        await connectivity.checkConnectivity();
+    connected.contains(ConnectivityResult.wifi)
+        ? _connectivityResult = ConnectivityResult.wifi
+        : _connectivityResult = ConnectivityResult.none;
     _updateAnalyticsState();
   }
 
@@ -102,7 +105,9 @@ class _PlausibleProviderState extends State<PlausibleProvider> {
   Future<void> _startListeners(Plausible plausible) async {
     final connectivity = Connectivity();
     connectivity.onConnectivityChanged.listen((result) {
-      result.contains(ConnectivityResult.wifi)? _connectivityResult=ConnectivityResult.wifi :_connectivityResult=ConnectivityResult.none;
+      result.contains(ConnectivityResult.wifi)
+          ? _connectivityResult = ConnectivityResult.wifi
+          : _connectivityResult = ConnectivityResult.none;
       _updateAnalyticsState();
     });
 

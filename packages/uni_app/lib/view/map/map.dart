@@ -66,36 +66,16 @@ class MapPageStateView extends State<MapPage> {
             options: MapOptions(
               minZoom: 17,
               maxZoom: 18,
-              nePanBoundary: const LatLng(41.17986, -8.59298),
-              swPanBoundary: const LatLng(41.17670, -8.59991),
-              center: const LatLng(41.17731, -8.59522),
-              zoom: 17.5,
-              interactiveFlags: InteractiveFlag.all - InteractiveFlag.rotate,
+              cameraConstraint: CameraConstraint.contain(
+                  bounds: LatLngBounds(const LatLng(41.17670, -8.59991),
+                      const LatLng(41.17986, -8.59298))),
+              initialCenter: const LatLng(41.17731, -8.59522),
+              initialZoom: 17.5,
               onTap: (tapPosition, latlng) =>
                   _popupLayerController.hideAllPopups(),
+              interactionOptions: const InteractionOptions(
+                  flags: InteractiveFlag.all - InteractiveFlag.rotate),
             ),
-            nonRotatedChildren: [
-              Align(
-                alignment: Alignment.bottomRight,
-                child: ColoredBox(
-                  color:
-                      Theme.of(context).colorScheme.onPrimary.withOpacity(0.8),
-                  child: GestureDetector(
-                    onTap: () => launchUrlWithToast(
-                      context,
-                      'https://www.openstreetmap.org/copyright',
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-                      child: MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: Text('©OpenStreetMap @CARTO'),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
             children: <Widget>[
               TileLayer(
                 urlTemplate:
@@ -157,6 +137,26 @@ class MapPageStateView extends State<MapPage> {
                         ),
                         contentPadding: const EdgeInsets.all(10),
                         hintText: '${S.of(context).search}...',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: ColoredBox(
+                  color:
+                      Theme.of(context).colorScheme.onPrimary.withOpacity(0.8),
+                  child: GestureDetector(
+                    onTap: () => launchUrlWithToast(
+                      context,
+                      'https://www.openstreetmap.org/copyright',
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: Text('©OpenStreetMap @CARTO'),
                       ),
                     ),
                   ),
