@@ -37,20 +37,18 @@ class RestaurantUtils {
   static bool mealMatchesFilter(int? selectedType, String mealType) {
     switch (selectedType) {
       case 1:
-        return true;
-      case 2:
         return ['Carne', 'Prato de Carne'].contains(mealType);
-      case 3:
+      case 2:
         return ['Pescado', 'Peixe', 'Prato de Peixe'].contains(mealType);
-      case 4:
+      case 3:
         return ['Vegetariano', 'Prato Vegetariano'].contains(mealType);
-      case 5:
+      case 4:
         return ['Sopa'].contains(mealType);
-      case 6:
+      case 5:
         return ['Hortícola'].contains(mealType);
-      case 7:
+      case 6:
         return ['Dieta'].contains(mealType);
-      case 8:
+      case 7:
         return ['Prato do Dia'].contains(mealType);
     }
     return false;

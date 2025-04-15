@@ -32,14 +32,13 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   late TabController tabController;
   late ScrollController scrollViewController;
   final List<Map<String, dynamic>> dishTypes = [
-    {'value': 1, 'key_label': 'all_dishes'},
-    {'value': 2, 'key_label': 'meat_dishes'},
-    {'value': 3, 'key_label': 'fish_dishes'},
-    {'value': 4, 'key_label': 'vegetarian_dishes'},
-    {'value': 5, 'key_label': 'soups'},
-    {'value': 6, 'key_label': 'salads'},
-    {'value': 7, 'key_label': 'diet_dishes'},
-    {'value': 8, 'key_label': 'dishes_of_the_day'},
+    {'value': 1, 'key_label': 'meat_dishes'},
+    {'value': 2, 'key_label': 'fish_dishes'},
+    {'value': 3, 'key_label': 'vegetarian_dishes'},
+    {'value': 4, 'key_label': 'soups'},
+    {'value': 5, 'key_label': 'salads'},
+    {'value': 6, 'key_label': 'diet_dishes'},
+    {'value': 7, 'key_label': 'dishes_of_the_day'},
   ];
   int? _selectedDishType;
   late bool isFavoriteFilterOn;
