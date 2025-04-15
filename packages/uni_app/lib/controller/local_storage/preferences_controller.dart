@@ -292,15 +292,21 @@ class PreferencesController {
     return prefs.getBool(_serviceCardsIsGrid) ?? true;
   }
 
-  static Future<void> setSelectedDishType(int? value) async {
-    await prefs.setInt(_selectedDishType, value ?? 1);
-    if (value == null) {
-      await prefs.remove(_selectedDishType);
-    }
+  static const String _selectedDishTypes = 'selected_dish_types';
+
+  static Future<void> setSelectedDishTypes(Set<int> values) async {
+    await prefs.setStringList(
+      _selectedDishTypes,
+      values.map((e) => e.toString()).toList(),
+    );
   }
 
-  static int? getSelectedDishType() {
-    return prefs.getInt(_selectedDishType);
+  static Set<int> getSelectedDishTypes() {
+    final stored = prefs.getStringList(_selectedDishTypes);
+    if (stored == null || stored.isEmpty) {
+      return {1, 2, 3, 4, 5, 6, 7};
+    }
+    return stored.map(int.parse).toSet();
   }
 
   static Future<void> setIsFavoriteRestaurantsFilterOn(bool? value) async {

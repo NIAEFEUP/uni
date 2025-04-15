@@ -40,8 +40,9 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     {'value': 6, 'key_label': 'diet_dishes'},
     {'value': 7, 'key_label': 'dishes_of_the_day'},
   ];
-  int? _selectedDishType;
+
   late bool isFavoriteFilterOn;
+  late Set<int> _selectedDishTypes;
 
   @override
   void initState() {
@@ -58,7 +59,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     _initializeRestaurants();
     isFavoriteFilterOn =
         PreferencesController.getIsFavoriteRestaurantsFilterOn() ?? false;
-    _selectedDishType = PreferencesController.getSelectedDishType() ?? 1;
+    _selectedDishTypes = PreferencesController.getSelectedDishTypes();
   }
 
   void _toggleFavorite(String restaurantName, String restaurantPeriod) {
@@ -159,13 +160,13 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                DishTypeDropdownMenu(
+                DishTypeFilterButton(
                   items: dishTypes,
-                  selectedValue: _selectedDishType,
-                  onChange: (newValue) {
+                  selectedValues: _selectedDishTypes,
+                  onSelectionChanged: (newValues) {
                     setState(() {
-                      PreferencesController.setSelectedDishType(newValue);
-                      _selectedDishType = newValue;
+                      _selectedDishTypes = newValues;
+                      PreferencesController.setSelectedDishTypes(newValues);
                     });
                   },
                 ),
@@ -287,7 +288,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
 
     final menuItems = <RestaurantMenuItem>[];
     for (final meal in meals!) {
-      if (RestaurantUtils.mealMatchesFilter(_selectedDishType, meal.type)) {
+      if (RestaurantUtils.mealMatchesFilter(_selectedDishTypes, meal.type)) {
         menuItems.add(
           RestaurantMenuItem(
             name: RestaurantUtils.getLocaleTranslation(
