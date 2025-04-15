@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
+import 'package:uni_ui/icons.dart';
 
 class UnknownLocation implements Location {
   UnknownLocation(this.floor, this.type, {this.locationGroupId});
@@ -10,7 +10,7 @@ class UnknownLocation implements Location {
   final weight = 4;
 
   @override
-  final icon = Icons.store;
+  final icon = UniIcons.questionMark;
 
   final int? locationGroupId;
 

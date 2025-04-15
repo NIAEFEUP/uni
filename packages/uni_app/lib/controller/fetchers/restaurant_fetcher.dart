@@ -30,6 +30,8 @@ class RestaurantFetcher {
     }
     return Restaurant(
       establishment.id,
+      establishment.type.namePt,
+      establishment.type.nameEn,
       establishment.namePt,
       establishment.nameEn,
       period,
