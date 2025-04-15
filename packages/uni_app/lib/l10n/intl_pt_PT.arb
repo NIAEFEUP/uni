@@ -358,6 +358,8 @@
   "@schedule": {},
   "instructors": "Docentes",
   "@instructors": {},
+  "remaining_instructors": "Docentes Restantes",
+  "@remaining_instructors": {},
   "assessments": "Avaliações",
   "@assessments": {},
   "noExamsScheduled": "Não há exames agendados",
@@ -390,5 +392,7 @@
   "no_courses_description": "Tenta refrescar a página",
   "@no_courses_description": {},
   "email": "Email",
-  "@email": {}
+  "@email": {},
+  "now": "Agora",
+  "@now": {}
 }

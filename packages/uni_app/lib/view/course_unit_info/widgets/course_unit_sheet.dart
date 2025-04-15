@@ -274,6 +274,7 @@ class _LimitedInstructorsRow extends StatelessWidget {
               return RemainingInstructorsCard(
                 remainingCount: remaining.length,
                 profileImages: images,
+                tooltip: S.of(context).remaining_instructors,
               );
             },
           ),

@@ -360,6 +360,8 @@
   "@schedule": {},
   "instructors": "Instructors",
   "@instructors": {},
+  "remaining_instructors": "Remaining Instructors",
+  "@remaining_instructors": {},
   "assessments": "Assessments",
   "@assessments": {},
   "noExamsScheduled": "No exams scheduled",
@@ -391,5 +393,7 @@
   "no_courses_description": "Try to refresh the page",
   "@no_courses_description": {},
   "email": "Email",
-  "@email": {}
+  "@email": {},
+  "now": "Now",
+  "@now": {}
 }

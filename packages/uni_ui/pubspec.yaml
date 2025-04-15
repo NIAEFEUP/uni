@@ -19,7 +19,9 @@ dev_dependencies:
   custom_lint: ^0.6.4
   flutter_test:
     sdk: flutter
-  leancode_lint: ^13.0.0
+  leancode_lint: ^14.0.0
+  uni_lint:
+    path: ../uni_lint
   test: any
 
 flutter:

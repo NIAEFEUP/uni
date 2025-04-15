@@ -10,12 +10,26 @@ class CourseCard extends StatelessWidget {
     super.key,
     required this.courseInfo,
     required this.selected,
+    required this.nowText,
     required this.onTap,
   });
 
   final CourseInfo courseInfo;
   final bool selected;
+  final String nowText;
   final void Function() onTap;
+
+  String _getYearText() {
+    if (courseInfo.enrollmentYear == null) {
+      return '';
+    }
+
+    if (courseInfo.conclusionYear == null) {
+      return nowText;
+    }
+
+    return '${courseInfo.enrollmentYear!}/${courseInfo.conclusionYear!}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +62,7 @@ class CourseCard extends StatelessWidget {
                         : grayMiddle),
               ),
               Text(
-                courseInfo.conclusionYear == null
-                    ? 'now'
-                    : '${courseInfo.enrollmentYear}/${courseInfo.conclusionYear}',
+                _getYearText(),
                 style: Theme.of(context).textTheme.bodySmall?.apply(
                     color: selected
                         ? Theme.of(context).colorScheme.primary

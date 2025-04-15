@@ -1828,6 +1828,16 @@ class S {
     );
   }
 
+  /// `Remaining Instructors`
+  String get remaining_instructors {
+    return Intl.message(
+      'Remaining Instructors',
+      name: 'remaining_instructors',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Assessments`
   String get assessments {
     return Intl.message(
@@ -1993,7 +2003,16 @@ class S {
       args: [],
     );
   }
-}
+      
+  /// `Now`
+  String get now {
+    return Intl.message(
+      'Now',
+      name: 'now',
+      desc: '',
+      args: [],
+    );
+  }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   const AppLocalizationDelegate();
