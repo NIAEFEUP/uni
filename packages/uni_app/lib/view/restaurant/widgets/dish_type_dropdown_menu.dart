@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni_ui/icons.dart';
 
 class DishTypeFilterButton extends StatelessWidget {
   const DishTypeFilterButton({
@@ -31,15 +32,11 @@ class DishTypeFilterButton extends StatelessWidget {
         children: [
           Text(
             'Filter Dishes',
-            style: theme.textTheme.labelLarge?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
-          const SizedBox(width: 6),
-          Icon(
-            Icons.filter_list,
-            size: 20,
-            color: theme.colorScheme.onSurfaceVariant,
+          const SizedBox(width: 8),
+          const UniIcon(
+            UniIcons.caretDown,
           ),
         ],
       ),
@@ -54,7 +51,6 @@ class DishTypeFilterButton extends StatelessWidget {
         final allValues = items.map((item) => item['value'] as int).toSet();
 
         return AlertDialog(
-          title: const Text('Select Dish Types'),
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           content: StatefulBuilder(
