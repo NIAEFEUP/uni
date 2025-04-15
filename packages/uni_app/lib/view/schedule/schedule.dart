@@ -135,7 +135,15 @@ class SchedulePageViewState extends State<SchedulePageView>
                     setState(() {
                       _calendars = calendars;
                     });
-                    await showCalendarModal(calendarService);
+                    final lectureEventDrafts = widget.lectures
+                        .where((lecture) =>
+                            lecture.endTime.isAfter(DateTime.now()))
+                        .map(calendarService.createLectureEventDraft)
+                        .toList();
+                    await showCalendarModal(
+                      calendarService,
+                      lectureEventDrafts,
+                    );
                   }
                 },
                 child: const Text('Save lectures'),
@@ -244,7 +252,10 @@ class SchedulePageViewState extends State<SchedulePageView>
     );
   }
 
-  Future<void> showCalendarModal(CalendarService calendarService) async {
+  Future<void> showCalendarModal(
+    CalendarService calendarService,
+    List<EventDraft> eventDrafts,
+  ) async {
     return showDialog<void>(
       context: context,
       builder: (context) {
@@ -299,9 +310,9 @@ class SchedulePageViewState extends State<SchedulePageView>
                         ? null
                         : () async {
                             if (_writableCalendars.isNotEmpty) {
-                              await calendarService.addLecturesToCalendar(
+                              await calendarService.addEventsToCalendar(
                                 _selectedCalendar!,
-                                widget.lectures,
+                                eventDrafts,
                               );
                             }
                             if (mounted) {
