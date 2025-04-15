@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uni_ui/common/generic_squircle.dart';
 
 import '../../../../generated/l10n.dart';
 
