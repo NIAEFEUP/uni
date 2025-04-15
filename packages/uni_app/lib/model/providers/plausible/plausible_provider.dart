@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:battery_plus/battery_plus.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/services.dart';
@@ -27,7 +26,7 @@ class PlausibleProvider extends StatefulWidget {
 class _PlausibleProviderState extends State<PlausibleProvider> {
   int _batteryLevel = 0;
   bool _isInBatterySaveMode = true;
-  ConnectivityResult _connectivityResult = ConnectivityResult.mobile;
+  ConnectivityResult _connectivityResult = ConnectivityResult.none;
   bool _isUsageStatsEnabled = true;
 
   bool _canUpdateBatteryState = true;
@@ -90,8 +89,8 @@ class _PlausibleProviderState extends State<PlausibleProvider> {
 
   Future<void> _updateConnectivityState() async {
     final connectivity = Connectivity();
-    _connectivityResult = await connectivity.checkConnectivity();
-
+    final List<ConnectivityResult> connected=await connectivity.checkConnectivity();
+    connected.contains(ConnectivityResult.wifi)? _connectivityResult=ConnectivityResult.wifi: _connectivityResult=ConnectivityResult.none;
     _updateAnalyticsState();
   }
 
@@ -103,7 +102,7 @@ class _PlausibleProviderState extends State<PlausibleProvider> {
   Future<void> _startListeners(Plausible plausible) async {
     final connectivity = Connectivity();
     connectivity.onConnectivityChanged.listen((result) {
-      _connectivityResult = result;
+      result.contains(ConnectivityResult.wifi)? _connectivityResult=ConnectivityResult.wifi :_connectivityResult=ConnectivityResult.none;
       _updateAnalyticsState();
     });
 
