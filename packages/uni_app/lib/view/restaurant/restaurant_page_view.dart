@@ -12,7 +12,7 @@ import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/widgets/days_of_week_tab_bar.dart';
-import 'package:uni/view/restaurant/widgets/dish_type_dropdown_menu.dart';
+import 'package:uni/view/restaurant/widgets/dish_type_checkbox_menu.dart';
 import 'package:uni/view/restaurant/widgets/favorite_restaurants_button.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
 import 'package:uni_ui/cards/restaurant_card.dart';
@@ -160,7 +160,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                DishTypeFilterButton(
+                DishTypeCheckboxMenu(
                   items: dishTypes,
                   selectedValues: _selectedDishTypes,
                   onSelectionChanged: (newValues) {
