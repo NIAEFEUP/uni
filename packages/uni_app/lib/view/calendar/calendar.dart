@@ -22,7 +22,8 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
   Widget getBody(BuildContext context) {
     return LazyConsumer<CalendarProvider, Map<AppLocale, List<CalendarEvent>>>(
       builder: getTimeline,
-      hasContent: (calendars) => calendars.values.any((list) => list.isNotEmpty),
+      hasContent: (calendars) =>
+          calendars.values.any((list) => list.isNotEmpty),
       onNullContent: Center(
         child: Text(
           S.of(context).no_events,
@@ -32,9 +33,10 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
     );
   }
 
-  Widget getTimeline(BuildContext context, Map<AppLocale, List<CalendarEvent>> calendars) {
+  Widget getTimeline(
+      BuildContext context, Map<AppLocale, List<CalendarEvent>> calendars) {
     final locale = Provider.of<LocaleNotifier>(context).getLocale();
-    final calendar = calendars[locale] ?? []; 
+    final calendar = calendars[locale] ?? [];
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, bottom: 100),

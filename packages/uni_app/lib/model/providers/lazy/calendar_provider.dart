@@ -6,8 +6,10 @@ import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
 
-class CalendarProvider extends StateProviderNotifier<Map<AppLocale, List<CalendarEvent>>> {
-  CalendarProvider() : super(cacheDuration: const Duration(days: 30), dependsOnSession: false);
+class CalendarProvider
+    extends StateProviderNotifier<Map<AppLocale, List<CalendarEvent>>> {
+  CalendarProvider()
+      : super(cacheDuration: const Duration(days: 30), dependsOnSession: false);
 
   @override
   Future<Map<AppLocale, List<CalendarEvent>>> loadFromStorage(

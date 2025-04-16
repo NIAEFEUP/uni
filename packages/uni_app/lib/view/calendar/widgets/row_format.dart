@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni_ui/cards/timeline_card.dart';

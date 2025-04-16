@@ -1,5 +1,5 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:intl/intl.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:uni/generated/l10n.dart';
 
 part '../../generated/model/entities/calendar_event.g.dart';
@@ -43,9 +43,9 @@ class CalendarEvent {
     final period = <String>[];
     String timePeriod;
 
-    final String year = startDate!.year.toString();
-    final String month = monthFormatter.format(startDate!);
-    final String day = startDate!.day.toString();
+    final year = startDate!.year.toString();
+    final month = monthFormatter.format(startDate!);
+    final day = startDate!.day.toString();
 
     if (endDate == null || startDate == endDate) {
       timePeriod = '$day $month';
@@ -55,9 +55,9 @@ class CalendarEvent {
       return period;
     }
 
-    final String dayEnd = endDate!.day.toString();
-    final String yearEnd = endDate!.year.toString();
-    final String monthEnd = monthFormatter.format(endDate!);
+    final dayEnd = endDate!.day.toString();
+    final yearEnd = endDate!.year.toString();
+    final monthEnd = monthFormatter.format(endDate!);
 
     if (year == yearEnd) {
       if (month == monthEnd) {

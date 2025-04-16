@@ -26,8 +26,9 @@ class CalendarHomeCard extends GenericHomecard {
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<CalendarProvider, Map<AppLocale, List<CalendarEvent>>>(
       builder: (context, calendars) {
-        final locale = Provider.of<LocaleNotifier>(context, listen: false).getLocale();
-        final events = calendars[locale] ?? []; 
+        final locale =
+            Provider.of<LocaleNotifier>(context, listen: false).getLocale();
+        final events = calendars[locale] ?? [];
         return Calendar(
           items: events
               .map(
@@ -39,7 +40,8 @@ class CalendarHomeCard extends GenericHomecard {
               .toList(),
         );
       },
-      hasContent: (calendars) => calendars.values.any((list) => list.isNotEmpty),
+      hasContent: (calendars) =>
+          calendars.values.any((list) => list.isNotEmpty),
       onNullContent: Center(
         child: Text(
           S.of(context).no_events,

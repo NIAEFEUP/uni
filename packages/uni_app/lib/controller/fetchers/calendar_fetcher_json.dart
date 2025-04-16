@@ -5,12 +5,12 @@ import 'package:uni/model/entities/calendar_event.dart';
 class CalendarFetcherJson {
   /// Fetches the calendar events from the local JSON file.
   Future<List<CalendarEvent>> getCalendar(String locale) async {
-    final String filePath = 'assets/text/calendar/${locale}Calendar.json';
-    final String response = await rootBundle.loadString(filePath);
+    final filePath = 'assets/text/calendar/${locale}Calendar.json';
+    final response = await rootBundle.loadString(filePath);
 
-    final List<dynamic> data = json.decode(response);
+    final data = json.decode(response) as List<dynamic>;
 
-    final List<CalendarEvent> events = [];
+    final events = <CalendarEvent>[];
     for (final item in data) {
       final map = item as Map<String, dynamic>;
 
