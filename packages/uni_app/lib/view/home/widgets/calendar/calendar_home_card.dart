@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/calendar/calendar.dart';
 import 'package:uni_ui/calendar/calendar_item.dart';
 
@@ -21,8 +24,10 @@ class CalendarHomeCard extends GenericHomecard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return LazyConsumer<CalendarProvider, List<CalendarEvent>>(
-      builder: (context, events) {
+    return LazyConsumer<CalendarProvider, Map<AppLocale, List<CalendarEvent>>>(
+      builder: (context, calendars) {
+        final locale = Provider.of<LocaleNotifier>(context, listen: false).getLocale();
+        final events = calendars[locale] ?? []; 
         return Calendar(
           items: events
               .map(
@@ -34,7 +39,7 @@ class CalendarHomeCard extends GenericHomecard {
               .toList(),
         );
       },
-      hasContent: (events) => events.isNotEmpty,
+      hasContent: (calendars) => calendars.values.any((list) => list.isNotEmpty),
       onNullContent: Center(
         child: Text(
           S.of(context).no_events,

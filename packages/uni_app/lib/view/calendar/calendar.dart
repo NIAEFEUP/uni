@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
@@ -19,9 +20,9 @@ class CalendarPageView extends StatefulWidget {
 class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<CalendarProvider, List<CalendarEvent>>(
+    return LazyConsumer<CalendarProvider, Map<AppLocale, List<CalendarEvent>>>(
       builder: getTimeline,
-      hasContent: (calendar) => calendar.isNotEmpty,
+      hasContent: (calendars) => calendars.values.any((list) => list.isNotEmpty),
       onNullContent: Center(
         child: Text(
           S.of(context).no_events,
@@ -31,8 +32,9 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
     );
   }
 
-  Widget getTimeline(BuildContext context, List<CalendarEvent> calendar) {
+  Widget getTimeline(BuildContext context, Map<AppLocale, List<CalendarEvent>> calendars) {
     final locale = Provider.of<LocaleNotifier>(context).getLocale();
+    final calendar = calendars[locale] ?? []; 
     return SingleChildScrollView(
       child: Column(
         children: calendar
