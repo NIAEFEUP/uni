@@ -36,10 +36,13 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
     final locale = Provider.of<LocaleNotifier>(context).getLocale();
     final calendar = calendars[locale] ?? []; 
     return SingleChildScrollView(
-      child: Column(
-        children: calendar
-            .map((event) => RowFormat(event: event, locale: locale))
-            .toList(),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 100),
+        child: Column(
+          children: calendar
+              .map((event) => RowFormat(event: event, locale: locale))
+              .toList(),
+        ),
       ),
     );
   }
