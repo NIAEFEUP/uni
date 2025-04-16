@@ -42,6 +42,8 @@ class PreferencesController {
   static const String _schoolYearValue = 'school_year_value';
   static const String _serviceCardsIsGrid = 'service_cards_is_grid';
   static const String _selectedDishType = 'selected_dish_type';
+  static const String _selectedDishTypes = 'selected_dish_types';
+  static final Set<int> _defaultSelectedDishes = {1, 2, 3, 4, 5, 6, 7};
   static const String _isFavoriteRestaurantsFilterOn =
       'is_favorite_restaurant_filter_on';
 
@@ -292,8 +294,6 @@ class PreferencesController {
     return prefs.getBool(_serviceCardsIsGrid) ?? true;
   }
 
-  static const String _selectedDishTypes = 'selected_dish_types';
-
   static Future<void> setSelectedDishTypes(Set<int> values) async {
     await prefs.setStringList(
       _selectedDishTypes,
@@ -304,7 +304,7 @@ class PreferencesController {
   static Set<int> getSelectedDishTypes() {
     final stored = prefs.getStringList(_selectedDishTypes);
     if (stored == null || stored.isEmpty) {
-      return {1, 2, 3, 4, 5, 6, 7};
+      return _defaultSelectedDishes;
     }
     return stored.map(int.parse).toSet();
   }

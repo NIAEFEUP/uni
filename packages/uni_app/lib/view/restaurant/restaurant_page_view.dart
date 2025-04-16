@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
+import 'package:uni/model/entities/dish_type.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
@@ -31,14 +32,14 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   late List<Restaurant> filteredRestaurants;
   late TabController tabController;
   late ScrollController scrollViewController;
-  final List<Map<String, dynamic>> dishTypes = [
-    {'value': 1, 'key_label': 'meat_dishes'},
-    {'value': 2, 'key_label': 'fish_dishes'},
-    {'value': 3, 'key_label': 'vegetarian_dishes'},
-    {'value': 4, 'key_label': 'soups'},
-    {'value': 5, 'key_label': 'salads'},
-    {'value': 6, 'key_label': 'diet_dishes'},
-    {'value': 7, 'key_label': 'dishes_of_the_day'},
+  final List<DishType> dishTypes = [
+    const DishType(id: 1, keyLabel: 'meat_dishes'),
+    const DishType(id: 2, keyLabel: 'fish_dishes'),
+    const DishType(id: 3, keyLabel: 'vegetarian_dishes'),
+    const DishType(id: 4, keyLabel: 'soups'),
+    const DishType(id: 5, keyLabel: 'salads'),
+    const DishType(id: 6, keyLabel: 'diet_dishes'),
+    const DishType(id: 7, keyLabel: 'dishes_of_the_day'),
   ];
 
   late bool isFavoriteFilterOn;
