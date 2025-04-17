@@ -135,11 +135,8 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
         final isAFavorite = favoriteRestaurants.contains(a.namePt + a.period);
         final isBFavorite = favoriteRestaurants.contains(b.namePt + b.period);
 
-        if (isAFavorite && !isBFavorite) {
-          return -1;
-        }
-        if (!isAFavorite && isBFavorite) {
-          return 1;
+        if (isAFavorite != isBFavorite) {
+          return isAFavorite ? -1 : 1;
         }
         return 0;
       });
