@@ -49,5 +49,4 @@ class DropdownMenuBugSelect extends StatelessWidget {
       ),
     );
   }
-
 }

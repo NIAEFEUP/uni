@@ -17,7 +17,6 @@ import 'package:uni/view/bug_report/widgets/text_field.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 
-
 class BugReportPageView extends StatefulWidget {
   const BugReportPageView({super.key});
 
@@ -210,13 +209,13 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
 
   Widget dropdownBugSelectWidget(BuildContext context) {
     return DropdownMenuBugSelect(
-        items: bugList,
-        selectedValue: _selectedBug,
-        onChange: (newValue) {
-      setState(() {
-        _selectedBug = newValue ?? 0;
-      });
-    },
+      items: bugList,
+      selectedValue: _selectedBug,
+      onChange: (newValue) {
+        setState(() {
+          _selectedBug = newValue ?? 0;
+        });
+      },
     );
   }
 
@@ -238,14 +237,17 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
               pickedFiles.removeAt(0);
             }
             List<Widget> images = [];
-            for(var i=0; i < pickedFiles.length; i++){
-              images.add(Padding(
-                padding: EdgeInsets.all(8.0/ (pickedFiles.length > 3 ? pickedFiles.length/3 : 1)),
-                child: SizedBox(
-                      width: 100/ (pickedFiles.length > 3 ? pickedFiles.length/3 : 1),
+            for (var i = 0; i < pickedFiles.length; i++) {
+              images.add(
+                Padding(
+                  padding: EdgeInsets.all(8.0 /
+                      (pickedFiles.length > 3 ? pickedFiles.length / 3 : 1)),
+                  child: SizedBox(
+                    width: 100 /
+                        (pickedFiles.length > 3 ? pickedFiles.length / 3 : 1),
                     child: Image.file(File(pickedFiles[i].path)),
                   ),
-              ),
+                ),
               );
             }
             previewImages = images;
