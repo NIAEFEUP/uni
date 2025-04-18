@@ -391,6 +391,8 @@
   "@no_courses": {},
   "no_courses_description": "Tenta refrescar a página",
   "@no_courses_description": {},
+  "email": "Email",
+  "@email": {},
   "now": "Agora",
   "@now": {}
 }
