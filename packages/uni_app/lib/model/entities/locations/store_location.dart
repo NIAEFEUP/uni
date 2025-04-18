@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
+import 'package:uni_ui/icons.dart';
 
 class StoreLocation implements Location {
   StoreLocation(this.floor, this.name, {this.locationGroupId});
@@ -11,7 +11,7 @@ class StoreLocation implements Location {
 
   final String name;
   @override
-  final icon = Icons.store;
+  final icon = UniIcons.storefront;
 
   final int? locationGroupId;
 
