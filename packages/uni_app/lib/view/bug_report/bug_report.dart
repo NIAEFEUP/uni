@@ -12,9 +12,11 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/bug_report.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/bug_report/widgets/dropdown_bug_select.dart';
 import 'package:uni/view/bug_report/widgets/text_field.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
+
 
 class BugReportPageView extends StatefulWidget {
   const BugReportPageView({super.key});
@@ -206,45 +208,15 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
   String? getTitle() =>
       S.of(context).nav_title(NavigationItem.navBugreport.route);
 
-  // TODO: remove this when refactoring the dropdown
   Widget dropdownBugSelectWidget(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 30, top: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            S.of(context).occurrence_type,
-            style: Theme.of(context).textTheme.bodyMedium,
-            textAlign: TextAlign.left,
-          ),
-          Row(
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(right: 15),
-                child: const Icon(
-                  Icons.bug_report,
-                ),
-              ),
-              Expanded(
-                child: DropdownButton(
-                  hint: Text(S.of(context).occurrence_type),
-                  items: bugList,
-                  value: _selectedBug,
-                  onChanged: (value) {
-                    if (value != null) {
-                      setState(() {
-                        _selectedBug = value;
-                      });
-                    }
-                  },
-                  isExpanded: true,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+    return DropdownMenuBugSelect(
+        items: bugList,
+        selectedValue: _selectedBug,
+        onChange: (newValue) {
+      setState(() {
+        _selectedBug = newValue ?? 0;
+      });
+    },
     );
   }
 
