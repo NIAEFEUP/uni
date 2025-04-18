@@ -1,0 +1,8 @@
+analyzer:
+  plugins:
+    - custom_lint
+
+custom_lint:
+  debug: true
+  rules:
+    - no_string_literals_in_widgets

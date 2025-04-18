@@ -80,16 +80,6 @@ class S {
     return Intl.message('About us', name: 'about', desc: '', args: []);
   }
 
-  /// `Report error/suggestion`
-  String get report_error_suggestion {
-    return Intl.message(
-      'Report error/suggestion',
-      name: 'report_error_suggestion',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Language`
   String get language {
     return Intl.message('Language', name: 'language', desc: '', args: []);
@@ -145,10 +135,10 @@ class S {
     return Intl.message('Add widget', name: 'add_widget', desc: '', args: []);
   }
 
-  /// `By entering you confirm that you agree with these Terms and Conditions`
+  /// `By entering you agree with these`
   String get agree_terms {
     return Intl.message(
-      'By entering you confirm that you agree with these Terms and Conditions',
+      'By entering you agree with these',
       name: 'agree_terms',
       desc: '',
       args: [],
@@ -185,9 +175,15 @@ class S {
     );
   }
 
-  /// `Average: `
+  /// `Average`
   String get average {
-    return Intl.message('Average: ', name: 'average', desc: '', args: []);
+    return Intl.message(
+      'Average',
+      name: 'average',
+      desc: '',
+      args: [],
+    );
+
   }
 
   /// `We do now collect anonymous usage statistics in order to improve your experience. You can change it in settings.`
@@ -200,9 +196,14 @@ class S {
     );
   }
 
-  /// `Balance:`
+  /// `Balance`
   String get balance {
-    return Intl.message('Balance:', name: 'balance', desc: '', args: []);
+    return Intl.message(
+      'Balance',
+      name: 'balance',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Bibliography`
@@ -210,6 +211,16 @@ class S {
     return Intl.message(
       'Bibliography',
       name: 'bibliography',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Breakfast`
+  String get breakfast {
+    return Intl.message(
+      'Breakfast',
+      name: 'breakfast',
       desc: '',
       args: [],
     );
@@ -440,6 +451,16 @@ class S {
     );
   }
 
+  /// `Dinner`
+  String get dinner {
+    return Intl.message(
+      'Dinner',
+      name: 'dinner',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `D. Beatriz's stationery store`
   String get dona_bia {
     return Intl.message(
@@ -490,6 +511,16 @@ class S {
     return Intl.message('Evaluation', name: 'evaluation', desc: '', args: []);
   }
 
+  /// `Eligibility for exams`
+  String get frequency {
+    return Intl.message(
+      'Eligibility for exams',
+      name: 'frequency',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Exams Filter Settings`
   String get exams_filter {
     return Intl.message(
@@ -520,10 +551,10 @@ class S {
     );
   }
 
-  /// `Deadline for next fee:`
+  /// `Deadline`
   String get fee_date {
     return Intl.message(
-      'Deadline for next fee:',
+      'Deadline',
       name: 'fee_date',
       desc: '',
       args: [],
@@ -535,6 +566,16 @@ class S {
     return Intl.message(
       'Fee deadline',
       name: 'fee_notification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report an issue or suggest an improvement`
+  String get feedback_description {
+    return Intl.message(
+      'Report an issue or suggest an improvement',
+      name: 'feedback_description',
       desc: '',
       args: [],
     );
@@ -620,10 +661,10 @@ class S {
     );
   }
 
-  /// `Stay signed in`
+  /// `Remember me`
   String get keep_login {
     return Intl.message(
-      'Stay signed in',
+      'Remember me',
       name: 'keep_login',
       desc: '',
       args: [],
@@ -653,11 +694,31 @@ class S {
     );
   }
 
+  /// `Leave feedback`
+  String get leave_feedback {
+    return Intl.message(
+      'Leave feedback',
+      name: 'leave_feedback',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Library Occupation`
   String get library_occupation {
     return Intl.message(
       'Library Occupation',
       name: 'library_occupation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lunch`
+  String get lunch {
+    return Intl.message(
+      'Lunch',
+      name: 'lunch',
       desc: '',
       args: [],
     );
@@ -693,6 +754,16 @@ class S {
     return Intl.message('Settings', name: 'settings', desc: '', args: []);
   }
 
+  /// `Snackbar`
+  String get snackbar {
+    return Intl.message(
+      'Snackbar',
+      name: 'snackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Log out`
   String get logout {
     return Intl.message('Log out', name: 'logout', desc: '', args: []);
@@ -723,7 +794,7 @@ class S {
     );
   }
 
-  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} transportes{Transports} faculdade{Faculty} other{Other}}`
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} mapa{Map} faculdade{Faculty} other{Other}}`
   String nav_title(Object title) {
     return Intl.select(
       title,
@@ -738,7 +809,7 @@ class S {
         'calendario': 'Calendar',
         'biblioteca': 'Library',
         'percurso_academico': 'Academic Path',
-        'transportes': 'Transports',
+        'mapa': 'Map',
         'faculdade': 'Faculty',
         'other': 'Other',
       },
@@ -778,6 +849,16 @@ class S {
     return Intl.message(
       'There are no classes to display',
       name: 'no_class',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have no classes this week`
+  String get no_classes_this_week {
+    return Intl.message(
+      'You have no classes this week',
+      name: 'no_classes_this_week',
       desc: '',
       args: [],
     );
@@ -873,10 +954,30 @@ class S {
     );
   }
 
-  /// `No favorite restaurants`
+  /// `There's no files attached`
+  String get no_files {
+    return Intl.message(
+      'There\'s no files attached',
+      name: 'no_files',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have nothing to see!`
+  String get no_files_label {
+    return Intl.message(
+      'You have nothing to see!',
+      name: 'no_files_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No favorite restaurants open`
   String get no_favorite_restaurants {
     return Intl.message(
-      'No favorite restaurants',
+      'No favorite restaurants open',
       name: 'no_favorite_restaurants',
       desc: '',
       args: [],
@@ -1058,9 +1159,14 @@ class S {
     );
   }
 
-  /// `password`
+  /// `Password`
   String get password {
-    return Intl.message('password', name: 'password', desc: '', args: []);
+    return Intl.message(
+      'Password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Pending references`
@@ -1096,6 +1202,16 @@ class S {
   /// `Print`
   String get print {
     return Intl.message('Print', name: 'print', desc: '', args: []);
+  }
+
+  /// `Print balance`
+  String get print_balance {
+    return Intl.message(
+      'Print balance',
+      name: 'print_balance',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `File opened successfully`
@@ -1268,10 +1384,10 @@ class S {
     );
   }
 
-  /// `student number`
+  /// `Student Number`
   String get student_number {
     return Intl.message(
-      'student number',
+      'Student Number',
       name: 'student_number',
       desc: '',
       args: [],
@@ -1363,6 +1479,16 @@ class S {
     return Intl.message('Year', name: 'year', desc: '', args: []);
   }
 
+  /// `See more`
+  String get see_more {
+    return Intl.message(
+      'See more',
+      name: 'see_more',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Search`
   String get search {
     return Intl.message('Search', name: 'search', desc: '', args: []);
@@ -1393,10 +1519,10 @@ class S {
     return Intl.message('Try again', name: 'try_again', desc: '', args: []);
   }
 
-  /// `Problems with login? Try a different login`
+  /// `Having trouble signing in?`
   String get try_different_login {
     return Intl.message(
-      'Problems with login? Try a different login',
+      'Having trouble signing in?',
       name: 'try_different_login',
       desc: '',
       args: [],
@@ -1443,6 +1569,7 @@ class S {
     );
   }
 
+
   /// `Visual Detail`
   String get bug_description_visual_detail {
     return Intl.message(
@@ -1452,6 +1579,16 @@ class S {
       args: [],
     );
   }
+  /// `Schedule`
+  String get schedule {
+    return Intl.message(
+      'Schedule',
+      name: 'schedule',
+      desc: '',
+      args: [],
+    );
+  }
+
 
   /// `Error`
   String get bug_description_error {
@@ -1462,7 +1599,17 @@ class S {
       args: [],
     );
   }
+  /// `Instructors`
+  String get instructors {
+    return Intl.message(
+      'Instructors',
+      name: 'instructors',
+      desc: '',
+      args: [],
+    );
+  }
 
+<
   /// `Suggestion`
   String get bug_description_Suggestion {
     return Intl.message(
@@ -1472,6 +1619,16 @@ class S {
       args: [],
     );
   }
+  /// `Remaining Instructors`
+  String get remaining_instructors {
+    return Intl.message(
+      'Remaining Instructors',
+      name: 'remaining_instructors',
+      desc: '',
+      args: [],
+    );
+  }
+
 
   /// `Unexpected Behaviour`
   String get bug_description_unexpected_behaviour {
@@ -1482,6 +1639,16 @@ class S {
       args: [],
     );
   }
+  /// `Assessments`
+  String get assessments {
+    return Intl.message(
+      'Assessments',
+      name: 'assessments',
+      desc: '',
+      args: [],
+    );
+  }
+
 
   /// `Other`
   String get bug_description_other {
@@ -1492,12 +1659,32 @@ class S {
       args: [],
     );
   }
+  
+  /// `No exams scheduled`
+  String get noExamsScheduled {
+    return Intl.message(
+      'No exams scheduled',
+      name: 'noExamsScheduled',
+      desc: '',
+      args: [],
+    );
+  }
+
 
   /// `Leave Feedback`
   String get leave_feedback {
     return Intl.message(
       'Leave Feedback',
       name: 'leave_feedback',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `No instructors assigned`
+  String get noInstructors {
+    return Intl.message(
+      'No instructors assigned',
+      name: 'noInstructors',
       desc: '',
       args: [],
     );
@@ -1513,6 +1700,138 @@ class S {
     return Intl.message(
       'Failed to upload',
       name: 'failed_upload',
+=======
+  /// `Course Regent`
+  String get courseRegent {
+    return Intl.message(
+      'Course Regent',
+      name: 'courseRegent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Instructor`
+  String get instructor {
+    return Intl.message(
+      'Instructor',
+      name: 'instructor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lectures`
+  String get lectures {
+    return Intl.message(
+      'Lectures',
+      name: 'lectures',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Exams`
+  String get exams {
+    return Intl.message(
+      'Exams',
+      name: 'exams',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Courses`
+  String get courses {
+    return Intl.message(
+      'Courses',
+      name: 'courses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All`
+  String get all_feminine {
+    return Intl.message(
+      'All',
+      name: 'all_feminine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{type, select, all_dishes{All dishes} meat_dishes{Meat dishes} fish_dishes{Fish dishes} vegetarian_dishes{Vegetarian dishes} soups{Soups} salads{Salads} diet_dishes{Diet dishes} dishes_of_the_day{Dishes of the Day} other{Other}}`
+  String dish_type(Object type) {
+    return Intl.select(
+      type,
+      {
+        'all_dishes': 'All dishes',
+        'meat_dishes': 'Meat dishes',
+        'fish_dishes': 'Fish dishes',
+        'vegetarian_dishes': 'Vegetarian dishes',
+        'soups': 'Soups',
+        'salads': 'Salads',
+        'diet_dishes': 'Diet dishes',
+        'dishes_of_the_day': 'Dishes of the Day',
+        'other': 'Other',
+      },
+      name: 'dish_type',
+      desc: '',
+      args: [type],
+    );
+  }
+
+  /// `Favorites`
+  String get favorite_filter {
+    return Intl.message(
+      'Favorites',
+      name: 'favorite_filter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{period, select, lunch{Lunch} dinner{Dinner} other{Other}}`
+  String restaurant_period(Object period) {
+    return Intl.select(
+      period,
+      {
+        'lunch': 'Lunch',
+        'dinner': 'Dinner',
+        'other': 'Other',
+      },
+      name: 'restaurant_period',
+      desc: '',
+      args: [period],
+    );
+  }
+
+  /// `No courses we're found`
+  String get no_courses {
+    return Intl.message(
+      'No courses we\'re found',
+      name: 'no_courses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try to refresh the page`
+  String get no_courses_description {
+    return Intl.message(
+      'Try to refresh the page',
+      name: 'no_courses_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Now`
+  String get now {
+    return Intl.message(
+      'Now',
+      name: 'now',
       desc: '',
       args: [],
     );

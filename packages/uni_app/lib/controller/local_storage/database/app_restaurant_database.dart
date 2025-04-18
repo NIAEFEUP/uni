@@ -14,7 +14,10 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
           CREATE TABLE RESTAURANTS(
           id INTEGER PRIMARY KEY,
           ref TEXT,
-          name TEXT)
+          typePt TEXT,
+          typeEn TEXT,
+          namePt TEXT,
+					nameEn TEXT)
           ''',
             '''
           CREATE TABLE MEALS(
@@ -22,7 +25,8 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
           day TEXT,
           type TEXT,
           date TEXT,
-          name TEXT,
+          namePt TEXT,
+          nameEn TEXT,
           id_restaurant INTEGER,
           FOREIGN KEY (id_restaurant) REFERENCES RESTAURANTS(id))
           '''
@@ -45,7 +49,11 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
 
           return Restaurant(
             restaurantId,
-            map['name'] as String,
+            map['typePt'] as String,
+            map['typeEn'] as String,
+            map['namePt'] as String,
+            map['nameEn'] as String,
+            map['period'] as String,
             map['ref'] as String,
             meals: meals,
           );
@@ -70,7 +78,7 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
       }
     });
 
-    return filterPastMeals(restaurants);
+    return restaurants;
   }
 
   Future<List<Meal>> getRestaurantMeals(
@@ -93,10 +101,11 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
     final meals = mealsMaps.map((map) {
       final day = parseDayOfWeek(map['day'] as String);
       final type = map['type'] as String;
-      final name = map['name'] as String;
+      final namePt = map['namePt'] as String;
+      final nameEn = map['nameEn'] as String;
       final format = DateFormat('d-M-y');
       final date = format.parseUtc(map['date'] as String);
-      return Meal(type, name, day!, date);
+      return Meal(type, namePt, nameEn, day!, date);
     }).toList();
 
     return meals;
@@ -128,23 +137,4 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
       }
     });
   }
-}
-
-List<Restaurant> filterPastMeals(List<Restaurant> restaurants) {
-  final restaurantsCopy = List<Restaurant>.from(restaurants);
-  // Hide past and next weeks' meals
-  // (To replicate sigarra's behaviour for the GSheets meals)
-  final now = DateTime.now().toUtc();
-  final today = DateTime.utc(now.year, now.month, now.day);
-  final nextSunday = today.add(Duration(days: DateTime.sunday - now.weekday));
-
-  for (final restaurant in restaurantsCopy) {
-    for (final meals in restaurant.meals.values) {
-      meals.removeWhere(
-        (meal) => meal.date.isBefore(today) || meal.date.isAfter(nextSunday),
-      );
-    }
-  }
-
-  return restaurantsCopy;
 }

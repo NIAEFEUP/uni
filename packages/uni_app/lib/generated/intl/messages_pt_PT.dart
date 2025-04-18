@@ -20,6 +20,7 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'pt_PT';
 
+
   static String m0(time) => "última atualização às ${time}";
 
   static String m1(time) =>
@@ -28,7 +29,15 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m2(title) =>
       "${Intl.select(title, {'horario': 'Horário', 'exames': 'Exames', 'area': 'Área Pessoal', 'cadeiras': 'Cadeiras', 'autocarros': 'Autocarros', 'locais': 'Locais', 'restaurantes': 'Restaurantes', 'calendario': 'Calendário', 'biblioteca': 'Biblioteca', 'percurso_academico': 'Percurso Académico', 'transportes': 'Transportes', 'faculdade': 'Faculdade', 'other': 'Outros'})}";
 
+
+  static m4(period) => "${Intl.select(period, {
+            'lunch': 'Almoço',
+            'dinner': 'Jantar',
+            'other': 'Other',
+          })}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
+
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("Sobre nós"),
     "academic_services": MessageLookupByLibrary.simpleMessage(

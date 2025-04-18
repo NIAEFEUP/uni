@@ -1,6 +1,6 @@
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_ui/navbar/bottom_navbar_item.dart';
+import 'package:uni_ui/common/generic_squircle.dart';
 
 class _BottomNavbarContainer extends StatelessWidget {
   _BottomNavbarContainer({required this.child});
@@ -14,11 +14,7 @@ class _BottomNavbarContainer extends StatelessWidget {
       margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
       decoration: ShapeDecoration(
         color: Theme.of(context).colorScheme.primary,
-        shape: SmoothRectangleBorder(
-            borderRadius: SmoothBorderRadius(
-          cornerRadius: 20,
-          cornerSmoothing: 1,
-        )),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         shadows: [
           BoxShadow(
             color: Theme.of(context).colorScheme.shadow.withAlpha(0x7f),
@@ -27,11 +23,7 @@ class _BottomNavbarContainer extends StatelessWidget {
           ),
         ],
       ),
-      child: ClipSmoothRect(
-        radius: SmoothBorderRadius(
-          cornerRadius: 20,
-          cornerSmoothing: 1,
-        ),
+      child: GenericSquircle(
         child: Container(
           decoration: BoxDecoration(
             gradient: RadialGradient(
