@@ -21,7 +21,7 @@ class ScheduleHomeCard extends GenericHomecard {
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<LectureProvider, List<Lecture>>(
       builder: (context, lectures) => CardTimeline(
-        items: buildTimelineItems(lectures).sublist(0, 2),
+        items: buildTimelineItems(lectures).take(2).toList(),
       ),
       hasContent: (lectures) => lectures.isNotEmpty,
       onNullContent: Text(
