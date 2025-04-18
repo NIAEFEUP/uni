@@ -261,7 +261,10 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
         );
         if (selectedImages.isNotEmpty) {
           setState(() {
-            pickedFiles.addAll(selectedImages);
+            pickedFiles = selectedImages;
+            while (pickedFiles.length > 3) {
+              pickedFiles.removeAt(0);
+            }
             List<Widget> images = [];
             for(var i=0; i < pickedFiles.length; i++){
               images.add(Padding(
