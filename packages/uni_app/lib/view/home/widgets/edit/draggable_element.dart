@@ -18,7 +18,7 @@ class DraggableElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LongPressDraggable(
-      // dragAnchorStrategy: pointerDragAnchorStrategy,
+      delay: const Duration(milliseconds: 200),
       data: data,
       feedback: ClipSmoothRect(
         radius: SmoothBorderRadius(
