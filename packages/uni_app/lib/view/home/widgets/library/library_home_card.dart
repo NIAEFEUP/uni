@@ -25,7 +25,7 @@ class LibraryHomeCard extends GenericHomecard {
         occupationWidgetsList:
             buildFloorOccupation(context, libraryOccupation.floors),
       ),
-      hasContent: (libraryOccupation) => true,
+      hasContent: (libraryOccupation) => libraryOccupation.capacity > 0,
       onNullContent: Center(
         child: Text(S.of(context).no_library_info),
       ),
@@ -51,13 +51,3 @@ List<FloorOccupationWidget> buildFloorOccupation(
 
   return items;
 }
-
-/*
-
-class FloorOccupationWidget extends StatelessWidget {
-  final int capacity;
-  final int occupation;
-  final String floorText;
-  final int floorNumber;
-
-*/
