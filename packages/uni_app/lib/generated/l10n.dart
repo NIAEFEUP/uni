@@ -170,6 +170,16 @@ class S {
     );
   }
 
+  /// `Add restaurants`
+  String get add_restaurants {
+    return Intl.message(
+      'Add restaurants',
+      name: 'add_restaurants',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `By entering you agree with these`
   String get agree_terms {
     return Intl.message(
@@ -220,10 +230,10 @@ class S {
     );
   }
 
-  /// `We do now collect anonymous usage statistics in order to improve your experience. You can change it in settings.`
+  /// `We collect anonymous usage data to help improve your experience. You can opt out anytime in the settings.`
   String get banner_info {
     return Intl.message(
-      'We do now collect anonymous usage statistics in order to improve your experience. You can change it in settings.',
+      'We collect anonymous usage data to help improve your experience. You can opt out anytime in the settings.',
       name: 'banner_info',
       desc: '',
       args: [],
