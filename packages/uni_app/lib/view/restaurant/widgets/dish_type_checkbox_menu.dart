@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/entities/dish_type.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 
@@ -12,70 +11,60 @@ class DishTypeCheckboxMenu extends StatefulWidget {
     required this.onSelectionChanged,
   });
 
-  final List<DishType> items;
-  final Set<int> selectedValues;
-  final void Function(Set<int>) onSelectionChanged;
+  final List<String> items;
+  final Set<String> selectedValues;
+  final void Function(Set<String>) onSelectionChanged;
 
   @override
   State<DishTypeCheckboxMenu> createState() => _DishTypeCheckboxMenuState();
 }
 
 class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
-  late Set<int> tempSelected;
+  late Set<String> tempSelected;
 
   @override
   void initState() {
     super.initState();
-    tempSelected = Set<int>.from(widget.selectedValues);
+    tempSelected = {...widget.selectedValues};
   }
 
-  void toggleSelectAll(bool? isChecked) {
+  void toggleSelectAll() {
     setState(() {
-      if (isChecked ?? false) {
-        tempSelected = widget.items.map((item) => item.id).toSet();
-      } else {
+      if (tempSelected.length == widget.items.length) {
         tempSelected.clear();
-      }
-    });
-  }
-
-  void toggleDish(int id, bool? isChecked) {
-    setState(() {
-      if (isChecked ?? false) {
-        tempSelected.add(id);
       } else {
-        tempSelected.remove(id);
+        tempSelected = widget.items.toSet();
       }
     });
+    widget.onSelectionChanged(tempSelected);
   }
 
   void _showFilterDialog(BuildContext context) {
+    var dialogSelected = <String>{...tempSelected};
+
     showDialog<void>(
       context: context,
       builder: (context) {
-        final allValues = widget.items.map((item) => item.id).toSet();
-        final localTempSelected = Set<int>.from(tempSelected);
-
         return StatefulBuilder(
           builder: (context, setModalState) {
-            final isAllSelected = localTempSelected.length == allValues.length;
+            final isAllSelected = dialogSelected.length == widget.items.length;
 
             void toggleSelectAll(bool? isChecked) {
               setModalState(() {
                 if (isChecked ?? false) {
-                  localTempSelected.addAll(allValues);
+                  dialogSelected = widget.items.toSet();
                 } else {
-                  localTempSelected.clear();
+                  dialogSelected.clear();
                 }
               });
             }
 
-            void toggleDish(int id, bool? isChecked) {
+            void toggleDialogDish(String keyLabel, bool? isChecked) {
               setModalState(() {
                 if (isChecked ?? false) {
-                  localTempSelected.add(id);
+                  dialogSelected.add(keyLabel);
                 } else {
-                  localTempSelected.remove(id);
+                  dialogSelected.remove(keyLabel);
                 }
               });
             }
@@ -94,15 +83,16 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                 ),
                 const Divider(height: 1),
                 const SizedBox(height: 8),
-                ...widget.items.map((item) {
+                ...widget.items.map((keyLabel) {
                   return CheckboxListTile(
                     dense: true,
                     title: Text(
-                      S.of(context).dish_type(item.keyLabel),
+                      S.of(context).dish_type(keyLabel),
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    value: localTempSelected.contains(item.id),
-                    onChanged: (isChecked) => toggleDish(item.id, isChecked),
+                    value: dialogSelected.contains(keyLabel),
+                    onChanged: (isChecked) =>
+                        toggleDialogDish(keyLabel, isChecked),
                     controlAffinity: ListTileControlAffinity.leading,
                   );
                 }),
@@ -121,7 +111,7 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                     FilledButton(
                       onPressed: () {
                         setState(() {
-                          tempSelected = localTempSelected;
+                          tempSelected = dialogSelected;
                         });
                         widget.onSelectionChanged(tempSelected);
                         Navigator.of(context).pop();

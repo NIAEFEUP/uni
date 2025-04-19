@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
-import 'package:uni/model/entities/dish_type.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
@@ -32,18 +31,18 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   late List<Restaurant> filteredRestaurants;
   late TabController tabController;
   late ScrollController scrollViewController;
-  final List<DishType> dishTypes = [
-    const DishType(id: 1, keyLabel: 'meat_dishes'),
-    const DishType(id: 2, keyLabel: 'fish_dishes'),
-    const DishType(id: 3, keyLabel: 'vegetarian_dishes'),
-    const DishType(id: 4, keyLabel: 'soups'),
-    const DishType(id: 5, keyLabel: 'salads'),
-    const DishType(id: 6, keyLabel: 'diet_dishes'),
-    const DishType(id: 7, keyLabel: 'dishes_of_the_day'),
-  ];
-
   late bool isFavoriteFilterOn;
-  late Set<int> _selectedDishTypes;
+  late Set<String> _selectedDishTypes;
+
+  final List<String> dishTypes = [
+    'meat_dishes',
+    'fish_dishes',
+    'vegetarian_dishes',
+    'soups',
+    'salads',
+    'diet_dishes',
+    'dishes_of_the_day',
+  ];
 
   @override
   void initState() {
@@ -285,9 +284,12 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   ) {
     final meals = restaurant.meals[dayOfWeek];
 
+    // sorting meals by type ID to ensure consistent order
+    // ignore: cascade_invocations
     meals?.sort((a, b) {
-      return RestaurantUtils.getMealTypeId(a.type)
-          .compareTo(RestaurantUtils.getMealTypeId(b.type));
+      final idA = RestaurantUtils.getMealTypeId(a.type);
+      final idB = RestaurantUtils.getMealTypeId(b.type);
+      return idA.compareTo(idB);
     });
 
     final menuItems = <RestaurantMenuItem>[];

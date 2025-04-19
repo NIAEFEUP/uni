@@ -34,40 +34,25 @@ class RestaurantUtils {
     }
   }
 
-  static bool mealMatchesFilter(Set<int> selectedTypes, String mealType) {
+  static bool mealMatchesFilter(Set<String> selectedTypes, String mealType) {
     if (selectedTypes.isEmpty) {
       return true; // If nothing selected, show everything
     }
 
-    if (selectedTypes.contains(1) &&
-        ['Carne', 'Prato de Carne'].contains(mealType)) {
-      return true;
-    }
+    final typeToMealNames = <String, List<String>>{
+      'meat_dishes': ['Carne', 'Prato de Carne'],
+      'fish_dishes': ['Pescado', 'Peixe', 'Prato de Peixe'],
+      'vegetarian_dishes': ['Vegetariano', 'Prato Vegetariano'],
+      'soups': ['Sopa'],
+      'salads': ['Hortícola'],
+      'diet_dishes': ['Dieta'],
+      'dishes_of_the_day': ['Prato do Dia'],
+    };
 
-    if (selectedTypes.contains(2) &&
-        ['Pescado', 'Peixe', 'Prato de Peixe'].contains(mealType)) {
-      return true;
-    }
-
-    if (selectedTypes.contains(3) &&
-        ['Vegetariano', 'Prato Vegetariano'].contains(mealType)) {
-      return true;
-    }
-
-    if (selectedTypes.contains(4) && ['Sopa'].contains(mealType)) {
-      return true;
-    }
-
-    if (selectedTypes.contains(5) && ['Hortícola'].contains(mealType)) {
-      return true;
-    }
-
-    if (selectedTypes.contains(6) && ['Dieta'].contains(mealType)) {
-      return true;
-    }
-
-    if (selectedTypes.contains(7) && ['Prato do Dia'].contains(mealType)) {
-      return true;
+    for (final type in selectedTypes) {
+      if (typeToMealNames[type]?.contains(mealType) ?? false) {
+        return true;
+      }
     }
 
     return false;
