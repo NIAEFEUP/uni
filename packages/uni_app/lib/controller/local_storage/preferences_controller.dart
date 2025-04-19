@@ -303,8 +303,11 @@ class PreferencesController {
 
   static Set<int> getSelectedDishTypes() {
     final stored = prefs.getStringList(_selectedDishTypes);
-    if (stored == null || stored.isEmpty) {
+    if (stored == null) {
       return _defaultSelectedDishes;
+    }
+    if (stored.isEmpty) {
+      return {};
     }
     return stored.map(int.parse).toSet();
   }
