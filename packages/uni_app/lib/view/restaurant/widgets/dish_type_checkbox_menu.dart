@@ -59,7 +59,7 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
               });
             }
 
-            void toggleDialogDish(String keyLabel, bool? isChecked) {
+            void toggleDish(String keyLabel, bool? isChecked) {
               setModalState(() {
                 if (isChecked ?? false) {
                   dialogSelected.add(keyLabel);
@@ -91,8 +91,7 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     value: dialogSelected.contains(keyLabel),
-                    onChanged: (isChecked) =>
-                        toggleDialogDish(keyLabel, isChecked),
+                    onChanged: (isChecked) => toggleDish(keyLabel, isChecked),
                     controlAffinity: ListTileControlAffinity.leading,
                   );
                 }),
