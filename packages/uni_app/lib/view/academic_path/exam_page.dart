@@ -1,11 +1,14 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/utils/string_formatter.dart';
 import 'package:uni/view/academic_path/widgets/no_exams_widget.dart';
+import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/cards/exam_card.dart';
@@ -110,6 +113,29 @@ class _ExamsPageState extends State<ExamsPage> {
                           type: exam.examType,
                           startTime: exam.formatTime(exam.start),
                           isInvisible: hiddenExams.contains(exam.id),
+                          onTap: () {
+                            final profile = Provider.of<ProfileProvider>(
+                              context,
+                              listen: false,
+                            ).state;
+                            if (profile != null) {
+                              final courseUnit =
+                                  profile.courseUnits.firstWhereOrNull(
+                                (unit) =>
+                                    unit.abbreviation == exam.subjectAcronym,
+                              );
+                              if (courseUnit != null &&
+                                  courseUnit.occurrId != null) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute<CourseUnitDetailPageView>(
+                                    builder: (context) =>
+                                        CourseUnitDetailPageView(courseUnit),
+                                  ),
+                                );
+                              }
+                            }
+                          },
                           iconAction: () {
                             setState(() {
                               if (hiddenExams.contains(exam.id)) {

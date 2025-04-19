@@ -21,11 +21,10 @@ class RestaurantHomeCard extends GenericHomecard {
   const RestaurantHomeCard({
     super.key,
     super.title = 'Restaurants',
-    super.externalInfo = true,
   });
 
   @override
-  void onClick(BuildContext context) =>
+  void onCardClick(BuildContext context) =>
       Navigator.pushNamed(context, '/${NavigationItem.navRestaurants.route}');
 
   @override
