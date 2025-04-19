@@ -144,6 +144,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ects": MessageLookupByLibrary.simpleMessage("ECTS performed: "),
         "edit_off": MessageLookupByLibrary.simpleMessage("Edit"),
         "edit_on": MessageLookupByLibrary.simpleMessage("Finish editing"),
+        "email": MessageLookupByLibrary.simpleMessage("Email"),
         "empty_text":
             MessageLookupByLibrary.simpleMessage("Please fill in this field"),
         "evaluation": MessageLookupByLibrary.simpleMessage("Evaluation"),
