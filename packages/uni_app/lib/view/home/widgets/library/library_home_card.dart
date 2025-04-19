@@ -26,7 +26,9 @@ class LibraryHomeCard extends GenericHomecard {
             buildFloorOccupation(context, libraryOccupation.floors),
       ),
       hasContent: (libraryOccupation) => true,
-      onNullContent: const CircularProgressIndicator(),
+      onNullContent: Center(
+        child: Text(S.of(context).no_library_info),
+      ),
       contentLoadingWidget: const ShimmerLibraryHomeCard(),
     );
   }
