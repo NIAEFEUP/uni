@@ -25,7 +25,7 @@ class LibraryHomeCard extends GenericHomecard {
         occupationWidgetsList:
             buildFloorOccupation(context, libraryOccupation.floors),
       ),
-      hasContent: (libraryOccupation) => true,
+      hasContent: (libraryOccupation) => libraryOccupation.capacity > 0,
       onNullContent: const CircularProgressIndicator(),
       contentLoadingWidget: const ShimmerLibraryHomeCard(),
     );
@@ -49,13 +49,3 @@ List<FloorOccupationWidget> buildFloorOccupation(
 
   return items;
 }
-
-/*
-
-class FloorOccupationWidget extends StatelessWidget {
-  final int capacity;
-  final int occupation;
-  final String floorText;
-  final int floorNumber;
-
-*/
