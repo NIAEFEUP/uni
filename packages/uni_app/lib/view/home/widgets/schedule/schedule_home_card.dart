@@ -47,9 +47,6 @@ class ScheduleHomeCard extends GenericHomecard {
     );
   }
 
-  @override
-  void onClick(BuildContext context) => {};
-
   List<TimelineItem> buildTimelineItems(
     List<Lecture> lectures,
     BuildContext context,

@@ -92,7 +92,4 @@ class ExamHomeCard extends GenericHomecard {
       ),
     );
   }
-
-  @override
-  void onClick(BuildContext context) => {};
 }
