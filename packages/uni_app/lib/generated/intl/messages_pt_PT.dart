@@ -83,7 +83,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "average": MessageLookupByLibrary.simpleMessage("Média"),
         "balance": MessageLookupByLibrary.simpleMessage("Saldo"),
         "banner_info": MessageLookupByLibrary.simpleMessage(
-            "Agora recolhemos estatísticas de uso anónimas para melhorar a tua experiência. Podes alterá-lo nas definições."),
+            "Recolhemos dados anónimos de utilização para ajudar a melhorar a sua experiência. Pode desativar esta opção a qualquer momento nas definições"),
         "bibliography": MessageLookupByLibrary.simpleMessage("Bibliografia"),
         "breakfast": MessageLookupByLibrary.simpleMessage("Pequeno Almoço"),
         "bs_description": MessageLookupByLibrary.simpleMessage(

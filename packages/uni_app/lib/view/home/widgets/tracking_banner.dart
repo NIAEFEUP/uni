@@ -15,7 +15,7 @@ class TrackingBanner extends StatelessWidget {
             ? Theme.of(context).primaryColor
             : Theme.of(context).cardColor,
       ),
-      margin: const EdgeInsets.all(10),
+      margin: const EdgeInsets.only(top: 30, bottom: 10, left: 10, right: 10),
       child: MaterialBanner(
         padding: const EdgeInsets.all(15),
         content: Text(
