@@ -35,6 +35,10 @@ class LibraryHomeCard extends GenericHomecard {
             size: 45,
           ),
           label: S.of(context).no_library_info,
+          labelTextStyle: TextStyle(
+            fontSize: 14,
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
       ),
       contentLoadingWidget: const ShimmerLibraryHomeCard(),
