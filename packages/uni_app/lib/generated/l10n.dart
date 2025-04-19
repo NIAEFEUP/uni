@@ -170,6 +170,16 @@ class S {
     );
   }
 
+  /// `Add restaurants`
+  String get add_restaurants {
+    return Intl.message(
+      'Add restaurants',
+      name: 'add_restaurants',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `By entering you agree with these`
   String get agree_terms {
     return Intl.message(
