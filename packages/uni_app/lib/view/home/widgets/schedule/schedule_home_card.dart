@@ -64,38 +64,28 @@ class ScheduleHomeCard extends GenericHomecard {
                 now.isAfter(element.startTime) && now.isBefore(element.endTime),
             title: DateFormat('HH:mm').format(element.startTime),
             subtitle: DateFormat('HH:mm').format(element.endTime),
-            card: now.isAfter(element.startTime) &&
-                    now.isBefore(element.endTime)
-                ? FutureBuilder<File?>(
-                    future: ProfileProvider.fetchOrGetCachedProfilePicture(
-                      session,
-                      studentNumber: element.teacherId,
-                    ),
-                    builder: (context, snapshot) {
-                      return ScheduleCard(
-                        isActive: now.isAfter(element.startTime) &&
-                            now.isBefore(element.endTime),
-                        name: element.subject,
-                        acronym: element.acronym,
-                        room: element.room,
-                        type: element.typeClass,
-                        teacherName: element.teacherName,
-                        teacherPhoto: snapshot.hasData && snapshot.data != null
-                            ? Image(image: FileImage(snapshot.data!))
-                            : Image.asset(
-                                'assets/images/profile_placeholder.png',
-                              ),
-                      );
-                    },
-                  )
-                : ScheduleCard(
-                    isActive: now.isAfter(element.startTime) &&
-                        now.isBefore(element.endTime),
-                    name: element.subject,
-                    acronym: element.acronym,
-                    room: element.room,
-                    type: element.typeClass,
-                  ),
+            card: FutureBuilder<File?>(
+              future: ProfileProvider.fetchOrGetCachedProfilePicture(
+                session,
+                studentNumber: element.teacherId,
+              ),
+              builder: (context, snapshot) {
+                return ScheduleCard(
+                  isActive: now.isAfter(element.startTime) &&
+                      now.isBefore(element.endTime),
+                  name: element.subject,
+                  acronym: element.acronym,
+                  room: element.room,
+                  type: element.typeClass,
+                  teacherName: element.teacherName,
+                  teacherPhoto: snapshot.hasData && snapshot.data != null
+                      ? Image(image: FileImage(snapshot.data!))
+                      : Image.asset(
+                          'assets/images/profile_placeholder.png',
+                        ),
+                );
+              },
+            ),
           ),
         )
         .toList();

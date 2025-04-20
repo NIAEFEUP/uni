@@ -56,33 +56,25 @@ class ScheduleDayTimeline extends StatelessWidget {
         isActive: isActive,
         title: DateFormat('HH:mm').format(lecture.startTime),
         subtitle: DateFormat('HH:mm').format(lecture.endTime),
-        card: isActive
-            ? FutureBuilder<File?>(
-                future: ProfileProvider.fetchOrGetCachedProfilePicture(
-                  session,
-                  studentNumber: lecture.teacherId,
-                ),
-                builder: (context, snapshot) {
-                  return ScheduleCard(
-                    isActive: isActive,
-                    name: lecture.subject,
-                    acronym: lecture.acronym,
-                    room: lecture.room,
-                    type: lecture.typeClass,
-                    teacherName: lecture.teacherName,
-                    teacherPhoto: snapshot.hasData && snapshot.data != null
-                        ? Image(image: FileImage(snapshot.data!))
-                        : Image.asset('assets/images/profile_placeholder.png'),
-                  );
-                },
-              )
-            : ScheduleCard(
-                isActive: isActive,
-                name: lecture.subject,
-                acronym: lecture.acronym,
-                room: lecture.room,
-                type: lecture.typeClass,
-              ),
+        card: FutureBuilder<File?>(
+          future: ProfileProvider.fetchOrGetCachedProfilePicture(
+            session,
+            studentNumber: lecture.teacherId,
+          ),
+          builder: (context, snapshot) {
+            return ScheduleCard(
+              isActive: isActive,
+              name: lecture.subject,
+              acronym: lecture.acronym,
+              room: lecture.room,
+              type: lecture.typeClass,
+              teacherName: lecture.teacherName,
+              teacherPhoto: snapshot.hasData && snapshot.data != null
+                  ? Image(image: FileImage(snapshot.data!))
+                  : Image.asset('assets/images/profile_placeholder.png'),
+            );
+          },
+        ),
       );
     }).toList();
   }
