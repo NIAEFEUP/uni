@@ -29,7 +29,7 @@ class SchedulePage extends StatelessWidget {
         onNullContent: LayoutBuilder(
           builder: (context, constraints) => SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
-            child: Container(
+            child: SizedBox(
               height: constraints.maxHeight,
               child: const Center(
                 child: NoClassesWidget(),
