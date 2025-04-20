@@ -88,43 +88,42 @@ class CoursesPageState extends State<CoursesPage> {
         final course = courses[courseUnitIndex];
 
         return ListView(
-            children: [
-              Center(
-                child: CourseSelection(
-                  courseInfos: courses.map((course) {
-                    return CourseInfo(
-                      abbreviation: _getCourseAbbreviation(course),
-                      enrollmentYear: _getEnrollmentYear(course),
-                      conclusionYear: _getConclusionYear(course),
-                    );
-                  }).toList(),
-                  onSelected: _onCourseUnitSelected,
-                  selected: courseUnitIndex,
-                  nowText: S.of(context).now,
-                ),
+          children: [
+            Center(
+              child: CourseSelection(
+                courseInfos: courses.map((course) {
+                  return CourseInfo(
+                    abbreviation: _getCourseAbbreviation(course),
+                    enrollmentYear: _getEnrollmentYear(course),
+                    conclusionYear: _getConclusionYear(course),
+                  );
+                }).toList(),
+                onSelected: _onCourseUnitSelected,
+                selected: courseUnitIndex,
+                nowText: S.of(context).now,
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Text(
-                  course.name ?? '',
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Text(
+                course.name ?? '',
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 40, bottom: 8),
-                child: AverageBar(
-                  average: (course.currentAverage ?? 0).toDouble(),
-                  completedCredits: (course.finishedEcts ?? 0).toDouble(),
-                  totalCredits: _getTotalCredits(profile, course),
-                  statusText: course.state ?? '',
-                  averageText: S.of(context).average,
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 40, bottom: 8),
+              child: AverageBar(
+                average: (course.currentAverage ?? 0).toDouble(),
+                completedCredits: (course.finishedEcts ?? 0).toDouble(),
+                totalCredits: _getTotalCredits(profile, course),
+                statusText: course.state ?? '',
+                averageText: S.of(context).average,
               ),
-              CourseUnitsView(
-                course: course,
-              ),
-            ],
-          ),
+            ),
+            CourseUnitsView(
+              course: course,
+            ),
+          ],
         );
       },
       hasContent: (profile) => profile.courses.isNotEmpty,
