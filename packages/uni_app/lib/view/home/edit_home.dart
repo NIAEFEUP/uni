@@ -146,15 +146,20 @@ class EditHomeViewState extends State<EditHomeView> {
               stops: [0, 1],
             ),
           ),
-          child: SafeArea(
-            child: Center(
-              child: Text(
-                'Drag and drop elements',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge, // titleMedium as in figma is with the wrong colors
-              ),
-            ),
+          child: DragTarget<(String, Icon)>(
+            builder: (context, candidate, rejected) {
+              return SafeArea(
+                child: Center(
+                  child: Text(
+                    'Drag and drop elements',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge, // titleMedium as in figma is with the wrong colors
+                  ),
+                ),
+              );
+            },
+            onAcceptWithDetails: (details) => removeCard(details.data),
           ),
         ),
       ),

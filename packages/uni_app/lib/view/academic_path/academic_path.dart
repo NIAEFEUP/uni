@@ -8,15 +8,21 @@ import 'package:uni/view/academic_path/exam_page.dart';
 import 'package:uni/view/academic_path/schedule_page.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/tabs/tab_icon.dart';
 
 class AcademicPathPageView extends StatefulWidget {
-  const AcademicPathPageView({super.key});
+  const AcademicPathPageView({
+    super.key,
+    this.initialTabIndex = 0,
+  });
+  final int initialTabIndex;
 
   @override
   State<StatefulWidget> createState() => AcademicPathPageViewState();
 }
 
-class AcademicPathPageViewState extends GeneralPageViewState
+class AcademicPathPageViewState
+    extends GeneralPageViewState<AcademicPathPageView>
     with SingleTickerProviderStateMixin {
   @override
   String? getTitle() =>
@@ -27,7 +33,11 @@ class AcademicPathPageViewState extends GeneralPageViewState
   @override
   void initState() {
     super.initState();
-    tabController = TabController(vsync: this, length: 3);
+    tabController = TabController(
+      vsync: this,
+      length: 3,
+      initialIndex: widget.initialTabIndex,
+    );
   }
 
   @override
@@ -42,45 +52,9 @@ class AcademicPathPageViewState extends GeneralPageViewState
       controller: tabController,
       dividerHeight: 1,
       tabs: [
-        Tab(
-          child: Row(
-            children: [
-              const Icon(UniIcons.courses),
-              Expanded(
-                child: Text(
-                  S.of(context).courses,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Tab(
-          child: Row(
-            children: [
-              const Icon(UniIcons.lecture),
-              Expanded(
-                child: Text(
-                  S.of(context).lectures,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Tab(
-          child: Row(
-            children: [
-              const Icon(UniIcons.exam),
-              Expanded(
-                child: Text(
-                  S.of(context).exams,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-        ),
+        TabIcon(icon: UniIcons.courses, text: S.of(context).courses),
+        TabIcon(icon: UniIcons.lecture, text: S.of(context).lectures),
+        TabIcon(icon: UniIcons.exam, text: S.of(context).exams),
       ],
     );
   }

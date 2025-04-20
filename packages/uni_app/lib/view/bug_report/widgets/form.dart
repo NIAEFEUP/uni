@@ -41,13 +41,13 @@ class BugReportFormState extends State<BugReportForm> {
     ),
     4: ('Outro', 'Other'),
   };
+
   List<DropdownMenuItem<int>> bugList = [];
 
-  static int _selectedBug = 0;
-  static final TextEditingController titleController = TextEditingController();
-  static final TextEditingController descriptionController =
-      TextEditingController();
-  static final TextEditingController emailController = TextEditingController();
+  int _selectedBug = 0;
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
 
   bool _isButtonTapped = false;
   bool _isConsentGiven = false;
@@ -298,13 +298,13 @@ class BugReportFormState extends State<BugReportForm> {
       },
     );
 
-    final userFeedback = SentryUserFeedback(
-      eventId: sentryId,
-      comments: '${bugReport['title']}\n ${bugReport['text']}',
-      email: bugReport['email'] as String,
+    final userFeedback = SentryFeedback(
+      associatedEventId: sentryId,
+      message: '${bugReport['title']}\n ${bugReport['text']}',
+      contactEmail: bugReport['email'] as String,
     );
 
-    await Sentry.captureUserFeedback(userFeedback);
+    await Sentry.captureFeedback(userFeedback);
   }
 
   void clearForm() {

@@ -36,6 +36,24 @@ class CoursesPageState extends State<CoursesPage> {
         .fold(0, (a, b) => a + b);
   }
 
+  int? _getEnrollmentYear(Course course) {
+    if (course.state == null) {
+      return null;
+    }
+
+    if (course.state != 'A Frequentar' &&
+        !(course.state?.startsWith('Concluído') ?? false)) {
+      return null;
+    }
+
+    if (course.firstEnrollment == null) {
+      final now = DateTime.now();
+      return DateTime(now.year, now.month - 8, now.day).year;
+    }
+
+    return course.firstEnrollment!;
+  }
+
   int? _getConclusionYear(Course course) {
     if (course.state == null || course.state == 'A Frequentar') {
       return null;
@@ -70,41 +88,43 @@ class CoursesPageState extends State<CoursesPage> {
         final course = courses[courseUnitIndex];
 
         return ListView(
-          children: [
-            Center(
-              child: CourseSelection(
-                courseInfos: courses.map((course) {
-                  return CourseInfo(
-                    abbreviation: _getCourseAbbreviation(course),
-                    enrollmentYear: course.firstEnrollment!,
-                    conclusionYear: _getConclusionYear(course),
-                  );
-                }).toList(),
-                onSelected: _onCourseUnitSelected,
-                selected: courseUnitIndex,
+            children: [
+              Center(
+                child: CourseSelection(
+                  courseInfos: courses.map((course) {
+                    return CourseInfo(
+                      abbreviation: _getCourseAbbreviation(course),
+                      enrollmentYear: _getEnrollmentYear(course),
+                      conclusionYear: _getConclusionYear(course),
+                    );
+                  }).toList(),
+                  onSelected: _onCourseUnitSelected,
+                  selected: courseUnitIndex,
+                  nowText: S.of(context).now,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: Text(
-                course.name ?? '',
-                style: Theme.of(context).textTheme.headlineMedium,
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Text(
+                  course.name ?? '',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 40, bottom: 8),
-              child: AverageBar(
-                average: (course.currentAverage ?? double.nan).toDouble(),
-                completedCredits: (course.finishedEcts ?? 0).toDouble(),
-                totalCredits: _getTotalCredits(profile, course),
-                statusText: course.state ?? '',
-                averageText: S.of(context).average,
+              Padding(
+                padding: const EdgeInsets.only(top: 40, bottom: 8),
+                child: AverageBar(
+                  average: (course.currentAverage ?? 0).toDouble(),
+                  completedCredits: (course.finishedEcts ?? 0).toDouble(),
+                  totalCredits: _getTotalCredits(profile, course),
+                  statusText: course.state ?? '',
+                  averageText: S.of(context).average,
+                ),
               ),
-            ),
-            CourseUnitsView(
-              course: course,
-            ),
-          ],
+              CourseUnitsView(
+                course: course,
+              ),
+            ],
+          ),
         );
       },
       hasContent: (profile) => profile.courses.isNotEmpty,

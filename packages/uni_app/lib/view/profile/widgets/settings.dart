@@ -67,7 +67,10 @@ class Settings extends StatelessWidget {
               icon: UniIcons.thumbsUp,
               title: S.of(context).leave_feedback,
               subtitle: S.of(context).feedback_description,
-              trailing: const Icon(Icons.arrow_forward_ios),
+              trailing: UniIcon(
+                UniIcons.caretRight,
+                color: Theme.of(context).colorScheme.primary,
+              ),
               onTap: () {
                 Navigator.push(
                   context,
@@ -84,7 +87,10 @@ class Settings extends StatelessWidget {
             child: ProfileListTile(
               icon: UniIcons.gavel,
               title: S.of(context).terms,
-              trailing: const Icon(Icons.arrow_forward_ios),
+              trailing: UniIcon(
+                UniIcons.caretRight,
+                color: Theme.of(context).colorScheme.primary,
+              ),
               onTap: () {
                 Navigator.push(
                   context,
@@ -101,7 +107,10 @@ class Settings extends StatelessWidget {
             child: ProfileListTile(
               icon: UniIcons.signOut,
               title: S.of(context).logout,
-              trailing: const Icon(Icons.arrow_forward_ios),
+              trailing: UniIcon(
+                UniIcons.caretRight,
+                color: Theme.of(context).colorScheme.primary,
+              ),
               onTap: NetworkRouter.authenticationController?.close,
             ),
           ),

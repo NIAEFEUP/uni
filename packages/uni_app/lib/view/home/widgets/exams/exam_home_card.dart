@@ -6,6 +6,7 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/utils/string_formatter.dart';
+import 'package:uni/view/academic_path/academic_path.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/timeline_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -31,10 +32,9 @@ class ExamHomeCard extends GenericHomecard {
           builder: (context, allExams) {
             final visibleExams =
                 getVisibleExams(allExams, hiddenExams).toList();
-            final items =
-                buildTimelineItems(context, visibleExams).sublist(0, 2);
+            final items = buildTimelineItems(context, visibleExams).take(2);
 
-            return CardTimeline(items: items);
+            return CardTimeline(items: items.toList());
           },
           hasContent: (allExams) =>
               getVisibleExams(allExams, hiddenExams).isNotEmpty,
@@ -84,5 +84,12 @@ class ExamHomeCard extends GenericHomecard {
   }
 
   @override
-  void onClick(BuildContext context) => {};
+  void onCardClick(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (context) => const AcademicPathPageView(initialTabIndex: 2),
+      ),
+    );
+  }
 }

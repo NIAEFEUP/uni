@@ -16,6 +16,8 @@ class ProfileOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final session = context.read<SessionProvider>().state!;
+    final name = profile.name.split(' ');
+
     return FutureBuilder(
       future: ProfileProvider.fetchOrGetCachedProfilePicture(
         session,
@@ -26,7 +28,7 @@ class ProfileOverview extends StatelessWidget {
           const ProfileImage(radius: 75),
           const Padding(padding: EdgeInsets.all(8)),
           Text(
-            profile.name,
+            '${name.first} ${name.length > 1 ? name.last : ''}',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headlineLarge,
           ),
@@ -45,6 +47,7 @@ class ProfileOverview extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 backgroundColor: Theme.of(context).colorScheme.primary,
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               );
             }).toList(),
           ),

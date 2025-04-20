@@ -1828,6 +1828,16 @@ class S {
     );
   }
 
+  /// `Remaining Instructors`
+  String get remaining_instructors {
+    return Intl.message(
+      'Remaining Instructors',
+      name: 'remaining_instructors',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Assessments`
   String get assessments {
     return Intl.message(
@@ -1979,6 +1989,26 @@ class S {
     return Intl.message(
       'Try to refresh the page',
       name: 'no_courses_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get email {
+    return Intl.message(
+      'Email',
+      name: 'email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Now`
+  String get now {
+    return Intl.message(
+      'Now',
+      name: 'now',
       desc: '',
       args: [],
     );
