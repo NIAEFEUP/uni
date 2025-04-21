@@ -126,11 +126,33 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
         .toList();
   }
 
+  List<Restaurant> sortRestaurantsByFavorites(
+    List<Restaurant> restaurants,
+    List<String> favoriteRestaurants,
+  ) {
+    return List.from(restaurants)
+      ..sort((a, b) {
+        final isAFavorite = favoriteRestaurants.contains(a.namePt + a.period);
+        final isBFavorite = favoriteRestaurants.contains(b.namePt + b.period);
+
+        if (isAFavorite == isBFavorite) {
+          return 0;
+        }
+        if (isAFavorite) {
+          return -1;
+        }
+        return 1;
+      });
+  }
+
   Widget getFilteredContent(BuildContext context) {
     if (isFavoriteFilterOn) {
       applyFavouriteRestaurantFilter();
     } else {
-      filteredRestaurants = restaurants;
+      final favoriteRestaurants =
+          PreferencesController.getFavoriteRestaurants();
+      filteredRestaurants =
+          sortRestaurantsByFavorites(restaurants, favoriteRestaurants);
     }
 
     return createTabViewBuilder(context);
