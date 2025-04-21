@@ -2,6 +2,7 @@ enum NavigationItem {
   navEditPersonalArea('edit'),
   navPersonalArea('area'),
   navExams('exames'),
+  navCourseUnit('cadeira'),
   navStops('autocarros'),
   navLocations('locais', faculties: {'feup'}),
   navRestaurants('restaurantes'),
@@ -14,6 +15,7 @@ enum NavigationItem {
   navMap('mapa'),
   navLogin('login'),
   navBugreport('bug_report'),
+  navSplash('splash'),
   navAboutus('sobre_nos');
 
   const NavigationItem(this.route, {this.faculties});

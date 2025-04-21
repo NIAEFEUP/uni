@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
-import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
+import 'package:uni/view/home/widgets/restaurants/no_restaurants_home_card.dart';
 import 'package:uni/view/home/widgets/restaurants/restaurants_card_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -29,11 +29,14 @@ class RestaurantHomeCard extends GenericHomecard {
       Navigator.pushNamed(context, '/${NavigationItem.navRestaurants.route}');
 
   @override
-  Widget buildCardContent(BuildContext context) => const RestaurantSlider();
+  Widget buildCardContent(BuildContext context) =>
+      RestaurantSlider(onClick: onClick);
 }
 
 class RestaurantSlider extends StatefulWidget {
-  const RestaurantSlider({super.key});
+  const RestaurantSlider({super.key, required this.onClick});
+
+  final void Function(BuildContext) onClick;
 
   @override
   RestaurantSliderState createState() => RestaurantSliderState();
@@ -89,7 +92,7 @@ class RestaurantSliderState extends State<RestaurantSlider> {
         return getRestaurantInformation(context, favoriteRestaurants)
             .isNotEmpty;
       },
-      onNullContent: Text(S.of(context).no_favorite_restaurants),
+      onNullContent: NoRestaurantsHomeCard(onClick: widget.onClick),
       contentLoadingWidget: const ShimmerRestaurantsHomeCard(),
     );
   }
