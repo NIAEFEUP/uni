@@ -285,7 +285,6 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     final meals = restaurant.meals[dayOfWeek];
 
     // sorting meals by type ID to ensure consistent order
-    // ignore: cascade_invocations
     meals?.sort((a, b) {
       final idA = RestaurantUtils.getMealTypeId(a.type);
       final idB = RestaurantUtils.getMealTypeId(b.type);
