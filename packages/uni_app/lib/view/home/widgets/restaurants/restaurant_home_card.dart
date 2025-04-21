@@ -29,7 +29,7 @@ class RestaurantHomeCard extends GenericHomecard {
 
   @override
   Widget buildCardContent(BuildContext context) =>
-      RestaurantSlider(onClick: onClick);
+      RestaurantSlider(onClick: onCardClick);
 }
 
 class RestaurantSlider extends StatefulWidget {
