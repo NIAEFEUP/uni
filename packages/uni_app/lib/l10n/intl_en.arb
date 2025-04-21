@@ -400,6 +400,8 @@
   "@no_courses": {},
   "no_courses_description": "Try to refresh the page",
   "@no_courses_description": {},
+  "email": "Email",
+  "@email": {},
   "now": "Now",
   "@now": {}
 }

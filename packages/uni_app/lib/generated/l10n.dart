@@ -2034,6 +2034,16 @@ class S {
     );
   }
 
+  /// `Email`
+  String get email {
+    return Intl.message(
+      'Email',
+      name: 'email',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Now`
   String get now {
     return Intl.message(

@@ -1,6 +1,10 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
 
@@ -23,7 +27,7 @@ class ScheduleDayTimeline extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+      padding: const EdgeInsets.fromLTRB(0, 8, 0, 24),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,13 +37,16 @@ class ScheduleDayTimeline extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineLarge,
           ),
           const SizedBox(height: 14),
-          CardTimeline(items: _buildTimelineItems(lectures)),
+          CardTimeline(items: _buildTimelineItems(lectures, context)),
         ],
       ),
     );
   }
 
-  List<TimelineItem> _buildTimelineItems(List<Lecture> lectures) {
+  List<TimelineItem> _buildTimelineItems(
+    List<Lecture> lectures,
+    BuildContext context,
+  ) {
     return lectures
         .map(
           (lecture) => TimelineItem(
@@ -53,6 +60,24 @@ class ScheduleDayTimeline extends StatelessWidget {
               room: lecture.room,
               type: lecture.typeClass,
               teacherName: lecture.teacher,
+              onTap: () {
+                final profile =
+                    Provider.of<ProfileProvider>(context, listen: false).state;
+                if (profile != null) {
+                  final courseUnit = profile.courseUnits.firstWhereOrNull(
+                    (unit) => unit.abbreviation == lecture.acronym,
+                  );
+                  if (courseUnit != null && courseUnit.occurrId != null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<CourseUnitDetailPageView>(
+                        builder: (context) =>
+                            CourseUnitDetailPageView(courseUnit),
+                      ),
+                    );
+                  }
+                }
+              },
             ),
           ),
         )
