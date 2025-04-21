@@ -78,6 +78,10 @@ class UniIcons {
   static const arrowSquareOut = PhosphorIconsDuotone.arrowSquareOut;
   static const grid = PhosphorIconsDuotone.squaresFour;
   static const list = PhosphorIconsDuotone.listBullets;
+
+  static const island = PhosphorIconsDuotone.island;
+  static const beer = PhosphorIconsDuotone.beerStein;
+
   static const phone = PhosphorIconsDuotone.phone;
   static const paperPlaneTilt = PhosphorIconsDuotone.paperPlaneTilt;
 }
