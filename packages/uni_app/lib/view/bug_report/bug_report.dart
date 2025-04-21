@@ -87,7 +87,6 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
         child: Column(
           children: <Widget>[
             const Padding(padding: EdgeInsets.only(bottom: 10)),
-            // TODO: remove this when refactoring the dropdown
             dropdownBugSelectWidget(context),
             FormTextField(
               titleController,
