@@ -51,7 +51,7 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
 
             void toggleSelectAll(bool? isChecked) {
               setModalState(() {
-                if (isChecked ?? false) {
+                if (isChecked!) {
                   dialogSelected = widget.items.toSet();
                 } else {
                   dialogSelected.clear();
@@ -61,7 +61,7 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
 
             void toggleDish(String keyLabel, bool? isChecked) {
               setModalState(() {
-                if (isChecked ?? false) {
+                if (isChecked!) {
                   dialogSelected.add(keyLabel);
                 } else {
                   dialogSelected.remove(keyLabel);
