@@ -13,7 +13,7 @@ import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/widgets/days_of_week_tab_bar.dart';
-import 'package:uni/view/restaurant/widgets/dish_type_dropdown_menu.dart';
+import 'package:uni/view/restaurant/widgets/dish_type_checkbox_menu.dart';
 import 'package:uni/view/restaurant/widgets/favorite_restaurants_button.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
 import 'package:uni_ui/cards/restaurant_card.dart';
@@ -36,18 +36,18 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   late List<Restaurant> filteredRestaurants;
   late TabController tabController;
   late ScrollController scrollViewController;
-  final List<Map<String, dynamic>> dishTypes = [
-    {'value': 1, 'key_label': 'all_dishes'},
-    {'value': 2, 'key_label': 'meat_dishes'},
-    {'value': 3, 'key_label': 'fish_dishes'},
-    {'value': 4, 'key_label': 'vegetarian_dishes'},
-    {'value': 5, 'key_label': 'soups'},
-    {'value': 6, 'key_label': 'salads'},
-    {'value': 7, 'key_label': 'diet_dishes'},
-    {'value': 8, 'key_label': 'dishes_of_the_day'},
-  ];
-  int? _selectedDishType;
   late bool isFavoriteFilterOn;
+  late Set<String> _selectedDishTypes;
+
+  final List<String> dishTypes = [
+    'meat_dishes',
+    'fish_dishes',
+    'vegetarian_dishes',
+    'soups',
+    'salads',
+    'diet_dishes',
+    'dishes_of_the_day',
+  ];
 
   @override
   void initState() {
@@ -64,7 +64,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     _initializeRestaurants();
     isFavoriteFilterOn =
         PreferencesController.getIsFavoriteRestaurantsFilterOn() ?? false;
-    _selectedDishType = PreferencesController.getSelectedDishType() ?? 1;
+    _selectedDishTypes = PreferencesController.getSelectedDishTypes();
   }
 
   void _toggleFavorite(String restaurantName, String restaurantPeriod) {
@@ -165,13 +165,13 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                DishTypeDropdownMenu(
+                DishTypeCheckboxMenu(
                   items: dishTypes,
-                  selectedValue: _selectedDishType,
-                  onChange: (newValue) {
+                  selectedValues: _selectedDishTypes,
+                  onSelectionChanged: (newValues) {
                     setState(() {
-                      PreferencesController.setSelectedDishType(newValue);
-                      _selectedDishType = newValue;
+                      _selectedDishTypes = newValues;
+                      PreferencesController.setSelectedDishTypes(newValues);
                     });
                   },
                 ),
@@ -320,11 +320,16 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   ) {
     final meals = restaurant.meals[dayOfWeek];
 
-    meals?.sort((a, b) => a.type.compareTo(b.type));
+    // sorting meals by type ID to ensure consistent order
+    meals?.sort((a, b) {
+      final idA = RestaurantUtils.getMealTypeId(a.type);
+      final idB = RestaurantUtils.getMealTypeId(b.type);
+      return idA.compareTo(idB);
+    });
 
     final menuItems = <RestaurantMenuItem>[];
     for (final meal in meals!) {
-      if (RestaurantUtils.mealMatchesFilter(_selectedDishType, meal.type)) {
+      if (RestaurantUtils.mealMatchesFilter(_selectedDishTypes, meal.type)) {
         menuItems.add(
           RestaurantMenuItem(
             name: RestaurantUtils.getLocaleTranslation(
@@ -337,6 +342,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
         );
       }
     }
+
     return menuItems;
   }
 
