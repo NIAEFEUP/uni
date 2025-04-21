@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:app_settings/app_settings.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -236,12 +235,12 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
             while (pickedFiles.length > 3) {
               pickedFiles.removeAt(0);
             }
-            List<Widget> images = [];
+            final images = <Widget>[];
             for (var i = 0; i < pickedFiles.length; i++) {
               images.add(
                 Padding(
                   padding: EdgeInsets.all(8.0 /
-                      (pickedFiles.length > 3 ? pickedFiles.length / 3 : 1)),
+                      (pickedFiles.length > 3 ? pickedFiles.length / 3 : 1),),
                   child: SizedBox(
                     width: 100 /
                         (pickedFiles.length > 3 ? pickedFiles.length / 3 : 1),
