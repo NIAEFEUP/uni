@@ -18,7 +18,7 @@ class DropdownMenuBugSelect extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(50),
         ),
         child: Padding(
@@ -28,7 +28,7 @@ class DropdownMenuBugSelect extends StatelessWidget {
             children: [
               Icon(
                 Icons.bug_report,
-                color: Theme.of(context).colorScheme.onTertiary,
+                color: Theme.of(context).colorScheme.primary,
               ),
               const SizedBox(
                 width: 25,

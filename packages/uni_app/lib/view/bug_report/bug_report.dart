@@ -125,10 +125,10 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
                 ElevatedButton.icon(
                   icon: Icon(
                     Icons.add,
-                    color: Theme.of(context).colorScheme.onTertiary,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.tertiary,
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
                   ),
                   onPressed: uploadImages,
                   label: Text(S.of(context).add_photo),
