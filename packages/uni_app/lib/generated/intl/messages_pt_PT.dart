@@ -75,6 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "all_feminine": MessageLookupByLibrary.simpleMessage("Todas"),
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
             "Todos os widgets disponíveis já foram adicionados à tua área pessoal!"),
+        "apply": MessageLookupByLibrary.simpleMessage("Aplicar"),
         "assessments": MessageLookupByLibrary.simpleMessage("Avaliações"),
         "at_least_one_college": MessageLookupByLibrary.simpleMessage(
             "Seleciona pelo menos uma faculdade"),
@@ -137,6 +138,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Email em que desejas ser contactado"),
         "dinner": MessageLookupByLibrary.simpleMessage("Jantar"),
         "dish_type": m0,
+        "dish_types": MessageLookupByLibrary.simpleMessage("Tipos de Prato"),
         "dona_bia":
             MessageLookupByLibrary.simpleMessage("Papelaria D. Beatriz"),
         "dona_bia_building": MessageLookupByLibrary.simpleMessage(
@@ -324,6 +326,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Calendário Escolar"),
         "search": MessageLookupByLibrary.simpleMessage("Pesquisar"),
         "see_more": MessageLookupByLibrary.simpleMessage("Ver mais"),
+        "select_all": MessageLookupByLibrary.simpleMessage("Selecionar Todos"),
         "semester": MessageLookupByLibrary.simpleMessage("Semestre"),
         "send": MessageLookupByLibrary.simpleMessage("Enviar"),
         "sent_error":
