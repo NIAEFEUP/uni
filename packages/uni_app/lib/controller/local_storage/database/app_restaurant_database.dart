@@ -54,6 +54,7 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
             map['namePt'] as String,
             map['nameEn'] as String,
             map['period'] as String,
+            map['campusId'] as int,
             map['ref'] as String,
             meals: meals,
           );

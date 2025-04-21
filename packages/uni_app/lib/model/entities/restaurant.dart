@@ -14,6 +14,7 @@ class Restaurant {
     this.namePt,
     this.nameEn,
     this.period,
+    this.campusId,
     this.reference, {
     required List<Meal> meals,
   }) : meals = groupBy(meals, (meal) => meal.dayOfWeek);
@@ -38,6 +39,8 @@ class Restaurant {
   final String nameEn;
   @JsonKey(name: 'period')
   final String period;
+  @JsonKey(name: 'campusId')
+  final int campusId;
   @JsonKey(name: 'ref')
   final String reference; // Used only in html parser
   @JsonKey(includeToJson: true)

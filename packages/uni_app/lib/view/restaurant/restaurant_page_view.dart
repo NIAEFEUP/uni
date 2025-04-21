@@ -41,11 +41,10 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     {'value': 7, 'key_label': 'diet_dishes'},
     {'value': 8, 'key_label': 'dishes_of_the_day'},
   ];
-  int? _selectedDishType;
 
+  // Filters  
+  int? _selectedDishType;
   late bool isFavoriteFilterOn;
-  
-  // TODO (thePeras): Get from PreferencesController
   int selectedCampus = 0;
 
   @override
@@ -53,8 +52,8 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     final campus = <String>[
       S.of(context).all,
       'Baixa da Cidade',
-      'Campo Alegre',
       'Asprela',
+      'Campo Alegre',
     ];
 
     return Align(
@@ -66,6 +65,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
           onChanged: (value) {
             setState(() {
               selectedCampus = campus.indexOf(value!);
+              updateFilterRestaurants();
             });
           },
           items: campus.map((item) {
@@ -89,12 +89,13 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
       })
       ..animateTo(DateTime.now().weekday - 1);
     scrollViewController = ScrollController();
-    restaurants = []; // Initialize the list
+    restaurants = [];
     filteredRestaurants = [];
     _initializeRestaurants();
     isFavoriteFilterOn =
         PreferencesController.getIsFavoriteRestaurantsFilterOn() ?? false;
     _selectedDishType = PreferencesController.getSelectedDishType() ?? 1;
+    updateFilterRestaurants();
   }
 
   void _toggleFavorite(String restaurantName, String restaurantPeriod) {
@@ -152,23 +153,20 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     }
   }
 
-  void applyFavouriteRestaurantFilter() {
-    filteredRestaurants = restaurants
-        .where(
-          (restaurant) => PreferencesController.getFavoriteRestaurants()
-              .contains(restaurant.namePt + restaurant.period),
-        )
-        .toList();
-  }
+  void updateFilterRestaurants() {
+    setState(() {
+      // TODO: optimize this function by not querying the PreferencesController if isFavoriteFilterOn is false
+      filteredRestaurants = restaurants.where((restaurant) {
+        final isFavorite = PreferencesController.getFavoriteRestaurants()
+            .contains(restaurant.namePt + restaurant.period);
 
-  Widget getFilteredContent(BuildContext context) {
-    if (isFavoriteFilterOn) {
-      applyFavouriteRestaurantFilter();
-    } else {
-      filteredRestaurants = restaurants;
-    }
+        final isCampusMatch =
+            selectedCampus == 0 || restaurant.campusId == selectedCampus;
 
-    return createTabViewBuilder(context);
+        return (isFavorite && isFavoriteFilterOn) ||
+            !isFavoriteFilterOn && isCampusMatch;
+      }).toList();
+    });
   }
 
   @override
@@ -228,7 +226,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<RestaurantProvider, List<Restaurant>>(
-      builder: (context, _) => getFilteredContent(context),
+      builder: (context, _) => createTabViewBuilder(context),
       onNullContent: Center(
         child: Text(
           S.of(context).no_menus,
