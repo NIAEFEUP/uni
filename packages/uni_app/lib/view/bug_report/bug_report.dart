@@ -239,8 +239,9 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
             for (var i = 0; i < pickedFiles.length; i++) {
               images.add(
                 Padding(
-                  padding: EdgeInsets.all(8.0 /
-                      (pickedFiles.length > 3 ? pickedFiles.length / 3 : 1),),
+                  padding: EdgeInsets.all(
+                    8.0 / (pickedFiles.length > 3 ? pickedFiles.length / 3 : 1),
+                  ),
                   child: SizedBox(
                     width: 100 /
                         (pickedFiles.length > 3 ? pickedFiles.length / 3 : 1),
