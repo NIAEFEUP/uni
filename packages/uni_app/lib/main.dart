@@ -130,7 +130,7 @@ Future<void> main() async {
   final savedTheme = PreferencesController.getThemeMode();
   final savedLocale = PreferencesController.getLocale();
 
-  const route = '/splash';
+  final route = await firstRoute();
 
   await SentryFlutter.init(
     (options) {
@@ -183,7 +183,7 @@ Future<void> main() async {
                 create: (_) => ThemeNotifier(savedTheme),
               ),
             ],
-            child: const Application(route),
+            child: Application(route),
           ),
         ),
       );
@@ -252,7 +252,7 @@ class ApplicationState extends State<Application> {
                 settings: settings,
               ),
               '/${NavigationItem.navLogin.route}':
-                  PageTransition.splashTransitionRoute(
+                  PageTransition.makePageTransition(
                 page: const LoginPageView(),
                 settings: settings,
               ),
