@@ -44,6 +44,7 @@ class PreferencesController {
   static const String _selectedDishType = 'selected_dish_type';
   static const String _isFavoriteRestaurantsFilterOn =
       'is_favorite_restaurant_filter_on';
+  static const String _selectedCampusFilter = 'selected_campus';
 
   static final _statsToggleStreamController =
       StreamController<bool>.broadcast();
@@ -312,5 +313,13 @@ class PreferencesController {
 
   static bool? getIsFavoriteRestaurantsFilterOn() {
     return prefs.getBool(_isFavoriteRestaurantsFilterOn);
+  }
+
+  static Future<void> setSelectedCampus(int value) async {
+    await prefs.setInt(_selectedCampusFilter, value);
+  }
+
+  static int? getSelectedCampus() {
+    return prefs.getInt(_selectedCampusFilter);
   }
 }

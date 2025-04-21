@@ -45,7 +45,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   // Filters  
   int? _selectedDishType;
   late bool isFavoriteFilterOn;
-  int selectedCampus = 0;
+  late int selectedCampus;
 
   @override
   Widget? getRightContent(BuildContext context) {
@@ -64,7 +64,9 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
           elevation: 16,
           onChanged: (value) {
             setState(() {
-              selectedCampus = campus.indexOf(value!);
+              final campusId = campus.indexOf(value!);
+              selectedCampus = campusId;
+              PreferencesController.setSelectedCampus(campusId);
               updateFilterRestaurants();
             });
           },
@@ -89,12 +91,16 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
       })
       ..animateTo(DateTime.now().weekday - 1);
     scrollViewController = ScrollController();
+    
     restaurants = [];
     filteredRestaurants = [];
     _initializeRestaurants();
+
+    selectedCampus = PreferencesController.getSelectedCampus() ?? 0;
     isFavoriteFilterOn =
         PreferencesController.getIsFavoriteRestaurantsFilterOn() ?? false;
     _selectedDishType = PreferencesController.getSelectedDishType() ?? 1;
+
     updateFilterRestaurants();
   }
 
@@ -108,6 +114,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
 
     final favoriteCardTypes = PreferencesController.getFavoriteCards();
 
+    // TODO(thePeras): If I remove and don't have restaurants in homescreen I don't want to bored with the dialog
     if (context.mounted &&
         !favoriteCardTypes.contains(FavoriteWidgetType.restaurants)) {
       showRestaurantCardHomeDialog(
@@ -117,6 +124,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
       );
     }
 
+    // TODO(thePeras): I think this is unnecessary, now just call updateFilterRestaurants?
     Restaurant? restaurantToRemove;
     if (isFavoriteFilterOn) {
       for (final restaurant in filteredRestaurants) {
