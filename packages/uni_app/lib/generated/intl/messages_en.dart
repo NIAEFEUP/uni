@@ -76,6 +76,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "all_feminine": MessageLookupByLibrary.simpleMessage("All"),
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
             "All available widgets have already been added to your personal area!"),
+        "apply": MessageLookupByLibrary.simpleMessage("Apply"),
         "assessments": MessageLookupByLibrary.simpleMessage("Assessments"),
         "at_least_one_college":
             MessageLookupByLibrary.simpleMessage("Select at least one college"),
@@ -146,6 +147,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Email where you want to be contacted"),
         "dinner": MessageLookupByLibrary.simpleMessage("Dinner"),
         "dish_type": m0,
+        "dish_types": MessageLookupByLibrary.simpleMessage("Dish Types"),
         "dona_bia": MessageLookupByLibrary.simpleMessage(
             "D. Beatriz\'s stationery store"),
         "dona_bia_building": MessageLookupByLibrary.simpleMessage(
@@ -335,6 +337,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("School Calendar"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
         "see_more": MessageLookupByLibrary.simpleMessage("See more"),
+        "select_all": MessageLookupByLibrary.simpleMessage("Select All"),
         "semester": MessageLookupByLibrary.simpleMessage("Semester"),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
         "sent_error": MessageLookupByLibrary.simpleMessage(
