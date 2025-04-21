@@ -42,7 +42,42 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     {'value': 8, 'key_label': 'dishes_of_the_day'},
   ];
   int? _selectedDishType;
+
   late bool isFavoriteFilterOn;
+  
+  // TODO (thePeras): Get from PreferencesController
+  int selectedCampus = 0;
+
+  @override
+  Widget? getRightContent(BuildContext context) {
+    final campus = <String>[
+      S.of(context).all,
+      'Baixa da Cidade',
+      'Campo Alegre',
+      'Asprela',
+    ];
+
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: campus[selectedCampus],
+          elevation: 16,
+          onChanged: (value) {
+            setState(() {
+              selectedCampus = campus.indexOf(value!);
+            });
+          },
+          items: campus.map((item) {
+            return DropdownMenuItem<String>(
+              value: item,
+              child: Text(item),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
 
   @override
   void initState() {

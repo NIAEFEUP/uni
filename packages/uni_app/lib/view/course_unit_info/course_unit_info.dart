@@ -177,7 +177,7 @@ class CourseUnitDetailPageViewState
   String? getTitle() => widget.courseUnit.name;
 
   @override
-  Widget? getTopRightButton(BuildContext context) {
+  Widget? getRightContent(BuildContext context) {
     return IconButton(
       icon: UniIcon(
         UniIcons.arrowSquareOut,

@@ -43,7 +43,7 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
               WidgetStateProperty.all(Theme.of(context).colorScheme.primary),
         ),
       ),
-      rightButton: getTopRightButton(context),
+      rightButton: getRightContent(context),
     );
   }
 }

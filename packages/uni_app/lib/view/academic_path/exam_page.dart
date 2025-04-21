@@ -179,7 +179,7 @@ class _ExamsPageState extends State<ExamsPage> {
 
   /*
   @override
-  Widget? getTopRightButton(BuildContext context) {
+  Widget? getRightContent(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ExamFilterButton(

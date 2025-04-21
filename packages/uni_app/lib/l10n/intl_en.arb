@@ -395,5 +395,7 @@
   "no_courses_description": "Try to refresh the page",
   "@no_courses_description": {},
   "now": "Now",
-  "@now": {}
+  "@now": {},
+  "all": "All",
+  "@all": {}
 }

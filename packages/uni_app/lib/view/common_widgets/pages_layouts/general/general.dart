@@ -21,8 +21,8 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   // Function called when the page is loaded
   Future<void> onLoad(BuildContext context) async {}
 
-  // Right action button on the top navigation bar
-  Widget? getTopRightButton(BuildContext context) {
+  // Right content the top navigation bar
+  Widget? getRightContent(BuildContext context) {
     return null;
   }
 
@@ -30,7 +30,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   AppTopNavbar? getTopNavbar(BuildContext context) {
     return AppTopNavbar(
       title: this.getTitle(),
-      rightButton: getTopRightButton(context),
+      rightButton: getRightContent(context),
     );
   }
 

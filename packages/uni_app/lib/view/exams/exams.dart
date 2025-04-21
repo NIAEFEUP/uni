@@ -164,7 +164,7 @@ class ExamsPageViewState extends SecondaryPageViewState<ExamsPageView> {
   String? getTitle() => S.of(context).nav_title(NavigationItem.navExams.route);
 
   @override
-  Widget? getTopRightButton(BuildContext context) {
+  Widget? getRightContent(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ExamFilterButton(
