@@ -12,6 +12,7 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/generic_animated_expandable.dart';
 import 'package:uni/view/common_widgets/generic_expandable.dart';
+import 'package:uni/view/course_unit_info/widgets/modal_professor_info.dart';
 import 'package:uni_ui/cards/book_card.dart';
 import 'package:uni_ui/cards/exam_card.dart';
 import 'package:uni_ui/cards/instructor_card.dart';
@@ -211,24 +212,32 @@ class _InstructorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final session = context.read<SessionProvider>().state!;
-    return FutureBuilder<File?>(
-      future: ProfileProvider.fetchOrGetCachedProfilePicture(
-        session,
-        studentNumber: int.parse(instructor.code),
-      ),
-      builder: (context, snapshot) {
-        final profileImage = snapshot.hasData && snapshot.data != null
-            ? FileImage(snapshot.data!)
-            : null;
-
-        return InstructorCard(
-          name: instructor.name,
-          isRegent: instructor.isRegent,
-          instructorLabel: S.of(context).instructor,
-          regentLabel: S.of(context).courseRegent,
-          profileImage: profileImage,
+    return GestureDetector(
+      onTap: () {
+        showDialog<void>(
+          context: context,
+          builder: (context) => ProfessorInfoModal(instructor),
         );
       },
+      child: FutureBuilder<File?>(
+        future: ProfileProvider.fetchOrGetCachedProfilePicture(
+          session,
+          studentNumber: int.parse(instructor.code),
+        ),
+        builder: (context, snapshot) {
+          final profileImage = snapshot.hasData && snapshot.data != null
+              ? FileImage(snapshot.data!)
+              : null;
+
+          return InstructorCard(
+            name: instructor.name,
+            isRegent: instructor.isRegent,
+            instructorLabel: S.of(context).instructor,
+            regentLabel: S.of(context).courseRegent,
+            profileImage: profileImage,
+          );
+        },
+      ),
     );
   }
 }

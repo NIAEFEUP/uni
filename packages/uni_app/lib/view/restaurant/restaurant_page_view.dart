@@ -319,11 +319,8 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
                               context,
                               'mailto:${restaurant.email}',
                             ),
-                            icon: UniIcon(
-                              UniIcons.paperPlaneTilt,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            optionalIcon: const UniIcon(UniIcons.caretRight),
+                            icon: UniIcons.email,
+                            trailing: const UniIcon(UniIcons.caretRight),
                           ),
                       ],
                     );
