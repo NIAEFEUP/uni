@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logger/logger.dart';
@@ -244,35 +243,21 @@ class ApplicationState extends State<Application> {
                     page: const SplashScreenView(),
                     settings: settings,
                   ),
-              '/${NavigationItem.navEditPersonalArea.route}': () {
-                SystemChrome.setSystemUIOverlayStyle(
-                  const SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: Brightness.light,
+              '/${NavigationItem.navEditPersonalArea.route}': () =>
+                  PageTransition.makePageTransition(
+                    page: const EditHomeView(),
+                    settings: settings,
                   ),
-                );
-                return PageTransition.makePageTransition(
-                  page: const EditHomeView(),
-                  settings: settings,
-                );
-              },
               '/${NavigationItem.navLogin.route}': () =>
                   PageTransition.splashTransitionRoute(
                     page: const LoginPageView(),
                     settings: settings,
                   ),
-              '/${NavigationItem.navPersonalArea.route}': () {
-                SystemChrome.setSystemUIOverlayStyle(
-                  const SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: Brightness.light,
+              '/${NavigationItem.navPersonalArea.route}': () =>
+                  PageTransition.makePageTransition(
+                    page: const HomePageView(),
+                    settings: settings,
                   ),
-                );
-                return PageTransition.makePageTransition(
-                  page: const HomePageView(),
-                  settings: settings,
-                );
-              },
               '/${NavigationItem.navExams.route}': () =>
                   PageTransition.makePageTransition(
                     page: const ExamsPageView(),
