@@ -25,6 +25,7 @@ class DraggableSquare extends StatelessWidget {
     return DraggableElement(
       callback: activeCallback,
       data: data,
+      feedbackSize: const Offset(75, 75),
       feedbackBuilder: (context, data) {
         final (title, icon) = formatDraggableTile(data);
         return Container(

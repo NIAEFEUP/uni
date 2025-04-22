@@ -26,6 +26,7 @@ class DraggableTile extends StatelessWidget {
     return DraggableElement(
       callback: activeCallback,
       data: data,
+      feedbackSize: const Offset(75, 75),
       feedbackBuilder: (context, data) {
         final (title, icon) = formatDraggableTile(data);
 
@@ -48,7 +49,7 @@ class DraggableTile extends StatelessWidget {
             ],
           ),
         );
-      }, // TODO: maybe list tile as well
+      },
       childBuilder: (context, data) {
         final (title, icon) = formatDraggableTile(data);
 
