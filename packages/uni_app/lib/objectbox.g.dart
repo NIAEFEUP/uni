@@ -29,40 +29,6 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(1, 8291520291398480120),
-      name: 'CalendarEvent',
-      lastPropertyId: const obx_int.IdUid(5, 2290575640408544292),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 4566007506961794915),
-            name: 'name',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 9151945013859193773),
-            name: 'date',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 6529611542004519423),
-            name: 'id',
-            type: 6,
-            flags: 1),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 606101617154450710),
-            name: 'start',
-            type: 10,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 2290575640408544292),
-            name: 'finish',
-            type: 10,
-            flags: 0)
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[]),
-  obx_int.ModelEntity(
       id: const obx_int.IdUid(2, 9023334941434171613),
       name: 'Course',
       lastPropertyId: const obx_int.IdUid(8, 2569902177271788084),
@@ -512,6 +478,35 @@ final _entities = <obx_int.ModelEntity>[
             relationTarget: 'Restaurant')
       ],
       relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(11, 7766497325520663084),
+      name: 'CalendarEvent',
+      lastPropertyId: const obx_int.IdUid(4, 869613549731297269),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 6002512766888793929),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 3114921118509703581),
+            name: 'startDate',
+            type: 10,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 4248782243502756139),
+            name: 'endDate',
+            type: 10,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 869613549731297269),
+            name: 'id',
+            type: 6,
+            flags: 1)
+      ],
+      relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[])
 ];
 
@@ -550,17 +545,22 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(10, 7804684898880346326),
+      lastEntityId: const obx_int.IdUid(11, 7766497325520663084),
       lastIndexId: const obx_int.IdUid(3, 1655954202899126503),
       lastRelationId: const obx_int.IdUid(2, 7979016610492408009),
       lastSequenceId: const obx_int.IdUid(0, 0),
-      retiredEntityUids: const [],
+      retiredEntityUids: const [8291520291398480120],
       retiredIndexUids: const [6025187928432397390, 5553263973871522574],
       retiredPropertyUids: const [
         7614762063660142831,
         1965207517914420813,
         5763920349665887316,
-        3569335303354936661
+        3569335303354936661,
+        4566007506961794915,
+        9151945013859193773,
+        6529611542004519423,
+        606101617154450710,
+        2290575640408544292
       ],
       retiredRelationUids: const [4232741166114493489, 7979016610492408009],
       modelVersion: 5,
@@ -568,51 +568,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
       version: 1);
 
   final bindings = <Type, obx_int.EntityDefinition>{
-    CalendarEvent: obx_int.EntityDefinition<CalendarEvent>(
-        model: _entities[0],
-        toOneRelations: (CalendarEvent object) => [],
-        toManyRelations: (CalendarEvent object) => {},
-        getId: (CalendarEvent object) => object.id,
-        setId: (CalendarEvent object, int id) {
-          object.id = id;
-        },
-        objectToFB: (CalendarEvent object, fb.Builder fbb) {
-          final nameOffset = fbb.writeString(object.name);
-          final dateOffset = fbb.writeString(object.date);
-          fbb.startTable(6);
-          fbb.addOffset(0, nameOffset);
-          fbb.addOffset(1, dateOffset);
-          fbb.addInt64(2, object.id ?? 0);
-          fbb.addInt64(3, object.start?.millisecondsSinceEpoch);
-          fbb.addInt64(4, object.finish?.millisecondsSinceEpoch);
-          fbb.finish(fbb.endTable());
-          return object.id ?? 0;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final startValue =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 10);
-          final finishValue =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 12);
-          final nameParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 4, '');
-          final dateParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 6, '');
-          final object = CalendarEvent(nameParam, dateParam)
-            ..id =
-                const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 8)
-            ..start = startValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(startValue)
-            ..finish = finishValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(finishValue);
-
-          return object;
-        }),
     Course: obx_int.EntityDefinition<Course>(
-        model: _entities[1],
+        model: _entities[0],
         toOneRelations: (Course object) => [],
         toManyRelations: (Course object) => {},
         getId: (Course object) => object.id,
@@ -683,7 +640,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           return object;
         }),
     CourseUnit: obx_int.EntityDefinition<CourseUnit>(
-        model: _entities[2],
+        model: _entities[1],
         toOneRelations: (CourseUnit object) => [],
         toManyRelations: (CourseUnit object) => {},
         getId: (CourseUnit object) => object.id,
@@ -789,7 +746,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           return object;
         }),
     Exam: obx_int.EntityDefinition<Exam>(
-        model: _entities[3],
+        model: _entities[2],
         toOneRelations: (Exam object) => [],
         toManyRelations: (Exam object) => {},
         getId: (Exam object) => object.dbId,
@@ -854,7 +811,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           return object;
         }),
     FloorOccupation: obx_int.EntityDefinition<FloorOccupation>(
-        model: _entities[4],
+        model: _entities[3],
         toOneRelations: (FloorOccupation object) => [],
         toManyRelations: (FloorOccupation object) => {},
         getId: (FloorOccupation object) => object.number,
@@ -884,7 +841,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           return object;
         }),
     Lecture: obx_int.EntityDefinition<Lecture>(
-        model: _entities[5],
+        model: _entities[4],
         toOneRelations: (Lecture object) => [],
         toManyRelations: (Lecture object) => {},
         getId: (Lecture object) => object.occurrId,
@@ -947,7 +904,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           return object;
         }),
     Reference: obx_int.EntityDefinition<Reference>(
-        model: _entities[6],
+        model: _entities[5],
         toOneRelations: (Reference object) => [],
         toManyRelations: (Reference object) => {},
         getId: (Reference object) => object.id,
@@ -988,7 +945,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           return object;
         }),
     Profile: obx_int.EntityDefinition<Profile>(
-        model: _entities[7],
+        model: _entities[6],
         toOneRelations: (Profile object) => [],
         toManyRelations: (Profile object) => {},
         getId: (Profile object) => object.id,
@@ -1040,7 +997,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           return object;
         }),
     Restaurant: obx_int.EntityDefinition<Restaurant>(
-        model: _entities[8],
+        model: _entities[7],
         toOneRelations: (Restaurant object) => [],
         toManyRelations: (Restaurant object) => {
               obx_int.RelInfo<Meal>.toOneBacklink(11, object.uniqueId!,
@@ -1119,7 +1076,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           return object;
         }),
     Meal: obx_int.EntityDefinition<Meal>(
-        model: _entities[9],
+        model: _entities[8],
         toOneRelations: (Meal object) => [object.restaurant],
         toManyRelations: (Meal object) => {},
         getId: (Meal object) => object.id,
@@ -1162,318 +1119,338 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 24, 0);
           object.restaurant.attach(store);
           return object;
+        }),
+    CalendarEvent: obx_int.EntityDefinition<CalendarEvent>(
+        model: _entities[9],
+        toOneRelations: (CalendarEvent object) => [],
+        toManyRelations: (CalendarEvent object) => {},
+        getId: (CalendarEvent object) => object.id,
+        setId: (CalendarEvent object, int id) {
+          object.id = id;
+        },
+        objectToFB: (CalendarEvent object, fb.Builder fbb) {
+          final nameOffset = fbb.writeString(object.name);
+          fbb.startTable(5);
+          fbb.addOffset(0, nameOffset);
+          fbb.addInt64(1, object.startDate?.millisecondsSinceEpoch);
+          fbb.addInt64(2, object.endDate?.millisecondsSinceEpoch);
+          fbb.addInt64(3, object.id ?? 0);
+          fbb.finish(fbb.endTable());
+          return object.id ?? 0;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final startDateValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 6);
+          final endDateValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 8);
+          final idParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 10);
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 4, '');
+          final startDateParam = startDateValue == null
+              ? null
+              : DateTime.fromMillisecondsSinceEpoch(startDateValue);
+          final endDateParam = endDateValue == null
+              ? null
+              : DateTime.fromMillisecondsSinceEpoch(endDateValue);
+          final object = CalendarEvent(
+              id: idParam,
+              name: nameParam,
+              startDate: startDateParam,
+              endDate: endDateParam);
+
+          return object;
         })
   };
 
   return obx_int.ModelDefinition(model, bindings);
 }
 
-/// [CalendarEvent] entity fields to define ObjectBox queries.
-class CalendarEvent_ {
-  /// See [CalendarEvent.name].
-  static final name =
-      obx.QueryStringProperty<CalendarEvent>(_entities[0].properties[0]);
-
-  /// See [CalendarEvent.date].
-  static final date =
-      obx.QueryStringProperty<CalendarEvent>(_entities[0].properties[1]);
-
-  /// See [CalendarEvent.id].
-  static final id =
-      obx.QueryIntegerProperty<CalendarEvent>(_entities[0].properties[2]);
-
-  /// See [CalendarEvent.start].
-  static final start =
-      obx.QueryDateProperty<CalendarEvent>(_entities[0].properties[3]);
-
-  /// See [CalendarEvent.finish].
-  static final finish =
-      obx.QueryDateProperty<CalendarEvent>(_entities[0].properties[4]);
-}
-
 /// [Course] entity fields to define ObjectBox queries.
 class Course_ {
   /// See [Course.id].
   static final id =
-      obx.QueryIntegerProperty<Course>(_entities[1].properties[0]);
+      obx.QueryIntegerProperty<Course>(_entities[0].properties[0]);
 
   /// See [Course.festId].
   static final festId =
-      obx.QueryIntegerProperty<Course>(_entities[1].properties[1]);
+      obx.QueryIntegerProperty<Course>(_entities[0].properties[1]);
 
   /// See [Course.name].
   static final name =
-      obx.QueryStringProperty<Course>(_entities[1].properties[2]);
+      obx.QueryStringProperty<Course>(_entities[0].properties[2]);
 
   /// See [Course.abbreviation].
   static final abbreviation =
-      obx.QueryStringProperty<Course>(_entities[1].properties[3]);
+      obx.QueryStringProperty<Course>(_entities[0].properties[3]);
 
   /// See [Course.currYear].
   static final currYear =
-      obx.QueryStringProperty<Course>(_entities[1].properties[4]);
+      obx.QueryStringProperty<Course>(_entities[0].properties[4]);
 
   /// See [Course.firstEnrollment].
   static final firstEnrollment =
-      obx.QueryIntegerProperty<Course>(_entities[1].properties[5]);
+      obx.QueryIntegerProperty<Course>(_entities[0].properties[5]);
 
   /// See [Course.faculty].
   static final faculty =
-      obx.QueryStringProperty<Course>(_entities[1].properties[6]);
+      obx.QueryStringProperty<Course>(_entities[0].properties[6]);
 
   /// See [Course.state].
   static final state =
-      obx.QueryStringProperty<Course>(_entities[1].properties[7]);
+      obx.QueryStringProperty<Course>(_entities[0].properties[7]);
 }
 
 /// [CourseUnit] entity fields to define ObjectBox queries.
 class CourseUnit_ {
   /// See [CourseUnit.id].
   static final id =
-      obx.QueryIntegerProperty<CourseUnit>(_entities[2].properties[0]);
+      obx.QueryIntegerProperty<CourseUnit>(_entities[1].properties[0]);
 
   /// See [CourseUnit.code].
   static final code =
-      obx.QueryStringProperty<CourseUnit>(_entities[2].properties[1]);
+      obx.QueryStringProperty<CourseUnit>(_entities[1].properties[1]);
 
   /// See [CourseUnit.abbreviation].
   static final abbreviation =
-      obx.QueryStringProperty<CourseUnit>(_entities[2].properties[2]);
+      obx.QueryStringProperty<CourseUnit>(_entities[1].properties[2]);
 
   /// See [CourseUnit.name].
   static final name =
-      obx.QueryStringProperty<CourseUnit>(_entities[2].properties[3]);
+      obx.QueryStringProperty<CourseUnit>(_entities[1].properties[3]);
 
   /// See [CourseUnit.curricularYear].
   static final curricularYear =
-      obx.QueryIntegerProperty<CourseUnit>(_entities[2].properties[4]);
+      obx.QueryIntegerProperty<CourseUnit>(_entities[1].properties[4]);
 
   /// See [CourseUnit.occurrId].
   static final occurrId =
-      obx.QueryIntegerProperty<CourseUnit>(_entities[2].properties[5]);
+      obx.QueryIntegerProperty<CourseUnit>(_entities[1].properties[5]);
 
   /// See [CourseUnit.semesterCode].
   static final semesterCode =
-      obx.QueryStringProperty<CourseUnit>(_entities[2].properties[6]);
+      obx.QueryStringProperty<CourseUnit>(_entities[1].properties[6]);
 
   /// See [CourseUnit.semesterName].
   static final semesterName =
-      obx.QueryStringProperty<CourseUnit>(_entities[2].properties[7]);
+      obx.QueryStringProperty<CourseUnit>(_entities[1].properties[7]);
 
   /// See [CourseUnit.type].
   static final type =
-      obx.QueryStringProperty<CourseUnit>(_entities[2].properties[8]);
+      obx.QueryStringProperty<CourseUnit>(_entities[1].properties[8]);
 
   /// See [CourseUnit.status].
   static final status =
-      obx.QueryStringProperty<CourseUnit>(_entities[2].properties[9]);
+      obx.QueryStringProperty<CourseUnit>(_entities[1].properties[9]);
 
   /// See [CourseUnit.grade].
   static final grade =
-      obx.QueryStringProperty<CourseUnit>(_entities[2].properties[10]);
+      obx.QueryStringProperty<CourseUnit>(_entities[1].properties[10]);
 
   /// See [CourseUnit.ectsGrade].
   static final ectsGrade =
-      obx.QueryStringProperty<CourseUnit>(_entities[2].properties[11]);
+      obx.QueryStringProperty<CourseUnit>(_entities[1].properties[11]);
 
   /// See [CourseUnit.result].
   static final result =
-      obx.QueryStringProperty<CourseUnit>(_entities[2].properties[12]);
+      obx.QueryStringProperty<CourseUnit>(_entities[1].properties[12]);
 
   /// See [CourseUnit.schoolYear].
   static final schoolYear =
-      obx.QueryStringProperty<CourseUnit>(_entities[2].properties[13]);
+      obx.QueryStringProperty<CourseUnit>(_entities[1].properties[13]);
 
   /// See [CourseUnit.festId].
   static final festId =
-      obx.QueryIntegerProperty<CourseUnit>(_entities[2].properties[14]);
+      obx.QueryIntegerProperty<CourseUnit>(_entities[1].properties[14]);
 }
 
 /// [Exam] entity fields to define ObjectBox queries.
 class Exam_ {
   /// See [Exam.start].
-  static final start = obx.QueryDateProperty<Exam>(_entities[3].properties[0]);
+  static final start = obx.QueryDateProperty<Exam>(_entities[2].properties[0]);
 
   /// See [Exam.finish].
-  static final finish = obx.QueryDateProperty<Exam>(_entities[3].properties[1]);
+  static final finish = obx.QueryDateProperty<Exam>(_entities[2].properties[1]);
 
   /// See [Exam.id].
-  static final id = obx.QueryStringProperty<Exam>(_entities[3].properties[2]);
+  static final id = obx.QueryStringProperty<Exam>(_entities[2].properties[2]);
 
   /// See [Exam.subject].
   static final subject =
-      obx.QueryStringProperty<Exam>(_entities[3].properties[3]);
+      obx.QueryStringProperty<Exam>(_entities[2].properties[3]);
 
   /// See [Exam.rooms].
   static final rooms =
-      obx.QueryStringVectorProperty<Exam>(_entities[3].properties[4]);
+      obx.QueryStringVectorProperty<Exam>(_entities[2].properties[4]);
 
   /// See [Exam.examType].
   static final examType =
-      obx.QueryStringProperty<Exam>(_entities[3].properties[5]);
+      obx.QueryStringProperty<Exam>(_entities[2].properties[5]);
 
   /// See [Exam.faculty].
   static final faculty =
-      obx.QueryStringProperty<Exam>(_entities[3].properties[6]);
+      obx.QueryStringProperty<Exam>(_entities[2].properties[6]);
 
   /// See [Exam.dbId].
   static final dbId =
-      obx.QueryIntegerProperty<Exam>(_entities[3].properties[7]);
+      obx.QueryIntegerProperty<Exam>(_entities[2].properties[7]);
 
   /// See [Exam.subjectAcronym].
   static final subjectAcronym =
-      obx.QueryStringProperty<Exam>(_entities[3].properties[8]);
+      obx.QueryStringProperty<Exam>(_entities[2].properties[8]);
 }
 
 /// [FloorOccupation] entity fields to define ObjectBox queries.
 class FloorOccupation_ {
   /// See [FloorOccupation.number].
   static final number =
-      obx.QueryIntegerProperty<FloorOccupation>(_entities[4].properties[0]);
+      obx.QueryIntegerProperty<FloorOccupation>(_entities[3].properties[0]);
 
   /// See [FloorOccupation.occupation].
   static final occupation =
-      obx.QueryIntegerProperty<FloorOccupation>(_entities[4].properties[1]);
+      obx.QueryIntegerProperty<FloorOccupation>(_entities[3].properties[1]);
 
   /// See [FloorOccupation.capacity].
   static final capacity =
-      obx.QueryIntegerProperty<FloorOccupation>(_entities[4].properties[2]);
+      obx.QueryIntegerProperty<FloorOccupation>(_entities[3].properties[2]);
 }
 
 /// [Lecture] entity fields to define ObjectBox queries.
 class Lecture_ {
   /// See [Lecture.subject].
   static final subject =
-      obx.QueryStringProperty<Lecture>(_entities[5].properties[0]);
+      obx.QueryStringProperty<Lecture>(_entities[4].properties[0]);
 
   /// See [Lecture.typeClass].
   static final typeClass =
-      obx.QueryStringProperty<Lecture>(_entities[5].properties[1]);
+      obx.QueryStringProperty<Lecture>(_entities[4].properties[1]);
 
   /// See [Lecture.room].
   static final room =
-      obx.QueryStringProperty<Lecture>(_entities[5].properties[2]);
+      obx.QueryStringProperty<Lecture>(_entities[4].properties[2]);
 
   /// See [Lecture.teacher].
   static final teacher =
-      obx.QueryStringProperty<Lecture>(_entities[5].properties[3]);
+      obx.QueryStringProperty<Lecture>(_entities[4].properties[3]);
 
   /// See [Lecture.classNumber].
   static final classNumber =
-      obx.QueryStringProperty<Lecture>(_entities[5].properties[4]);
+      obx.QueryStringProperty<Lecture>(_entities[4].properties[4]);
 
   /// See [Lecture.startTime].
   static final startTime =
-      obx.QueryDateProperty<Lecture>(_entities[5].properties[5]);
+      obx.QueryDateProperty<Lecture>(_entities[4].properties[5]);
 
   /// See [Lecture.endTime].
   static final endTime =
-      obx.QueryDateProperty<Lecture>(_entities[5].properties[6]);
+      obx.QueryDateProperty<Lecture>(_entities[4].properties[6]);
 
   /// See [Lecture.occurrId].
   static final occurrId =
-      obx.QueryIntegerProperty<Lecture>(_entities[5].properties[7]);
+      obx.QueryIntegerProperty<Lecture>(_entities[4].properties[7]);
 
   /// See [Lecture.acronym].
   static final acronym =
-      obx.QueryStringProperty<Lecture>(_entities[5].properties[8]);
+      obx.QueryStringProperty<Lecture>(_entities[4].properties[8]);
 }
 
 /// [Reference] entity fields to define ObjectBox queries.
 class Reference_ {
   /// See [Reference.id].
   static final id =
-      obx.QueryIntegerProperty<Reference>(_entities[6].properties[0]);
+      obx.QueryIntegerProperty<Reference>(_entities[5].properties[0]);
 
   /// See [Reference.description].
   static final description =
-      obx.QueryStringProperty<Reference>(_entities[6].properties[1]);
+      obx.QueryStringProperty<Reference>(_entities[5].properties[1]);
 
   /// See [Reference.limitDate].
   static final limitDate =
-      obx.QueryDateProperty<Reference>(_entities[6].properties[2]);
+      obx.QueryDateProperty<Reference>(_entities[5].properties[2]);
 
   /// See [Reference.entity].
   static final entity =
-      obx.QueryIntegerProperty<Reference>(_entities[6].properties[3]);
+      obx.QueryIntegerProperty<Reference>(_entities[5].properties[3]);
 
   /// See [Reference.reference].
   static final reference =
-      obx.QueryIntegerProperty<Reference>(_entities[6].properties[4]);
+      obx.QueryIntegerProperty<Reference>(_entities[5].properties[4]);
 
   /// See [Reference.amount].
   static final amount =
-      obx.QueryDoubleProperty<Reference>(_entities[6].properties[5]);
+      obx.QueryDoubleProperty<Reference>(_entities[5].properties[5]);
 }
 
 /// [Profile] entity fields to define ObjectBox queries.
 class Profile_ {
   /// See [Profile.id].
   static final id =
-      obx.QueryIntegerProperty<Profile>(_entities[7].properties[0]);
+      obx.QueryIntegerProperty<Profile>(_entities[6].properties[0]);
 
   /// See [Profile.name].
   static final name =
-      obx.QueryStringProperty<Profile>(_entities[7].properties[1]);
+      obx.QueryStringProperty<Profile>(_entities[6].properties[1]);
 
   /// See [Profile.email].
   static final email =
-      obx.QueryStringProperty<Profile>(_entities[7].properties[2]);
+      obx.QueryStringProperty<Profile>(_entities[6].properties[2]);
 
   /// See [Profile.printBalance].
   static final printBalance =
-      obx.QueryStringProperty<Profile>(_entities[7].properties[3]);
+      obx.QueryStringProperty<Profile>(_entities[6].properties[3]);
 
   /// See [Profile.feesBalance].
   static final feesBalance =
-      obx.QueryStringProperty<Profile>(_entities[7].properties[4]);
+      obx.QueryStringProperty<Profile>(_entities[6].properties[4]);
 
   /// See [Profile.feesLimit].
   static final feesLimit =
-      obx.QueryDateProperty<Profile>(_entities[7].properties[5]);
+      obx.QueryDateProperty<Profile>(_entities[6].properties[5]);
 }
 
 /// [Restaurant] entity fields to define ObjectBox queries.
 class Restaurant_ {
   /// See [Restaurant.id].
   static final id =
-      obx.QueryIntegerProperty<Restaurant>(_entities[8].properties[0]);
+      obx.QueryIntegerProperty<Restaurant>(_entities[7].properties[0]);
 
   /// See [Restaurant.namePt].
   static final namePt =
-      obx.QueryStringProperty<Restaurant>(_entities[8].properties[1]);
+      obx.QueryStringProperty<Restaurant>(_entities[7].properties[1]);
 
   /// See [Restaurant.nameEn].
   static final nameEn =
-      obx.QueryStringProperty<Restaurant>(_entities[8].properties[2]);
+      obx.QueryStringProperty<Restaurant>(_entities[7].properties[2]);
 
   /// See [Restaurant.period].
   static final period =
-      obx.QueryStringProperty<Restaurant>(_entities[8].properties[3]);
+      obx.QueryStringProperty<Restaurant>(_entities[7].properties[3]);
 
   /// See [Restaurant.reference].
   static final reference =
-      obx.QueryStringProperty<Restaurant>(_entities[8].properties[4]);
+      obx.QueryStringProperty<Restaurant>(_entities[7].properties[4]);
 
   /// See [Restaurant.uniqueId].
   static final uniqueId =
-      obx.QueryIntegerProperty<Restaurant>(_entities[8].properties[5]);
+      obx.QueryIntegerProperty<Restaurant>(_entities[7].properties[5]);
 
   /// See [Restaurant.typePt].
   static final typePt =
-      obx.QueryStringProperty<Restaurant>(_entities[8].properties[6]);
+      obx.QueryStringProperty<Restaurant>(_entities[7].properties[6]);
 
   /// See [Restaurant.typeEn].
   static final typeEn =
-      obx.QueryStringProperty<Restaurant>(_entities[8].properties[7]);
+      obx.QueryStringProperty<Restaurant>(_entities[7].properties[7]);
 
   /// See [Restaurant.openingHours].
   static final openingHours =
-      obx.QueryStringVectorProperty<Restaurant>(_entities[8].properties[8]);
+      obx.QueryStringVectorProperty<Restaurant>(_entities[7].properties[8]);
 
   /// See [Restaurant.email].
   static final email =
-      obx.QueryStringProperty<Restaurant>(_entities[8].properties[9]);
+      obx.QueryStringProperty<Restaurant>(_entities[7].properties[9]);
 
   /// see [Restaurant.meals]
   static final meals =
@@ -1483,27 +1460,46 @@ class Restaurant_ {
 /// [Meal] entity fields to define ObjectBox queries.
 class Meal_ {
   /// See [Meal.id].
-  static final id = obx.QueryIntegerProperty<Meal>(_entities[9].properties[0]);
+  static final id = obx.QueryIntegerProperty<Meal>(_entities[8].properties[0]);
 
   /// See [Meal.type].
-  static final type = obx.QueryStringProperty<Meal>(_entities[9].properties[1]);
+  static final type = obx.QueryStringProperty<Meal>(_entities[8].properties[1]);
 
   /// See [Meal.namePt].
   static final namePt =
-      obx.QueryStringProperty<Meal>(_entities[9].properties[2]);
+      obx.QueryStringProperty<Meal>(_entities[8].properties[2]);
 
   /// See [Meal.nameEn].
   static final nameEn =
-      obx.QueryStringProperty<Meal>(_entities[9].properties[3]);
+      obx.QueryStringProperty<Meal>(_entities[8].properties[3]);
 
   /// See [Meal.date].
-  static final date = obx.QueryDateProperty<Meal>(_entities[9].properties[4]);
+  static final date = obx.QueryDateProperty<Meal>(_entities[8].properties[4]);
 
   /// See [Meal.dbDayOfWeek].
   static final dbDayOfWeek =
-      obx.QueryIntegerProperty<Meal>(_entities[9].properties[5]);
+      obx.QueryIntegerProperty<Meal>(_entities[8].properties[5]);
 
   /// See [Meal.restaurant].
   static final restaurant =
-      obx.QueryRelationToOne<Meal, Restaurant>(_entities[9].properties[6]);
+      obx.QueryRelationToOne<Meal, Restaurant>(_entities[8].properties[6]);
+}
+
+/// [CalendarEvent] entity fields to define ObjectBox queries.
+class CalendarEvent_ {
+  /// See [CalendarEvent.name].
+  static final name =
+      obx.QueryStringProperty<CalendarEvent>(_entities[9].properties[0]);
+
+  /// See [CalendarEvent.startDate].
+  static final startDate =
+      obx.QueryDateProperty<CalendarEvent>(_entities[9].properties[1]);
+
+  /// See [CalendarEvent.endDate].
+  static final endDate =
+      obx.QueryDateProperty<CalendarEvent>(_entities[9].properties[2]);
+
+  /// See [CalendarEvent.id].
+  static final id =
+      obx.QueryIntegerProperty<CalendarEvent>(_entities[9].properties[3]);
 }

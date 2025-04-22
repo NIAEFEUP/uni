@@ -402,5 +402,7 @@
   "email": "Email",
   "@email": {},
   "now": "Agora",
-  "@now": {}
+  "@now": {},
+  "until": "Até",
+  "@until": {}
 }

@@ -8,12 +8,8 @@ part of '../../../model/entities/calendar_event.dart';
 
 CalendarEvent _$CalendarEventFromJson(Map<String, dynamic> json) =>
     CalendarEvent(
-      json['name'] as String,
-      json['date'] as String,
-    )
-      ..start =
-          json['start'] == null ? null : DateTime.parse(json['start'] as String)
-      ..finish = json['finish'] == null
+      name: json['name'] as String,
+      startDate: json['start_date'] == null
           ? null
           : DateTime.parse(json['finish'] as String)
       ..id = (json['id'] as num?)?.toInt();

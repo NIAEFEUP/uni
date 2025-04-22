@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:uni/model/entities/calendar_event.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/localized_events.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/calendar/calendar.dart';
 import 'package:uni_ui/calendar/calendar_item.dart';
 
@@ -19,42 +22,29 @@ class CalendarHomeCard extends GenericHomecard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return LazyConsumer<CalendarProvider, List<CalendarEvent>>(
-      builder: (context, events) {
+    return LazyConsumer<CalendarProvider, LocalizedEvents>(
+      builder: (context, localizedEvents) {
+        final locale =
+            Provider.of<LocaleNotifier>(context, listen: false).getLocale();
+        final events = localizedEvents.getEvents(locale);
         return Calendar(
-          items: buildCalendarItems(events),
+          items: events
+              .map(
+                (event) => CalendarItem(
+                  eventPeriod: event.formattedPeriod[0],
+                  eventName: event.name,
+                ),
+              )
+              .toList(),
         );
       },
-      hasContent: (events) => events.isNotEmpty,
-      onNullContent: const Center(
+      hasContent: (localizedEvents) => localizedEvents.hasAnyEvents,
+      onNullContent: Center(
         child: Text(
-          'Nenhum evento encontrado',
-          style: TextStyle(fontSize: 18),
+          S.of(context).no_events,
+          style: Theme.of(context).textTheme.headlineLarge,
         ),
       ),
     );
   }
-
-  List<CalendarItem> buildCalendarItems(List<CalendarEvent> events) {
-    final items = events
-        .map(
-          (event) => CalendarItem(
-            eventPeriod: event.date,
-            eventName: event.name,
-          ),
-        )
-        .toList();
-
-    return items; // TODO: wait for calendar events date regex
-  }
 }
-
-/*
-const CalendarItem({
-    super.key,
-    required this.eventName,
-    this.eventPeriod,
-    this.endYear,
-    this.onTap,
-  });
-*/

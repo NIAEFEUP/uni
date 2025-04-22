@@ -1,100 +1,87 @@
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:objectbox/objectbox.dart';
+import 'package:uni/generated/l10n.dart';
 
 part '../../generated/model/entities/calendar_event.g.dart';
 
-/// An event in the school calendar
 @JsonSerializable()
 @Entity()
 class CalendarEvent {
-  /// Creates an instance of the class [CalendarEvent]
-  ///
-
-  CalendarEvent(this.name, this.date) {
-    if (date != 'TBD') {
-      date = formatString(date);
-    }
-    RegExpMatch? match;
-    String? day1;
-    String? day2;
-    String? year1;
-    String? month1;
-    String? month2;
-    String? year2;
-    final regex1 = RegExp(r'(\d{1,2}) ([a-zç]+) (\d{4})');
-    final regex2 = RegExp(r'(\d{1,2}) (\d{1,2}) ([a-zç]+) (\d{4})');
-    final regex3 = RegExp(r'(\d{1,2}) ([a-zç]+) (\d{1,2}) ([a-zç]+) (\d{4})');
-    final regex4 =
-        RegExp(r'(\d{1,2}) ([a-zç]+) (\d{4}) (\d{1,2}) ([a-zç]+) (\d{4})');
-
-    match = regex4.firstMatch(date);
-    if (match != null && match.groupCount == 6) {
-      day1 = match.group(1);
-      month1 = match.group(2);
-      year1 = match.group(3);
-      day2 = match.group(4);
-      month2 = match.group(5);
-      year2 = match.group(6);
-      start = DateFormat('dd MMMM yyyy', 'pt_PT').parse('$day1 $month1 $year1');
-      finish =
-          DateFormat('dd MMMM yyyy', 'pt_PT').parse('$day2 $month2 $year2');
-      return;
-    }
-
-    match = regex3.firstMatch(date);
-    if (match != null && match.groupCount == 5) {
-      day1 = match.group(1);
-      month1 = match.group(2);
-      day2 = match.group(3);
-      month2 = match.group(4);
-      year1 = match.group(5);
-      start = DateFormat('dd MMMM yyyy', 'pt_PT').parse('$day1 $month1 $year1');
-      finish =
-          DateFormat('dd MMMM yyyy', 'pt_PT').parse('$day2 $month2 $year1');
-      return;
-    }
-    match = regex2.firstMatch(date);
-    if (match != null && match.groupCount == 4) {
-      day1 = match.group(1);
-      day2 = match.group(2);
-      month1 = match.group(3);
-      year1 = match.group(4);
-      start = DateFormat('dd MMMM yyyy', 'pt_PT').parse('$day1 $month1 $year1');
-      finish =
-          DateFormat('dd MMMM yyyy', 'pt_PT').parse('$day2 $month1 $year1');
-      return;
-    }
-    match = regex1.firstMatch(date);
-    if (match != null && match.groupCount == 3) {
-      day1 = match.group(1);
-      month1 = match.group(2);
-      year1 = match.group(3);
-      start = DateFormat('dd MMMM yyyy', 'pt_PT').parse('$day1 $month1 $year1');
-      return;
-    }
-  }
-  factory CalendarEvent.fromJson(Map<String, dynamic> json) =>
-      _$CalendarEventFromJson(json);
-
   String name;
-  String date;
-  DateTime? start;
-  DateTime? finish;
+
+  @JsonKey(name: 'start_date')
+  DateTime? startDate;
+
+  @JsonKey(name: 'end_date')
+  DateTime? endDate;
 
   @Id()
   int? id;
 
-  Map<String, dynamic> toJson() => _$CalendarEventToJson(this);
+  CalendarEvent({
+    this.id,
+    required this.name,
+    this.startDate,
+    this.endDate,
+  });
 
-  String formatString(String date) {
-    return date
-        .toLowerCase()
-        .replaceAll(RegExp(r'\baté\b'), '')
-        .replaceAll(RegExp(r'\bde\b'), '')
-        .replaceAll(RegExp(r'\ba\b'), '')
-        .replaceAll(RegExp(r'\e\b'), '')
-        .replaceAll(RegExp(r'\s+'), ' ')
-        .trim();
+  factory CalendarEvent.fromJson(Map<String, dynamic> json) =>
+      _$CalendarEventFromJson(json);
+
+  /// Formats the event's date range into a two-part list: [dateRange, year].
+  /// Returns ['TBD', ''] if startDate is null.
+  List<String> get formattedPeriod {
+    if (startDate == null && endDate == null) {
+      return ['TBD', ''];
+    }
+
+    if (startDate == null && endDate != null) {
+      final monthFormatter = DateFormat.MMM('pt');
+      final day = endDate!.day.toString();
+      final month = monthFormatter.format(endDate!);
+      return ['${S.current.until} $day $month', endDate!.year.toString()];
+    }
+
+    final monthFormatter = DateFormat.MMM('pt');
+    final period = <String>[];
+    String timePeriod;
+
+    final year = startDate!.year.toString();
+    final month = monthFormatter.format(startDate!);
+    final day = startDate!.day.toString();
+
+    if (endDate == null || startDate == endDate) {
+      timePeriod = '$day $month';
+      period
+        ..add(timePeriod)
+        ..add(year);
+      return period;
+    }
+
+    final dayEnd = endDate!.day.toString();
+    final yearEnd = endDate!.year.toString();
+    final monthEnd = monthFormatter.format(endDate!);
+
+    if (year == yearEnd) {
+      if (month == monthEnd) {
+        timePeriod = '$day-$dayEnd $month'; // e.g., 1-5 Fev
+      } else {
+        timePeriod = '$day $month - $dayEnd $monthEnd'; // e.g., 30 Jan - 5 Fev
+      }
+      period
+        ..add(timePeriod)
+        ..add(year);
+    } else {
+      timePeriod =
+          '$day $month  - $dayEnd $monthEnd'; // e.g., 30 Jan 2023 - 5 Fev 2024
+
+      period
+        ..add(timePeriod)
+        ..add('$year - $yearEnd');
+    }
+    return period;
   }
+
+  Map<String, dynamic> toJson() => _$CalendarEventToJson(this);
 }
