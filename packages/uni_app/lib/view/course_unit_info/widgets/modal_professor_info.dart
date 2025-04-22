@@ -18,39 +18,35 @@ class ProfessorInfoModal extends StatelessWidget {
     final session = context.read<SessionProvider>().state!;
     return ModalDialog(
       children: [
-        Column(
-          children: [
-            FutureBuilder<File?>(
-              builder: (context, snapshot) => ModalPersonInfo(
-                name: professor.name,
-                image: snapshot.hasData && snapshot.data != null
-                    ? Image(image: FileImage(snapshot.data!))
-                    : Image.asset('assets/images/profile_placeholder.png'),
-              ),
-              future: ProfileProvider.fetchOrGetCachedProfilePicture(
-                session,
-                studentNumber: int.parse(professor.code),
-              ),
-            ),
-            // Professor model hasn't the necessary fields
-            /*
-            ModalInfoRow(
-              title: 'Email',
-              description: '[email-professor@up.pt]',
-              icon: UniIcons.email,
-              trailing: UniIcon(
-                UniIcons.caretRight,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-            const ModalInfoRow(
-              title: 'Sala',
-              description: '[sala]',
-              icon: UniIcons.location,
-            ),
-            */
-          ],
+        FutureBuilder<File?>(
+          builder: (context, snapshot) => ModalPersonInfo(
+            name: professor.name,
+            image: snapshot.hasData && snapshot.data != null
+                ? Image(image: FileImage(snapshot.data!))
+                : Image.asset('assets/images/profile_placeholder.png'),
+          ),
+          future: ProfileProvider.fetchOrGetCachedProfilePicture(
+            session,
+            studentNumber: int.parse(professor.code),
+          ),
         ),
+        // Professor model hasn't the necessary fields
+        /*
+        ModalInfoRow(
+          title: 'Email',
+          description: '[email-professor@up.pt]',
+          icon: UniIcons.email,
+          trailing: UniIcon(
+            UniIcons.caretRight,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+        const ModalInfoRow(
+          title: 'Sala',
+          description: '[sala]',
+          icon: UniIcons.location,
+        ),
+        */
       ],
     );
   }
