@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/restaurant.dart';
@@ -12,11 +13,15 @@ import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/widgets/days_of_week_tab_bar.dart';
-import 'package:uni/view/restaurant/widgets/dish_type_dropdown_menu.dart';
+import 'package:uni/view/restaurant/widgets/dish_type_checkbox_menu.dart';
 import 'package:uni/view/restaurant/widgets/favorite_restaurants_button.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
 import 'package:uni_ui/cards/restaurant_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
+import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/modal/modal.dart';
+import 'package:uni_ui/modal/widgets/info_row.dart';
+import 'package:uni_ui/modal/widgets/service_info.dart';
 
 class RestaurantPageView extends StatefulWidget {
   const RestaurantPageView({super.key});
@@ -31,18 +36,18 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   late List<Restaurant> filteredRestaurants;
   late TabController tabController;
   late ScrollController scrollViewController;
-  final List<Map<String, dynamic>> dishTypes = [
-    {'value': 1, 'key_label': 'all_dishes'},
-    {'value': 2, 'key_label': 'meat_dishes'},
-    {'value': 3, 'key_label': 'fish_dishes'},
-    {'value': 4, 'key_label': 'vegetarian_dishes'},
-    {'value': 5, 'key_label': 'soups'},
-    {'value': 6, 'key_label': 'salads'},
-    {'value': 7, 'key_label': 'diet_dishes'},
-    {'value': 8, 'key_label': 'dishes_of_the_day'},
-  ];
-  int? _selectedDishType;
   late bool isFavoriteFilterOn;
+  late Set<String> _selectedDishTypes;
+
+  final List<String> dishTypes = [
+    'meat_dishes',
+    'fish_dishes',
+    'vegetarian_dishes',
+    'soups',
+    'salads',
+    'diet_dishes',
+    'dishes_of_the_day',
+  ];
 
   @override
   void initState() {
@@ -59,7 +64,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     _initializeRestaurants();
     isFavoriteFilterOn =
         PreferencesController.getIsFavoriteRestaurantsFilterOn() ?? false;
-    _selectedDishType = PreferencesController.getSelectedDishType() ?? 1;
+    _selectedDishTypes = PreferencesController.getSelectedDishTypes();
   }
 
   void _toggleFavorite(String restaurantName, String restaurantPeriod) {
@@ -126,11 +131,33 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
         .toList();
   }
 
+  List<Restaurant> sortRestaurantsByFavorites(
+    List<Restaurant> restaurants,
+    List<String> favoriteRestaurants,
+  ) {
+    return List.from(restaurants)
+      ..sort((a, b) {
+        final isAFavorite = favoriteRestaurants.contains(a.namePt + a.period);
+        final isBFavorite = favoriteRestaurants.contains(b.namePt + b.period);
+
+        if (isAFavorite == isBFavorite) {
+          return 0;
+        }
+        if (isAFavorite) {
+          return -1;
+        }
+        return 1;
+      });
+  }
+
   Widget getFilteredContent(BuildContext context) {
     if (isFavoriteFilterOn) {
       applyFavouriteRestaurantFilter();
     } else {
-      filteredRestaurants = restaurants;
+      final favoriteRestaurants =
+          PreferencesController.getFavoriteRestaurants();
+      filteredRestaurants =
+          sortRestaurantsByFavorites(restaurants, favoriteRestaurants);
     }
 
     return createTabViewBuilder(context);
@@ -160,13 +187,13 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                DishTypeDropdownMenu(
+                DishTypeCheckboxMenu(
                   items: dishTypes,
-                  selectedValue: _selectedDishType,
-                  onChange: (newValue) {
+                  selectedValues: _selectedDishTypes,
+                  onSelectionChanged: (newValues) {
                     setState(() {
-                      PreferencesController.setSelectedDishType(newValue);
-                      _selectedDishType = newValue;
+                      _selectedDishTypes = newValues;
+                      PreferencesController.setSelectedDishTypes(newValues);
                     });
                   },
                 ),
@@ -231,7 +258,6 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
       }
       return ListView.separated(
         controller: scrollViewController,
-        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 110),
         itemCount: restaurantsWidgets.length,
         itemBuilder: (context, index) {
           return restaurantsWidgets[index];
@@ -271,8 +297,40 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
             isFavorite: PreferencesController.getFavoriteRestaurants()
                 .contains(restaurant.namePt + restaurant.period),
             onFavoriteToggle: () =>
-                {_toggleFavorite(restaurant.namePt, restaurant.period)},
+                _toggleFavorite(restaurant.namePt, restaurant.period),
             menuItems: menuItems,
+            onClick: () {
+              if (restaurant.openingHours.isNotEmpty) {
+                showDialog<ModalDialog>(
+                  context: context,
+                  builder: (context) {
+                    return ModalDialog(
+                      children: [
+                        ModalServiceInfo(
+                          name: restaurant.namePt,
+                          durations: restaurant.openingHours
+                            ..sort((a, b) => a.compareTo(b)),
+                        ),
+                        if (restaurant.email != '')
+                          ModalInfoRow(
+                            title: S.of(context).email,
+                            description: restaurant.email,
+                            onPressed: () => launchUrlWithToast(
+                              context,
+                              'mailto:${restaurant.email}',
+                            ),
+                            icon: UniIcon(
+                              UniIcons.paperPlaneTilt,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            optionalIcon: const UniIcon(UniIcons.caretRight),
+                          ),
+                      ],
+                    );
+                  },
+                );
+              }
+            },
           )
         : null;
   }
@@ -284,11 +342,16 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   ) {
     final meals = restaurant.meals[dayOfWeek];
 
-    meals?.sort((a, b) => a.type.compareTo(b.type));
+    // sorting meals by type ID to ensure consistent order
+    meals?.sort((a, b) {
+      final idA = RestaurantUtils.getMealTypeId(a.type);
+      final idB = RestaurantUtils.getMealTypeId(b.type);
+      return idA.compareTo(idB);
+    });
 
     final menuItems = <RestaurantMenuItem>[];
     for (final meal in meals!) {
-      if (RestaurantUtils.mealMatchesFilter(_selectedDishType, meal.type)) {
+      if (RestaurantUtils.mealMatchesFilter(_selectedDishTypes, meal.type)) {
         menuItems.add(
           RestaurantMenuItem(
             name: RestaurantUtils.getLocaleTranslation(
@@ -301,6 +364,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
         );
       }
     }
+
     return menuItems;
   }
 

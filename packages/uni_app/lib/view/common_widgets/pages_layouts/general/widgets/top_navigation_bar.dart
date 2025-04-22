@@ -24,7 +24,7 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       automaticallyImplyLeading: false,
       title: Padding(
-        padding: EdgeInsets.fromLTRB(leftButton == null ? 5 : 0, 0, 5, 0),
+        padding: EdgeInsets.fromLTRB(leftButton == null ? 15 : 0, 0, 5, 0),
         child: Row(
           children: [
             if (leftButton != null)

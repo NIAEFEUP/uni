@@ -340,6 +340,16 @@ class S {
     );
   }
 
+  /// `Apply`
+  String get apply {
+    return Intl.message(
+      'Apply',
+      name: 'apply',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Change`
   String get change {
     return Intl.message(
@@ -1959,6 +1969,26 @@ class S {
     );
   }
 
+  /// `Dish Types`
+  String get dish_types {
+    return Intl.message(
+      'Dish Types',
+      name: 'dish_types',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select All`
+  String get select_all {
+    return Intl.message(
+      'Select All',
+      name: 'select_all',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Favorites`
   String get favorite_filter {
     return Intl.message(
@@ -1999,6 +2029,16 @@ class S {
     return Intl.message(
       'Try to refresh the page',
       name: 'no_courses_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get email {
+    return Intl.message(
+      'Email',
+      name: 'email',
       desc: '',
       args: [],
     );
