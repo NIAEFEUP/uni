@@ -23,7 +23,7 @@ abstract class GenericCard extends StatelessWidget {
     required this.onDelete,
     this.cardAction = const SizedBox.shrink(),
     super.key,
-    this.margin = const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+    this.margin = const EdgeInsets.symmetric(vertical: 10),
     this.hasSmallTitle = false,
   });
 
@@ -144,8 +144,6 @@ abstract class GenericCard extends StatelessWidget {
                   ),
                   Container(
                     padding: const EdgeInsets.only(
-                      left: padding,
-                      right: padding,
                       bottom: padding,
                     ),
                     child: buildCardContent(context),

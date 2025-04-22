@@ -8,12 +8,18 @@ part of '../../../model/entities/calendar_event.dart';
 
 CalendarEvent _$CalendarEventFromJson(Map<String, dynamic> json) =>
     CalendarEvent(
-      json['name'] as String,
-      json['date'] as String,
+      name: json['name'] as String,
+      startDate: json['start_date'] == null
+          ? null
+          : DateTime.parse(json['start_date'] as String),
+      endDate: json['end_date'] == null
+          ? null
+          : DateTime.parse(json['end_date'] as String),
     );
 
 Map<String, dynamic> _$CalendarEventToJson(CalendarEvent instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'date': instance.date,
+      'start_date': instance.startDate?.toIso8601String(),
+      'end_date': instance.endDate?.toIso8601String(),
     };

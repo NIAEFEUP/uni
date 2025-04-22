@@ -12,7 +12,8 @@ class ScheduleCard extends StatelessWidget {
       required this.type,
       this.isActive = false,
       this.teacherName,
-      this.teacherPhoto});
+      this.teacherPhoto,
+      this.onTap});
 
   final String name;
   final String acronym;
@@ -20,7 +21,8 @@ class ScheduleCard extends StatelessWidget {
   final String type;
   final bool isActive;
   final String? teacherName;
-  final String? teacherPhoto;
+  final Image? teacherPhoto;
+  final VoidCallback? onTap;
 
   static const Map<String, Color> scheduleTypeColors = {
     'T': BadgeColors.t,
@@ -46,13 +48,14 @@ class ScheduleCard extends StatelessWidget {
           : null,
       key: key,
       tooltip: '',
+      onClick: onTap,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Row(
                   children: [
                     if (isActive) ...[
@@ -87,9 +90,24 @@ class ScheduleCard extends StatelessWidget {
                 ),
                 if (isActive && teacherName != null) SizedBox(height: 5),
                 if (isActive && teacherName != null)
-                  Text(teacherName!,
-                      style: Theme.of(context).textTheme.titleSmall),
-              ])),
+                  Row(children: [
+                    CircleAvatar(
+                      radius: 15,
+                      backgroundImage: teacherPhoto?.image,
+                    ),
+                    const SizedBox(width: 8), //TODO: create gap()?
+                    SizedBox(
+                      width: 150,
+                      child: Text(
+                        teacherName!,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                    )
+                  ]),
+              ],
+            ),
+          ),
           Column(
             children: [
               PhosphorIcon(
