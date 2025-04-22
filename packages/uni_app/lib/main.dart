@@ -74,8 +74,6 @@ Future<String> firstRoute() async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await MigrationController.runMigrations();
-
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -84,6 +82,8 @@ Future<void> main() async {
   );
 
   PreferencesController.prefs = await SharedPreferences.getInstance();
+
+  await MigrationController.runMigrations();
 
   final stateProviders = StateProviders(
     LectureProvider(),
