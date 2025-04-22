@@ -223,6 +223,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "try_different_login" : MessageLookupByLibrary.simpleMessage("Problemas ao iniciar sessão?"),
     "uc_info" : MessageLookupByLibrary.simpleMessage("Abrir página da UC"),
     "unavailable" : MessageLookupByLibrary.simpleMessage("Indisponível"),
+    "until" : MessageLookupByLibrary.simpleMessage("Até"),
     "valid_email" : MessageLookupByLibrary.simpleMessage("Por favor insere um email válido"),
     "view_course_details" : MessageLookupByLibrary.simpleMessage("Ver detalhes da Unidade Curricular"),
     "widget_prompt" : MessageLookupByLibrary.simpleMessage("Escolhe um widget para adicionares à tua área pessoal:"),

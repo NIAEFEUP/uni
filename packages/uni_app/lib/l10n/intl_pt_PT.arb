@@ -406,5 +406,7 @@
   "add_to_calendar": "Adicionar ao calendário",
   "@add_to_calendar": {},
   "view_course_details": "Ver detalhes da Unidade Curricular",
-  "@view_course_details": {}
+  "@view_course_details": {},
+  "until": "Até",
+  "@until": {}
 }
