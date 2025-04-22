@@ -88,6 +88,7 @@ class CoursesPageState extends State<CoursesPage> {
         final course = courses[courseUnitIndex];
 
         return ListView(
+          padding: const EdgeInsets.only(top: 16),
           children: [
             Center(
               child: CourseSelection(

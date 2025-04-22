@@ -78,6 +78,9 @@ class RestaurantSliderState extends State<RestaurantSlider> {
                 activeDotColor: Theme.of(context).colorScheme.primary,
               ),
             ),
+            const SizedBox(
+              height: 5,
+            ),
           ],
         );
       },

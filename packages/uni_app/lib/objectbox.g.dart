@@ -242,7 +242,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(6, 2088655015871788343),
       name: 'Lecture',
-      lastPropertyId: const obx_int.IdUid(9, 1980793363502664287),
+      lastPropertyId: const obx_int.IdUid(11, 2477650004921143440),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -289,6 +289,16 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(9, 1980793363502664287),
             name: 'acronym',
             type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(10, 7054074022876443461),
+            name: 'teacherName',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(11, 2477650004921143440),
+            name: 'teacherId',
+            type: 6,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -856,7 +866,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final teacherOffset = fbb.writeString(object.teacher);
           final classNumberOffset = fbb.writeString(object.classNumber);
           final acronymOffset = fbb.writeString(object.acronym);
-          fbb.startTable(10);
+          final teacherNameOffset = fbb.writeString(object.teacherName);
+          fbb.startTable(12);
           fbb.addOffset(0, subjectOffset);
           fbb.addOffset(1, typeClassOffset);
           fbb.addOffset(2, roomOffset);
@@ -866,6 +877,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addInt64(6, object.endTime.millisecondsSinceEpoch);
           fbb.addInt64(7, object.occurrId);
           fbb.addOffset(8, acronymOffset);
+          fbb.addOffset(9, teacherNameOffset);
+          fbb.addInt64(10, object.teacherId);
           fbb.finish(fbb.endTable());
           return object.occurrId;
         },
@@ -886,6 +899,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
               .vTableGet(buffer, rootOffset, 8, '');
           final teacherParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 10, '');
+          final teacherNameParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 22, '');
+          final teacherIdParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 24, 0);
           final classNumberParam =
               const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 12, '');
@@ -899,6 +917,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               endTimeParam,
               roomParam,
               teacherParam,
+              teacherNameParam,
+              teacherIdParam,
               classNumberParam,
               occurrIdParam);
 
@@ -1352,6 +1372,14 @@ class Lecture_ {
   /// See [Lecture.acronym].
   static final acronym =
       obx.QueryStringProperty<Lecture>(_entities[4].properties[8]);
+
+  /// See [Lecture.teacherName].
+  static final teacherName =
+      obx.QueryStringProperty<Lecture>(_entities[4].properties[9]);
+
+  /// See [Lecture.teacherId].
+  static final teacherId =
+      obx.QueryIntegerProperty<Lecture>(_entities[4].properties[10]);
 }
 
 /// [Reference] entity fields to define ObjectBox queries.

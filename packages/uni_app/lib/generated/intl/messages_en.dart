@@ -7,7 +7,8 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names
+// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -19,7 +20,7 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static m0(type) => "${Intl.select(type, {
+  static String m0(type) => "${Intl.select(type, {
             'all_dishes': 'All dishes',
             'meat_dishes': 'Meat dishes',
             'fish_dishes': 'Fish dishes',
@@ -31,12 +32,12 @@ class MessageLookup extends MessageLookupByLibrary {
             'other': 'Other',
           })}";
 
-  static m1(time) => "last refresh at ${time}";
+  static String m1(time) => "last refresh at ${time}";
 
-  static m2(time) =>
+  static String m2(time) =>
       "${Intl.plural(time, zero: 'Refreshed ${time} minutes ago', one: 'Refreshed ${time} minute ago', other: 'Refreshed ${time} minutes ago')}";
 
-  static m3(title) => "${Intl.select(title, {
+  static String m3(title) => "${Intl.select(title, {
             'horario': 'Schedule',
             'exames': 'Exams',
             'area': 'Personal Area',
@@ -52,14 +53,14 @@ class MessageLookup extends MessageLookupByLibrary {
             'other': 'Other',
           })}";
 
-  static m4(period) => "${Intl.select(period, {
+  static String m4(period) => "${Intl.select(period, {
             'lunch': 'Lunch',
             'dinner': 'Dinner',
             'other': 'Other',
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function>{
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("About us"),
         "academic_services":
             MessageLookupByLibrary.simpleMessage("Academic services"),

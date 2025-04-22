@@ -59,7 +59,7 @@ class SchedulePage extends StatelessWidget {
 
     final hasLecturesThisWeek = lectures.any(
       (lecture) =>
-          lecture.startTime.isAfter(now) &&
+          lecture.endTime.isAfter(now) &&
           lecture.startTime.isBefore(secondSunday),
     );
 

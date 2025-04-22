@@ -216,7 +216,7 @@
     },
     {
       "id": "6:2088655015871788343",
-      "lastPropertyId": "9:1980793363502664287",
+      "lastPropertyId": "11:2477650004921143440",
       "name": "Lecture",
       "properties": [
         {
@@ -264,6 +264,16 @@
           "id": "9:1980793363502664287",
           "name": "acronym",
           "type": 9
+        },
+        {
+          "id": "10:7054074022876443461",
+          "name": "teacherName",
+          "type": 9
+        },
+        {
+          "id": "11:2477650004921143440",
+          "name": "teacherId",
+          "type": 6
         }
       ],
       "relations": []

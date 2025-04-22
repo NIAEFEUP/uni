@@ -18,6 +18,8 @@ class Lecture {
     this.endTime,
     this.room,
     this.teacher,
+    this.teacherName,
+    this.teacherId,
     this.classNumber,
     this.occurrId,
   );
@@ -33,6 +35,8 @@ class Lecture {
     int blocks,
     String room,
     String teacher,
+    String teacherName,
+    int teacherId,
     String classNumber,
     int occurrId,
   ) {
@@ -45,6 +49,8 @@ class Lecture {
       endTime,
       room,
       teacher,
+      teacherName,
+      teacherId,
       classNumber,
       occurrId,
     );
@@ -56,6 +62,8 @@ class Lecture {
   String typeClass;
   String room;
   String teacher;
+  String teacherName;
+  int teacherId;
   String classNumber;
   DateTime startTime;
   DateTime endTime;
@@ -84,6 +92,8 @@ class Lecture {
         typeClass,
         room,
         teacher,
+        teacherName,
+        teacherId,
         startTime,
         occurrId,
       );
@@ -98,5 +108,7 @@ class Lecture {
       typeClass == other.typeClass &&
       room == other.room &&
       teacher == other.teacher &&
+      teacherName == other.teacherName &&
+      teacherId == other.teacherId &&
       occurrId == other.occurrId;
 }
