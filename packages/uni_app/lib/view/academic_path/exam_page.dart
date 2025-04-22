@@ -110,7 +110,7 @@ class _ExamsPageState extends State<ExamsPage> {
                           startTime: exam.formatTime(exam.start),
                           isInvisible: hiddenExams.contains(exam.id),
                           onClick: () {
-                            showDialog(
+                            showDialog<void>(
                               context: context,
                               builder: (context) => ExamModal(exam: exam),
                             );

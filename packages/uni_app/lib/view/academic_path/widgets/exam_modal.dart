@@ -33,8 +33,11 @@ class ExamModal extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              UniIcon(UniIcons.clock,
-                  size: 20, color: Theme.of(context).shadowColor,),
+              UniIcon(
+                UniIcons.clock,
+                size: 20,
+                color: Theme.of(context).shadowColor,
+              ),
               const SizedBox(width: 8),
               Text(
                 '${exam.formatTime(exam.start)} - ${exam.formatTime(exam.finish)}',
@@ -42,8 +45,11 @@ class ExamModal extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(width: 16),
-              UniIcon(UniIcons.calendar,
-                  size: 20, color: Theme.of(context).shadowColor,),
+              UniIcon(
+                UniIcons.calendar,
+                size: 20,
+                color: Theme.of(context).shadowColor,
+              ),
               const SizedBox(width: 8),
               Text(
                 '${exam.start.shortMonth(locale).capitalize()} ${exam.start.day}',

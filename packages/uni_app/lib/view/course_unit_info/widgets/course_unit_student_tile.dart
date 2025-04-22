@@ -19,7 +19,7 @@ class CourseUnitStudentTile extends StatelessWidget {
     );
     return GestureDetector(
       onTap: () {
-        showDialog(
+        showDialog<void>(
           context: context,
           builder: (context) => StudentInfoModal(student),
         );

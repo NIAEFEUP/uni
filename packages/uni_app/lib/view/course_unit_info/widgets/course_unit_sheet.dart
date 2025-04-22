@@ -214,7 +214,7 @@ class _InstructorCard extends StatelessWidget {
     final session = context.read<SessionProvider>().state!;
     return GestureDetector(
       onTap: () {
-        showDialog(
+        showDialog<void>(
           context: context,
           builder: (context) => ProfessorInfoModal(instructor),
         );
