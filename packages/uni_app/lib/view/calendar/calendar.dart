@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/entities/app_locale.dart';
-import 'package:uni/model/entities/calendar_event.dart';
+import 'package:uni/model/entities/localized_events.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/calendar/widgets/row_format.dart';
@@ -20,10 +19,9 @@ class CalendarPageView extends StatefulWidget {
 class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<CalendarProvider, Map<AppLocale, List<CalendarEvent>>>(
+    return LazyConsumer<CalendarProvider, LocalizedEvents>(
       builder: getTimeline,
-      hasContent: (calendars) =>
-          calendars.values.any((list) => list.isNotEmpty),
+      hasContent: (localizedEvents) => localizedEvents.hasAnyEvents,
       onNullContent: Center(
         child: Text(
           S.of(context).no_events,
@@ -33,10 +31,9 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
     );
   }
 
-  Widget getTimeline(
-      BuildContext context, Map<AppLocale, List<CalendarEvent>> calendars) {
+  Widget getTimeline(BuildContext context, LocalizedEvents localizedEvents) {
     final locale = Provider.of<LocaleNotifier>(context).getLocale();
-    final calendar = calendars[locale] ?? [];
+    final calendar = localizedEvents.getEvents(locale);
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, bottom: 100),
