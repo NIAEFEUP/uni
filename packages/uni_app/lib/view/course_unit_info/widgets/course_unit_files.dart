@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:open_file_plus/open_file_plus.dart';
+import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/file_offline_storage.dart';
 import 'package:uni/generated/l10n.dart';

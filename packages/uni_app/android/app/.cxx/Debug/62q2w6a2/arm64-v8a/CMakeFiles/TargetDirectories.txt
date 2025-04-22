@@ -1,0 +1,2 @@
+/home/buttercup/Desktop/NI/uni/packages/uni_app/android/app/.cxx/Debug/62q2w6a2/arm64-v8a/CMakeFiles/edit_cache.dir
+/home/buttercup/Desktop/NI/uni/packages/uni_app/android/app/.cxx/Debug/62q2w6a2/arm64-v8a/CMakeFiles/rebuild_cache.dir
