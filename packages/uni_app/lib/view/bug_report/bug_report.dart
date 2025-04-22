@@ -118,21 +118,19 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
               labelText: S.of(context).bug_description,
               bottomMargin: 20,
             ),
-            Row(
-              children: [
-                ElevatedButton.icon(
-                  icon: Icon(
-                    Icons.add,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                  ),
-                  onPressed: uploadImages,
-                  label: Text(S.of(context).add_photo),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: ElevatedButton.icon(
+                icon: Icon(
+                  Icons.add,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
-                Text(pickedFiles.length.toString()),
-              ],
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                ),
+                onPressed: uploadImages,
+                label: Text(S.of(context).add_photo),
+              ),
             ),
             Container(
               margin: const EdgeInsets.all(1),
@@ -242,9 +240,12 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
                     8.0 / (pickedFiles.length > 3 ? pickedFiles.length / 3 : 1),
                   ),
                   child: SizedBox(
-                    width: 100 /
+                    width: 80 /
                         (pickedFiles.length > 3 ? pickedFiles.length / 3 : 1),
-                    child: Image.file(File(pickedFiles[i].path)),
+                    child: Image.file(
+                      File(pickedFiles[i].path),
+                      height: 120,
+                      fit: BoxFit.cover,),
                   ),
                 ),
               );
