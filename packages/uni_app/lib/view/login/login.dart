@@ -134,7 +134,6 @@ class LoginPageViewState extends State<LoginPageView>
                 ToastMessage.error(context, S.of(context).failed_login),
               );
             }
-            break;
         }
       }
       // Handles other unexpected exceptions

@@ -36,8 +36,6 @@ class HomePageViewState extends State<HomePageView> {
 
   double appBarSize = 150;
 
-
-
   static Map<FavoriteWidgetType, StateProviderNotifier<dynamic>>
       typeToProvider = {
     FavoriteWidgetType.schedule: LectureProvider(),
@@ -74,11 +72,19 @@ class HomePageViewState extends State<HomePageView> {
 
   @override
   Widget build(BuildContext context) {
-     final typeToCard = {
-      FavoriteWidgetType.schedule: ScheduleHomeCard(title:S.of(context).schedule ,),
-      FavoriteWidgetType.exams: ExamHomeCard(title: S.of(context).exams,),
-      FavoriteWidgetType.library: LibraryHomeCard(title:  S.of(context).library_occupation,),
-      FavoriteWidgetType.restaurants: RestaurantHomeCard(title: S.of(context).restaurants,),
+    final typeToCard = {
+      FavoriteWidgetType.schedule: ScheduleHomeCard(
+        title: S.of(context).schedule,
+      ),
+      FavoriteWidgetType.exams: ExamHomeCard(
+        title: S.of(context).exams,
+      ),
+      FavoriteWidgetType.library: LibraryHomeCard(
+        title: S.of(context).library_occupation,
+      ),
+      FavoriteWidgetType.restaurants: RestaurantHomeCard(
+        title: S.of(context).restaurants,
+      ),
       // FavoriteWidgetType.calendar: const CalendarHomeCard(), TODO: enable this when dates are properly formatted
     };
     return MediaQuery.removePadding(

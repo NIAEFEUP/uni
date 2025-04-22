@@ -9,11 +9,10 @@ import 'package:uni_ui/calendar/calendar.dart';
 import 'package:uni_ui/calendar/calendar_item.dart';
 
 class CalendarHomeCard extends GenericHomecard {
-  const CalendarHomeCard( {
+  const CalendarHomeCard({
     super.key,
     required super.title,
     super.externalInfo = true,
-
   });
 
   @override

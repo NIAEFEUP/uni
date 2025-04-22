@@ -8,7 +8,7 @@ import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/cards/library_occupation_card.dart';
 
 class LibraryHomeCard extends GenericHomecard {
-  const LibraryHomeCard( {
+  const LibraryHomeCard({
     super.key,
     required super.title,
   });

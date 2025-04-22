@@ -26,13 +26,17 @@ class FacultyPageViewState extends GeneralPageViewState {
       children: [
         Padding(
           padding: const EdgeInsets.all(16),
-          child: LibraryHomeCard(title: S.of(context).library_occupation,),
+          child: LibraryHomeCard(
+            title: S.of(context).library_occupation,
+          ),
         ),
         Padding(
-          padding:const EdgeInsets.all(16),
-          child: CalendarHomeCard(title: S.of(context).calendar,),
+          padding: const EdgeInsets.all(16),
+          child: CalendarHomeCard(
+            title: S.of(context).calendar,
+          ),
         ),
-       const AllServiceCards(),
+        const AllServiceCards(),
       ],
     );
   }

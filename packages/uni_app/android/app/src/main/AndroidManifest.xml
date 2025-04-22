@@ -1,8 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <application
-        android:label="uni"
-        android:name="${applicationName}"
+        android:label="uni" 
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true"
         android:allowBackup="false"

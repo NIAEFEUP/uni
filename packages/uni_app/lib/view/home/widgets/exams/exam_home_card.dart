@@ -15,7 +15,7 @@ import 'package:uni_ui/cards/exam_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
 
 class ExamHomeCard extends GenericHomecard {
-  const ExamHomeCard( {
+  const ExamHomeCard({
     required super.title,
     super.key,
   });

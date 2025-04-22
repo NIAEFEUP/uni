@@ -18,7 +18,7 @@ import 'package:uni_ui/cards/restaurant_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
 
 class RestaurantHomeCard extends GenericHomecard {
-  const RestaurantHomeCard( {
+  const RestaurantHomeCard({
     super.key,
     required super.title,
     super.externalInfo = true,
