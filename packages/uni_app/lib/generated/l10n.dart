@@ -10,7 +10,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
+// ignore_for_file: avoid_redundant_argument_values
 
 class S {
   S();
@@ -2119,6 +2119,26 @@ class S {
     return Intl.message(
       'Now',
       name: 'now',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add to calendar`
+  String get add_to_calendar {
+    return Intl.message(
+      'Add to calendar',
+      name: 'add_to_calendar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View course details`
+  String get view_course_details {
+    return Intl.message(
+      'View course details',
+      name: 'view_course_details',
       desc: '',
       args: [],
     );
