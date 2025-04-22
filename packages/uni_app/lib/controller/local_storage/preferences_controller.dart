@@ -17,6 +17,7 @@ import 'package:uni/utils/favorite_widget_type.dart';
 class PreferencesController {
   static late SharedPreferences prefs;
 
+  static const String _version = 'preferences_version';
   static const _lastUpdateTimeKeySuffix = '_last_update_time';
   static const String _userSession = 'user_session';
   static const String _termsAndConditions = 'terms_and_conditions';
@@ -62,6 +63,14 @@ class PreferencesController {
   static final _hiddenExamsChangeStreamController =
       StreamController<List<String>>.broadcast();
   static final onHiddenExamsChange = _hiddenExamsChangeStreamController.stream;
+
+  static int getPreferencesVersion() {
+    return prefs.getInt(_version) ?? 1;
+  }
+
+  static Future<bool> setPreferencesVersion(int newVersion) async {
+    return prefs.setInt(_version, newVersion);
+  }
 
   /// Returns the last time the data with given key was updated.
   static DateTime? getLastDataClassUpdateTime(String dataKey) {
@@ -181,6 +190,13 @@ class PreferencesController {
 
   static Future<void> removeSavedSession() async {
     await _secureStorage.delete(key: _userSession);
+  }
+
+  static Future<void> setDefaultCards() async {
+    await prefs.setStringList(
+      _favoriteCards,
+      _homeDefaultcards.map((elem) => elem.name).toList(),
+    );
   }
 
   static Future<void> saveFavoriteCards(
