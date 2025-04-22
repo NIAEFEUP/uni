@@ -147,7 +147,10 @@ List<RestaurantMenuItem> getMainMenus(
         (meal) => ['Carne', 'Vegetariano', 'Peixe', 'Pescado']
             .any((keyword) => meal.type.contains(keyword)),
       )
-      .toList();
+      .toList()
+    ..sort(
+      (a, b) => a.type.compareTo(b.type),
+    );
 
   final filteredMeals = mainMeals.isEmpty ? meals.take(2) : mainMeals;
 
