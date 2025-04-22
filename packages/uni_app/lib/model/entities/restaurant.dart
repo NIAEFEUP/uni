@@ -1,11 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:objectbox/objectbox.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 
 part '../../generated/model/entities/restaurant.g.dart';
 
 @JsonSerializable()
+@Entity()
 class Restaurant {
   Restaurant(
     this.id,
@@ -17,17 +19,23 @@ class Restaurant {
     this.reference,
     this.openingHours,
     this.email, {
-    required List<Meal> meals,
-  }) : meals = groupBy(meals, (meal) => meal.dayOfWeek);
+    List<Meal> meals = const [],
+  }) : meals = ToMany<Meal>() {
+    this.meals.addAll(meals);
+  }
 
-  factory Restaurant.fromMap(Map<String, dynamic> map, List<Meal> meals) {
+  factory Restaurant.fromMap(Map<String, dynamic> map) {
     final object = Restaurant.fromJson(map);
-    object.meals = object.groupMealsByDayOfWeek(meals);
+    // object.meals = object.groupMealsByDayOfWeek();
     return object;
   }
 
   factory Restaurant.fromJson(Map<String, dynamic> json) =>
       _$RestaurantFromJson(json);
+
+  @Id()
+  int? uniqueId;
+
   @JsonKey(name: 'id')
   final int? id;
   @JsonKey(name: 'typePt')
@@ -46,8 +54,8 @@ class Restaurant {
   final List<String> openingHours;
   @JsonKey(name: 'email')
   final String email;
-  @JsonKey(includeToJson: true)
-  late final Map<DayOfWeek, List<Meal>> meals;
+  @Backlink('restaurant')
+  final ToMany<Meal> meals;
 
   bool get isNotEmpty {
     return meals.isNotEmpty;
@@ -56,10 +64,10 @@ class Restaurant {
   Map<String, dynamic> toJson() => _$RestaurantToJson(this);
 
   List<Meal> getMealsOfDay(DayOfWeek dayOfWeek) {
-    return meals[dayOfWeek] ?? [];
+    return groupMealsByDayOfWeek()[dayOfWeek] ?? [];
   }
 
-  Map<DayOfWeek, List<Meal>> groupMealsByDayOfWeek(List<Meal> meals) {
+  Map<DayOfWeek, List<Meal>> groupMealsByDayOfWeek() {
     return groupBy(meals, (meal) => meal.dayOfWeek);
   }
 }
