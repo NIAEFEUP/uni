@@ -78,7 +78,7 @@ class _ExamsPageState extends State<ExamsPage> {
               children: [
                 if (exams.isNotEmpty)
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
+                    padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
                       DateTime(DateTime.now().year, month)
                           .fullMonth(
@@ -192,25 +192,4 @@ class _ExamsPageState extends State<ExamsPage> {
     }
     return months;
   }
-
-  /*Exam? _nextExam(List<Exam> exams) {
-    final now = DateTime.now();
-    final nextExams = exams.where((exam) => exam.start.isAfter(now)).toList()
-      ..sort((a, b) => a.start.compareTo(b.start));
-    return nextExams.isNotEmpty ? nextExams.first : null;
-  }*/
-
-  /*
-  @override
-  Widget? getTopRightButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: ExamFilterButton(
-        () => setState(() {
-          filteredExamTypes = PreferencesController.getFilteredExams();
-        }),
-      ),
-    );
-  }
-  */
 }
