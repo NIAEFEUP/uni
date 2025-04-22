@@ -149,6 +149,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ects": MessageLookupByLibrary.simpleMessage("ECTS realizados: "),
         "edit_off": MessageLookupByLibrary.simpleMessage("Editar"),
         "edit_on": MessageLookupByLibrary.simpleMessage("Concluir edição"),
+        "email": MessageLookupByLibrary.simpleMessage("Email"),
         "empty_text": MessageLookupByLibrary.simpleMessage(
             "Por favor preenche este campo"),
         "evaluation": MessageLookupByLibrary.simpleMessage("Avaliação"),
@@ -355,6 +356,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Problemas ao iniciar sessão?"),
         "uc_info": MessageLookupByLibrary.simpleMessage("Abrir página da UC"),
         "unavailable": MessageLookupByLibrary.simpleMessage("Indisponível"),
+        "until": MessageLookupByLibrary.simpleMessage("Até"),
         "valid_email": MessageLookupByLibrary.simpleMessage(
             "Por favor insere um email válido"),
         "widget_prompt": MessageLookupByLibrary.simpleMessage(

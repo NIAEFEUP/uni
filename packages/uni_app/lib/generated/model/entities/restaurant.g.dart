@@ -14,6 +14,8 @@ Restaurant _$RestaurantFromJson(Map<String, dynamic> json) => Restaurant(
       json['nameEn'] as String,
       json['period'] as String,
       json['ref'] as String,
+      (json['hours'] as List<dynamic>).map((e) => e as String).toList(),
+      json['email'] as String,
       meals: (json['meals'] as List<dynamic>)
           .map((e) => Meal.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -28,6 +30,8 @@ Map<String, dynamic> _$RestaurantToJson(Restaurant instance) =>
       'nameEn': instance.nameEn,
       'period': instance.period,
       'ref': instance.reference,
+      'hours': instance.openingHours,
+      'email': instance.email,
       'meals':
           instance.meals.map((k, e) => MapEntry(_$DayOfWeekEnumMap[k]!, e)),
     };

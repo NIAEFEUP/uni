@@ -12,7 +12,8 @@ class ScheduleCard extends StatelessWidget {
       required this.type,
       this.isActive = false,
       this.teacherName,
-      this.teacherPhoto});
+      this.teacherPhoto,
+      this.onTap});
 
   final String name;
   final String acronym;
@@ -21,6 +22,7 @@ class ScheduleCard extends StatelessWidget {
   final bool isActive;
   final String? teacherName;
   final Image? teacherPhoto;
+  final VoidCallback? onTap;
 
   static const Map<String, Color> scheduleTypeColors = {
     'T': BadgeColors.t,
@@ -46,6 +48,7 @@ class ScheduleCard extends StatelessWidget {
           : null,
       key: key,
       tooltip: '',
+      onClick: onTap,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

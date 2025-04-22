@@ -12,8 +12,6 @@ class SchedulePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const bottomNavbarHeight = 120.0;
-
     return MediaQuery.removePadding(
       context: context,
       removeBottom: true,
@@ -31,9 +29,8 @@ class SchedulePage extends StatelessWidget {
         onNullContent: LayoutBuilder(
           builder: (context, constraints) => SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
-            child: Container(
+            child: SizedBox(
               height: constraints.maxHeight,
-              padding: const EdgeInsets.only(bottom: bottomNavbarHeight),
               child: const Center(
                 child: NoClassesWidget(),
               ),

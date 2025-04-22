@@ -10,6 +10,7 @@ import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
+import 'package:uni/view/academic_path/academic_path.dart';
 import 'package:uni/view/common_widgets/icon_label.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/timeline_shimmer.dart';
@@ -28,7 +29,7 @@ class ScheduleHomeCard extends GenericHomecard {
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<LectureProvider, List<Lecture>>(
       builder: (context, lectures) => CardTimeline(
-        items: buildTimelineItems(lectures, context).sublist(0, 2),
+        items: buildTimelineItems(lectures, context).take(2).toList(),
       ),
       hasContent: (lectures) => lectures.isNotEmpty,
       onNullContent: Center(
@@ -52,7 +53,14 @@ class ScheduleHomeCard extends GenericHomecard {
   }
 
   @override
-  void onClick(BuildContext context) => {};
+  void onCardClick(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (context) => const AcademicPathPageView(initialTabIndex: 1),
+      ),
+    );
+  }
 
   List<TimelineItem> buildTimelineItems(
     List<Lecture> lectures,
