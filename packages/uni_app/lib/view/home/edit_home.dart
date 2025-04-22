@@ -136,8 +136,9 @@ class EditHomeViewState extends State<EditHomeView> {
                 } else {
                   final cardIndex = ((index - 1) / 2).floor();
                   return DraggableTile(
-                      data: activeCards[cardIndex],
-                      callback: removeActiveWhileDragging);
+                    data: activeCards[cardIndex],
+                    callback: removeActiveWhileDragging,
+                  );
                 }
               },
             ),
@@ -148,8 +149,12 @@ class EditHomeViewState extends State<EditHomeView> {
       bottomNavigationBar: DragTarget<FavoriteWidgetType>(
         builder: (context, candidate, rejected) {
           final listlessCardWidgets = listlessCards
-              .map((widgetType) => DraggableSquare(
-                  data: widgetType, callback: removeListlessWhileDragging))
+              .map(
+                (widgetType) => DraggableSquare(
+                  data: widgetType,
+                  callback: removeListlessWhileDragging,
+                ),
+              )
               .toList();
 
           return Container(
