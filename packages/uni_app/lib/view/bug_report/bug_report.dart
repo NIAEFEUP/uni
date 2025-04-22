@@ -245,7 +245,8 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
                     child: Image.file(
                       File(pickedFiles[i].path),
                       height: 120,
-                      fit: BoxFit.cover,),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               );
