@@ -17,7 +17,7 @@ class LibraryHomeCard extends GenericHomecard {
   });
 
   @override
-  void onClick(BuildContext context) => {};
+  void onCardClick(BuildContext context) => {};
 
   @override
   Widget buildCardContent(BuildContext context) {

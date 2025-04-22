@@ -7,7 +7,7 @@ PluginBase createPlugin() => UniUILint();
 class UniUILint extends PluginBase {
   @override
   List<LintRule> getLintRules(CustomLintConfigs configs) => [
-    NoStringLiteralsInWidgetsLint(),
+        NoStringLiteralsInWidgetsLint(),
       ];
 }
 
@@ -16,7 +16,8 @@ class NoStringLiteralsInWidgetsLint extends DartLintRule {
 
   static const _code = LintCode(
     name: 'no_string_literals_in_widgets',
-    problemMessage: 'String literals are not allowed inside a widget. Please pass this value as a parameter for the widget.',
+    problemMessage:
+        'String literals are not allowed inside a widget. Please pass this value as a parameter for the widget.',
   );
 
   @override
@@ -26,7 +27,11 @@ class NoStringLiteralsInWidgetsLint extends DartLintRule {
     CustomLintContext context,
   ) {
     context.registry.addStringLiteral((node) {
-      final fileUri = node.thisOrAncestorOfType<CompilationUnit>()?.declaredElement?.source?.uri;
+      final fileUri = node
+          .thisOrAncestorOfType<CompilationUnit>()
+          ?.declaredElement
+          ?.source
+          ?.uri;
       final fileName = fileUri?.pathSegments.last;
       if (isInsideWidgetClass(node) && fileName != "main.dart") {
         reporter.atNode(node, code);
@@ -41,7 +46,9 @@ class NoStringLiteralsInWidgetsLint extends DartLintRule {
     final extendsClause = parent.extendsClause;
     if (extendsClause != null) {
       final superclass = extendsClause.superclass;
-      return superclass.element?.displayName == "StatelessWidget" || superclass.element?.displayName == "StatefulWidget" || superclass.element?.displayName == "State";
+      return superclass.element?.displayName == "StatelessWidget" ||
+          superclass.element?.displayName == "StatefulWidget" ||
+          superclass.element?.displayName == "State";
     }
     return false;
   }

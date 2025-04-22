@@ -11,11 +11,10 @@ class CalendarHomeCard extends GenericHomecard {
   const CalendarHomeCard({
     super.key,
     super.title = 'Calendar',
-    super.externalInfo = true,
   });
 
   @override
-  void onClick(BuildContext context) =>
+  void onCardClick(BuildContext context) =>
       Navigator.pushNamed(context, '/${NavigationItem.navCalendar.route}');
 
   @override

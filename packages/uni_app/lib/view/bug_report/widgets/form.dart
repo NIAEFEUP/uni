@@ -298,13 +298,13 @@ class BugReportFormState extends State<BugReportForm> {
       },
     );
 
-    final userFeedback = SentryUserFeedback(
-      eventId: sentryId,
-      comments: '${bugReport['title']}\n ${bugReport['text']}',
-      email: bugReport['email'] as String,
+    final userFeedback = SentryFeedback(
+      replayId: sentryId as String,
+      message: '${bugReport['title']}\n ${bugReport['text']}',
+      contactEmail: bugReport['email'] as String,
     );
 
-    await Sentry.captureUserFeedback(userFeedback);
+    await Sentry.captureFeedback(userFeedback);
   }
 
   void clearForm() {
