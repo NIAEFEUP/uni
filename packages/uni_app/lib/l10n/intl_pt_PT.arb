@@ -358,6 +358,22 @@
   "@wrong_credentials_exception": {},
   "internet_status_exception": "Verifique sua conexão com a internet",
   "@internet_status_exception": {},
+  "bug_description_visual_detail": "Detalhe Visual",
+  "@bug_description_visual_detail": {},
+  "bug_description_error":"Erro",
+  "@bug_description_error": {},
+  "bug_description_Suggestion": "Sugestão",
+  "@bug_description_Suggestion": {},
+  "bug_description_unexpected_behaviour": "Comportamento Inesperado",
+  "@bug_description_unexpected_behaviour": {},
+  "bug_description_other": "Outro",
+  "@bug_description_other": {},
+  "leave_feedback": "Feedback",
+  "@leave_feedback": {},
+  "add_photo": "Adicionar foto",
+  "@add_photo": {},
+  "failed_upload": "Falha de carregamento",
+  "@failed_upload": {},
   "schedule": "Aulas",
   "@schedule": {},
   "instructors": "Docentes",
@@ -410,3 +426,4 @@
   "until": "Até",
   "@until": {}
 }
+
