@@ -58,19 +58,19 @@ class MapPageStateView extends State<MapPage> {
             });
           });
         }
+        final bounds = LatLngBounds(
+          const LatLng(41.17370 , -8.59900),
+          const LatLng(41.18286, -8.59298),);
         return Scaffold(
           resizeToAvoidBottomInset: false,
           extendBody: true,
           bottomNavigationBar: const AppBottomNavbar(),
           body: FlutterMap(
             options: MapOptions(
-              minZoom: 17,
-              maxZoom: 18,
-              cameraConstraint: CameraConstraint.contain(
-                  bounds: LatLngBounds(const LatLng(41.17670, -8.59991),
-                      const LatLng(41.17986, -8.59298),),),
-              initialCenter: const LatLng(41.17731, -8.59522),
-              initialZoom: 17.5,
+              minZoom: 1,
+              maxZoom: 19,
+              cameraConstraint:CameraConstraint.contain(bounds: bounds),
+              initialCameraFit: CameraFit.insideBounds(bounds: bounds),
               onTap: (tapPosition, latlng) =>
                   _popupLayerController.hideAllPopups(),
               interactionOptions: const InteractionOptions(
@@ -80,7 +80,6 @@ class MapPageStateView extends State<MapPage> {
               TileLayer(
                 urlTemplate:
                     'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
-                subdomains: const <String>['a', 'b', 'c'],
                 tileProvider: CachedTileProvider(),
               ),
               PopupMarkerLayer(
