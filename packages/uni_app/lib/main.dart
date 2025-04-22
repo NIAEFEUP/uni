@@ -73,12 +73,12 @@ Future<String> firstRoute() async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  SystemChrome.setSystemUIOverlayStyle(
+  /* SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light,
     ),
-  );
+  ); */
 
   PreferencesController.prefs = await SharedPreferences.getInstance();
 
@@ -251,21 +251,35 @@ class ApplicationState extends State<Application> {
                     page: const SplashScreenView(),
                     settings: settings,
                   ),
-              '/${NavigationItem.navEditPersonalArea.route}': () =>
-                  PageTransition.makePageTransition(
-                    page: const EditHomeView(),
-                    settings: settings,
+              '/${NavigationItem.navEditPersonalArea.route}': () {
+                SystemChrome.setSystemUIOverlayStyle(
+                  const SystemUiOverlayStyle(
+                    statusBarColor: Colors.transparent,
+                    statusBarIconBrightness: Brightness.light,
                   ),
+                );
+                return PageTransition.makePageTransition(
+                  page: const EditHomeView(),
+                  settings: settings,
+                );
+              },
               '/${NavigationItem.navLogin.route}': () =>
                   PageTransition.splashTransitionRoute(
                     page: const LoginPageView(),
                     settings: settings,
                   ),
-              '/${NavigationItem.navPersonalArea.route}': () =>
-                  PageTransition.makePageTransition(
-                    page: const HomePageView(),
-                    settings: settings,
+              '/${NavigationItem.navPersonalArea.route}': () {
+                SystemChrome.setSystemUIOverlayStyle(
+                  const SystemUiOverlayStyle(
+                    statusBarColor: Colors.transparent,
+                    statusBarIconBrightness: Brightness.light,
                   ),
+                );
+                return PageTransition.makePageTransition(
+                  page: const HomePageView(),
+                  settings: settings,
+                );
+              },
               '/${NavigationItem.navExams.route}': () =>
                   PageTransition.makePageTransition(
                     page: const ExamsPageView(),
