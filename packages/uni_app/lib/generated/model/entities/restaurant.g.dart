@@ -34,6 +34,5 @@ Map<String, dynamic> _$RestaurantToJson(Restaurant instance) =>
       'ref': instance.reference,
       'hours': instance.openingHours,
       'email': instance.email,
-      'meals':
-          instance.meals.map((k, e) => MapEntry(_$DayOfWeekEnumMap[k]!, e)),
+      'meals': instance.meals,
     };

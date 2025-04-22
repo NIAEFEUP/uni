@@ -408,7 +408,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(9, 8593806623526644439),
       name: 'Restaurant',
-      lastPropertyId: const obx_int.IdUid(8, 3942026488437724941),
+      lastPropertyId: const obx_int.IdUid(10, 2718701455368770980),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -449,6 +449,16 @@ final _entities = <obx_int.ModelEntity>[
         obx_int.ModelProperty(
             id: const obx_int.IdUid(8, 3942026488437724941),
             name: 'typeEn',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(9, 7758398535926698966),
+            name: 'openingHours',
+            type: 30,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(10, 2718701455368770980),
+            name: 'email',
             type: 9,
             flags: 0)
       ],
@@ -1049,7 +1059,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
               object.typePt == null ? null : fbb.writeString(object.typePt!);
           final typeEnOffset =
               object.typeEn == null ? null : fbb.writeString(object.typeEn!);
-          fbb.startTable(9);
+          final openingHoursOffset = fbb.writeList(
+              object.openingHours.map(fbb.writeString).toList(growable: false));
+          final emailOffset = fbb.writeString(object.email);
+          fbb.startTable(11);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, namePtOffset);
           fbb.addOffset(2, nameEnOffset);
@@ -1058,6 +1071,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addInt64(5, object.uniqueId ?? 0);
           fbb.addOffset(6, typePtOffset);
           fbb.addOffset(7, typeEnOffset);
+          fbb.addOffset(8, openingHoursOffset);
+          fbb.addOffset(9, emailOffset);
           fbb.finish(fbb.endTable());
           return object.uniqueId ?? 0;
         },
@@ -1078,8 +1093,22 @@ obx_int.ModelDefinition getObjectBoxModel() {
               .vTableGet(buffer, rootOffset, 10, '');
           final referenceParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 12, '');
-          final object = Restaurant(idParam, typePtParam, typeEnParam,
-              namePtParam, nameEnParam, periodParam, referenceParam)
+          final openingHoursParam = const fb.ListReader<String>(
+                  fb.StringReader(asciiOptimization: true),
+                  lazy: false)
+              .vTableGet(buffer, rootOffset, 20, []);
+          final emailParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 22, '');
+          final object = Restaurant(
+              idParam,
+              typePtParam,
+              typeEnParam,
+              namePtParam,
+              nameEnParam,
+              periodParam,
+              referenceParam,
+              openingHoursParam,
+              emailParam)
             ..uniqueId = const fb.Int64Reader()
                 .vTableGetNullable(buffer, rootOffset, 14);
           obx_int.InternalToManyAccess.setRelInfo<Restaurant>(
@@ -1437,6 +1466,14 @@ class Restaurant_ {
   /// See [Restaurant.typeEn].
   static final typeEn =
       obx.QueryStringProperty<Restaurant>(_entities[8].properties[7]);
+
+  /// See [Restaurant.openingHours].
+  static final openingHours =
+      obx.QueryStringVectorProperty<Restaurant>(_entities[8].properties[8]);
+
+  /// See [Restaurant.email].
+  static final email =
+      obx.QueryStringProperty<Restaurant>(_entities[8].properties[9]);
 
   /// see [Restaurant.meals]
   static final meals =

@@ -346,15 +346,8 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     final meals = restaurant.getMealsOfDay(dayOfWeek)
       ..sort((a, b) => a.type.compareTo(b.type));
 
-    // sorting meals by type ID to ensure consistent order
-    meals?.sort((a, b) {
-      final idA = RestaurantUtils.getMealTypeId(a.type);
-      final idB = RestaurantUtils.getMealTypeId(b.type);
-      return idA.compareTo(idB);
-    });
-
     final menuItems = <RestaurantMenuItem>[];
-    for (final meal in meals!) {
+    for (final meal in meals) {
       if (RestaurantUtils.mealMatchesFilter(_selectedDishTypes, meal.type)) {
         menuItems.add(
           RestaurantMenuItem(

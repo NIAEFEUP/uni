@@ -19,12 +19,14 @@ class Restaurant {
     this.reference,
     this.openingHours,
     this.email, {
-    required List<Meal> meals,
-  }) : meals = groupBy(meals, (meal) => meal.dayOfWeek);
+    List<Meal> meals = const [],
+  }) : meals = ToMany<Meal>() {
+    this.meals.addAll(meals);
+  }
 
-  factory Restaurant.fromMap(Map<String, dynamic> map, List<Meal> meals) {
+  factory Restaurant.fromMap(Map<String, dynamic> map) {
     final object = Restaurant.fromJson(map);
-    object.meals = object.groupMealsByDayOfWeek(meals);
+    // object.meals = object.groupMealsByDayOfWeek();
     return object;
   }
 
@@ -52,8 +54,8 @@ class Restaurant {
   final List<String> openingHours;
   @JsonKey(name: 'email')
   final String email;
-  @JsonKey(includeToJson: true)
-  late final Map<DayOfWeek, List<Meal>> meals;
+  @Backlink('restaurant')
+  final ToMany<Meal> meals;
 
   bool get isNotEmpty {
     return meals.isNotEmpty;
