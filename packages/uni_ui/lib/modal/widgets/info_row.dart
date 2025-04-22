@@ -5,48 +5,46 @@ class ModalInfoRow extends StatelessWidget {
   const ModalInfoRow(
       {super.key,
       required this.title,
-      required this.description,
+      this.description,
       required this.icon,
-      this.optionalIcon = const SizedBox(),
+      this.trailing = const SizedBox(),
       this.onPressed});
 
   final String title;
-  final String description;
-  final UniIcon icon;
+  final String? description;
+  final IconData icon;
   final void Function()? onPressed;
-  final Widget optionalIcon;
+  final Widget trailing;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-            border: Border(
-                top: BorderSide(
-                    color: Theme.of(context).dividerColor, width: 1))),
-        child: GestureDetector(
-          onTap: onPressed,
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: icon,
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    Text(description,
-                        style: Theme.of(context).textTheme.bodyMedium!),
-                  ],
-                ),
-              ),
-              optionalIcon,
-            ],
-          ),
-        ));
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(color: Theme.of(context).dividerColor, width: 1),
+        ),
+      ),
+      child: ListTile(
+        dense: true,
+        // visualDensity: VisualDensity(vertical: -4),
+        leading: UniIcon(
+          icon,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+        title: Text(
+          title,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
+        subtitle: description != null
+            ? Text(
+                description!,
+                style: Theme.of(context).textTheme.bodyMedium,
+              )
+            : null,
+        trailing: trailing,
+        onTap: onPressed,
+      ),
+    );
   }
 }
