@@ -403,5 +403,7 @@
   "email": "Email",
   "@email": {},
   "now": "Now",
-  "@now": {}
+  "@now": {},
+  "until": "Until",
+  "@until": {}
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/entities/calendar_event.dart';
+import 'package:uni/model/entities/localized_events.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/calendar/widgets/row_format.dart';
@@ -19,25 +19,29 @@ class CalendarPageView extends StatefulWidget {
 class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<CalendarProvider, List<CalendarEvent>>(
+    return LazyConsumer<CalendarProvider, LocalizedEvents>(
       builder: getTimeline,
-      hasContent: (calendar) => calendar.isNotEmpty,
-      onNullContent: const Center(
+      hasContent: (localizedEvents) => localizedEvents.hasAnyEvents,
+      onNullContent: Center(
         child: Text(
-          'Nenhum evento encontrado',
-          style: TextStyle(fontSize: 18),
+          S.of(context).no_events,
+          style: Theme.of(context).textTheme.headlineLarge,
         ),
       ),
     );
   }
 
-  Widget getTimeline(BuildContext context, List<CalendarEvent> calendar) {
+  Widget getTimeline(BuildContext context, LocalizedEvents localizedEvents) {
     final locale = Provider.of<LocaleNotifier>(context).getLocale();
+    final calendar = localizedEvents.getEvents(locale);
     return SingleChildScrollView(
-      child: Column(
-        children: calendar
-            .map((event) => RowFormat(event: event, locale: locale))
-            .toList(),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 100),
+        child: Column(
+          children: calendar
+              .map((event) => RowFormat(event: event, locale: locale))
+              .toList(),
+        ),
       ),
     );
   }
