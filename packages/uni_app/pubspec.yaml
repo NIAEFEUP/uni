@@ -11,7 +11,7 @@ version: 1.10.0-beta.57+362
 
 environment:
   sdk: ">=3.4.0 <5.0.0"
-  flutter: 3.29.2
+  flutter: 3.27.4
 
 dependencies:
   add_2_calendar: ^3.0.1
@@ -86,7 +86,6 @@ dev_dependencies:
   leancode_lint: ^15.1.0
   mockito: ^5.4.5
   sqflite_common_ffi: ^2.3.0+4
-  test: any
   very_good_analysis: ^7.0.0
 
 flutter:

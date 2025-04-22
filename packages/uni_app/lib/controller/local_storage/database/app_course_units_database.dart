@@ -40,7 +40,7 @@ class AppCourseUnitsDatabase extends AppDatabase<List<CourseUnit>> {
     await db.delete('course_units');
   }
 
-  static FutureOr<void> migrate(
+  static Future<void>? migrate(
     Database db,
     int oldVersion,
     int newVersion,

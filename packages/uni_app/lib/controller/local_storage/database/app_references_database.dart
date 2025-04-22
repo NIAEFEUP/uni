@@ -50,7 +50,7 @@ class AppReferencesDatabase extends AppDatabase<List<Reference>> {
   }
 
   /// the database and, as such, all data is lost.
-  static FutureOr<void> migrate(
+  static Future<void>? migrate(
     Database db,
     int oldVersion,
     int newVersion,

@@ -57,7 +57,7 @@ CREATE TABLE exams(id TEXT, subjectAcronym TEXT, subject TEXT, start TEXT, finis
     await db.delete('exams');
   }
 
-  static FutureOr<void> migrate(
+  static Future<void>? migrate(
     Database db,
     int oldVersion,
     int newVersion,

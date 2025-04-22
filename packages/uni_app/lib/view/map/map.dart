@@ -68,13 +68,13 @@ class MapPageStateView extends State<MapPage> {
               maxZoom: 18,
               cameraConstraint: CameraConstraint.contain(
                   bounds: LatLngBounds(const LatLng(41.17670, -8.59991),
-                      const LatLng(41.17986, -8.59298))),
+                      const LatLng(41.17986, -8.59298),),),
               initialCenter: const LatLng(41.17731, -8.59522),
               initialZoom: 17.5,
               onTap: (tapPosition, latlng) =>
                   _popupLayerController.hideAllPopups(),
               interactionOptions: const InteractionOptions(
-                  flags: InteractiveFlag.all - InteractiveFlag.rotate),
+                  flags: InteractiveFlag.all - InteractiveFlag.rotate,),
             ),
             children: <Widget>[
               TileLayer(

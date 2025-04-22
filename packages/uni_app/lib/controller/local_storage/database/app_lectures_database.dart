@@ -57,7 +57,7 @@ CREATE TABLE lectures(acronym TEXT, subject TEXT, typeClass TEXT,
   ///
   /// *Note:* This operation only updates the schema of the tables present in
   /// the database and, as such, all data is lost.
-  static FutureOr<void> migrate(
+  static Future<void>? migrate(
     Database db,
     int oldVersion,
     int newVersion,

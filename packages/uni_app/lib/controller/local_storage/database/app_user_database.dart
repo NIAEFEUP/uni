@@ -78,7 +78,7 @@ class AppUserDataDatabase extends AppDatabase<Profile> {
     await db.delete('userdata');
   }
 
-  static FutureOr<void> migrate(
+  static Future<void>? migrate(
     Database db,
     int oldVersion,
     int newVersion,
