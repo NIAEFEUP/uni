@@ -73,6 +73,8 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
       restaurantTuple.$2,
       restaurantTuple.$1,
       '',
+      [],
+      '',
       meals: meals,
     );
   }).toList();
