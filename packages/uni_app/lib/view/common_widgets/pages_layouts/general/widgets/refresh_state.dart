@@ -32,7 +32,6 @@ class RefreshState extends StatelessWidget {
                   onRefresh: () =>
                       ProfileProvider.fetchOrGetCachedProfilePicture(
                     Provider.of<SessionProvider>(context, listen: false).state!,
-                    forceRetrieval: true,
                   ).then((value) {
                     if (context.mounted) {
                       onRefresh(context);

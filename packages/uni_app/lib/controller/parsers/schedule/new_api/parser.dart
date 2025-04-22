@@ -37,6 +37,8 @@ List<Lecture> getLecturesFromApiResponse(
           lecture.end,
           lecture.rooms.first.name,
           lecture.persons.map((person) => person.acronym).join('+'),
+          _filterTeacherName(lecture.persons.first.name),
+          _filterTeacherCode(lecture.persons.first.name),
           lecture.classes.length > 1
               ? '${lecture.classes.first.acronym} + ${lecture.classes.length - 1}'
               : lecture.classes.first.acronym,
@@ -49,4 +51,14 @@ List<Lecture> getLecturesFromApiResponse(
 String _filterSubjectName(String subject) {
   return RegExp(r' - ([^()]*)(?: \(|$)').firstMatch(subject)?.group(1) ??
       subject;
+}
+
+int _filterTeacherCode(String name) {
+  final match = RegExp(r'^(\d+)').firstMatch(name);
+  return match != null ? int.parse(match.group(1)!) : 0;
+}
+
+String _filterTeacherName(String name) {
+  final match = RegExp(r' - (.+)$').firstMatch(name);
+  return match != null ? match.group(1)! : name;
 }

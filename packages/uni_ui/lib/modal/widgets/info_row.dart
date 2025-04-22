@@ -23,25 +23,30 @@ class ModalInfoRow extends StatelessWidget {
             border: Border(
                 top: BorderSide(
                     color: Theme.of(context).dividerColor, width: 1))),
-        child: Row(
-          children: [
-            IconButton(onPressed: onPressed, icon: icon),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  Text(description,
-                      style: Theme.of(context).textTheme.bodyMedium!),
-                ],
+        child: GestureDetector(
+          onTap: onPressed,
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: icon,
               ),
-            ),
-            const Spacer(),
-            optionalIcon,
-          ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    Text(description,
+                        style: Theme.of(context).textTheme.bodyMedium!),
+                  ],
+                ),
+              ),
+              optionalIcon,
+            ],
+          ),
         ));
   }
 }
