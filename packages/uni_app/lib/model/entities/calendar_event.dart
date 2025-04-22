@@ -17,10 +17,9 @@ class CalendarEvent {
   DateTime? endDate;
 
   @Id()
-  int? id;
+  int? uniqueId;
 
   CalendarEvent({
-    this.id,
     required this.name,
     this.startDate,
     this.endDate,

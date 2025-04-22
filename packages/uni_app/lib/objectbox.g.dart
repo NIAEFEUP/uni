@@ -482,7 +482,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(11, 7766497325520663084),
       name: 'CalendarEvent',
-      lastPropertyId: const obx_int.IdUid(4, 869613549731297269),
+      lastPropertyId: const obx_int.IdUid(5, 6182058402376906364),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -501,8 +501,8 @@ final _entities = <obx_int.ModelEntity>[
             type: 10,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 869613549731297269),
-            name: 'id',
+            id: const obx_int.IdUid(5, 6182058402376906364),
+            name: 'uniqueId',
             type: 6,
             flags: 1)
       ],
@@ -560,7 +560,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
         9151945013859193773,
         6529611542004519423,
         606101617154450710,
-        2290575640408544292
+        2290575640408544292,
+        869613549731297269
       ],
       retiredRelationUids: const [4232741166114493489, 7979016610492408009],
       modelVersion: 5,
@@ -1124,19 +1125,19 @@ obx_int.ModelDefinition getObjectBoxModel() {
         model: _entities[9],
         toOneRelations: (CalendarEvent object) => [],
         toManyRelations: (CalendarEvent object) => {},
-        getId: (CalendarEvent object) => object.id,
+        getId: (CalendarEvent object) => object.uniqueId,
         setId: (CalendarEvent object, int id) {
-          object.id = id;
+          object.uniqueId = id;
         },
         objectToFB: (CalendarEvent object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
-          fbb.startTable(5);
+          fbb.startTable(6);
           fbb.addOffset(0, nameOffset);
           fbb.addInt64(1, object.startDate?.millisecondsSinceEpoch);
           fbb.addInt64(2, object.endDate?.millisecondsSinceEpoch);
-          fbb.addInt64(3, object.id ?? 0);
+          fbb.addInt64(4, object.uniqueId ?? 0);
           fbb.finish(fbb.endTable());
-          return object.id ?? 0;
+          return object.uniqueId ?? 0;
         },
         objectFromFB: (obx.Store store, ByteData fbData) {
           final buffer = fb.BufferContext(fbData);
@@ -1145,8 +1146,6 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 6);
           final endDateValue =
               const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 8);
-          final idParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 10);
           final nameParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 4, '');
           final startDateParam = startDateValue == null
@@ -1156,10 +1155,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
               ? null
               : DateTime.fromMillisecondsSinceEpoch(endDateValue);
           final object = CalendarEvent(
-              id: idParam,
-              name: nameParam,
-              startDate: startDateParam,
-              endDate: endDateParam);
+              name: nameParam, startDate: startDateParam, endDate: endDateParam)
+            ..uniqueId = const fb.Int64Reader()
+                .vTableGetNullable(buffer, rootOffset, 12);
 
           return object;
         })
@@ -1499,7 +1497,7 @@ class CalendarEvent_ {
   static final endDate =
       obx.QueryDateProperty<CalendarEvent>(_entities[9].properties[2]);
 
-  /// See [CalendarEvent.id].
-  static final id =
+  /// See [CalendarEvent.uniqueId].
+  static final uniqueId =
       obx.QueryIntegerProperty<CalendarEvent>(_entities[9].properties[3]);
 }
