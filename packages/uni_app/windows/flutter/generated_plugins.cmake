@@ -6,9 +6,8 @@ list(APPEND FLUTTER_PLUGIN_LIST
   app_links
   battery_plus
   connectivity_plus
-  file_selector_windows
   flutter_secure_storage_windows
-  permission_handler_windows
+  objectbox_flutter_libs
   sentry_flutter
   url_launcher_windows
 )

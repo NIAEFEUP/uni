@@ -56,6 +56,8 @@ import 'package:uni_ui/theme.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:workmanager/workmanager.dart';
 
+import 'controller/local_storage/database/database.dart';
+
 SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
 }
@@ -106,6 +108,9 @@ Future<void> main() async {
     workerStartCallback,
     isInDebugMode: !kReleaseMode,
   );
+
+  // NoSQL database initialization
+  await Database().init();
 
   // Read environment, which may include app tokens
   await dotenv

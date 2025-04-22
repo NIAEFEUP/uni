@@ -240,7 +240,10 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
 
     final dayContents = daysOfTheWeek.map((dayOfWeek) {
       final restaurantsWidgets = filteredRestaurants
-          .where((element) => element.meals[dayOfWeek]?.isNotEmpty ?? false)
+          .where(
+            (element) =>
+                element.meals.any((meal) => meal.dayOfWeek == dayOfWeek),
+          )
           .map(
             (restaurant) =>
                 createNewRestaurant(context, restaurant, dayOfWeek, locale),
@@ -337,17 +340,11 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     Restaurant restaurant,
     AppLocale locale,
   ) {
-    final meals = restaurant.meals[dayOfWeek];
-
-    // sorting meals by type ID to ensure consistent order
-    meals?.sort((a, b) {
-      final idA = RestaurantUtils.getMealTypeId(a.type);
-      final idB = RestaurantUtils.getMealTypeId(b.type);
-      return idA.compareTo(idB);
-    });
+    final meals = restaurant.getMealsOfDay(dayOfWeek)
+      ..sort((a, b) => a.type.compareTo(b.type));
 
     final menuItems = <RestaurantMenuItem>[];
-    for (final meal in meals!) {
+    for (final meal in meals) {
       if (RestaurantUtils.mealMatchesFilter(_selectedDishTypes, meal.type)) {
         menuItems.add(
           RestaurantMenuItem(
