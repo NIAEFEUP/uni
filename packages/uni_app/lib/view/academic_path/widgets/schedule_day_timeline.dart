@@ -70,7 +70,7 @@ class ScheduleDayTimeline extends StatelessWidget {
               acronym: lecture.acronym,
               room: lecture.room,
               type: lecture.typeClass,
-              teacherName: lecture.teacher,
+              teacherName: lecture.teacherName,
               teacherPhoto: snapshot.hasData && snapshot.data != null
                   ? Image(image: FileImage(snapshot.data!))
                   : Image.asset('assets/images/profile_placeholder.png'),
