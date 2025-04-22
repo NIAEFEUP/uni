@@ -321,13 +321,13 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
       },
     );
 
-    final userFeedback = SentryUserFeedback(
-      eventId: sentryId,
-      comments: '${bugReport['title']}\n ${bugReport['text']}',
-      email: bugReport['email'] as String,
+    final userFeedback = SentryFeedback(
+      associatedEventId: sentryId,
+      message: '${bugReport['title']}\n ${bugReport['text']}',
+      contactEmail: bugReport['email'] as String,
     );
 
-    await Sentry.captureUserFeedback(userFeedback);
+    await Sentry.captureFeedback(userFeedback);
   }
 
   void clearForm() {
