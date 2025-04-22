@@ -1,14 +1,12 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/utils/string_formatter.dart';
+import 'package:uni/view/academic_path/widgets/exam_modal.dart';
 import 'package:uni/view/academic_path/widgets/no_exams_widget.dart';
-import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/cards/exam_card.dart';
@@ -78,7 +76,7 @@ class _ExamsPageState extends State<ExamsPage> {
               children: [
                 if (exams.isNotEmpty)
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
+                    padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
                       DateTime(DateTime.now().year, month)
                           .fullMonth(
@@ -111,28 +109,11 @@ class _ExamsPageState extends State<ExamsPage> {
                           type: exam.examType,
                           startTime: exam.formatTime(exam.start),
                           isInvisible: hiddenExams.contains(exam.id),
-                          onTap: () {
-                            final profile = Provider.of<ProfileProvider>(
-                              context,
-                              listen: false,
-                            ).state;
-                            if (profile != null) {
-                              final courseUnit =
-                                  profile.courseUnits.firstWhereOrNull(
-                                (unit) =>
-                                    unit.abbreviation == exam.subjectAcronym,
-                              );
-                              if (courseUnit != null &&
-                                  courseUnit.occurrId != null) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute<CourseUnitDetailPageView>(
-                                    builder: (context) =>
-                                        CourseUnitDetailPageView(courseUnit),
-                                  ),
-                                );
-                              }
-                            }
+                          onClick: () {
+                            showDialog<void>(
+                              context: context,
+                              builder: (context) => ExamModal(exam: exam),
+                            );
                           },
                           iconAction: () {
                             setState(() {
@@ -192,25 +173,4 @@ class _ExamsPageState extends State<ExamsPage> {
     }
     return months;
   }
-
-  /*Exam? _nextExam(List<Exam> exams) {
-    final now = DateTime.now();
-    final nextExams = exams.where((exam) => exam.start.isAfter(now)).toList()
-      ..sort((a, b) => a.start.compareTo(b.start));
-    return nextExams.isNotEmpty ? nextExams.first : null;
-  }*/
-
-  /*
-  @override
-  Widget? getTopRightButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: ExamFilterButton(
-        () => setState(() {
-          filteredExamTypes = PreferencesController.getFilteredExams();
-        }),
-      ),
-    );
-  }
-  */
 }

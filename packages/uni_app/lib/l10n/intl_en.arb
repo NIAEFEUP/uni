@@ -404,6 +404,10 @@
   "@email": {},
   "now": "Now",
   "@now": {},
+  "add_to_calendar": "Add to calendar",
+  "@add_to_calendar": {},
+  "view_course_details": "View course details",
+  "@view_course_details": {},
   "until": "Until",
   "@until": {}
 }
