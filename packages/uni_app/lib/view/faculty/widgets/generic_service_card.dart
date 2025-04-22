@@ -72,10 +72,7 @@ class ServicesCard extends StatelessWidget {
                 child: ModalInfoRow(
                   title: 'Email',
                   description: email,
-                  icon: UniIcon(
-                    UniIcons.email,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
+                  icon: UniIcons.email,
                   trailing: UniIcon(
                     UniIcons.caretRight,
                     color: Theme.of(context).colorScheme.primary,

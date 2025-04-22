@@ -36,12 +36,12 @@ class ProfessorInfoModal extends StatelessWidget {
             const ModalInfoRow(
               title: 'Email',
               description: '[email-professor@up.pt]',
-              icon: UniIcon(UniIcons.email, color: primaryVibrant),
+              icon: UniIcons.email,
             ),
             const ModalInfoRow(
               title: 'Sala',
               description: '[sala]',
-              icon: UniIcon(UniIcons.location, color: primaryVibrant),
+              icon: UniIcons.location,
             ),
           ],
         ),

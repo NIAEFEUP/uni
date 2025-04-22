@@ -12,7 +12,7 @@ class ModalInfoRow extends StatelessWidget {
 
   final String title;
   final String? description;
-  final UniData icon;
+  final IconData icon;
   final void Function()? onPressed;
   final Widget trailing;
 
