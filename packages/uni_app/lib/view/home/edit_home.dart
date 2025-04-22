@@ -5,7 +5,6 @@ import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets/edit/draggable_square.dart';
 import 'package:uni/view/home/widgets/edit/draggable_tile.dart';
-import 'package:uni_ui/icons.dart';
 
 class EditHomeView extends StatefulWidget {
   const EditHomeView({super.key});
@@ -15,48 +14,18 @@ class EditHomeView extends StatefulWidget {
 }
 
 class EditHomeViewState extends State<EditHomeView> {
-  List<DraggableTile> activeCards = [];
-  List<DraggableSquare> listlessCards = [];
+  List<FavoriteWidgetType> activeCards = [];
+  List<FavoriteWidgetType> listlessCards = [];
 
-  (String, Icon) formatDraggableTile(FavoriteWidgetType favorite) {
-    String title;
-    Icon icon;
-
-    switch (favorite.name) {
-      case 'schedule':
-        title = 'Schedule';
-        icon = const UniIcon(UniIcons.lecture);
-      case 'exams':
-        title = 'Exams';
-        icon = const UniIcon(UniIcons.exam);
-      case 'library':
-        title = 'Library';
-        icon = const UniIcon(UniIcons.library);
-      case 'restaurants':
-        title = 'Restaurants';
-        icon = const UniIcon(UniIcons.restaurant);
-      case 'calendar':
-        title = 'Calendar';
-        icon = const UniIcon(UniIcons.calendar);
-      case 'ucs':
-        title = 'UCS';
-        icon = const UniIcon(UniIcons.graduationCap);
-      default:
-        title = '';
-        icon = const UniIcon(UniIcons.graduationCap);
-    }
-    return (title, icon);
-  }
-
-  void removeActiveWhileDragging(DraggableTile draggable) {
+  void removeActiveWhileDragging(FavoriteWidgetType widgetType) {
     setState(() {
-      activeCards.remove(draggable);
+      activeCards.remove(widgetType);
     });
   }
 
-  void removeListlessWhileDragging(DraggableSquare draggable) {
+  void removeListlessWhileDragging(FavoriteWidgetType widgetType) {
     setState(() {
-      listlessCards.remove(draggable);
+      listlessCards.remove(widgetType);
     });
   }
 
@@ -67,61 +36,30 @@ class EditHomeViewState extends State<EditHomeView> {
     const allCards = FavoriteWidgetType.values;
     final favoriteCards = PreferencesController.getFavoriteCards();
 
-    activeCards = favoriteCards.map((favorite) {
-      final data = formatDraggableTile(favorite);
-      return DraggableTile(
-        icon: data.$2,
-        title: data.$1,
-        callback: removeActiveWhileDragging,
-      );
-    }).toList();
+    activeCards = favoriteCards;
 
-    listlessCards =
-        allCards.where((card) => !favoriteCards.contains(card)).map((favorite) {
-      final data = formatDraggableTile(favorite);
-      return DraggableSquare(
-        icon: data.$2,
-        title: data.$1,
-        callback: removeListlessWhileDragging,
-      );
-    }).toList();
+    listlessCards = allCards
+        .where((widgetType) => !favoriteCards.contains(widgetType))
+        .toList();
   }
 
   void saveCards() {
-    PreferencesController.saveFavoriteCards(
-      activeCards
-          .map(
-            (tile) => FavoriteWidgetType.values.firstWhere(
-              (favorite) => favorite.name == tile.title.toLowerCase(),
-            ),
-          )
-          .toList(),
-    );
+    PreferencesController.saveFavoriteCards(activeCards);
   }
 
-  void addCard((String, Icon) card) {
+  void addCard(FavoriteWidgetType widgetType) {
     setState(() {
       activeCards.add(
-        DraggableTile(
-          icon: card.$2,
-          title: card.$1,
-          callback: removeActiveWhileDragging,
-        ),
+        widgetType,
       );
     });
 
     saveCards();
   }
 
-  void removeCard((String, Icon) card) {
+  void removeCard(FavoriteWidgetType widgetType) {
     setState(() {
-      listlessCards.add(
-        DraggableSquare(
-          icon: card.$2,
-          title: card.$1,
-          callback: removeListlessWhileDragging,
-        ),
-      );
+      listlessCards.add(widgetType);
     });
 
     saveCards();
@@ -146,7 +84,7 @@ class EditHomeViewState extends State<EditHomeView> {
               stops: [0, 1],
             ),
           ),
-          child: DragTarget<(String, Icon)>(
+          child: DragTarget<FavoriteWidgetType>(
             builder: (context, candidate, rejected) {
               return SafeArea(
                 child: Center(
@@ -163,7 +101,7 @@ class EditHomeViewState extends State<EditHomeView> {
           ),
         ),
       ),
-      body: DragTarget<(String, Icon)>(
+      body: DragTarget<FavoriteWidgetType>(
         builder: (context, candidate, rejected) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -172,7 +110,7 @@ class EditHomeViewState extends State<EditHomeView> {
               itemBuilder: (context, index) {
                 if (index.isEven) {
                   final dropIndex = (index / 2).floor();
-                  return DragTarget<(String, Icon)>(
+                  return DragTarget<FavoriteWidgetType>(
                     builder: (context, candidate, rejected) => Container(
                       height: 20,
                       margin: const EdgeInsets.only(top: 2, bottom: 2),
@@ -186,17 +124,10 @@ class EditHomeViewState extends State<EditHomeView> {
                     onAcceptWithDetails: (details) {
                       setState(() {
                         activeCards
-                          ..removeWhere(
-                            (tile) => tile.title == details.data.$1,
-                          )
+                          ..remove(details.data)
                           ..insert(
                             dropIndex,
-                            DraggableTile(
-                              key: ValueKey(details.data.$1),
-                              icon: details.data.$2,
-                              title: details.data.$1,
-                              callback: removeActiveWhileDragging,
-                            ),
+                            details.data,
                           );
                         saveCards();
                       });
@@ -204,7 +135,9 @@ class EditHomeViewState extends State<EditHomeView> {
                   );
                 } else {
                   final cardIndex = ((index - 1) / 2).floor();
-                  return activeCards[cardIndex];
+                  return DraggableTile(
+                      data: activeCards[cardIndex],
+                      callback: removeActiveWhileDragging);
                 }
               },
             ),
@@ -212,8 +145,13 @@ class EditHomeViewState extends State<EditHomeView> {
         },
         onAcceptWithDetails: (details) => addCard(details.data),
       ),
-      bottomNavigationBar: DragTarget<(String, Icon)>(
+      bottomNavigationBar: DragTarget<FavoriteWidgetType>(
         builder: (context, candidate, rejected) {
+          final listlessCardWidgets = listlessCards
+              .map((widgetType) => DraggableSquare(
+                  data: widgetType, callback: removeListlessWhileDragging))
+              .toList();
+
           return Container(
             padding: const EdgeInsets.symmetric(vertical: 35),
             height: 350,
@@ -244,9 +182,9 @@ class EditHomeViewState extends State<EditHomeView> {
                     spacing: 20,
                     runSpacing: 10,
                     children: candidate.isEmpty
-                        ? [...listlessCards]
+                        ? listlessCardWidgets
                         : [
-                            ...listlessCards,
+                            ...listlessCardWidgets,
                             ClipSmoothRect(
                               radius: SmoothBorderRadius(
                                 cornerRadius: 15,

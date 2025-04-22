@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/view/home/widgets/edit/draggable_element.dart';
+import 'package:uni/view/home/widgets/edit/draggable_utils.dart';
 
 class DraggableSquare extends StatelessWidget {
   const DraggableSquare({
     super.key,
-    required this.icon,
-    required this.title,
+    required this.data,
     this.callback,
   });
 
-  final Icon icon;
-  final String title;
-  final void Function(DraggableSquare)? callback;
+  final FavoriteWidgetType data;
+  final void Function(FavoriteWidgetType widgetType)? callback;
 
   void activeCallback() {
+    final callback = this.callback;
     if (callback != null) {
-      callback!.call(this);
+      callback(data);
     }
   }
 
@@ -23,45 +24,52 @@ class DraggableSquare extends StatelessWidget {
   Widget build(BuildContext context) {
     return DraggableElement(
       callback: activeCallback,
-      data: (title, icon),
-      feedback: Container(
-        decoration:
-            BoxDecoration(color: Theme.of(context).colorScheme.secondary),
-        width: 75,
-        height: 75,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            icon,
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-          ],
-        ),
-      ),
-      child: Container(
-        decoration:
-            BoxDecoration(color: Theme.of(context).colorScheme.secondary),
-        width: 75,
-        height: 75,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            icon,
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-          ],
-        ),
-      ),
+      data: data,
+      feedbackBuilder: (context, data) {
+        final (title, icon) = formatDraggableTile(data);
+        return Container(
+          decoration:
+              BoxDecoration(color: Theme.of(context).colorScheme.secondary),
+          width: 75,
+          height: 75,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              icon,
+              const SizedBox(
+                height: 5,
+              ),
+              Text(
+                title,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
+          ),
+        );
+      },
+      childBuilder: (context, data) {
+        final (title, icon) = formatDraggableTile(data);
+
+        return Container(
+          decoration:
+              BoxDecoration(color: Theme.of(context).colorScheme.secondary),
+          width: 75,
+          height: 75,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              icon,
+              const SizedBox(
+                height: 5,
+              ),
+              Text(
+                title,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

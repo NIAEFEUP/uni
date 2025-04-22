@@ -1,18 +1,18 @@
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 
-class DraggableElement extends StatelessWidget {
+class DraggableElement<T extends Object> extends StatelessWidget {
   const DraggableElement({
     super.key,
-    required this.child,
-    required this.feedback,
+    required this.childBuilder,
+    required this.feedbackBuilder,
     required this.data,
     this.callback,
   });
 
-  final Widget child;
-  final Widget feedback;
-  final Object data;
+  final T data;
+  final Widget Function(BuildContext context, T data) childBuilder;
+  final Widget Function(BuildContext context, T data) feedbackBuilder;
   final void Function()? callback;
 
   @override
@@ -25,11 +25,12 @@ class DraggableElement extends StatelessWidget {
           cornerRadius: 15,
           cornerSmoothing: 1,
         ),
-        child: feedback,
+        child: feedbackBuilder(context, data),
       ),
       onDragStarted: () {
+        final callback = this.callback;
         if (callback != null) {
-          callback!.call();
+          callback();
         }
       },
       child: ClipSmoothRect(
@@ -37,7 +38,7 @@ class DraggableElement extends StatelessWidget {
           cornerRadius: 15,
           cornerSmoothing: 1,
         ),
-        child: child,
+        child: childBuilder(context, data),
       ),
     );
   }
