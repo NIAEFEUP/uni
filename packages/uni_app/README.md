@@ -73,7 +73,7 @@ Example:
 ```
 
 Note:
-[ARB Editor VS Code extension](https://marketplace.visualstudio.com/items?itemName=Google.arb-editor) its useful to edit `.arb` files.
+[ARB Editor VS Code extension](https://marketplace.visualstudio.com/items?itemName=Google.arb-editor) it's useful to edit `.arb` files.
 
 2. Generate the `.dart` files by running:
 ```sh
