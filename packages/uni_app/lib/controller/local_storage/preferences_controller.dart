@@ -182,6 +182,13 @@ class PreferencesController {
     await _secureStorage.delete(key: _userSession);
   }
 
+  static Future<void> setDefaultCards() async {
+    await prefs.setStringList(
+      _favoriteCards,
+      _homeDefaultcards.map((elem) => elem.name).toList(),
+    );
+  }
+
   static Future<void> saveFavoriteCards(
     List<FavoriteWidgetType> newFavorites,
   ) async {
