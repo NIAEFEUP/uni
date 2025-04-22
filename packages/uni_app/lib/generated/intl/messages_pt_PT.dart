@@ -355,6 +355,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Problemas ao iniciar sessão?"),
         "uc_info": MessageLookupByLibrary.simpleMessage("Abrir página da UC"),
         "unavailable": MessageLookupByLibrary.simpleMessage("Indisponível"),
+        "until": MessageLookupByLibrary.simpleMessage("Até"),
         "valid_email": MessageLookupByLibrary.simpleMessage(
             "Por favor insere um email válido"),
         "widget_prompt": MessageLookupByLibrary.simpleMessage(
