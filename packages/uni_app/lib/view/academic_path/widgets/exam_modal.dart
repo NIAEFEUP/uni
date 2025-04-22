@@ -2,6 +2,7 @@ import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/utils/date_time_formatter.dart';
@@ -13,9 +14,9 @@ import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
 
 class ExamModal extends StatelessWidget {
-  final Exam exam;
-
   const ExamModal({super.key, required this.exam});
+  
+  final Exam exam;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,7 @@ class ExamModal extends StatelessWidget {
           ),
         ),
         ModalInfoRow(
-          title: 'Add to the calendar',
+          title: S.of(context).add_to_calendar,
           icon: UniIcons.calendar,
           trailing: UniIcon(
             UniIcons.caretRight,
@@ -69,7 +70,7 @@ class ExamModal extends StatelessWidget {
           },
         ),
         ModalInfoRow(
-          title: 'View course details',
+          title: S.of(context).view_course_details,
           icon: UniIcons.courseUnit,
           trailing: UniIcon(
             UniIcons.caretRight,
@@ -97,7 +98,7 @@ class ExamModal extends StatelessWidget {
           },
         ),
         ModalInfoRow(
-          title: 'Rooms',
+          title: S.of(context).room,
           description: exam.rooms.join(', '),
           icon: UniIcons.mapPin,
         ),

@@ -402,5 +402,9 @@
   "email": "Email",
   "@email": {},
   "now": "Agora",
-  "@now": {}
+  "@now": {},
+  "add_to_calendar": "Adicionar ao calendário",
+  "@add_to_calendar": {},
+  "view_course_details": "Ver detalhes da Unidade Curricular",
+  "@view_course_details": {}
 }
