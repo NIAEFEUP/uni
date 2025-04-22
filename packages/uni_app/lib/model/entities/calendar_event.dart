@@ -8,6 +8,13 @@ part '../../generated/model/entities/calendar_event.g.dart';
 @JsonSerializable()
 @Entity()
 class CalendarEvent {
+  CalendarEvent({
+    required this.name,
+    this.startDate,
+    this.endDate,
+  });
+  factory CalendarEvent.fromJson(Map<String, dynamic> json) =>
+      _$CalendarEventFromJson(json);
   String name;
 
   @JsonKey(name: 'start_date')
@@ -18,15 +25,6 @@ class CalendarEvent {
 
   @Id()
   int? uniqueId;
-
-  CalendarEvent({
-    required this.name,
-    this.startDate,
-    this.endDate,
-  });
-
-  factory CalendarEvent.fromJson(Map<String, dynamic> json) =>
-      _$CalendarEventFromJson(json);
 
   /// Formats the event's date range into a two-part list: [dateRange, year].
   /// Returns ['TBD', ''] if startDate is null.
