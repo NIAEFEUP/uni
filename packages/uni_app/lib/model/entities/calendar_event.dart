@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uni/generated/l10n.dart';
 
-part '../../generated/model/entities/calendar_event.g.dart';
+part 'package:uni/generated/model/entities/calendar_event.g.dart';
 
 @JsonSerializable()
 class CalendarEvent {
