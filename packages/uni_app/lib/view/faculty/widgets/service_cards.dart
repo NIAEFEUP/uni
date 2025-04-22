@@ -95,67 +95,63 @@ class AllServiceCardsState extends State<AllServiceCards> {
       ),
     ];
 
-    return Padding(
-      padding: const EdgeInsets.all(7),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              const SizedBox(width: 20),
-              Text(
-                'Services',
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
-              const Spacer(),
-              IconButton(
-                onPressed: changeCardsToList,
-                icon: const UniIcon(UniIcons.list),
-              ),
-              IconButton(
-                onPressed: changeCardsToGrid,
-                icon: const UniIcon(UniIcons.grid),
-              ),
-            ],
-          ),
-          const SizedBox(height: 7),
-          LayoutBuilder(
-            builder: (context, constraints) {
-              if (isGrid) {
-                const spacing = 7.0;
-                final itemWidth = (constraints.maxWidth - spacing * 2) / 2;
+    return Column(
+      children: [
+        Row(
+          children: [
+            Text(
+              'Services',
+              style: Theme.of(context).textTheme.headlineLarge,
+            ),
+            const Spacer(),
+            IconButton(
+              onPressed: changeCardsToList,
+              icon: const UniIcon(UniIcons.list),
+            ),
+            IconButton(
+              onPressed: changeCardsToGrid,
+              icon: const UniIcon(UniIcons.grid),
+            ),
+          ],
+        ),
+        const SizedBox(height: 7),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            if (isGrid) {
+              const spacing = 7.0;
+              final itemWidth = (constraints.maxWidth - spacing * 2) / 2;
 
-                return Wrap(
-                  spacing: spacing,
-                  runSpacing: spacing,
-                  children: services
-                      .map(
-                        (service) => SizedBox(
-                          width: itemWidth,
-                          child: service,
+              return Wrap(
+                spacing: spacing,
+                runSpacing: spacing,
+                children: services
+                    .map(
+                      (service) => SizedBox(
+                        width: itemWidth,
+                        child: service,
+                      ),
+                    )
+                    .toList(),
+              );
+            } else {
+              return Column(
+                children: services
+                    .map(
+                      (service) => Padding(
+                        padding: const EdgeInsetsDirectional.only(
+                          start: 7,
+                          end: 7,
+                          bottom: 7,
                         ),
-                      )
-                      .toList(),
-                );
-              } else {
-                return Column(
-                  children: services
-                      .map(
-                        (service) => Padding(
-                          padding: const EdgeInsetsDirectional.only(
-                            start: 7,
-                            end: 7,
-                            bottom: 7,
-                          ),
-                          child: service,
-                        ),
-                      )
-                      .toList(),
-                );
-              }
-            },
-          ),
-        ],
-      ),
+                        child: service,
+                      ),
+                    )
+                    .toList(),
+              );
+            }
+          },
+        ),
+      ],
     );
   }
 }

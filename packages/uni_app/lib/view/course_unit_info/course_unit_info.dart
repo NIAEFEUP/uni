@@ -27,8 +27,20 @@ class CourseUnitDetailPageView extends StatefulWidget {
 }
 
 class CourseUnitDetailPageViewState
-    extends SecondaryPageViewState<CourseUnitDetailPageView> {
+    extends SecondaryPageViewState<CourseUnitDetailPageView>
+    with SingleTickerProviderStateMixin {
   List<Exam> courseUnitExams = [];
+
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(
+      vsync: this,
+      length: 3,
+    );
+  }
 
   Future<void> loadInfo({required bool force}) async {
     final courseUnitsProvider =
@@ -75,34 +87,26 @@ class CourseUnitDetailPageViewState
 
   @override
   Widget? getHeader(BuildContext context) {
-    return null;
+    return TabBar(
+      controller: tabController,
+      dividerHeight: 1,
+      tabs: [
+        TabIcon(icon: UniIcons.notebook, text: S.of(context).course_info),
+        TabIcon(icon: UniIcons.classes, text: S.of(context).course_class),
+        TabIcon(icon: UniIcons.files, text: S.of(context).files),
+      ],
+    );
   }
 
   @override
   Widget getBody(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TabBar(
-            tabs: [
-              TabIcon(icon: UniIcons.notebook, text: S.of(context).course_info),
-              TabIcon(icon: UniIcons.classes, text: S.of(context).course_class),
-              TabIcon(icon: UniIcons.files, text: S.of(context).files),
-            ],
-          ),
-          Expanded(
-            child: TabBarView(
-              children: [
-                _courseUnitSheetView(context),
-                _courseUnitClassesView(context),
-                _courseUnitFilesView(context),
-              ],
-            ),
-          ),
-        ],
-      ),
+    return TabBarView(
+      controller: tabController,
+      children: [
+        _courseUnitSheetView(context),
+        _courseUnitClassesView(context),
+        _courseUnitFilesView(context),
+      ],
     );
   }
 

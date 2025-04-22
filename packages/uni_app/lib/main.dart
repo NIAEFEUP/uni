@@ -14,6 +14,7 @@ import 'package:ua_client_hints/ua_client_hints.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
 import 'package:uni/controller/cleanup.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
+import 'package:uni/controller/local_storage/migrations/migration_controller.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
@@ -54,6 +55,8 @@ import 'package:uni_ui/theme.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:workmanager/workmanager.dart';
 
+import 'controller/local_storage/database/database.dart';
+
 SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
 }
@@ -73,6 +76,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   PreferencesController.prefs = await SharedPreferences.getInstance();
+
+  await MigrationController.runMigrations();
 
   final stateProviders = StateProviders(
     LectureProvider(),
@@ -95,6 +100,9 @@ Future<void> main() async {
     workerStartCallback,
     isInDebugMode: !kReleaseMode,
   );
+
+  // NoSQL database initialization
+  await Database().init();
 
   // Read environment, which may include app tokens
   await dotenv

@@ -66,9 +66,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "account_card_title":
             MessageLookupByLibrary.simpleMessage("Conta Corrente"),
         "add": MessageLookupByLibrary.simpleMessage("Adicionar"),
+        "add_photo": MessageLookupByLibrary.simpleMessage("Adicionar foto"),
         "add_quota": MessageLookupByLibrary.simpleMessage("Adicionar quota"),
         "add_restaurants":
             MessageLookupByLibrary.simpleMessage("Adicione restaurantes"),
+        "add_to_calendar":
+            MessageLookupByLibrary.simpleMessage("Adicionar ao calendário"),
         "add_widget": MessageLookupByLibrary.simpleMessage("Adicionar widget"),
         "agree_terms": MessageLookupByLibrary.simpleMessage(
             "Ao entrares confirmas que concordas com estes"),
@@ -91,6 +94,14 @@ class MessageLookup extends MessageLookupByLibrary {
             "Encontraste algum bug na aplicação?\nTens alguma sugestão para a app?\nConta-nos para que possamos melhorar!"),
         "bug_description": MessageLookupByLibrary.simpleMessage(
             "Bug encontrado, como o reproduzir, etc"),
+        "bug_description_Suggestion":
+            MessageLookupByLibrary.simpleMessage("Sugestão"),
+        "bug_description_error": MessageLookupByLibrary.simpleMessage("Erro"),
+        "bug_description_other": MessageLookupByLibrary.simpleMessage("Outro"),
+        "bug_description_unexpected_behaviour":
+            MessageLookupByLibrary.simpleMessage("Comportamento Inesperado"),
+        "bug_description_visual_detail":
+            MessageLookupByLibrary.simpleMessage("Detalhe Visual"),
         "bus_error": MessageLookupByLibrary.simpleMessage(
             "Não foi possível obter informação"),
         "bus_information": MessageLookupByLibrary.simpleMessage(
@@ -162,6 +173,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "fail_to_authenticate":
             MessageLookupByLibrary.simpleMessage("Falha ao autenticar"),
         "failed_login": MessageLookupByLibrary.simpleMessage("O login falhou"),
+        "failed_upload":
+            MessageLookupByLibrary.simpleMessage("Falha de carregamento"),
         "favorite_filter": MessageLookupByLibrary.simpleMessage("Favoritos"),
         "fee_date": MessageLookupByLibrary.simpleMessage("Data limite"),
         "fee_notification":
@@ -355,8 +368,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "Problemas ao iniciar sessão?"),
         "uc_info": MessageLookupByLibrary.simpleMessage("Abrir página da UC"),
         "unavailable": MessageLookupByLibrary.simpleMessage("Indisponível"),
+        "until": MessageLookupByLibrary.simpleMessage("Até"),
         "valid_email": MessageLookupByLibrary.simpleMessage(
             "Por favor insere um email válido"),
+        "view_course_details": MessageLookupByLibrary.simpleMessage(
+            "Ver detalhes da Unidade Curricular"),
         "widget_prompt": MessageLookupByLibrary.simpleMessage(
             "Escolhe um widget para adicionares à tua área pessoal:"),
         "wrong_credentials_exception":
