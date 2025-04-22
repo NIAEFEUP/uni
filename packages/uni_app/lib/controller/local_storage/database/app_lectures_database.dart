@@ -16,11 +16,11 @@ class AppLecturesDatabase extends AppDatabase<List<Lecture>> {
             createScript,
           ],
           onUpgrade: migrate,
-          version: 11,
+          version: 12,
         );
   static const createScript = '''
 CREATE TABLE lectures(acronym TEXT, subject TEXT, typeClass TEXT,
-          startTime TEXT, endTime TEXT, room TEXT, teacher TEXT, classNumber TEXT, occurrId INTEGER)''';
+          startTime TEXT, endTime TEXT, room TEXT, teacher TEXT, teacherName TEXT, teacherId INTEGER, classNumber TEXT, occurrId INTEGER)''';
 
   /// Returns a list containing all of the lectures stored in this database.
   Future<List<Lecture>> lectures() async {
