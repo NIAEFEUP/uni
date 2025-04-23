@@ -9,17 +9,21 @@ import 'package:uni/view/common_widgets/pages_layouts/general/widgets/top_naviga
 abstract class SecondaryPageViewState<T extends StatefulWidget>
     extends GeneralPageViewState<T> {
   @override
-  Scaffold getScaffold(BuildContext context, Widget body) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: getTopNavbar(context),
-      bottomNavigationBar: const AppBottomNavbar(),
-      body: RefreshState(
-        onRefresh: onRefresh,
-        header: getHeader(context),
-        body: Padding(
-          padding: const EdgeInsets.only(right: 20, left: 20, bottom: 10),
-          child: getBody(context),
+  Widget getScaffold(BuildContext context, Widget body) {
+    return MediaQuery.removePadding(
+      context: context,
+      removeBottom: true,
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        appBar: getTopNavbar(context),
+        bottomNavigationBar: const AppBottomNavbar(),
+        body: RefreshState(
+          onRefresh: onRefresh,
+          header: getHeader(context),
+          body: Padding(
+            padding: const EdgeInsets.only(right: 20, left: 20, bottom: 10),
+            child: getBody(context),
+          ),
         ),
       ),
     );
