@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/lecture.dart';
@@ -84,46 +85,52 @@ class HomePageViewState extends State<HomePageView> {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.removePadding(
-      context: context,
-      removeBottom: true,
-      child: Scaffold(
-        extendBody: true,
-        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Theme.of(context).primaryColor,
-          foregroundColor: Colors.white,
-          shape: const CircleBorder(),
-          onPressed: () => {
-            Navigator.pushNamed(
-              context,
-              '/${NavigationItem.navEditPersonalArea.route}',
-            ),
-          },
-          child: const UniIcon(UniIcons.edit),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        appBar: homeAppBar(context),
-        bottomNavigationBar: const AppBottomNavbar(),
-        body: RefreshIndicator(
-          onRefresh: () async => refreshPage(context),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-            child: ListView.separated(
-              itemCount: favoriteCards.length + 1,
-              separatorBuilder: (_, __) => const SizedBox(
-                height: 10,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+      ),
+      child: MediaQuery.removePadding(
+        context: context,
+        removeBottom: true,
+        child: Scaffold(
+          extendBody: true,
+          floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Theme.of(context).primaryColor,
+            foregroundColor: Colors.white,
+            shape: const CircleBorder(),
+            onPressed: () => {
+              Navigator.pushNamed(
+                context,
+                '/${NavigationItem.navEditPersonalArea.route}',
               ),
-              itemBuilder: (_, index) {
-                if (index == 0) {
-                  return Visibility(
-                    visible: !isBannerViewed,
-                    child: TrackingBanner(setBannerViewed),
-                  );
-                } else {
-                  return typeToCard[favoriteCards[index - 1]];
-                }
-              },
+            },
+            child: const UniIcon(UniIcons.edit),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          appBar: homeAppBar(context),
+          bottomNavigationBar: const AppBottomNavbar(),
+          body: RefreshIndicator(
+            onRefresh: () async => refreshPage(context),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+              child: ListView.separated(
+                itemCount: favoriteCards.length + 1,
+                separatorBuilder: (_, __) => const SizedBox(
+                  height: 10,
+                ),
+                itemBuilder: (_, index) {
+                  if (index == 0) {
+                    return Visibility(
+                      visible: !isBannerViewed,
+                      child: TrackingBanner(setBannerViewed),
+                    );
+                  } else {
+                    return typeToCard[favoriteCards[index - 1]];
+                  }
+                },
+              ),
             ),
           ),
         ),
