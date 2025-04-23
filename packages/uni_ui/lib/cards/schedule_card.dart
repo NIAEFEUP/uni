@@ -97,7 +97,7 @@ class ScheduleCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 8), //TODO: create gap()?
                     SizedBox(
-                      width: 150,
+                      width: 140,
                       child: Text(
                         teacherName!,
                         overflow: TextOverflow.ellipsis,
