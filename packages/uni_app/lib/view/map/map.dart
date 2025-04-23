@@ -81,15 +81,18 @@ class MapPageStateView extends State<MapPage> {
                 Align(
                   alignment: Alignment.bottomRight,
                   child: ColoredBox(
-                    color:
-                        Theme.of(context).colorScheme.onPrimary.withOpacity(0.8),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onPrimary
+                        .withOpacity(0.8),
                     child: GestureDetector(
                       onTap: () => launchUrlWithToast(
                         context,
                         'https://www.openstreetmap.org/copyright',
                       ),
                       child: const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                         child: MouseRegion(
                           cursor: SystemMouseCursors.click,
                           child: Text('©OpenStreetMap @CARTO'),
@@ -119,7 +122,9 @@ class MapPageStateView extends State<MapPage> {
                       builder: (_, marker) {
                         if (marker is LocationMarker) {
                           return marker.locationGroup.isFloorless
-                              ? FloorlessLocationMarkerPopup(marker.locationGroup)
+                              ? FloorlessLocationMarkerPopup(
+                                  marker.locationGroup,
+                                )
                               : LocationMarkerPopup(marker.locationGroup);
                         }
                         return const Card(child: Text(''));
@@ -129,8 +134,10 @@ class MapPageStateView extends State<MapPage> {
                 ),
                 SafeArea(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
                     child: PhysicalModel(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
