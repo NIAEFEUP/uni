@@ -204,7 +204,16 @@ class PreferencesController {
   ) async {
     await prefs.setStringList(
       _favoriteCards,
-      newFavorites.map((elem) => elem.name).toList(),
+      newFavorites
+          .fold(<FavoriteWidgetType>[], (toStore, widgetType) {
+            if (!toStore.contains(widgetType)) {
+              toStore.add(widgetType);
+            }
+
+            return toStore;
+          })
+          .map((elem) => elem.name)
+          .toList(),
     );
   }
 
