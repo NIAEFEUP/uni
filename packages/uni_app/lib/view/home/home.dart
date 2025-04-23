@@ -15,6 +15,7 @@ import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
+import 'package:uni/view/home/widgets/calendar/calendar_home_card.dart';
 import 'package:uni/view/home/widgets/exams/exam_home_card.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/library/library_home_card.dart';
@@ -85,6 +86,27 @@ class HomePageViewState extends State<HomePageView> {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< Updated upstream
+=======
+    final typeToCard = {
+      FavoriteWidgetType.schedule: ScheduleHomeCard(
+        title: S.of(context).schedule,
+      ),
+      FavoriteWidgetType.exams: ExamHomeCard(
+        title: S.of(context).exams,
+      ),
+      FavoriteWidgetType.library: LibraryHomeCard(
+        title: S.of(context).library_occupation,
+      ),
+      FavoriteWidgetType.restaurants: RestaurantHomeCard(
+        title: S.of(context).restaurants,
+      ),
+      FavoriteWidgetType.calendar: CalendarHomeCard(
+        title: S.of(context).calendar,
+      ), //  TODO: enable this when dates are properly formatted
+    };
+
+>>>>>>> Stashed changes
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
