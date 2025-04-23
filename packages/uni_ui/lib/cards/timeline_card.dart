@@ -6,18 +6,20 @@ class TimelineItem extends StatelessWidget {
       required this.subtitle,
       required this.card,
       this.isActive = false,
+      this.titleWidth = 50,
       super.key});
 
   final String title;
   final String subtitle;
   final Widget card;
   final bool isActive;
+  final double titleWidth;
 
   @override
   Widget build(BuildContext context) {
     return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Container(
-        width: 50,
+        width: titleWidth,
         child: Column(
           children: [
             Text(title, style: Theme.of(context).textTheme.bodyLarge),

@@ -24,6 +24,7 @@ class UniIcons {
   static const folderClosed = PhosphorIconsDuotone.folderSimple;
 
   static const caretDown = PhosphorIconsDuotone.caretDown;
+  static const caretDownRegular = PhosphorIconsRegular.caretDown;
   static const caretUp = PhosphorIconsDuotone.caretUp;
   static const caretRight = PhosphorIconsRegular.caretRight;
 
@@ -78,7 +79,13 @@ class UniIcons {
   static const arrowSquareOut = PhosphorIconsDuotone.arrowSquareOut;
   static const grid = PhosphorIconsDuotone.squaresFour;
   static const list = PhosphorIconsDuotone.listBullets;
+
+  static const island = PhosphorIconsDuotone.island;
+  static const beer = PhosphorIconsDuotone.beerStein;
+
   static const phone = PhosphorIconsDuotone.phone;
+
+  static const courseUnit = PhosphorIconsDuotone.chalkboardTeacher;
 }
 
 // The same as default Icon class from material.dart but allowing to use PhosphorIcons duotone icons

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:uni/model/entities/floor_occupation.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 
 /// Fetch the library occupation from Google Sheets

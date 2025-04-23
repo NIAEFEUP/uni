@@ -1,12 +1,10 @@
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
-import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
-import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets/edit/draggable_square.dart';
 import 'package:uni/view/home/widgets/edit/draggable_tile.dart';
-import 'package:uni_ui/icons.dart';
 
 class EditHomeView extends StatefulWidget {
   const EditHomeView({super.key});
@@ -16,197 +14,70 @@ class EditHomeView extends StatefulWidget {
 }
 
 class EditHomeViewState extends State<EditHomeView> {
-  List<DraggableTile> activeCards = [];
-  List<DraggableSquare> listlessCards = [];
+  List<FavoriteWidgetType> activeCards = [];
+  List<FavoriteWidgetType> listlessCards = [];
 
-  (String, Icon) formatDraggableTile(FavoriteWidgetType favorite) {
-    String title;
-    Icon icon;
-    switch (favorite.name) {
-      case 'schedule':
-        title = S.of(context).schedule;
-        icon = const UniIcon(UniIcons.lecture);
-      case 'exams':
-        title = S.of(context).exams;
-        icon = const UniIcon(UniIcons.exam);
-      case 'library':
-        title = S.of(context).library;
-        icon = const UniIcon(UniIcons.library);
-      case 'restaurants':
-        title = S.of(context).restaurants;
-        icon = const UniIcon(UniIcons.restaurant);
-      case 'calendar':
-        title = S.of(context).calendar;
-        icon = const UniIcon(UniIcons.calendar);
-      case 'ucs':
-        title = S.of(context).ucs;
-        icon = const UniIcon(UniIcons.graduationCap);
-      default:
-        title = '';
-        icon = const UniIcon(UniIcons.graduationCap);
-    }
-    return (title, icon);
-  }
-
-  void removeActiveWhileDragging(DraggableTile draggable) {
+  void removeActiveWhileDragging(FavoriteWidgetType widgetType) {
     setState(() {
-      activeCards.remove(draggable);
+      activeCards.remove(widgetType);
     });
   }
 
-  void removeListlessWhileDragging(DraggableSquare draggable) {
+  void removeListlessWhileDragging(FavoriteWidgetType widgetType) {
     setState(() {
-      listlessCards.remove(draggable);
+      listlessCards.remove(widgetType);
     });
   }
 
   @override
   void initState() {
     super.initState();
+
+    const allCards = FavoriteWidgetType.values;
+    final favoriteCards = PreferencesController.getFavoriteCards();
+
+    activeCards = favoriteCards;
+
+    listlessCards = allCards
+        .where((widgetType) => !favoriteCards.contains(widgetType))
+        .toList();
   }
 
   void saveCards() {
-    PreferencesController.saveFavoriteCards(
-      activeCards
-          .map(
-            (tile) => FavoriteWidgetType.values.firstWhere(
-              (favorite) => favorite.name == tile.title.toLowerCase(),
-            ),
-          )
-          .toList(),
-    );
+    PreferencesController.saveFavoriteCards(activeCards);
   }
 
-  void addCard((String, Icon) card) {
+  void addCard(FavoriteWidgetType widgetType) {
     setState(() {
       activeCards.add(
-        DraggableTile(
-          icon: card.$2,
-          title: card.$1,
-          callback: removeActiveWhileDragging,
-        ),
+        widgetType,
       );
     });
 
     saveCards();
   }
 
-  void removeCard((String, Icon) card) {
+  void removeCard(FavoriteWidgetType widgetType) {
     setState(() {
-      listlessCards.add(
-        DraggableSquare(
-          icon: card.$2,
-          title: card.$1,
-          callback: removeListlessWhileDragging,
-        ),
-      );
+      listlessCards.add(widgetType);
     });
 
     saveCards();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    const allCards = FavoriteWidgetType.values;
-    final favoriteCards = PreferencesController.getFavoriteCards();
-    activeCards = favoriteCards.map((favorite) {
-      final data = formatDraggableTile(favorite);
-      return DraggableTile(
-        icon: data.$2,
-        title: data.$1,
-        callback: removeActiveWhileDragging,
-      );
-    }).toList();
-
-    listlessCards =
-        allCards.where((card) => !favoriteCards.contains(card)).map((favorite) {
-      final data = formatDraggableTile(favorite);
-      return DraggableSquare(
-        icon: data.$2,
-        title: data.$1,
-        callback: removeListlessWhileDragging,
-      );
-    }).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(125),
-        child: Container(
-          height: 90,
-          decoration: const BoxDecoration(
-            gradient: RadialGradient(
-              colors: [
-                Color(0xFF280709),
-                Color(0xFF511515),
-              ],
-              center: Alignment.topLeft,
-              radius: 1.5,
-              stops: [0, 1],
-            ),
-          ),
-          child: DragTarget<(String, Icon)>(
-            builder: (context, candidate, rejected) {
-              return SafeArea(
-                child: Center(
-                  child: Text(
-                    S.of(context).drag_and_drop,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge, // titleMedium as in figma is with the wrong colors
-                  ),
-                ),
-              );
-            },
-            onAcceptWithDetails: (details) => removeCard(details.data),
-          ),
-        ),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
       ),
-      body: DragTarget<(String, Icon)>(
-        builder: (context, candidate, rejected) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: ListView.separated(
-              itemBuilder: (_, index) {
-                if (index < activeCards.length) {
-                  return activeCards[index];
-                } else if (candidate.isNotEmpty) {
-                  return ClipSmoothRect(
-                    radius: SmoothBorderRadius(
-                      cornerRadius: 15,
-                      cornerSmoothing: 1,
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .secondary
-                            .withOpacity(0.75),
-                      ),
-                      child: const ListTile(),
-                    ),
-                  );
-                }
-                return Container();
-              },
-              itemCount: activeCards.length + (candidate.isNotEmpty ? 1 : 0),
-              separatorBuilder: (_, __) => const SizedBox(
-                height: 15,
-              ),
-            ),
-          );
-        },
-        onAcceptWithDetails: (details) => addCard(details.data),
-      ),
-      bottomNavigationBar: DragTarget<(String, Icon)>(
-        builder: (context, candidate, rejected) {
-          return Container(
-            padding: const EdgeInsets.symmetric(vertical: 35),
-            height: 350,
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(125),
+          child: Container(
+            height: 90,
             decoration: const BoxDecoration(
               gradient: RadialGradient(
                 colors: [
@@ -218,59 +89,137 @@ class EditHomeViewState extends State<EditHomeView> {
                 stops: [0, 1],
               ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  S.of(context).available_elements,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge, // TODO: titleMedium not working
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: Wrap(
-                    alignment: WrapAlignment.center,
-                    spacing: 20,
-                    runSpacing: 10,
-                    children: candidate.isEmpty
-                        ? [...listlessCards]
-                        : [
-                            ...listlessCards,
-                            ClipSmoothRect(
-                              radius: SmoothBorderRadius(
-                                cornerRadius: 15,
-                                cornerSmoothing: 1,
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .secondary
-                                      .withOpacity(0.25),
-                                ),
-                                width: 75,
-                                height: 75,
-                              ),
-                            ),
-                          ],
+            child: DragTarget<FavoriteWidgetType>(
+              builder: (context, candidate, rejected) {
+                return SafeArea(
+                  child: Center(
+                    child: Text(
+                      'Drag and drop elements',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge, // titleMedium as in figma is with the wrong colors
+                    ),
                   ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .pushNamed('/${NavigationItem.navPersonalArea.route}');
-                  },
-                  child: Text(
-                    S.of(context).save,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                ),
-              ],
+                );
+              },
+              onAcceptWithDetails: (details) => removeCard(details.data),
             ),
-          );
-        },
-        onAcceptWithDetails: (details) => removeCard(details.data),
+          ),
+        ),
+        body: DragTarget<FavoriteWidgetType>(
+          builder: (context, candidate, rejected) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              child: ListView.builder(
+                itemCount: activeCards.length * 2 + 1,
+                itemBuilder: (context, index) {
+                  if (index.isEven) {
+                    final dropIndex = (index / 2).floor();
+                    return DragTarget<FavoriteWidgetType>(
+                      builder: (context, candidate, rejected) => Container(
+                        height: 20,
+                        margin: const EdgeInsets.only(top: 2, bottom: 2),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: candidate.isNotEmpty
+                              ? Theme.of(context).shadowColor.withOpacity(0.2)
+                              : Colors.transparent,
+                        ),
+                      ),
+                      onAcceptWithDetails: (details) {
+                        setState(() {
+                          activeCards
+                            ..remove(details.data)
+                            ..insert(
+                              dropIndex,
+                              details.data,
+                            );
+                          saveCards();
+                        });
+                      },
+                    );
+                  } else {
+                    final cardIndex = ((index - 1) / 2).floor();
+                    return DraggableTile(
+                      data: activeCards[cardIndex],
+                      callback: removeActiveWhileDragging,
+                    );
+                  }
+                },
+              ),
+            );
+          },
+          onAcceptWithDetails: (details) => addCard(details.data),
+        ),
+        bottomNavigationBar: DragTarget<FavoriteWidgetType>(
+          builder: (context, candidate, rejected) {
+            final listlessCardWidgets = listlessCards
+                .map(
+                  (widgetType) => DraggableSquare(
+                    data: widgetType,
+                    callback: removeListlessWhileDragging,
+                  ),
+                )
+                .toList();
+
+            return Container(
+              padding: const EdgeInsets.symmetric(vertical: 35),
+              height: 350,
+              decoration: const BoxDecoration(
+                gradient: RadialGradient(
+                  colors: [
+                    Color(0xFF280709),
+                    Color(0xFF511515),
+                  ],
+                  center: Alignment.topLeft,
+                  radius: 1.5,
+                  stops: [0, 1],
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Available elements',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge, // TODO: titleMedium not working
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 20,
+                      runSpacing: 10,
+                      children: candidate.isEmpty
+                          ? listlessCardWidgets
+                          : [
+                              ...listlessCardWidgets,
+                              ClipSmoothRect(
+                                radius: SmoothBorderRadius(
+                                  cornerRadius: 15,
+                                  cornerSmoothing: 1,
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary
+                                        .withOpacity(0.25),
+                                  ),
+                                  width: 75,
+                                  height: 75,
+                                ),
+                              ),
+                            ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+          onAcceptWithDetails: (details) => removeCard(details.data),
+        ),
       ),
     );
   }

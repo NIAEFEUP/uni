@@ -82,53 +82,49 @@ class CoursesPageState extends State<CoursesPage> {
 
   @override
   Widget build(BuildContext context) {
-    const bottomNavbarHeight = 120.0;
-
     return LazyConsumer<ProfileProvider, Profile>(
       builder: (context, profile) {
         final courses = profile.courses;
         final course = courses[courseUnitIndex];
 
-        return Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-          child: ListView(
-            children: [
-              Center(
-                child: CourseSelection(
-                  courseInfos: courses.map((course) {
-                    return CourseInfo(
-                      abbreviation: _getCourseAbbreviation(course),
-                      enrollmentYear: _getEnrollmentYear(course),
-                      conclusionYear: _getConclusionYear(course),
-                    );
-                  }).toList(),
-                  onSelected: _onCourseUnitSelected,
-                  selected: courseUnitIndex,
-                  nowText: S.of(context).now,
-                ),
+        return ListView(
+          padding: const EdgeInsets.only(top: 16),
+          children: [
+            Center(
+              child: CourseSelection(
+                courseInfos: courses.map((course) {
+                  return CourseInfo(
+                    abbreviation: _getCourseAbbreviation(course),
+                    enrollmentYear: _getEnrollmentYear(course),
+                    conclusionYear: _getConclusionYear(course),
+                  );
+                }).toList(),
+                onSelected: _onCourseUnitSelected,
+                selected: courseUnitIndex,
+                nowText: S.of(context).now,
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Text(
-                  course.name ?? '',
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Text(
+                course.name ?? '',
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 40, bottom: 8),
-                child: AverageBar(
-                  average: (course.currentAverage ?? 0).toDouble(),
-                  completedCredits: (course.finishedEcts ?? 0).toDouble(),
-                  totalCredits: _getTotalCredits(profile, course),
-                  statusText: course.state ?? '',
-                  averageText: S.of(context).average,
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 40, bottom: 8),
+              child: AverageBar(
+                average: (course.currentAverage ?? 0).toDouble(),
+                completedCredits: (course.finishedEcts ?? 0).toDouble(),
+                totalCredits: _getTotalCredits(profile, course),
+                statusText: course.state ?? '',
+                averageText: S.of(context).average,
               ),
-              CourseUnitsView(
-                course: course,
-              ),
-            ],
-          ),
+            ),
+            CourseUnitsView(
+              course: course,
+            ),
+          ],
         );
       },
       hasContent: (profile) => profile.courses.isNotEmpty,
@@ -136,9 +132,8 @@ class CoursesPageState extends State<CoursesPage> {
         // Band-aid for allowing refresh on null content
         builder: (context, constraints) => SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          child: Container(
-            height: constraints.maxHeight, // Height of bottom navbar
-            padding: const EdgeInsets.only(bottom: bottomNavbarHeight),
+          child: SizedBox(
+            height: constraints.maxHeight,
             child: const Center(
               child: NoCoursesWidget(),
             ),

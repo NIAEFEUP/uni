@@ -47,11 +47,8 @@ class ServicesCard extends StatelessWidget {
             if (location != null)
               ModalInfoRow(
                 title: S.of(context).location,
-                description: location!,
-                icon: UniIcon(
-                  UniIcons.location,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+                description: location,
+                icon: UniIcons.location,
               ),
             if (telephone != null)
               GestureDetector(
@@ -61,12 +58,9 @@ class ServicesCard extends StatelessWidget {
                 ),
                 child: ModalInfoRow(
                   title: S.of(context).telephone,
-                  description: telephone!,
-                  icon: UniIcon(
-                    UniIcons.phone,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  optionalIcon: UniIcon(
+                  description: telephone,
+                  icon: UniIcons.phone,
+                  trailing: UniIcon(
                     UniIcons.caretRight,
                     color: Theme.of(context).colorScheme.primary,
                   ),
@@ -77,12 +71,9 @@ class ServicesCard extends StatelessWidget {
                 onTap: () => launchUrlWithToast(context, 'mailto:$email'),
                 child: ModalInfoRow(
                   title: S.of(context).email,
-                  description: email!,
-                  icon: UniIcon(
-                    UniIcons.email,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  optionalIcon: UniIcon(
+                  description: email,
+                  icon: UniIcons.email,
+                  trailing: UniIcon(
                     UniIcons.caretRight,
                     color: Theme.of(context).colorScheme.primary,
                   ),

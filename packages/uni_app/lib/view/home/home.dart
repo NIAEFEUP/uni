@@ -1,4 +1,7 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
@@ -6,11 +9,13 @@ import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
+import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni/view/home/widgets/exams/exam_home_card.dart';
 import 'package:uni/view/home/widgets/library/library_home_card.dart';
 import 'package:uni/view/home/widgets/restaurants/restaurant_home_card.dart';
@@ -87,46 +92,53 @@ class HomePageViewState extends State<HomePageView> {
       ),
       // FavoriteWidgetType.calendar: const CalendarHomeCard(), TODO: enable this when dates are properly formatted
     };
-    return MediaQuery.removePadding(
-      context: context,
-      removeBottom: true,
-      child: Scaffold(
-        extendBody: true,
-        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Theme.of(context).primaryColor,
-          foregroundColor: Colors.white,
-          shape: const CircleBorder(),
-          onPressed: () => {
-            Navigator.pushNamed(
-              context,
-              '/${NavigationItem.navEditPersonalArea.route}',
-            ),
-          },
-          child: const UniIcon(UniIcons.edit),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        appBar: homeAppBar(context),
-        bottomNavigationBar: const AppBottomNavbar(),
-        body: RefreshIndicator(
-          onRefresh: () async => refreshPage(context),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-            child: ListView.separated(
-              itemCount: favoriteCards.length + 1,
-              separatorBuilder: (_, __) => const SizedBox(
-                height: 10,
+
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+      ),
+      child: MediaQuery.removePadding(
+        context: context,
+        removeBottom: true,
+        child: Scaffold(
+          extendBody: true,
+          floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Theme.of(context).primaryColor,
+            foregroundColor: Colors.white,
+            shape: const CircleBorder(),
+            onPressed: () => {
+              Navigator.pushNamed(
+                context,
+                '/${NavigationItem.navEditPersonalArea.route}',
               ),
-              itemBuilder: (_, index) {
-                if (index == 0) {
-                  return Visibility(
-                    visible: !isBannerViewed,
-                    child: TrackingBanner(setBannerViewed),
-                  );
-                } else {
-                  return typeToCard[favoriteCards[index - 1]];
-                }
-              },
+            },
+            child: const UniIcon(UniIcons.edit),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          appBar: homeAppBar(context),
+          bottomNavigationBar: const AppBottomNavbar(),
+          body: RefreshIndicator(
+            onRefresh: () async => refreshPage(context),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+              child: ListView.separated(
+                itemCount: favoriteCards.length + 1,
+                separatorBuilder: (_, __) => const SizedBox(
+                  height: 10,
+                ),
+                itemBuilder: (_, index) {
+                  if (index == 0) {
+                    return Visibility(
+                      visible: !isBannerViewed,
+                      child: TrackingBanner(setBannerViewed),
+                    );
+                  } else {
+                    return typeToCard[favoriteCards[index - 1]];
+                  }
+                },
+              ),
             ),
           ),
         ),
@@ -166,7 +178,7 @@ class HomePageViewState extends State<HomePageView> {
                 LazyConsumer<LectureProvider, List<Lecture>>(
                   builder: (context, lectures) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
-                      if (lectures.isNotEmpty) {
+                      if (lectures.isNotEmpty && appBarSize != 200) {
                         setState(() {
                           appBarSize = 200;
                         });
@@ -179,6 +191,29 @@ class HomePageViewState extends State<HomePageView> {
                         acronym: lectures[0].acronym,
                         room: lectures[0].room,
                         type: lectures[0].typeClass,
+                        onTap: () {
+                          final profile = Provider.of<ProfileProvider>(
+                            context,
+                            listen: false,
+                          ).state;
+                          if (profile != null) {
+                            final courseUnit =
+                                profile.courseUnits.firstWhereOrNull(
+                              (unit) =>
+                                  unit.abbreviation == lectures[0].acronym,
+                            );
+                            if (courseUnit != null &&
+                                courseUnit.occurrId != null) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<CourseUnitDetailPageView>(
+                                  builder: (context) =>
+                                      CourseUnitDetailPageView(courseUnit),
+                                ),
+                              );
+                            }
+                          }
+                        },
                       ),
                     );
                   },

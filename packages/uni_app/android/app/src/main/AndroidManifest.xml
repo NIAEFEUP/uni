@@ -1,8 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <application
-        android:label="uni" 
-        android:icon="@mipmap/ic_launcher"
+        android:label="uni"
+        android:name="${applicationName}"
+        android:icon="@mipmap/launcher_icon"
         android:usesCleartextTraffic="true"
         android:allowBackup="false"
     >
@@ -80,13 +81,16 @@
                 android:mimeType="vnd.android.cursor.item/event"/>
         </intent>
     </queries>
-    <uses-permission
-        android:name="android.permission.USE_FULL_SCREEN_INTENT"
-        tools:node="remove"/>
-    <uses-permission
-        android:name="android.permission.INTERNET"/>
-    <uses-permission
-        android:name="android.permission.WRITE_CALENDAR"/>
-    <uses-permission
-        android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" tools:node="remove" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <!-- No permission is needed to add files to shared storage on Android 10 (API level 29) or higher  -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+
+
+    <!-- Devices running Android 13 (API level 33) or higher -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    
 </manifest>
+

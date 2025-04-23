@@ -4,11 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni_ui/icons.dart';
+// import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
-import 'package:uni_ui/modal/widgets/info_row.dart';
+// import 'package:uni_ui/modal/widgets/info_row.dart';
 import 'package:uni_ui/modal/widgets/person_info.dart';
-import 'package:uni_ui/theme.dart';
 
 class ProfessorInfoModal extends StatelessWidget {
   const ProfessorInfoModal(this.professor, {super.key});
@@ -19,32 +18,35 @@ class ProfessorInfoModal extends StatelessWidget {
     final session = context.read<SessionProvider>().state!;
     return ModalDialog(
       children: [
-        Column(
-          children: [
-            FutureBuilder<File?>(
-              builder: (context, snapshot) => ModalPersonInfo(
-                name: professor.name,
-                image: snapshot.hasData && snapshot.data != null
-                    ? Image(image: FileImage(snapshot.data!))
-                    : Image.asset('assets/images/profile_placeholder.png'),
-              ),
-              future: ProfileProvider.fetchOrGetCachedProfilePicture(
-                session,
-                studentNumber: int.parse(professor.code),
-              ),
-            ),
-            const ModalInfoRow(
-              title: 'Email',
-              description: '[email-professor@up.pt]',
-              icon: UniIcon(UniIcons.email, color: primaryVibrant),
-            ),
-            const ModalInfoRow(
-              title: 'Sala',
-              description: '[sala]',
-              icon: UniIcon(UniIcons.location, color: primaryVibrant),
-            ),
-          ],
+        FutureBuilder<File?>(
+          builder: (context, snapshot) => ModalPersonInfo(
+            name: professor.name,
+            image: snapshot.hasData && snapshot.data != null
+                ? Image(image: FileImage(snapshot.data!))
+                : Image.asset('assets/images/profile_placeholder.png'),
+          ),
+          future: ProfileProvider.fetchOrGetCachedProfilePicture(
+            session,
+            studentNumber: int.parse(professor.code),
+          ),
         ),
+        // Professor model hasn't the necessary fields
+        /*
+        ModalInfoRow(
+          title: 'Email',
+          description: '[email-professor@up.pt]',
+          icon: UniIcons.email,
+          trailing: UniIcon(
+            UniIcons.caretRight,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+        const ModalInfoRow(
+          title: 'Sala',
+          description: '[sala]',
+          icon: UniIcons.location,
+        ),
+        */
       ],
     );
   }
