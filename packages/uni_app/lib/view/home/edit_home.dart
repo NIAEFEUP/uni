@@ -2,6 +2,7 @@ import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/view/home/widgets/edit/draggable_square.dart';
 import 'package:uni/view/home/widgets/edit/draggable_tile.dart';
@@ -94,7 +95,7 @@ class EditHomeViewState extends State<EditHomeView> {
                 return SafeArea(
                   child: Center(
                     child: Text(
-                      'Drag and drop elements',
+                      S.of(context).drag_and_drop,
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge, // titleMedium as in figma is with the wrong colors
@@ -180,7 +181,7 @@ class EditHomeViewState extends State<EditHomeView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Available elements',
+                    S.of(context).available_elements,
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge, // TODO: titleMedium not working
