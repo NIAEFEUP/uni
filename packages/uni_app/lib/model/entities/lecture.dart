@@ -57,6 +57,9 @@ class Lecture {
     return lecture;
   }
 
+  @Id()
+  int? uniqueId;
+
   String acronym;
   String subject;
   String typeClass;
@@ -67,7 +70,6 @@ class Lecture {
   String classNumber;
   DateTime startTime;
   DateTime endTime;
-  @Id(assignable: true)
   int occurrId;
 
   Map<String, dynamic> toJson() => _$LectureToJson(this);
