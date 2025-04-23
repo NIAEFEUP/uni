@@ -223,7 +223,7 @@ class EditHomeViewState extends State<EditHomeView> {
                       (route) => false,
                     ),
                     child: Text(
-                      'Save',
+                      S.of(context).save,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
