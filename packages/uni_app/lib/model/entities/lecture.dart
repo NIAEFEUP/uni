@@ -1,11 +1,13 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:uni/model/entities/reference.dart';
+import 'package:objectbox/objectbox.dart';
+import 'package:uni/model/converters/date_time_converter.dart';
 
 part '../../generated/model/entities/lecture.g.dart';
 
 /// Stores information about a lecture.
 @DateTimeConverter()
 @JsonSerializable()
+@Entity()
 class Lecture {
   /// Creates an instance of the class [Lecture].
   Lecture(
@@ -55,6 +57,9 @@ class Lecture {
     return lecture;
   }
 
+  @Id()
+  int? uniqueId;
+
   String acronym;
   String subject;
   String typeClass;
@@ -66,6 +71,7 @@ class Lecture {
   DateTime startTime;
   DateTime endTime;
   int occurrId;
+
   Map<String, dynamic> toJson() => _$LectureToJson(this);
 
   @override

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logger/logger.dart';
@@ -56,6 +55,8 @@ import 'package:uni_ui/theme.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:workmanager/workmanager.dart';
 
+import 'controller/local_storage/database/database.dart';
+
 SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
 }
@@ -73,13 +74,6 @@ Future<String> firstRoute() async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light,
-    ),
-  );
 
   PreferencesController.prefs = await SharedPreferences.getInstance();
 
@@ -106,6 +100,9 @@ Future<void> main() async {
     workerStartCallback,
     isInDebugMode: !kReleaseMode,
   );
+
+  // NoSQL database initialization
+  await Database().init();
 
   // Read environment, which may include app tokens
   await dotenv

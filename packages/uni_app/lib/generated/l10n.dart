@@ -10,7 +10,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
+// ignore_for_file: avoid_redundant_argument_values
 
 class S {
   S();
@@ -823,10 +823,10 @@ class S {
     );
   }
 
-  /// `Leave feedback`
+  /// `Leave Feedback`
   String get leave_feedback {
     return Intl.message(
-      'Leave feedback',
+      'Leave Feedback',
       name: 'leave_feedback',
       desc: '',
       args: [],
@@ -1828,6 +1828,76 @@ class S {
     );
   }
 
+  /// `Visual Detail`
+  String get bug_description_visual_detail {
+    return Intl.message(
+      'Visual Detail',
+      name: 'bug_description_visual_detail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error`
+  String get bug_description_error {
+    return Intl.message(
+      'Error',
+      name: 'bug_description_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Suggestion`
+  String get bug_description_Suggestion {
+    return Intl.message(
+      'Suggestion',
+      name: 'bug_description_Suggestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unexpected Behaviour`
+  String get bug_description_unexpected_behaviour {
+    return Intl.message(
+      'Unexpected Behaviour',
+      name: 'bug_description_unexpected_behaviour',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other`
+  String get bug_description_other {
+    return Intl.message(
+      'Other',
+      name: 'bug_description_other',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add photo`
+  String get add_photo {
+    return Intl.message(
+      'Add photo',
+      name: 'add_photo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to upload`
+  String get failed_upload {
+    return Intl.message(
+      'Failed to upload',
+      name: 'failed_upload',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Schedule`
   String get schedule {
     return Intl.message(
@@ -2049,6 +2119,26 @@ class S {
     return Intl.message(
       'Now',
       name: 'now',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add to calendar`
+  String get add_to_calendar {
+    return Intl.message(
+      'Add to calendar',
+      name: 'add_to_calendar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View course details`
+  String get view_course_details {
+    return Intl.message(
+      'View course details',
+      name: 'view_course_details',
       desc: '',
       args: [],
     );

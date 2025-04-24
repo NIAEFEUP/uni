@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:uni_ui/icons.dart';
 
 class ProfileListTile extends StatelessWidget {
   const ProfileListTile({
@@ -20,7 +20,7 @@ class ProfileListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: PhosphorIcon(
+      leading: UniIcon(
         icon,
         color: Theme.of(context).colorScheme.primary,
       ),

@@ -7,8 +7,7 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
-// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
+// ignore_for_file:unused_import, file_names
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -20,7 +19,7 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'pt_PT';
 
-  static String m0(type) => "${Intl.select(type, {
+  static m0(type) => "${Intl.select(type, {
             'all_dishes': 'Todos os pratos',
             'meat_dishes': 'Pratos de Carne',
             'fish_dishes': 'Pratos de Peixe',
@@ -32,12 +31,12 @@ class MessageLookup extends MessageLookupByLibrary {
             'other': 'Outros',
           })}";
 
-  static String m1(time) => "última atualização às ${time}";
+  static m1(time) => "última atualização às ${time}";
 
-  static String m2(time) =>
+  static m2(time) =>
       "${Intl.plural(time, zero: 'Atualizado há ${time} minutos', one: 'Atualizado há ${time} minuto', other: 'Atualizado há ${time} minutos')}";
 
-  static String m3(title) => "${Intl.select(title, {
+  static m3(title) => "${Intl.select(title, {
             'horario': 'Horário',
             'exames': 'Exames',
             'area': 'Área Pessoal',
@@ -53,23 +52,26 @@ class MessageLookup extends MessageLookupByLibrary {
             'other': 'Outros',
           })}";
 
-  static String m4(period) => "${Intl.select(period, {
+  static m4(period) => "${Intl.select(period, {
             'lunch': 'Almoço',
             'dinner': 'Jantar',
             'other': 'Other',
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+  static _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("Sobre nós"),
         "academic_services":
             MessageLookupByLibrary.simpleMessage("Serviços académicos"),
         "account_card_title":
             MessageLookupByLibrary.simpleMessage("Conta Corrente"),
         "add": MessageLookupByLibrary.simpleMessage("Adicionar"),
+        "add_photo": MessageLookupByLibrary.simpleMessage("Adicionar foto"),
         "add_quota": MessageLookupByLibrary.simpleMessage("Adicionar quota"),
         "add_restaurants":
             MessageLookupByLibrary.simpleMessage("Adicione restaurantes"),
+        "add_to_calendar":
+            MessageLookupByLibrary.simpleMessage("Adicionar ao calendário"),
         "add_widget": MessageLookupByLibrary.simpleMessage("Adicionar widget"),
         "agree_terms": MessageLookupByLibrary.simpleMessage(
             "Ao entrares confirmas que concordas com estes"),
@@ -92,6 +94,14 @@ class MessageLookup extends MessageLookupByLibrary {
             "Encontraste algum bug na aplicação?\nTens alguma sugestão para a app?\nConta-nos para que possamos melhorar!"),
         "bug_description": MessageLookupByLibrary.simpleMessage(
             "Bug encontrado, como o reproduzir, etc"),
+        "bug_description_Suggestion":
+            MessageLookupByLibrary.simpleMessage("Sugestão"),
+        "bug_description_error": MessageLookupByLibrary.simpleMessage("Erro"),
+        "bug_description_other": MessageLookupByLibrary.simpleMessage("Outro"),
+        "bug_description_unexpected_behaviour":
+            MessageLookupByLibrary.simpleMessage("Comportamento Inesperado"),
+        "bug_description_visual_detail":
+            MessageLookupByLibrary.simpleMessage("Detalhe Visual"),
         "bus_error": MessageLookupByLibrary.simpleMessage(
             "Não foi possível obter informação"),
         "bus_information": MessageLookupByLibrary.simpleMessage(
@@ -163,6 +173,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "fail_to_authenticate":
             MessageLookupByLibrary.simpleMessage("Falha ao autenticar"),
         "failed_login": MessageLookupByLibrary.simpleMessage("O login falhou"),
+        "failed_upload":
+            MessageLookupByLibrary.simpleMessage("Falha de carregamento"),
         "favorite_filter": MessageLookupByLibrary.simpleMessage("Favoritos"),
         "fee_date": MessageLookupByLibrary.simpleMessage("Data limite"),
         "fee_notification":
@@ -359,6 +371,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "until": MessageLookupByLibrary.simpleMessage("Até"),
         "valid_email": MessageLookupByLibrary.simpleMessage(
             "Por favor insere um email válido"),
+        "view_course_details": MessageLookupByLibrary.simpleMessage(
+            "Ver detalhes da Unidade Curricular"),
         "widget_prompt": MessageLookupByLibrary.simpleMessage(
             "Escolhe um widget para adicionares à tua área pessoal:"),
         "wrong_credentials_exception":

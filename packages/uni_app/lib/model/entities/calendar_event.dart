@@ -1,20 +1,20 @@
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:objectbox/objectbox.dart';
 import 'package:uni/generated/l10n.dart';
 
-part 'package:uni/generated/model/entities/calendar_event.g.dart';
+part '../../generated/model/entities/calendar_event.g.dart';
 
 @JsonSerializable()
+@Entity()
 class CalendarEvent {
   CalendarEvent({
     required this.name,
     this.startDate,
     this.endDate,
   });
-
   factory CalendarEvent.fromJson(Map<String, dynamic> json) =>
       _$CalendarEventFromJson(json);
-
   String name;
 
   @JsonKey(name: 'start_date')
@@ -23,7 +23,8 @@ class CalendarEvent {
   @JsonKey(name: 'end_date')
   DateTime? endDate;
 
-  Map<String, dynamic> toJson() => _$CalendarEventToJson(this);
+  @Id()
+  int? uniqueId;
 
   /// Formats the event's date range into a two-part list: [dateRange, year].
   /// Returns ['TBD', ''] if startDate is null.
@@ -78,4 +79,6 @@ class CalendarEvent {
     }
     return period;
   }
+
+  Map<String, dynamic> toJson() => _$CalendarEventToJson(this);
 }
