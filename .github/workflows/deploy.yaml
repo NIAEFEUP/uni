@@ -70,11 +70,11 @@ jobs:
       - name: Bump prod version (from develop)
         uses: LuisDuarte1/semver-bump-environment@v1.0.0
         if: github.ref == 'refs/heads/master' && env.MASTER_HASH == env.DEVELOP_HASH
-        id: bump-prod-major-version
+        id: bump-prod-minor-version
         with:
           current_environment: production
           production_version: ${{ steps.latest-production-version.outputs.latest_version_name }}
-          bump_type: major
+          bump_type: minor
 
       - name: Bump prod version (patch)
         uses: LuisDuarte1/semver-bump-environment@v1.0.0
