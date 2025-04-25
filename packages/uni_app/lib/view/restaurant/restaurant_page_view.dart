@@ -203,11 +203,10 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
 
     final favoriteCardTypes = PreferencesController.getFavoriteCards();
 
-    // TODO(thePeras && claudio): If I previously said don't want restaurants in homescreen I don't want to bored with the dialog
-    // TODO Create a Preference for this
     if (context.mounted &&
         favoriteRestaurants.contains(key) &&
-        !favoriteCardTypes.contains(FavoriteWidgetType.restaurants)) {
+        !favoriteCardTypes.contains(FavoriteWidgetType.restaurants) &&
+        !PreferencesController.isRestaurantReminderDismissed()) {
       _showRestaurantCardHomeDialog(
         context,
         favoriteCardTypes,
@@ -240,7 +239,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
 
             // Show Restaurant if it is in the selected campus and
             // it either is a favorite (always show)
-            // of the favorite filter is off
+            // or the favorite filter is off
             return isCampusMatch && (isFavorite || !isFavoriteFilterOn);
           })
           .map((restaurant) {
@@ -346,6 +345,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
         actions: <Widget>[
           ElevatedButton(
             onPressed: () {
+              PreferencesController.setRestaurantReminderDismissed(true);
               Navigator.of(context).pop();
             },
             child: Text(S.of(context).no),
