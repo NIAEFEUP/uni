@@ -28,7 +28,6 @@ class RestaurantPageView extends StatefulWidget {
 class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     with SingleTickerProviderStateMixin {
   late List<Restaurant> restaurants;
-  late List<Restaurant> filteredRestaurants;
   late TabController tabController;
   late ScrollController scrollViewController;
   final List<Map<String, dynamic>> dishTypes = [
@@ -42,10 +41,53 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     {'value': 8, 'key_label': 'dishes_of_the_day'},
   ];
 
-  // Filters  
+  // Filters
   int? _selectedDishType;
   late bool isFavoriteFilterOn;
   late int selectedCampus;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(vsync: this, length: DayOfWeek.values.length);
+    tabController
+      ..addListener(() {
+        setState(() {});
+      })
+      ..animateTo(DateTime.now().weekday - 1);
+    scrollViewController = ScrollController();
+
+    restaurants = [];
+    _initializeRestaurants();
+
+    selectedCampus = PreferencesController.getSelectedCampus() ?? 0;
+    isFavoriteFilterOn =
+        PreferencesController.getIsFavoriteRestaurantsFilterOn() ?? false;
+    _selectedDishType = PreferencesController.getSelectedDishType() ?? 1;
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    scrollViewController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Future<void> onRefresh(BuildContext context) {
+    final restaurantProvider =
+        Provider.of<RestaurantProvider>(context, listen: false);
+    if (restaurantProvider.state != null) {
+      setState(() {
+        restaurants = List.from(restaurantProvider.state!);
+      });
+    }
+    return restaurantProvider.forceRefresh(context);
+  }
+
+  @override
+  String? getTitle() =>
+      S.of(context).nav_title(NavigationItem.navRestaurants.route);
 
   @override
   Widget? getRightContent(BuildContext context) {
@@ -67,7 +109,6 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
               final campusId = campus.indexOf(value!);
               selectedCampus = campusId;
               PreferencesController.setSelectedCampus(campusId);
-              updateFilterRestaurants();
             });
           },
           items: campus.map((item) {
@@ -80,113 +121,6 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
       ),
     );
   }
-
-  @override
-  void initState() {
-    super.initState();
-    tabController = TabController(vsync: this, length: DayOfWeek.values.length);
-    tabController
-      ..addListener(() {
-        setState(() {});
-      })
-      ..animateTo(DateTime.now().weekday - 1);
-    scrollViewController = ScrollController();
-    
-    restaurants = [];
-    filteredRestaurants = [];
-    _initializeRestaurants();
-
-    selectedCampus = PreferencesController.getSelectedCampus() ?? 0;
-    isFavoriteFilterOn =
-        PreferencesController.getIsFavoriteRestaurantsFilterOn() ?? false;
-    _selectedDishType = PreferencesController.getSelectedDishType() ?? 1;
-
-    updateFilterRestaurants();
-  }
-
-  void _toggleFavorite(String restaurantName, String restaurantPeriod) {
-    final key = restaurantName + restaurantPeriod;
-    final favoriteRestaurants = PreferencesController.getFavoriteRestaurants();
-    favoriteRestaurants.contains(key)
-        ? favoriteRestaurants.remove(key)
-        : favoriteRestaurants.add(key);
-    PreferencesController.saveFavoriteRestaurants(favoriteRestaurants);
-
-    final favoriteCardTypes = PreferencesController.getFavoriteCards();
-
-    // TODO(thePeras): If I remove and don't have restaurants in homescreen I don't want to bored with the dialog
-    if (context.mounted &&
-        !favoriteCardTypes.contains(FavoriteWidgetType.restaurants)) {
-      showRestaurantCardHomeDialog(
-        context,
-        favoriteCardTypes,
-        PreferencesController.saveFavoriteCards,
-      );
-    }
-
-    // TODO(thePeras): I think this is unnecessary, now just call updateFilterRestaurants?
-    Restaurant? restaurantToRemove;
-    if (isFavoriteFilterOn) {
-      for (final restaurant in filteredRestaurants) {
-        if ((restaurant.namePt == restaurantName ||
-                restaurant.nameEn == restaurantName) &&
-            restaurant.period == restaurantPeriod) {
-          restaurantToRemove = restaurant;
-          break;
-        }
-      }
-      if (restaurantToRemove != null) {
-        final currentScrollPosition = scrollViewController.position.pixels;
-
-        setState(() {
-          filteredRestaurants.remove(restaurantToRemove);
-        });
-
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          scrollViewController.jumpTo(currentScrollPosition);
-        });
-      }
-    }
-  }
-
-  Future<void> _initializeRestaurants() async {
-    final restaurantProvider =
-        Provider.of<RestaurantProvider>(context, listen: false);
-    await restaurantProvider.ensureInitialized(context);
-    if (restaurantProvider.state != null) {
-      setState(() {
-        restaurants = List.from(restaurantProvider.state!);
-        filteredRestaurants = restaurants;
-      });
-    }
-  }
-
-  void updateFilterRestaurants() {
-    setState(() {
-      // TODO: optimize this function by not querying the PreferencesController if isFavoriteFilterOn is false
-      filteredRestaurants = restaurants.where((restaurant) {
-        final isFavorite = PreferencesController.getFavoriteRestaurants()
-            .contains(restaurant.namePt + restaurant.period);
-
-        final isCampusMatch =
-            selectedCampus == 0 || restaurant.campusId == selectedCampus;
-
-        return (isFavorite && isFavoriteFilterOn) ||
-            !isFavoriteFilterOn && isCampusMatch;
-      }).toList();
-    });
-  }
-
-  @override
-  void dispose() {
-    tabController.dispose();
-    scrollViewController.dispose();
-    super.dispose();
-  }
-
-  @override
-  String? getTitle() =>
-      S.of(context).nav_title(NavigationItem.navRestaurants.route);
 
   @override
   Widget? getHeader(BuildContext context) {
@@ -214,13 +148,13 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
                 const SizedBox(width: 10),
                 FavoriteRestaurantsButton(
                   isFavoriteOn: isFavoriteFilterOn,
-                  onToggle: () => {
+                  onToggle: () {
                     setState(() {
                       PreferencesController.setIsFavoriteRestaurantsFilterOn(
                         !isFavoriteFilterOn,
                       );
                       isFavoriteFilterOn = !isFavoriteFilterOn;
-                    }),
+                    });
                   },
                 ),
               ],
@@ -234,7 +168,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<RestaurantProvider, List<Restaurant>>(
-      builder: (context, _) => createTabViewBuilder(context),
+      builder: (context, _) => _createTabViewBuilder(context),
       onNullContent: Center(
         child: Text(
           S.of(context).no_menus,
@@ -245,7 +179,44 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     );
   }
 
-  Widget createTabViewBuilder(
+  Future<void> _initializeRestaurants() async {
+    final restaurantProvider =
+        Provider.of<RestaurantProvider>(context, listen: false);
+    await restaurantProvider.ensureInitialized(context);
+    if (restaurantProvider.state != null) {
+      setState(() {
+        restaurants = List.from(restaurantProvider.state!);
+      });
+    }
+  }
+
+  void _toggleFavorite(String restaurantName, String restaurantPeriod) {
+    final key = restaurantName + restaurantPeriod;
+    final favoriteRestaurants = PreferencesController.getFavoriteRestaurants();
+    favoriteRestaurants.contains(key)
+        ? favoriteRestaurants.remove(key)
+        : favoriteRestaurants.add(key);
+
+    setState(() {
+      PreferencesController.saveFavoriteRestaurants(favoriteRestaurants);
+    });
+
+    final favoriteCardTypes = PreferencesController.getFavoriteCards();
+
+    // TODO(thePeras && claudio): If I previously said don't want restaurants in homescreen I don't want to bored with the dialog
+    // TODO Create a Preference for this
+    if (context.mounted &&
+        favoriteRestaurants.contains(key) &&
+        !favoriteCardTypes.contains(FavoriteWidgetType.restaurants)) {
+      _showRestaurantCardHomeDialog(
+        context,
+        favoriteCardTypes,
+        PreferencesController.saveFavoriteCards,
+      );
+    }
+  }
+
+  Widget _createTabViewBuilder(
     BuildContext context,
   ) {
     final locale = Provider.of<LocaleNotifier>(context).getLocale();
@@ -253,12 +224,28 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     const daysOfTheWeek = DayOfWeek.values;
 
     final dayContents = daysOfTheWeek.map((dayOfWeek) {
-      final restaurantsWidgets = filteredRestaurants
-          .where((element) => element.meals[dayOfWeek]?.isNotEmpty ?? false)
-          .map(
-            (restaurant) =>
-                createNewRestaurant(context, restaurant, dayOfWeek, locale),
-          )
+      final restaurantsWidgets = restaurants
+          // Remove restaurants with no meals
+          .where((restaurant) {
+            return restaurant.meals[dayOfWeek]?.isNotEmpty ?? false;
+          })
+          // Apply User filters
+          .where((restaurant) {
+            final isFavorite = isFavoriteFilterOn &&
+                PreferencesController.getFavoriteRestaurants()
+                    .contains(restaurant.namePt + restaurant.period);
+
+            final isCampusMatch =
+                selectedCampus == 0 || restaurant.campusId == selectedCampus;
+
+            // Show Restaurant if it is in the selected campus and
+            // it either is a favorite (always show)
+            // of the favorite filter is off
+            return isCampusMatch && (isFavorite || !isFavoriteFilterOn);
+          })
+          .map((restaurant) {
+            return _createNewRestaurant(context, restaurant, dayOfWeek, locale);
+          })
           .where((widget) => widget != null)
           .toList();
 
@@ -270,6 +257,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
           ),
         );
       }
+
       return ListView.separated(
         controller: scrollViewController,
         padding: const EdgeInsets.only(left: 20, right: 20, bottom: 110),
@@ -289,14 +277,14 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     );
   }
 
-  RestaurantCard? createNewRestaurant(
+  RestaurantCard? _createNewRestaurant(
     BuildContext context,
     Restaurant restaurant,
     DayOfWeek dayOfWeek,
     AppLocale locale,
   ) {
     final menuItems =
-        getRestaurantMenuItems(dayOfWeek, restaurant, locale) ?? [];
+        _getRestaurantMenuItems(dayOfWeek, restaurant, locale) ?? [];
     return menuItems.isNotEmpty
         ? RestaurantCard(
             name: RestaurantUtils.getRestaurantName(
@@ -311,14 +299,15 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
             ),
             isFavorite: PreferencesController.getFavoriteRestaurants()
                 .contains(restaurant.namePt + restaurant.period),
-            onFavoriteToggle: () =>
-                {_toggleFavorite(restaurant.namePt, restaurant.period)},
+            onFavoriteToggle: () {
+              return _toggleFavorite(restaurant.namePt, restaurant.period);
+            },
             menuItems: menuItems,
           )
         : null;
   }
 
-  List<RestaurantMenuItem>? getRestaurantMenuItems(
+  List<RestaurantMenuItem>? _getRestaurantMenuItems(
     DayOfWeek dayOfWeek,
     Restaurant restaurant,
     AppLocale locale,
@@ -345,19 +334,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     return menuItems;
   }
 
-  @override
-  Future<void> onRefresh(BuildContext context) {
-    final restaurantProvider =
-        Provider.of<RestaurantProvider>(context, listen: false);
-    if (restaurantProvider.state != null) {
-      setState(() {
-        restaurants = List.from(restaurantProvider.state!);
-      });
-    }
-    return restaurantProvider.forceRefresh(context);
-  }
-
-  void showRestaurantCardHomeDialog(
+  void _showRestaurantCardHomeDialog(
     BuildContext context,
     List<FavoriteWidgetType> favoriteCardTypes,
     void Function(List<FavoriteWidgetType>) updateHomePage,
