@@ -340,6 +340,16 @@ class S {
     );
   }
 
+  /// `Apply`
+  String get apply {
+    return Intl.message(
+      'Apply',
+      name: 'apply',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Change`
   String get change {
     return Intl.message(
@@ -813,10 +823,10 @@ class S {
     );
   }
 
-  /// `Leave feedback`
+  /// `Leave Feedback`
   String get leave_feedback {
     return Intl.message(
-      'Leave feedback',
+      'Leave Feedback',
       name: 'leave_feedback',
       desc: '',
       args: [],
@@ -1818,6 +1828,76 @@ class S {
     );
   }
 
+  /// `Visual Detail`
+  String get bug_description_visual_detail {
+    return Intl.message(
+      'Visual Detail',
+      name: 'bug_description_visual_detail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error`
+  String get bug_description_error {
+    return Intl.message(
+      'Error',
+      name: 'bug_description_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Suggestion`
+  String get bug_description_Suggestion {
+    return Intl.message(
+      'Suggestion',
+      name: 'bug_description_Suggestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unexpected Behaviour`
+  String get bug_description_unexpected_behaviour {
+    return Intl.message(
+      'Unexpected Behaviour',
+      name: 'bug_description_unexpected_behaviour',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other`
+  String get bug_description_other {
+    return Intl.message(
+      'Other',
+      name: 'bug_description_other',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add photo`
+  String get add_photo {
+    return Intl.message(
+      'Add photo',
+      name: 'add_photo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to upload`
+  String get failed_upload {
+    return Intl.message(
+      'Failed to upload',
+      name: 'failed_upload',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Schedule`
   String get schedule {
     return Intl.message(
@@ -1959,6 +2039,26 @@ class S {
     );
   }
 
+  /// `Dish Types`
+  String get dish_types {
+    return Intl.message(
+      'Dish Types',
+      name: 'dish_types',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select All`
+  String get select_all {
+    return Intl.message(
+      'Select All',
+      name: 'select_all',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Favorites`
   String get favorite_filter {
     return Intl.message(
@@ -2004,6 +2104,16 @@ class S {
     );
   }
 
+  /// `Email`
+  String get email {
+    return Intl.message(
+      'Email',
+      name: 'email',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Now`
   String get now {
     return Intl.message(
@@ -2019,6 +2129,36 @@ class S {
     return Intl.message(
       'All',
       name: 'all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add to calendar`
+  String get add_to_calendar {
+    return Intl.message(
+      'Add to calendar',
+      name: 'add_to_calendar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View course details`
+  String get view_course_details {
+    return Intl.message(
+      'View course details',
+      name: 'view_course_details',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Until`
+  String get until {
+    return Intl.message(
+      'Until',
+      name: 'until',
       desc: '',
       args: [],
     );

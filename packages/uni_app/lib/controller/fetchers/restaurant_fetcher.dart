@@ -22,8 +22,8 @@ class RestaurantFetcher {
             dish.dishType.namePt,
             dish.dish.namePt,
             dish.dish.nameEn ?? dish.dish.namePt,
-            parseDateTime(dayMenu.day),
             dayMenu.day,
+            dbDayOfWeek: parseDateTime(dayMenu.day).index,
           ),
         );
       }
@@ -37,6 +37,10 @@ class RestaurantFetcher {
       period,
       establishment.campus.id,
       '',
+      establishment.schedules
+          .map((schedule) => '${schedule.startHour} - ${schedule.finishHour}')
+          .toList(),
+      establishment.contacts.first.value,
       meals: meals,
     );
   }

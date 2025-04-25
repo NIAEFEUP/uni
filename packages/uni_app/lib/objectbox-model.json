@@ -1,0 +1,516 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:8433064441398452856",
+      "lastPropertyId": "4:513168983912717896",
+      "name": "CalendarEvent",
+      "properties": [
+        {
+          "id": "1:7486026848397696840",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "2:3671646895456891136",
+          "name": "startDate",
+          "type": 10
+        },
+        {
+          "id": "3:5024673501620615181",
+          "name": "endDate",
+          "type": 10
+        },
+        {
+          "id": "4:513168983912717896",
+          "name": "uniqueId",
+          "type": 6,
+          "flags": 1
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:6255920829998343914",
+      "lastPropertyId": "8:2201102876981640663",
+      "name": "Course",
+      "properties": [
+        {
+          "id": "1:613504880024009748",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:5727093430514372181",
+          "name": "festId",
+          "type": 6
+        },
+        {
+          "id": "3:5978258367696042659",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "4:7724304633294559622",
+          "name": "abbreviation",
+          "type": 9
+        },
+        {
+          "id": "5:7295580769000628550",
+          "name": "currYear",
+          "type": 9
+        },
+        {
+          "id": "6:1796501827767720559",
+          "name": "firstEnrollment",
+          "type": 6
+        },
+        {
+          "id": "7:2840372378950542939",
+          "name": "faculty",
+          "type": 9
+        },
+        {
+          "id": "8:2201102876981640663",
+          "name": "state",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:8214580190937133698",
+      "lastPropertyId": "15:2817971108358835885",
+      "name": "CourseUnit",
+      "properties": [
+        {
+          "id": "1:2253776073825088003",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:3935341434608929928",
+          "name": "code",
+          "type": 9
+        },
+        {
+          "id": "3:2598021670133571802",
+          "name": "abbreviation",
+          "type": 9
+        },
+        {
+          "id": "4:2550072549928863575",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "5:7270666108556881750",
+          "name": "curricularYear",
+          "type": 6
+        },
+        {
+          "id": "6:3023610039425825294",
+          "name": "occurrId",
+          "type": 6
+        },
+        {
+          "id": "7:8511895207792407376",
+          "name": "semesterCode",
+          "type": 9
+        },
+        {
+          "id": "8:4839823113645245964",
+          "name": "semesterName",
+          "type": 9
+        },
+        {
+          "id": "9:2495682496492504714",
+          "name": "type",
+          "type": 9
+        },
+        {
+          "id": "10:7238947967828141626",
+          "name": "status",
+          "type": 9
+        },
+        {
+          "id": "11:8139946415046279091",
+          "name": "grade",
+          "type": 9
+        },
+        {
+          "id": "12:6187261196262916832",
+          "name": "ectsGrade",
+          "type": 9
+        },
+        {
+          "id": "13:2897110313869122670",
+          "name": "result",
+          "type": 9
+        },
+        {
+          "id": "14:591464439888426636",
+          "name": "festId",
+          "type": 6
+        },
+        {
+          "id": "15:2817971108358835885",
+          "name": "schoolYear",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:7433696585737747799",
+      "lastPropertyId": "9:2707328368115093876",
+      "name": "Exam",
+      "properties": [
+        {
+          "id": "1:6987337288438589113",
+          "name": "start",
+          "type": 10
+        },
+        {
+          "id": "2:1315405305605818236",
+          "name": "finish",
+          "type": 10
+        },
+        {
+          "id": "3:3970356124527746475",
+          "name": "id",
+          "type": 9
+        },
+        {
+          "id": "4:219584084854926435",
+          "name": "subjectAcronym",
+          "type": 9
+        },
+        {
+          "id": "5:2999963298892952116",
+          "name": "subject",
+          "type": 9
+        },
+        {
+          "id": "6:8584035388144963725",
+          "name": "rooms",
+          "type": 30
+        },
+        {
+          "id": "7:3581020021394973372",
+          "name": "examType",
+          "type": 9
+        },
+        {
+          "id": "8:5477126519043307170",
+          "name": "faculty",
+          "type": 9
+        },
+        {
+          "id": "9:2707328368115093876",
+          "name": "dbId",
+          "type": 6,
+          "flags": 1
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:3662266281288419262",
+      "lastPropertyId": "3:686576101048946938",
+      "name": "FloorOccupation",
+      "properties": [
+        {
+          "id": "1:4621395315858749483",
+          "name": "number",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:1076696553155564834",
+          "name": "occupation",
+          "type": 6
+        },
+        {
+          "id": "3:686576101048946938",
+          "name": "capacity",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "6:1226039642817714958",
+      "lastPropertyId": "12:2133201273068889544",
+      "name": "Lecture",
+      "properties": [
+        {
+          "id": "1:759370965955861957",
+          "name": "uniqueId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7062500116814451026",
+          "name": "acronym",
+          "type": 9
+        },
+        {
+          "id": "3:5263364803383053946",
+          "name": "subject",
+          "type": 9
+        },
+        {
+          "id": "4:7533944378053275558",
+          "name": "typeClass",
+          "type": 9
+        },
+        {
+          "id": "5:5294596055999853088",
+          "name": "room",
+          "type": 9
+        },
+        {
+          "id": "6:5867958853439024806",
+          "name": "teacher",
+          "type": 9
+        },
+        {
+          "id": "7:7842774665774825279",
+          "name": "teacherName",
+          "type": 9
+        },
+        {
+          "id": "8:2803834092189108043",
+          "name": "teacherId",
+          "type": 6
+        },
+        {
+          "id": "9:4865841025734468779",
+          "name": "classNumber",
+          "type": 9
+        },
+        {
+          "id": "10:1472641118525183499",
+          "name": "startTime",
+          "type": 10
+        },
+        {
+          "id": "11:3443162639035322988",
+          "name": "endTime",
+          "type": 10
+        },
+        {
+          "id": "12:2133201273068889544",
+          "name": "occurrId",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "7:1600806775073131844",
+      "lastPropertyId": "7:8203753070348115332",
+      "name": "Meal",
+      "properties": [
+        {
+          "id": "1:9170741951979078808",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8873289557542576008",
+          "name": "type",
+          "type": 9
+        },
+        {
+          "id": "3:3661344739186856128",
+          "name": "namePt",
+          "type": 9
+        },
+        {
+          "id": "4:1263802476016082853",
+          "name": "nameEn",
+          "type": 9
+        },
+        {
+          "id": "5:6143062850301903507",
+          "name": "date",
+          "type": 10
+        },
+        {
+          "id": "6:2491917120285294168",
+          "name": "restaurantId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:860778994234728762",
+          "relationTarget": "Restaurant"
+        },
+        {
+          "id": "7:8203753070348115332",
+          "name": "dbDayOfWeek",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "8:5892835885906588151",
+      "lastPropertyId": "6:3994951413998147073",
+      "name": "Profile",
+      "properties": [
+        {
+          "id": "1:617296174571961246",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7942989141198800933",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:6337113120302229827",
+          "name": "email",
+          "type": 9
+        },
+        {
+          "id": "4:4546371605322217842",
+          "name": "printBalance",
+          "type": 9
+        },
+        {
+          "id": "5:4157885067992705268",
+          "name": "feesBalance",
+          "type": 9
+        },
+        {
+          "id": "6:3994951413998147073",
+          "name": "feesLimit",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "9:5094931065199645551",
+      "lastPropertyId": "6:3264787483906970751",
+      "name": "Reference",
+      "properties": [
+        {
+          "id": "1:2725070122282783949",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3696036906817439496",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "3:3616899723767103362",
+          "name": "limitDate",
+          "type": 10
+        },
+        {
+          "id": "4:2968235157363378927",
+          "name": "entity",
+          "type": 6
+        },
+        {
+          "id": "5:4991227288258034933",
+          "name": "reference",
+          "type": 6
+        },
+        {
+          "id": "6:3264787483906970751",
+          "name": "amount",
+          "type": 8
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "10:3321826961057235514",
+      "lastPropertyId": "11:3291647992299716809",
+      "name": "Restaurant",
+      "properties": [
+        {
+          "id": "1:3346959339317794721",
+          "name": "uniqueId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2229596616814563275",
+          "name": "id",
+          "type": 6
+        },
+        {
+          "id": "3:5028102306153135128",
+          "name": "typePt",
+          "type": 9
+        },
+        {
+          "id": "4:6028624645721986145",
+          "name": "typeEn",
+          "type": 9
+        },
+        {
+          "id": "5:1294103232513190814",
+          "name": "namePt",
+          "type": 9
+        },
+        {
+          "id": "6:4498193186466725742",
+          "name": "nameEn",
+          "type": 9
+        },
+        {
+          "id": "7:408072625498193958",
+          "name": "period",
+          "type": 9
+        },
+        {
+          "id": "8:3110109544161090174",
+          "name": "reference",
+          "type": 9
+        },
+        {
+          "id": "9:1874674258003398941",
+          "name": "openingHours",
+          "type": 30
+        },
+        {
+          "id": "10:4766416763141335510",
+          "name": "email",
+          "type": 9
+        },
+        {
+          "id": "11:3291647992299716809",
+          "name": "campusId",
+          "type": 6
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "10:3321826961057235514",
+  "lastIndexId": "1:860778994234728762",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
