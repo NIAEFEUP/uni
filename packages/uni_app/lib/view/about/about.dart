@@ -25,11 +25,8 @@ class AboutPageViewState extends SecondaryPageViewState<AboutPageView> {
             height: queryData.size.height / 7,
           ),
         ),
-        Center(
-          child: Padding(
-            padding: EdgeInsets.all(queryData.size.width / 12),
-            child: const TermsAndConditions(),
-          ),
+        const Center(
+          child: TermsAndConditions(),
         ),
       ],
     );
