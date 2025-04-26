@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
-import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
@@ -78,18 +77,10 @@ class HomePageViewState extends State<HomePageView> {
   @override
   Widget build(BuildContext context) {
     final typeToCard = {
-      FavoriteWidgetType.schedule: ScheduleHomeCard(
-        title: S.of(context).schedule,
-      ),
-      FavoriteWidgetType.exams: ExamHomeCard(
-        title: S.of(context).exams,
-      ),
-      FavoriteWidgetType.library: LibraryHomeCard(
-        title: S.of(context).library_occupation,
-      ),
-      FavoriteWidgetType.restaurants: RestaurantHomeCard(
-        title: S.of(context).restaurants,
-      ),
+      FavoriteWidgetType.schedule: const ScheduleHomeCard(),
+      FavoriteWidgetType.exams: const ExamHomeCard(),
+      FavoriteWidgetType.library: const LibraryHomeCard(),
+      FavoriteWidgetType.restaurants: const RestaurantHomeCard(),
       // FavoriteWidgetType.calendar: const CalendarHomeCard(), TODO: enable this when dates are properly formatted
     };
 

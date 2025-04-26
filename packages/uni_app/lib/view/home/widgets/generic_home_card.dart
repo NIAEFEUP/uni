@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 
 abstract class GenericHomecard extends StatelessWidget {
   const GenericHomecard({
-    required this.title,
     super.key,
   });
 
-  final String title;
+  String? getTitle(BuildContext context);
 
   Widget buildCardContent(BuildContext context);
 
@@ -27,7 +26,7 @@ abstract class GenericHomecard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                title,
+                getTitle(context) ?? '',
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               Container(

@@ -22,8 +22,12 @@ import 'package:uni_ui/icons.dart';
 class ScheduleHomeCard extends GenericHomecard {
   const ScheduleHomeCard({
     super.key,
-    required super.title,
   });
+
+  @override
+  String getTitle(BuildContext context) {
+    return S.of(context).schedule;
+  }
 
   @override
   Widget buildCardContent(BuildContext context) {

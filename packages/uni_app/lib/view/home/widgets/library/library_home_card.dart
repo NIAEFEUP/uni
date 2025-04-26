@@ -13,8 +13,12 @@ import 'package:uni_ui/icons.dart';
 class LibraryHomeCard extends GenericHomecard {
   const LibraryHomeCard({
     super.key,
-    required super.title,
   });
+
+  @override
+  String getTitle(BuildContext context) {
+    return S.of(context).library_occupation;
+  }
 
   @override
   void onCardClick(BuildContext context) => {};

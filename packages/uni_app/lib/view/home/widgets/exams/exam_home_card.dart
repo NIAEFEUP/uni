@@ -18,9 +18,13 @@ import 'package:uni_ui/icons.dart';
 
 class ExamHomeCard extends GenericHomecard {
   const ExamHomeCard({
-    required super.title,
     super.key,
   });
+
+  @override
+  String getTitle(BuildContext context) {
+    return S.of(context).exams;
+  }
 
   @override
   Widget buildCardContent(BuildContext context) {
