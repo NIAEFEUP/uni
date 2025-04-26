@@ -6,7 +6,7 @@ import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/academic_path/courses_page.dart';
 import 'package:uni/view/academic_path/exam_page.dart';
 import 'package:uni/view/academic_path/schedule_page.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/widgets/pages_layouts/general/general.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/tabs/tab_icon.dart';
 

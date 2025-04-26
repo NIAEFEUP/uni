@@ -36,7 +36,7 @@ import 'package:uni/view/about/about.dart';
 import 'package:uni/view/academic_path/academic_path.dart';
 import 'package:uni/view/bug_report/bug_report.dart';
 import 'package:uni/view/calendar/calendar.dart';
-import 'package:uni/view/common_widgets/page_transition.dart';
+import 'package:uni/view/widgets/page_transition.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni/view/faculty/faculty.dart';
 import 'package:uni/view/home/edit_home.dart';

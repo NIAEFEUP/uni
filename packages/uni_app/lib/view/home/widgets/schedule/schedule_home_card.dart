@@ -11,7 +11,7 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/view/academic_path/academic_path.dart';
-import 'package:uni/view/common_widgets/icon_label.dart';
+import 'package:uni/view/widgets/icon_label.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/timeline_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';

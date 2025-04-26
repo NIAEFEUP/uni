@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/view/common_widgets/expanded_image_label.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/widgets/refresh_state.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
+import 'package:uni/view/widgets/expanded_image_label.dart';
+import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
+import 'package:uni/view/widgets/pages_layouts/general/widgets/refresh_state.dart';
+import 'package:uni/view/widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
 
 abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   bool _loadedOnce = false;

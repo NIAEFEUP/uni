@@ -6,7 +6,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni/view/common_widgets/toast_message.dart';
+import 'package:uni/view/widgets/toast_message.dart';
 import 'package:uni_ui/cards/file_card.dart';
 import 'package:uni_ui/cards/folder_card.dart';
 

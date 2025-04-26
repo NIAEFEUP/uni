@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/utils/navigation_items.dart';
-import 'package:uni/view/common_widgets/profile_image.dart';
+import 'package:uni/view/widgets/profile_image.dart';
 
 class ProfileButton extends StatelessWidget {
   const ProfileButton({super.key});

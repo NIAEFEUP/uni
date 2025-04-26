@@ -8,7 +8,7 @@ import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
+import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/map/widgets/cached_tile_provider.dart';
 import 'package:uni/view/map/widgets/floorless_marker_popup.dart';
