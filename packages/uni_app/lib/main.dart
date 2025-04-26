@@ -35,7 +35,6 @@ import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/about/about.dart';
 import 'package:uni/view/academic_path/academic_path.dart';
 import 'package:uni/view/bug_report/bug_report.dart';
-import 'package:uni/view/bus_stop_next_arrivals/bus_stop_next_arrivals.dart';
 import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/common_widgets/page_transition.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
@@ -262,11 +261,6 @@ class ApplicationState extends State<Application> {
               '/${NavigationItem.navPersonalArea.route}': () =>
                   PageTransition.makePageTransition(
                     page: const HomePageView(),
-                    settings: settings,
-                  ),
-              '/${NavigationItem.navStops.route}': () =>
-                  PageTransition.makePageTransition(
-                    page: const BusStopNextArrivalsPage(),
                     settings: settings,
                   ),
               '/${NavigationItem.navMap.route}': () =>
