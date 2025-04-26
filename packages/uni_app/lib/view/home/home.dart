@@ -12,8 +12,6 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
-import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
-import 'package:uni/view/widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni/view/home/widgets/exams/exam_home_card.dart';
 import 'package:uni/view/home/widgets/library/library_home_card.dart';
@@ -22,6 +20,8 @@ import 'package:uni/view/home/widgets/schedule/schedule_home_card.dart';
 import 'package:uni/view/home/widgets/tracking_banner.dart';
 import 'package:uni/view/home/widgets/uni_logo.dart';
 import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
+import 'package:uni/view/widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/icons.dart';
 
