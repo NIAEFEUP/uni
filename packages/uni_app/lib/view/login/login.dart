@@ -16,13 +16,13 @@ import 'package:uni/session/flows/credentials/initiator.dart';
 import 'package:uni/session/flows/federated/initiator.dart';
 import 'package:uni/utils/constants.dart';
 import 'package:uni/utils/navigation_items.dart';
-import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
 import 'package:uni/view/login/widgets/create_link.dart';
 import 'package:uni/view/login/widgets/f_login_button.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/view/login/widgets/remember_me_checkbox.dart';
 import 'package:uni/view/login/widgets/terms_and_conditions_button.dart';
+import 'package:uni/view/widgets/toast_message.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginPageView extends StatefulWidget {

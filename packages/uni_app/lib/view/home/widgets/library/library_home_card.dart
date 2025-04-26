@@ -3,10 +3,10 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/floor_occupation.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
-import 'package:uni/view/common_widgets/icon_label.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/library/library_card_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/widgets/icon_label.dart';
 import 'package:uni_ui/cards/library_occupation_card.dart';
 import 'package:uni_ui/icons.dart';
 
