@@ -27,7 +27,7 @@ class ShimmerCoursesPage extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 16,left:16,right:16),
+          padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
           child: Shimmer.fromColors(
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.grey[100]!,
@@ -44,7 +44,7 @@ class ShimmerCoursesPage extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left:16,right:16,bottom:20),
+                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 20),
                 child: Shimmer.fromColors(
                   baseColor: Colors.grey[300]!,
                   highlightColor: Colors.grey[100]!,
@@ -57,7 +57,7 @@ class ShimmerCoursesPage extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left:16,right:16,top:32),
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 32),
                 child: Row(
                   children: [
                     Shimmer.fromColors(
@@ -72,7 +72,7 @@ class ShimmerCoursesPage extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left:16),
+                      padding: const EdgeInsets.only(left: 16),
                       child: Shimmer.fromColors(
                         baseColor: Colors.grey[300]!,
                         highlightColor: Colors.grey[100]!,
@@ -80,7 +80,8 @@ class ShimmerCoursesPage extends StatelessWidget {
                           child: Container(
                             height: 70,
                             width: 180,
-                            decoration: const BoxDecoration(color: Colors.white),
+                            decoration:
+                                const BoxDecoration(color: Colors.white),
                           ),
                         ),
                       ),
