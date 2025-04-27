@@ -5,7 +5,7 @@ abstract class GenericHomecard extends StatelessWidget {
     super.key,
   });
 
-  String? getTitle(BuildContext context);
+  String getTitle(BuildContext context) => '';
 
   Widget buildCardContent(BuildContext context);
 
@@ -26,7 +26,7 @@ abstract class GenericHomecard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                getTitle(context) ?? '',
+                getTitle(context),
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               Container(
