@@ -18,6 +18,7 @@ import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
 import 'package:uni/view/widgets/pages_layouts/general/general.dart';
 import 'package:uni_ui/cards/restaurant_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
+import 'package:uni/view/restaurant/widgets/restaurant_page_view_shimmer.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
@@ -33,6 +34,7 @@ class RestaurantPageView extends StatefulWidget {
 class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     with SingleTickerProviderStateMixin {
   late List<Restaurant> restaurants;
+  late List<Restaurant> filteredRestaurants;
   late TabController tabController;
   late ScrollController scrollViewController;
 
@@ -189,6 +191,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
         ),
       ),
       hasContent: (restaurants) => restaurants.isNotEmpty,
+      contentLoadingWidget: const ShimmerRestaurantPageView(),
     );
   }
 
