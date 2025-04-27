@@ -4,6 +4,7 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/academic_path/widgets/course_units_view.dart';
+import 'package:uni/view/academic_path/widgets/courses_page_shimmer.dart';
 import 'package:uni/view/academic_path/widgets/no_courses_widget.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/courses/average_bar.dart';
@@ -83,7 +84,6 @@ class CoursesPageState extends State<CoursesPage> {
   @override
   Widget build(BuildContext context) {
     const bottomNavbarHeight = 120.0;
-
     return LazyConsumer<ProfileProvider, Profile>(
       builder: (context, profile) {
         final courses = profile.courses;
@@ -145,6 +145,7 @@ class CoursesPageState extends State<CoursesPage> {
           ),
         ),
       ),
+      contentLoadingWidget: const ShimmerCoursesPage(),
     );
   }
 }

@@ -17,6 +17,7 @@ import 'package:uni/view/restaurant/widgets/favorite_restaurants_button.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
 import 'package:uni_ui/cards/restaurant_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
+import 'package:uni/view/restaurant/widgets/restaurant_page_view_shimmer.dart';
 
 class RestaurantPageView extends StatefulWidget {
   const RestaurantPageView({super.key});
@@ -201,6 +202,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
         ),
       ),
       hasContent: (restaurants) => restaurants.isNotEmpty,
+      contentLoadingWidget: const ShimmerRestaurantPageView(),
     );
   }
 
