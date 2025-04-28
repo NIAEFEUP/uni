@@ -66,8 +66,10 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     _initializeRestaurants();
 
     selectedCampus = PreferencesController.getSelectedCampus() ?? 0;
+
     isFavoriteFilterOn =
         PreferencesController.getIsFavoriteRestaurantsFilterOn() ?? false;
+
     _selectedDishTypes = PreferencesController.getSelectedDishTypes();
   }
 
@@ -79,15 +81,21 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   }
 
   @override
-  Future<void> onRefresh(BuildContext context) {
+  Future<void> onRefresh(BuildContext context) async {
     final restaurantProvider =
         Provider.of<RestaurantProvider>(context, listen: false);
+
+    await restaurantProvider.forceRefresh(context);
+
+    if (!mounted) {
+      return;
+    }
+
     if (restaurantProvider.state != null) {
       setState(() {
-        restaurants = List.from(restaurantProvider.state!);
+        restaurants = restaurantProvider.state!;
       });
     }
-    return restaurantProvider.forceRefresh(context);
   }
 
   @override
@@ -190,7 +198,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     await restaurantProvider.ensureInitialized(context);
     if (restaurantProvider.state != null) {
       setState(() {
-        restaurants = List.from(restaurantProvider.state!);
+        restaurants = restaurantProvider.state!;
       });
     }
   }
@@ -202,9 +210,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
         ? favoriteRestaurants.remove(key)
         : favoriteRestaurants.add(key);
 
-    setState(() {
-      PreferencesController.saveFavoriteRestaurants(favoriteRestaurants);
-    });
+    PreferencesController.saveFavoriteRestaurants(favoriteRestaurants);
 
     final favoriteCardTypes = PreferencesController.getFavoriteCards();
 
@@ -251,7 +257,13 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
             return _createNewRestaurant(context, restaurant, dayOfWeek, locale);
           })
           .where((widget) => widget != null)
-          .toList();
+          .toList()
+        ..sort((a, b) {
+          final isAFavorite = a!.isFavorite ? 1 : 0;
+          final isBFavorite = b!.isFavorite ? 1 : 0;
+
+          return isBFavorite.compareTo(isAFavorite);
+        });
 
       if (restaurantsWidgets.isEmpty) {
         return Center(
