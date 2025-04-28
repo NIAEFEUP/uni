@@ -5,9 +5,9 @@ import 'package:uni/model/entities/localized_events.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/calendar/widgets/row_format.dart';
-import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
+import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 
 class CalendarPageView extends StatefulWidget {
   const CalendarPageView({super.key});

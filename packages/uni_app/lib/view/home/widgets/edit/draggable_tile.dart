@@ -28,7 +28,7 @@ class DraggableTile extends StatelessWidget {
       data: data,
       feedbackSize: const Offset(75, 75),
       feedbackBuilder: (context, data) {
-        final (title, icon) = formatDraggableTile(data);
+        final (title, icon) = formatDraggableTile(context, data);
 
         return Container(
           decoration:
@@ -51,7 +51,7 @@ class DraggableTile extends StatelessWidget {
         );
       },
       childBuilder: (context, data) {
-        final (title, icon) = formatDraggableTile(data);
+        final (title, icon) = formatDraggableTile(context, data);
 
         return Container(
           decoration: BoxDecoration(
