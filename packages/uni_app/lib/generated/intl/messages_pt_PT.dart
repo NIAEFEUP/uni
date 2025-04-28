@@ -84,6 +84,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Seleciona pelo menos uma faculdade"),
         "available_amount":
             MessageLookupByLibrary.simpleMessage("Valor disponível"),
+        "available_elements":
+            MessageLookupByLibrary.simpleMessage("Elementos disponíveis"),
         "average": MessageLookupByLibrary.simpleMessage("Média"),
         "balance": MessageLookupByLibrary.simpleMessage("Saldo"),
         "banner_info": MessageLookupByLibrary.simpleMessage(
@@ -110,6 +112,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Configura aqui os teus autocarros"),
         "buses_text": MessageLookupByLibrary.simpleMessage(
             "Os autocarros favoritos serão apresentados no widget \'Autocarros\' dos favoritos. Os restantes serão apresentados apenas na página."),
+        "calendar": MessageLookupByLibrary.simpleMessage("Calendário"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancelar"),
         "change": MessageLookupByLibrary.simpleMessage("Alterar"),
         "change_prompt": MessageLookupByLibrary.simpleMessage(
@@ -156,6 +159,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Piso -1 do edifício B (B-142)"),
         "download_error": MessageLookupByLibrary.simpleMessage(
             "Erro ao descarregar o ficheiro"),
+        "drag_and_drop": MessageLookupByLibrary.simpleMessage(
+            "Arrasta e solta os elementos"),
         "ects": MessageLookupByLibrary.simpleMessage("ECTS realizados: "),
         "edit_off": MessageLookupByLibrary.simpleMessage("Editar"),
         "edit_on": MessageLookupByLibrary.simpleMessage("Concluir edição"),
@@ -209,12 +214,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "last_timestamp": m2,
         "leave_feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
         "lectures": MessageLookupByLibrary.simpleMessage("Aulas"),
+        "library": MessageLookupByLibrary.simpleMessage("Biblioteca"),
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Ocupação da Biblioteca"),
         "load_error": MessageLookupByLibrary.simpleMessage(
             "Erro ao carregar a informação"),
         "loading_terms": MessageLookupByLibrary.simpleMessage(
             "Carregando os Termos e Condições..."),
+        "location": MessageLookupByLibrary.simpleMessage("Localização"),
         "login": MessageLookupByLibrary.simpleMessage("Entrar"),
         "login_with_credentials":
             MessageLookupByLibrary.simpleMessage("Entrar com credenciais"),
@@ -334,7 +341,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
             "Queres ver os teus restaurantes favoritos na página principal?"),
         "restaurant_period": m4,
+        "restaurants": MessageLookupByLibrary.simpleMessage("Restaurantes"),
         "room": MessageLookupByLibrary.simpleMessage("Sala"),
+        "save": MessageLookupByLibrary.simpleMessage("Guardar"),
         "schedule": MessageLookupByLibrary.simpleMessage("Aulas"),
         "school_calendar":
             MessageLookupByLibrary.simpleMessage("Calendário Escolar"),
@@ -367,6 +376,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "try_different_login": MessageLookupByLibrary.simpleMessage(
             "Problemas ao iniciar sessão?"),
         "uc_info": MessageLookupByLibrary.simpleMessage("Abrir página da UC"),
+        "ucs": MessageLookupByLibrary.simpleMessage("UCS"),
         "unavailable": MessageLookupByLibrary.simpleMessage("Indisponível"),
         "until": MessageLookupByLibrary.simpleMessage("Até"),
         "valid_email": MessageLookupByLibrary.simpleMessage(

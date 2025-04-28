@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
@@ -20,8 +21,12 @@ import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
 class RestaurantHomeCard extends GenericHomecard {
   const RestaurantHomeCard({
     super.key,
-    super.title = 'Restaurants',
   });
+
+  @override
+  String getTitle(BuildContext context) {
+    return S.of(context).restaurants;
+  }
 
   @override
   void onCardClick(BuildContext context) =>

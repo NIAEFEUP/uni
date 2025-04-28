@@ -13,8 +13,12 @@ import 'package:uni_ui/calendar/calendar_item.dart';
 class CalendarHomeCard extends GenericHomecard {
   const CalendarHomeCard({
     super.key,
-    super.title = 'Calendar',
   });
+
+  @override
+  String getTitle(BuildContext context) {
+    return S.of(context).calendar;
+  }
 
   @override
   void onCardClick(BuildContext context) =>
