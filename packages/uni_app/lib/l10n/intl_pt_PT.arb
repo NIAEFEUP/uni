@@ -414,6 +414,8 @@
   "@email": {},
   "now": "Agora",
   "@now": {},
+  "all": "Todos",
+  "@all": {},
   "drag_and_drop": "Arrasta e solta os elementos",
   "@drag_and_drop": {},
   "available_elements": "Elementos disponíveis",
@@ -437,4 +439,3 @@
   "until": "Até",
   "@until": {}
 }
-

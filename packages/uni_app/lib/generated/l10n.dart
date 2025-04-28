@@ -2114,6 +2114,16 @@ class S {
     );
   }
 
+  /// `All`
+  String get all {
+    return Intl.message(
+      'All',
+      name: 'all',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Drag and drop elements`
   String get drag_and_drop {
     return Intl.message(

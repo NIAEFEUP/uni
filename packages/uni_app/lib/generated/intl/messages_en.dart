@@ -75,6 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "add_widget": MessageLookupByLibrary.simpleMessage("Add widget"),
         "agree_terms": MessageLookupByLibrary.simpleMessage(
             "By entering you agree with these"),
+        "all": MessageLookupByLibrary.simpleMessage("All"),
         "all_feminine": MessageLookupByLibrary.simpleMessage("All"),
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
             "All available widgets have already been added to your personal area!"),

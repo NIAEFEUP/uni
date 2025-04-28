@@ -414,6 +414,8 @@
   "@no_courses_description": {},
   "now": "Now",
   "@now": {},
+  "all": "All",
+  "@all": {},
   "drag_and_drop": "Drag and drop elements",
   "@drag_and_drop": {},
   "available_elements": "Available elements",

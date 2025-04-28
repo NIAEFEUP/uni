@@ -16,6 +16,7 @@ class Restaurant {
     this.namePt,
     this.nameEn,
     this.period,
+    this.campusId,
     this.reference,
     this.openingHours,
     this.email, {
@@ -48,6 +49,8 @@ class Restaurant {
   final String nameEn;
   @JsonKey(name: 'period')
   final String period;
+  @JsonKey(name: 'campusId')
+  final int campusId;
   @JsonKey(name: 'ref')
   final String reference; // Used only in html parser
   @JsonKey(name: 'hours')

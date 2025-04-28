@@ -35,6 +35,7 @@ class RestaurantFetcher {
       establishment.namePt,
       establishment.nameEn,
       period,
+      establishment.campus.id,
       '',
       establishment.schedules
           .map((schedule) => '${schedule.startHour} - ${schedule.finishHour}')
