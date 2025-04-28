@@ -823,10 +823,10 @@ class S {
     );
   }
 
-  /// `Leave Feedback`
+  /// `Leave feedback`
   String get leave_feedback {
     return Intl.message(
-      'Leave Feedback',
+      'Leave feedback',
       name: 'leave_feedback',
       desc: '',
       args: [],
@@ -2104,21 +2104,111 @@ class S {
     );
   }
 
-  /// `Email`
-  String get email {
-    return Intl.message(
-      'Email',
-      name: 'email',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Now`
   String get now {
     return Intl.message(
       'Now',
       name: 'now',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All`
+  String get all {
+    return Intl.message(
+      'All',
+      name: 'all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Drag and drop elements`
+  String get drag_and_drop {
+    return Intl.message(
+      'Drag and drop elements',
+      name: 'drag_and_drop',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available elements`
+  String get available_elements {
+    return Intl.message(
+      'Available elements',
+      name: 'available_elements',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Library`
+  String get library {
+    return Intl.message(
+      'Library',
+      name: 'library',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restaurants`
+  String get restaurants {
+    return Intl.message(
+      'Restaurants',
+      name: 'restaurants',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Calendar`
+  String get calendar {
+    return Intl.message(
+      'Calendar',
+      name: 'calendar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `UCS`
+  String get ucs {
+    return Intl.message(
+      'UCS',
+      name: 'ucs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get save {
+    return Intl.message(
+      'Save',
+      name: 'save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location`
+  String get location {
+    return Intl.message(
+      'Location',
+      name: 'location',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get email {
+    return Intl.message(
+      'Email',
+      name: 'email',
       desc: '',
       args: [],
     );

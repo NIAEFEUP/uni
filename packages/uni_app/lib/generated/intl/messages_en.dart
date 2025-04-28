@@ -75,6 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "add_widget": MessageLookupByLibrary.simpleMessage("Add widget"),
         "agree_terms": MessageLookupByLibrary.simpleMessage(
             "By entering you agree with these"),
+        "all": MessageLookupByLibrary.simpleMessage("All"),
         "all_feminine": MessageLookupByLibrary.simpleMessage("All"),
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
             "All available widgets have already been added to your personal area!"),
@@ -84,6 +85,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Select at least one college"),
         "available_amount":
             MessageLookupByLibrary.simpleMessage("Available amount"),
+        "available_elements":
+            MessageLookupByLibrary.simpleMessage("Available elements"),
         "average": MessageLookupByLibrary.simpleMessage("Average"),
         "balance": MessageLookupByLibrary.simpleMessage("Balance"),
         "banner_info": MessageLookupByLibrary.simpleMessage(
@@ -110,6 +113,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Personalize your buses here"),
         "buses_text": MessageLookupByLibrary.simpleMessage(
             "Favorite buses will be displayed in the favorites \'Bus\' widget. The remaining ones will only be displayed on the page."),
+        "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "change": MessageLookupByLibrary.simpleMessage("Change"),
         "change_prompt": MessageLookupByLibrary.simpleMessage(
@@ -156,6 +160,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Floor -1 of building B (B-142)"),
         "download_error":
             MessageLookupByLibrary.simpleMessage("Error downloading the file"),
+        "drag_and_drop":
+            MessageLookupByLibrary.simpleMessage("Drag and drop elements"),
         "ects": MessageLookupByLibrary.simpleMessage("ECTS performed: "),
         "edit_off": MessageLookupByLibrary.simpleMessage("Edit"),
         "edit_on": MessageLookupByLibrary.simpleMessage("Finish editing"),
@@ -208,14 +214,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "last_refresh_time": m1,
         "last_timestamp": m2,
         "leave_feedback":
-            MessageLookupByLibrary.simpleMessage("Leave Feedback"),
+            MessageLookupByLibrary.simpleMessage("Leave feedback"),
         "lectures": MessageLookupByLibrary.simpleMessage("Lectures"),
+        "library": MessageLookupByLibrary.simpleMessage("Library"),
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Library Occupation"),
         "load_error": MessageLookupByLibrary.simpleMessage(
             "Error loading the information"),
         "loading_terms": MessageLookupByLibrary.simpleMessage(
             "Loading Terms and Conditions..."),
+        "location": MessageLookupByLibrary.simpleMessage("Location"),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
         "login_with_credentials":
             MessageLookupByLibrary.simpleMessage("Login with credentials"),
@@ -334,7 +342,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
             "Do you want to see your favorite restaurants in the main page?"),
         "restaurant_period": m4,
+        "restaurants": MessageLookupByLibrary.simpleMessage("Restaurants"),
         "room": MessageLookupByLibrary.simpleMessage("Room"),
+        "save": MessageLookupByLibrary.simpleMessage("Save"),
         "schedule": MessageLookupByLibrary.simpleMessage("Schedule"),
         "school_calendar":
             MessageLookupByLibrary.simpleMessage("School Calendar"),
@@ -367,6 +377,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "try_different_login":
             MessageLookupByLibrary.simpleMessage("Having trouble signing in?"),
         "uc_info": MessageLookupByLibrary.simpleMessage("Open UC page"),
+        "ucs": MessageLookupByLibrary.simpleMessage("UCS"),
         "unavailable": MessageLookupByLibrary.simpleMessage("Unavailable"),
         "until": MessageLookupByLibrary.simpleMessage("Until"),
         "valid_email":

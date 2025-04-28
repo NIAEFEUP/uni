@@ -1,17 +1,21 @@
 import 'package:flutter/widgets.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni_ui/icons.dart';
 
-(String, Icon) formatDraggableTile(FavoriteWidgetType favorite) {
+(String, Icon) formatDraggableTile(
+  BuildContext context,
+  FavoriteWidgetType favorite,
+) {
   switch (favorite) {
     case FavoriteWidgetType.schedule:
-      return ('Schedule', const UniIcon(UniIcons.lecture));
+      return (S.of(context).schedule, const UniIcon(UniIcons.lecture));
     case FavoriteWidgetType.exams:
-      return ('Exams', const UniIcon(UniIcons.exam));
+      return (S.of(context).exams, const UniIcon(UniIcons.exam));
     case FavoriteWidgetType.library:
-      return ('Library', const UniIcon(UniIcons.library));
+      return (S.of(context).library, const UniIcon(UniIcons.library));
     case FavoriteWidgetType.restaurants:
-      return ('Restaurants', const UniIcon(UniIcons.restaurant));
+      return (S.of(context).restaurants, const UniIcon(UniIcons.restaurant));
     // case 'calendar':
     //   title = 'Calendar';
     //   icon = const UniIcon(UniIcons.calendar);

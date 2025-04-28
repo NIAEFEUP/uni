@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/view/common_widgets/expanded_image_label.dart';
+import 'package:uni/view/widgets/expanded_image_label.dart';
 
 class NoExamsWidget extends StatelessWidget {
   const NoExamsWidget({super.key});

@@ -7,20 +7,24 @@ import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/utils/string_formatter.dart';
 import 'package:uni/view/academic_path/academic_path.dart';
-import 'package:uni/view/common_widgets/icon_label.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/timeline_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
+import 'package:uni/view/widgets/icon_label.dart';
 import 'package:uni_ui/cards/exam_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
 import 'package:uni_ui/icons.dart';
 
 class ExamHomeCard extends GenericHomecard {
   const ExamHomeCard({
-    super.title = 'Exams',
     super.key,
   });
+
+  @override
+  String getTitle(BuildContext context) {
+    return S.of(context).exams;
+  }
 
   @override
   Widget buildCardContent(BuildContext context) {

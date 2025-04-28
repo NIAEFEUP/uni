@@ -10,8 +10,8 @@ import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/bug_report/widgets/dropdown_bug_select.dart';
 import 'package:uni/view/bug_report/widgets/text_field.dart';
-import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
-import 'package:uni/view/common_widgets/toast_message.dart';
+import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
+import 'package:uni/view/widgets/toast_message.dart';
 
 class BugReportPageView extends StatefulWidget {
   const BugReportPageView({super.key});

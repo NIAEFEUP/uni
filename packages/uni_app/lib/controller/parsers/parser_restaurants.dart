@@ -79,6 +79,7 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
       restaurantTuple.$2,
       restaurantTuple.$2,
       restaurantTuple.$1,
+      2, // Hardcoded to Asprela Campus
       '',
       [],
       '',
