@@ -4,14 +4,10 @@ import 'package:flutter/material.dart';
 class GenericSquircle extends StatelessWidget {
   const GenericSquircle({
     super.key,
-    this.margin,
-    this.padding,
     this.borderRadius,
     required this.child,
   });
 
-  final EdgeInsetsGeometry? margin;
-  final EdgeInsetsGeometry? padding;
   final double? borderRadius;
   final Widget child;
 

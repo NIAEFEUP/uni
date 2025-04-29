@@ -88,8 +88,6 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSPhotoLibraryUsageDescription</key>
-    <string>to be able to add screenshots of possible bugs.</string>
 
 </dict>
 </plist>
