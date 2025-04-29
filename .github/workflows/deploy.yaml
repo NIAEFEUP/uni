@@ -90,7 +90,8 @@ jobs:
           export NEW_VERSION_NAME=${{ 
             (steps.bump-beta-version.outcome == 'success' && steps.bump-beta-version.outputs.new_version) ||
             (steps.bump-prod-minor-version.outcome == 'success' && steps.bump-prod-minor-version.outputs.new_version) ||
-            (steps.bump-prod-patch-version.outcome == 'success' && steps.bump-prod-patch-version.outputs.new_version)
+            (steps.bump-prod-patch-version.outcome == 'success' && steps.bump-prod-patch-version.outputs.new_version) ||
+            (steps.bump-prod-major-version.outcome == 'success' && steps.bump-prod-major-version.outputs.new_version)
           }}
           echo "$NEW_VERSION_NAME+$((${{steps.latest-production-version.outputs.latest_version_code}} + 1))" > ${{env.APP_VERSION_PATH}}
 
