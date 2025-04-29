@@ -93,8 +93,8 @@ configurations {
 }
 
 dependencies {
-    implementation "io.objectbox:objectbox-android:4.0.3"
-    debugImplementation("io.objectbox:objectbox-android-objectbrowser:4.0.3")
+    implementation "io.objectbox:objectbox-android:4.1.0"
+    debugImplementation("io.objectbox:objectbox-android-objectbrowser:4.1.0")
 
     // The following 3 lines are a workaround for the Flutter issue.
     // Learn more: https://github.com/flutter/flutter/issues/110658
