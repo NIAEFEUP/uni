@@ -65,7 +65,7 @@ class DraggableSquare extends StatelessWidget {
               ),
               Text(
                 title,
-                style: Theme.of(context).textTheme.bodySmall,
+                style: Theme.of(context).textTheme.labelSmall,
               ),
             ],
           ),
