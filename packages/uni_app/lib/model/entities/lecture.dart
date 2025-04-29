@@ -1,20 +1,25 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:uni/model/entities/reference.dart';
+import 'package:objectbox/objectbox.dart';
+import 'package:uni/model/converters/date_time_converter.dart';
 
 part '../../generated/model/entities/lecture.g.dart';
 
 /// Stores information about a lecture.
 @DateTimeConverter()
 @JsonSerializable()
+@Entity()
 class Lecture {
   /// Creates an instance of the class [Lecture].
   Lecture(
+    this.acronym,
     this.subject,
     this.typeClass,
     this.startTime,
     this.endTime,
     this.room,
     this.teacher,
+    this.teacherName,
+    this.teacherId,
     this.classNumber,
     this.occurrId,
   );
@@ -23,73 +28,55 @@ class Lecture {
       _$LectureFromJson(json);
 
   factory Lecture.fromApi(
+    String acronym,
     String subject,
     String typeClass,
     DateTime startTime,
     int blocks,
     String room,
     String teacher,
+    String teacherName,
+    int teacherId,
     String classNumber,
     int occurrId,
   ) {
     final endTime = startTime.add(Duration(minutes: 30 * blocks));
     final lecture = Lecture(
+      acronym,
       subject,
       typeClass,
       startTime,
       endTime,
       room,
       teacher,
+      teacherName,
+      teacherId,
       classNumber,
       occurrId,
     );
     return lecture;
   }
 
-  factory Lecture.fromHtml(
-    String subject,
-    String typeClass,
-    DateTime day,
-    String startTimeString,
-    int blocks,
-    String room,
-    String teacher,
-    String classNumber,
-    int occurrId,
-  ) {
-    final startTimeList = startTimeString.split(':');
-    final startTime = day.add(
-      Duration(
-        hours: int.parse(startTimeList[0]),
-        minutes: int.parse(startTimeList[1]),
-      ),
-    );
-    final endTime = startTime.add(Duration(minutes: 30 * blocks));
-    return Lecture(
-      subject,
-      typeClass,
-      startTime,
-      endTime,
-      room,
-      teacher,
-      classNumber,
-      occurrId,
-    );
-  }
+  @Id()
+  int? uniqueId;
 
+  String acronym;
   String subject;
   String typeClass;
   String room;
   String teacher;
+  String teacherName;
+  int teacherId;
   String classNumber;
   DateTime startTime;
   DateTime endTime;
   int occurrId;
+
   Map<String, dynamic> toJson() => _$LectureToJson(this);
 
   @override
   String toString() {
-    return '$subject $typeClass\n$startTime $endTime\n $room  '
+    return '$acronym \n$subject $typeClass\n$startTime $endTime\n $room  '
         '$teacher\n';
   }
 
@@ -100,12 +87,15 @@ class Lecture {
 
   @override
   int get hashCode => Object.hash(
+        acronym,
         subject,
         startTime,
         endTime,
         typeClass,
         room,
         teacher,
+        teacherName,
+        teacherId,
         startTime,
         occurrId,
       );
@@ -113,11 +103,14 @@ class Lecture {
   @override
   bool operator ==(Object other) =>
       other is Lecture &&
+      acronym == other.acronym &&
       subject == other.subject &&
       startTime == other.startTime &&
       endTime == other.endTime &&
       typeClass == other.typeClass &&
       room == other.room &&
       teacher == other.teacher &&
+      teacherName == other.teacherName &&
+      teacherId == other.teacherId &&
       occurrId == other.occurrId;
 }

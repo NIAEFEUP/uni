@@ -1,3 +1,5 @@
+import 'package:uni/model/utils/time/weekday_mapper.dart';
+
 enum DayOfWeek {
   monday,
   tuesday,
@@ -6,6 +8,11 @@ enum DayOfWeek {
   friday,
   saturday,
   sunday
+}
+
+DayOfWeek parseDateTime(DateTime dateTime) {
+  final index = WeekdayMapper.fromDartToIndex.map(dateTime.weekday);
+  return DayOfWeek.values[index];
 }
 
 DayOfWeek? parseDayOfWeek(String str) {

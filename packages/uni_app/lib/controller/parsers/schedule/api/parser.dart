@@ -62,12 +62,15 @@ Future<List<Lecture>> parseSchedule(
     final occurrId = lecture['ocorrencia_id'] as int;
 
     final lec = Lecture.fromApi(
-      subject,
+      '',
+      _filterSubjectName(subject),
       typeClass,
       startTime,
       blocks,
       room,
       teacher,
+      '',
+      0, // doesn't matter since this is the old api and isn't being used, right?
       classNumber,
       occurrId,
     );
@@ -76,4 +79,9 @@ Future<List<Lecture>> parseSchedule(
   }
 
   return lectures.toList()..sort((a, b) => a.compare(b));
+}
+
+String _filterSubjectName(String subject) {
+  return RegExp(r' - ([^()]*)(?: \(|$)').firstMatch(subject)?.group(1) ??
+      subject;
 }

@@ -1,5 +1,5 @@
 import 'package:uni/model/entities/location.dart';
-import 'package:uni/view/locations/widgets/icons.dart';
+import 'package:uni_ui/icons.dart';
 
 class Printer implements Location {
   Printer(this.floor, {this.locationGroupId});
@@ -10,7 +10,7 @@ class Printer implements Location {
   final weight = 1;
 
   @override
-  final icon = LocationIcons.printer;
+  final icon = UniIcons.printer;
 
   final int? locationGroupId;
 

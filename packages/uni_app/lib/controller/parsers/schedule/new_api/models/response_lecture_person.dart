@@ -4,11 +4,13 @@ part '../../../../../generated/controller/parsers/schedule/new_api/models/respon
 
 @JsonSerializable(explicitToJson: true)
 class ResponseLecturePerson {
-  ResponseLecturePerson(this.acronym);
+  ResponseLecturePerson(this.acronym, this.name);
+
   factory ResponseLecturePerson.fromJson(Map<String, dynamic> json) =>
       _$ResponseLecturePersonFromJson(json);
 
   String acronym;
+  String name;
 
   Map<String, dynamic> toJson() => _$ResponseLecturePersonToJson(this);
 }

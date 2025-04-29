@@ -4,11 +4,12 @@ part '../../../../../generated/controller/parsers/schedule/new_api/models/respon
 
 @JsonSerializable(explicitToJson: true)
 class ResponseLectureUnit {
-  ResponseLectureUnit(this.acronym, this.sigarraId);
+  ResponseLectureUnit(this.acronym, this.name, this.sigarraId);
   factory ResponseLectureUnit.fromJson(Map<String, dynamic> json) =>
       _$ResponseLectureUnitFromJson(json);
 
   String acronym;
+  String name;
   @JsonKey(name: 'sigarra_id')
   int sigarraId;
 
