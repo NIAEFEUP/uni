@@ -1,4 +1,6 @@
+import 'package:path/path.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/controller/cleanup.dart';
 
 class Migrations {
   static Future<void> migrateToV2() async {
@@ -8,5 +10,10 @@ class Migrations {
     // we could try and filter the user's favorite cards, which is quite impossible because we were storing indexes before and now we are storing strings
     // the easiest solution is to reset only this preference to the default one, which is not that bad as the homepage is fresh new
     await PreferencesController.setDefaultCards();
+  }
+
+  static Future<void> migrateToV3() async {
+    await cleanupCachedFiles(true);
+    await cleanupStoredData(null);
   }
 }
