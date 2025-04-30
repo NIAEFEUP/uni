@@ -90,7 +90,7 @@ Future<void> main() async {
     ReferenceProvider(),
   );
 
-  unawaited(cleanupCachedFiles());
+  unawaited(cleanupCachedFiles(false));
 
   // Initialize WorkManager for background tasks
   await Workmanager().initialize(

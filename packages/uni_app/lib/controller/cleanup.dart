@@ -5,19 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uni/controller/local_storage/database/app_bus_stop_database.dart';
 import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/providers/state_providers.dart';
 
-Future<void> cleanupStoredData(BuildContext context) async {
-  StateProviders.fromContext(context).invalidate();
-
+Future<void> cleanupStoredData(BuildContext? context) async {
+  if (context != null) {
+    StateProviders.fromContext(context).invalidate();
+  }
   final prefs = await SharedPreferences.getInstance();
   await prefs.clear();
 
   await Future.wait([
-    AppBusStopDatabase().deleteBusStops(),
     PreferencesController.removeSavedSession(),
   ]);
 
@@ -28,12 +27,12 @@ Future<void> cleanupStoredData(BuildContext context) async {
   await cleanDirectory(toCleanDirectory, DateTime.now());
 }
 
-Future<void> cleanupCachedFiles() async {
+Future<void> cleanupCachedFiles(bool forceClean) async {
   final lastCleanupDate = PreferencesController.getLastCleanUpDate();
   final daysSinceLastCleanup =
       DateTime.now().difference(lastCleanupDate).inDays;
 
-  if (daysSinceLastCleanup < 14) {
+  if (daysSinceLastCleanup < 14 && !forceClean) {
     return;
   }
 
