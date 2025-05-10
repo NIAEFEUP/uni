@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/utils/string_formatter.dart';
+import 'package:uni/view/academic_path/widgets/exam_page_shimmer.dart';
 import 'package:uni/view/academic_path/widgets/exam_modal.dart';
 import 'package:uni/view/academic_path/widgets/no_exams_widget.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -168,6 +170,7 @@ class _ExamsPageState extends State<ExamsPage> {
                 ),
               ),
         ),
+        contentLoadingWidget: const ShimmerExamPage(),
       ),
     );
   }
