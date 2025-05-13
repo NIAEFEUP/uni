@@ -439,5 +439,7 @@
   "view_course_details": "View course details",
   "@view_course_details": {},
   "until": "Until",
-  "@until": {}
+  "@until": {},
+	"services": "Services",
+	"@services": {}
 }
