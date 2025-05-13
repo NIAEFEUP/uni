@@ -437,5 +437,7 @@
   "view_course_details": "Ver detalhes da Unidade Curricular",
   "@view_course_details": {},
   "until": "Até",
-  "@until": {}
+  "@until": {},
+	"services": "Serviços",
+	"@services": {}
 }
