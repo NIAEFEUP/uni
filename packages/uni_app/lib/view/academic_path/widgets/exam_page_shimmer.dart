@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:uni/utils/date_time_formatter.dart';
-import 'package:uni_ui/common/generic_squircle.dart';
+import 'package:uni/view/home/widgets/schedule/timeline_shimmer.dart';
 import 'package:uni_ui/timeline/timeline.dart';
 import '../../locale_notifier.dart';
 
@@ -65,72 +65,8 @@ class ShimmerExamPage extends StatelessWidget {
                   maxLines: 1,
                 ),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Shimmer.fromColors(
-                      baseColor: Colors.grey[300]!,
-                      highlightColor: Colors.grey[100]!,
-                      child: GenericSquircle(
-                        child: Container(
-                          height: 75,
-                          decoration: const BoxDecoration(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                height: 15,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Shimmer.fromColors(
-                      baseColor: Colors.grey[300]!,
-                      highlightColor: Colors.grey[100]!,
-                      child: GenericSquircle(
-                        child: Container(
-                          height: 75,
-                          decoration: const BoxDecoration(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                height: 15,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Shimmer.fromColors(
-                      baseColor: Colors.grey[300]!,
-                      highlightColor: Colors.grey[100]!,
-                      child: GenericSquircle(
-                        child: Container(
-                          height: 75,
-                          decoration: const BoxDecoration(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              const ShimmerTimelineItem(),
+              const ShimmerTimelineItem(),
             ],
           ),
         );
