@@ -100,7 +100,7 @@ class AllServiceCardsState extends State<AllServiceCards> {
         Row(
           children: [
             Text(
-              'Services',
+              S.of(context).services,
               style: Theme.of(context).textTheme.headlineLarge,
             ),
             const Spacer(),
