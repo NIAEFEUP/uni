@@ -104,65 +104,65 @@ class MapPageStateView extends State<MapPage> {
                     },
                   ),
                 ),
-                PopupMarkerLayer(
-                  options: PopupMarkerLayerOptions(
-                    markers: filteredLocations.map((location) {
-                      return LocationMarker(location.latlng, location);
-                    }).toList(),
-                    popupController: _popupLayerController,
-                    popupDisplayOptions: PopupDisplayOptions(
-                      animation: const PopupAnimation.fade(
-                        duration: Duration(milliseconds: 400),
-                      ),
-                      builder: (_, marker) {
-                        if (marker is LocationMarker) {
-                          return marker.locationGroup.isFloorless
-                              ? FloorlessLocationMarkerPopup(
-                                  marker.locationGroup,
-                                )
-                              : LocationMarkerPopup(marker.locationGroup);
-                        }
-                        return const Card(child: Text(''));
-                      },
+              ),
+              PopupMarkerLayer(
+                options: PopupMarkerLayerOptions(
+                  markers: filteredLocations.map((location) {
+                    return LocationMarker(location.latlng, location);
+                  }).toList(),
+                  popupController: _popupLayerController,
+                  popupDisplayOptions: PopupDisplayOptions(
+                    animation: const PopupAnimation.fade(
+                      duration: Duration(milliseconds: 400),
                     ),
+                    builder: (_, marker) {
+                      if (marker is LocationMarker) {
+                        return marker.locationGroup.isFloorless
+                            ? FloorlessLocationMarkerPopup(
+                                marker.locationGroup,
+                              )
+                            : LocationMarkerPopup(marker.locationGroup);
+                      }
+                      return const Card(child: Text(''));
+                    },
                   ),
                 ),
-                SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
-                    ),
-                    child: PhysicalModel(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      elevation: 3,
-                      child: TextFormField(
-                        key: searchFormKey,
-                        onChanged: (text) {
-                          setState(() {
-                            searchTerms =
-                                removeDiacritics(text.trim().toLowerCase());
-                          });
-                        },
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Theme.of(context).colorScheme.secondary,
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: SvgPicture.asset(
-                              'assets/images/logo_dark.svg',
-                              semanticsLabel: 'search',
-                              width: 10,
-                            ),
+              ),
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
+                  child: PhysicalModel(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    elevation: 3,
+                    child: TextFormField(
+                      key: searchFormKey,
+                      onChanged: (text) {
+                        setState(() {
+                          searchTerms =
+                              removeDiacritics(text.trim().toLowerCase());
+                        });
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Theme.of(context).colorScheme.secondary,
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: SvgPicture.asset(
+                            'assets/images/logo_dark.svg',
+                            semanticsLabel: 'search',
+                            width: 10,
                           ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.all(10),
-                          hintText: '${S.of(context).search}...',
                         ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: const EdgeInsets.all(10),
+                        hintText: '${S.of(context).search}...',
                       ),
                     ),
                   ),
