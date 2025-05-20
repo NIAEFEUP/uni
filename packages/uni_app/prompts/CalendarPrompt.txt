@@ -1,0 +1,18 @@
+**Prompt File Content:**
+
+**Task:** Extract event data from the following HTML content and output it as a JSON array. Each object in the array should represent an event and have the following keys:
+
+*   name: The name of the event.
+*   start_date: The start date of the event, formatted as an ISO 8601 string (YYYY-MM-DD). If the date is a range, this should be the beginning date. If a single date, the start_date and end_date are the same. If a start date is not provided, then the value should be an empty string.
+*   end_date: The end date of the event, formatted as an ISO 8601 string (YYYY-MM-DD). If the date is a range, this should be the ending date. If a single date, the start_date and end_date are the same.
+
+**Specific Instructions:**
+
+1.  **HTML Structure:** The events are located within <table> elements.  Each event is described in a <tr> (table row) element. The event name is in the first <td> (table data cell) with class formularionome, and the date(s) are in the second <td>.
+2.  **Date Ranges:** Some events have a date range in the second <td>, indicated by the presence of " a " within the text (e.g., "28 de outubro a 01 de novembro de 2024"). Split the date range into start_date and end_date. Parse these dates into the ISO 8601 format. Also, some dates are indicated by the "até" word, meaning until, where the start date is not specified and should be an empty string.
+3.  **Date Parsing:** Convert the extracted dates (start_date and end_date) into the ISO 8601 format (YYYY-MM-DD).  For example, "23 de setembro de 2024" should become "2024-09-23".
+4.  **"TBD" Values:** If the date is "TBD" (To Be Determined), start and end date should be empty.
+5.  **Output Format:** The output should be a valid JSON array.  Use proper indentation and formatting for readability.
+6.  **No Explanations:** Provide ONLY the JSON output. Do not include any surrounding text or explanations.
+7. **If the start date is not provided then the value should be an empty string, but the end date should be added**
+**HTML Content:**

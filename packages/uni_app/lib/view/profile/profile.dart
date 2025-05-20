@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/profile/widgets/profile_info.dart';
 import 'package:uni/view/profile/widgets/profile_overview.dart';
 import 'package:uni/view/profile/widgets/settings.dart';
+import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 
 class ProfilePageView extends StatefulWidget {
   const ProfilePageView({super.key});

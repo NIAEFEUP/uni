@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logger/logger.dart';
@@ -15,8 +14,10 @@ import 'package:ua_client_hints/ua_client_hints.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
 import 'package:uni/controller/cleanup.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
+import 'package:uni/controller/local_storage/migrations/migration_controller.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/model/providers/lazy/course_units_info_provider.dart';
@@ -34,14 +35,11 @@ import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/about/about.dart';
 import 'package:uni/view/academic_path/academic_path.dart';
 import 'package:uni/view/bug_report/bug_report.dart';
-import 'package:uni/view/bus_stop_next_arrivals/bus_stop_next_arrivals.dart';
 import 'package:uni/view/calendar/calendar.dart';
-import 'package:uni/view/common_widgets/page_transition.dart';
-import 'package:uni/view/exams/exams.dart';
+import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni/view/faculty/faculty.dart';
 import 'package:uni/view/home/edit_home.dart';
 import 'package:uni/view/home/home.dart';
-import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/login/login.dart';
 import 'package:uni/view/map/map.dart';
@@ -49,9 +47,12 @@ import 'package:uni/view/profile/profile.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/theme_notifier.dart';
+import 'package:uni/view/widgets/page_transition.dart';
 import 'package:uni_ui/theme.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:workmanager/workmanager.dart';
+
+import 'controller/local_storage/database/database.dart';
 
 SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
@@ -71,14 +72,9 @@ Future<String> firstRoute() async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light,
-    ),
-  );
-
   PreferencesController.prefs = await SharedPreferences.getInstance();
+
+  await MigrationController.runMigrations();
 
   final stateProviders = StateProviders(
     LectureProvider(),
@@ -101,6 +97,9 @@ Future<void> main() async {
     workerStartCallback,
     isInDebugMode: !kReleaseMode,
   );
+
+  // NoSQL database initialization
+  await Database().init();
 
   // Read environment, which may include app tokens
   await dotenv
@@ -241,83 +240,78 @@ class ApplicationState extends State<Application> {
           initialRoute: widget.initialRoute,
           navigatorObservers: navigatorObservers,
           onGenerateRoute: (settings) {
-            final transitions = {
-              '/splash': PageTransition.makePageTransition(
-                page: const SplashScreenView(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navEditPersonalArea.route}':
+            final args = settings.arguments;
+            final courseUnit = args is CourseUnit ? args : null;
+            final transitionFunctions = <String, Route<dynamic> Function()>{
+              '/${NavigationItem.navSplash.route}': () =>
                   PageTransition.splashTransitionRoute(
-                page: const EditHomeView(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navLogin.route}':
+                    page: const SplashScreenView(),
+                    settings: settings,
+                  ),
+              '/${NavigationItem.navEditPersonalArea.route}': () =>
+                  PageTransition.makePageTransition(
+                    page: const EditHomeView(),
+                    settings: settings,
+                  ),
+              '/${NavigationItem.navLogin.route}': () =>
                   PageTransition.splashTransitionRoute(
-                page: const LoginPageView(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navPersonalArea.route}':
+                    page: const LoginPageView(),
+                    settings: settings,
+                  ),
+              '/${NavigationItem.navPersonalArea.route}': () =>
                   PageTransition.makePageTransition(
-                page: const HomePageView(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navExams.route}':
+                    page: const HomePageView(),
+                    settings: settings,
+                  ),
+              '/${NavigationItem.navMap.route}': () =>
                   PageTransition.makePageTransition(
-                page: const ExamsPageView(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navStops.route}':
+                    page: const MapPage(),
+                    settings: settings,
+                  ),
+              '/${NavigationItem.navRestaurants.route}': () =>
                   PageTransition.makePageTransition(
-                page: const BusStopNextArrivalsPage(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navMap.route}':
+                    page: const RestaurantPageView(),
+                    settings: settings,
+                  ),
+              '/${NavigationItem.navCalendar.route}': () =>
                   PageTransition.makePageTransition(
-                page: const MapPage(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navRestaurants.route}':
+                    page: const CalendarPageView(),
+                    settings: settings,
+                  ),
+              '/${NavigationItem.navFaculty.route}': () =>
                   PageTransition.makePageTransition(
-                page: const RestaurantPageView(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navCalendar.route}':
+                    page: const FacultyPageView(),
+                    settings: settings,
+                  ),
+              '/${NavigationItem.navAcademicPath.route}': () =>
                   PageTransition.makePageTransition(
-                page: const CalendarPageView(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navLibrary.route}':
+                    page: const AcademicPathPageView(),
+                    settings: settings,
+                  ),
+              '/${NavigationItem.navProfile.route}': () =>
                   PageTransition.makePageTransition(
-                page: const LibraryPage(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navFaculty.route}':
+                    page: const ProfilePageView(),
+                    settings: settings,
+                  ),
+              '/${NavigationItem.navBugreport.route}': () =>
                   PageTransition.makePageTransition(
-                page: const FacultyPageView(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navAcademicPath.route}':
+                    page: const BugReportPageView(),
+                    settings: settings,
+                  ),
+              '/${NavigationItem.navAboutus.route}': () =>
                   PageTransition.makePageTransition(
-                page: const AcademicPathPageView(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navProfile.route}':
+                    page: const AboutPageView(),
+                    settings: settings,
+                  ),
+              '/${NavigationItem.navCourseUnit.route}': () =>
                   PageTransition.makePageTransition(
-                page: const ProfilePageView(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navBugreport.route}':
-                  PageTransition.makePageTransition(
-                page: const BugReportPageView(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navAboutus.route}':
-                  PageTransition.makePageTransition(
-                page: const AboutPageView(),
-                settings: settings,
-              ),
+                    page: CourseUnitDetailPageView(courseUnit!),
+                    settings: settings,
+                  ),
             };
-            return transitions[settings.name];
+
+            final builder = transitionFunctions[settings.name];
+            return builder != null ? builder() : null;
           },
         ),
       ),

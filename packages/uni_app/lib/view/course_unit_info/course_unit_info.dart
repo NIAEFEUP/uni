@@ -6,11 +6,11 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/course_units_info_provider.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_no_files.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet.dart';
+import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/tabs/tab_icon.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -27,8 +27,20 @@ class CourseUnitDetailPageView extends StatefulWidget {
 }
 
 class CourseUnitDetailPageViewState
-    extends SecondaryPageViewState<CourseUnitDetailPageView> {
+    extends SecondaryPageViewState<CourseUnitDetailPageView>
+    with SingleTickerProviderStateMixin {
   List<Exam> courseUnitExams = [];
+
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(
+      vsync: this,
+      length: 3,
+    );
+  }
 
   Future<void> loadInfo({required bool force}) async {
     final courseUnitsProvider =
@@ -75,34 +87,26 @@ class CourseUnitDetailPageViewState
 
   @override
   Widget? getHeader(BuildContext context) {
-    return null;
+    return TabBar(
+      controller: tabController,
+      dividerHeight: 1,
+      tabs: [
+        TabIcon(icon: UniIcons.notebook, text: S.of(context).course_info),
+        TabIcon(icon: UniIcons.classes, text: S.of(context).course_class),
+        TabIcon(icon: UniIcons.files, text: S.of(context).files),
+      ],
+    );
   }
 
   @override
   Widget getBody(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TabBar(
-            tabs: [
-              TabIcon(icon: UniIcons.notebook, text: S.of(context).course_info),
-              TabIcon(icon: UniIcons.classes, text: S.of(context).course_class),
-              TabIcon(icon: UniIcons.files, text: S.of(context).files),
-            ],
-          ),
-          Expanded(
-            child: TabBarView(
-              children: [
-                _courseUnitSheetView(context),
-                _courseUnitClassesView(context),
-                _courseUnitFilesView(context),
-              ],
-            ),
-          ),
-        ],
-      ),
+    return TabBarView(
+      controller: tabController,
+      children: [
+        _courseUnitSheetView(context),
+        _courseUnitClassesView(context),
+        _courseUnitFilesView(context),
+      ],
     );
   }
 
@@ -177,7 +181,7 @@ class CourseUnitDetailPageViewState
   String? getTitle() => widget.courseUnit.name;
 
   @override
-  Widget? getTopRightButton(BuildContext context) {
+  Widget? getRightContent(BuildContext context) {
     return IconButton(
       icon: UniIcon(
         UniIcons.arrowSquareOut,

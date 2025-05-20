@@ -17,6 +17,7 @@ import 'package:uni/utils/favorite_widget_type.dart';
 class PreferencesController {
   static late SharedPreferences prefs;
 
+  static const String _version = 'preferences_version';
   static const _lastUpdateTimeKeySuffix = '_last_update_time';
   static const String _userSession = 'user_session';
   static const String _termsAndConditions = 'terms_and_conditions';
@@ -42,8 +43,21 @@ class PreferencesController {
   static const String _schoolYearValue = 'school_year_value';
   static const String _serviceCardsIsGrid = 'service_cards_is_grid';
   static const String _selectedDishType = 'selected_dish_type';
+  static const String _selectedDishTypes = 'selected_dish_types';
+  static final Set<String> _defaultSelectedDishes = {
+    'meat_dishes',
+    'fish_dishes',
+    'vegetarian_dishes',
+    'soups',
+    'salads',
+    'diet_dishes',
+    'dishes_of_the_day',
+  };
   static const String _isFavoriteRestaurantsFilterOn =
       'is_favorite_restaurant_filter_on';
+  static const String _selectedCampusFilter = 'selected_campus';
+  static const String _isRestaurantReminderDismissed =
+      'is_restaurant_reminder_dismissed';
 
   static final _statsToggleStreamController =
       StreamController<bool>.broadcast();
@@ -52,6 +66,14 @@ class PreferencesController {
   static final _hiddenExamsChangeStreamController =
       StreamController<List<String>>.broadcast();
   static final onHiddenExamsChange = _hiddenExamsChangeStreamController.stream;
+
+  static int getPreferencesVersion() {
+    return prefs.getInt(_version) ?? 1;
+  }
+
+  static Future<bool> setPreferencesVersion(int newVersion) async {
+    return prefs.setInt(_version, newVersion);
+  }
 
   /// Returns the last time the data with given key was updated.
   static DateTime? getLastDataClassUpdateTime(String dataKey) {
@@ -173,12 +195,28 @@ class PreferencesController {
     await _secureStorage.delete(key: _userSession);
   }
 
+  static Future<void> setDefaultCards() async {
+    await prefs.setStringList(
+      _favoriteCards,
+      _homeDefaultcards.map((elem) => elem.name).toList(),
+    );
+  }
+
   static Future<void> saveFavoriteCards(
     List<FavoriteWidgetType> newFavorites,
   ) async {
     await prefs.setStringList(
       _favoriteCards,
-      newFavorites.map((elem) => elem.name).toList(),
+      newFavorites
+          .fold(<FavoriteWidgetType>[], (toStore, widgetType) {
+            if (!toStore.contains(widgetType)) {
+              toStore.add(widgetType);
+            }
+
+            return toStore;
+          })
+          .map((elem) => elem.name)
+          .toList(),
     );
   }
 
@@ -292,15 +330,19 @@ class PreferencesController {
     return prefs.getBool(_serviceCardsIsGrid) ?? true;
   }
 
-  static Future<void> setSelectedDishType(int? value) async {
-    await prefs.setInt(_selectedDishType, value ?? 1);
-    if (value == null) {
-      await prefs.remove(_selectedDishType);
-    }
+  static Future<void> setSelectedDishTypes(Set<String> values) async {
+    await prefs.setStringList(
+      _selectedDishTypes,
+      values.toList(),
+    );
   }
 
-  static int? getSelectedDishType() {
-    return prefs.getInt(_selectedDishType);
+  static Set<String> getSelectedDishTypes() {
+    final stored = prefs.getStringList(_selectedDishTypes);
+    if (stored == null) {
+      return _defaultSelectedDishes;
+    }
+    return stored.toSet();
   }
 
   static Future<void> setIsFavoriteRestaurantsFilterOn(bool? value) async {
@@ -312,5 +354,21 @@ class PreferencesController {
 
   static bool? getIsFavoriteRestaurantsFilterOn() {
     return prefs.getBool(_isFavoriteRestaurantsFilterOn);
+  }
+
+  static Future<void> setSelectedCampus(int value) async {
+    await prefs.setInt(_selectedCampusFilter, value);
+  }
+
+  static int? getSelectedCampus() {
+    return prefs.getInt(_selectedCampusFilter);
+  }
+
+  static Future<void> setRestaurantReminderDismissed(bool isDismissed) async {
+    await prefs.setBool(_isRestaurantReminderDismissed, isDismissed);
+  }
+
+  static bool isRestaurantReminderDismissed() {
+    return prefs.getBool(_isRestaurantReminderDismissed) ?? false;
   }
 }

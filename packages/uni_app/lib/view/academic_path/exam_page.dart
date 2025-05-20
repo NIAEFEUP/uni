@@ -5,6 +5,7 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/utils/string_formatter.dart';
+import 'package:uni/view/academic_path/widgets/exam_modal.dart';
 import 'package:uni/view/academic_path/widgets/no_exams_widget.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -26,8 +27,6 @@ class _ExamsPageState extends State<ExamsPage> {
 
   @override
   Widget build(BuildContext context) {
-    const bottomNavbarHeight = 120.0;
-
     /*
       If we want to filters exams again
         filteredExamTypes[Exam.getExamTypeLong(exam.examType)] ??
@@ -77,7 +76,7 @@ class _ExamsPageState extends State<ExamsPage> {
               children: [
                 if (exams.isNotEmpty)
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
+                    padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
                       DateTime(DateTime.now().year, month)
                           .fullMonth(
@@ -94,7 +93,7 @@ class _ExamsPageState extends State<ExamsPage> {
                   itemBuilder: (context, index) {
                     final exam = exams[index];
                     return Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                      padding: const EdgeInsets.only(bottom: 4, top: 4),
                       child: TimelineItem(
                         title: exam.start.day.toString(),
                         subtitle: exam.start
@@ -110,6 +109,12 @@ class _ExamsPageState extends State<ExamsPage> {
                           type: exam.examType,
                           startTime: exam.formatTime(exam.start),
                           isInvisible: hiddenExams.contains(exam.id),
+                          onClick: () {
+                            showDialog<void>(
+                              context: context,
+                              builder: (context) => ExamModal(exam: exam),
+                            );
+                          },
                           iconAction: () {
                             setState(() {
                               if (hiddenExams.contains(exam.id)) {
@@ -148,9 +153,8 @@ class _ExamsPageState extends State<ExamsPage> {
           // Band-aid for allowing refresh on null content
           builder: (context, constraints) => SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
-            child: Container(
+            child: SizedBox(
               height: constraints.maxHeight, // Height of bottom navbar
-              padding: const EdgeInsets.only(bottom: bottomNavbarHeight),
               child: const Center(
                 child: NoExamsWidget(),
               ),
@@ -169,25 +173,4 @@ class _ExamsPageState extends State<ExamsPage> {
     }
     return months;
   }
-
-  /*Exam? _nextExam(List<Exam> exams) {
-    final now = DateTime.now();
-    final nextExams = exams.where((exam) => exam.start.isAfter(now)).toList()
-      ..sort((a, b) => a.start.compareTo(b.start));
-    return nextExams.isNotEmpty ? nextExams.first : null;
-  }*/
-
-  /*
-  @override
-  Widget? getTopRightButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: ExamFilterButton(
-        () => setState(() {
-          filteredExamTypes = PreferencesController.getFilteredExams();
-        }),
-      ),
-    );
-  }
-  */
 }

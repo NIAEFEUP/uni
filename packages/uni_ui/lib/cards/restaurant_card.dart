@@ -12,6 +12,7 @@ class RestaurantCard extends StatelessWidget {
     required this.isFavorite,
     required this.onFavoriteToggle,
     this.showFavoriteButton = true,
+    this.onClick,
   });
 
   final String name;
@@ -20,26 +21,29 @@ class RestaurantCard extends StatelessWidget {
   final bool isFavorite;
   final VoidCallback onFavoriteToggle;
   final bool showFavoriteButton;
+  final Function()? onClick;
 
   @override
   Widget build(BuildContext context) {
     return GenericCard(
-        padding: EdgeInsets.zero,
-        key: key,
-        tooltip: name,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            RestaurantCardHeader(
-              name: name,
-              icon: icon,
-              isFavorite: isFavorite,
-              onFavoriteToggle: onFavoriteToggle,
-              showFavoriteButton: showFavoriteButton,
-            ),
-            Column(children: menuItems),
-          ],
-        ));
+      padding: EdgeInsets.zero,
+      key: key,
+      tooltip: name,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          RestaurantCardHeader(
+            name: name,
+            icon: icon,
+            isFavorite: isFavorite,
+            onFavoriteToggle: onFavoriteToggle,
+            showFavoriteButton: showFavoriteButton,
+          ),
+          Column(children: menuItems),
+        ],
+      ),
+      onClick: onClick,
+    );
   }
 }
 

@@ -19,7 +19,7 @@ class TabIcon extends StatelessWidget {
         children: [
           UniIcon(icon),
           const SizedBox(width: 4),
-          Expanded(
+          Flexible(
             child: Text(
               text,
               overflow: TextOverflow.ellipsis,

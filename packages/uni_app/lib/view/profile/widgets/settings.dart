@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/view/about/about.dart';
-import 'package:uni/view/bug_report/bug_report.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/profile/widgets/locale_switch_button.dart';
 import 'package:uni/view/profile/widgets/notifications_dialog.dart';
 // import 'package:uni/view/profile/widgets/theme_switch_button.dart';
@@ -17,7 +16,7 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -72,11 +71,9 @@ class Settings extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary,
               ),
               onTap: () {
-                Navigator.push(
+                Navigator.pushNamed(
                   context,
-                  MaterialPageRoute<BugReportPageView>(
-                    builder: (context) => const BugReportPageView(),
-                  ),
+                  '/${NavigationItem.navBugreport.route}',
                 );
               },
             ),
@@ -92,11 +89,9 @@ class Settings extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary,
               ),
               onTap: () {
-                Navigator.push(
+                Navigator.pushNamed(
                   context,
-                  MaterialPageRoute<AboutPageView>(
-                    builder: (context) => const AboutPageView(),
-                  ),
+                  '/${NavigationItem.navAboutus.route}',
                 );
               },
             ),

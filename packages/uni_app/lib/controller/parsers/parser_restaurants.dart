@@ -57,7 +57,13 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
               }
             } else {
               type = document.querySelector('#$header')?.text;
-              final meal = Meal(type ?? '', value, value, dayOfWeek!, date!);
+              final meal = Meal(
+                type ?? '',
+                value,
+                value,
+                date!,
+                dbDayOfWeek: dayOfWeek!.index,
+              );
               meals.add(meal);
             }
           }
@@ -65,6 +71,7 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
         break;
       }
     }
+
     return Restaurant(
       null,
       null,
@@ -72,6 +79,9 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
       restaurantTuple.$2,
       restaurantTuple.$2,
       restaurantTuple.$1,
+      2, // Hardcoded to Asprela Campus
+      '',
+      [],
       '',
       meals: meals,
     );

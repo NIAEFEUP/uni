@@ -10,10 +10,12 @@ ResponseLecturePerson _$ResponseLecturePersonFromJson(
         Map<String, dynamic> json) =>
     ResponseLecturePerson(
       json['acronym'] as String,
+      json['name'] as String,
     );
 
 Map<String, dynamic> _$ResponseLecturePersonToJson(
         ResponseLecturePerson instance) =>
     <String, dynamic>{
       'acronym': instance.acronym,
+      'name': instance.name,
     };

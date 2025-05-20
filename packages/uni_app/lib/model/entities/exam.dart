@@ -1,8 +1,9 @@
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logger/logger.dart';
+import 'package:objectbox/objectbox.dart';
+import 'package:uni/model/converters/date_time_converter.dart';
 import 'package:uni/model/entities/app_locale.dart';
-import 'package:uni/model/entities/reference.dart';
 
 part '../../generated/model/entities/exam.g.dart';
 
@@ -16,6 +17,7 @@ part '../../generated/model/entities/exam.g.dart';
 
 @DateTimeConverter()
 @JsonSerializable()
+@Entity()
 class Exam {
   Exam(
     this.id,
@@ -50,6 +52,9 @@ class Exam {
   final String examType;
   final String faculty;
 
+  @Id()
+  int? dbId;
+
   static Map<String, String> types = {
     'Mini-testes': 'MT',
     'Normal': 'EN',
@@ -58,7 +63,9 @@ class Exam {
     'Port.Est.Especiais': 'EE',
     'Exames ao abrigo de estatutos especiais': 'EAE',
   };
+  @Transient()
   static List<String> displayedTypes = types.keys.toList().sublist(0, 4);
+
   Map<String, dynamic> toJson() => _$ExamToJson(this);
 
   /// Returns whether or not this exam has already ended.

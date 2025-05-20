@@ -10,6 +10,7 @@ import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
+import 'package:uni/view/home/widgets/restaurants/no_restaurants_home_card.dart';
 import 'package:uni/view/home/widgets/restaurants/restaurants_card_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -20,20 +21,26 @@ import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
 class RestaurantHomeCard extends GenericHomecard {
   const RestaurantHomeCard({
     super.key,
-    super.title = 'Restaurants',
-    super.externalInfo = true,
   });
 
   @override
-  void onClick(BuildContext context) =>
+  String getTitle(BuildContext context) {
+    return S.of(context).restaurants;
+  }
+
+  @override
+  void onCardClick(BuildContext context) =>
       Navigator.pushNamed(context, '/${NavigationItem.navRestaurants.route}');
 
   @override
-  Widget buildCardContent(BuildContext context) => const RestaurantSlider();
+  Widget buildCardContent(BuildContext context) =>
+      RestaurantSlider(onClick: onCardClick);
 }
 
 class RestaurantSlider extends StatefulWidget {
-  const RestaurantSlider({super.key});
+  const RestaurantSlider({super.key, required this.onClick});
+
+  final void Function(BuildContext) onClick;
 
   @override
   RestaurantSliderState createState() => RestaurantSliderState();
@@ -76,6 +83,9 @@ class RestaurantSliderState extends State<RestaurantSlider> {
                 activeDotColor: Theme.of(context).colorScheme.primary,
               ),
             ),
+            const SizedBox(
+              height: 5,
+            ),
           ],
         );
       },
@@ -89,7 +99,7 @@ class RestaurantSliderState extends State<RestaurantSlider> {
         return getRestaurantInformation(context, favoriteRestaurants)
             .isNotEmpty;
       },
-      onNullContent: Text(S.of(context).no_favorite_restaurants),
+      onNullContent: NoRestaurantsHomeCard(onClick: widget.onClick),
       contentLoadingWidget: const ShimmerRestaurantsHomeCard(),
     );
   }
@@ -104,7 +114,7 @@ List<RestaurantCard> getRestaurantInformation(
   final today = parseDateTime(DateTime.now());
 
   final restaurantsWidgets = favoriteRestaurants
-      .where((element) => element.meals[today]?.isNotEmpty ?? false)
+      .where((element) => element.getMealsOfDay(today).isNotEmpty)
       .map((restaurant) {
     final menuItems = getMainMenus(today, restaurant, locale);
     return RestaurantCard(
@@ -134,9 +144,9 @@ List<RestaurantMenuItem> getMainMenus(
   Restaurant restaurant,
   AppLocale locale,
 ) {
-  final meals = restaurant.meals[dayOfWeek];
+  final meals = restaurant.getMealsOfDay(dayOfWeek);
 
-  if (meals == null || meals.isEmpty) {
+  if (meals.isEmpty) {
     return [];
   }
 
@@ -145,7 +155,10 @@ List<RestaurantMenuItem> getMainMenus(
         (meal) => ['Carne', 'Vegetariano', 'Peixe', 'Pescado']
             .any((keyword) => meal.type.contains(keyword)),
       )
-      .toList();
+      .toList()
+    ..sort(
+      (a, b) => a.type.compareTo(b.type),
+    );
 
   final filteredMeals = mainMeals.isEmpty ? meals.take(2) : mainMeals;
 

@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:objectbox/objectbox.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 
 /// Stores information about the user's profile.
+@Entity()
 class Profile {
   Profile({
     this.name = '',
@@ -32,12 +34,16 @@ class Profile {
     );
   }
 
+  @Id()
+  int? id;
   final String name;
   final String email;
   String printBalance;
   String feesBalance;
   DateTime? feesLimit;
+  @Transient()
   List<Course> courses;
+  @Transient()
   List<CourseUnit> courseUnits;
 
   /// Returns a list with two tuples: the first tuple contains the user's name

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:uni/controller/fetchers/library_occupation_fetcher.dart';
-import 'package:uni/controller/local_storage/database/app_library_occupation_database.dart';
+import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
@@ -14,8 +14,11 @@ class LibraryOccupationProvider
   Future<LibraryOccupation> loadFromStorage(
     StateProviders stateProviders,
   ) async {
-    final db = LibraryOccupationDatabase();
-    return db.occupation();
+    final occupation = LibraryOccupation(0, 0);
+
+    Database().libraryOccupations.forEach(occupation.addFloor);
+
+    return occupation;
   }
 
   @override
@@ -23,8 +26,8 @@ class LibraryOccupationProvider
     StateProviders stateProviders,
   ) async {
     final occupation = await LibraryOccupationFetcher().getLibraryOccupation();
-    final db = LibraryOccupationDatabase();
-    unawaited(db.saveIfPersistentSession(occupation));
+
+    Database().saveLibraryOccupations(occupation.floors);
 
     return occupation;
   }

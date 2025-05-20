@@ -5,7 +5,7 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/view/course_unit_info/course_unit_info.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/cards/course_grade_card.dart';
 import 'package:uni_ui/icons.dart';
@@ -122,11 +122,10 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
   }
 
   void _toCourseGradeCardOnTap(CourseUnit courseUnit, BuildContext context) {
-    Navigator.push(
+    Navigator.pushNamed(
       context,
-      MaterialPageRoute<CourseUnitDetailPageView>(
-        builder: (context) => CourseUnitDetailPageView(courseUnit),
-      ),
+      '/${NavigationItem.navCourseUnit.route}',
+      arguments: courseUnit,
     );
   }
 

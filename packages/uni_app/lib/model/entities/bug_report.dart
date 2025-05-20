@@ -15,7 +15,7 @@ class BugReport {
   final String title;
   final String text;
   final String email;
-  final (String, String)? bugLabel;
+  final String? bugLabel;
   final List<String> faculties;
 
   Map<String, dynamic> toJson() => _$BugReportToJson(this);

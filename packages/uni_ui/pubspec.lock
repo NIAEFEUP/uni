@@ -5,23 +5,41 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
+<<<<<<< HEAD
       sha256: "16e298750b6d0af7ce8a3ba7c18c69c3785d11b15ec83f6dcd0ad2a0009b3cab"
       url: "https://pub.dev"
     source: hosted
     version: "76.0.0"
+=======
+      sha256: f256b0c0ba6c7577c15e2e4e114755640a875e885099367bf6e012b19314c834
+      url: "https://pub.dev"
+    source: hosted
+    version: "72.0.0"
+>>>>>>> develop
   _macros:
     dependency: transitive
     description: dart
     source: sdk
+<<<<<<< HEAD
     version: "0.3.3"
+=======
+    version: "0.3.2"
+>>>>>>> develop
   analyzer:
     dependency: transitive
     description:
       name: analyzer
+<<<<<<< HEAD
       sha256: "1f14db053a8c23e260789e9b0980fa27f2680dd640932cae5e1137cce0e46e1e"
       url: "https://pub.dev"
     source: hosted
     version: "6.11.0"
+=======
+      sha256: b652861553cd3990d8ed361f7979dc6d7053a9ac8843fa73820ab68ce5410139
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.7.0"
+>>>>>>> develop
   analyzer_plugin:
     dependency: transitive
     description:
@@ -122,10 +140,17 @@ packages:
     dependency: transitive
     description:
       name: coverage
+<<<<<<< HEAD
       sha256: "9086475ef2da7102a0c0a4e37e1e30707e7fb7b6d28c209f559a9c5f8ce42016"
       url: "https://pub.dev"
     source: hosted
     version: "1.12.0"
+=======
+      sha256: e3493833ea012784c740e341952298f1cc77f1f01b1bbc3eb4eecf6984fb7f43
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.11.1"
+>>>>>>> develop
   crypto:
     dependency: transitive
     description:
@@ -138,34 +163,62 @@ packages:
     dependency: "direct dev"
     description:
       name: custom_lint
+<<<<<<< HEAD
       sha256: "4500e88854e7581ee43586abeaf4443cb22375d6d289241a87b1aadf678d5545"
       url: "https://pub.dev"
     source: hosted
     version: "0.6.10"
+=======
+      sha256: "832fcdc676171205201c9cffafd6b5add19393962f6598af8472b48b413026e6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.8"
+>>>>>>> develop
   custom_lint_builder:
     dependency: transitive
     description:
       name: custom_lint_builder
+<<<<<<< HEAD
       sha256: "5a95eff100da256fbf086b329c17c8b49058c261cdf56d3a4157d3c31c511d78"
       url: "https://pub.dev"
     source: hosted
     version: "0.6.10"
+=======
+      sha256: c3d82779026f91b8e00c9ac18934595cbc9b490094ea682052beeafdb2bd50ac
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.8"
+>>>>>>> develop
   custom_lint_core:
     dependency: transitive
     description:
       name: custom_lint_core
+<<<<<<< HEAD
       sha256: "76a4046cc71d976222a078a8fd4a65e198b70545a8d690a75196dd14f08510f6"
       url: "https://pub.dev"
     source: hosted
     version: "0.6.10"
+=======
+      sha256: "4ddbbdaa774265de44c97054dcec058a83d9081d071785ece601e348c18c267d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.5"
+>>>>>>> develop
   dart_style:
     dependency: transitive
     description:
       name: dart_style
+<<<<<<< HEAD
       sha256: "7306ab8a2359a48d22310ad823521d723acfed60ee1f7e37388e8986853b6820"
       url: "https://pub.dev"
     source: hosted
     version: "2.3.8"
+=======
+      sha256: "7856d364b589d1f08986e140938578ed36ed948581fbc3bc9aef1805039ac5ab"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.7"
+>>>>>>> develop
   fake_async:
     dependency: transitive
     description:
@@ -324,10 +377,17 @@ packages:
     dependency: transitive
     description:
       name: macros
+<<<<<<< HEAD
       sha256: "1d9e801cd66f7ea3663c45fc708450db1fa57f988142c64289142c9b7ee80656"
       url: "https://pub.dev"
     source: hosted
     version: "0.1.3-main.0"
+=======
+      sha256: "0acaed5d6b7eab89f63350bccd82119e6c602df0f391260d0e32b5e23db79536"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2-main.4"
+>>>>>>> develop
   matcher:
     dependency: transitive
     description:
@@ -420,10 +480,17 @@ packages:
     dependency: transitive
     description:
       name: pubspec_parse
+<<<<<<< HEAD
       sha256: "0560ba233314abbed0a48a2956f7f022cce7c3e1e73df540277da7544cad4082"
       url: "https://pub.dev"
     source: hosted
     version: "1.5.0"
+=======
+      sha256: "81876843eb50dc2e1e5b151792c9a985c5ed2536914115ed04e9c8528f6647b0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
+>>>>>>> develop
   rxdart:
     dependency: transitive
     description:
@@ -632,18 +699,32 @@ packages:
     dependency: transitive
     description:
       name: web_socket
+<<<<<<< HEAD
       sha256: bfe6f435f6ec49cb6c01da1e275ae4228719e59a6b067048c51e72d9d63bcc4b
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+=======
+      sha256: "3c12d96c0c9a4eec095246debcea7b86c0324f22df69893d538fcc6f1b8cce83"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.6"
+>>>>>>> develop
   web_socket_channel:
     dependency: transitive
     description:
       name: web_socket_channel
+<<<<<<< HEAD
       sha256: d645757fb0f4773d602444000a8131ff5d48c9e47adfe9772652dd1a4f2d45c8
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+=======
+      sha256: "0b8e2457400d8a859b7b2030786835a28a8e80836ef64402abef392ff4f1d0e5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2"
+>>>>>>> develop
   webkit_inspection_protocol:
     dependency: transitive
     description:
@@ -661,5 +742,10 @@ packages:
     source: hosted
     version: "3.1.3"
 sdks:
+<<<<<<< HEAD
   dart: ">=3.7.0-0 <4.0.0"
   flutter: ">=3.29.3"
+=======
+  dart: ">=3.5.0 <4.0.0"
+  flutter: ">=3.24.3"
+>>>>>>> develop

@@ -69,6 +69,8 @@ Future<List<Lecture>> parseSchedule(
       blocks,
       room,
       teacher,
+      '',
+      0, // doesn't matter since this is the old api and isn't being used, right?
       classNumber,
       occurrId,
     );
