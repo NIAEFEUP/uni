@@ -77,7 +77,7 @@ dependencies:
   uni_ui:
     path: ../uni_ui
   up_menus: ^1.0.1
-  upgrader: ^10.3.0
+  upgrader: ^11.4.0
   url_launcher: ^6.2.2
   workmanager: ^0.5.2
 
