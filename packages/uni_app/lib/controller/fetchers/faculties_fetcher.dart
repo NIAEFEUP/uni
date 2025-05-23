@@ -10,14 +10,16 @@ Future<List<String>> getStudentFaculties(
   final client = CookieClient(httpClient, cookies: () => session.cookies);
 
   final response = await client.get(
-    Uri.parse('https://sigarra.up.pt/up/pt/vld_entidades_geral.entidade_pagina')
-        .replace(queryParameters: {'pct_codigo': session.username}),
+    Uri.parse(
+      'https://sigarra.up.pt/up/pt/vld_entidades_geral.entidade_pagina',
+    ).replace(queryParameters: {'pct_codigo': session.username}),
   );
 
   final document = parse(response.body);
 
-  final facultiesList =
-      document.querySelectorAll('#conteudoinner>ul a').map((e) => e.text);
+  final facultiesList = document
+      .querySelectorAll('#conteudoinner>ul a')
+      .map((e) => e.text);
 
   if (facultiesList.isEmpty) {
     // The user is enrolled in a single faculty,

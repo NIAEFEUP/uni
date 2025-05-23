@@ -8,9 +8,10 @@ import 'package:uni/session/flows/base/session.dart';
 class CoursesFetcher implements SessionDependantFetcher {
   @override
   List<String> getEndpoints(Session session) {
-    final urls = NetworkRouter.getBaseUrlsFromSession(session)
-        .map((url) => '${url}fest_geral.cursos_list?')
-        .toList();
+    final urls =
+        NetworkRouter.getBaseUrlsFromSession(
+          session,
+        ).map((url) => '${url}fest_geral.cursos_list?').toList();
     return urls;
   }
 
@@ -18,11 +19,9 @@ class CoursesFetcher implements SessionDependantFetcher {
     final urls = getEndpoints(session);
     return urls
         .map(
-          (url) => NetworkRouter.getWithCookies(
-            url,
-            {'pv_num_unico': session.username},
-            session,
-          ),
+          (url) => NetworkRouter.getWithCookies(url, {
+            'pv_num_unico': session.username,
+          }, session),
         )
         .toList();
   }

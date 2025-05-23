@@ -3,10 +3,7 @@ import 'package:uni/http/client/timeout.dart';
 
 class FederatedDefaultClient extends http.BaseClient {
   FederatedDefaultClient()
-      : inner = TimeoutClient(
-          http.Client(),
-          timeout: const Duration(seconds: 5),
-        );
+    : inner = TimeoutClient(http.Client(), timeout: const Duration(seconds: 5));
 
   final http.Client inner;
 

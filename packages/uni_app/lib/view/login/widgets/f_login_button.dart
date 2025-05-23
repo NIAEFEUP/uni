@@ -3,10 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:uni/generated/l10n.dart';
 
 class FLoginButton extends StatelessWidget {
-  const FLoginButton({
-    required this.onPressed,
-    super.key,
-  });
+  const FLoginButton({required this.onPressed, super.key});
 
   final VoidCallback onPressed;
 
@@ -15,24 +12,19 @@ class FLoginButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.all(18),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(28),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
       ),
       onPressed: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SvgPicture.asset(
-            'assets/images/AAI.svg',
-            height: 26,
-          ),
+          SvgPicture.asset('assets/images/AAI.svg', height: 26),
           const SizedBox(width: 16),
           Text(
             S.of(context).login,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: const Color(0xFF303030),
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(color: const Color(0xFF303030)),
             textAlign: TextAlign.left,
           ),
         ],

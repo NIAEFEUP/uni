@@ -10,14 +10,7 @@ import 'package:uni/model/entities/lecture.dart';
 /// See the [Lecture] class to see what data is stored in this database.
 class AppLecturesDatabase extends AppDatabase<List<Lecture>> {
   AppLecturesDatabase()
-      : super(
-          'lectures.db',
-          [
-            createScript,
-          ],
-          onUpgrade: migrate,
-          version: 11,
-        );
+    : super('lectures.db', [createScript], onUpgrade: migrate, version: 11);
   static const createScript = '''
 CREATE TABLE lectures(acronym TEXT, subject TEXT, typeClass TEXT,
           startTime TEXT, endTime TEXT, room TEXT, teacher TEXT, classNumber TEXT, occurrId INTEGER)''';
@@ -62,9 +55,10 @@ CREATE TABLE lectures(acronym TEXT, subject TEXT, typeClass TEXT,
     int oldVersion,
     int newVersion,
   ) async {
-    final batch = db.batch()
-      ..execute('DROP TABLE IF EXISTS lectures')
-      ..execute(createScript);
+    final batch =
+        db.batch()
+          ..execute('DROP TABLE IF EXISTS lectures')
+          ..execute(createScript);
     await batch.commit();
   }
 

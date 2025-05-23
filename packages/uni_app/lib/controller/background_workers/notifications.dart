@@ -78,8 +78,9 @@ class NotificationManager {
   }
 
   static Future<void> _initFlutterNotificationsPlugin() async {
-    const initializationSettingsAndroid =
-        AndroidInitializationSettings('ic_notification');
+    const initializationSettingsAndroid = AndroidInitializationSettings(
+      'ic_notification',
+    );
 
     // request for notifications immediatly on iOS
     const darwinInitializationSettings = DarwinInitializationSettings(
@@ -98,8 +99,10 @@ class NotificationManager {
     // the first notification channel opens
     if (Platform.isAndroid) {
       final androidPlugin =
-          _localNotificationsPlugin.resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>()!;
+          _localNotificationsPlugin
+              .resolvePlatformSpecificImplementation<
+                AndroidFlutterLocalNotificationsPlugin
+              >()!;
       try {
         final permissionGranted =
             await androidPlugin.requestNotificationsPermission();
@@ -158,8 +161,9 @@ class NotificationManager {
 
     for (final value in notificationMap.values) {
       final notification = value();
-      final lastRan = notificationStorage
-          .getLastTimeNotificationExecuted(notification.uniqueID);
+      final lastRan = notificationStorage.getLastTimeNotificationExecuted(
+        notification.uniqueID,
+      );
       if (lastRan.add(notification.timeout).isBefore(DateTime.now())) {
         await notification.displayNotificationIfPossible(
           session,

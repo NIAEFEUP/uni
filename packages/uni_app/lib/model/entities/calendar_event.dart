@@ -8,11 +8,7 @@ part '../../generated/model/entities/calendar_event.g.dart';
 @JsonSerializable()
 @Entity()
 class CalendarEvent {
-  CalendarEvent({
-    required this.name,
-    this.startDate,
-    this.endDate,
-  });
+  CalendarEvent({required this.name, this.startDate, this.endDate});
   factory CalendarEvent.fromJson(Map<String, dynamic> json) =>
       _$CalendarEventFromJson(json);
   String name;

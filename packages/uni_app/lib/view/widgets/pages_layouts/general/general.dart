@@ -106,9 +106,9 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
       _loading
           ? const Center(child: CircularProgressIndicator())
           : Padding(
-              padding: const EdgeInsets.only(right: 20, left: 20, bottom: 10),
-              child: getBody(context),
-            ),
+            padding: const EdgeInsets.only(right: 20, left: 20, bottom: 10),
+            child: getBody(context),
+          ),
     );
   }
 

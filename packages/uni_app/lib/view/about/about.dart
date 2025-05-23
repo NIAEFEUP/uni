@@ -25,9 +25,7 @@ class AboutPageViewState extends SecondaryPageViewState<AboutPageView> {
             height: queryData.size.height / 7,
           ),
         ),
-        const Center(
-          child: TermsAndConditions(),
-        ),
+        const Center(child: TermsAndConditions()),
       ],
     );
   }

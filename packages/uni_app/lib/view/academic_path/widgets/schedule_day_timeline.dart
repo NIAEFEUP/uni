@@ -71,9 +71,10 @@ class ScheduleDayTimeline extends StatelessWidget {
               room: lecture.room,
               type: lecture.typeClass,
               teacherName: lecture.teacherName,
-              teacherPhoto: snapshot.hasData && snapshot.data != null
-                  ? Image(image: FileImage(snapshot.data!))
-                  : Image.asset('assets/images/profile_placeholder.png'),
+              teacherPhoto:
+                  snapshot.hasData && snapshot.data != null
+                      ? Image(image: FileImage(snapshot.data!))
+                      : Image.asset('assets/images/profile_placeholder.png'),
               onTap: () {
                 final profile =
                     Provider.of<ProfileProvider>(context, listen: false).state;
@@ -85,8 +86,8 @@ class ScheduleDayTimeline extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute<CourseUnitDetailPageView>(
-                        builder: (context) =>
-                            CourseUnitDetailPageView(courseUnit),
+                        builder:
+                            (context) => CourseUnitDetailPageView(courseUnit),
                       ),
                     );
                   }

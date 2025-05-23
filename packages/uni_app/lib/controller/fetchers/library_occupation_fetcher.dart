@@ -24,11 +24,9 @@ class LibraryOccupationFetcher {
 
     await Future.wait(
       floorMaxSeats.mapIndexed((i, entry) async {
-        final url = Uri.parse(baseUrl).replace(
-          queryParameters: {
-            'token': entry.$1,
-          },
-        );
+        final url = Uri.parse(
+          baseUrl,
+        ).replace(queryParameters: {'token': entry.$1});
 
         final response = await http.get(url);
 

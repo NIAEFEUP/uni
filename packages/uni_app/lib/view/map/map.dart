@@ -52,9 +52,7 @@ class MapPageStateView extends State<MapPage> {
             return allLocations.any((location) {
               return removeDiacritics(
                 location.description().toLowerCase().trim(),
-              ).contains(
-                searchTerms,
-              );
+              ).contains(searchTerms);
             });
           });
         }
@@ -72,8 +70,9 @@ class MapPageStateView extends State<MapPage> {
               maxZoom: 19,
               cameraConstraint: CameraConstraint.contain(bounds: bounds),
               initialCameraFit: CameraFit.insideBounds(bounds: bounds),
-              onTap: (tapPosition, latlng) =>
-                  _popupLayerController.hideAllPopups(),
+              onTap:
+                  (tapPosition, latlng) =>
+                      _popupLayerController.hideAllPopups(),
               interactionOptions: const InteractionOptions(
                 flags: InteractiveFlag.all - InteractiveFlag.rotate,
               ),
@@ -86,9 +85,10 @@ class MapPageStateView extends State<MapPage> {
               ),
               PopupMarkerLayer(
                 options: PopupMarkerLayerOptions(
-                  markers: filteredLocations.map((location) {
-                    return LocationMarker(location.latlng, location);
-                  }).toList(),
+                  markers:
+                      filteredLocations.map((location) {
+                        return LocationMarker(location.latlng, location);
+                      }).toList(),
                   popupController: _popupLayerController,
                   popupDisplayOptions: PopupDisplayOptions(
                     animation: const PopupAnimation.fade(
@@ -107,9 +107,10 @@ class MapPageStateView extends State<MapPage> {
               ),
               PopupMarkerLayer(
                 options: PopupMarkerLayerOptions(
-                  markers: filteredLocations.map((location) {
-                    return LocationMarker(location.latlng, location);
-                  }).toList(),
+                  markers:
+                      filteredLocations.map((location) {
+                        return LocationMarker(location.latlng, location);
+                      }).toList(),
                   popupController: _popupLayerController,
                   popupDisplayOptions: PopupDisplayOptions(
                     animation: const PopupAnimation.fade(
@@ -118,9 +119,7 @@ class MapPageStateView extends State<MapPage> {
                     builder: (_, marker) {
                       if (marker is LocationMarker) {
                         return marker.locationGroup.isFloorless
-                            ? FloorlessLocationMarkerPopup(
-                                marker.locationGroup,
-                              )
+                            ? FloorlessLocationMarkerPopup(marker.locationGroup)
                             : LocationMarkerPopup(marker.locationGroup);
                       }
                       return const Card(child: Text(''));
@@ -142,8 +141,9 @@ class MapPageStateView extends State<MapPage> {
                       key: searchFormKey,
                       onChanged: (text) {
                         setState(() {
-                          searchTerms =
-                              removeDiacritics(text.trim().toLowerCase());
+                          searchTerms = removeDiacritics(
+                            text.trim().toLowerCase(),
+                          );
                         });
                       },
                       decoration: InputDecoration(
@@ -171,13 +171,15 @@ class MapPageStateView extends State<MapPage> {
               Align(
                 alignment: Alignment.bottomRight,
                 child: ColoredBox(
-                  color:
-                      Theme.of(context).colorScheme.onPrimary.withOpacity(0.8),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onPrimary.withOpacity(0.8),
                   child: GestureDetector(
-                    onTap: () => launchUrlWithToast(
-                      context,
-                      'https://www.openstreetmap.org/copyright',
-                    ),
+                    onTap:
+                        () => launchUrlWithToast(
+                          context,
+                          'https://www.openstreetmap.org/copyright',
+                        ),
                     child: const Padding(
                       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                       child: MouseRegion(

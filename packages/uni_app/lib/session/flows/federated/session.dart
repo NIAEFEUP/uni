@@ -25,7 +25,6 @@ class FederatedSession extends Session {
   final Credential credential;
 
   @override
-  FederatedSessionRequest createRefreshRequest() => FederatedSessionRequest(
-        credential: credential,
-      );
+  FederatedSessionRequest createRefreshRequest() =>
+      FederatedSessionRequest(credential: credential);
 }

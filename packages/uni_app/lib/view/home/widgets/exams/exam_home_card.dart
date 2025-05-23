@@ -17,9 +17,7 @@ import 'package:uni_ui/cards/timeline_card.dart';
 import 'package:uni_ui/icons.dart';
 
 class ExamHomeCard extends GenericHomecard {
-  const ExamHomeCard({
-    super.key,
-  });
+  const ExamHomeCard({super.key});
 
   @override
   String getTitle(BuildContext context) {
@@ -42,14 +40,11 @@ class ExamHomeCard extends GenericHomecard {
 
             return CardTimeline(items: items.toList());
           },
-          hasContent: (allExams) =>
-              getVisibleExams(allExams, hiddenExams).isNotEmpty,
+          hasContent:
+              (allExams) => getVisibleExams(allExams, hiddenExams).isNotEmpty,
           onNullContent: Center(
             child: IconLabel(
-              icon: const UniIcon(
-                UniIcons.island,
-                size: 45,
-              ),
+              icon: const UniIcon(UniIcons.island, size: 45),
               label: S.of(context).no_exams,
               labelTextStyle: TextStyle(
                 fontSize: 14,
@@ -75,26 +70,28 @@ class ExamHomeCard extends GenericHomecard {
     BuildContext context,
     List<Exam> exams,
   ) {
-    final items = exams
-        .map(
-          (exam) => TimelineItem(
-            title: exam.start.day.toString(),
-            subtitle: exam.start
-                .shortMonth(
-                  Provider.of<LocaleNotifier>(context).getLocale(),
-                )
-                .capitalize(),
-            card: ExamCard(
-              showIcon: false,
-              name: exam.subject,
-              acronym: exam.subjectAcronym,
-              rooms: exam.rooms,
-              type: exam.examType,
-              startTime: exam.startTime,
-            ),
-          ),
-        )
-        .toList();
+    final items =
+        exams
+            .map(
+              (exam) => TimelineItem(
+                title: exam.start.day.toString(),
+                subtitle:
+                    exam.start
+                        .shortMonth(
+                          Provider.of<LocaleNotifier>(context).getLocale(),
+                        )
+                        .capitalize(),
+                card: ExamCard(
+                  showIcon: false,
+                  name: exam.subject,
+                  acronym: exam.subjectAcronym,
+                  rooms: exam.rooms,
+                  type: exam.examType,
+                  startTime: exam.startTime,
+                ),
+              ),
+            )
+            .toList();
 
     return items;
   }

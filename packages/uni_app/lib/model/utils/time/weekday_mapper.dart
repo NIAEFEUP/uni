@@ -25,10 +25,10 @@ class WeekdayMapper {
     required int fromMonday,
     required int toStart,
     required int toMonday,
-  })  : _toMonday = toMonday,
-        _toStart = toStart,
-        _fromMonday = fromMonday,
-        _fromStart = fromStart;
+  }) : _toMonday = toMonday,
+       _toStart = toStart,
+       _fromMonday = fromMonday,
+       _fromStart = fromStart;
 
   /// Creates a [WeekdayMapper].
   ///
@@ -41,11 +41,11 @@ class WeekdayMapper {
     required int toStart,
     required int toStartWeekday,
   }) : this(
-          fromStart: fromStart,
-          fromMonday: (DateTime.monday - fromStartWeekday) % 7 + fromStart,
-          toStart: toStart,
-          toMonday: (DateTime.monday - toStartWeekday) % 7 + toStart,
-        );
+         fromStart: fromStart,
+         fromMonday: (DateTime.monday - fromStartWeekday) % 7 + fromStart,
+         toStart: toStart,
+         toMonday: (DateTime.monday - toStartWeekday) % 7 + toStart,
+       );
 
   static const fromSigarraToDart = WeekdayMapper.fromStartWeekdays(
     fromStart: 1,
@@ -77,11 +77,11 @@ class WeekdayMapper {
   }
 
   WeekdayMapper get inverse => WeekdayMapper(
-        fromStart: _toStart,
-        fromMonday: _toMonday,
-        toStart: _fromStart,
-        toMonday: _fromMonday,
-      );
+    fromStart: _toStart,
+    fromMonday: _toMonday,
+    toStart: _fromStart,
+    toMonday: _fromMonday,
+  );
 
   int map(int fromWeekday) {
     // To find the resulting weekday, it goes like this:
@@ -150,6 +150,7 @@ class WeekdayMapper {
       _toMonday.hashCode;
 
   @override
-  String toString() => 'WeekdayMapper(fromStart: $_fromStart, '
+  String toString() =>
+      'WeekdayMapper(fromStart: $_fromStart, '
       'fromMonday: $_fromMonday, toStart: $_toStart, toMonday: $_toMonday)';
 }

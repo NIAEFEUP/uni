@@ -17,17 +17,9 @@ class ShimmerTimelineItem extends StatelessWidget {
             width: 50,
             child: Column(
               children: [
-                Container(
-                  width: 40,
-                  height: 16,
-                  color: Colors.white,
-                ),
+                Container(width: 40, height: 16, color: Colors.white),
                 const SizedBox(height: 4),
-                Container(
-                  width: 30,
-                  height: 12,
-                  color: Colors.white,
-                ),
+                Container(width: 30, height: 12, color: Colors.white),
               ],
             ),
           ),

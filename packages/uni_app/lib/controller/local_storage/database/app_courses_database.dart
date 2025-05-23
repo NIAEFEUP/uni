@@ -10,7 +10,7 @@ import 'package:uni/model/entities/course.dart';
 /// See the [Course] class to see what data is stored in this database.
 class AppCoursesDatabase extends AppDatabase<List<Course>> {
   AppCoursesDatabase()
-      : super('courses.db', [createScript], onUpgrade: migrate, version: 5);
+    : super('courses.db', [createScript], onUpgrade: migrate, version: 5);
   static const String createScript =
       '''CREATE TABLE courses(cur_id INTEGER, fest_id INTEGER, cur_nome TEXT, '''
       '''cur_sigla TEXT, ano_curricular TEXT, fest_a_lect_1_insc INTEGER, state TEXT, '''
@@ -55,9 +55,10 @@ class AppCoursesDatabase extends AppDatabase<List<Course>> {
     int oldVersion,
     int newVersion,
   ) async {
-    final batch = db.batch()
-      ..execute('DROP TABLE IF EXISTS courses')
-      ..execute(createScript);
+    final batch =
+        db.batch()
+          ..execute('DROP TABLE IF EXISTS courses')
+          ..execute(createScript);
     await batch.commit();
   }
 

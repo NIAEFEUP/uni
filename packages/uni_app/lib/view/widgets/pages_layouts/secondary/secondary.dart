@@ -40,8 +40,9 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
       centerTitle: true,
       leftButton: BackButton(
         style: ButtonStyle(
-          iconColor:
-              WidgetStateProperty.all(Theme.of(context).colorScheme.primary),
+          iconColor: WidgetStateProperty.all(
+            Theme.of(context).colorScheme.primary,
+          ),
         ),
       ),
       rightButton: getRightContent(context),

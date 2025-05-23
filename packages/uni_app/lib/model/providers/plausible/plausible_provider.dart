@@ -45,12 +45,12 @@ class _PlausibleProviderState extends State<PlausibleProvider> {
             .then((_) => _updateConnectivityState())
             .then((_) => _updateUsageStatsState())
             .onError((error, stackTrace) {
-          unawaited(Sentry.captureException(error, stackTrace: stackTrace));
-          Logger().e(
-            'Error initializing plausible: $error',
-            stackTrace: stackTrace,
-          );
-        }),
+              unawaited(Sentry.captureException(error, stackTrace: stackTrace));
+              Logger().e(
+                'Error initializing plausible: $error',
+                stackTrace: stackTrace,
+              );
+            }),
       );
     }
   }
@@ -58,7 +58,8 @@ class _PlausibleProviderState extends State<PlausibleProvider> {
   void _updateAnalyticsState() {
     final plausible = widget.plausible;
     if (plausible != null) {
-      plausible.enabled = _isUsageStatsEnabled &&
+      plausible.enabled =
+          _isUsageStatsEnabled &&
           !_isInBatterySaveMode &&
           _batteryLevel > 20 &&
           _connectivityResult == ConnectivityResult.wifi;
@@ -130,10 +131,7 @@ class _PlausibleProviderState extends State<PlausibleProvider> {
           _updateBatteryState();
         }
       },
-      child: Provider.value(
-        value: widget.plausible,
-        child: widget.child,
-      ),
+      child: Provider.value(value: widget.plausible, child: widget.child),
     );
   }
 }

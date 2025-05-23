@@ -25,7 +25,8 @@ class PrintFetcher implements SessionDependantFetcher {
       return Future.error('Amount less than 1,00€');
     }
 
-    final url = '${NetworkRouter.getBaseUrlsFromSession(session)[0]}'
+    final url =
+        '${NetworkRouter.getBaseUrlsFromSession(session)[0]}'
         'gpag_ccorrentes_geral.gerar_mb';
 
     final data = {

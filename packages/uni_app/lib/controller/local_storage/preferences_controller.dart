@@ -94,9 +94,7 @@ class PreferencesController {
 
   /// Saves the user's student number, password and faculties.
   static const FlutterSecureStorage _secureStorage = FlutterSecureStorage();
-  static Future<void> saveSession(
-    Session session,
-  ) async {
+  static Future<void> saveSession(Session session) async {
     await _secureStorage.write(
       key: _userSession,
       value: jsonEncode(session.toJson()),
@@ -260,9 +258,10 @@ class PreferencesController {
   static Future<void> saveFilteredExams(
     Map<String, bool> newFilteredExamTypes,
   ) async {
-    final newTypes = newFilteredExamTypes.keys
-        .where((type) => newFilteredExamTypes[type] ?? false)
-        .toList();
+    final newTypes =
+        newFilteredExamTypes.keys
+            .where((type) => newFilteredExamTypes[type] ?? false)
+            .toList();
     await prefs.setStringList(_filteredExamsTypes, newTypes);
   }
 
@@ -293,9 +292,7 @@ class PreferencesController {
     return prefs.getBool(_usageStatsToggleKey) ?? true;
   }
 
-  static Future<void> setUsageStatsToggle({
-    required bool value,
-  }) async {
+  static Future<void> setUsageStatsToggle({required bool value}) async {
     await prefs.setBool(_usageStatsToggleKey, value);
     _statsToggleStreamController.add(value);
   }
@@ -331,10 +328,7 @@ class PreferencesController {
   }
 
   static Future<void> setSelectedDishTypes(Set<String> values) async {
-    await prefs.setStringList(
-      _selectedDishTypes,
-      values.toList(),
-    );
+    await prefs.setStringList(_selectedDishTypes, values.toList());
   }
 
   static Set<String> getSelectedDishTypes() {

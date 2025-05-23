@@ -26,8 +26,6 @@ class CredentialsSession extends Session {
   final String password;
 
   @override
-  CredentialsSessionRequest createRefreshRequest() => CredentialsSessionRequest(
-        username: username,
-        password: password,
-      );
+  CredentialsSessionRequest createRefreshRequest() =>
+      CredentialsSessionRequest(username: username, password: password);
 }

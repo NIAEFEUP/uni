@@ -16,9 +16,6 @@ Future<void> launchUrlWithToast(BuildContext context, String url) async {
   if (canLaunch) {
     await launchUrl(validUrl);
   } else {
-    await ToastMessage.error(
-      context,
-      S.of(context).no_link,
-    );
+    await ToastMessage.error(context, S.of(context).no_link);
   }
 }

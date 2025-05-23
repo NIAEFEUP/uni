@@ -20,9 +20,7 @@ import 'package:uni_ui/cards/timeline_card.dart';
 import 'package:uni_ui/icons.dart';
 
 class ScheduleHomeCard extends GenericHomecard {
-  const ScheduleHomeCard({
-    super.key,
-  });
+  const ScheduleHomeCard({super.key});
 
   @override
   String getTitle(BuildContext context) {
@@ -32,16 +30,14 @@ class ScheduleHomeCard extends GenericHomecard {
   @override
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<LectureProvider, List<Lecture>>(
-      builder: (context, lectures) => CardTimeline(
-        items: buildTimelineItems(lectures, context).take(2).toList(),
-      ),
+      builder:
+          (context, lectures) => CardTimeline(
+            items: buildTimelineItems(lectures, context).take(2).toList(),
+          ),
       hasContent: (lectures) => lectures.isNotEmpty,
       onNullContent: Center(
         child: IconLabel(
-          icon: const UniIcon(
-            size: 45,
-            UniIcons.beer,
-          ),
+          icon: const UniIcon(size: 45, UniIcons.beer),
           label: S.of(context).no_class,
           labelTextStyle: TextStyle(
             fontSize: 14,
@@ -49,9 +45,11 @@ class ScheduleHomeCard extends GenericHomecard {
           ),
         ),
       ),
-      mapper: (lectures) => lectures
-          .where((lecture) => lecture.endTime.isAfter(DateTime.now()))
-          .toList(),
+      mapper:
+          (lectures) =>
+              lectures
+                  .where((lecture) => lecture.endTime.isAfter(DateTime.now()))
+                  .toList(),
       contentLoadingWidget: const ShimmerCardTimeline(),
     );
   }
@@ -79,38 +77,42 @@ class ScheduleHomeCard extends GenericHomecard {
         .toList()
         .sortedBy((lecture) => week.getWeekday(lecture.startTime.weekday));
 
-    final items = sortedLectures
-        .map(
-          (element) => TimelineItem(
-            isActive:
-                now.isAfter(element.startTime) && now.isBefore(element.endTime),
-            title: DateFormat('HH:mm').format(element.startTime),
-            subtitle: DateFormat('HH:mm').format(element.endTime),
-            card: FutureBuilder<File?>(
-              future: ProfileProvider.fetchOrGetCachedProfilePicture(
-                session,
-                studentNumber: element.teacherId,
+    final items =
+        sortedLectures
+            .map(
+              (element) => TimelineItem(
+                isActive:
+                    now.isAfter(element.startTime) &&
+                    now.isBefore(element.endTime),
+                title: DateFormat('HH:mm').format(element.startTime),
+                subtitle: DateFormat('HH:mm').format(element.endTime),
+                card: FutureBuilder<File?>(
+                  future: ProfileProvider.fetchOrGetCachedProfilePicture(
+                    session,
+                    studentNumber: element.teacherId,
+                  ),
+                  builder: (context, snapshot) {
+                    return ScheduleCard(
+                      isActive:
+                          now.isAfter(element.startTime) &&
+                          now.isBefore(element.endTime),
+                      name: element.subject,
+                      acronym: element.acronym,
+                      room: element.room,
+                      type: element.typeClass,
+                      teacherName: element.teacherName,
+                      teacherPhoto:
+                          snapshot.hasData && snapshot.data != null
+                              ? Image(image: FileImage(snapshot.data!))
+                              : Image.asset(
+                                'assets/images/profile_placeholder.png',
+                              ),
+                    );
+                  },
+                ),
               ),
-              builder: (context, snapshot) {
-                return ScheduleCard(
-                  isActive: now.isAfter(element.startTime) &&
-                      now.isBefore(element.endTime),
-                  name: element.subject,
-                  acronym: element.acronym,
-                  room: element.room,
-                  type: element.typeClass,
-                  teacherName: element.teacherName,
-                  teacherPhoto: snapshot.hasData && snapshot.data != null
-                      ? Image(image: FileImage(snapshot.data!))
-                      : Image.asset(
-                          'assets/images/profile_placeholder.png',
-                        ),
-                );
-              },
-            ),
-          ),
-        )
-        .toList();
+            )
+            .toList();
 
     return items;
   }

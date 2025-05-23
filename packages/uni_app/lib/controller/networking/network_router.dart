@@ -48,10 +48,7 @@ class NetworkRouter {
         authenticationController ?? AuthenticationController(session);
 
     final client = AuthenticatedClient(
-      TimeoutClient(
-        httpClient ?? http.Client(),
-        timeout: _requestTimeout,
-      ),
+      TimeoutClient(httpClient ?? http.Client(), timeout: _requestTimeout),
       controller: controller,
     );
 
@@ -66,9 +63,10 @@ class NetworkRouter {
       ];
     }
 
-    final requestUri = parsedUrl
-        .replace(queryParameters: allQueryParameters)
-        .normalizeQueryComponent();
+    final requestUri =
+        parsedUrl
+            .replace(queryParameters: allQueryParameters)
+            .normalizeQueryComponent();
 
     return client.get(requestUri);
   }

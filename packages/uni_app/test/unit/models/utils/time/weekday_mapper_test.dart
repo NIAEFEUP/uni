@@ -7,8 +7,7 @@ void exhaustivelyTestWeekdayMapper(
   int toStart,
   int toMonday,
 ) {
-  group(
-      'When mapping from $fromStart..${fromStart + 6} (monday = $fromMonday)'
+  group('When mapping from $fromStart..${fromStart + 6} (monday = $fromMonday)'
       ' to $toStart..${toStart + 6} (monday = $toMonday)', () {
     final mapper = WeekdayMapper(
       fromStart: fromStart,
@@ -26,14 +25,12 @@ void exhaustivelyTestWeekdayMapper(
     var toWeekday = toMonday;
 
     for (var i = 0; i < 7; i++) {
-      test(
-          '[DateTime.weekday = ${i + 1}] fromWeekday = $fromWeekday should'
+      test('[DateTime.weekday = ${i + 1}] fromWeekday = $fromWeekday should'
           ' map to toWeekday = $toMonday', () {
         expect(mapper.map(fromWeekday), toWeekday);
       });
 
-      test(
-          '[DateTime.weekday = ${i + 1}] toWeekday = $toWeekday should'
+      test('[DateTime.weekday = ${i + 1}] toWeekday = $toWeekday should'
           ' inversely map to fromWeekday = $fromWeekday', () {
         expect(inverseMapper.map(toWeekday), fromWeekday);
       });
@@ -50,8 +47,7 @@ void ensureMapperEquivalenceByStartWeekdays(
   int toStart,
   int toStartWeekday,
 ) {
-  group(
-      'When mapping from $fromStart..${fromStart + 6}'
+  group('When mapping from $fromStart..${fromStart + 6}'
       ' (start.weekday = $fromStartWeekday to $toStart..${toStart + 6}'
       ' (start.weekday = $toStartWeekday)', () {
     test('should be correctly created', () {

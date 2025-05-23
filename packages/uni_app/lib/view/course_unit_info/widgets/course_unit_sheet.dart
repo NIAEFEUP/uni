@@ -33,75 +33,82 @@ class CourseUnitSheetView extends StatelessWidget {
       children: [
         _buildSection(
           title: S.of(context).instructors,
-          content: courseUnitSheet.professors.isEmpty
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: Text(
-                    S.of(context).noInstructors,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                )
-              : courseUnitSheet.professors.length <= 4
+          content:
+              courseUnitSheet.professors.isEmpty
+                  ? Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      S.of(context).noInstructors,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  )
+                  : courseUnitSheet.professors.length <= 4
                   ? Wrap(
-                      spacing: _horizontalSpacing,
-                      runSpacing: _verticalSpacing,
-                      children: courseUnitSheet.professors
-                          .map(
-                            (instructor) =>
-                                _InstructorCard(instructor: instructor),
-                          )
-                          .toList(),
-                    )
-                  : AnimatedExpandable(
-                      firstChild: _LimitedInstructorsRow(
-                        instructors: courseUnitSheet.professors,
-                      ),
-                      secondChild: Wrap(
-                        spacing: _horizontalSpacing,
-                        runSpacing: _verticalSpacing,
-                        children: courseUnitSheet.professors
+                    spacing: _horizontalSpacing,
+                    runSpacing: _verticalSpacing,
+                    children:
+                        courseUnitSheet.professors
                             .map(
                               (instructor) =>
                                   _InstructorCard(instructor: instructor),
                             )
                             .toList(),
-                      ),
+                  )
+                  : AnimatedExpandable(
+                    firstChild: _LimitedInstructorsRow(
+                      instructors: courseUnitSheet.professors,
                     ),
+                    secondChild: Wrap(
+                      spacing: _horizontalSpacing,
+                      runSpacing: _verticalSpacing,
+                      children:
+                          courseUnitSheet.professors
+                              .map(
+                                (instructor) =>
+                                    _InstructorCard(instructor: instructor),
+                              )
+                              .toList(),
+                    ),
+                  ),
           context: context,
         ),
         _buildSection(
           title: S.of(context).assessments,
-          content: exams.isEmpty
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: Text(
-                    S.of(context).noExamsScheduled,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                )
-              : SizedBox(
-                  height: 100,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: exams.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: _horizontalSpacing),
-                    itemBuilder: (context, index) => SizedBox(
-                      width: 240,
-                      child: ExamCard(
-                        name: exams[index].subject,
-                        acronym: exams[index].subjectAcronym,
-                        rooms: exams[index].rooms,
-                        type: exams[index].examType,
-                        startTime: exams[index].startTime,
-                        examDay: exams[index].start.day.toString(),
-                        examMonth: exams[index]
-                            .monthAcronym(PreferencesController.getLocale()),
-                        showIcon: false,
-                      ),
+          content:
+              exams.isEmpty
+                  ? Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      S.of(context).noExamsScheduled,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  )
+                  : SizedBox(
+                    height: 100,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: exams.length,
+                      separatorBuilder:
+                          (context, index) =>
+                              const SizedBox(width: _horizontalSpacing),
+                      itemBuilder:
+                          (context, index) => SizedBox(
+                            width: 240,
+                            child: ExamCard(
+                              name: exams[index].subject,
+                              acronym: exams[index].subjectAcronym,
+                              rooms: exams[index].rooms,
+                              type: exams[index].examType,
+                              startTime: exams[index].startTime,
+                              examDay: exams[index].start.day.toString(),
+                              examMonth: exams[index].monthAcronym(
+                                PreferencesController.getLocale(),
+                              ),
+                              showIcon: false,
+                            ),
+                          ),
                     ),
                   ),
-                ),
           context: context,
         ),
         _buildSection(
@@ -141,24 +148,27 @@ class CourseUnitSheetView extends StatelessWidget {
               width: double.infinity,
               child: Wrap(
                 alignment: WrapAlignment.spaceBetween,
-                children: courseUnitSheet.books.map((book) {
-                  return book.isbn.isNotEmpty
-                      ? FutureBuilder<String?>(
-                          future: BookThumbFetcher().fetchBookThumb(book.isbn),
-                          builder: (context, snapshot) {
-                            return BookCard(
-                              title: book.title,
-                              isbn: book.isbn,
-                              imageUrl: snapshot.data,
-                            );
-                          },
-                        )
-                      : BookCard(
-                          title: book.title,
-                          isbn: book.isbn,
-                          imageUrl: null,
-                        );
-                }).toList(),
+                children:
+                    courseUnitSheet.books.map((book) {
+                      return book.isbn.isNotEmpty
+                          ? FutureBuilder<String?>(
+                            future: BookThumbFetcher().fetchBookThumb(
+                              book.isbn,
+                            ),
+                            builder: (context, snapshot) {
+                              return BookCard(
+                                title: book.title,
+                                isbn: book.isbn,
+                                imageUrl: snapshot.data,
+                              );
+                            },
+                          )
+                          : BookCard(
+                            title: book.title,
+                            isbn: book.isbn,
+                            imageUrl: null,
+                          );
+                    }).toList(),
               ),
             ),
             context: context,
@@ -178,15 +188,10 @@ class CourseUnitSheetView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (content is HtmlWidget && content.html.length > 300)
-            GenericExpandable(
-              title: title,
-              content: content,
-            )
+            GenericExpandable(title: title, content: content)
           else ...[
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 8,
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 8),
               child: Text(
                 title,
                 style: Theme.of(context).textTheme.headlineLarge,
@@ -221,9 +226,10 @@ class _InstructorCard extends StatelessWidget {
           studentNumber: int.parse(instructor.code),
         ),
         builder: (context, snapshot) {
-          final profileImage = snapshot.hasData && snapshot.data != null
-              ? FileImage(snapshot.data!)
-              : null;
+          final profileImage =
+              snapshot.hasData && snapshot.data != null
+                  ? FileImage(snapshot.data!)
+                  : null;
 
           return InstructorCard(
             name: instructor.name,
@@ -254,8 +260,9 @@ class _LimitedInstructorsRow extends StatelessWidget {
       spacing: _horizontalSpacing,
       runSpacing: _verticalSpacing,
       children: [
-        ...firstThree
-            .map((instructor) => _InstructorCard(instructor: instructor)),
+        ...firstThree.map(
+          (instructor) => _InstructorCard(instructor: instructor),
+        ),
         if (remaining.isNotEmpty)
           FutureBuilder<List<File?>>(
             future: Future.wait(
@@ -267,11 +274,13 @@ class _LimitedInstructorsRow extends StatelessWidget {
               ),
             ),
             builder: (context, snapshot) {
-              final images = snapshot.data
+              final images =
+                  snapshot.data
                       ?.map(
-                        (file) => file != null
-                            ? FileImage(file) as ImageProvider
-                            : null,
+                        (file) =>
+                            file != null
+                                ? FileImage(file) as ImageProvider
+                                : null,
                       )
                       .toList() ??
                   List.filled(remainingToShow.length, null);
