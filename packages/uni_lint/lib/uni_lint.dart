@@ -32,7 +32,7 @@ class NoStringLiteralsInWidgetsLint extends DartLintRule {
               .thisOrAncestorOfType<CompilationUnit>()
               ?.declaredElement
               ?.source
-              .uri;
+              ?.uri;
       final fileName = fileUri?.pathSegments.last;
       if (isInsideWidgetClass(node) && fileName != "main.dart") {
         reporter.atNode(node, code);

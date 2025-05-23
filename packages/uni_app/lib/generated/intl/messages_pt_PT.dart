@@ -355,6 +355,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "send": MessageLookupByLibrary.simpleMessage("Enviar"),
         "sent_error":
             MessageLookupByLibrary.simpleMessage("Ocorreu um erro no envio"),
+        "services": MessageLookupByLibrary.simpleMessage("Serviços"),
         "settings": MessageLookupByLibrary.simpleMessage("Definições"),
         "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
         "some_error": MessageLookupByLibrary.simpleMessage("Algum erro!"),
