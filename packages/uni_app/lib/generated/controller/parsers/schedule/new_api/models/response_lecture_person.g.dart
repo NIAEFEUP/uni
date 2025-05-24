@@ -7,15 +7,9 @@ part of '../../../../../../controller/parsers/schedule/new_api/models/response_l
 // **************************************************************************
 
 ResponseLecturePerson _$ResponseLecturePersonFromJson(
-        Map<String, dynamic> json) =>
-    ResponseLecturePerson(
-      json['acronym'] as String,
-      json['name'] as String,
-    );
+  Map<String, dynamic> json,
+) => ResponseLecturePerson(json['acronym'] as String, json['name'] as String);
 
 Map<String, dynamic> _$ResponseLecturePersonToJson(
-        ResponseLecturePerson instance) =>
-    <String, dynamic>{
-      'acronym': instance.acronym,
-      'name': instance.name,
-    };
+  ResponseLecturePerson instance,
+) => <String, dynamic>{'acronym': instance.acronym, 'name': instance.name};

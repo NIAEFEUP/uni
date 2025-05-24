@@ -20,20 +20,10 @@ class ImageLabel extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Image.asset(
-          imagePath,
-          height: 300,
-          width: 300,
-        ),
-        Text(
-          label,
-          style: labelTextStyle,
-        ),
+        Image.asset(imagePath, height: 300, width: 300),
+        Text(label, style: labelTextStyle),
         if (sublabel.isNotEmpty) const SizedBox(height: 10),
-        Text(
-          sublabel,
-          style: sublabelTextStyle,
-        ),
+        Text(sublabel, style: sublabelTextStyle),
       ],
     );
   }

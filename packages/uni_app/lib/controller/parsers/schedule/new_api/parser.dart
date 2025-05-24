@@ -8,9 +8,7 @@ import 'package:uni/model/entities/lecture.dart';
 /// Extracts the user's lecture API URL.
 ///
 /// This function parses the schedule's HTML page.
-String? getScheduleApiUrlFromHtml(
-  http.Response response,
-) {
+String? getScheduleApiUrlFromHtml(http.Response response) {
   final document = parse(response.body);
 
   final scheduleElement = document.querySelector('#cal-shadow-container');
@@ -19,9 +17,7 @@ String? getScheduleApiUrlFromHtml(
   return apiUrl;
 }
 
-List<Lecture> getLecturesFromApiResponse(
-  http.Response response,
-) {
+List<Lecture> getLecturesFromApiResponse(http.Response response) {
   final json = jsonDecode(response.body) as Map<String, dynamic>;
   final data = json['data'] as List<dynamic>;
 

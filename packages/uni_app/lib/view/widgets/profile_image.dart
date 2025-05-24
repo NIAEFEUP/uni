@@ -6,23 +6,22 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 
 class ProfileImage extends StatelessWidget {
-  const ProfileImage({
-    required this.radius,
-    super.key,
-  });
+  const ProfileImage({required this.radius, super.key});
 
   final double radius;
 
   Future<DecorationImage?> buildProfileDecorationImage(
     BuildContext context,
   ) async {
-    final sessionProvider =
-        Provider.of<SessionProvider>(context, listen: false);
+    final sessionProvider = Provider.of<SessionProvider>(
+      context,
+      listen: false,
+    );
     await sessionProvider.ensureInitialized(context);
     final profilePictureFile =
         await ProfileProvider.fetchOrGetCachedProfilePicture(
-      sessionProvider.state!,
-    );
+          sessionProvider.state!,
+        );
     return getProfileDecorationImage(profilePictureFile);
   }
 
@@ -30,14 +29,12 @@ class ProfileImage extends StatelessWidget {
   ///
   /// If the image is not found / doesn't exist returns null.
   DecorationImage? getProfileDecorationImage(File? profilePicture) {
-    final image = profilePicture != null
-        ? FileImage(profilePicture) as ImageProvider<Object>
-        : const AssetImage('assets/images/profile_placeholder.png');
+    final image =
+        profilePicture != null
+            ? FileImage(profilePicture) as ImageProvider<Object>
+            : const AssetImage('assets/images/profile_placeholder.png');
 
-    return DecorationImage(
-      fit: BoxFit.cover,
-      image: image,
-    );
+    return DecorationImage(fit: BoxFit.cover, image: image);
   }
 
   @override

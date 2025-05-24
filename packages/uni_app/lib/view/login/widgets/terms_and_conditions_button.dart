@@ -17,25 +17,24 @@ class TermsAndConditionsButton extends StatelessWidget {
           text: TextSpan(
             text: S.of(context).agree_terms,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.white,
-                  decorationColor: Colors.white,
-                ),
+              color: Colors.white,
+              decorationColor: Colors.white,
+            ),
             children: [
-              const TextSpan(
-                text: ' ',
-              ),
+              const TextSpan(text: ' '),
               TextSpan(
                 text: S.of(context).terms,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                      decoration: TextDecoration.underline,
-                      decorationColor: Colors.white,
-                    ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    _showTermsAndConditions(context);
-                  },
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.white,
+                ),
+                recognizer:
+                    TapGestureRecognizer()
+                      ..onTap = () {
+                        _showTermsAndConditions(context);
+                      },
               ),
             ],
           ),

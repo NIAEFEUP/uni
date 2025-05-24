@@ -38,9 +38,10 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 100),
         child: Column(
-          children: calendar
-              .map((event) => RowFormat(event: event, locale: locale))
-              .toList(),
+          children:
+              calendar
+                  .map((event) => RowFormat(event: event, locale: locale))
+                  .toList(),
         ),
       ),
     );
@@ -48,8 +49,10 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
 
   @override
   Future<void> onRefresh(BuildContext context) {
-    return Provider.of<CalendarProvider>(context, listen: false)
-        .forceRefresh(context);
+    return Provider.of<CalendarProvider>(
+      context,
+      listen: false,
+    ).forceRefresh(context);
   }
 
   @override

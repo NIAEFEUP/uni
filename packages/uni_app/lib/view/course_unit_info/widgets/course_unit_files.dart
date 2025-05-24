@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:open_file_plus/open_file_plus.dart';
+import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/file_offline_storage.dart';
 import 'package:uni/generated/l10n.dart';
@@ -18,27 +18,25 @@ class CourseUnitFilesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cards = files
-        .where((element) => element.files.isNotEmpty)
-        .map((e) => _buildCard(e.folderName, e.files))
-        .toList();
+    final cards =
+        files
+            .where((element) => element.files.isNotEmpty)
+            .map((e) => _buildCard(e.folderName, e.files))
+            .toList();
 
     return cards.isEmpty
         ? LayoutBuilder(
-            builder: (context, constraints) => SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Container(
-                height: constraints.maxHeight,
-                padding: const EdgeInsets.only(bottom: 120),
-                child: const Center(
-                  child: NoFilesWidget(),
+          builder:
+              (context, constraints) => SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Container(
+                  height: constraints.maxHeight,
+                  padding: const EdgeInsets.only(bottom: 120),
+                  child: const Center(child: NoFilesWidget()),
                 ),
               ),
-            ),
-          )
-        : ListView(
-            children: cards,
-          );
+        )
+        : ListView(children: cards);
   }
 
   FileCard _buildFileCard(CourseUnitFile file) {
@@ -60,11 +58,7 @@ class CourseUnitFilesView extends StatelessWidget {
   FolderCard _buildCard(String folder, List<CourseUnitFile> files) {
     return FolderCard(
       title: folder,
-      children: files
-          .map(
-            _buildFileCard,
-          )
-          .toList(),
+      children: files.map(_buildFileCard).toList(),
     );
   }
 
@@ -102,20 +96,11 @@ class CourseUnitFilesView extends StatelessWidget {
   void handleFileOpening(ResultType resultType, BuildContext context) {
     switch (resultType) {
       case ResultType.done:
-        ToastMessage.success(
-          context,
-          S.of(context).successful_open,
-        );
+        ToastMessage.success(context, S.of(context).successful_open);
       case ResultType.error:
-        ToastMessage.error(
-          context,
-          S.of(context).open_error,
-        );
+        ToastMessage.error(context, S.of(context).open_error);
       case ResultType.noAppToOpen:
-        ToastMessage.warning(
-          context,
-          S.of(context).no_app,
-        );
+        ToastMessage.warning(context, S.of(context).no_app);
       case ResultType.permissionDenied:
         ToastMessage.warning(context, S.of(context).permission_denied);
       case ResultType.fileNotFound:

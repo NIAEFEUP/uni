@@ -39,12 +39,13 @@ class _GenericExpandableState extends State<GenericExpandable> {
           ),
         ),
         collapsed: ShaderMask(
-          shaderCallback: (bounds) => const LinearGradient(
-            colors: [Colors.black, Colors.transparent],
-            stops: [0.7, 1.0],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ).createShader(bounds),
+          shaderCallback:
+              (bounds) => const LinearGradient(
+                colors: [Colors.black, Colors.transparent],
+                stops: [0.7, 1.0],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ).createShader(bounds),
           blendMode: BlendMode.dstIn,
           child: ClipRect(
             child: Align(

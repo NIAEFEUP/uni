@@ -18,9 +18,7 @@ class Token extends Endpoint<TokenResponse> {
     final tokenUrl = options.baseUrl.resolve('auth/oidc/token');
     final response = await options.client.get(
       tokenUrl,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: {'Content-Type': 'application/json'},
     );
 
     if (response.statusCode == 200) {

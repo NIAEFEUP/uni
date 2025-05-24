@@ -7,21 +7,22 @@ part of '../../../model/entities/restaurant.dart';
 // **************************************************************************
 
 Restaurant _$RestaurantFromJson(Map<String, dynamic> json) => Restaurant(
-      (json['id'] as num?)?.toInt(),
-      json['typePt'] as String?,
-      json['typeEn'] as String?,
-      json['namePt'] as String,
-      json['nameEn'] as String,
-      json['period'] as String,
-      (json['campusId'] as num).toInt(),
-      json['ref'] as String,
-      (json['hours'] as List<dynamic>).map((e) => e as String).toList(),
-      json['email'] as String,
-      meals: (json['meals'] as List<dynamic>?)
-              ?.map((e) => Meal.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
-    )..uniqueId = (json['uniqueId'] as num?)?.toInt();
+  (json['id'] as num?)?.toInt(),
+  json['typePt'] as String?,
+  json['typeEn'] as String?,
+  json['namePt'] as String,
+  json['nameEn'] as String,
+  json['period'] as String,
+  (json['campusId'] as num).toInt(),
+  json['ref'] as String,
+  (json['hours'] as List<dynamic>).map((e) => e as String).toList(),
+  json['email'] as String,
+  meals:
+      (json['meals'] as List<dynamic>?)
+          ?.map((e) => Meal.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
+)..uniqueId = (json['uniqueId'] as num?)?.toInt();
 
 Map<String, dynamic> _$RestaurantToJson(Restaurant instance) =>
     <String, dynamic>{

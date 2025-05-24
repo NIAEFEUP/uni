@@ -46,38 +46,34 @@ class TermsAndConditionDialog {
               const Expanded(
                 child: SingleChildScrollView(child: TermsAndConditions()),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
                     onPressed: () async {
                       Navigator.of(context).pop();
-                      userTermsDecision
-                          .complete(TermsAndConditionsState.accepted);
-                      await PreferencesController
-                          .setTermsAndConditionsAcceptance(areAccepted: true);
+                      userTermsDecision.complete(
+                        TermsAndConditionsState.accepted,
+                      );
+                      await PreferencesController.setTermsAndConditionsAcceptance(
+                        areAccepted: true,
+                      );
                     },
-                    child: const Text(
-                      'Aceito',
-                    ),
+                    child: const Text('Aceito'),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                  const SizedBox(width: 10),
                   ElevatedButton(
                     onPressed: () async {
                       Navigator.of(context).pop();
-                      userTermsDecision
-                          .complete(TermsAndConditionsState.rejected);
-                      await PreferencesController
-                          .setTermsAndConditionsAcceptance(areAccepted: false);
+                      userTermsDecision.complete(
+                        TermsAndConditionsState.rejected,
+                      );
+                      await PreferencesController.setTermsAndConditionsAcceptance(
+                        areAccepted: false,
+                      );
                     },
-                    child: const Text(
-                      'Rejeito',
-                    ),
+                    child: const Text('Rejeito'),
                   ),
                 ],
               ),

@@ -7,24 +7,27 @@ import 'package:uni_ui/icons.dart';
 
 class LocationMarker extends Marker {
   LocationMarker(this.latlng, this.locationGroup)
-      : super(
-          anchorPos: AnchorPos.align(AnchorAlign.center),
-          height: 20,
-          width: 20,
-          point: latlng,
-          builder: (context) => DecoratedBox(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              border: Border.all(
-                color: Theme.of(context).colorScheme.primary,
+    : super(
+        alignment: Alignment.center,
+        height: 20,
+        width: 20,
+        point: latlng,
+        child: Builder(
+          builder:
+              (context) => DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                ),
+                child: MarkerIcon(
+                  location: locationGroup.getLocationWithMostWeight(),
+                ),
               ),
-              borderRadius: const BorderRadius.all(Radius.circular(20)),
-            ),
-            child: MarkerIcon(
-              location: locationGroup.getLocationWithMostWeight(),
-            ),
-          ),
-        );
+        ),
+      );
   final LocationGroup locationGroup;
   final LatLng latlng;
 }

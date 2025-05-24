@@ -11,10 +11,9 @@ abstract class GenericExpansionCard extends StatelessWidget {
   final bool smallTitle;
   final EdgeInsetsGeometry? cardMargin;
 
-  TextStyle? getTitleStyle(BuildContext context) =>
-      Theme.of(context).textTheme.headlineSmall?.apply(
-            color: Theme.of(context).primaryColor,
-          );
+  TextStyle? getTitleStyle(BuildContext context) => Theme.of(
+    context,
+  ).textTheme.headlineSmall?.apply(color: Theme.of(context).primaryColor);
 
   String getTitle(BuildContext context);
 
@@ -28,15 +27,15 @@ abstract class GenericExpansionCard extends StatelessWidget {
         expandedTextColor: Theme.of(context).primaryColor,
         heightFactorCurve: Curves.ease,
         turnsCurve: Curves.easeOutBack,
-        expandedColor: (Theme.of(context).brightness == Brightness.light)
-            ? const Color.fromARGB(0xf, 0, 0, 0)
-            : const Color.fromARGB(255, 43, 43, 43),
+        expandedColor:
+            (Theme.of(context).brightness == Brightness.light)
+                ? const Color.fromARGB(0xf, 0, 0, 0)
+                : const Color.fromARGB(255, 43, 43, 43),
         title: Text(
           getTitle(context),
-          style: Theme.of(context)
-              .textTheme
-              .headlineSmall
-              ?.apply(color: Theme.of(context).primaryColor),
+          style: Theme.of(context).textTheme.headlineSmall?.apply(
+            color: Theme.of(context).primaryColor,
+          ),
         ),
         elevation: 0,
         baseColor: Theme.of(context).colorScheme.surface,

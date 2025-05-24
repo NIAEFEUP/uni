@@ -11,10 +11,7 @@ import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/tabs/tab_icon.dart';
 
 class AcademicPathPageView extends StatefulWidget {
-  const AcademicPathPageView({
-    super.key,
-    this.initialTabIndex = 0,
-  });
+  const AcademicPathPageView({super.key, this.initialTabIndex = 0});
   final int initialTabIndex;
 
   @override
@@ -63,17 +60,15 @@ class AcademicPathPageViewState
   Widget getBody(BuildContext context) {
     return TabBarView(
       controller: tabController,
-      children: [
-        const CoursesPage(),
-        SchedulePage(),
-        const ExamsPage(),
-      ],
+      children: [const CoursesPage(), SchedulePage(), const ExamsPage()],
     );
   }
 
   @override
   Future<void> onRefresh(BuildContext context) async {
-    await Provider.of<ProfileProvider>(context, listen: false)
-        .forceRefresh(context);
+    await Provider.of<ProfileProvider>(
+      context,
+      listen: false,
+    ).forceRefresh(context);
   }
 }

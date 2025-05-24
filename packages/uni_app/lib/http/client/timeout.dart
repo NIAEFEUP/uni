@@ -2,8 +2,8 @@ import 'package:http/http.dart' as http;
 
 class TimeoutClient extends http.BaseClient {
   TimeoutClient(http.Client inner, {required Duration timeout})
-      : _inner = inner,
-        _timeout = timeout;
+    : _inner = inner,
+      _timeout = timeout;
 
   final http.Client _inner;
   final Duration _timeout;

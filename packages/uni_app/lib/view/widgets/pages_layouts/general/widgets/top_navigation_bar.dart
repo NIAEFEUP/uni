@@ -33,17 +33,18 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
                 child: leftButton,
               ),
             Expanded(
-              child: centerTitle
-                  ? Center(
-                      child: Text(
+              child:
+                  centerTitle
+                      ? Center(
+                        child: Text(
+                          title ?? '',
+                          style: Theme.of(context).textTheme.headlineLarge,
+                        ),
+                      )
+                      : Text(
                         title ?? '',
-                        style: Theme.of(context).textTheme.headlineLarge,
+                        style: Theme.of(context).textTheme.displaySmall,
                       ),
-                    )
-                  : Text(
-                      title ?? '',
-                      style: Theme.of(context).textTheme.displaySmall,
-                    ),
             ),
             if (rightButton == null && centerTitle) const SizedBox(width: 45),
             if (rightButton != null)

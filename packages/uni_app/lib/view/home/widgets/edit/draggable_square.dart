@@ -4,11 +4,7 @@ import 'package:uni/view/home/widgets/edit/draggable_element.dart';
 import 'package:uni/view/home/widgets/edit/draggable_utils.dart';
 
 class DraggableSquare extends StatelessWidget {
-  const DraggableSquare({
-    super.key,
-    required this.data,
-    this.callback,
-  });
+  const DraggableSquare({super.key, required this.data, this.callback});
 
   final FavoriteWidgetType data;
   final void Function(FavoriteWidgetType widgetType)? callback;
@@ -29,21 +25,17 @@ class DraggableSquare extends StatelessWidget {
       feedbackBuilder: (context, data) {
         final (title, icon) = formatDraggableTile(context, data);
         return Container(
-          decoration:
-              BoxDecoration(color: Theme.of(context).colorScheme.secondary),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.secondary,
+          ),
           width: 75,
           height: 75,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               icon,
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                title,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
+              const SizedBox(height: 5),
+              Text(title, style: Theme.of(context).textTheme.bodySmall),
             ],
           ),
         );
@@ -52,21 +44,17 @@ class DraggableSquare extends StatelessWidget {
         final (title, icon) = formatDraggableTile(context, data);
 
         return Container(
-          decoration:
-              BoxDecoration(color: Theme.of(context).colorScheme.secondary),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.secondary,
+          ),
           width: 75,
           height: 75,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               icon,
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                title,
-                style: Theme.of(context).textTheme.labelSmall,
-              ),
+              const SizedBox(height: 5),
+              Text(title, style: Theme.of(context).textTheme.labelSmall),
             ],
           ),
         );

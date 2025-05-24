@@ -48,27 +48,47 @@ class StateProviders {
       );
     }
 
-    final lectureProvider =
-        Provider.of<LectureProvider>(context, listen: false);
+    final lectureProvider = Provider.of<LectureProvider>(
+      context,
+      listen: false,
+    );
     final examProvider = Provider.of<ExamProvider>(context, listen: false);
-    final busStopProvider =
-        Provider.of<BusStopProvider>(context, listen: false);
-    final restaurantProvider =
-        Provider.of<RestaurantProvider>(context, listen: false);
-    final courseUnitsInfoProvider =
-        Provider.of<CourseUnitsInfoProvider>(context, listen: false);
-    final profileProvider =
-        Provider.of<ProfileProvider>(context, listen: false);
-    final sessionProvider =
-        Provider.of<SessionProvider>(context, listen: false);
-    final calendarProvider =
-        Provider.of<CalendarProvider>(context, listen: false);
-    final libraryOccupationProvider =
-        Provider.of<LibraryOccupationProvider>(context, listen: false);
-    final facultyLocationsProvider =
-        Provider.of<FacultyLocationsProvider>(context, listen: false);
-    final referenceProvider =
-        Provider.of<ReferenceProvider>(context, listen: false);
+    final busStopProvider = Provider.of<BusStopProvider>(
+      context,
+      listen: false,
+    );
+    final restaurantProvider = Provider.of<RestaurantProvider>(
+      context,
+      listen: false,
+    );
+    final courseUnitsInfoProvider = Provider.of<CourseUnitsInfoProvider>(
+      context,
+      listen: false,
+    );
+    final profileProvider = Provider.of<ProfileProvider>(
+      context,
+      listen: false,
+    );
+    final sessionProvider = Provider.of<SessionProvider>(
+      context,
+      listen: false,
+    );
+    final calendarProvider = Provider.of<CalendarProvider>(
+      context,
+      listen: false,
+    );
+    final libraryOccupationProvider = Provider.of<LibraryOccupationProvider>(
+      context,
+      listen: false,
+    );
+    final facultyLocationsProvider = Provider.of<FacultyLocationsProvider>(
+      context,
+      listen: false,
+    );
+    final referenceProvider = Provider.of<ReferenceProvider>(
+      context,
+      listen: false,
+    );
 
     return StateProviders(
       lectureProvider,

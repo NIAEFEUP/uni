@@ -20,7 +20,7 @@ enum LocationType {
   restaurant,
   specialRoom,
   store,
-  wc
+  wc,
 }
 
 String locationTypeToString(LocationType type) {

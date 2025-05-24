@@ -11,9 +11,7 @@ extension _ExactAddition on DateTime {
 /// A [Week] represents a period of 7 days.
 class Week implements Comparable<Week> {
   /// Creates a [Week] that starts the given [start] **date** (not datetime).
-  factory Week({
-    required DateTime start,
-  }) {
+  factory Week({required DateTime start}) {
     final startAtMidnight = start.copyWith(
       hour: 0,
       minute: 0,

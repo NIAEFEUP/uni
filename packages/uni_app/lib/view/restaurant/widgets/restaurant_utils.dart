@@ -101,10 +101,6 @@ class RestaurantUtils {
     final translatedPeriod = S.of(context).restaurant_period(period);
     return translatedPeriod == 'Other'
         ? getLocaleTranslation(locale, portugueseName, englishName)
-        : '${getLocaleTranslation(
-            locale,
-            portugueseName,
-            englishName,
-          )} - ${S.of(context).restaurant_period(period)}';
+        : '${getLocaleTranslation(locale, portugueseName, englishName)} - ${S.of(context).restaurant_period(period)}';
   }
 }

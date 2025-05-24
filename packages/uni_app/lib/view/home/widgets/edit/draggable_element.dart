@@ -26,10 +26,7 @@ class DraggableElement<T extends Object> extends StatelessWidget {
       feedback: Transform.translate(
         offset: -feedbackSize / 2,
         child: ClipSmoothRect(
-          radius: SmoothBorderRadius(
-            cornerRadius: 15,
-            cornerSmoothing: 1,
-          ),
+          radius: SmoothBorderRadius(cornerRadius: 15, cornerSmoothing: 1),
           child: feedbackBuilder(context, data),
         ),
       ),
@@ -40,10 +37,7 @@ class DraggableElement<T extends Object> extends StatelessWidget {
         }
       },
       child: ClipSmoothRect(
-        radius: SmoothBorderRadius(
-          cornerRadius: 15,
-          cornerSmoothing: 1,
-        ),
+        radius: SmoothBorderRadius(cornerRadius: 15, cornerSmoothing: 1),
         child: childBuilder(context, data),
       ),
     );

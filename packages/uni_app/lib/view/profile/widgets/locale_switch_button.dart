@@ -10,10 +10,7 @@ class LocaleSwitchButton extends StatelessWidget {
     return Consumer<LocaleNotifier>(
       builder: (context, localeNotifier, _) {
         return Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 4,
-            vertical: 8,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
           child: SizedBox(
             width: 52,
             height: 32,

@@ -12,8 +12,7 @@ void main() {
         expect(week2.startingOn(DateTime.sunday), week2);
       });
 
-      group(
-          'should return a week that starts in the given weekday, after the'
+      group('should return a week that starts in the given weekday, after the'
           " current week's start and before the next one's", () {
         test('week1, starting on Sunday', () {
           expect(
@@ -103,19 +102,12 @@ void main() {
         expect(week2.endingOn(DateTime.sunday), week2);
       });
 
-      group(
-          'should return a week that ends in the given weekday, before the'
+      group('should return a week that ends in the given weekday, before the'
           " current week's end and after the previous one's", () {
         test('week1, ending on Sunday', () {
-          expect(
-            week1.endingOn(DateTime.sunday).end.weekday,
-            DateTime.sunday,
-          );
+          expect(week1.endingOn(DateTime.sunday).end.weekday, DateTime.sunday);
 
-          expect(
-            week1.endingOn(DateTime.sunday).end.isBefore(week1.end),
-            true,
-          );
+          expect(week1.endingOn(DateTime.sunday).end.isBefore(week1.end), true);
 
           expect(
             week1.endingOn(DateTime.sunday).end.isAfter(week1.previous().end),
@@ -124,15 +116,9 @@ void main() {
         });
 
         test('week1, ending on Monday', () {
-          expect(
-            week1.endingOn(DateTime.monday).end.weekday,
-            DateTime.monday,
-          );
+          expect(week1.endingOn(DateTime.monday).end.weekday, DateTime.monday);
 
-          expect(
-            week1.endingOn(DateTime.monday).end.isBefore(week1.end),
-            true,
-          );
+          expect(week1.endingOn(DateTime.monday).end.isBefore(week1.end), true);
 
           expect(
             week1.endingOn(DateTime.monday).end.isAfter(week1.previous().end),
@@ -141,15 +127,9 @@ void main() {
         });
 
         test('week2, ending on Monday', () {
-          expect(
-            week2.endingOn(DateTime.monday).end.weekday,
-            DateTime.monday,
-          );
+          expect(week2.endingOn(DateTime.monday).end.weekday, DateTime.monday);
 
-          expect(
-            week2.endingOn(DateTime.monday).end.isBefore(week2.end),
-            true,
-          );
+          expect(week2.endingOn(DateTime.monday).end.isBefore(week2.end), true);
 
           expect(
             week2.endingOn(DateTime.monday).end.isAfter(week1.previous().end),
@@ -177,8 +157,7 @@ void main() {
     });
 
     group('getWeekday', () {
-      group(
-          'should return a day within the same week, with the'
+      group('should return a day within the same week, with the'
           ' requested weekday', () {
         for (var i = 0; i < 7; i++) {
           test('[DateTime.weekday = ${i + 1}]', () {

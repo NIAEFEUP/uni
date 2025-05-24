@@ -24,8 +24,9 @@ class _AuthenticationAppLink {
   Future<Uri> intercept(
     FutureOr<void> Function(Uri redirectUri) callback,
   ) async {
-    final interceptedUri = _appLinks.uriLinkStream
-        .firstWhere((uri) => redirectUri == uri.stripQueryComponent());
+    final interceptedUri = _appLinks.uriLinkStream.firstWhere(
+      (uri) => redirectUri == uri.stripQueryComponent(),
+    );
 
     await callback(redirectUri);
     final data = await interceptedUri;

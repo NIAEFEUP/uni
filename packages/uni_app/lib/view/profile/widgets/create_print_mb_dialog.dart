@@ -140,8 +140,10 @@ Future<void> generateReference(BuildContext context, double amount) async {
   }
 
   final session = Provider.of<SessionProvider>(context, listen: false).state!;
-  final response =
-      await PrintFetcher.generatePrintMoneyReference(amount, session);
+  final response = await PrintFetcher.generatePrintMoneyReference(
+    amount,
+    session,
+  );
 
   if (response.statusCode == 200 && context.mounted) {
     Navigator.of(context).pop(false);

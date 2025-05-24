@@ -7,8 +7,8 @@ PluginBase createPlugin() => UniUILint();
 class UniUILint extends PluginBase {
   @override
   List<LintRule> getLintRules(CustomLintConfigs configs) => [
-    NoStringLiteralsInWidgetsLint(),
-  ];
+        NoStringLiteralsInWidgetsLint(),
+      ];
 }
 
 class NoStringLiteralsInWidgetsLint extends DartLintRule {
@@ -27,12 +27,11 @@ class NoStringLiteralsInWidgetsLint extends DartLintRule {
     CustomLintContext context,
   ) {
     context.registry.addStringLiteral((node) {
-      final fileUri =
-          node
-              .thisOrAncestorOfType<CompilationUnit>()
-              ?.declaredElement
-              ?.source
-              ?.uri;
+      final fileUri = node
+          .thisOrAncestorOfType<CompilationUnit>()
+          ?.declaredElement
+          ?.source
+          ?.uri;
       final fileName = fileUri?.pathSegments.last;
       if (isInsideWidgetClass(node) && fileName != "main.dart") {
         reporter.atNode(node, code);

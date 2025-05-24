@@ -36,15 +36,14 @@ class CourseUnitDetailPageViewState
   @override
   void initState() {
     super.initState();
-    tabController = TabController(
-      vsync: this,
-      length: 3,
-    );
+    tabController = TabController(vsync: this, length: 3);
   }
 
   Future<void> loadInfo({required bool force}) async {
-    final courseUnitsProvider =
-        Provider.of<CourseUnitsInfoProvider>(context, listen: false);
+    final courseUnitsProvider = Provider.of<CourseUnitsInfoProvider>(
+      context,
+      listen: false,
+    );
     final session = context.read<SessionProvider>().state!;
 
     final courseUnitSheet =
@@ -113,24 +112,23 @@ class CourseUnitDetailPageViewState
   Widget _courseUnitSheetView(BuildContext context) {
     return Consumer<ExamProvider>(
       builder: (context, examProvider, child) {
-        final sheet = context
-            .read<CourseUnitsInfoProvider>()
-            .courseUnitsSheets[widget.courseUnit];
+        final sheet =
+            context.read<CourseUnitsInfoProvider>().courseUnitsSheets[widget
+                .courseUnit];
 
         if (sheet == null) {
           return Center(
-            child: Text(
-              S.of(context).no_info,
-              textAlign: TextAlign.center,
-            ),
+            child: Text(S.of(context).no_info, textAlign: TextAlign.center),
           );
         }
 
-        final courseExams = (examProvider.state ?? [])
-            .where(
-              (exam) => exam.subjectAcronym == widget.courseUnit.abbreviation,
-            )
-            .toList();
+        final courseExams =
+            (examProvider.state ?? [])
+                .where(
+                  (exam) =>
+                      exam.subjectAcronym == widget.courseUnit.abbreviation,
+                )
+                .toList();
 
         return CourseUnitSheetView(sheet, courseExams);
       },
@@ -138,22 +136,21 @@ class CourseUnitDetailPageViewState
   }
 
   Widget _courseUnitFilesView(BuildContext context) {
-    final files = context
-        .watch<CourseUnitsInfoProvider>()
-        .courseUnitsFiles[widget.courseUnit];
+    final files =
+        context.watch<CourseUnitsInfoProvider>().courseUnitsFiles[widget
+            .courseUnit];
 
     if (files == null || files.isEmpty) {
       return LayoutBuilder(
-        builder: (context, constraints) => SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Container(
-            height: constraints.maxHeight,
-            padding: const EdgeInsets.only(bottom: 120),
-            child: const Center(
-              child: NoFilesWidget(),
+        builder:
+            (context, constraints) => SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Container(
+                height: constraints.maxHeight,
+                padding: const EdgeInsets.only(bottom: 120),
+                child: const Center(child: NoFilesWidget()),
+              ),
             ),
-          ),
-        ),
       );
     }
 
@@ -161,16 +158,13 @@ class CourseUnitDetailPageViewState
   }
 
   Widget _courseUnitClassesView(BuildContext context) {
-    final classes = context
-        .read<CourseUnitsInfoProvider>()
-        .courseUnitsClasses[widget.courseUnit];
+    final classes =
+        context.read<CourseUnitsInfoProvider>().courseUnitsClasses[widget
+            .courseUnit];
 
     if (classes == null || classes.isEmpty) {
       return Center(
-        child: Text(
-          S.of(context).no_class,
-          textAlign: TextAlign.center,
-        ),
+        child: Text(S.of(context).no_class, textAlign: TextAlign.center),
       );
     }
 

@@ -87,18 +87,18 @@ class Lecture {
 
   @override
   int get hashCode => Object.hash(
-        acronym,
-        subject,
-        startTime,
-        endTime,
-        typeClass,
-        room,
-        teacher,
-        teacherName,
-        teacherId,
-        startTime,
-        occurrId,
-      );
+    acronym,
+    subject,
+    startTime,
+    endTime,
+    typeClass,
+    room,
+    teacher,
+    teacherName,
+    teacherId,
+    startTime,
+    occurrId,
+  );
 
   @override
   bool operator ==(Object other) =>

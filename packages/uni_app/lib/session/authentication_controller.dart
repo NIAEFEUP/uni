@@ -20,10 +20,8 @@ class AuthenticationSnapshot {
 }
 
 class AuthenticationController {
-  AuthenticationController(
-    Session initialSession, {
-    this.logoutHandler,
-  }) : _currentSession = initialSession;
+  AuthenticationController(Session initialSession, {this.logoutHandler})
+    : _currentSession = initialSession;
 
   final Lock _authenticationLock = Lock();
   final LogoutHandler? logoutHandler;

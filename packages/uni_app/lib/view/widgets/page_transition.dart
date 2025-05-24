@@ -14,11 +14,7 @@ class PageTransition {
     bool checkTermsAndConditions = true,
   }) {
     return PageRouteBuilder(
-      pageBuilder: (
-        context,
-        animation,
-        secondaryAnimation,
-      ) {
+      pageBuilder: (context, animation, secondaryAnimation) {
         if (_isFirstPageTransition) {
           _isFirstPageTransition = false;
           if (checkTermsAndConditions) {

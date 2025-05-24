@@ -13,10 +13,9 @@ import 'package:uni/sigarra/endpoints/oidc/token/response.dart';
 import 'package:uni/sigarra/options.dart';
 
 class FederatedSessionUserInfo {
-  FederatedSessionUserInfo(
-    UserInfo userInfo,
-  )   : username = _extractUsername(userInfo),
-        faculties = _extractFaculties(userInfo);
+  FederatedSessionUserInfo(UserInfo userInfo)
+    : username = _extractUsername(userInfo),
+      faculties = _extractFaculties(userInfo);
 
   final String username;
   final List<String> faculties;
@@ -26,20 +25,19 @@ class FederatedSessionUserInfo {
   }
 
   static List<String> _extractFaculties(UserInfo userInfo) {
-    final faculties = userInfo
-        .getTyped<List<dynamic>>('ous')!
-        .cast<String>()
-        .map((element) => element.toLowerCase())
-        .toList();
+    final faculties =
+        userInfo
+            .getTyped<List<dynamic>>('ous')!
+            .cast<String>()
+            .map((element) => element.toLowerCase())
+            .toList();
 
     return faculties;
   }
 }
 
 class FederatedSessionRequest extends SessionRequest {
-  FederatedSessionRequest({
-    required this.credential,
-  });
+  FederatedSessionRequest({required this.credential});
 
   final Credential credential;
 
