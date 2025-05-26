@@ -57,7 +57,7 @@ dependencies:
   objectbox: ^4.1.0
   objectbox_flutter_libs: any
   open_file: ^3.5.10
-  openid_client: ^0.4.8
+  openid_client: ^0.4.9
   path: ^1.8.0
   path_provider: ^2.1.2
   percent_indicator: ^4.2.2
@@ -83,15 +83,18 @@ dependencies:
       ref: "4ce065"
 dev_dependencies:
   build_runner: ^2.4.13
-  custom_lint: ^0.6.8
+  custom_lint: ^0.7.0
   flutter_launcher_icons: ^0.14.3
   flutter_test:
     sdk: flutter
-  leancode_lint: ^14.0.0
-  mockito: 5.4.4
-  objectbox_generator: any
+  leancode_lint: ^16.0.0
+  mockito: ^5.4.5
+  objectbox_generator: ^4.2.0
   sqflite_common_ffi: ^2.3.0+4
   very_good_analysis: ^7.0.0
+
+dependency_overrides:
+  pointycastle: ^4.0.0
 
 flutter:
   generate: true
