@@ -146,7 +146,8 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
           );
         }
 
-        if (connectivitySnapshot.data == ConnectivityResult.none) {
+        if (connectivitySnapshot.data?.contains(ConnectivityResult.none) ??
+            false) {
           return Center(
             heightFactor: 3,
             child: Text(

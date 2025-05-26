@@ -123,9 +123,9 @@ class EditHomeViewState extends State<EditHomeView> {
                               borderRadius: BorderRadius.circular(5),
                               color:
                                   candidate.isNotEmpty
-                                      ? Theme.of(
-                                        context,
-                                      ).shadowColor.withOpacity(0.2)
+                                      ? Theme.of(context).shadowColor.withAlpha(
+                                        51,
+                                      ) // 20% opacity
                                       : Colors.transparent,
                             ),
                           ),
@@ -202,9 +202,10 @@ class EditHomeViewState extends State<EditHomeView> {
                                   ),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.secondary.withOpacity(0.25),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary
+                                          .withAlpha(64), // 25% opacity
                                     ),
                                     width: 75,
                                     height: 75,

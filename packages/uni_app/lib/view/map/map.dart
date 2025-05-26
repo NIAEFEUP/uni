@@ -171,9 +171,7 @@ class MapPageStateView extends State<MapPage> {
               Align(
                 alignment: Alignment.bottomRight,
                 child: ColoredBox(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onPrimary.withOpacity(0.8),
+                  color: Theme.of(context).colorScheme.onPrimary.withAlpha(204),
                   child: GestureDetector(
                     onTap:
                         () => launchUrlWithToast(

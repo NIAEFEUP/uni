@@ -116,7 +116,7 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
                     borderRadius: BorderRadius.circular(25),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withAlpha(51), // 20% opacity
                         spreadRadius: 2,
                         blurRadius: 5,
                         offset: const Offset(0, 2),

@@ -117,8 +117,8 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
       return;
     }
 
-    final hasConnectivity =
-        await Connectivity().checkConnectivity() != ConnectivityResult.none;
+    final connectivity = await Connectivity().checkConnectivity();
+    final hasConnectivity = !connectivity.contains(ConnectivityResult.none);
 
     if (!hasConnectivity) {
       Logger().w('No internet connection; skipping $runtimeType remote load');

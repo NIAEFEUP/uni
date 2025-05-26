@@ -72,7 +72,7 @@ class ToastMessage {
   static Future<void> _displayDialog(BuildContext context, Widget mToast) {
     return showDialog(
       barrierDismissible: false,
-      barrierColor: Colors.white.withOpacity(0),
+      barrierColor: Colors.white.withAlpha(0),
       context: context,
       builder: (toastContext) {
         Future.delayed(const Duration(milliseconds: 2000), () {

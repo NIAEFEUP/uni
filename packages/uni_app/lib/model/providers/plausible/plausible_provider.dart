@@ -90,8 +90,7 @@ class _PlausibleProviderState extends State<PlausibleProvider> {
 
   Future<void> _updateConnectivityState() async {
     final connectivity = Connectivity();
-    final List<ConnectivityResult> connected =
-        await connectivity.checkConnectivity();
+    final connected = await connectivity.checkConnectivity();
     connected.contains(ConnectivityResult.wifi)
         ? _connectivityResult = ConnectivityResult.wifi
         : _connectivityResult = ConnectivityResult.none;

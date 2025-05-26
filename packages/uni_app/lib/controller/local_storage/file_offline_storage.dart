@@ -42,7 +42,8 @@ Future<File?> loadFileFromStorageOrRetrieveNew(
     return file;
   }
 
-  if (await Connectivity().checkConnectivity() != ConnectivityResult.none) {
+  final connectivity = await Connectivity().checkConnectivity();
+  if (!connectivity.contains(ConnectivityResult.none)) {
     final downloadedFile = await _downloadAndSaveFile(
       targetPath,
       url,
