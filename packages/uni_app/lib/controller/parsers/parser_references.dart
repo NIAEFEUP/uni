@@ -8,8 +8,9 @@ Future<List<Reference>> parseReferences(http.Response response) async {
 
   final references = <Reference>[];
 
-  final rows =
-      document.querySelectorAll('div#tab0 > table.dadossz > tbody > tr');
+  final rows = document.querySelectorAll(
+    'div#tab0 > table.dadossz > tbody > tr',
+  );
 
   if (rows.length > 1) {
     rows.sublist(1).forEach((tr) {
@@ -18,11 +19,13 @@ Future<List<Reference>> parseReferences(http.Response response) async {
       final limitDate = DateTime.parse(info[2].text);
       final entity = int.parse(info[3].text);
       final reference = int.parse(info[4].text);
-      final formattedAmount =
-          info[5].text.replaceFirst(',', '.').replaceFirst('€', '');
+      final formattedAmount = info[5].text
+          .replaceFirst(',', '.')
+          .replaceFirst('€', '');
       final amount = double.parse(formattedAmount);
-      references
-          .add(Reference(description, limitDate, entity, reference, amount));
+      references.add(
+        Reference(description, limitDate, entity, reference, amount),
+      );
     });
   }
 

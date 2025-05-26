@@ -9,11 +9,7 @@ import 'package:uni/sigarra/endpoints/html/authentication/login/response.dart';
 import 'package:uni/sigarra/options.dart';
 
 class Login extends Endpoint<LoginResponse> {
-  const Login({
-    required this.username,
-    required this.password,
-    this.options,
-  });
+  const Login({required this.username, required this.password, this.options});
 
   final String username;
   final String password;
@@ -27,10 +23,7 @@ class Login extends Endpoint<LoginResponse> {
 
     final response = await options.client.post(
       loginUrl,
-      body: {
-        'p_user': username,
-        'p_pass': password,
-      },
+      body: {'p_user': username, 'p_pass': password},
     );
 
     return _parse(response);
@@ -38,9 +31,7 @@ class Login extends Endpoint<LoginResponse> {
 
   Future<LoginResponse> _parse(http.Response response) async {
     if (response.statusCode != 200) {
-      return const LoginFailedResponse(
-        reason: LoginFailureReason.serverError,
-      );
+      return const LoginFailedResponse(reason: LoginFailureReason.serverError);
     }
 
     final document = html_parser.parse(response.body);
@@ -76,9 +67,7 @@ class Login extends Endpoint<LoginResponse> {
         Sentry.captureException(
           SentryEvent(
             throwable: err,
-            request: SentryRequest(
-              data: document.outerHtml,
-            ),
+            request: SentryRequest(data: document.outerHtml),
           ),
           stackTrace: st,
         ),

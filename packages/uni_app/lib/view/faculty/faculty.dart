@@ -24,14 +24,8 @@ class FacultyPageViewState extends GeneralPageViewState {
   Widget getBody(BuildContext context) {
     return ListView(
       children: const [
-        Padding(
-          padding: EdgeInsets.only(top: 16),
-          child: LibraryHomeCard(),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 16),
-          child: CalendarHomeCard(),
-        ),
+        Padding(padding: EdgeInsets.only(top: 16), child: LibraryHomeCard()),
+        Padding(padding: EdgeInsets.only(top: 16), child: CalendarHomeCard()),
         AllServiceCards(),
       ],
     );
@@ -39,7 +33,9 @@ class FacultyPageViewState extends GeneralPageViewState {
 
   @override
   Future<void> onRefresh(BuildContext context) async {
-    return Provider.of<LibraryOccupationProvider>(context, listen: false)
-        .forceRefresh(context);
+    return Provider.of<LibraryOccupationProvider>(
+      context,
+      listen: false,
+    ).forceRefresh(context);
   }
 }

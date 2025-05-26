@@ -17,15 +17,14 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
     final locations = locationGroup.floors.values.expand((x) => x).toList();
     return Card(
       color: Theme.of(context).colorScheme.surface.withOpacity(0.8),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Wrap(
           direction: Axis.vertical,
           spacing: 8,
-          children: (showId
+          children:
+              (showId
                   ? <Widget>[Text(locationGroup.id.toString())]
                   : <Widget>[]) +
               locations

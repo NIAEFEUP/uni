@@ -8,9 +8,11 @@ class MigrationController {
   static Future<void> runMigrations() async {
     final storedVersion = PreferencesController.getPreferencesVersion();
 
-    for (var version = storedVersion;
-        version < currentPreferencesVersion;
-        version++) {
+    for (
+      var version = storedVersion;
+      version < currentPreferencesVersion;
+      version++
+    ) {
       await runMigration(version);
     }
 

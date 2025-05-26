@@ -67,8 +67,10 @@ class RestaurantFetcher {
         restaurants.add(
           convertToRestaurant(
             establishment,
-            await upMenus.dayMenus
-                .get(establishment.id, period['period']! as Period),
+            await upMenus.dayMenus.get(
+              establishment.id,
+              period['period']! as Period,
+            ),
             period['meal']! as String,
           ),
         );
@@ -84,8 +86,9 @@ class RestaurantFetcher {
   Future<List<Restaurant>> fetchSigarraRestaurants(Session session) async {
     final restaurants = <Restaurant>[];
 
-    final responses = sigarraMenuEndpoints
-        .map((url) => NetworkRouter.getWithCookies(url, {}, session));
+    final responses = sigarraMenuEndpoints.map(
+      (url) => NetworkRouter.getWithCookies(url, {}, session),
+    );
 
     await Future.wait(responses).then((value) {
       for (final response in value) {

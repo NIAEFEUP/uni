@@ -19,23 +19,18 @@ class SchedulePage extends StatelessWidget {
         builder: (context, lectures) {
           final startOfWeek = _getStartOfWeek(now, lectures);
 
-          return SchedulePageView(
-            lectures,
-            startOfWeek: startOfWeek,
-            now: now,
-          );
+          return SchedulePageView(lectures, startOfWeek: startOfWeek, now: now);
         },
         hasContent: (lectures) => lectures.isNotEmpty,
         onNullContent: LayoutBuilder(
-          builder: (context, constraints) => SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: SizedBox(
-              height: constraints.maxHeight,
-              child: const Center(
-                child: NoClassesWidget(),
+          builder:
+              (context, constraints) => SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: SizedBox(
+                  height: constraints.maxHeight,
+                  child: const Center(child: NoClassesWidget()),
+                ),
               ),
-            ),
-          ),
         ),
         mapper: (lectures) {
           final startOfWeek = _getStartOfWeek(now, lectures);

@@ -36,9 +36,9 @@ class ParserExams {
       examTypes.add(getExamSeasonAbbr(examType.text));
     });
 
-    document
-        .querySelectorAll('div > table > tbody > tr > td')
-        .forEach((element) {
+    document.querySelectorAll('div > table > tbody > tr > td').forEach((
+      element,
+    ) {
       element.querySelectorAll('table:not(.mapa)').forEach((table) {
         table.querySelectorAll('span.exame-data').forEach((date) {
           dates.add(date.text);
@@ -49,17 +49,20 @@ class ParserExams {
               if (examsDay.querySelector('a') != null) {
                 subjectAcronym = examsDay.querySelector('a')!.text;
                 subject = examsDay.querySelector('a')!.attributes['title'];
-                id = Uri.parse(examsDay.querySelector('a')!.attributes['href']!)
-                    .queryParameters['p_exa_id']!;
+                id =
+                    Uri.parse(
+                      examsDay.querySelector('a')!.attributes['href']!,
+                    ).queryParameters['p_exa_id']!;
               }
               if (examsDay.querySelector('span.exame-sala') != null) {
-                rooms = examsDay
-                    .querySelector('span.exame-sala')!
-                    .text
-                    .split(',')
-                    .map((e) => e.trim())
-                    .where((e) => e.isNotEmpty)
-                    .toList();
+                rooms =
+                    examsDay
+                        .querySelector('span.exame-sala')!
+                        .text
+                        .split(',')
+                        .map((e) => e.trim())
+                        .where((e) => e.isNotEmpty)
+                        .toList();
               }
               final DateTime begin;
               final DateTime end;

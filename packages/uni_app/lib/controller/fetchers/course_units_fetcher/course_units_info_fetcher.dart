@@ -14,19 +14,18 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     return NetworkRouter.getBaseUrlsFromSession(session).toList();
   }
 
-  Future<Sheet> fetchSheet(
-    Session session,
-    int occurId,
-  ) async {
+  Future<Sheet> fetchSheet(Session session, int occurId) async {
     final responses = await Future.wait(
       getEndpoints(session)
-          .map((endpoint) => '$endpoint' 'mob_ucurr_geral.perfil')
           .map(
-            (url) => NetworkRouter.getWithCookies(
-              url,
-              {'pv_ocorrencia_id': occurId.toString()},
-              session,
-            ).catchError((_) => Response('', 500)),
+            (endpoint) =>
+                '$endpoint'
+                'mob_ucurr_geral.perfil',
+          )
+          .map(
+            (url) => NetworkRouter.getWithCookies(url, {
+              'pv_ocorrencia_id': occurId.toString(),
+            }, session).catchError((_) => Response('', 500)),
           ),
     );
 
@@ -41,12 +40,12 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     return bestResponse != null
         ? parseSheet(bestResponse)
         : Sheet(
-            professors: [],
-            content: '',
-            evaluation: '',
-            frequency: '',
-            books: [],
-          );
+          professors: [],
+          content: '',
+          evaluation: '',
+          frequency: '',
+          books: [],
+        );
   }
 
   Future<List<CourseUnitFileDirectory>> fetchCourseUnitFiles(
@@ -54,17 +53,13 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     int occurId,
   ) async {
     final url = '${getEndpoints(session)[0]}mob_ucurr_geral.conteudos';
-    final response = await NetworkRouter.getWithCookies(
-      url,
-      {'pv_ocorrencia_id': occurId.toString()},
-      session,
-    );
+    final response = await NetworkRouter.getWithCookies(url, {
+      'pv_ocorrencia_id': occurId.toString(),
+    }, session);
     return parseFiles(response, session);
   }
 
-  Future<String> getDownloadLink(
-    Session session,
-  ) async {
+  Future<String> getDownloadLink(Session session) async {
     return '${getEndpoints(session)[0]}conteudos_service.conteudos_cont';
   }
 
@@ -76,26 +71,33 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
 
     for (final endpoint in getEndpoints(session)) {
       // Crawl classes from all courses that the course unit is offered in
-      final courseChoiceUrl = '$endpoint'
+      final courseChoiceUrl =
+          '$endpoint'
           'it_listagem.lista_cursos_disciplina?pv_ocorrencia_id=$occurrId';
-      final courseChoiceResponse =
-          await NetworkRouter.getWithCookies(courseChoiceUrl, {}, session);
+      final courseChoiceResponse = await NetworkRouter.getWithCookies(
+        courseChoiceUrl,
+        {},
+        session,
+      );
       final courseChoiceDocument = parse(courseChoiceResponse.body);
-      final urls = courseChoiceDocument
-          .querySelectorAll('a')
-          .where(
-            (element) =>
-                element.attributes['href'] != null &&
-                element.attributes['href']!
-                    .contains('it_listagem.lista_turma_disciplina'),
-          )
-          .map((e) {
-        var url = e.attributes['href']!;
-        if (!url.contains('sigarra.up.pt')) {
-          url = endpoint + url;
-        }
-        return url;
-      }).toList();
+      final urls =
+          courseChoiceDocument
+              .querySelectorAll('a')
+              .where(
+                (element) =>
+                    element.attributes['href'] != null &&
+                    element.attributes['href']!.contains(
+                      'it_listagem.lista_turma_disciplina',
+                    ),
+              )
+              .map((e) {
+                var url = e.attributes['href']!;
+                if (!url.contains('sigarra.up.pt')) {
+                  url = endpoint + url;
+                }
+                return url;
+              })
+              .toList();
 
       for (final url in urls) {
         try {

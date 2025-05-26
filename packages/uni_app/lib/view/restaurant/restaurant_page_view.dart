@@ -82,8 +82,10 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
 
   @override
   Future<void> onRefresh(BuildContext context) async {
-    final restaurantProvider =
-        Provider.of<RestaurantProvider>(context, listen: false);
+    final restaurantProvider = Provider.of<RestaurantProvider>(
+      context,
+      listen: false,
+    );
 
     await restaurantProvider.forceRefresh(context);
 
@@ -124,12 +126,10 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
               PreferencesController.setSelectedCampus(campusId);
             });
           },
-          items: campus.map((item) {
-            return DropdownMenuItem<String>(
-              value: item,
-              child: Text(item),
-            );
-          }).toList(),
+          items:
+              campus.map((item) {
+                return DropdownMenuItem<String>(value: item, child: Text(item));
+              }).toList(),
         ),
       ),
     );
@@ -193,8 +193,10 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   }
 
   Future<void> _initializeRestaurants() async {
-    final restaurantProvider =
-        Provider.of<RestaurantProvider>(context, listen: false);
+    final restaurantProvider = Provider.of<RestaurantProvider>(
+      context,
+      listen: false,
+    );
     await restaurantProvider.ensureInitialized(context);
     if (restaurantProvider.state != null) {
       setState(() {
@@ -226,70 +228,77 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     }
   }
 
-  Widget _createTabViewBuilder(
-    BuildContext context,
-  ) {
+  Widget _createTabViewBuilder(BuildContext context) {
     final locale = Provider.of<LocaleNotifier>(context).getLocale();
 
     const daysOfTheWeek = DayOfWeek.values;
 
-    final dayContents = daysOfTheWeek.map((dayOfWeek) {
-      final restaurantsWidgets = restaurants
-          // Remove restaurants with no meals
-          .where((restaurant) {
-            return restaurant.meals.any((meal) => meal.dayOfWeek == dayOfWeek);
-          })
-          // Apply User filters
-          .where((restaurant) {
-            final isFavorite = isFavoriteFilterOn &&
-                PreferencesController.getFavoriteRestaurants()
-                    .contains(restaurant.namePt + restaurant.period);
+    final dayContents =
+        daysOfTheWeek.map((dayOfWeek) {
+          final restaurantsWidgets =
+              restaurants
+                  // Remove restaurants with no meals
+                  .where((restaurant) {
+                    return restaurant.meals.any(
+                      (meal) => meal.dayOfWeek == dayOfWeek,
+                    );
+                  })
+                  // Apply User filters
+                  .where((restaurant) {
+                    final isFavorite =
+                        isFavoriteFilterOn &&
+                        PreferencesController.getFavoriteRestaurants().contains(
+                          restaurant.namePt + restaurant.period,
+                        );
 
-            final isCampusMatch =
-                selectedCampus == 0 || restaurant.campusId == selectedCampus;
+                    final isCampusMatch =
+                        selectedCampus == 0 ||
+                        restaurant.campusId == selectedCampus;
 
-            // Show Restaurant if it is in the selected campus and
-            // it either is a favorite (always show)
-            // or the favorite filter is off
-            return isCampusMatch && (isFavorite || !isFavoriteFilterOn);
-          })
-          .map((restaurant) {
-            return _createNewRestaurant(context, restaurant, dayOfWeek, locale);
-          })
-          .where((widget) => widget != null)
-          .toList()
-        ..sort((a, b) {
-          final isAFavorite = a!.isFavorite ? 1 : 0;
-          final isBFavorite = b!.isFavorite ? 1 : 0;
+                    // Show Restaurant if it is in the selected campus and
+                    // it either is a favorite (always show)
+                    // or the favorite filter is off
+                    return isCampusMatch && (isFavorite || !isFavoriteFilterOn);
+                  })
+                  .map((restaurant) {
+                    return _createNewRestaurant(
+                      context,
+                      restaurant,
+                      dayOfWeek,
+                      locale,
+                    );
+                  })
+                  .where((widget) => widget != null)
+                  .toList()
+                ..sort((a, b) {
+                  final isAFavorite = a!.isFavorite ? 1 : 0;
+                  final isBFavorite = b!.isFavorite ? 1 : 0;
 
-          return isBFavorite.compareTo(isAFavorite);
-        });
+                  return isBFavorite.compareTo(isAFavorite);
+                });
 
-      if (restaurantsWidgets.isEmpty) {
-        return Center(
-          child: Text(
-            S.of(context).no_menus,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-        );
-      }
+          if (restaurantsWidgets.isEmpty) {
+            return Center(
+              child: Text(
+                S.of(context).no_menus,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            );
+          }
 
-      return ListView.separated(
-        controller: scrollViewController,
-        itemCount: restaurantsWidgets.length,
-        itemBuilder: (context, index) {
-          return restaurantsWidgets[index];
-        },
-        separatorBuilder: (context, index) {
-          return const SizedBox(height: 10);
-        },
-      );
-    }).toList();
+          return ListView.separated(
+            controller: scrollViewController,
+            itemCount: restaurantsWidgets.length,
+            itemBuilder: (context, index) {
+              return restaurantsWidgets[index];
+            },
+            separatorBuilder: (context, index) {
+              return const SizedBox(height: 10);
+            },
+          );
+        }).toList();
 
-    return TabBarView(
-      controller: tabController,
-      children: dayContents,
-    );
+    return TabBarView(controller: tabController, children: dayContents);
   }
 
   RestaurantCard? _createNewRestaurant(
@@ -302,52 +311,53 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
         _getRestaurantMenuItems(dayOfWeek, restaurant, locale) ?? [];
     return menuItems.isNotEmpty
         ? RestaurantCard(
-            name: RestaurantUtils.getRestaurantName(
-              context,
-              locale,
-              restaurant.namePt,
-              restaurant.namePt,
-              restaurant.period,
-            ),
-            icon: RestaurantUtils.getIcon(
-              restaurant.typeEn ?? restaurant.typePt,
-            ),
-            isFavorite: PreferencesController.getFavoriteRestaurants()
-                .contains(restaurant.namePt + restaurant.period),
-            onFavoriteToggle: () {
-              return _toggleFavorite(restaurant.namePt, restaurant.period);
-            },
-            menuItems: menuItems,
-            onClick: () {
-              if (restaurant.openingHours.isNotEmpty) {
-                showDialog<ModalDialog>(
-                  context: context,
-                  builder: (context) {
-                    return ModalDialog(
-                      children: [
-                        ModalServiceInfo(
-                          name: restaurant.namePt,
-                          durations: restaurant.openingHours
-                            ..sort((a, b) => a.compareTo(b)),
+          name: RestaurantUtils.getRestaurantName(
+            context,
+            locale,
+            restaurant.namePt,
+            restaurant.namePt,
+            restaurant.period,
+          ),
+          icon: RestaurantUtils.getIcon(restaurant.typeEn ?? restaurant.typePt),
+          isFavorite: PreferencesController.getFavoriteRestaurants().contains(
+            restaurant.namePt + restaurant.period,
+          ),
+          onFavoriteToggle: () {
+            return _toggleFavorite(restaurant.namePt, restaurant.period);
+          },
+          menuItems: menuItems,
+          onClick: () {
+            if (restaurant.openingHours.isNotEmpty) {
+              showDialog<ModalDialog>(
+                context: context,
+                builder: (context) {
+                  return ModalDialog(
+                    children: [
+                      ModalServiceInfo(
+                        name: restaurant.namePt,
+                        durations:
+                            restaurant.openingHours
+                              ..sort((a, b) => a.compareTo(b)),
+                      ),
+                      if (restaurant.email != '')
+                        ModalInfoRow(
+                          title: S.of(context).email,
+                          description: restaurant.email,
+                          onPressed:
+                              () => launchUrlWithToast(
+                                context,
+                                'mailto:${restaurant.email}',
+                              ),
+                          icon: UniIcons.email,
+                          trailing: const UniIcon(UniIcons.caretRight),
                         ),
-                        if (restaurant.email != '')
-                          ModalInfoRow(
-                            title: S.of(context).email,
-                            description: restaurant.email,
-                            onPressed: () => launchUrlWithToast(
-                              context,
-                              'mailto:${restaurant.email}',
-                            ),
-                            icon: UniIcons.email,
-                            trailing: const UniIcon(UniIcons.caretRight),
-                          ),
-                      ],
-                    );
-                  },
-                );
-              }
-            },
-          )
+                    ],
+                  );
+                },
+              );
+            }
+          },
+        )
         : null;
   }
 
@@ -385,27 +395,28 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   ) {
     showDialog<void>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(S.of(context).restaurant_main_page),
-        actions: <Widget>[
-          ElevatedButton(
-            onPressed: () {
-              PreferencesController.setRestaurantReminderDismissed(true);
-              Navigator.of(context).pop();
-            },
-            child: Text(S.of(context).no),
+      builder:
+          (context) => AlertDialog(
+            title: Text(S.of(context).restaurant_main_page),
+            actions: <Widget>[
+              ElevatedButton(
+                onPressed: () {
+                  PreferencesController.setRestaurantReminderDismissed(true);
+                  Navigator.of(context).pop();
+                },
+                child: Text(S.of(context).no),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  updateHomePage(
+                    favoriteCardTypes + [FavoriteWidgetType.restaurants],
+                  );
+                  Navigator.of(context).pop();
+                },
+                child: Text(S.of(context).yes),
+              ),
+            ],
           ),
-          ElevatedButton(
-            onPressed: () {
-              updateHomePage(
-                favoriteCardTypes + [FavoriteWidgetType.restaurants],
-              );
-              Navigator.of(context).pop();
-            },
-            child: Text(S.of(context).yes),
-          ),
-        ],
-      ),
     );
   }
 }

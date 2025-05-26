@@ -8,21 +8,21 @@ import 'package:uni/session/flows/base/session.dart';
 class ProfileFetcher implements SessionDependantFetcher {
   @override
   List<String> getEndpoints(Session session) {
-    final url = NetworkRouter.getBaseUrlsFromSession(
-      session,
-    )[0]; // user profile is the same on all faculties
+    final url =
+        NetworkRouter.getBaseUrlsFromSession(
+          session,
+        )[0]; // user profile is the same on all faculties
     return [url];
   }
 
   /// Returns the user's [Profile].
   static Future<Profile?> fetchProfile(Session session) async {
-    final url = '${NetworkRouter.getBaseUrlsFromSession(session)[0]}'
+    final url =
+        '${NetworkRouter.getBaseUrlsFromSession(session)[0]}'
         'mob_fest_geral.perfil?';
-    final response = await NetworkRouter.getWithCookies(
-      url,
-      {'pv_codigo': session.username},
-      session,
-    );
+    final response = await NetworkRouter.getWithCookies(url, {
+      'pv_codigo': session.username,
+    }, session);
 
     if (response.statusCode != 200) {
       return null;

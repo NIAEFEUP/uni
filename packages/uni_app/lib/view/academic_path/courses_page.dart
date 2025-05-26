@@ -92,13 +92,14 @@ class CoursesPageState extends State<CoursesPage> {
           children: [
             Center(
               child: CourseSelection(
-                courseInfos: courses.map((course) {
-                  return CourseInfo(
-                    abbreviation: _getCourseAbbreviation(course),
-                    enrollmentYear: _getEnrollmentYear(course),
-                    conclusionYear: _getConclusionYear(course),
-                  );
-                }).toList(),
+                courseInfos:
+                    courses.map((course) {
+                      return CourseInfo(
+                        abbreviation: _getCourseAbbreviation(course),
+                        enrollmentYear: _getEnrollmentYear(course),
+                        conclusionYear: _getConclusionYear(course),
+                      );
+                    }).toList(),
                 onSelected: _onCourseUnitSelected,
                 selected: courseUnitIndex,
                 nowText: S.of(context).now,
@@ -121,24 +122,21 @@ class CoursesPageState extends State<CoursesPage> {
                 averageText: S.of(context).average,
               ),
             ),
-            CourseUnitsView(
-              course: course,
-            ),
+            CourseUnitsView(course: course),
           ],
         );
       },
       hasContent: (profile) => profile.courses.isNotEmpty,
       onNullContent: LayoutBuilder(
         // Band-aid for allowing refresh on null content
-        builder: (context, constraints) => SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: SizedBox(
-            height: constraints.maxHeight,
-            child: const Center(
-              child: NoCoursesWidget(),
+        builder:
+            (context, constraints) => SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: SizedBox(
+                height: constraints.maxHeight,
+                child: const Center(child: NoCoursesWidget()),
+              ),
             ),
-          ),
-        ),
       ),
     );
   }

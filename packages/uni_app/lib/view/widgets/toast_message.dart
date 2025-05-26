@@ -42,10 +42,7 @@ class MessageToast extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.all(10),
-              child: Icon(
-                icon,
-                color: iconColor,
-              ),
+              child: Icon(icon, color: iconColor),
             ),
             Expanded(
               child: Text(
@@ -90,14 +87,14 @@ class ToastMessage {
   }
 
   static Future<void> error(BuildContext context, String msg) => _displayDialog(
-        context,
-        MessageToast(
-          message: msg,
-          color: toastErrorColor,
-          icon: CupertinoIcons.clear_circled_solid,
-          iconColor: toastErrorIconColor,
-        ),
-      );
+    context,
+    MessageToast(
+      message: msg,
+      color: toastErrorColor,
+      icon: CupertinoIcons.clear_circled_solid,
+      iconColor: toastErrorIconColor,
+    ),
+  );
 
   static Future<void> success(BuildContext context, String msg) =>
       _displayDialog(
@@ -122,12 +119,12 @@ class ToastMessage {
       );
 
   static Future<void> info(BuildContext context, String msg) => _displayDialog(
-        context,
-        MessageToast(
-          message: msg,
-          color: toastInfoColor,
-          icon: CupertinoIcons.info_circle_fill,
-          iconColor: toastInfoIconColor,
-        ),
-      );
+    context,
+    MessageToast(
+      message: msg,
+      color: toastInfoColor,
+      icon: CupertinoIcons.info_circle_fill,
+      iconColor: toastInfoIconColor,
+    ),
+  );
 }

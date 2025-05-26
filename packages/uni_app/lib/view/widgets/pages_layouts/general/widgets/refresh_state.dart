@@ -27,30 +27,36 @@ class RefreshState extends StatelessWidget {
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: RefreshIndicator(
                   key: GlobalKey<RefreshIndicatorState>(),
-                  notificationPredicate: (notification) =>
-                      notification.metrics.axisDirection == AxisDirection.down,
-                  onRefresh: () =>
-                      ProfileProvider.fetchOrGetCachedProfilePicture(
-                    Provider.of<SessionProvider>(context, listen: false).state!,
-                  ).then((value) {
-                    if (context.mounted) {
-                      onRefresh(context);
-                    }
-                  }),
+                  notificationPredicate:
+                      (notification) =>
+                          notification.metrics.axisDirection ==
+                          AxisDirection.down,
+                  onRefresh:
+                      () => ProfileProvider.fetchOrGetCachedProfilePicture(
+                        Provider.of<SessionProvider>(
+                          context,
+                          listen: false,
+                        ).state!,
+                      ).then((value) {
+                        if (context.mounted) {
+                          onRefresh(context);
+                        }
+                      }),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: viewportConstraints.maxHeight,
                       maxHeight: viewportConstraints.maxHeight,
                     ),
                     child: Builder(
-                      builder: (context) => GestureDetector(
-                        onHorizontalDragEnd: (dragDetails) {
-                          if (dragDetails.primaryVelocity! > 2) {
-                            Scaffold.of(context).openDrawer();
-                          }
-                        },
-                        child: body,
-                      ),
+                      builder:
+                          (context) => GestureDetector(
+                            onHorizontalDragEnd: (dragDetails) {
+                              if (dragDetails.primaryVelocity! > 2) {
+                                Scaffold.of(context).openDrawer();
+                              }
+                            },
+                            child: body,
+                          ),
                     ),
                   ),
                 ),

@@ -2,14 +2,15 @@ import 'dart:async';
 
 class Derived<I, O> {
   Derived(this._input, this.compute, {Stream<I>? inputStream})
-      : _output = compute(_input) {
+    : _output = compute(_input) {
     if (inputStream != null) {
       inputStream.listen((value) => input = value);
     }
   }
 
-  final StreamController<O> _controller =
-      StreamController.broadcast(sync: true);
+  final StreamController<O> _controller = StreamController.broadcast(
+    sync: true,
+  );
   Stream<O> get stream => _controller.stream;
 
   final O Function(I) compute;

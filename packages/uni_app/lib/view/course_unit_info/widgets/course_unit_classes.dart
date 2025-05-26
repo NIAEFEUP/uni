@@ -91,8 +91,9 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
           itemCount: widget.classes.length,
           itemBuilder: (context, index) {
             final courseUnitClass = widget.classes[index];
-            final isMyClass = courseUnitClass.students
-                .any((student) => student.number == studentNumber);
+            final isMyClass = courseUnitClass.students.any(
+              (student) => student.number == studentNumber,
+            );
             final isSelected = index == selectedIndex;
 
             return ConstrainedBox(
@@ -103,12 +104,15 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
               child: GestureDetector(
                 onTap: () => _handleClassTap(index),
                 child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
-                    color: isSelected
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.secondary,
+                    color:
+                        isSelected
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.secondary,
                     borderRadius: BorderRadius.circular(25),
                     boxShadow: [
                       BoxShadow(
@@ -128,11 +132,12 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
                     isMyClass
                         ? '${courseUnitClass.className} *'
                         : courseUnitClass.className,
-                    style: isSelected
-                        ? Theme.of(context).textTheme.labelMedium?.copyWith(
+                    style:
+                        isSelected
+                            ? Theme.of(context).textTheme.labelMedium?.copyWith(
                               color: Theme.of(context).colorScheme.onPrimary,
                             )
-                        : Theme.of(context).textTheme.labelMedium,
+                            : Theme.of(context).textTheme.labelMedium,
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

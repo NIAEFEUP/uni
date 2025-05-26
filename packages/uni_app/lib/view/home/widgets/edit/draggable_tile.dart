@@ -5,11 +5,7 @@ import 'package:uni/view/home/widgets/edit/draggable_utils.dart';
 import 'package:uni_ui/icons.dart';
 
 class DraggableTile extends StatelessWidget {
-  const DraggableTile({
-    super.key,
-    required this.data,
-    this.callback,
-  });
+  const DraggableTile({super.key, required this.data, this.callback});
 
   final FavoriteWidgetType data;
   final void Function(FavoriteWidgetType widgetType)? callback;
@@ -31,21 +27,17 @@ class DraggableTile extends StatelessWidget {
         final (title, icon) = formatDraggableTile(context, data);
 
         return Container(
-          decoration:
-              BoxDecoration(color: Theme.of(context).colorScheme.secondary),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.secondary,
+          ),
           width: 75,
           height: 75,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               icon,
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                title,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
+              const SizedBox(height: 5),
+              Text(title, style: Theme.of(context).textTheme.bodySmall),
             ],
           ),
         );
