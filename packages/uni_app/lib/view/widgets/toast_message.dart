@@ -60,14 +60,14 @@ class MessageToast extends StatelessWidget {
 }
 
 class ToastMessage {
-  static const Color toastErrorIconColor = Color.fromARGB(255, 241, 77, 98);
-  static const Color toastErrorColor = Color.fromARGB(255, 252, 237, 238);
-  static const Color toastSuccessIconColor = Color.fromARGB(255, 53, 210, 157);
-  static const Color toastSuccessColor = Color.fromARGB(255, 234, 250, 246);
-  static const Color toastWarningIconColor = Color.fromARGB(255, 244, 200, 98);
-  static const Color toastWarningColor = Color.fromARGB(255, 252, 244, 222);
-  static const Color toastInfoIconColor = Color.fromARGB(255, 40, 131, 229);
-  static const Color toastInfoColor = Color.fromARGB(255, 211, 229, 249);
+  static const toastErrorIconColor = Color.fromARGB(255, 241, 77, 98);
+  static const toastErrorColor = Color.fromARGB(255, 252, 237, 238);
+  static const toastSuccessIconColor = Color.fromARGB(255, 53, 210, 157);
+  static const toastSuccessColor = Color.fromARGB(255, 234, 250, 246);
+  static const toastWarningIconColor = Color.fromARGB(255, 244, 200, 98);
+  static const toastWarningColor = Color.fromARGB(255, 252, 244, 222);
+  static const toastInfoIconColor = Color.fromARGB(255, 40, 131, 229);
+  static const toastInfoColor = Color.fromARGB(255, 211, 229, 249);
 
   static Future<void> _displayDialog(BuildContext context, Widget mToast) {
     return showDialog(

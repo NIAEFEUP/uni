@@ -56,15 +56,13 @@ class NotificationManager {
 
   NotificationManager._internal();
 
-  static final NotificationManager _notificationManager =
-      NotificationManager._internal();
+  static final _notificationManager = NotificationManager._internal();
 
-  static final FlutterLocalNotificationsPlugin _localNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  static final _localNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-  static bool _initialized = false;
+  static var _initialized = false;
 
-  static const Duration _notificationWorkerPeriod = Duration(hours: 1);
+  static const _notificationWorkerPeriod = Duration(hours: 1);
 
   Future<void> initializeNotifications() async {
     // guarantees that the execution is only done

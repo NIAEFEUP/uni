@@ -19,7 +19,7 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
   }
 
   @override
-  Future<List<Exam>> loadFromRemote(StateProviders stateProviders) async {
+  Future<List<Exam>> loadFromRemote(StateProviders stateProviders) {
     final session = stateProviders.sessionProvider.state!;
     final profile = stateProviders.profileProvider.state!;
 

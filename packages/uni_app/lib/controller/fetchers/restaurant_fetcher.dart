@@ -79,7 +79,7 @@ class RestaurantFetcher {
     return restaurants;
   }
 
-  final List<String> sigarraMenuEndpoints = [
+  final sigarraMenuEndpoints = <String>[
     '${NetworkRouter.getBaseUrl('feup')}CANTINA.EMENTASHOW',
   ];
 

@@ -20,7 +20,7 @@ class BusStopProvider extends StateProviderNotifier<Map<String, BusStopData>> {
   @override
   Future<Map<String, BusStopData>> loadFromRemote(
     StateProviders stateProviders,
-  ) async {
+  ) {
     return fetchUserBusTrips(state!);
   }
 

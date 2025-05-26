@@ -18,11 +18,11 @@ class CoursesPage extends StatefulWidget {
 }
 
 class CoursesPageState extends State<CoursesPage> {
-  int courseUnitIndex = 0;
+  var _courseUnitIndex = 0;
 
   void _onCourseUnitSelected(int index) {
     setState(() {
-      courseUnitIndex = index;
+      _courseUnitIndex = index;
     });
   }
 
@@ -85,7 +85,7 @@ class CoursesPageState extends State<CoursesPage> {
     return LazyConsumer<ProfileProvider, Profile>(
       builder: (context, profile) {
         final courses = profile.courses;
-        final course = courses[courseUnitIndex];
+        final course = courses[_courseUnitIndex];
 
         return ListView(
           padding: const EdgeInsets.only(top: 16),
@@ -101,7 +101,7 @@ class CoursesPageState extends State<CoursesPage> {
                       );
                     }).toList(),
                 onSelected: _onCourseUnitSelected,
-                selected: courseUnitIndex,
+                selected: _courseUnitIndex,
                 nowText: S.of(context).now,
               ),
             ),

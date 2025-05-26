@@ -18,7 +18,7 @@ class UniAppLinks {
 class _AuthenticationAppLink {
   _AuthenticationAppLink({required this.redirectUri});
 
-  final AppLinks _appLinks = AppLinks();
+  final _appLinks = AppLinks();
   final Uri redirectUri;
 
   Future<Uri> intercept(

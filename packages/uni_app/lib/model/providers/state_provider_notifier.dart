@@ -36,7 +36,7 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
   static const _lockTimeout = Duration(seconds: 30);
 
   /// The lock for concurrent state change operations.
-  final Lock _lock = Lock();
+  final _lock = Lock();
 
   /// The last time the model was fetched from the remote.
   DateTime? _lastUpdateTime;

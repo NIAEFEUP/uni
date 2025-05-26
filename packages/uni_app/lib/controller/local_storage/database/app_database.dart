@@ -23,10 +23,10 @@ abstract class AppDatabase<T> {
   bool? _persistentSession;
 
   /// The lock timeout for database operations.
-  static const Duration lockTimeout = Duration(seconds: 5);
+  static const lockTimeout = Duration(seconds: 5);
 
   /// A lock that synchronizes all database insertions.
-  static Lock lock = Lock();
+  static final lock = Lock();
 
   /// A function that is called when the [version] changes.
   final OnDatabaseVersionChangeFn? onUpgrade;

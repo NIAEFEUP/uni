@@ -200,7 +200,7 @@ class Application extends StatefulWidget {
 
   final String initialRoute;
 
-  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   State<Application> createState() => ApplicationState();

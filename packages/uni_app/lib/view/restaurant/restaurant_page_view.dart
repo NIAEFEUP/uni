@@ -41,7 +41,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   late int selectedCampus;
   late Set<String> _selectedDishTypes;
 
-  final List<String> dishTypes = [
+  final dishTypes = <String>[
     'meat_dishes',
     'fish_dishes',
     'vegetarian_dishes',

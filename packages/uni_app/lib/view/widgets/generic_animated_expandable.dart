@@ -17,7 +17,7 @@ class AnimatedExpandable extends StatefulWidget {
 }
 
 class AnimatedExpandableState extends State<AnimatedExpandable> {
-  bool _expanded = false;
+  var _expanded = false;
 
   @override
   Widget build(BuildContext context) {

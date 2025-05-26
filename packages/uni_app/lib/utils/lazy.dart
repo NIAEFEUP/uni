@@ -3,7 +3,7 @@ class Lazy<T> {
 
   final T Function() _builder;
 
-  bool _isInitialized = false;
+  var _isInitialized = false;
   late T _value;
 
   T get value {

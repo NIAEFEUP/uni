@@ -4,16 +4,17 @@ import 'package:flutter/material.dart';
 class DraggableElement<T extends Object> extends StatelessWidget {
   const DraggableElement({
     super.key,
-    required this.childBuilder,
-    required this.feedbackBuilder,
+    required Widget Function(BuildContext context, T data) childBuilder,
+    required Widget Function(BuildContext context, T data) feedbackBuilder,
     required this.feedbackSize,
     required this.data,
     this.callback,
-  });
+  }) : _childBuilder = childBuilder,
+       _feedbackBuilder = feedbackBuilder;
 
   final T data;
-  final Widget Function(BuildContext context, T data) childBuilder;
-  final Widget Function(BuildContext context, T data) feedbackBuilder;
+  final Widget Function(BuildContext context, T data) _childBuilder;
+  final Widget Function(BuildContext context, T data) _feedbackBuilder;
   final Offset feedbackSize;
   final void Function()? callback;
 
@@ -27,7 +28,7 @@ class DraggableElement<T extends Object> extends StatelessWidget {
         offset: -feedbackSize / 2,
         child: ClipSmoothRect(
           radius: SmoothBorderRadius(cornerRadius: 15, cornerSmoothing: 1),
-          child: feedbackBuilder(context, data),
+          child: _feedbackBuilder(context, data),
         ),
       ),
       onDragStarted: () {
@@ -38,7 +39,7 @@ class DraggableElement<T extends Object> extends StatelessWidget {
       },
       child: ClipSmoothRect(
         radius: SmoothBorderRadius(cornerRadius: 15, cornerSmoothing: 1),
-        child: childBuilder(context, data),
+        child: _childBuilder(context, data),
       ),
     );
   }

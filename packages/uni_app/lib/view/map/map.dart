@@ -24,14 +24,14 @@ class MapPage extends StatefulWidget {
 
 class MapPageStateView extends State<MapPage> {
   ScrollController? scrollViewController;
-  GlobalKey<FormState> searchFormKey = GlobalKey<FormState>();
-  String searchTerms = '';
-  PopupController _popupLayerController = PopupController();
+  final searchFormKey = GlobalKey<FormState>();
+  var _searchTerms = '';
+  var _popupLayerController = PopupController();
 
   @override
   void initState() {
     super.initState();
-    searchTerms = '';
+    _searchTerms = '';
     _popupLayerController = PopupController();
   }
 
@@ -46,13 +46,13 @@ class MapPageStateView extends State<MapPage> {
     return LazyConsumer<FacultyLocationsProvider, List<LocationGroup>>(
       builder: (context, locations) {
         final filteredLocations = List<LocationGroup>.from(locations);
-        if (searchTerms.trim().isNotEmpty) {
+        if (_searchTerms.trim().isNotEmpty) {
           filteredLocations.retainWhere((location) {
             final allLocations = location.floors.values.expand((x) => x);
             return allLocations.any((location) {
               return removeDiacritics(
                 location.description().toLowerCase().trim(),
-              ).contains(searchTerms);
+              ).contains(_searchTerms);
             });
           });
         }
@@ -141,7 +141,7 @@ class MapPageStateView extends State<MapPage> {
                       key: searchFormKey,
                       onChanged: (text) {
                         setState(() {
-                          searchTerms = removeDiacritics(
+                          _searchTerms = removeDiacritics(
                             text.trim().toLowerCase(),
                           );
                         });

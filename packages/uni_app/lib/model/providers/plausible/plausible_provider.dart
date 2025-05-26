@@ -24,12 +24,12 @@ class PlausibleProvider extends StatefulWidget {
 }
 
 class _PlausibleProviderState extends State<PlausibleProvider> {
-  int _batteryLevel = 0;
-  bool _isInBatterySaveMode = true;
+  var _batteryLevel = 0;
+  var _isInBatterySaveMode = true;
   ConnectivityResult _connectivityResult = ConnectivityResult.none;
-  bool _isUsageStatsEnabled = true;
+  var _isUsageStatsEnabled = true;
 
-  bool _canUpdateBatteryState = true;
+  var _canUpdateBatteryState = true;
 
   @override
   void initState() {

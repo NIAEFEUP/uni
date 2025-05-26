@@ -36,7 +36,7 @@ class HomePageViewState extends State<HomePageView> {
   List<FavoriteWidgetType> favoriteCards =
       PreferencesController.getFavoriteCards();
 
-  bool isBannerViewed = true;
+  var _isBannerViewed = true;
 
   double appBarSize = 150;
 
@@ -65,7 +65,7 @@ class HomePageViewState extends State<HomePageView> {
 
   Future<void> checkBannerViewed() async {
     setState(() {
-      isBannerViewed = PreferencesController.isDataCollectionBannerViewed();
+      _isBannerViewed = PreferencesController.isDataCollectionBannerViewed();
     });
   }
 
@@ -112,16 +112,16 @@ class HomePageViewState extends State<HomePageView> {
           appBar: homeAppBar(context),
           bottomNavigationBar: const AppBottomNavbar(),
           body: RefreshIndicator(
-            onRefresh: () async => refreshPage(context),
+            onRefresh: () => refreshPage(context),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
               child: ListView.separated(
                 itemCount: favoriteCards.length + 1,
-                separatorBuilder: (_, __) => const SizedBox(height: 10),
+                separatorBuilder: (_, _) => const SizedBox(height: 10),
                 itemBuilder: (_, index) {
                   if (index == 0) {
                     return Visibility(
-                      visible: !isBannerViewed,
+                      visible: !_isBannerViewed,
                       child: TrackingBanner(setBannerViewed),
                     );
                   } else {

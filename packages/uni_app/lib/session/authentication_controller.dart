@@ -23,7 +23,7 @@ class AuthenticationController {
   AuthenticationController(Session initialSession, {this.logoutHandler})
     : _currentSession = initialSession;
 
-  final Lock _authenticationLock = Lock();
+  final _authenticationLock = Lock();
   final LogoutHandler? logoutHandler;
 
   Future<void>? _nextAuthentication;

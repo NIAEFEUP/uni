@@ -11,9 +11,9 @@ import 'package:uni/view/widgets/pages_layouts/general/widgets/refresh_state.dar
 import 'package:uni/view/widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
 
 abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
-  bool _loadedOnce = false;
-  bool _loading = true;
-  bool _connected = true;
+  var _loadedOnce = false;
+  var _loading = true;
+  var _connected = true;
 
   // Function called when the user pulls down the screen to refresh
   Future<void> onRefresh(BuildContext context);

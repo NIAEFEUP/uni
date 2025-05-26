@@ -33,7 +33,7 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
     super.initState();
   }
 
-  final Map<int, String> bugDescriptions = {
+  final bugDescriptions = <int, String>{
     0: 'bug_description_visual_detail',
     1: 'bug_description_error',
     2: 'bug_description_Suggestion',
@@ -45,13 +45,13 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
   List<PlatformFile> pickedFiles = [];
   List<Widget> previewImages = [];
 
-  static int _selectedBug = 0;
-  final TextEditingController titleController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
+  static var _selectedBug = 0;
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final emailController = TextEditingController();
 
-  bool _isButtonTapped = false;
-  bool _isConsentGiven = false;
+  var _isButtonTapped = false;
+  var _isConsentGiven = false;
 
   static final _formKey = GlobalKey<FormState>();
 

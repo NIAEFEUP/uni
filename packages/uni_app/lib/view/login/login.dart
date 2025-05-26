@@ -35,19 +35,17 @@ class LoginPageView extends StatefulWidget {
 /// Manages the 'login section' view.
 class LoginPageViewState extends State<LoginPageView>
     with WidgetsBindingObserver {
-  static final FocusNode usernameFocus = FocusNode();
-  static final FocusNode passwordFocus = FocusNode();
+  static final usernameFocus = FocusNode();
+  static final passwordFocus = FocusNode();
 
-  static final TextEditingController usernameController =
-      TextEditingController();
-  static final TextEditingController passwordController =
-      TextEditingController();
+  static final usernameController = TextEditingController();
+  static final passwordController = TextEditingController();
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _keepSignedIn = true;
-  bool _obscurePasswordInput = true;
-  bool _loggingIn = false;
-  bool _intercepting = false;
+  final _formKey = GlobalKey<FormState>();
+  var _keepSignedIn = true;
+  var _obscurePasswordInput = true;
+  var _loggingIn = false;
+  var _intercepting = false;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -342,7 +340,7 @@ class LoginPageViewState extends State<LoginPageView>
     );
   }
 
-  Future<void> _showAlternativeLogin() async {
+  Future<void> _showAlternativeLogin() {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!

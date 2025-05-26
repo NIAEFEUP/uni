@@ -11,7 +11,7 @@ import 'package:uni/model/entities/reference.dart';
 class AppReferencesDatabase extends AppDatabase<List<Reference>> {
   AppReferencesDatabase()
     : super('refs.db', [createScript], onUpgrade: migrate, version: 2);
-  static const String createScript =
+  static const createScript =
       '''CREATE TABLE refs(description TEXT, entity INTEGER, '''
       '''reference INTEGER, amount REAL, limitDate TEXT)''';
 

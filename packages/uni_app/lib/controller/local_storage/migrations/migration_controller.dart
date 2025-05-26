@@ -3,7 +3,7 @@ import 'package:uni/controller/local_storage/migrations/migrations.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 
 class MigrationController {
-  static const int currentPreferencesVersion = 2;
+  static const currentPreferencesVersion = 2;
 
   static Future<void> runMigrations() async {
     final storedVersion = PreferencesController.getPreferencesVersion();

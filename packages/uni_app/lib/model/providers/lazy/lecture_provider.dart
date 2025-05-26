@@ -17,7 +17,7 @@ class LectureProvider extends StateProviderNotifier<List<Lecture>> {
   }
 
   @override
-  Future<List<Lecture>> loadFromRemote(StateProviders stateProviders) async {
+  Future<List<Lecture>> loadFromRemote(StateProviders stateProviders) {
     return fetchUserLectures(stateProviders.sessionProvider.state!);
   }
 

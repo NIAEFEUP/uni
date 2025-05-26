@@ -6,7 +6,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/widgets/toast_message.dart';
 
-Future<void> addMoneyDialog(BuildContext context) async {
+Future<void> addMoneyDialog(BuildContext context) {
   final formKey = GlobalKey<FormState>();
   final controller = TextEditingController(text: '1,00 €');
 

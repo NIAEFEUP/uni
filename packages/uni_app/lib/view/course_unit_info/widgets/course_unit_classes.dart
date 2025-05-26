@@ -16,9 +16,9 @@ class CourseUnitClassesView extends StatefulWidget {
 
 class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
   static const double _itemWidth = 140;
-  static const Duration _scrollDuration = Duration(milliseconds: 300);
+  static const _scrollDuration = Duration(milliseconds: 300);
 
-  final ScrollController _scrollController = ScrollController();
+  final _scrollController = ScrollController();
 
   late int selectedIndex;
   late int studentNumber;

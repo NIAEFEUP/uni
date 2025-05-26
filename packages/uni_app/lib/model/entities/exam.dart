@@ -55,7 +55,7 @@ class Exam {
   @Id()
   int? dbId;
 
-  static Map<String, String> types = {
+  static final types = <String, String>{
     'Mini-testes': 'MT',
     'Normal': 'EN',
     'Recurso': 'ER',
