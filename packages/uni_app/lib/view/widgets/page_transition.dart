@@ -4,8 +4,8 @@ import 'package:uni/view/terms_and_condition_dialog.dart';
 
 /// Transition used between pages
 class PageTransition {
-  static const int pageTransitionDuration = 200;
-  static bool _isFirstPageTransition = true;
+  static const pageTransitionDuration = 200;
+  static var _isFirstPageTransition = true;
 
   static Route<Widget> makePageTransition({
     required Widget page,
@@ -14,11 +14,7 @@ class PageTransition {
     bool checkTermsAndConditions = true,
   }) {
     return PageRouteBuilder(
-      pageBuilder: (
-        context,
-        animation,
-        secondaryAnimation,
-      ) {
+      pageBuilder: (context, animation, secondaryAnimation) {
         if (_isFirstPageTransition) {
           _isFirstPageTransition = false;
           if (checkTermsAndConditions) {

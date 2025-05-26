@@ -7,9 +7,7 @@ abstract class BaseRequestOptions {
 
   Uri get baseUrl;
 
-  BaseRequestOptions copyWith({
-    http.Client? client,
-  });
+  BaseRequestOptions copyWith({http.Client? client});
 }
 
 class SigarraRequestOptions extends BaseRequestOptions {
@@ -19,12 +17,8 @@ class SigarraRequestOptions extends BaseRequestOptions {
   Uri get baseUrl => Uri(scheme: 'https', host: 'sigarra.up.pt');
 
   @override
-  SigarraRequestOptions copyWith({
-    http.Client? client,
-  }) {
-    return SigarraRequestOptions(
-      client: client ?? this.client,
-    );
+  SigarraRequestOptions copyWith({http.Client? client}) {
+    return SigarraRequestOptions(client: client ?? this.client);
   }
 }
 

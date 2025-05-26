@@ -14,9 +14,10 @@ class LocationGroup {
     List<Location>? locations,
     this.isFloorless = false,
     this.id,
-  }) : floors = locations != null
-            ? groupBy(locations, (location) => location.floor)
-            : Map.identity();
+  }) : floors =
+           locations != null
+               ? groupBy(locations, (location) => location.floor)
+               : Map.identity();
 
   factory LocationGroup.fromJson(Map<String, dynamic> json) =>
       _$LocationGroupFromJson(json);

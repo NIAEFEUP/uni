@@ -19,16 +19,11 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
   }
 
   @override
-  Future<List<Exam>> loadFromRemote(StateProviders stateProviders) async {
+  Future<List<Exam>> loadFromRemote(StateProviders stateProviders) {
     final session = stateProviders.sessionProvider.state!;
     final profile = stateProviders.profileProvider.state!;
 
-    return fetchUserExams(
-      ParserExams(),
-      profile,
-      session,
-      profile.courseUnits,
-    );
+    return fetchUserExams(ParserExams(), profile, session, profile.courseUnits);
   }
 
   Future<List<Exam>> fetchUserExams(
@@ -37,8 +32,10 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
     Session session,
     List<CourseUnit> userUcs,
   ) async {
-    final exams = await ExamFetcher(profile.courses, userUcs)
-        .extractExams(session, parserExams);
+    final exams = await ExamFetcher(
+      profile.courses,
+      userUcs,
+    ).extractExams(session, parserExams);
 
     exams.sort((exam1, exam2) => exam1.start.compareTo(exam2.start));
 

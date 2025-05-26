@@ -117,8 +117,10 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                       },
                       child: Text(
                         S.of(context).apply,
-                        style:
-                            const TextStyle(fontSize: 12, color: Colors.white),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],
@@ -137,9 +139,7 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
       style: TextButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
       ),
       onPressed: () => _showFilterDialog(context),
       child: Row(

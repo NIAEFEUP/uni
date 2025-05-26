@@ -41,9 +41,10 @@ class _SplashScreenViewState extends State<SplashScreenView> {
                   ) {
                     return ScaleTransition(
                       scale: animation.drive(
-                        Tween<double>(begin: 0, end: 1).chain(
-                          CurveTween(curve: Curves.easeInOut),
-                        ),
+                        Tween<double>(
+                          begin: 0,
+                          end: 1,
+                        ).chain(CurveTween(curve: Curves.easeInOut)),
                       ),
                       child: SvgPicture.asset(
                         'assets/images/logo_dark.svg',
@@ -79,10 +80,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
             decoration: const BoxDecoration(
               gradient: RadialGradient(
                 center: Alignment(-0.95, -1),
-                colors: [
-                  Color(0x705F171D),
-                  Color(0x02511515),
-                ],
+                colors: [Color(0x705F171D), Color(0x02511515)],
                 stops: [0, 1],
               ),
             ),
@@ -92,10 +90,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
               gradient: RadialGradient(
                 center: Alignment(0.1, 0.95),
                 radius: 0.3,
-                colors: [
-                  Color(0x705F171D),
-                  Color(0x02511515),
-                ],
+                colors: [Color(0x705F171D), Color(0x02511515)],
                 stops: [0, 1],
               ),
             ),

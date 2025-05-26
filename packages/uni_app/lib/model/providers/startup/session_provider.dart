@@ -14,11 +14,11 @@ import 'package:uni/session/logout/uni_logout_handler.dart';
 
 class SessionProvider extends StateProviderNotifier<Session?> {
   SessionProvider()
-      : super(
-          cacheDuration: null,
-          initialStatus: RequestStatus.none,
-          dependsOnSession: false,
-        );
+    : super(
+        cacheDuration: null,
+        initialStatus: RequestStatus.none,
+        dependsOnSession: false,
+      );
 
   AuthenticationController get controller =>
       NetworkRouter.authenticationController!;

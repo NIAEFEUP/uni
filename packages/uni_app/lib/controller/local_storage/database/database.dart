@@ -17,7 +17,7 @@ class Database {
     return _instance;
   }
   Database._internal();
-  static final Database _instance = Database._internal();
+  static final _instance = Database._internal();
 
   late final Store _store;
   Admin? _admin;

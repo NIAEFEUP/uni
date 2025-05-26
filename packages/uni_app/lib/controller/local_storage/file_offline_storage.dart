@@ -30,7 +30,8 @@ Future<File?> loadFileFromStorageOrRetrieveNew(
   final file = File(targetPath);
 
   final fileExists = file.existsSync();
-  final fileIsStale = forceRetrieval ||
+  final fileIsStale =
+      forceRetrieval ||
       (fileExists &&
           file
               .lastModifiedSync()
@@ -41,9 +42,14 @@ Future<File?> loadFileFromStorageOrRetrieveNew(
     return file;
   }
 
-  if (await Connectivity().checkConnectivity() != ConnectivityResult.none) {
-    final downloadedFile =
-        await _downloadAndSaveFile(targetPath, url, session, headers);
+  final connectivity = await Connectivity().checkConnectivity();
+  if (!connectivity.contains(ConnectivityResult.none)) {
+    final downloadedFile = await _downloadAndSaveFile(
+      targetPath,
+      url,
+      session,
+      headers,
+    );
     if (downloadedFile != null) {
       Logger().d('Downloaded $localFileName from remote');
       return downloadedFile;
@@ -68,9 +74,10 @@ Future<File?> _downloadAndSaveFile(
 ) async {
   final header = headers ?? <String, String>{};
 
-  final response = session == null
-      ? await http.get(url.toUri(), headers: headers)
-      : await NetworkRouter.getWithCookies(url, header, session);
+  final response =
+      session == null
+          ? await http.get(url.toUri(), headers: headers)
+          : await NetworkRouter.getWithCookies(url, header, session);
 
   if (response.statusCode == 200) {
     return File(filePath).writeAsBytes(response.bodyBytes);

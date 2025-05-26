@@ -8,7 +8,7 @@ import 'package:workmanager/workmanager.dart';
 const taskMap = {
   'pt.up.fe.ni.uni.notificationworker': (
     NotificationManager.updateAndTriggerNotifications,
-    true
+    true,
   ),
 };
 

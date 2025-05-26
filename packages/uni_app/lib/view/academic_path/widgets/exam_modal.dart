@@ -24,10 +24,7 @@ class ExamModal extends StatelessWidget {
 
     return ModalDialog(
       children: [
-        Text(
-          exam.subject,
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
+        Text(exam.subject, style: Theme.of(context).textTheme.headlineMedium),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Row(
@@ -85,10 +82,8 @@ class ExamModal extends StatelessWidget {
             color: Theme.of(context).colorScheme.primary,
           ),
           onPressed: () {
-            final profile = Provider.of<ProfileProvider>(
-              context,
-              listen: false,
-            ).state;
+            final profile =
+                Provider.of<ProfileProvider>(context, listen: false).state;
 
             if (profile != null) {
               final courseUnit = profile.courseUnits.firstWhereOrNull(

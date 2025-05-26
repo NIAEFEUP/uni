@@ -8,13 +8,11 @@ import 'package:uni/utils/duration_string_formatter.dart';
 
 class TuitionNotification extends Notification {
   TuitionNotification()
-      : super('tuition-notification', const Duration(hours: 12));
+    : super('tuition-notification', const Duration(hours: 12));
   late DateTime _dueDate;
 
   @override
-  Future<(String, String)> buildNotificationContent(
-    Session session,
-  ) async {
+  Future<(String, String)> buildNotificationContent(Session session) async {
     // We must add one day because the time limit is actually at 23:59 and
     // not at 00:00 of the same day
     if (_dueDate.add(const Duration(days: 1)).isBefore(DateTime.now())) {

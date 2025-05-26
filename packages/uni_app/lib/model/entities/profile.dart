@@ -15,8 +15,8 @@ class Profile {
     this.printBalance = '',
     this.feesBalance = '',
     this.feesLimit,
-  })  : courses = courses ?? [],
-        courseUnits = [];
+  }) : courses = courses ?? [],
+       courseUnits = [];
 
   /// Creates a new instance from a JSON object.
   factory Profile.fromResponse(Response response) {
@@ -54,10 +54,7 @@ class Profile {
       ('email', email),
       ('printBalance', printBalance),
       ('feesBalance', feesBalance),
-      (
-        'feesLimit',
-        feesLimit != null ? feesLimit!.toIso8601String() : '',
-      ),
+      ('feesLimit', feesLimit != null ? feesLimit!.toIso8601String() : ''),
     ];
   }
 }

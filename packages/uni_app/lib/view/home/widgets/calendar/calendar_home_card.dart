@@ -11,9 +11,7 @@ import 'package:uni_ui/calendar/calendar.dart';
 import 'package:uni_ui/calendar/calendar_item.dart';
 
 class CalendarHomeCard extends GenericHomecard {
-  const CalendarHomeCard({
-    super.key,
-  });
+  const CalendarHomeCard({super.key});
 
   @override
   String getTitle(BuildContext context) {
@@ -32,14 +30,15 @@ class CalendarHomeCard extends GenericHomecard {
             Provider.of<LocaleNotifier>(context, listen: false).getLocale();
         final events = localizedEvents.getEvents(locale);
         return Calendar(
-          items: events
-              .map(
-                (event) => CalendarItem(
-                  eventPeriod: event.formattedPeriod[0],
-                  eventName: event.name,
-                ),
-              )
-              .toList(),
+          items:
+              events
+                  .map(
+                    (event) => CalendarItem(
+                      eventPeriod: event.formattedPeriod[0],
+                      eventName: event.name,
+                    ),
+                  )
+                  .toList(),
         );
       },
       hasContent: (localizedEvents) => localizedEvents.hasAnyEvents,

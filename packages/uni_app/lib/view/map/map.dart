@@ -24,14 +24,14 @@ class MapPage extends StatefulWidget {
 
 class MapPageStateView extends State<MapPage> {
   ScrollController? scrollViewController;
-  GlobalKey<FormState> searchFormKey = GlobalKey<FormState>();
-  String searchTerms = '';
-  PopupController _popupLayerController = PopupController();
+  final searchFormKey = GlobalKey<FormState>();
+  var _searchTerms = '';
+  var _popupLayerController = PopupController();
 
   @override
   void initState() {
     super.initState();
-    searchTerms = '';
+    _searchTerms = '';
     _popupLayerController = PopupController();
   }
 
@@ -46,134 +46,149 @@ class MapPageStateView extends State<MapPage> {
     return LazyConsumer<FacultyLocationsProvider, List<LocationGroup>>(
       builder: (context, locations) {
         final filteredLocations = List<LocationGroup>.from(locations);
-        if (searchTerms.trim().isNotEmpty) {
+        if (_searchTerms.trim().isNotEmpty) {
           filteredLocations.retainWhere((location) {
             final allLocations = location.floors.values.expand((x) => x);
             return allLocations.any((location) {
               return removeDiacritics(
                 location.description().toLowerCase().trim(),
-              ).contains(
-                searchTerms,
-              );
+              ).contains(_searchTerms);
             });
           });
         }
-        return MediaQuery.removePadding(
-          context: context,
-          removeBottom: true,
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            extendBody: true,
-            bottomNavigationBar: const AppBottomNavbar(),
-            body: FlutterMap(
-              options: MapOptions(
-                minZoom: 17,
-                maxZoom: 18,
-                nePanBoundary: const LatLng(41.17986, -8.59298),
-                swPanBoundary: const LatLng(41.17670, -8.59991),
-                center: const LatLng(41.17731, -8.59522),
-                zoom: 17.5,
-                interactiveFlags: InteractiveFlag.all - InteractiveFlag.rotate,
-                onTap: (tapPosition, latlng) =>
-                    _popupLayerController.hideAllPopups(),
+        final bounds = LatLngBounds(
+          const LatLng(41.17370, -8.59900),
+          const LatLng(41.18286, -8.59298),
+        );
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBody: true,
+          bottomNavigationBar: const AppBottomNavbar(),
+          body: FlutterMap(
+            options: MapOptions(
+              minZoom: 1,
+              maxZoom: 19,
+              cameraConstraint: CameraConstraint.contain(bounds: bounds),
+              initialCameraFit: CameraFit.insideBounds(bounds: bounds),
+              onTap:
+                  (tapPosition, latlng) =>
+                      _popupLayerController.hideAllPopups(),
+              interactionOptions: const InteractionOptions(
+                flags: InteractiveFlag.all - InteractiveFlag.rotate,
               ),
-              nonRotatedChildren: [
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: ColoredBox(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onPrimary
-                        .withOpacity(0.8),
-                    child: GestureDetector(
-                      onTap: () => launchUrlWithToast(
-                        context,
-                        'https://www.openstreetmap.org/copyright',
-                      ),
-                      child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-                        child: MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: Text('©OpenStreetMap @CARTO'),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-              children: <Widget>[
-                TileLayer(
-                  urlTemplate:
-                      'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
-                  subdomains: const <String>['a', 'b', 'c'],
-                  tileProvider: CachedTileProvider(),
-                ),
-                PopupMarkerLayer(
-                  options: PopupMarkerLayerOptions(
-                    markers: filteredLocations.map((location) {
-                      return LocationMarker(location.latlng, location);
-                    }).toList(),
-                    popupController: _popupLayerController,
-                    popupDisplayOptions: PopupDisplayOptions(
-                      animation: const PopupAnimation.fade(
-                        duration: Duration(milliseconds: 400),
-                      ),
-                      builder: (_, marker) {
-                        if (marker is LocationMarker) {
-                          return marker.locationGroup.isFloorless
-                              ? FloorlessLocationMarkerPopup(
-                                  marker.locationGroup,
-                                )
-                              : LocationMarkerPopup(marker.locationGroup);
-                        }
-                        return const Card(child: Text(''));
-                      },
-                    ),
-                  ),
-                ),
-                SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
-                    ),
-                    child: PhysicalModel(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      elevation: 3,
-                      child: TextFormField(
-                        key: searchFormKey,
-                        onChanged: (text) {
-                          setState(() {
-                            searchTerms =
-                                removeDiacritics(text.trim().toLowerCase());
-                          });
-                        },
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Theme.of(context).colorScheme.secondary,
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: SvgPicture.asset(
-                              'assets/images/logo_dark.svg',
-                              semanticsLabel: 'search',
-                              width: 10,
-                            ),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.all(10),
-                          hintText: '${S.of(context).search}...',
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
             ),
+            children: <Widget>[
+              TileLayer(
+                urlTemplate:
+                    'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
+                tileProvider: CachedTileProvider(),
+              ),
+              PopupMarkerLayer(
+                options: PopupMarkerLayerOptions(
+                  markers:
+                      filteredLocations.map((location) {
+                        return LocationMarker(location.latlng, location);
+                      }).toList(),
+                  popupController: _popupLayerController,
+                  popupDisplayOptions: PopupDisplayOptions(
+                    animation: const PopupAnimation.fade(
+                      duration: Duration(milliseconds: 400),
+                    ),
+                    builder: (_, marker) {
+                      if (marker is LocationMarker) {
+                        return marker.locationGroup.isFloorless
+                            ? FloorlessLocationMarkerPopup(marker.locationGroup)
+                            : LocationMarkerPopup(marker.locationGroup);
+                      }
+                      return const Card(child: Text(''));
+                    },
+                  ),
+                ),
+              ),
+              PopupMarkerLayer(
+                options: PopupMarkerLayerOptions(
+                  markers:
+                      filteredLocations.map((location) {
+                        return LocationMarker(location.latlng, location);
+                      }).toList(),
+                  popupController: _popupLayerController,
+                  popupDisplayOptions: PopupDisplayOptions(
+                    animation: const PopupAnimation.fade(
+                      duration: Duration(milliseconds: 400),
+                    ),
+                    builder: (_, marker) {
+                      if (marker is LocationMarker) {
+                        return marker.locationGroup.isFloorless
+                            ? FloorlessLocationMarkerPopup(marker.locationGroup)
+                            : LocationMarkerPopup(marker.locationGroup);
+                      }
+                      return const Card(child: Text(''));
+                    },
+                  ),
+                ),
+              ),
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
+                  child: PhysicalModel(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    elevation: 3,
+                    child: TextFormField(
+                      key: searchFormKey,
+                      onChanged: (text) {
+                        setState(() {
+                          _searchTerms = removeDiacritics(
+                            text.trim().toLowerCase(),
+                          );
+                        });
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Theme.of(context).colorScheme.secondary,
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: SvgPicture.asset(
+                            'assets/images/logo_dark.svg',
+                            semanticsLabel: 'search',
+                            width: 10,
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: const EdgeInsets.all(10),
+                        hintText: '${S.of(context).search}...',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: ColoredBox(
+                  color: Theme.of(context).colorScheme.onPrimary.withAlpha(204),
+                  child: GestureDetector(
+                    onTap:
+                        () => launchUrlWithToast(
+                          context,
+                          'https://www.openstreetmap.org/copyright',
+                        ),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: Text('©OpenStreetMap @CARTO'),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },

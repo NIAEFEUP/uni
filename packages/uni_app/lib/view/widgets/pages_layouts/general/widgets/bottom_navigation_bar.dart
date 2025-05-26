@@ -28,10 +28,7 @@ class AppBottomNavbar extends StatelessWidget {
     final newRoute = NavbarItem.values[index].route;
 
     if (_getCurrentRoute(context) != newRoute) {
-      Navigator.pushNamed(
-        context,
-        '/$newRoute',
-      );
+      Navigator.pushNamed(context, '/$newRoute');
     }
   }
 
@@ -51,8 +48,6 @@ class AppBottomNavbar extends StatelessWidget {
       );
     }
 
-    return BottomNavbar(
-      items: navbarItems,
-    );
+    return BottomNavbar(items: navbarItems);
   }
 }

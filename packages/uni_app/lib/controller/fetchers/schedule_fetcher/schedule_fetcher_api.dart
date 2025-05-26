@@ -10,9 +10,10 @@ import 'package:uni/session/flows/base/session.dart';
 class ScheduleFetcherApi extends ScheduleFetcher {
   @override
   List<String> getEndpoints(Session session) {
-    final urls = NetworkRouter.getBaseUrlsFromSession(session)
-        .map((url) => '${url}mob_hor_geral.estudante')
-        .toList();
+    final urls =
+        NetworkRouter.getBaseUrlsFromSession(
+          session,
+        ).map((url) => '${url}mob_hor_geral.estudante').toList();
     return urls;
   }
 
@@ -25,15 +26,11 @@ class ScheduleFetcherApi extends ScheduleFetcher {
     final responses = <(Week, http.Response)>[];
     for (final url in urls) {
       final futures = dates.map(
-        (date) => NetworkRouter.getWithCookies(
-          url,
-          {
-            'pv_codigo': session.username,
-            'pv_semana_ini': date.asSigarraWeekStart,
-            'pv_semana_fim': date.asSigarraWeekEnd,
-          },
-          session,
-        ).then((response) => (date.week, response)),
+        (date) => NetworkRouter.getWithCookies(url, {
+          'pv_codigo': session.username,
+          'pv_semana_ini': date.asSigarraWeekStart,
+          'pv_semana_fim': date.asSigarraWeekEnd,
+        }, session).then((response) => (date.week, response)),
       );
 
       responses.addAll(await Future.wait(futures));

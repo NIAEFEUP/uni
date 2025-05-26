@@ -10,14 +10,8 @@ class NoRestaurantsHomeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Center(
-          child: Text(
-            S.of(context).no_favorite_restaurants,
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
+        Center(child: Text(S.of(context).no_favorite_restaurants)),
+        const SizedBox(height: 10),
         ElevatedButton(
           onPressed: () => onClick(context),
           style: ElevatedButton.styleFrom(

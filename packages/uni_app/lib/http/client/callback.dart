@@ -6,13 +6,14 @@ class CallbackClient extends http.BaseClient {
     required Future<http.StreamedResponse> Function(
       http.Client,
       http.BaseRequest,
-    ) send,
-  })  : _inner = inner,
-        _send = send;
+    )
+    send,
+  }) : _inner = inner,
+       _send = send;
 
   final http.Client _inner;
   final Future<http.StreamedResponse> Function(http.Client, http.BaseRequest)
-      _send;
+  _send;
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) =>

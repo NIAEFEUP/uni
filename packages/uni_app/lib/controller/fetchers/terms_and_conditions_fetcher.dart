@@ -8,7 +8,7 @@ import 'package:uni/controller/local_storage/preferences_controller.dart';
 /// or the local one if the remote file is not available.
 ///
 /// If this operation is unsuccessful, an error message is returned.
-Future<String> fetchTermsAndConditions() async {
+Future<String> fetchTermsAndConditions() {
   return rootBundle.loadString('assets/text/TermsAndConditions.md');
 }
 

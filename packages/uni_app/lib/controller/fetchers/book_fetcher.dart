@@ -20,16 +20,20 @@ class BookThumbFetcher {
       {'q': 'isbn:$isbn'},
     );
 
-    final response =
-        await http.get(Uri.decodeComponent(googleBooksUrl.toString()).toUri());
+    final response = await http.get(
+      Uri.decodeComponent(googleBooksUrl.toString()).toUri(),
+    );
 
-    final numBooks = (json.decode(response.body)
-        as Map<String, dynamic>)['totalItems'] as int;
+    final numBooks =
+        (json.decode(response.body) as Map<String, dynamic>)['totalItems']
+            as int;
 
     if (numBooks > 0) {
-      final bookInformation = ((json.decode(response.body)
-              as Map<String, dynamic>)['items'] as List<dynamic>)
-          .first as Map<String, dynamic>;
+      final bookInformation =
+          ((json.decode(response.body) as Map<String, dynamic>)['items']
+                      as List<dynamic>)
+                  .first
+              as Map<String, dynamic>;
       final thumbnailURL =
           ((bookInformation['volumeInfo'] as Map<String, dynamic>)['imageLinks']
               as Map<String, dynamic>)['thumbnail'];

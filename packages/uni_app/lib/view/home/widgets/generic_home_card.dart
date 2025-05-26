@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract class GenericHomecard extends StatelessWidget {
-  const GenericHomecard({
-    super.key,
-  });
+  const GenericHomecard({super.key});
 
   String getTitle(BuildContext context) => '';
 
@@ -16,9 +14,7 @@ abstract class GenericHomecard extends StatelessWidget {
     return GestureDetector(
       onTap: () => onCardClick(context),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(
-          minHeight: 60,
-        ),
+        constraints: const BoxConstraints(minHeight: 60),
         child: SizedBox(
           width: double.infinity,
           child: Column(

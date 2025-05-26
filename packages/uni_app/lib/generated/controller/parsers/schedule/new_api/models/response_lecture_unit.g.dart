@@ -14,9 +14,9 @@ ResponseLectureUnit _$ResponseLectureUnitFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$ResponseLectureUnitToJson(
-        ResponseLectureUnit instance) =>
-    <String, dynamic>{
-      'acronym': instance.acronym,
-      'name': instance.name,
-      'sigarra_id': instance.sigarraId,
-    };
+  ResponseLectureUnit instance,
+) => <String, dynamic>{
+  'acronym': instance.acronym,
+  'name': instance.name,
+  'sigarra_id': instance.sigarraId,
+};

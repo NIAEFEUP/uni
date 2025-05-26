@@ -18,11 +18,11 @@ class CoursesPage extends StatefulWidget {
 }
 
 class CoursesPageState extends State<CoursesPage> {
-  int courseUnitIndex = 0;
+  var _courseUnitIndex = 0;
 
   void _onCourseUnitSelected(int index) {
     setState(() {
-      courseUnitIndex = index;
+      _courseUnitIndex = index;
     });
   }
 
@@ -85,22 +85,23 @@ class CoursesPageState extends State<CoursesPage> {
     return LazyConsumer<ProfileProvider, Profile>(
       builder: (context, profile) {
         final courses = profile.courses;
-        final course = courses[courseUnitIndex];
+        final course = courses[_courseUnitIndex];
 
         return ListView(
           padding: const EdgeInsets.only(top: 16),
           children: [
             Center(
               child: CourseSelection(
-                courseInfos: courses.map((course) {
-                  return CourseInfo(
-                    abbreviation: _getCourseAbbreviation(course),
-                    enrollmentYear: _getEnrollmentYear(course),
-                    conclusionYear: _getConclusionYear(course),
-                  );
-                }).toList(),
+                courseInfos:
+                    courses.map((course) {
+                      return CourseInfo(
+                        abbreviation: _getCourseAbbreviation(course),
+                        enrollmentYear: _getEnrollmentYear(course),
+                        conclusionYear: _getConclusionYear(course),
+                      );
+                    }).toList(),
                 onSelected: _onCourseUnitSelected,
-                selected: courseUnitIndex,
+                selected: _courseUnitIndex,
                 nowText: S.of(context).now,
               ),
             ),
@@ -121,24 +122,21 @@ class CoursesPageState extends State<CoursesPage> {
                 averageText: S.of(context).average,
               ),
             ),
-            CourseUnitsView(
-              course: course,
-            ),
+            CourseUnitsView(course: course),
           ],
         );
       },
       hasContent: (profile) => profile.courses.isNotEmpty,
       onNullContent: LayoutBuilder(
         // Band-aid for allowing refresh on null content
-        builder: (context, constraints) => SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: SizedBox(
-            height: constraints.maxHeight,
-            child: const Center(
-              child: NoCoursesWidget(),
+        builder:
+            (context, constraints) => SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: SizedBox(
+                height: constraints.maxHeight,
+                child: const Center(child: NoCoursesWidget()),
+              ),
             ),
-          ),
-        ),
       ),
     );
   }
