@@ -19,7 +19,7 @@ import 'package:uni/session/flows/base/session.dart';
 
 class ProfileProvider extends StateProviderNotifier<Profile> {
   ProfileProvider()
-    : super(cacheDuration: const Duration(days: 1), dependsOnSession: false);
+    : super(cacheDuration: const Duration(days: 1), dependsOnSession: true);
 
   @override
   Future<Profile> loadFromStorage(StateProviders stateProviders) async {
