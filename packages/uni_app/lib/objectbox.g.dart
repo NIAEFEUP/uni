@@ -65,7 +65,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(2, 6255920829998343914),
     name: 'Course',
-    lastPropertyId: const obx_int.IdUid(8, 2201102876981640663),
+    lastPropertyId: const obx_int.IdUid(10, 961244772353001235),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -114,6 +114,18 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(8, 2201102876981640663),
         name: 'state',
         type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(9, 9150862467323502539),
+        name: 'finishedEcts',
+        type: 8,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(10, 961244772353001235),
+        name: 'currentAverage',
+        type: 8,
         flags: 0,
       ),
     ],
@@ -769,7 +781,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final stateOffset = object.state == null
             ? null
             : fbb.writeString(object.state!);
-        fbb.startTable(9);
+        fbb.startTable(11);
         fbb.addInt64(0, object.id ?? 0);
         fbb.addInt64(1, object.festId);
         fbb.addOffset(2, nameOffset);
@@ -778,6 +790,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(5, object.firstEnrollment);
         fbb.addOffset(6, facultyOffset);
         fbb.addOffset(7, stateOffset);
+        fbb.addFloat64(8, object.finishedEcts);
+        fbb.addFloat64(9, object.currentAverage);
         fbb.finish(fbb.endTable());
         return object.id ?? 0;
       },
@@ -814,6 +828,16 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final facultyParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 16);
+        final finishedEctsParam = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          20,
+        );
+        final currentAverageParam = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          22,
+        );
         final object = Course(
           id: idParam,
           festId: festIdParam,
@@ -823,6 +847,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           firstEnrollment: firstEnrollmentParam,
           state: stateParam,
           faculty: facultyParam,
+          finishedEcts: finishedEctsParam,
+          currentAverage: currentAverageParam,
         );
 
         return object;
@@ -1545,6 +1571,16 @@ class Course_ {
   /// See [Course.state].
   static final state = obx.QueryStringProperty<Course>(
     _entities[1].properties[7],
+  );
+
+  /// See [Course.finishedEcts].
+  static final finishedEcts = obx.QueryDoubleProperty<Course>(
+    _entities[1].properties[8],
+  );
+
+  /// See [Course.currentAverage].
+  static final currentAverage = obx.QueryDoubleProperty<Course>(
+    _entities[1].properties[9],
   );
 }
 

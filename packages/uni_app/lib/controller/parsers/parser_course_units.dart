@@ -17,10 +17,10 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
 
   final labels = document.querySelectorAll('.caixa .formulario-legenda');
   if (labels.length >= 2) {
-    course.currentAverage ??= num.tryParse(
+    course.currentAverage ??= double.tryParse(
       labels[0].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0',
     );
-    course.finishedEcts ??= num.tryParse(
+    course.finishedEcts ??= double.tryParse(
       labels[1].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0',
     );
   }
