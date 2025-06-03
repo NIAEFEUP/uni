@@ -20,7 +20,7 @@ CourseUnit _$CourseUnitFromJson(Map<String, dynamic> json) => CourseUnit(
   grade: json['resultado_melhor'] as String?,
   ectsGrade: json['resultado_ects'] as String?,
   result: json['resultado_insc'] as String?,
-  ects: json['creditos_ects'] as num?,
+  ects: (json['creditos_ects'] as num?)?.toDouble(),
   schoolYear: json['schoolYear'] as String?,
   festId: (json['fest_id'] as num?)?.toInt(),
 );
