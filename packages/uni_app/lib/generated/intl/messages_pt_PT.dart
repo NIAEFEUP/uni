@@ -286,6 +286,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_classes_on_weekend": MessageLookupByLibrary.simpleMessage(
       "Não possui aulas ao",
     ),
+    "no_classes_this_week": MessageLookupByLibrary.simpleMessage(
+      "Não tens aulas esta semana",
+    ),
     "no_college": MessageLookupByLibrary.simpleMessage("sem faculdade"),
     "no_course_units": MessageLookupByLibrary.simpleMessage(
       "Sem cadeiras no período selecionado",
