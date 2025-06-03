@@ -32,7 +32,7 @@ class CoursesPageState extends State<CoursesPage> {
   double _getTotalCredits(Profile profile, Course course) {
     return profile.courseUnits
         .where((courseUnit) => courseUnit.festId == course.festId)
-        .map((courseUnit) => (courseUnit.ects ?? 0))
+        .map((courseUnit) => courseUnit.ects ?? 0)
         .fold(0, (a, b) => a + b);
   }
 
@@ -115,8 +115,8 @@ class CoursesPageState extends State<CoursesPage> {
             Padding(
               padding: const EdgeInsets.only(top: 40, bottom: 8),
               child: AverageBar(
-                average: (course.currentAverage ?? 0),
-                completedCredits: (course.finishedEcts ?? 0),
+                average: course.currentAverage ?? 0,
+                completedCredits: course.finishedEcts ?? 0,
                 totalCredits: _getTotalCredits(profile, course),
                 statusText: course.state ?? '',
                 averageText: S.of(context).average,
