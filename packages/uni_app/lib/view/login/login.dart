@@ -161,23 +161,8 @@ class LoginPageViewState extends State<LoginPageView>
         _loggingIn = true;
       });
 
-      final appLinks = UniAppLinks();
-
       await sessionProvider.login(
-        FederatedSessionInitiator(
-          clientId: clientId,
-          realm: Uri.parse(realm),
-          performAuthentication: (flow) async {
-            final data = await appLinks.login.intercept((redirectUri) async {
-              flow.redirectUri = redirectUri;
-              await launchUrl(flow.authenticationUri);
-            });
-
-            await closeInAppWebView();
-
-            return data;
-          },
-        ),
+        FederatedSessionInitiator(clientId: clientId, realm: Uri.parse(realm)),
         persistentSession: _keepSignedIn,
       );
 

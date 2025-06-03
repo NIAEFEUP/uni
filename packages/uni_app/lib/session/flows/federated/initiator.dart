@@ -1,25 +1,22 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:http/http.dart' as http;
-import 'package:openid_client/openid_client.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:uni/app_links/uni_app_links.dart';
 import 'package:uni/session/exception.dart';
 import 'package:uni/session/flows/base/initiator.dart';
 import 'package:uni/session/flows/federated/client.dart';
 import 'package:uni/session/flows/federated/request.dart';
 
 class FederatedSessionInitiator extends SessionInitiator {
-  FederatedSessionInitiator({
-    required this.realm,
-    required this.clientId,
-    required this.performAuthentication,
-  });
+  FederatedSessionInitiator({required this.realm, required this.clientId});
 
   final Uri realm;
   final String clientId;
-  final Future<Uri> Function(Flow flow) performAuthentication;
 
-  Future<T> _handleOpenIdExceptions<T>(
+  Future<T> _handleAuthExceptions<T>(
     Future<T> future, {
     required AuthenticationException onError,
   }) {
@@ -29,22 +26,22 @@ class FederatedSessionInitiator extends SessionInitiator {
     }
 
     return future
-        .onError<HttpRequestException>(reportExceptionAndFail)
-        .onError<OpenIdException>(reportExceptionAndFail);
+        .onError<HttpException>(reportExceptionAndFail)
+        .onError<FlutterAppAuthOAuthError>(reportExceptionAndFail)
+        .onError<FlutterAppAuthPlatformException>(reportExceptionAndFail)
+        .onError<FlutterAppAuthUserCancelledException>(reportExceptionAndFail);
   }
 
   @override
   Future<FederatedSessionRequest> initiate([http.Client? httpClient]) async {
     httpClient ??= FederatedDefaultClient();
 
-    final issuer = await _handleOpenIdExceptions(
-      Issuer.discover(realm, httpClient: httpClient),
-      onError: const AuthenticationException('Failed to discover OIDC issuer'),
-    );
+    final appLinks = UniAppLinks();
 
-    final client = Client(issuer, clientId, httpClient: httpClient);
-    final flow = Flow.authorizationCodeWithPKCE(
-      client,
+    final request = AuthorizationTokenRequest(
+      clientId,
+      appLinks.login.redirectUri.toString(),
+      issuer: realm.toString(),
       scopes: [
         'openid',
         'profile',
@@ -53,14 +50,18 @@ class FederatedSessionInitiator extends SessionInitiator {
         'audience',
         'uporto_data',
       ],
+      promptValues: ['login'],
     );
 
-    final uri = await performAuthentication(flow);
-    final credential = await _handleOpenIdExceptions(
-      flow.callback(uri.queryParameters),
-      onError: const AuthenticationException('Failed to execute flow callback'),
+    const appAuth = FlutterAppAuth();
+
+    final tokenResponse = await _handleAuthExceptions(
+      appAuth.authorizeAndExchangeCode(request),
+      onError: const AuthenticationException(
+        'Failed to authenticate with OIDC provider',
+      ),
     );
 
-    return FederatedSessionRequest(credential: credential);
+    return FederatedSessionRequest(tokenResponse: tokenResponse);
   }
 }

@@ -1,9 +1,9 @@
+import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:openid_client/openid_client.dart';
 import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/session/flows/federated/request.dart';
 
-part '../../../generated/session/flows/federated/session.g.dart';
+part 'package:uni/generated/session/flows/federated/session.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class FederatedSession extends Session {
@@ -11,7 +11,7 @@ class FederatedSession extends Session {
     required super.username,
     required super.cookies,
     required super.faculties,
-    required this.credential,
+    required this.tokenResponse,
   });
 
   // Serialization logic
@@ -22,9 +22,9 @@ class FederatedSession extends Session {
   @override
   Map<String, dynamic> toJson() => _$FederatedSessionToJson(this);
 
-  final Credential credential;
+  final AuthorizationTokenResponse tokenResponse;
 
   @override
   FederatedSessionRequest createRefreshRequest() =>
-      FederatedSessionRequest(credential: credential);
+      FederatedSessionRequest(tokenResponse: tokenResponse);
 }
