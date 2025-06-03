@@ -49,6 +49,7 @@ class ExamFetcher implements SessionDependantFetcher {
             courseExam.subjectAcronym == uc.abbreviation &&
             courseExam.subject == uc.name &&
             uc.enrollmentIsValid() &&
+            (courseExam.subject == uc.name && uc.status != 'Anulada Administrativamente') &&
             !courseExam.hasEnded()) {
           exams.add(courseExam);
           break;
