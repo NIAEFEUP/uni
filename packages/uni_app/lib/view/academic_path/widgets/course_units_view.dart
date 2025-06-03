@@ -131,7 +131,7 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
   CourseGradeCard _toCourseGradeCard(CourseUnit unit, BuildContext context) {
     return CourseGradeCard(
       courseName: unit.name,
-      ects: (unit.ects ?? 0).toDouble(),
+      ects: (unit.ects ?? 0),
       grade: unit.grade != null ? double.tryParse(unit.grade!)?.round() : null,
       tooltip: unit.name,
       onTap: () => _toCourseGradeCardOnTap(unit, context),
