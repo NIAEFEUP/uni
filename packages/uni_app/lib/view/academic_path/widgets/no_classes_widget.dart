@@ -9,7 +9,7 @@ class NoClassesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ImageLabel(
       imagePath: 'assets/images/school.png',
-      label: S.of(context).no_class,
+      label: S.of(context).no_classes,
       labelTextStyle: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 18,
