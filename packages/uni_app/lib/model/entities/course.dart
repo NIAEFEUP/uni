@@ -43,8 +43,8 @@ class Course {
       firstEnrollment: json['fest_a_lect_1_insc'] as int?,
       state: json['state'] as String?,
       faculty: json['inst_sigla'].toString().toLowerCase(),
-      finishedEcts: json['finishedEcts'] as num?,
-      currentAverage: json['currentAverage'] as num?,
+      finishedEcts: (json['finishedEcts'] as num?)?.toDouble(),
+      currentAverage: (json['currentAverage'] as num?)?.toDouble(),
     );
   }
   @JsonKey(name: 'cur_id')
@@ -63,7 +63,7 @@ class Course {
   @JsonKey(name: 'inst_sigla')
   final String? faculty;
   String? state;
-  num? finishedEcts;
-  num? currentAverage;
+  double? finishedEcts;
+  double? currentAverage;
   Map<String, dynamic> toJson() => _$CourseToJson(this);
 }
