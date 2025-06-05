@@ -57,7 +57,7 @@ class CourseUnit {
   @JsonKey(name: 'resultado_insc')
   String? result;
   @JsonKey(name: 'creditos_ects')
-  num? ects;
+  double? ects;
   @JsonKey(name: 'fest_id') // Course id
   int? festId;
   String? schoolYear;
