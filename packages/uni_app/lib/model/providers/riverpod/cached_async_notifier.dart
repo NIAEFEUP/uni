@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 
 abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
-  Duration get cacheDuration;
+  Duration? get cacheDuration;
 
   Future<T?> loadFromStorage();
 
@@ -11,10 +11,10 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
   DateTime? _lastUpdateTime;
 
   bool get _isCacheValid {
-    if (_lastUpdateTime == null) {
+    if (_lastUpdateTime == null || cacheDuration == null) {
       return false;
     }
-    return DateTime.now().difference(_lastUpdateTime!) < cacheDuration;
+    return DateTime.now().difference(_lastUpdateTime!) < cacheDuration!;
   }
 
   @override
