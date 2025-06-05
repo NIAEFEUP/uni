@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/fetchers/course_units_fetcher/all_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/course_units_fetcher/current_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
@@ -15,7 +16,11 @@ import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/session/flows/base/session.dart';
 
-class ProfileProvider extends CachedAsyncNotifier<Profile> {
+final profileProvider = AsyncNotifierProvider<ProfileProvider, Profile?>(
+  ProfileProvider.new,
+);
+
+class ProfileProvider extends CachedAsyncNotifier<Profile?> {
   @override
   Duration? get cacheDuration => const Duration(days: 1);
 
