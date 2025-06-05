@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
@@ -7,6 +8,10 @@ import 'package:uni/session/authentication_controller.dart';
 import 'package:uni/session/flows/base/initiator.dart';
 import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/session/logout/uni_logout_handler.dart';
+
+final sessionProvider = AsyncNotifierProvider<SessionProvider, Session?>(
+  SessionProvider.new,
+);
 
 class SessionProvider extends CachedAsyncNotifier<Session?> {
   @override
