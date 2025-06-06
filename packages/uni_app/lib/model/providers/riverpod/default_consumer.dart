@@ -9,14 +9,16 @@ class DefaultConsumer<T> extends ConsumerWidget {
     super.key,
     required this.provider,
     required this.builder,
+    required this.nullContentWidget,
+    required this.hasContent,
     this.loadingWidget,
-    this.nullContentWidget,
   });
 
   final ProviderBase<AsyncValue<T?>> provider;
   final DefaultConsumerBuilder<T> builder;
   final Widget? loadingWidget;
-  final Widget? nullContentWidget;
+  final Widget nullContentWidget;
+  final bool Function(T) hasContent;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,9 +30,8 @@ class DefaultConsumer<T> extends ConsumerWidget {
               loadingWidget ?? const Center(child: CircularProgressIndicator()),
       error: (err, _) => Center(child: Text('Error: $err')),
       data: (data) {
-        if (data == null) {
-          return nullContentWidget ??
-              const Center(child: Text('No content available.'));
+        if (data == null || !this.hasContent(data)) {
+          return nullContentWidget;
         }
         return builder(context, ref, data);
       },
