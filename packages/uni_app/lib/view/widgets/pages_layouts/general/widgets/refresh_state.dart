@@ -11,7 +11,7 @@ class RefreshState extends StatelessWidget {
     super.key,
   });
 
-  final Future<void> Function(BuildContext) onRefresh;
+  final Future<void> Function() onRefresh;
   final Widget? header;
   final Widget body;
 
@@ -37,11 +37,7 @@ class RefreshState extends StatelessWidget {
                           context,
                           listen: false,
                         ).state!,
-                      ).then((value) {
-                        if (context.mounted) {
-                          onRefresh(context);
-                        }
-                      }),
+                      ).then((value) => onRefresh),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: viewportConstraints.maxHeight,

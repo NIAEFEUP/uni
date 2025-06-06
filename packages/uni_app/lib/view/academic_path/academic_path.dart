@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/academic_path/courses_page.dart';
 import 'package:uni/view/academic_path/exam_page.dart';
@@ -10,12 +10,13 @@ import 'package:uni/view/widgets/pages_layouts/general/general.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/tabs/tab_icon.dart';
 
-class AcademicPathPageView extends StatefulWidget {
+class AcademicPathPageView extends ConsumerStatefulWidget {
   const AcademicPathPageView({super.key, this.initialTabIndex = 0});
   final int initialTabIndex;
 
   @override
-  State<StatefulWidget> createState() => AcademicPathPageViewState();
+  ConsumerState<AcademicPathPageView> createState() =>
+      AcademicPathPageViewState();
 }
 
 class AcademicPathPageViewState
@@ -65,10 +66,8 @@ class AcademicPathPageViewState
   }
 
   @override
-  Future<void> onRefresh(BuildContext context) async {
-    await Provider.of<ProfileProvider>(
-      context,
-      listen: false,
-    ).forceRefresh(context);
+  Future<void> onRefresh() async {
+    final notifier = ref.watch(profileProvider.notifier);
+    await notifier.loadFromRemote();
   }
 }
