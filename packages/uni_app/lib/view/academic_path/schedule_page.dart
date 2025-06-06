@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/model/providers/lazy/lecture_provider.dart';
+import 'package:uni/model/providers/riverpod/default_consumer.dart';
+import 'package:uni/model/providers/riverpod/lecture_provider.dart';
 import 'package:uni/view/academic_path/widgets/no_classes_widget.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_view.dart';
-import 'package:uni/view/lazy_consumer.dart';
 
 class SchedulePage extends StatelessWidget {
   SchedulePage({super.key, DateTime? now}) : now = now ?? DateTime.now();
@@ -15,14 +15,14 @@ class SchedulePage extends StatelessWidget {
     return MediaQuery.removePadding(
       context: context,
       removeBottom: true,
-      child: LazyConsumer<LectureProvider, List<Lecture>>(
-        builder: (context, lectures) {
+      child: DefaultConsumer<List<Lecture>>(
+        provider: lectureProvider,
+        builder: (context, ref, lectures) {
           final startOfWeek = _getStartOfWeek(now, lectures);
 
           return SchedulePageView(lectures, startOfWeek: startOfWeek, now: now);
         },
-        hasContent: (lectures) => lectures.isNotEmpty,
-        onNullContent: LayoutBuilder(
+        nullContentWidget: LayoutBuilder(
           builder:
               (context, constraints) => SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -32,20 +32,24 @@ class SchedulePage extends StatelessWidget {
                 ),
               ),
         ),
-        mapper: (lectures) {
-          final startOfWeek = _getStartOfWeek(now, lectures);
-          final endOfNextWeek = startOfWeek.add(const Duration(days: 14));
-
-          return lectures
-              .where(
-                (lecture) =>
-                    lecture.startTime.isAfter(startOfWeek) &&
-                    lecture.startTime.isBefore(endOfNextWeek),
-              )
-              .toList();
-        },
+        hasContent: (lectures) => lectures.isNotEmpty,
       ),
     );
+
+    //     mapper: (lectures) {
+    //       final startOfWeek = _getStartOfWeek(now, lectures);
+    //       final endOfNextWeek = startOfWeek.add(const Duration(days: 14));
+
+    //       return lectures
+    //           .where(
+    //             (lecture) =>
+    //                 lecture.startTime.isAfter(startOfWeek) &&
+    //                 lecture.startTime.isBefore(endOfNextWeek),
+    //           )
+    //           .toList();
+    //     },
+    //   ),
+    // );
   }
 
   DateTime _getStartOfWeek(DateTime now, List<Lecture> lectures) {

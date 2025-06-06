@@ -12,6 +12,7 @@ class DefaultConsumer<T> extends ConsumerWidget {
     required this.nullContentWidget,
     required this.hasContent,
     this.loadingWidget,
+    this.mapper,
   });
 
   final ProviderBase<AsyncValue<T?>> provider;
@@ -19,6 +20,7 @@ class DefaultConsumer<T> extends ConsumerWidget {
   final Widget? loadingWidget;
   final Widget nullContentWidget;
   final bool Function(T) hasContent;
+  final T Function(T)? mapper;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,10 +32,17 @@ class DefaultConsumer<T> extends ConsumerWidget {
               loadingWidget ?? const Center(child: CircularProgressIndicator()),
       error: (err, _) => Center(child: Text('Error: $err')),
       data: (data) {
-        if (data == null || !this.hasContent(data)) {
+        if (data == null) {
           return nullContentWidget;
         }
-        return builder(context, ref, data);
+
+        final mappedData = mapper != null ? mapper!(data) : data;
+
+        if (!hasContent(mappedData)) {
+          return nullContentWidget;
+        }
+
+        return builder(context, ref, mappedData);
       },
     );
   }
