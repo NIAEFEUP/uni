@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/riverpod/library_occupation_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
