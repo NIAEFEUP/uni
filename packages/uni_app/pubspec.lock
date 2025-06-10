@@ -1064,11 +1064,12 @@ packages:
   openid_client:
     dependency: "direct main"
     description:
-      name: openid_client
-      sha256: "1d39a829dc770947bf8ec8684a3456743ef0205a777371efe16773a44163eb6a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.9"
+      path: "."
+      ref: "v0.5.0"
+      resolved-ref: a223ae0847f5d93269b0198ebbba68c837665d1e
+      url: "https://github.com/NIAEFEUP/openid_client.git"
+    source: git
+    version: "0.5.0"
   os_detect:
     dependency: transitive
     description:
@@ -1214,7 +1215,7 @@ packages:
     source: hosted
     version: "2.1.8"
   pointycastle:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: pointycastle
       sha256: "92aa3841d083cc4b0f4709b5c74fd6409a3e6ba833ffc7dc6a8fee096366acf5"

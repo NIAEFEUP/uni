@@ -57,7 +57,10 @@ dependencies:
   objectbox: ^4.1.0
   objectbox_flutter_libs: any
   open_file: ^3.5.10
-  openid_client: ^0.4.9
+  openid_client:
+    git:
+      url: https://github.com/NIAEFEUP/openid_client.git
+      ref: v0.5.0
   path: ^1.8.0
   path_provider: ^2.1.2
   percent_indicator: ^4.2.2
@@ -93,9 +96,6 @@ dev_dependencies:
   objectbox_generator: ^4.2.0
   sqflite_common_ffi: ^2.3.0+4
   very_good_analysis: ^7.0.0
-
-dependency_overrides:
-  pointycastle: ^4.0.0
 
 flutter:
   generate: true
