@@ -17,7 +17,7 @@ dependencies:
   add_2_calendar: ^3.0.1
   app_links: ^6.4.0
   app_settings: ^6.1.1
-  battery_plus: ^5.0.2
+  battery_plus: ^6.2.1
   cached_network_image: ^3.3.1
   collection: ^1.16.0
   connectivity_plus: ^6.1.3
