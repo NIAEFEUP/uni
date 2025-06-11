@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/src/phosphor_icon_data.dart';
 import 'package:uni_ui/common_widgets/pulse_animation.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 class FileCard extends StatefulWidget {
   const FileCard({
@@ -11,6 +12,7 @@ class FileCard extends StatefulWidget {
     required this.fullname,
     required this.url,
     required this.onOpenFile,
+    required this.session,
     super.key,
   });
 
@@ -19,14 +21,18 @@ class FileCard extends StatefulWidget {
   final String fileCode;
   final String fullname;
   final String url;
+  final Session session;
+
   final Function(
     BuildContext context,
+    Session session,
     String fileCode,
     String fullname,
     String url,
     VoidCallback startAnimation,
     VoidCallback stopAnimation,
-  ) onOpenFile;
+  )
+  onOpenFile;
 
   @override
   State<FileCard> createState() => _FileCardState();
@@ -93,6 +99,7 @@ class _FileCardState extends State<FileCard>
         });
         widget.onOpenFile(
           context,
+          widget.session,
           widget.fileCode,
           widget.fullname,
           widget.url,
@@ -104,10 +111,7 @@ class _FileCardState extends State<FileCard>
         controller: _controller,
         child: ListTile(
           contentPadding: EdgeInsets.only(left: 32),
-          title: Text(
-            widget.filename,
-            overflow: TextOverflow.ellipsis,
-          ),
+          title: Text(widget.filename, overflow: TextOverflow.ellipsis),
           leading: UniIcon(
             getIconForExtension(widget.extension),
             color: Theme.of(context).iconTheme.color,

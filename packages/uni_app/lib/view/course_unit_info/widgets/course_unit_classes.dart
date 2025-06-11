@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
-import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:uni/model/providers/riverpod/session_provider.dart';
+import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/utils/student_number_getter.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_student_tile.dart';
 
-class CourseUnitClassesView extends StatefulWidget {
+class CourseUnitClassesView extends ConsumerStatefulWidget {
   const CourseUnitClassesView(this.classes, {super.key});
 
   final List<CourseUnitClass> classes;
 
   @override
-  _CourseUnitClassesViewState createState() => _CourseUnitClassesViewState();
+  ConsumerState<CourseUnitClassesView> createState() =>
+      _CourseUnitClassesViewState();
 }
 
-class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
+class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
   static const double _itemWidth = 140;
   static const _scrollDuration = Duration(milliseconds: 300);
 
@@ -22,28 +24,6 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
 
   late int selectedIndex;
   late int studentNumber;
-  late SessionProvider sessionProvider;
-
-  @override
-  void initState() {
-    super.initState();
-    sessionProvider = context.read<SessionProvider>();
-    studentNumber = getStudentNumber(sessionProvider);
-
-    selectedIndex = widget.classes.indexWhere(
-      (courseClass) => courseClass.students.any(
-        (student) => student.number == studentNumber,
-      ),
-    );
-
-    if (selectedIndex == -1) {
-      selectedIndex = 0;
-    }
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollToSelectedClass();
-    });
-  }
 
   void _scrollToSelectedClass() {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -70,13 +50,38 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          _buildClassSelector(studentNumber),
-          _buildStudentList(sessionProvider),
-        ],
-      ),
+    final sessionAsync = ref.watch(sessionProvider);
+
+    return sessionAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, _) => Center(child: Text('Error: $e')),
+      data: (session) {
+        final studentNumber = getStudentNumber(session!);
+
+        selectedIndex =
+            selectedIndex < widget.classes.length
+                ? selectedIndex
+                : widget.classes.indexWhere(
+                  (courseClass) => courseClass.students.any(
+                    (s) => s.number == studentNumber,
+                  ),
+                );
+
+        selectedIndex = selectedIndex == -1 ? 0 : selectedIndex;
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _scrollToSelectedClass();
+        });
+
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              _buildClassSelector(studentNumber),
+              _buildStudentList(session),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -151,8 +156,9 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
     );
   }
 
-  Widget _buildStudentList(SessionProvider session) {
+  Widget _buildStudentList(Session session) {
     final currentClass = widget.classes[selectedIndex];
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: GridView.builder(
@@ -170,7 +176,7 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
           final student = currentClass.students[index];
           return CourseUnitStudentTile(
             student,
-            session.state!,
+            session,
             key: ValueKey('${currentClass.className}_${student.number}'),
           );
         },

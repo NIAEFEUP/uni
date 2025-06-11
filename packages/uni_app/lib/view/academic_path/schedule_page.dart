@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/lecture_provider.dart';
 import 'package:uni/view/academic_path/widgets/no_classes_widget.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_view.dart';
 
-class SchedulePage extends StatelessWidget {
+class SchedulePage extends ConsumerWidget {
   SchedulePage({super.key, DateTime? now}) : now = now ?? DateTime.now();
 
   final DateTime now;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MediaQuery.removePadding(
       context: context,
       removeBottom: true,
@@ -33,23 +34,20 @@ class SchedulePage extends StatelessWidget {
               ),
         ),
         hasContent: (lectures) => lectures.isNotEmpty,
+        mapper: (lectures) {
+          final startOfWeek = _getStartOfWeek(now, lectures);
+          final endOfNextWeek = startOfWeek.add(const Duration(days: 14));
+
+          return lectures
+              .where(
+                (lecture) =>
+                    lecture.startTime.isAfter(startOfWeek) &&
+                    lecture.startTime.isBefore(endOfNextWeek),
+              )
+              .toList();
+        },
       ),
     );
-
-    //     mapper: (lectures) {
-    //       final startOfWeek = _getStartOfWeek(now, lectures);
-    //       final endOfNextWeek = startOfWeek.add(const Duration(days: 14));
-
-    //       return lectures
-    //           .where(
-    //             (lecture) =>
-    //                 lecture.startTime.isAfter(startOfWeek) &&
-    //                 lecture.startTime.isBefore(endOfNextWeek),
-    //           )
-    //           .toList();
-    //     },
-    //   ),
-    // );
   }
 
   DateTime _getStartOfWeek(DateTime now, List<Lecture> lectures) {

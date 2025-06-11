@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
+import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/view/widgets/profile_image.dart';
 
-class ProfileOverview extends StatelessWidget {
+class ProfileOverview extends ConsumerWidget {
   const ProfileOverview({required this.profile, super.key});
 
   final Profile profile;
 
   @override
-  Widget build(BuildContext context) {
-    final session = context.read<SessionProvider>().state!;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final session = ref.watch(sessionProvider).value!;
     final name = profile.name.split(' ');
 
     return FutureBuilder(

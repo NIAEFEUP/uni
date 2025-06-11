@@ -1,10 +1,13 @@
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:collection/collection.dart';
+
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
+
 import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/utils/string_formatter.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
@@ -13,14 +16,14 @@ import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
 
-class ExamModal extends StatelessWidget {
+class ExamModal extends ConsumerWidget {
   const ExamModal({super.key, required this.exam});
 
   final Exam exam;
 
   @override
-  Widget build(BuildContext context) {
-    final locale = Provider.of<LocaleNotifier>(context).getLocale();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale = ref.watch(localeProvider);
 
     return ModalDialog(
       children: [
@@ -82,8 +85,7 @@ class ExamModal extends StatelessWidget {
             color: Theme.of(context).colorScheme.primary,
           ),
           onPressed: () {
-            final profile =
-                Provider.of<ProfileProvider>(context, listen: false).state;
+            final profile = ref.watch(profileProvider).value;
 
             if (profile != null) {
               final courseUnit = profile.courseUnits.firstWhereOrNull(

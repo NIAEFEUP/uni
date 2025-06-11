@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:uni/view/theme_notifier.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uni/model/providers/riverpod/theme_provider.dart';
 
-class ThemeSwitchButton extends StatelessWidget {
+class ThemeSwitchButton extends ConsumerWidget {
   const ThemeSwitchButton({super.key});
 
   Icon getThemeIcon(ThemeMode theme) {
@@ -17,14 +17,13 @@ class ThemeSwitchButton extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer<ThemeNotifier>(
-      builder: (context, themeNotifier, _) {
-        return IconButton(
-          icon: getThemeIcon(themeNotifier.getTheme()),
-          onPressed: themeNotifier.setNextTheme,
-        );
-      },
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeProvider);
+    final themeNotifier = ref.read(themeProvider.notifier);
+
+    return IconButton(
+      icon: getThemeIcon(themeMode),
+      onPressed: themeNotifier.setNextTheme,
     );
   }
 }

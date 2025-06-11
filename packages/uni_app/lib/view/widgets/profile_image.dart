@@ -1,27 +1,23 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
+import 'package:uni/model/providers/riverpod/session_provider.dart';
 
-class ProfileImage extends StatelessWidget {
+class ProfileImage extends ConsumerWidget {
   const ProfileImage({required this.radius, super.key});
 
   final double radius;
 
   Future<DecorationImage?> buildProfileDecorationImage(
     BuildContext context,
+    WidgetRef ref,
   ) async {
-    final sessionProvider = Provider.of<SessionProvider>(
-      context,
-      listen: false,
-    );
-    await sessionProvider.ensureInitialized(context);
+    final session = await ref.watch(sessionProvider.future);
+
     final profilePictureFile =
-        await ProfileProvider.fetchOrGetCachedProfilePicture(
-          sessionProvider.state!,
-        );
+        await ProfileProvider.fetchOrGetCachedProfilePicture(session!);
     return getProfileDecorationImage(profilePictureFile);
   }
 
@@ -38,9 +34,9 @@ class ProfileImage extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder(
-      future: buildProfileDecorationImage(context),
+      future: buildProfileDecorationImage(context, ref),
       builder: (context, decorationImage) {
         return CircleAvatar(
           radius: radius,

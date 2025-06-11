@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
+import 'package:uni/model/providers/riverpod/session_provider.dart';
 
-class RefreshState extends StatelessWidget {
+class RefreshState extends ConsumerWidget {
   const RefreshState({
     required this.onRefresh,
     required this.header,
@@ -16,7 +16,7 @@ class RefreshState extends StatelessWidget {
   final Widget body;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
         if (header != null) header!,
@@ -33,10 +33,7 @@ class RefreshState extends StatelessWidget {
                           AxisDirection.down,
                   onRefresh:
                       () => ProfileProvider.fetchOrGetCachedProfilePicture(
-                        Provider.of<SessionProvider>(
-                          context,
-                          listen: false,
-                        ).state!,
+                        ref.read(sessionProvider).value!,
                       ).then((value) => onRefresh),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
