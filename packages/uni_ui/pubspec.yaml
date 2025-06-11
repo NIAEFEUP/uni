@@ -1,7 +1,9 @@
 name: uni_ui
 description: User interface components for the Uni app.
-publish_to: none
 version: 1.0.0
+
+publish_to: none
+resolution: workspace
 
 environment:
   sdk: ">=3.7.0 <4.0.0"
@@ -20,8 +22,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   leancode_lint: ^17.0.0
-  uni_lint:
-    path: ../uni_lint
+  uni_lint: ^1.0.0
   test: any
 
 flutter:

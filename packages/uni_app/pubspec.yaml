@@ -1,13 +1,14 @@
 name: uni
 description: A UP no teu bolso.
 
-publish_to: "none" # We do not publish to pub.dev
-
 # The app version name is automatically bumped by CI.
 # To change it manually, override the value in app_version.txt.
 # The app version code is automatically also bumped by CI.
 # Do not change it manually.
 version: 2.1.0-beta.6+384
+
+publish_to: "none" # We do not publish to pub.dev
+resolution: workspace
 
 environment:
   sdk: ">=3.7.0 <4.0.0"
@@ -74,8 +75,7 @@ dependencies:
   synchronized: ^3.0.0
   timelines: ^0.1.0
   ua_client_hints: ^1.3.1
-  uni_ui:
-    path: ../uni_ui
+  uni_ui: ^1.0.0
   up_menus: ^1.0.1
   upgrader: ^11.3.1
   url_launcher: ^6.2.2
