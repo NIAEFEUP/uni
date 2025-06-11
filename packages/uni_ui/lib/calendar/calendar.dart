@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uni_ui/calendar/calendar_item.dart';
 
 class CalendarLine extends StatelessWidget {
-  const CalendarLine({
-    super.key,
-    required this.calendarItemsCount,
-  });
+  const CalendarLine({super.key, required this.calendarItemsCount});
 
   final int calendarItemsCount;
 
@@ -36,8 +33,9 @@ class CalendarLine extends StatelessWidget {
               height: 4,
               margin: EdgeInsets.symmetric(horizontal: 15),
               decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  borderRadius: BorderRadius.circular(2)),
+                color: Theme.of(context).colorScheme.primary,
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
           ),
           Container(
@@ -59,10 +57,7 @@ class CalendarLine extends StatelessWidget {
 }
 
 class Calendar extends StatelessWidget {
-  const Calendar({
-    super.key,
-    required this.items,
-  });
+  const Calendar({super.key, required this.items});
 
   final List<CalendarItem> items;
 
@@ -71,17 +66,13 @@ class Calendar extends StatelessWidget {
     // Row + SingleChildScrollView is used, instead of ListView, to avoid
     // the widget from expanding vertically
     return SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Stack(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: items,
-            ),
-            CalendarLine(
-              calendarItemsCount: items.length,
-            ),
-          ],
-        ));
+      scrollDirection: Axis.horizontal,
+      child: Stack(
+        children: [
+          Row(crossAxisAlignment: CrossAxisAlignment.start, children: items),
+          CalendarLine(calendarItemsCount: items.length),
+        ],
+      ),
+    );
   }
 }

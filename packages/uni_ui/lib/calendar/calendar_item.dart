@@ -33,16 +33,13 @@ class _CalendarItemDate extends StatelessWidget {
         padding: EdgeInsets.only(top: 10),
         child: Text(
           "TBD",
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-          ),
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
         ),
       );
     }
   }
 
-/* TODO: move this to uni_app later
+  /* TODO: move this to uni_app later
   static String monthToString(int month) {
     // TODO: Support Portuguese
     const strMonths = [
@@ -96,10 +93,7 @@ class CalendarItem extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        _CalendarItemDate(
-          eventPeriod: eventPeriod,
-          endYear: endYear,
-        ),
+        _CalendarItemDate(eventPeriod: eventPeriod, endYear: endYear),
         Stack(
           alignment: Alignment.bottomCenter,
           children: [
@@ -120,8 +114,9 @@ class CalendarItem extends StatelessWidget {
               height: 12,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(2),
-                    bottomRight: Radius.circular(2)),
+                  bottomLeft: Radius.circular(2),
+                  bottomRight: Radius.circular(2),
+                ),
                 shape: BoxShape.rectangle,
                 color: Theme.of(context).primaryColor,
               ),
@@ -143,7 +138,7 @@ class CalendarItem extends StatelessWidget {
                 BoxShadow(
                   color: Theme.of(context).colorScheme.shadow.withAlpha(0x3f),
                   blurRadius: 6,
-                )
+                ),
               ],
             ),
             child: Text(
