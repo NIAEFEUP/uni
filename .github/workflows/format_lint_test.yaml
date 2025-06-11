@@ -20,6 +20,8 @@ jobs:
           channel: stable
           flutter-version-file: packages/uni_app/pubspec.yaml
           cache: true
+      
+      - run: flutter pub get
 
       - run: dart format $(find . -type f -name "*.dart" -a -not -name "*.g.dart" -a -not -name "*.mocks.dart") --set-exit-if-changed
 
