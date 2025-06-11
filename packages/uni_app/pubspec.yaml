@@ -95,7 +95,7 @@ dev_dependencies:
   mockito: ^5.4.5
   objectbox_generator: ^4.2.0
   sqflite_common_ffi: ^2.3.0+4
-  very_good_analysis: ^7.0.0
+  very_good_analysis: ^9.0.0
 
 flutter:
   generate: true
