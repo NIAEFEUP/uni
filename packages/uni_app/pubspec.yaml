@@ -38,8 +38,8 @@ dependencies:
   flutter_local_notifications: ^19.1.0
   flutter_localizations:
     sdk: flutter
-  flutter_map: ^7.0.2
-  flutter_map_marker_popup: ^7.0.0
+  flutter_map: ^8.1.1
+  flutter_map_marker_popup: ^8.0.1
   flutter_markdown: ^0.7.7
   flutter_native_splash: ^2.4.3
   flutter_secure_storage: ^9.2.4
