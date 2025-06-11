@@ -91,7 +91,7 @@ dev_dependencies:
   flutter_launcher_icons: ^0.14.3
   flutter_test:
     sdk: flutter
-  leancode_lint: ^16.0.0
+  leancode_lint: ^17.0.0
   mockito: ^5.4.5
   objectbox_generator: ^4.2.0
   sqflite_common_ffi: ^2.3.0+4
