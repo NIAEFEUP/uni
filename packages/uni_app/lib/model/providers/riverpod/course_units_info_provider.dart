@@ -74,29 +74,19 @@ class CourseUnitsInfoProvider
       return;
     }
 
-    try {
-      final sheet = await CourseUnitsInfoFetcher().fetchSheet(
-        session,
-        occurrId,
-      );
+    final sheet = await CourseUnitsInfoFetcher().fetchSheet(session, occurrId);
 
-      final currentState =
-          state.valueOrNull ??
-          (
-            <CourseUnit, Sheet>{},
-            <CourseUnit, List<CourseUnitClass>>{},
-            <CourseUnit, List<CourseUnitFileDirectory>>{},
-          );
+    final currentState =
+        state.valueOrNull ??
+        (
+          <CourseUnit, Sheet>{},
+          <CourseUnit, List<CourseUnitClass>>{},
+          <CourseUnit, List<CourseUnitFileDirectory>>{},
+        );
 
-      final updatedSheetsMap = Map<CourseUnit, Sheet>.from(currentState.$1);
-      updatedSheetsMap[courseUnit] = sheet;
-
-      final newState = (updatedSheetsMap, currentState.$2, currentState.$3);
-
-      updateState(newState);
-    } catch (err, st) {
-      state = AsyncError(err, st);
-    }
+    final updatedSheetsMap = Map<CourseUnit, Sheet>.from(currentState.$1);
+    updatedSheetsMap[courseUnit] = sheet;
+    updateState((updatedSheetsMap, currentState.$2, currentState.$3));
   }
 
   Future<void> fetchCourseUnitClasses(CourseUnit courseUnit) async {
@@ -110,31 +100,24 @@ class CourseUnitsInfoProvider
       return;
     }
 
-    try {
-      final classes = await CourseUnitsInfoFetcher().fetchCourseUnitClasses(
-        session,
-        occurrId,
-      );
+    final classes = await CourseUnitsInfoFetcher().fetchCourseUnitClasses(
+      session,
+      occurrId,
+    );
 
-      final currentState =
-          state.valueOrNull ??
-          (
-            <CourseUnit, Sheet>{},
-            <CourseUnit, List<CourseUnitClass>>{},
-            <CourseUnit, List<CourseUnitFileDirectory>>{},
-          );
+    final currentState =
+        state.valueOrNull ??
+        (
+          <CourseUnit, Sheet>{},
+          <CourseUnit, List<CourseUnitClass>>{},
+          <CourseUnit, List<CourseUnitFileDirectory>>{},
+        );
 
-      final updatedClassesMap = Map<CourseUnit, List<CourseUnitClass>>.from(
-        currentState.$2,
-      );
-      updatedClassesMap[courseUnit] = classes;
-
-      final newState = (currentState.$1, updatedClassesMap, currentState.$3);
-
-      updateState(newState);
-    } catch (err, st) {
-      state = AsyncError(err, st);
-    }
+    final updatedClassesMap = Map<CourseUnit, List<CourseUnitClass>>.from(
+      currentState.$2,
+    );
+    updatedClassesMap[courseUnit] = classes;
+    updateState((currentState.$1, updatedClassesMap, currentState.$3));
   }
 
   Future<void> fetchCourseUnitFiles(CourseUnit courseUnit) async {
@@ -148,29 +131,23 @@ class CourseUnitsInfoProvider
       return;
     }
 
-    try {
-      final files = await CourseUnitsInfoFetcher().fetchCourseUnitFiles(
-        session,
-        occurrId,
-      );
+    final files = await CourseUnitsInfoFetcher().fetchCourseUnitFiles(
+      session,
+      occurrId,
+    );
 
-      final currentState =
-          state.valueOrNull ??
-          (
-            <CourseUnit, Sheet>{},
-            <CourseUnit, List<CourseUnitClass>>{},
-            <CourseUnit, List<CourseUnitFileDirectory>>{},
-          );
+    final currentState =
+        state.valueOrNull ??
+        (
+          <CourseUnit, Sheet>{},
+          <CourseUnit, List<CourseUnitClass>>{},
+          <CourseUnit, List<CourseUnitFileDirectory>>{},
+        );
 
-      final updatedFilesMap =
-          Map<CourseUnit, List<CourseUnitFileDirectory>>.from(currentState.$3);
-      updatedFilesMap[courseUnit] = files;
-
-      final newState = (currentState.$1, currentState.$2, updatedFilesMap);
-
-      updateState(newState);
-    } catch (err, st) {
-      state = AsyncError(err, st);
-    }
+    final updatedFilesMap = Map<CourseUnit, List<CourseUnitFileDirectory>>.from(
+      currentState.$3,
+    );
+    updatedFilesMap[courseUnit] = files;
+    updateState((currentState.$1, currentState.$2, updatedFilesMap));
   }
 }

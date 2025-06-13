@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 
 abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
@@ -17,57 +18,84 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
     return DateTime.now().difference(_lastUpdateTime!) < cacheDuration!;
   }
 
+  void _updateState(T? newState) {
+    if (newState == null) {
+      state = const AsyncData(null);
+      return;
+    }
+
+    state = AsyncData(newState);
+    _lastUpdateTime = DateTime.now();
+    PreferencesController.setLastDataClassUpdateTime(
+      runtimeType.toString(),
+      _lastUpdateTime!,
+    );
+  }
+
+  void _updateError(Object error, [StackTrace? stackTrace]) {
+    state = AsyncError(error, stackTrace ?? StackTrace.current);
+    Logger().e(
+      'Error in $runtimeType: $error',
+      error: error,
+      stackTrace: stackTrace,
+    );
+  }
+
+  Future<T?> _safeExecute(Future<T?> Function() operation) async {
+    try {
+      final result = await operation();
+      if (result != null) {
+        _updateState(result);
+      }
+      return result;
+    } catch (err, st) {
+      _updateError(err, st);
+      rethrow;
+    }
+  }
+
   @override
   Future<T?> build() async {
     _lastUpdateTime = PreferencesController.getLastDataClassUpdateTime(
       runtimeType.toString(),
     );
 
-    final localData = await loadFromStorage();
+    Logger().d('Loading $runtimeType from storage...');
+    final localData = await _safeExecute(loadFromStorage);
+
     if (localData != null) {
-      state = AsyncData(localData);
-      _lastUpdateTime ??= DateTime.now();
+      Logger().d('✅ Loaded $runtimeType from storage!');
     }
 
     if (localData == null || !_isCacheValid) {
-      try {
-        final remoteData = await loadFromRemote();
-        if (remoteData != null) {
-          _lastUpdateTime = DateTime.now();
-          state = AsyncData(remoteData);
-          return remoteData;
-        }
-      } catch (err, st) {
-        state = AsyncError(err, st);
-        rethrow;
+      if (!_isCacheValid) {
+        Logger().d('$runtimeType cache is invalid');
+      }
+      Logger().d('Loading $runtimeType from remote...');
+      final remoteData = await _safeExecute(loadFromRemote);
+      if (remoteData != null) {
+        Logger().d('✅ Loaded $runtimeType from remote!');
+        return remoteData;
       }
     }
 
     return localData;
   }
 
-  Future<T?> refreshRemote() async {
-    try {
-      final remoteData = await loadFromRemote();
-      if (remoteData != null) {
-        _lastUpdateTime = DateTime.now();
-        state = AsyncData(remoteData);
-      }
-
-      return remoteData;
-    } catch (err, st) {
-      state = AsyncError(err, st);
-      rethrow;
-    }
+  Future<T?> refreshRemote() {
+    return _safeExecute(loadFromRemote);
   }
 
   void updateState(T newState) {
-    state = AsyncData(newState);
-    _lastUpdateTime = DateTime.now();
+    _updateState(newState);
   }
 
   void invalidate() {
-    state = AsyncData(null);
+    state = const AsyncData(null);
     _lastUpdateTime = null;
+    PreferencesController.setLastDataClassUpdateTime(
+      runtimeType.toString(),
+      DateTime.now(),
+    );
   }
 }
