@@ -29,7 +29,7 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
         ),
       ),
       builder: (context, ref, localizedEvents) {
-        final locale = ref.watch(localeProvider);
+        final locale = ref.watch(localeProvider.select((value) => value));
         final calendar = localizedEvents.getEvents(locale);
 
         return SingleChildScrollView(

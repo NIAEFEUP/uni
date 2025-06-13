@@ -145,7 +145,7 @@ Future<void> generateReference(
     return;
   }
 
-  final session = ref.watch(sessionProvider).value!;
+  final session = ref.watch(sessionProvider.select((value) => value.value!));
   final response = await PrintFetcher.generatePrintMoneyReference(
     amount,
     session,

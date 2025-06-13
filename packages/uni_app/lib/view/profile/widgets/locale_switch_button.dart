@@ -7,7 +7,7 @@ class LocaleSwitchButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = ref.watch(localeProvider);
+    final locale = ref.watch(localeProvider.select((value) => value));
     final localeNotifier = ref.read(localeProvider.notifier);
 
     return Padding(

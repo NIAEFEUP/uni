@@ -37,7 +37,7 @@ class _ExamsPageState extends ConsumerState<ExamsPage> {
       child: DefaultConsumer<List<Exam>>(
         provider: examProvider,
         builder: (context, ref, exams) {
-          final locale = ref.watch(localeProvider);
+          final locale = ref.watch(localeProvider.select((value) => value));
 
           final examsByMonth = _examsByMonth(exams);
           final allMonths = List.generate(12, (index) => index + 1);

@@ -51,7 +51,7 @@ class ScheduleDayTimeline extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final session = ref.watch(sessionProvider).value;
+    final session = ref.watch(sessionProvider.select((value) => value.value));
 
     return lectures.map((lecture) {
       final isActive = _isLectureActive(lecture);
@@ -77,7 +77,9 @@ class ScheduleDayTimeline extends ConsumerWidget {
                       ? Image(image: FileImage(snapshot.data!))
                       : Image.asset('assets/images/profile_placeholder.png'),
               onTap: () {
-                final profile = ref.watch(profileProvider).value;
+                final profile = ref.watch(
+                  profileProvider.select((value) => value.value),
+                );
 
                 if (profile != null) {
                   final courseUnit = profile.courseUnits.firstWhereOrNull(

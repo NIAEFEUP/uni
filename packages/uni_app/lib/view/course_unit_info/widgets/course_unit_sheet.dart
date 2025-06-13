@@ -212,7 +212,7 @@ class _InstructorCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(sessionProvider).value!;
+    final session = ref.watch(sessionProvider.select((value) => value.value!));
     return GestureDetector(
       onTap: () {
         showDialog<void>(
@@ -254,7 +254,7 @@ class _LimitedInstructorsRow extends ConsumerWidget {
     final firstThree = instructors.take(3).toList();
     final remaining = instructors.skip(3).toList();
     final remainingToShow = remaining.take(3).toList();
-    final session = ref.watch(sessionProvider).value!;
+    final session = ref.watch(sessionProvider.select((value) => value.value!));
 
     return Wrap(
       spacing: _horizontalSpacing,

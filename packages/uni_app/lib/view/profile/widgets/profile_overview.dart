@@ -12,7 +12,8 @@ class ProfileOverview extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(sessionProvider).value!;
+    final session = ref.watch(sessionProvider.select((value) => value.value!));
+
     final name = profile.name.split(' ');
 
     return FutureBuilder(

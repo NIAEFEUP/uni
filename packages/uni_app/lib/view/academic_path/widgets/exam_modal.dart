@@ -85,7 +85,9 @@ class ExamModal extends ConsumerWidget {
             color: Theme.of(context).colorScheme.primary,
           ),
           onPressed: () {
-            final profile = ref.watch(profileProvider).value;
+            final profile = ref.watch(
+              profileProvider.select((value) => value.value),
+            );
 
             if (profile != null) {
               final courseUnit = profile.courseUnits.firstWhereOrNull(

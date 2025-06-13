@@ -18,7 +18,7 @@ class ThemeSwitchButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(themeProvider);
+    final themeMode = ref.watch(themeProvider.select((value) => value));
     final themeNotifier = ref.read(themeProvider.notifier);
 
     return IconButton(
