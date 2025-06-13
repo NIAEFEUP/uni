@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
@@ -24,14 +25,14 @@ import 'package:uni/view/widgets/pages_layouts/general/widgets/profile_button.da
 import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/icons.dart';
 
-class HomePageView extends StatefulWidget {
+class HomePageView extends ConsumerStatefulWidget {
   const HomePageView({super.key});
 
   @override
-  State<StatefulWidget> createState() => HomePageViewState();
+  ConsumerState<HomePageView> createState() => HomePageViewState();
 }
 
-class HomePageViewState extends State<HomePageView> {
+class HomePageViewState extends ConsumerState<HomePageView> {
   List<FavoriteWidgetType> favoriteCards =
       PreferencesController.getFavoriteCards();
 
@@ -39,13 +40,16 @@ class HomePageViewState extends State<HomePageView> {
 
   double appBarSize = 150;
 
-  static Map<FavoriteWidgetType, CachedAsyncNotifier<dynamic>> typeToProvider =
-      {
-        FavoriteWidgetType.schedule: LectureProvider(),
-        FavoriteWidgetType.exams: ExamProvider(),
-        FavoriteWidgetType.library: LibraryOccupationProvider(),
-        FavoriteWidgetType.restaurants: RestaurantProvider(),
-      };
+  static Map<
+    FavoriteWidgetType,
+    AsyncNotifierProvider<CachedAsyncNotifier<dynamic>, dynamic>
+  >
+  typeToProvider = {
+    FavoriteWidgetType.schedule: lectureProvider,
+    FavoriteWidgetType.exams: examProvider,
+    FavoriteWidgetType.library: libraryProvider,
+    FavoriteWidgetType.restaurants: restaurantProvider,
+  };
 
   @override
   void initState() {
@@ -56,7 +60,7 @@ class HomePageViewState extends State<HomePageView> {
   Future<void> refreshPage(BuildContext context) async {
     for (final card in favoriteCards) {
       if (typeToProvider[card] != null) {
-        await typeToProvider[card]!.refreshRemote();
+        await ref.read(typeToProvider[card]!.notifier).refreshRemote();
       }
     }
     setState(() {});

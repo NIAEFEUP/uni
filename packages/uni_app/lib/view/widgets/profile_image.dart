@@ -14,7 +14,7 @@ class ProfileImage extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) async {
-    final session = await ref.watch(sessionProvider.future);
+    final session = await ref.read(sessionProvider.future);
 
     final profilePictureFile =
         await ProfileProvider.fetchOrGetCachedProfilePicture(session!);
