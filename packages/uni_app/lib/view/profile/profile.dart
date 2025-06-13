@@ -36,8 +36,7 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
 
   @override
   Future<void> onRefresh() async {
-    final notifier = ref.read(profileProvider.notifier);
-    await notifier.loadFromRemote();
+    await ref.read(profileProvider.notifier).refreshRemote();
   }
 
   @override

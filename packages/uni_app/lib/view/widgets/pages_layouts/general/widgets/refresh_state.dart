@@ -31,10 +31,12 @@ class RefreshState extends ConsumerWidget {
                       (notification) =>
                           notification.metrics.axisDirection ==
                           AxisDirection.down,
-                  onRefresh:
-                      () => ProfileProvider.fetchOrGetCachedProfilePicture(
-                        ref.read(sessionProvider).value!,
-                      ).then((value) => onRefresh),
+                  onRefresh: () async {
+                    await onRefresh();
+                    await ProfileProvider.fetchOrGetCachedProfilePicture(
+                      ref.read(sessionProvider).value!,
+                    );
+                  },
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: viewportConstraints.maxHeight,

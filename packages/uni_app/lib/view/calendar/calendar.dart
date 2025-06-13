@@ -49,8 +49,7 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
 
   @override
   Future<void> onRefresh() async {
-    final notifier = ref.read(calendarProvider.notifier);
-    await notifier.refreshRemote();
+    await ref.read(calendarProvider.notifier).refreshRemote();
   }
 
   @override

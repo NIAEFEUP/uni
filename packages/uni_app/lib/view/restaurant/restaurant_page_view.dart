@@ -72,8 +72,7 @@ class _RestaurantPageViewState
 
   @override
   Future<void> onRefresh() async {
-    final restaurantNotifier = ref.read(restaurantProvider.notifier);
-    await restaurantNotifier.refreshRemote();
+    await ref.read(restaurantProvider.notifier).refreshRemote();
   }
 
   @override

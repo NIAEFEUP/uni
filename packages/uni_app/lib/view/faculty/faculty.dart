@@ -33,7 +33,6 @@ class FacultyPageViewState extends GeneralPageViewState<FacultyPageView> {
 
   @override
   Future<void> onRefresh() async {
-    final notifier = ref.read(libraryProvider.notifier);
-    await notifier.loadFromRemote();
+    await ref.read(libraryProvider.notifier).refreshRemote();
   }
 }
