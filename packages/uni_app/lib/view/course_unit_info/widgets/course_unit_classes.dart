@@ -22,13 +22,13 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
 
   final _scrollController = ScrollController();
 
-  late int selectedIndex;
+  int? selectedIndex;
   late int studentNumber;
 
   void _scrollToSelectedClass() {
     final screenWidth = MediaQuery.of(context).size.width;
     final offset =
-        (_itemWidth * selectedIndex) - (screenWidth - _itemWidth) / 2;
+        (_itemWidth * selectedIndex!) - (screenWidth - _itemWidth) / 2;
 
     _scrollController.animateTo(
       offset < 0 ? 0 : offset,
@@ -58,16 +58,17 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
       data: (session) {
         final studentNumber = getStudentNumber(session!);
 
-        selectedIndex =
-            selectedIndex < widget.classes.length
-                ? selectedIndex
-                : widget.classes.indexWhere(
-                  (courseClass) => courseClass.students.any(
-                    (s) => s.number == studentNumber,
-                  ),
-                );
+        if (selectedIndex == null) {
+          selectedIndex = widget.classes.indexWhere(
+            (courseClass) => courseClass.students.any(
+              (student) => student.number == studentNumber,
+            ),
+          );
 
-        selectedIndex = selectedIndex == -1 ? 0 : selectedIndex;
+          if (selectedIndex == -1) {
+            selectedIndex = 0;
+          }
+        }
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _scrollToSelectedClass();
@@ -157,7 +158,7 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
   }
 
   Widget _buildStudentList(Session session) {
-    final currentClass = widget.classes[selectedIndex];
+    final currentClass = widget.classes[selectedIndex!];
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),

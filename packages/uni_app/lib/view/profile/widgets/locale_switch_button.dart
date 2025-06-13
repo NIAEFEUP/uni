@@ -22,7 +22,7 @@ class LocaleSwitchButton extends ConsumerWidget {
             ),
             padding: WidgetStateProperty.all(EdgeInsets.zero),
           ),
-          onPressed: () => localeNotifier.setNextLocale(),
+          onPressed: localeNotifier.setNextLocale,
           child: Text(
             locale.localeCode.languageCode.toUpperCase(),
             style: Theme.of(context).textTheme.titleSmall,
