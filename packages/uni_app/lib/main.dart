@@ -6,9 +6,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:plausible_analytics/plausible_analytics.dart';
 import 'package:plausible_analytics/navigator_observer.dart';
-
+import 'package:plausible_analytics/plausible_analytics.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
@@ -115,7 +114,7 @@ Future<void> main() async {
         ProviderScope(
           child: PlausibleProvider(
             plausible: plausible,
-            child: Application(route),
+            child: const Application(route),
           ),
         ),
       );

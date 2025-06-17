@@ -12,12 +12,14 @@ class DefaultConsumer<T> extends ConsumerWidget {
     required this.nullContentWidget,
     required this.hasContent,
     this.loadingWidget,
+    this.errorWidget,
     this.mapper,
   });
 
   final ProviderBase<AsyncValue<T?>> provider;
   final DefaultConsumerBuilder<T> builder;
   final Widget? loadingWidget;
+  final Widget? errorWidget;
   final Widget nullContentWidget;
   final bool Function(T) hasContent;
   final T Function(T)? mapper;
@@ -30,7 +32,7 @@ class DefaultConsumer<T> extends ConsumerWidget {
       loading:
           () =>
               loadingWidget ?? const Center(child: CircularProgressIndicator()),
-      error: (err, _) => Center(child: Text('Error: $err')),
+      error: (err, _) => errorWidget ?? Center(child: Text('Error: $err')),
       data: (data) {
         if (data == null) {
           return nullContentWidget;
