@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logger/logger.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
 import 'package:uni/model/providers/riverpod/lecture_provider.dart';

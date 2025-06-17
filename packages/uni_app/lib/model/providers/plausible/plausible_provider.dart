@@ -1,136 +1,143 @@
-// import 'dart:async';
-// import 'package:battery_plus/battery_plus.dart';
-// import 'package:connectivity_plus/connectivity_plus.dart';
-// import 'package:flutter/services.dart';
-// import 'package:flutter/widgets.dart';
-// import 'package:logger/logger.dart';
-// import 'package:plausible_analytics/plausible_analytics.dart';
-// import 'package:provider/provider.dart';
-// import 'package:sentry_flutter/sentry_flutter.dart';
-// import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'dart:async';
+import 'package:battery_plus/battery_plus.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
+import 'package:plausible_analytics/plausible_analytics.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 
-// class PlausibleProvider extends StatefulWidget {
-//   const PlausibleProvider({
-//     required this.plausible,
-//     required this.child,
-//     super.key,
-//   });
+final plausibleProvider = Provider<Plausible?>(
+  (ref) => throw UnimplementedError(),
+);
 
-//   final Plausible? plausible;
-//   final Widget child;
+class PlausibleProvider extends ConsumerStatefulWidget {
+  const PlausibleProvider({
+    required this.plausible,
+    required this.child,
+    super.key,
+  });
 
-//   @override
-//   State<StatefulWidget> createState() => _PlausibleProviderState();
-// }
+  final Plausible? plausible;
+  final Widget child;
 
-// class _PlausibleProviderState extends State<PlausibleProvider> {
-//   var _batteryLevel = 0;
-//   var _isInBatterySaveMode = true;
-//   ConnectivityResult _connectivityResult = ConnectivityResult.none;
-//   var _isUsageStatsEnabled = true;
+  @override
+  ConsumerState<PlausibleProvider> createState() => _PlausibleProviderState();
+}
 
-//   var _canUpdateBatteryState = true;
+class _PlausibleProviderState extends ConsumerState<PlausibleProvider> {
+  var _batteryLevel = 0;
+  var _isInBatterySaveMode = true;
+  ConnectivityResult _connectivityResult = ConnectivityResult.none;
+  var _isUsageStatsEnabled = true;
 
-//   @override
-//   void initState() {
-//     super.initState();
+  var _canUpdateBatteryState = true;
 
-//     final plausible = widget.plausible;
-//     if (plausible != null) {
-//       plausible.enabled = false;
+  @override
+  void initState() {
+    super.initState();
 
-//       unawaited(
-//         _startListeners(plausible)
-//             .then((_) => _updateBatteryState())
-//             .then((_) => _updateConnectivityState())
-//             .then((_) => _updateUsageStatsState())
-//             .onError((error, stackTrace) {
-//               unawaited(Sentry.captureException(error, stackTrace: stackTrace));
-//               Logger().e(
-//                 'Error initializing plausible: $error',
-//                 stackTrace: stackTrace,
-//               );
-//             }),
-//       );
-//     }
-//   }
+    final plausible = widget.plausible;
+    if (plausible != null) {
+      plausible.enabled = false;
 
-//   void _updateAnalyticsState() {
-//     final plausible = widget.plausible;
-//     if (plausible != null) {
-//       plausible.enabled =
-//           _isUsageStatsEnabled &&
-//           !_isInBatterySaveMode &&
-//           _batteryLevel > 20 &&
-//           _connectivityResult == ConnectivityResult.wifi;
+      unawaited(
+        _startListeners(plausible)
+            .then((_) => _updateBatteryState())
+            .then((_) => _updateConnectivityState())
+            .then((_) => _updateUsageStatsState())
+            .onError((error, stackTrace) {
+              unawaited(Sentry.captureException(error, stackTrace: stackTrace));
+              Logger().e(
+                'Error initializing plausible: $error',
+                stackTrace: stackTrace,
+              );
+            }),
+      );
+    }
+  }
 
-//       Logger().d('Plausible enabled: ${plausible.enabled}');
-//     }
-//   }
+  void _updateAnalyticsState() {
+    final plausible = widget.plausible;
+    if (plausible != null) {
+      plausible.enabled =
+          _isUsageStatsEnabled &&
+          !_isInBatterySaveMode &&
+          _batteryLevel > 20 &&
+          _connectivityResult == ConnectivityResult.wifi;
 
-//   Future<void> _updateBatteryState() async {
-//     if (!_canUpdateBatteryState) {
-//       return;
-//     }
+      Logger().d('Plausible enabled: ${plausible.enabled}');
+    }
+  }
 
-//     _canUpdateBatteryState = false;
-//     Timer(const Duration(minutes: 1), () => _canUpdateBatteryState = true);
+  Future<void> _updateBatteryState() async {
+    if (!_canUpdateBatteryState) {
+      return;
+    }
 
-//     final battery = Battery();
-//     _batteryLevel = await battery.batteryLevel;
+    _canUpdateBatteryState = false;
+    Timer(const Duration(minutes: 1), () => _canUpdateBatteryState = true);
 
-//     try {
-//       _isInBatterySaveMode = await battery.isInBatterySaveMode;
-//     } on PlatformException catch (_) {
-//       _isInBatterySaveMode = false;
-//     }
+    final battery = Battery();
+    _batteryLevel = await battery.batteryLevel;
 
-//     _updateAnalyticsState();
-//   }
+    try {
+      _isInBatterySaveMode = await battery.isInBatterySaveMode;
+    } on PlatformException catch (_) {
+      _isInBatterySaveMode = false;
+    }
 
-//   Future<void> _updateConnectivityState() async {
-//     final connectivity = Connectivity();
-//     final connected = await connectivity.checkConnectivity();
-//     connected.contains(ConnectivityResult.wifi)
-//         ? _connectivityResult = ConnectivityResult.wifi
-//         : _connectivityResult = ConnectivityResult.none;
-//     _updateAnalyticsState();
-//   }
+    _updateAnalyticsState();
+  }
 
-//   Future<void> _updateUsageStatsState() async {
-//     _isUsageStatsEnabled = PreferencesController.getUsageStatsToggle();
-//     _updateAnalyticsState();
-//   }
+  Future<void> _updateConnectivityState() async {
+    final connectivity = Connectivity();
+    final connected = await connectivity.checkConnectivity();
+    connected.contains(ConnectivityResult.wifi)
+        ? _connectivityResult = ConnectivityResult.wifi
+        : _connectivityResult = ConnectivityResult.none;
+    _updateAnalyticsState();
+  }
 
-//   Future<void> _startListeners(Plausible plausible) async {
-//     final connectivity = Connectivity();
-//     connectivity.onConnectivityChanged.listen((result) {
-//       result.contains(ConnectivityResult.wifi)
-//           ? _connectivityResult = ConnectivityResult.wifi
-//           : _connectivityResult = ConnectivityResult.none;
-//       _updateAnalyticsState();
-//     });
+  Future<void> _updateUsageStatsState() async {
+    _isUsageStatsEnabled = PreferencesController.getUsageStatsToggle();
+    _updateAnalyticsState();
+  }
 
-//     PreferencesController.onStatsToggle.listen((event) {
-//       _isUsageStatsEnabled = event;
-//       _updateAnalyticsState();
-//     });
-//   }
+  Future<void> _startListeners(Plausible plausible) async {
+    final connectivity = Connectivity();
+    connectivity.onConnectivityChanged.listen((result) {
+      result.contains(ConnectivityResult.wifi)
+          ? _connectivityResult = ConnectivityResult.wifi
+          : _connectivityResult = ConnectivityResult.none;
+      _updateAnalyticsState();
+    });
 
-//   @override
-//   Widget build(BuildContext context) {
-//     widget.plausible?.screenWidth =
-//         MediaQuery.of(context).size.width.toString();
+    PreferencesController.onStatsToggle.listen((event) {
+      _isUsageStatsEnabled = event;
+      _updateAnalyticsState();
+    });
+  }
 
-//     return Listener(
-//       behavior: HitTestBehavior.translucent,
-//       onPointerDown: (event) {
-//         final plausible = widget.plausible;
-//         if (plausible != null) {
-//           _updateBatteryState();
-//         }
-//       },
-//       child: Provider.value(value: widget.plausible, child: widget.child),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    widget.plausible?.screenWidth =
+        MediaQuery.of(context).size.width.toString();
+
+    return ProviderScope(
+      overrides: [plausibleProvider.overrideWithValue(widget.plausible)],
+      child: Listener(
+        behavior: HitTestBehavior.translucent,
+        onPointerDown: (event) {
+          final plausible = widget.plausible;
+          if (plausible != null) {
+            _updateBatteryState();
+          }
+        },
+        child: widget.child,
+      ),
+    );
+  }
+}

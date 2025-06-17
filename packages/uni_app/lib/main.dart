@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:plausible_analytics/plausible_analytics.dart';
+import 'package:plausible_analytics/navigator_observer.dart';
 
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,7 +19,7 @@ import 'package:uni/controller/local_storage/migrations/migration_controller.dar
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
-// import 'package:uni/model/providers/plausible/plausible_provider.dart';
+import 'package:uni/model/providers/plausible/plausible_provider.dart';
 import 'package:uni/model/providers/riverpod/theme_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/about/about.dart';
@@ -111,13 +112,12 @@ Future<void> main() async {
     },
     appRunner: () {
       runApp(
-        const ProviderScope(child: Application(route)),
-        // ProviderScope(
-        //   child: PlausibleProvider(
-        //     plausible: plausible,
-        //     child: const Application(route),
-        //   ),
-        // ),
+        ProviderScope(
+          child: PlausibleProvider(
+            plausible: plausible,
+            child: Application(route),
+          ),
+        ),
       );
     },
   );
@@ -145,10 +145,10 @@ class ApplicationState extends ConsumerState<Application> {
   void initState() {
     super.initState();
 
-    // final plausible = context.read<Plausible?>();
-    // if (plausible != null) {
-    //   navigatorObservers.add(PlausibleNavigatorObserver(plausible));
-    // }
+    final plausible = ref.read(plausibleProvider);
+    if (plausible != null) {
+      navigatorObservers.add(PlausibleNavigatorObserver(plausible));
+    }
   }
 
   @override
