@@ -28,7 +28,7 @@ class ProfileProvider extends CachedAsyncNotifier<Profile?> {
   Future<Profile?> loadFromStorage() async {
     final profile =
         Database().profile
-          ..courses = Database().courses
+          ?..courses = Database().courses
           ..courseUnits = Database().courseUnits;
 
     return profile;

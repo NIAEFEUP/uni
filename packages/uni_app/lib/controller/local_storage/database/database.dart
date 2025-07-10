@@ -63,8 +63,7 @@ class Database {
   void saveRestaurants(List<Restaurant> restaurants) =>
       saveEntities(_restaurantBox, restaurants);
 
-  Profile get profile =>
-      _profileBox.isEmpty() ? Profile() : _profileBox.getAll().first;
+  Profile? get profile => _profileBox.getAll().first;
   void saveProfile(Profile profile) => saveEntity(_profileBox, profile);
 
   /// Whether the session is persistent or not.
