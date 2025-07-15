@@ -80,6 +80,16 @@ class CoursesPageState extends State<CoursesPage> {
         .replaceAll(RegExp('[^A-Z.]'), '');
   }
 
+  String _getStatusText(String? state, BuildContext context) {
+    if (state == 'A Frequentar') {
+      return S.of(context).attending;
+    } else if (state?.startsWith('Concluído') ?? false) {
+      return S.of(context).completed;
+    } else {
+      return state ?? '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return LazyConsumer<ProfileProvider, Profile>(
@@ -118,12 +128,7 @@ class CoursesPageState extends State<CoursesPage> {
                 average: course.currentAverage ?? 0,
                 completedCredits: course.finishedEcts ?? 0,
                 totalCredits: _getTotalCredits(profile, course),
-                statusText:
-                    course.state == 'A Frequentar'
-                        ? S.of(context).attending
-                        : course.state?.startsWith('Concluído') ?? false
-                        ? S.of(context).completed
-                        : course.state ?? '',
+                statusText: _getStatusText(course.state, context),
                 averageText: S.of(context).average,
               ),
             ),
