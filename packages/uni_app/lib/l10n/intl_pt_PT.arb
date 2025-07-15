@@ -441,5 +441,9 @@
   "until": "Até",
   "@until": {},
 	"services": "Serviços",
-	"@services": {}
+	"@services": {},
+	"attending": "A Frequentar",
+	"@attending": {},
+	"completed": "Concluído",
+	"@completed": {}
 }

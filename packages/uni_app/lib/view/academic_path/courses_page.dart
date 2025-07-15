@@ -118,7 +118,12 @@ class CoursesPageState extends State<CoursesPage> {
                 average: course.currentAverage ?? 0,
                 completedCredits: course.finishedEcts ?? 0,
                 totalCredits: _getTotalCredits(profile, course),
-                statusText: course.state ?? '',
+                statusText:
+                    course.state == 'A Frequentar'
+                        ? S.of(context).attending
+                        : course.state?.startsWith('Concluído') ?? false
+                        ? S.of(context).completed
+                        : course.state ?? '',
                 averageText: S.of(context).average,
               ),
             ),

@@ -441,5 +441,9 @@
   "until": "Until",
   "@until": {},
 	"services": "Services",
-	"@services": {}
+	"@services": {},
+	"attending": "Attending",
+	"@attending": {},
+	"completed": "Completed",
+	"@completed": {}
 }
