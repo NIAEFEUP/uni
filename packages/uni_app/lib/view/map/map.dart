@@ -84,6 +84,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                 urlTemplate:
                     'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
                 tileProvider: CachedTileProvider(),
+                retinaMode: RetinaMode.isHighDensity(context),
               ),
               PopupMarkerLayer(
                 options: PopupMarkerLayerOptions(

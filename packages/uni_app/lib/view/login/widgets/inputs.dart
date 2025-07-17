@@ -20,11 +20,7 @@ Widget createUsernameInput(
     },
     textInputAction: TextInputAction.next,
     textAlign: TextAlign.left,
-    decoration: textFieldDecoration(
-      context,
-      S.of(context).student_number,
-      textColor: Theme.of(context).indicatorColor,
-    ),
+    decoration: textFieldDecoration(context, S.of(context).student_number),
     validator: (value) => value!.isEmpty ? S.of(context).empty_text : null,
   );
 }
@@ -63,11 +59,7 @@ Widget createPasswordInput(
 }
 
 /// Decoration for the username field.
-InputDecoration textFieldDecoration(
-  BuildContext context,
-  String placeholder, {
-  required Color textColor,
-}) {
+InputDecoration textFieldDecoration(BuildContext context, String placeholder) {
   return InputDecoration(
     hintStyle: Theme.of(
       context,

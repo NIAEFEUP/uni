@@ -37,9 +37,10 @@ class GenericCard extends StatelessWidget {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: shadowColor ??
+              color:
+                  shadowColor ??
                   cardTheme.shadowColor ??
-                  Colors.black.withOpacity(0.03),
+                  Colors.black.withValues(alpha: 0.03),
               blurRadius: 12,
               spreadRadius: -2,
               offset: const Offset(0, 1),
@@ -51,7 +52,8 @@ class GenericCard extends StatelessWidget {
           child: GenericSquircle(
             child: Container(
               decoration: BoxDecoration(
-                color: color ??
+                color:
+                    color ??
                     cardTheme.color ??
                     theme.colorScheme.surfaceContainer,
                 gradient: gradient,

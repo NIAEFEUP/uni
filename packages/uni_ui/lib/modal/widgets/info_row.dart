@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:uni_ui/icons.dart';
 
 class ModalInfoRow extends StatelessWidget {
-  const ModalInfoRow(
-      {super.key,
-      required this.title,
-      this.description,
-      required this.icon,
-      this.trailing = const SizedBox(),
-      this.onPressed});
+  const ModalInfoRow({
+    super.key,
+    required this.title,
+    this.description,
+    required this.icon,
+    this.trailing = const SizedBox(),
+    this.onPressed,
+  });
 
   final String title;
   final String? description;
@@ -27,21 +28,19 @@ class ModalInfoRow extends StatelessWidget {
       child: ListTile(
         dense: true,
         // visualDensity: VisualDensity(vertical: -4),
-        leading: UniIcon(
-          icon,
-          color: Theme.of(context).colorScheme.primary,
-        ),
+        leading: UniIcon(icon, color: Theme.of(context).colorScheme.primary),
         title: Text(
           title,
           overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.headlineSmall,
         ),
-        subtitle: description != null
-            ? Text(
-                description!,
-                style: Theme.of(context).textTheme.bodyMedium,
-              )
-            : null,
+        subtitle:
+            description != null
+                ? Text(
+                  description!,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                )
+                : null,
         trailing: trailing,
         onTap: onPressed,
       ),

@@ -129,7 +129,7 @@ class ExamCard extends StatelessWidget {
                         ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),

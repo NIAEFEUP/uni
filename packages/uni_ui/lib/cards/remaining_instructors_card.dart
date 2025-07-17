@@ -47,9 +47,11 @@ class RemainingInstructorsCard extends StatelessWidget {
                             left: index * _avatarRadius * 1.85,
                             child: CircleAvatar(
                               radius: _avatarRadius,
-                              backgroundImage: image ??
+                              backgroundImage:
+                                  image ??
                                   const AssetImage(
-                                      'assets/images/profile_placeholder.png'),
+                                    'assets/images/profile_placeholder.png',
+                                  ),
                             ),
                           );
                         }).toList(),

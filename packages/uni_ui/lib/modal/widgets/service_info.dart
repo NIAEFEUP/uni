@@ -10,32 +10,33 @@ class ModalServiceInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(bottom: 20.0),
-        child: Column(
-          children: [
-            Text(
-              name,
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            Padding(padding: EdgeInsets.all(3)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                PhosphorIcon(
-                  PhosphorIcons.clock(PhosphorIconsStyle.duotone),
-                  //TODO: color: darkGray,
-                  //TODO: duotoneSecondaryColor: normalGray,
-                ),
-                Padding(padding: EdgeInsets.all(2)),
-                Column(
-                  children: durations.map((duration) {
-                    return Text(duration,
-                        style: Theme.of(context).textTheme.bodyMedium!);
-                  }).toList(),
-                )
-              ],
-            ),
-          ],
-        ));
+      padding: EdgeInsets.only(bottom: 20.0),
+      child: Column(
+        children: [
+          Text(name, style: Theme.of(context).textTheme.headlineMedium),
+          Padding(padding: EdgeInsets.all(3)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              PhosphorIcon(
+                PhosphorIcons.clock(PhosphorIconsStyle.duotone),
+                //TODO: color: darkGray,
+                //TODO: duotoneSecondaryColor: normalGray,
+              ),
+              Padding(padding: EdgeInsets.all(2)),
+              Column(
+                children:
+                    durations.map((duration) {
+                      return Text(
+                        duration,
+                        style: Theme.of(context).textTheme.bodyMedium!,
+                      );
+                    }).toList(),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

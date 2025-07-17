@@ -12,36 +12,82 @@ const Color divider = Color.fromARGB(255, 229, 229, 229);
 const Color focused = Color.fromARGB(64, 177, 77, 84);
 
 const _lightTextTheme = TextTheme(
-    displayLarge: TextStyle(
-        fontSize: 40, fontWeight: FontWeight.w400, color: primaryVibrant),
-    displayMedium: TextStyle(
-        fontSize: 40, fontWeight: FontWeight.w400, color: primaryVibrant),
-    displaySmall:
-        TextStyle(fontSize: 28, fontWeight: FontWeight.w500, color: grayText),
-    headlineLarge:
-        TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: grayText),
-    headlineMedium: TextStyle(
-        fontSize: 20, fontWeight: FontWeight.w500, color: primaryVibrant),
-    headlineSmall: TextStyle(
-        fontSize: 16, fontWeight: FontWeight.w500, color: primaryVibrant),
-    titleLarge:
-        TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: background),
-    titleMedium:
-        TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: grayText),
-    titleSmall:
-        TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: background),
-    bodyLarge:
-        TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: grayText),
-    bodyMedium:
-        TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: grayMiddle),
-    bodySmall: TextStyle(
-        fontSize: 12, fontWeight: FontWeight.w400, color: primaryVibrant),
-    labelLarge:
-        TextStyle(fontSize: 9, fontWeight: FontWeight.w400, color: grayText),
-    labelMedium:
-        TextStyle(fontSize: 9, fontWeight: FontWeight.w400, color: grayMiddle),
-    labelSmall: TextStyle(
-        fontSize: 9, fontWeight: FontWeight.w400, color: primaryVibrant));
+  displayLarge: TextStyle(
+    fontSize: 40,
+    fontWeight: FontWeight.w400,
+    color: primaryVibrant,
+  ),
+  displayMedium: TextStyle(
+    fontSize: 40,
+    fontWeight: FontWeight.w400,
+    color: primaryVibrant,
+  ),
+  displaySmall: TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.w500,
+    color: grayText,
+  ),
+  headlineLarge: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    color: grayText,
+  ),
+  headlineMedium: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    color: primaryVibrant,
+  ),
+  headlineSmall: TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: primaryVibrant,
+  ),
+  titleLarge: TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: background,
+  ),
+  titleMedium: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: grayText,
+  ),
+  titleSmall: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: background,
+  ),
+  bodyLarge: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: grayText,
+  ),
+  bodyMedium: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: grayMiddle,
+  ),
+  bodySmall: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: primaryVibrant,
+  ),
+  labelLarge: TextStyle(
+    fontSize: 9,
+    fontWeight: FontWeight.w400,
+    color: grayText,
+  ),
+  labelMedium: TextStyle(
+    fontSize: 9,
+    fontWeight: FontWeight.w400,
+    color: grayMiddle,
+  ),
+  labelSmall: TextStyle(
+    fontSize: 9,
+    fontWeight: FontWeight.w400,
+    color: primaryVibrant,
+  ),
+);
 
 /*
 var _lightTextTheme = TextTheme(
@@ -64,23 +110,21 @@ ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   textTheme: _lightTextTheme,
   colorScheme: ColorScheme.fromSeed(
-      seedColor: primaryVibrant,
-      surface: background,
-      surfaceContainer: secondary,
-      primary: primaryVibrant,
-      onPrimary: background,
-      secondary: secondary,
-      onSecondary: background,
-      tertiary: details,
-      onTertiary: background),
-  primaryColor: primaryVibrant,
-  cardTheme: CardTheme(
-    margin: EdgeInsets.all(4),
-    color: secondary,
+    seedColor: primaryVibrant,
+    surface: background,
+    surfaceContainer: secondary,
+    primary: primaryVibrant,
+    onPrimary: background,
+    secondary: secondary,
+    onSecondary: background,
+    tertiary: details,
+    onTertiary: background,
   ),
+  primaryColor: primaryVibrant,
+  cardTheme: CardThemeData(margin: EdgeInsets.all(4), color: secondary),
   dividerColor: divider,
   hintColor: details,
-  indicatorColor: details,
+  tabBarTheme: TabBarThemeData(indicatorColor: details),
   secondaryHeaderColor: secondary,
   focusColor: focused,
   shadowColor: grayMiddle,
