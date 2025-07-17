@@ -1,7 +1,9 @@
 name: uni_lint
 description: Custom lint rules for Uni.
-publish_to: none
 version: 1.0.0
+
+publish_to: none
+resolution: workspace
 
 environment:
   sdk: ">=3.7.0 <4.0.0"

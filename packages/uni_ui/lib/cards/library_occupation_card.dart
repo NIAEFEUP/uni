@@ -83,11 +83,7 @@ class LibraryOccupationCard extends StatelessWidget {
             progressColor: Theme.of(context).primaryColor,
           ),
           const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              children: occupationWidgetsList,
-            ),
-          ),
+          Expanded(child: Column(children: occupationWidgetsList)),
         ],
       ),
     );
