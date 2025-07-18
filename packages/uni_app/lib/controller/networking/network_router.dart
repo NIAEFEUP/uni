@@ -22,7 +22,7 @@ class NetworkRouter {
   static AuthenticationController? authenticationController;
 
   /// The timeout for Sigarra login requests.
-  static const Duration _requestTimeout = Duration(seconds: 30);
+  static const _requestTimeout = Duration(seconds: 30);
 
   /// Returns the base url of the user's faculties.
   static List<String> getBaseUrls(List<String> faculties) {
@@ -43,15 +43,12 @@ class NetworkRouter {
     String url,
     Map<String, String> query,
     Session session,
-  ) async {
+  ) {
     final controller =
         authenticationController ?? AuthenticationController(session);
 
     final client = AuthenticatedClient(
-      TimeoutClient(
-        httpClient ?? http.Client(),
-        timeout: _requestTimeout,
-      ),
+      TimeoutClient(httpClient ?? http.Client(), timeout: _requestTimeout),
       controller: controller,
     );
 
@@ -66,9 +63,10 @@ class NetworkRouter {
       ];
     }
 
-    final requestUri = parsedUrl
-        .replace(queryParameters: allQueryParameters)
-        .normalizeQueryComponent();
+    final requestUri =
+        parsedUrl
+            .replace(queryParameters: allQueryParameters)
+            .normalizeQueryComponent();
 
     return client.get(requestUri);
   }

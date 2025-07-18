@@ -23,7 +23,8 @@ ResponseLecture _$ResponseLectureFromJson(Map<String, dynamic> json) =>
           .map((e) => ResponseLectureRoom.fromJson(e as Map<String, dynamic>))
           .toList(),
       ResponseLectureTypology.fromJson(
-          json['typology'] as Map<String, dynamic>),
+        json['typology'] as Map<String, dynamic>,
+      ),
     );
 
 Map<String, dynamic> _$ResponseLectureToJson(ResponseLecture instance) =>

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:uni/controller/fetchers/restaurant_fetcher.dart';
-import 'package:uni/controller/local_storage/database/app_restaurant_database.dart';
+import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
@@ -13,9 +13,7 @@ class RestaurantProvider extends StateProviderNotifier<List<Restaurant>> {
   Future<List<Restaurant>> loadFromStorage(
     StateProviders stateProviders,
   ) async {
-    final restaurantDb = RestaurantDatabase();
-    final restaurants = await restaurantDb.getRestaurants();
-    return restaurants;
+    return Database().restaurants;
   }
 
   @override
@@ -23,9 +21,8 @@ class RestaurantProvider extends StateProviderNotifier<List<Restaurant>> {
     final session = stateProviders.sessionProvider.state!;
     final restaurants = await RestaurantFetcher().getRestaurants(session);
 
-    final db = RestaurantDatabase();
-    unawaited(db.saveIfPersistentSession(restaurants));
+    Database().saveRestaurants(restaurants);
 
-    return filterPastMeals(restaurants);
+    return restaurants;
   }
 }

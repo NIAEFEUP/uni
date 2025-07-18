@@ -12,7 +12,7 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
-import 'package:uni/view/bug_report/bug_report.dart';
+import 'package:uni/utils/navigation_items.dart';
 
 /// Wrapper around Consumer that ensures that the provider is initialized,
 /// meaning that it has loaded its data from storage and/or remote.
@@ -56,23 +56,25 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
       // SessionProvider and ProfileProvider are initialized
       Future<void>? sessionFuture;
       try {
-        sessionFuture = provider.dependsOnSession
-            ? Provider.of<SessionProvider>(context, listen: false)
-                .ensureInitialized(context)
-                .then((_) async {
-                if (context.mounted) {
-                  await Provider.of<ProfileProvider>(context, listen: false)
-                      .ensureInitialized(context);
-                }
-              })
-            : Future(() {});
+        sessionFuture =
+            provider.dependsOnSession
+                ? Provider.of<SessionProvider>(
+                  context,
+                  listen: false,
+                ).ensureInitialized(context).then((_) async {
+                  if (context.mounted) {
+                    await Provider.of<ProfileProvider>(
+                      context,
+                      listen: false,
+                    ).ensureInitialized(context);
+                  }
+                })
+                : Future(() {});
       } catch (err, st) {
         // In tests, it is ok to not find the startup providers:
         // all provider data should be mocked by the test itself.
         if (!Platform.environment.containsKey('FLUTTER_TEST')) {
-          Logger().e(
-            'Failed to initialize startup providers: $err',
-          );
+          Logger().e('Failed to initialize startup providers: $err');
           await Sentry.captureException(err, stackTrace: st);
         }
       }
@@ -93,9 +95,10 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
   }
 
   Widget requestDependantWidget(BuildContext context, T1 provider) {
-    final mappedState = provider.state != null
-        ? (mapper ?? _defaultMapper)(provider.state as T2)
-        : null;
+    final mappedState =
+        provider.state != null
+            ? (mapper ?? _defaultMapper)(provider.state as T2)
+            : null;
 
     final showContent = provider.state != null && hasContent(mappedState as T2);
 
@@ -108,28 +111,28 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
     return showContent
         ? builder(context, mappedState)
         : Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: onNullContent,
-            ),
-          );
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: onNullContent,
+          ),
+        );
   }
 
   Widget loadingWidget(BuildContext context) {
     return contentLoadingWidget == null
         ? const Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              child: CircularProgressIndicator(),
-            ),
-          )
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 20),
+            child: CircularProgressIndicator(),
+          ),
+        )
         : Center(
-            child: Shimmer.fromColors(
-              baseColor: Theme.of(context).highlightColor,
-              highlightColor: Theme.of(context).colorScheme.onPrimary,
-              child: contentLoadingWidget!,
-            ),
-          );
+          child: Shimmer.fromColors(
+            baseColor: Theme.of(context).highlightColor,
+            highlightColor: Theme.of(context).colorScheme.onPrimary,
+            child: contentLoadingWidget!,
+          ),
+        );
   }
 
   Widget requestFailedMessage() {
@@ -143,7 +146,8 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
           );
         }
 
-        if (connectivitySnapshot.data == ConnectivityResult.none) {
+        if (connectivitySnapshot.data?.contains(ConnectivityResult.none) ??
+            false) {
           return Center(
             heightFactor: 3,
             child: Text(
@@ -168,20 +172,20 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 OutlinedButton(
-                  onPressed: () => Provider.of<T1>(context, listen: false)
-                      .forceRefresh(context),
+                  onPressed:
+                      () => Provider.of<T1>(
+                        context,
+                        listen: false,
+                      ).forceRefresh(context),
                   child: Text(S.of(context).try_again),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+                const SizedBox(width: 10),
                 OutlinedButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute<BugReportPageView>(
-                      builder: (context) => const BugReportPageView(),
-                    ),
-                  ),
+                  onPressed:
+                      () => Navigator.pushNamed(
+                        context,
+                        '/${NavigationItem.navBugreport.route}',
+                      ),
                   child: Text(S.of(context).report_error),
                 ),
               ],

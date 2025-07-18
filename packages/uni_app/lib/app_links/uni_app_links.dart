@@ -18,14 +18,15 @@ class UniAppLinks {
 class _AuthenticationAppLink {
   _AuthenticationAppLink({required this.redirectUri});
 
-  final AppLinks _appLinks = AppLinks();
+  final _appLinks = AppLinks();
   final Uri redirectUri;
 
   Future<Uri> intercept(
     FutureOr<void> Function(Uri redirectUri) callback,
   ) async {
-    final interceptedUri = _appLinks.uriLinkStream
-        .firstWhere((uri) => redirectUri == uri.stripQueryComponent());
+    final interceptedUri = _appLinks.uriLinkStream.firstWhere(
+      (uri) => redirectUri == uri.stripQueryComponent(),
+    );
 
     await callback(redirectUri);
     final data = await interceptedUri;

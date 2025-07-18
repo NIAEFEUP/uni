@@ -12,13 +12,10 @@ import 'package:uni/model/entities/bus_stop.dart';
 /// which ones are the user's favorite stops.
 class AppBusStopDatabase extends AppDatabase<Map<String, BusStopData>> {
   AppBusStopDatabase()
-      : super(
-          'busstops.db',
-          [
-            'CREATE TABLE busstops(stopCode TEXT, busCode TEXT)',
-            'CREATE TABLE favoritestops(stopCode TEXT, favorited TEXT)',
-          ],
-        );
+    : super('busstops.db', [
+        'CREATE TABLE busstops(stopCode TEXT, busCode TEXT)',
+        'CREATE TABLE favoritestops(stopCode TEXT, favorited TEXT)',
+      ]);
 
   /// Returns a map containing all the data stored in this database.
   ///
@@ -32,8 +29,9 @@ class AppBusStopDatabase extends AppDatabase<Map<String, BusStopData>> {
     // Query the table for all bus stops
     final List<Map<String, dynamic>> buses = await db.query('busstops');
 
-    final List<Map<String, dynamic>> favoritesQueryResult =
-        await db.query('favoritestops');
+    final List<Map<String, dynamic>> favoritesQueryResult = await db.query(
+      'favoritestops',
+    );
 
     final favorites = <String, bool>{};
     for (final station in favoritesQueryResult) {
@@ -42,12 +40,13 @@ class AppBusStopDatabase extends AppDatabase<Map<String, BusStopData>> {
 
     final stops = <String, BusStopData>{};
     groupBy(buses, (stop) => stop['stopCode']).forEach(
-      (stopCode, busCodeList) => stops[stopCode as String] = BusStopData(
-        configuredBuses: Set<String>.from(
-          busCodeList.map((busEntry) => busEntry['busCode']),
-        ),
-        favorited: favorites[stopCode]!,
-      ),
+      (stopCode, busCodeList) =>
+          stops[stopCode as String] = BusStopData(
+            configuredBuses: Set<String>.from(
+              busCodeList.map((busEntry) => busEntry['busCode']),
+            ),
+            favorited: favorites[stopCode]!,
+          ),
     );
 
     return stops;
@@ -82,19 +81,15 @@ class AppBusStopDatabase extends AppDatabase<Map<String, BusStopData>> {
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertBusStops(Map<String, BusStopData> stops) async {
     stops.forEach((stopCode, stopData) async {
-      await insertInDatabase(
-        'favoritestops',
-        {'stopCode': stopCode, 'favorited': stopData.favorited ? '1' : '0'},
-      );
+      await insertInDatabase('favoritestops', {
+        'stopCode': stopCode,
+        'favorited': stopData.favorited ? '1' : '0',
+      });
       for (final busCode in stopData.configuredBuses) {
-        await insertInDatabase(
-          'busstops',
-          {
-            'stopCode': stopCode,
-            'busCode': busCode,
-          },
-          conflictAlgorithm: ConflictAlgorithm.replace,
-        );
+        await insertInDatabase('busstops', {
+          'stopCode': stopCode,
+          'busCode': busCode,
+        }, conflictAlgorithm: ConflictAlgorithm.replace);
       }
     });
   }

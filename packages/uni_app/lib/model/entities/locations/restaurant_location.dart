@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
+import 'package:uni_ui/icons.dart';
 
 class RestaurantLocation implements Location {
   RestaurantLocation(this.floor, this.name, {this.locationGroupId});
@@ -7,12 +7,12 @@ class RestaurantLocation implements Location {
   final int floor;
 
   @override
-  final int weight = 4;
+  final weight = 4;
 
   final String name;
 
   @override
-  final icon = Icons.restaurant;
+  final icon = UniIcons.restaurant;
 
   final int? locationGroupId;
 

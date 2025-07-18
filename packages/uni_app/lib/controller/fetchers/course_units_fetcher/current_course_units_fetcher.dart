@@ -9,18 +9,17 @@ class CurrentCourseUnitsFetcher implements SessionDependantFetcher {
   @override
   List<String> getEndpoints(Session session) {
     // all faculties list user course units on all faculties
-    final url = '${NetworkRouter.getBaseUrlsFromSession(session)[0]}'
+    final url =
+        '${NetworkRouter.getBaseUrlsFromSession(session)[0]}'
         'mob_fest_geral.ucurr_inscricoes_corrente';
     return [url];
   }
 
   Future<List<CourseUnit>> getCurrentCourseUnits(Session session) async {
     final url = getEndpoints(session)[0];
-    final response = await NetworkRouter.getWithCookies(
-      url,
-      {'pv_codigo': session.username},
-      session,
-    );
+    final response = await NetworkRouter.getWithCookies(url, {
+      'pv_codigo': session.username,
+    }, session);
 
     if (response.statusCode != 200) {
       return <CourseUnit>[];
@@ -31,10 +30,12 @@ class CurrentCourseUnitsFetcher implements SessionDependantFetcher {
     final ucs = <CourseUnit>[];
 
     for (final course in responseBody) {
-      final enrollments =
-          (course as Map<String, dynamic>)['inscricoes'] as List<dynamic>;
+      final castedCourse = course as Map<String, dynamic>;
+      final festId = castedCourse['fest_id'] as int?;
+      final enrollments = castedCourse['inscricoes'] as List<dynamic>;
       for (final uc in enrollments) {
-        final courseUnit = CourseUnit.fromJson(uc as Map<String, dynamic>);
+        final courseUnit = CourseUnit.fromJson(uc as Map<String, dynamic>)
+          ..festId = festId;
         ucs.add(courseUnit);
       }
     }

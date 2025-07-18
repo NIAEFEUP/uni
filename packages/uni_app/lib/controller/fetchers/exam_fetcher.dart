@@ -13,9 +13,10 @@ class ExamFetcher implements SessionDependantFetcher {
 
   @override
   List<String> getEndpoints(Session session) {
-    final urls = NetworkRouter.getBaseUrlsFromSession(session)
-        .map((url) => '${url}exa_geral.mapa_de_exames')
-        .toList();
+    final urls =
+        NetworkRouter.getBaseUrlsFromSession(
+          session,
+        ).map((url) => '${url}exa_geral.mapa_de_exames').toList();
     return urls;
   }
 
@@ -28,11 +29,9 @@ class ExamFetcher implements SessionDependantFetcher {
     for (final course in courses) {
       for (final url in urls) {
         final currentCourseExams = await parserExams.parseExams(
-          await NetworkRouter.getWithCookies(
-            url,
-            {'p_curso_id': course.id.toString()},
-            session,
-          ),
+          await NetworkRouter.getWithCookies(url, {
+            'p_curso_id': course.id.toString(),
+          }, session),
           course,
         );
         courseExams = Set.from(courseExams)..addAll(currentCourseExams);
@@ -47,7 +46,8 @@ class ExamFetcher implements SessionDependantFetcher {
             ) &&
             courseExam.examType != 'EE' &&
             courseExam.examType != 'EAE' &&
-            courseExam.subject == uc.abbreviation &&
+            courseExam.subjectAcronym == uc.abbreviation &&
+            courseExam.subject == uc.name &&
             uc.enrollmentIsValid() &&
             !courseExam.hasEnded()) {
           exams.add(courseExam);

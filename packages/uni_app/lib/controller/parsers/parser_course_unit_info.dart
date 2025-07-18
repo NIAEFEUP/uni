@@ -28,9 +28,9 @@ Future<List<CourseUnitFileDirectory>> parseFiles(
         final fileName = file['nome'];
         final fileDate = file['data_actualizacao'];
         final fileCode = file['codigo'].toString();
-        final format = file['filename']
-            .toString()
-            .substring(file['filename'].toString().indexOf('.'));
+        final format = file['filename'].toString().substring(
+          file['filename'].toString().indexOf('.'),
+        );
         final url = await CourseUnitsInfoFetcher().getDownloadLink(session);
         final courseUnitFile = CourseUnitFile(
           '${fileName}_$fileDate$format',
@@ -54,24 +54,40 @@ Future<Sheet> parseSheet(http.Response response) async {
         .toList(),
   );
 
-  final regents = (json['responsabilidades'] as List).map((element) {
-    return Professor.fromJson(element as Map<String, dynamic>);
-  }).toList();
+  final regents =
+      (json['responsabilidades'] as List).map((element) {
+        return Professor.fromJson(element as Map<String, dynamic>);
+      }).toList();
 
-  final books = (json['bibliografia'] as List? ?? [])
-      .map((element) => element as Map<String, dynamic>)
-      .map<Book>((element) {
-    return Book(
-      title: element['titulo'].toString(),
-      isbn: element['isbn'].toString(),
-    );
-  }).toList();
+  for (final regent in regents) {
+    professors
+        .firstWhere(
+          (professor) => professor.code == regent.code,
+          orElse: () {
+            regent.isRegent = true;
+            professors.add(regent);
+            return regent;
+          },
+        )
+        .isRegent = true;
+  }
+
+  final books =
+      (json['bibliografia'] as List? ?? [])
+          .map((element) => element as Map<String, dynamic>)
+          .map<Book>((element) {
+            return Book(
+              title: element['titulo'].toString(),
+              isbn: element['isbn'].toString(),
+            );
+          })
+          .toList();
 
   return Sheet(
     professors: professors,
     content: json['conteudo'].toString(),
     evaluation: json['for_avaliacao'].toString(),
-    regents: regents,
+    frequency: json['cond_frequencia'].toString(),
     books: books,
   );
 }
@@ -108,8 +124,10 @@ Future<CourseUnitSheet> parseCourseUnitSheet(http.Response response) async {
     }
 
     try {
-      sections[title.text.trim()] =
-          _htmlAfterElement(response.body, title.outerHtml);
+      sections[title.text.trim()] = _htmlAfterElement(
+        response.body,
+        title.outerHtml,
+      );
     } catch (_) {
       continue;
     }

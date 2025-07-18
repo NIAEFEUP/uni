@@ -7,13 +7,13 @@ part of '../../../model/entities/trip.dart';
 // **************************************************************************
 
 Trip _$TripFromJson(Map<String, dynamic> json) => Trip(
-      line: json['line'] as String,
-      destination: json['destination'] as String,
-      timeRemaining: json['timeRemaining'] as int,
-    );
+  line: json['line'] as String,
+  destination: json['destination'] as String,
+  timeRemaining: (json['timeRemaining'] as num).toInt(),
+);
 
 Map<String, dynamic> _$TripToJson(Trip instance) => <String, dynamic>{
-      'line': instance.line,
-      'destination': instance.destination,
-      'timeRemaining': instance.timeRemaining,
-    };
+  'line': instance.line,
+  'destination': instance.destination,
+  'timeRemaining': instance.timeRemaining,
+};

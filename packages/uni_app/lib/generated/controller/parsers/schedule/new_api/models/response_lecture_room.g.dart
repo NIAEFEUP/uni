@@ -7,12 +7,8 @@ part of '../../../../../../controller/parsers/schedule/new_api/models/response_l
 // **************************************************************************
 
 ResponseLectureRoom _$ResponseLectureRoomFromJson(Map<String, dynamic> json) =>
-    ResponseLectureRoom(
-      json['name'] as String,
-    );
+    ResponseLectureRoom(json['name'] as String);
 
 Map<String, dynamic> _$ResponseLectureRoomToJson(
-        ResponseLectureRoom instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-    };
+  ResponseLectureRoom instance,
+) => <String, dynamic>{'name': instance.name};

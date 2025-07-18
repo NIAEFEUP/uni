@@ -2,28 +2,27 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:uni/http/utils.dart';
+import 'package:uni/sigarra/endpoint.dart';
 import 'package:uni/sigarra/endpoints/api/authentication/login/json.dart';
 import 'package:uni/sigarra/endpoints/api/authentication/login/response.dart';
 import 'package:uni/sigarra/options.dart';
 
-class Login {
-  const Login();
+class Login extends Endpoint<LoginResponse> {
+  const Login({required this.username, required this.password, this.options});
 
-  Future<LoginResponse> call({
-    required String username,
-    required String password,
-    required FacultyRequestOptions? options,
-  }) async {
-    options = options ?? FacultyRequestOptions();
+  final String username;
+  final String password;
+  final FacultyRequestOptions? options;
+
+  @override
+  Future<LoginResponse> call() async {
+    final options = this.options ?? FacultyRequestOptions();
 
     final loginUrl = options.baseUrl.resolve('mob_val_geral.autentica');
 
     final response = await options.client.post(
       loginUrl,
-      body: {
-        'pv_login': username,
-        'pv_password': password,
-      },
+      body: {'pv_login': username, 'pv_password': password},
     );
 
     return _parse(response);
@@ -31,9 +30,7 @@ class Login {
 
   Future<LoginResponse> _parse(http.Response response) async {
     if (response.statusCode != 200) {
-      return const LoginFailedResponse(
-        reason: LoginFailureReason.serverError,
-      );
+      return const LoginFailedResponse(reason: LoginFailureReason.serverError);
     }
 
     final responseBody = LoginJsonResponse.fromJson(
@@ -47,8 +44,6 @@ class Login {
       );
     }
 
-    return const LoginFailedResponse(
-      reason: LoginFailureReason.unknown,
-    );
+    return const LoginFailedResponse(reason: LoginFailureReason.unknown);
   }
 }

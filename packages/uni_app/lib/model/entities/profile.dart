@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:tuple/tuple.dart';
+import 'package:objectbox/objectbox.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 
 /// Stores information about the user's profile.
+@Entity()
 class Profile {
   Profile({
     this.name = '',
@@ -14,8 +15,8 @@ class Profile {
     this.printBalance = '',
     this.feesBalance = '',
     this.feesLimit,
-  })  : courses = courses ?? [],
-        courseUnits = [];
+  }) : courses = courses ?? [],
+       courseUnits = [];
 
   /// Creates a new instance from a JSON object.
   factory Profile.fromResponse(Response response) {
@@ -33,26 +34,27 @@ class Profile {
     );
   }
 
+  @Id()
+  int? id;
   final String name;
   final String email;
   String printBalance;
   String feesBalance;
   DateTime? feesLimit;
+  @Transient()
   List<Course> courses;
+  @Transient()
   List<CourseUnit> courseUnits;
 
   /// Returns a list with two tuples: the first tuple contains the user's name
   /// and the other one contains the user's email.
-  List<Tuple2<String, String>> keymapValues() {
+  List<(String, String)> keymapValues() {
     return [
-      Tuple2('name', name),
-      Tuple2('email', email),
-      Tuple2('printBalance', printBalance),
-      Tuple2('feesBalance', feesBalance),
-      Tuple2(
-        'feesLimit',
-        feesLimit != null ? feesLimit!.toIso8601String() : '',
-      ),
+      ('name', name),
+      ('email', email),
+      ('printBalance', printBalance),
+      ('feesBalance', feesBalance),
+      ('feesLimit', feesLimit != null ? feesLimit!.toIso8601String() : ''),
     ];
   }
 }

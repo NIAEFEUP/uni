@@ -1,6 +1,6 @@
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_ui/navbar/bottom_navbar_item.dart';
+import 'package:uni_ui/common/generic_squircle.dart';
 
 class _BottomNavbarContainer extends StatelessWidget {
   _BottomNavbarContainer({required this.child});
@@ -14,11 +14,7 @@ class _BottomNavbarContainer extends StatelessWidget {
       margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
       decoration: ShapeDecoration(
         color: Theme.of(context).colorScheme.primary,
-        shape: SmoothRectangleBorder(
-            borderRadius: SmoothBorderRadius(
-          cornerRadius: 20,
-          cornerSmoothing: 1,
-        )),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         shadows: [
           BoxShadow(
             color: Theme.of(context).colorScheme.shadow.withAlpha(0x7f),
@@ -27,11 +23,7 @@ class _BottomNavbarContainer extends StatelessWidget {
           ),
         ],
       ),
-      child: ClipSmoothRect(
-        radius: SmoothBorderRadius(
-          cornerRadius: 20,
-          cornerSmoothing: 1,
-        ),
+      child: GenericSquircle(
         child: Container(
           decoration: BoxDecoration(
             gradient: RadialGradient(
@@ -45,14 +37,15 @@ class _BottomNavbarContainer extends StatelessWidget {
           ),
           child: Container(
             decoration: BoxDecoration(
-                gradient: RadialGradient(
-              colors: [
-                Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
-                Colors.transparent,
-              ],
-              center: Alignment.bottomRight,
-              radius: 2.5,
-            )),
+              gradient: RadialGradient(
+                colors: [
+                  Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
+                  Colors.transparent,
+                ],
+                center: Alignment.bottomRight,
+                radius: 2.5,
+              ),
+            ),
             child: child,
           ),
         ),
@@ -94,9 +87,10 @@ class _BottomNavbarState extends State<BottomNavbar> {
           elevation: 0,
           iconSize: 32,
           type: BottomNavigationBarType.fixed,
-          items: widget.items
-              .map((item) => item.toBottomNavigationBarItem(context))
-              .toList(),
+          items:
+              widget.items
+                  .map((item) => item.toBottomNavigationBarItem(context))
+                  .toList(),
           selectedFontSize: 0,
           unselectedFontSize: 0,
           showSelectedLabels: false,

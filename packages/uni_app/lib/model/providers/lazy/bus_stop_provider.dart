@@ -20,7 +20,7 @@ class BusStopProvider extends StateProviderNotifier<Map<String, BusStopData>> {
   @override
   Future<Map<String, BusStopData>> loadFromRemote(
     StateProviders stateProviders,
-  ) async {
+  ) {
     return fetchUserBusTrips(state!);
   }
 
@@ -53,9 +53,7 @@ class BusStopProvider extends StateProviderNotifier<Map<String, BusStopData>> {
     await db.saveIfPersistentSession(state!);
   }
 
-  Future<void> removeUserBusStop(
-    String stopCode,
-  ) async {
+  Future<void> removeUserBusStop(String stopCode) async {
     state!.remove(stopCode);
 
     notifyListeners();

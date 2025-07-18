@@ -10,13 +10,8 @@ import 'package:uni/model/entities/reference.dart';
 /// See the [Reference] class to see what data is stored in this database.
 class AppReferencesDatabase extends AppDatabase<List<Reference>> {
   AppReferencesDatabase()
-      : super(
-          'refs.db',
-          [createScript],
-          onUpgrade: migrate,
-          version: 2,
-        );
-  static const String createScript =
+    : super('refs.db', [createScript], onUpgrade: migrate, version: 2);
+  static const createScript =
       '''CREATE TABLE refs(description TEXT, entity INTEGER, '''
       '''reference INTEGER, amount REAL, limitDate TEXT)''';
 
@@ -26,13 +21,7 @@ class AppReferencesDatabase extends AppDatabase<List<Reference>> {
     final List<Map<String, dynamic>> maps = await db.query('refs');
 
     return List.generate(maps.length, (i) {
-      return Reference(
-        maps[i]['description'] as String,
-        DateTime.parse(maps[i]['limitDate'] as String),
-        maps[i]['entity'] as int,
-        maps[i]['reference'] as int,
-        maps[i]['amount'] as double,
-      );
+      return Reference.fromJson(maps[i]);
     });
   }
 
@@ -56,14 +45,15 @@ class AppReferencesDatabase extends AppDatabase<List<Reference>> {
   }
 
   /// the database and, as such, all data is lost.
-  static FutureOr<void> migrate(
+  static Future<void>? migrate(
     Database db,
     int oldVersion,
     int newVersion,
   ) async {
-    final batch = db.batch()
-      ..execute('DROP TABLE IF EXISTS refs')
-      ..execute(createScript);
+    final batch =
+        db.batch()
+          ..execute('DROP TABLE IF EXISTS refs')
+          ..execute(createScript);
     await batch.commit();
   }
 

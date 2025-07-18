@@ -3,56 +3,56 @@ import 'package:provider/provider.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni/view/common_widgets/widgets/profile_image.dart';
+import 'package:uni/view/widgets/profile_image.dart';
 
 class ProfileOverview extends StatelessWidget {
-  const ProfileOverview({
-    required this.profile,
-    super.key,
-  });
+  const ProfileOverview({required this.profile, super.key});
 
   final Profile profile;
 
   @override
   Widget build(BuildContext context) {
     final session = context.read<SessionProvider>().state!;
+    final name = profile.name.split(' ');
+
     return FutureBuilder(
-      future: ProfileProvider.fetchOrGetCachedProfilePicture(
-        session,
-      ),
-      builder: (context, profilePic) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const ProfileImage(radius: 75),
-          const Padding(padding: EdgeInsets.all(8)),
-          Text(
-            profile.name,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w400,
-            ),
+      future: ProfileProvider.fetchOrGetCachedProfilePicture(session),
+      builder:
+          (context, profilePic) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const ProfileImage(radius: 75),
+              const Padding(padding: EdgeInsets.all(8)),
+              Text(
+                '${name.first} ${name.length > 1 ? name.last : ''}',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+              Text(
+                profile.email.split('@')[0],
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              const Padding(padding: EdgeInsets.all(5)),
+              Wrap(
+                spacing: 8,
+                children:
+                    session.faculties.map((type) {
+                      return Badge(
+                        label: Text(
+                          type.toUpperCase(),
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                      );
+                    }).toList(),
+              ),
+            ],
           ),
-          const Padding(padding: EdgeInsets.all(5)),
-          Text(
-            profile.email,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w300,
-            ),
-          ),
-          const Padding(padding: EdgeInsets.all(5)),
-          Text(
-            session.faculties.map((e) => e.toUpperCase()).toList().join(', '),
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w300,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:objectbox/objectbox.dart';
 
 part '../../generated/model/entities/course.g.dart';
 
@@ -12,6 +13,7 @@ part '../../generated/model/entities/course.g.dart';
 /// - The date of the `firstEnrollment`
 /// - The course `state`
 @JsonSerializable(createFactory: false)
+@Entity()
 class Course {
   Course({
     this.id,
@@ -36,22 +38,23 @@ class Course {
       id: json['cur_id'] as int?,
       festId: json['fest_id'] as int?,
       name: name,
-      abbreviation: json['abbreviation'] as String?,
+      abbreviation: json['cur_sigla'] as String?,
       currYear: json['ano_curricular'] as String?,
       firstEnrollment: json['fest_a_lect_1_insc'] as int?,
       state: json['state'] as String?,
       faculty: json['inst_sigla'].toString().toLowerCase(),
-      finishedEcts: json['finishedEcts'] as num?,
-      currentAverage: json['currentAverage'] as num?,
+      finishedEcts: (json['finishedEcts'] as num?)?.toDouble(),
+      currentAverage: (json['currentAverage'] as num?)?.toDouble(),
     );
   }
   @JsonKey(name: 'cur_id')
+  @Id(assignable: true)
   final int? id;
   @JsonKey(name: 'fest_id')
   final int? festId;
   @JsonKey(name: 'cur_nome')
   final String? name;
-  @JsonKey(name: 'abbreviation')
+  @JsonKey(name: 'cur_sigla')
   final String? abbreviation;
   @JsonKey(name: 'ano_curricular')
   final String? currYear;
@@ -60,7 +63,7 @@ class Course {
   @JsonKey(name: 'inst_sigla')
   final String? faculty;
   String? state;
-  num? finishedEcts;
-  num? currentAverage;
+  double? finishedEcts;
+  double? currentAverage;
   Map<String, dynamic> toJson() => _$CourseToJson(this);
 }

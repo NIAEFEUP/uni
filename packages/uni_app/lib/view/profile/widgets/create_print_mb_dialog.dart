@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni/view/common_widgets/toast_message.dart';
+import 'package:uni/view/widgets/toast_message.dart';
 
-Future<void> addMoneyDialog(BuildContext context) async {
+Future<void> addMoneyDialog(BuildContext context) {
   final formKey = GlobalKey<FormState>();
   final controller = TextEditingController(text: '1,00 €');
 
@@ -140,8 +140,10 @@ Future<void> generateReference(BuildContext context, double amount) async {
   }
 
   final session = Provider.of<SessionProvider>(context, listen: false).state!;
-  final response =
-      await PrintFetcher.generatePrintMoneyReference(amount, session);
+  final response = await PrintFetcher.generatePrintMoneyReference(
+    amount,
+    session,
+  );
 
   if (response.statusCode == 200 && context.mounted) {
     Navigator.of(context).pop(false);

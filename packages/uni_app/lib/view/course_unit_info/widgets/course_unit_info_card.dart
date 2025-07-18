@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:uni/view/common_widgets/generic_expansion_card.dart';
+import 'package:uni/view/widgets/generic_expansion_card.dart';
 
 class CourseUnitInfoCard extends GenericExpansionCard {
   const CourseUnitInfoCard(this.sectionTitle, this.content, {super.key})
-      : super(
-          cardMargin: const EdgeInsets.only(bottom: 10),
-          smallTitle: true,
-        );
+    : super(cardMargin: const EdgeInsets.only(bottom: 10), smallTitle: true);
   final String sectionTitle;
   final Widget content;
 

@@ -10,10 +10,10 @@ import 'package:uni/model/entities/course.dart';
 /// See the [Course] class to see what data is stored in this database.
 class AppCoursesDatabase extends AppDatabase<List<Course>> {
   AppCoursesDatabase()
-      : super('courses.db', [createScript], onUpgrade: migrate, version: 4);
-  static const String createScript =
+    : super('courses.db', [createScript], onUpgrade: migrate, version: 5);
+  static const createScript =
       '''CREATE TABLE courses(cur_id INTEGER, fest_id INTEGER, cur_nome TEXT, '''
-      '''abbreviation TEXT, ano_curricular TEXT, fest_a_lect_1_insc INTEGER, state TEXT, '''
+      '''cur_sigla TEXT, ano_curricular TEXT, fest_a_lect_1_insc INTEGER, state TEXT, '''
       '''inst_sigla TEXT, currentAverage REAL, finishedEcts REAL)''';
 
   /// Returns a list containing all of the courses stored in this database.
@@ -23,18 +23,7 @@ class AppCoursesDatabase extends AppDatabase<List<Course>> {
 
     // Convert the List<Map<String, dynamic> into a List<Course>.
     return List.generate(maps.length, (i) {
-      return Course(
-        id: maps[i]['cur_id'] as int? ?? 0,
-        festId: maps[i]['fest_id'] as int? ?? 0,
-        name: maps[i]['cur_nome'] as String?,
-        abbreviation: maps[i]['abbreviation'] as String?,
-        currYear: maps[i]['ano_curricular'] as String?,
-        firstEnrollment: maps[i]['fest_a_lect_1_insc'] as int? ?? 0,
-        state: maps[i]['state'] as String?,
-        faculty: maps[i]['inst_sigla'] as String?,
-        finishedEcts: maps[i]['finishedEcts'] as double? ?? 0,
-        currentAverage: maps[i]['currentAverage'] as double? ?? 0,
-      );
+      return Course.fromJson(maps[i]);
     });
   }
 
@@ -61,14 +50,15 @@ class AppCoursesDatabase extends AppDatabase<List<Course>> {
   ///
   /// *Note:* This operation only updates the schema of the tables present in
   /// the database and, as such, all data is lost.
-  static FutureOr<void> migrate(
+  static Future<void>? migrate(
     Database db,
     int oldVersion,
     int newVersion,
   ) async {
-    final batch = db.batch()
-      ..execute('DROP TABLE IF EXISTS courses')
-      ..execute(createScript);
+    final batch =
+        db.batch()
+          ..execute('DROP TABLE IF EXISTS courses')
+          ..execute(createScript);
     await batch.commit();
   }
 

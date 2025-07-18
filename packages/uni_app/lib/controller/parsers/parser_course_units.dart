@@ -17,10 +17,10 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
 
   final labels = document.querySelectorAll('.caixa .formulario-legenda');
   if (labels.length >= 2) {
-    course.currentAverage ??= num.tryParse(
+    course.currentAverage ??= double.tryParse(
       labels[0].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0',
     );
-    course.finishedEcts ??= num.tryParse(
+    course.finishedEcts ??= double.tryParse(
       labels[1].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0',
     );
   }
@@ -47,15 +47,16 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
 
     final year = row.children[0].innerHtml;
     final semester = row.children[1].innerHtml;
-    final occurId = Uri.parse(
-      row.children[2].firstChild!.attributes['href']!,
-    ).queryParameters['pv_ocorrencia_id']!;
+    final occurId =
+        Uri.parse(
+          row.children[2].firstChild!.attributes['href']!,
+        ).queryParameters['pv_ocorrencia_id']!;
     final codeName = row.children[2].children[0].innerHtml;
     final name = row.children[3].children[0].innerHtml;
     final ects = row.children[5].innerHtml.replaceAll(',', '.');
 
     var yearIncrement = -1;
-    for (var i = 0;; i += 2) {
+    for (var i = 0; ; i += 2) {
       if (row.children.length <= 6 + i) {
         break;
       }
@@ -69,15 +70,17 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
         continue;
       }
 
-      final matchingCurrentCourseUnit = currentCourseUnits
-          ?.firstWhereOrNull((element) => element.code == codeName);
+      final matchingCurrentCourseUnit = currentCourseUnits?.firstWhereOrNull(
+        (element) => element.code == codeName,
+      );
 
       final courseUnit = CourseUnit(
         schoolYear:
             '${firstSchoolYear + yearIncrement}/${firstSchoolYear + yearIncrement + 1}',
         occurrId: int.parse(occurId),
         code: codeName,
-        abbreviation: matchingCurrentCourseUnit?.abbreviation ??
+        abbreviation:
+            matchingCurrentCourseUnit?.abbreviation ??
             codeName, // FIXME: this is not the abbreviation
         status: status,
         grade: grade,
@@ -85,6 +88,7 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
         name: name,
         curricularYear: int.tryParse(year),
         semesterCode: semester,
+        festId: course.festId,
       );
       courseUnits.add(courseUnit);
     }

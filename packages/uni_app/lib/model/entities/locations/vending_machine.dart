@@ -1,5 +1,5 @@
 import 'package:uni/model/entities/location.dart';
-import 'package:uni/view/locations/widgets/icons.dart';
+import 'package:uni_ui/icons.dart';
 
 class VendingMachine implements Location {
   VendingMachine(this.floor, {this.locationGroupId});
@@ -10,7 +10,7 @@ class VendingMachine implements Location {
   final weight = 2;
 
   @override
-  final icon = LocationIcons.bottleSodaClassic;
+  final icon = UniIcons.lockers;
 
   final int? locationGroupId;
 

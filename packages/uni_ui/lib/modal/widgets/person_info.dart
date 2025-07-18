@@ -17,10 +17,12 @@ class ModalPersonInfo extends StatelessWidget {
             backgroundImage: image?.image,
             backgroundColor: Colors.green,
           ),
+          Padding(padding: EdgeInsets.only(top: 10.0)),
           Text(
             name,
             style: Theme.of(context).textTheme.displaySmall,
-          )
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );
