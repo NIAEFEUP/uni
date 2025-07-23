@@ -38,31 +38,7 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView> {
       backgroundColor: const Color(0xFF280709),
       body: Stack(
         children: [
-          /* Hero(
-            tag: 'logo',
-            flightShuttleBuilder: (
-              flightContext,
-              animation,
-              flightDirection,
-              fromHeroContext,
-              toHeroContext,
-            ) {
-              return ScaleTransition(
-                scale: animation.drive(
-                  Tween<double>(
-                    begin: 0,
-                    end: 1,
-                  ).chain(CurveTween(curve: Curves.easeInOut)),
-                ),
-                child: SvgPicture.asset(
-                  'assets/images/logo_dark.svg',
-                  colorFilter: const ColorFilter.mode(
-                    Color(0xFFFFF5F3),
-                    BlendMode.srcIn,
-                  ),
-                ),
-              );
-            },
+          Align(
             child: SvgPicture.asset(
               'assets/images/logo_dark.svg',
               colorFilter: const ColorFilter.mode(
@@ -71,13 +47,6 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
-          Text(
-            'Welcome to Uni',
-            style: Theme.of(
-              context,
-            ).textTheme.headlineLarge?.copyWith(color: Colors.white),
-          ), */
           Align(
             alignment: const Alignment(0, 0.75),
             child: GestureDetector(

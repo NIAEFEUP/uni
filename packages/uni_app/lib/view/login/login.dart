@@ -58,6 +58,7 @@ class LoginPageViewState extends State<LoginPageView>
   @override
   void initState() {
     super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -230,7 +231,7 @@ class LoginPageViewState extends State<LoginPageView>
         statusBarIconBrightness: Brightness.light,
       ),
     );
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return Theme(
       data: Theme.of(context),
       child: Builder(

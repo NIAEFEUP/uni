@@ -313,7 +313,7 @@ class ApplicationState extends State<Application> {
                         settings: settings,
                       ),
                   '/${NavigationItem.navIntroduction.route}':
-                      () => PageTransition.makePageTransition(
+                      () => PageTransition.introductionTransitionRoute(
                         page: const IntroductionScreenView(),
                         settings: settings,
                       ),
