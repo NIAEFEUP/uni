@@ -96,7 +96,7 @@ class LoginPageViewState extends State<LoginPageView>
         if (mounted) {
           await Navigator.pushReplacementNamed(
             context,
-            '/${NavigationItem.navPersonalArea.route}',
+            '/${NavigationItem.navIntroduction.route}',
           );
           setState(() {
             _loggingIn = false;
@@ -189,7 +189,7 @@ class LoginPageViewState extends State<LoginPageView>
       if (mounted) {
         await Navigator.pushReplacementNamed(
           context,
-          '/${NavigationItem.navPersonalArea.route}',
+          '/${NavigationItem.navIntroduction.route}',
         );
       }
 
