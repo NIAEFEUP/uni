@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -63,6 +64,7 @@ class LoginPageViewState extends State<LoginPageView>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     super.dispose();
   }
 
@@ -157,9 +159,11 @@ class LoginPageViewState extends State<LoginPageView>
     final sessionProvider = stateProviders.sessionProvider;
 
     try {
-      setState(() {
-        _loggingIn = true;
-      });
+      if (mounted) {
+        setState(() {
+          _loggingIn = true;
+        });
+      }
 
       final appLinks = UniAppLinks();
 
@@ -181,10 +185,12 @@ class LoginPageViewState extends State<LoginPageView>
         persistentSession: _keepSignedIn,
       );
 
-      setState(() {
-        _intercepting = true;
-        _loggingIn = true;
-      });
+      if (mounted) {
+        setState(() {
+          _intercepting = true;
+          _loggingIn = true;
+        });
+      }
 
       if (mounted) {
         await Navigator.pushReplacementNamed(
@@ -193,16 +199,20 @@ class LoginPageViewState extends State<LoginPageView>
         );
       }
 
-      setState(() {
-        _loggingIn = true;
-        _intercepting = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loggingIn = true;
+          _intercepting = false;
+        });
+      }
     } catch (err, st) {
       await Sentry.captureException(err, stackTrace: st);
       await closeInAppWebView();
-      setState(() {
-        _loggingIn = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loggingIn = false;
+        });
+      }
       if (mounted) {
         Logger().e(S.of(context).fail_to_authenticate);
         unawaited(
@@ -214,6 +224,13 @@ class LoginPageViewState extends State<LoginPageView>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+      ),
+    );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     return Theme(
       data: Theme.of(context),
       child: Builder(
