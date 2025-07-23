@@ -14,7 +14,7 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   }
 
   @override
@@ -31,7 +31,7 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView> {
         statusBarIconBrightness: Brightness.light,
       ),
     );
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
