@@ -7,7 +7,7 @@ class ShimmerCalendarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRSuperellipse(
-      borderRadius: BorderRadiusGeometry.circular(20.0),
+      borderRadius: BorderRadiusGeometry.circular(20),
       child: Shimmer.fromColors(
         baseColor: Colors.grey[300]!,
         highlightColor: Colors.grey[100]!,
