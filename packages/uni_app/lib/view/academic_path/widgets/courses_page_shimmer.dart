@@ -64,19 +64,23 @@ class ShimmerCoursesPage extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 16, right: 16, top: 32),
                 child: Row(
                   children: [
-                    Shimmer.fromColors(
-                      baseColor: Colors.grey[300]!,
-                      highlightColor: Colors.grey[100]!,
-                      child: GenericSquircle(
-                        child: Container(
-                          height: 70,
-                          width: 180,
-                          decoration: const BoxDecoration(color: Colors.white),
+                    Expanded(
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: GenericSquircle(
+                          child: Container(
+                            height: 70,
+                            width: 180,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16),
+                    const SizedBox(width: 16),
+                    Expanded(
                       child: Shimmer.fromColors(
                         baseColor: Colors.grey[300]!,
                         highlightColor: Colors.grey[100]!,
