@@ -16,16 +16,17 @@ class RestaurantFetcher {
     final meals = <Meal>[];
     for (final dayMenu in dayMenus) {
       for (final dish in dayMenu.dishes) {
-
-				// Detect if the restaurant is closed, and change the meal type if needed.
-				final bool isClosed = dish.dishType.namePt == 'Carne' && dish.dish.namePt == 'Unidade de Alimentação Encerrada Temporariamente';
-				final mealTypePt =  isClosed ? 'Encerrado' : dish.dishType.namePt; 	
-
+        // Detect if the restaurant is closed, and change the meal type if needed.
+        final bool isClosed =
+            dish.dishType.namePt == 'Carne' &&
+            dish.dish.namePt ==
+                'Unidade de Alimentação Encerrada Temporariamente';
+        final mealTypePt = isClosed ? 'Encerrado' : dish.dishType.namePt;
 
         // Extract the information about the meal.
         meals.add(
           Meal(
-						mealTypePt,
+            mealTypePt,
             dish.dish.namePt,
             dish.dish.nameEn ?? dish.dish.namePt,
             dayMenu.day,

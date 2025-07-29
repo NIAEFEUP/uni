@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:logger/logger.dart';
-import 'package:path/path.dart';
 import 'package:uni/controller/fetchers/restaurant_fetcher.dart';
 import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/model/entities/restaurant.dart';
@@ -15,8 +13,7 @@ class RestaurantProvider extends StateProviderNotifier<List<Restaurant>> {
   Future<List<Restaurant>> loadFromStorage(
     StateProviders stateProviders,
   ) async {
-    // return Database().restaurants;
-		return loadFromRemote(stateProviders);
+    return Database().restaurants;
   }
 
   @override
