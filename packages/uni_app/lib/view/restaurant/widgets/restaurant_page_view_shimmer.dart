@@ -10,12 +10,8 @@ class ShimmerRestaurantPageView extends StatelessWidget {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.only(
-            top: 10,
-            bottom: 10,
-            left: 10,
-            right: 22,
-          ),
+          padding:
+              const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 22),
           child: Shimmer.fromColors(
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.grey[100]!,
@@ -28,12 +24,8 @@ class ShimmerRestaurantPageView extends StatelessWidget {
           ),
         ),
         Container(
-          padding: const EdgeInsets.only(
-            top: 10,
-            bottom: 10,
-            left: 10,
-            right: 22,
-          ),
+          padding:
+              const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 22),
           child: Shimmer.fromColors(
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.grey[100]!,
