@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/localized_events.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/calendar/widgets/calendar_shimmer.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -48,6 +50,7 @@ class CalendarHomeCard extends GenericHomecard {
           style: Theme.of(context).textTheme.headlineLarge,
         ),
       ),
+      contentLoadingWidget: ShimmerCalendarItem(),
     );
   }
 }

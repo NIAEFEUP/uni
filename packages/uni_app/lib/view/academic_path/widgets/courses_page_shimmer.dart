@@ -10,8 +10,12 @@ class ShimmerCoursesPage extends StatelessWidget {
     return ListView(
       children: [
         Padding(
-          padding:
-              const EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 16),
+          padding: const EdgeInsets.only(
+            left: 16,
+            right: 16,
+            bottom: 16,
+            top: 16,
+          ),
           child: Center(
             child: Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
@@ -80,8 +84,9 @@ class ShimmerCoursesPage extends StatelessWidget {
                           child: Container(
                             height: 70,
                             width: 180,
-                            decoration:
-                                const BoxDecoration(color: Colors.white),
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),

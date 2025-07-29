@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/view/home/widgets/schedule/timeline_shimmer.dart';
 import 'package:uni_ui/timeline/timeline.dart';
@@ -13,36 +12,37 @@ class ShimmerExamPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentMonth = DateTime.now().month;
     final allMonths = List.generate(12, (index) => index + 1);
-    final tabs = allMonths.map((month) {
-      final date = DateTime(DateTime.now().year, month);
-      return SizedBox(
-        width: 30,
-        height: 34,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Text(
-                date.shortMonth(
-                  Provider.of<LocaleNotifier>(context).getLocale(),
+    final tabs =
+        allMonths.map((month) {
+          final date = DateTime(DateTime.now().year, month);
+          return SizedBox(
+            width: 30,
+            height: 34,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(
+                    date.shortMonth(
+                      Provider.of<LocaleNotifier>(context).getLocale(),
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                  ),
                 ),
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-              ),
+                Expanded(
+                  child: Text(
+                    '${date.month}',
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                  ),
+                ),
+              ],
             ),
-            Expanded(
-              child: Text(
-                '${date.month}',
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-              ),
-            ),
-          ],
-        ),
-      );
-    }).toList();
+          );
+        }).toList();
     // TODO: make timeline more empty content-proof
     return Timeline(
       tabs: tabs,
