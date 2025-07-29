@@ -49,6 +49,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     'salads',
     'diet_dishes',
     'dishes_of_the_day',
+		'closed',
   ];
 
   @override
