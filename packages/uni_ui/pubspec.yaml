@@ -1,11 +1,13 @@
 name: uni_ui
 description: User interface components for the Uni app.
-publish_to: none
 version: 1.0.0
+
+publish_to: none
+resolution: workspace
 
 environment:
   sdk: ">=3.7.0 <4.0.0"
-  flutter: 3.29.3
+  flutter: 3.32.2
 
 dependencies:
   figma_squircle: ^0.6.3
@@ -19,9 +21,8 @@ dev_dependencies:
   custom_lint: ^0.7.0
   flutter_test:
     sdk: flutter
-  leancode_lint: ^16.0.0
-  uni_lint:
-    path: ../uni_lint
+  leancode_lint: ^17.0.0
+  uni_lint: ^1.0.0
   test: any
 
 flutter:

@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uni_ui/icons.dart';
 
 class FolderCard extends StatefulWidget {
-  FolderCard({
-    required this.title,
-    required this.children,
-    super.key,
-  });
+  FolderCard({required this.title, required this.children, super.key});
 
   final String title;
   final List<Widget> children;

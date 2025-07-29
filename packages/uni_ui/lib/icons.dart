@@ -99,11 +99,11 @@ class UniIcon extends PhosphorIcon {
     TextDirection? textDirection,
     bool solid = false,
   }) : super(
-          icon,
-          size: size,
-          color: color,
-          semanticLabel: semanticLabel,
-          textDirection: textDirection,
-          duotoneSecondaryOpacity: solid ? 1 : 0.20,
-        );
+         icon,
+         size: size,
+         color: color,
+         semanticLabel: semanticLabel,
+         textDirection: textDirection,
+         duotoneSecondaryOpacity: solid ? 1 : 0.20,
+       );
 }

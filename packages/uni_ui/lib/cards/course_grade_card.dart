@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 
 class CourseGradeCard extends StatelessWidget {
-  const CourseGradeCard(
-      {required this.courseName,
-      required this.ects,
-      required this.grade,
-      required this.tooltip,
-      required this.onTap,
-      super.key});
+  const CourseGradeCard({
+    required this.courseName,
+    required this.ects,
+    required this.grade,
+    required this.tooltip,
+    required this.onTap,
+    super.key,
+  });
 
   final String courseName;
   final double ects;
@@ -42,12 +43,9 @@ class CourseGradeCard extends StatelessWidget {
                   '${ects == ects.toInt() ? ects.toInt() : ects} ECTS',
                   style: theme.textTheme.bodySmall,
                 ),
-                Text(
-                  '${grade ?? ""}',
-                  style: theme.textTheme.bodySmall,
-                )
+                Text('${grade ?? ""}', style: theme.textTheme.bodySmall),
               ],
-            )
+            ),
           ],
         ),
       ),

@@ -16,13 +16,7 @@ typedef FilesMap = Map<CourseUnit, List<CourseUnitFileDirectory>>;
 class CourseUnitsInfoProvider
     extends StateProviderNotifier<(SheetsMap, ClassesMap, FilesMap)> {
   CourseUnitsInfoProvider()
-    : super(
-        cacheDuration: null,
-        // Const constructor is not allowed here because of the
-        // need for mutable maps
-        // ignore: prefer_const_constructors
-        initialState: ({}, {}, {}),
-      );
+    : super(cacheDuration: null, initialState: ({}, {}, {}));
 
   UnmodifiableMapView<CourseUnit, Sheet> get courseUnitsSheets =>
       UnmodifiableMapView(state!.$1);

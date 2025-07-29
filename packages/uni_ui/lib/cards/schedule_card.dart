@@ -4,16 +4,17 @@ import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/theme.dart';
 
 class ScheduleCard extends StatelessWidget {
-  const ScheduleCard(
-      {super.key,
-      required this.name,
-      required this.acronym,
-      required this.room,
-      required this.type,
-      this.isActive = false,
-      this.teacherName,
-      this.teacherPhoto,
-      this.onTap});
+  const ScheduleCard({
+    super.key,
+    required this.name,
+    required this.acronym,
+    required this.room,
+    required this.type,
+    this.isActive = false,
+    this.teacherName,
+    this.teacherPhoto,
+    this.onTap,
+  });
 
   final String name;
   final String acronym;
@@ -36,16 +37,15 @@ class ScheduleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GenericCard(
-      gradient: isActive
-          ? RadialGradient(
-              colors: [
-                Color(0xFF280709),
-                Color(0xFF511515),
-              ],
-              center: Alignment.topLeft,
-              radius: 1.5,
-              stops: [0, 1])
-          : null,
+      gradient:
+          isActive
+              ? RadialGradient(
+                colors: [Color(0xFF280709), Color(0xFF511515)],
+                center: Alignment.topLeft,
+                radius: 1.5,
+                stops: [0, 1],
+              )
+              : null,
       key: key,
       tooltip: '',
       onClick: onTap,
@@ -69,9 +69,10 @@ class ScheduleCard extends StatelessWidget {
                     Text(
                       acronym,
                       overflow: TextOverflow.ellipsis,
-                      style: isActive
-                          ? Theme.of(context).textTheme.titleLarge
-                          : Theme.of(context).textTheme.headlineSmall,
+                      style:
+                          isActive
+                              ? Theme.of(context).textTheme.titleLarge
+                              : Theme.of(context).textTheme.headlineSmall,
                     ),
                     const SizedBox(width: 8), //TODO: Create a custom Gap()?
                     Badge(
@@ -84,27 +85,30 @@ class ScheduleCard extends StatelessWidget {
                 Text(
                   name,
                   overflow: TextOverflow.ellipsis,
-                  style: isActive
-                      ? Theme.of(context).textTheme.titleSmall
-                      : Theme.of(context).textTheme.bodySmall,
+                  style:
+                      isActive
+                          ? Theme.of(context).textTheme.titleSmall
+                          : Theme.of(context).textTheme.bodySmall,
                 ),
                 if (isActive && teacherName != null) SizedBox(height: 5),
                 if (isActive && teacherName != null)
-                  Row(children: [
-                    CircleAvatar(
-                      radius: 15,
-                      backgroundImage: teacherPhoto?.image,
-                    ),
-                    const SizedBox(width: 8), //TODO: create gap()?
-                    SizedBox(
-                      width: 140,
-                      child: Text(
-                        teacherName!,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall,
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 15,
+                        backgroundImage: teacherPhoto?.image,
                       ),
-                    )
-                  ]),
+                      const SizedBox(width: 8), //TODO: create gap()?
+                      SizedBox(
+                        width: 140,
+                        child: Text(
+                          teacherName!,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ),
+                    ],
+                  ),
               ],
             ),
           ),
@@ -112,19 +116,24 @@ class ScheduleCard extends StatelessWidget {
             children: [
               PhosphorIcon(
                 PhosphorIcons.mapPin(PhosphorIconsStyle.duotone),
-                color: isActive
-                    ? Theme.of(context).colorScheme.secondary
-                    : Theme.of(context).iconTheme.color,
+                color:
+                    isActive
+                        ? Theme.of(context).colorScheme.secondary
+                        : Theme.of(context).iconTheme.color,
                 size: 35,
               ),
-              Text(room,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: isActive
+              Text(
+                room,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color:
+                      isActive
                           ? Theme.of(context).colorScheme.secondary
-                          : Theme.of(context).colorScheme.primary)),
+                          : Theme.of(context).colorScheme.primary,
+                ),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

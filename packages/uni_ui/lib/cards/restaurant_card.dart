@@ -48,13 +48,14 @@ class RestaurantCard extends StatelessWidget {
 }
 
 class RestaurantCardHeader extends StatelessWidget {
-  const RestaurantCardHeader(
-      {super.key,
-      required this.name,
-      required this.icon,
-      required this.isFavorite,
-      required this.onFavoriteToggle,
-      this.showFavoriteButton = true});
+  const RestaurantCardHeader({
+    super.key,
+    required this.name,
+    required this.icon,
+    required this.isFavorite,
+    required this.onFavoriteToggle,
+    this.showFavoriteButton = true,
+  });
 
   final String name;
   final Icon icon;
@@ -67,10 +68,7 @@ class RestaurantCardHeader extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(
-            color: Theme.of(context).dividerColor,
-            width: 1.0,
-          ),
+          bottom: BorderSide(color: Theme.of(context).dividerColor, width: 1.0),
         ),
       ),
       child: Row(
@@ -120,12 +118,13 @@ class CardFavoriteButtonState extends State<CardFavoriteButton> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        icon: UniIcon(isFavorite ? UniIcons.heartFill : UniIcons.heartOutline),
-        onPressed: () {
-          widget.onFavoriteToggle();
-          setState(() {
-            isFavorite = !isFavorite;
-          });
+      icon: UniIcon(isFavorite ? UniIcons.heartFill : UniIcons.heartOutline),
+      onPressed: () {
+        widget.onFavoriteToggle();
+        setState(() {
+          isFavorite = !isFavorite;
         });
+      },
+    );
   }
 }

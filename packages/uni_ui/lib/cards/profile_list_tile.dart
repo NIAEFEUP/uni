@@ -20,10 +20,7 @@ class ProfileListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: UniIcon(
-        icon,
-        color: Theme.of(context).colorScheme.primary,
-      ),
+      leading: UniIcon(icon, color: Theme.of(context).colorScheme.primary),
       title: Text(
         title,
         overflow: TextOverflow.ellipsis,
