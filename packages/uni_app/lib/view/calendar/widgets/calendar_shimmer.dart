@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:flutter/cupertino.dart';
 
 class ShimmerCalendarItem extends StatelessWidget {
   const ShimmerCalendarItem({super.key});
@@ -9,14 +8,12 @@ class ShimmerCalendarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRSuperellipse(
       borderRadius: BorderRadiusGeometry.circular(20.0),
-      child: Container(
-        child: Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
-          child: Container(
-            height: 150,
-            decoration: const BoxDecoration(color: Colors.white),
-          ),
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: Container(
+          height: 150,
+          decoration: const BoxDecoration(color: Colors.white),
         ),
       ),
     );

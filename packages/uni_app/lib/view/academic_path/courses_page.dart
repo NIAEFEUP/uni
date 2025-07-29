@@ -83,7 +83,6 @@ class CoursesPageState extends State<CoursesPage> {
 
   @override
   Widget build(BuildContext context) {
-    const bottomNavbarHeight = 120.0;
     return LazyConsumer<ProfileProvider, Profile>(
       builder: (context, profile) {
         final courses = profile.courses;

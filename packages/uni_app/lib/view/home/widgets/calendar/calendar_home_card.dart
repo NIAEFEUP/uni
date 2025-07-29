@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/localized_events.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
@@ -50,7 +49,7 @@ class CalendarHomeCard extends GenericHomecard {
           style: Theme.of(context).textTheme.headlineLarge,
         ),
       ),
-      contentLoadingWidget: ShimmerCalendarItem(),
+      contentLoadingWidget: const ShimmerCalendarItem(),
     );
   }
 }
