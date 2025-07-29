@@ -50,6 +50,7 @@ import 'package:uni/view/theme_notifier.dart';
 import 'package:uni/view/widgets/page_transition.dart';
 import 'package:uni_ui/theme.dart';
 import 'package:upgrader/upgrader.dart';
+import 'package:wear_plus/wear_plus.dart';
 import 'package:workmanager/workmanager.dart';
 
 import 'controller/local_storage/database/database.dart';
@@ -119,10 +120,9 @@ Future<void> main() async {
 
   final ua = await userAgent();
 
-  final plausible =
-      plausibleUrl != null && plausibleDomain != null
-          ? Plausible(plausibleUrl, plausibleDomain, userAgent: ua)
-          : null;
+  final plausible = plausibleUrl != null && plausibleDomain != null
+      ? Plausible(plausibleUrl, plausibleDomain, userAgent: ua)
+      : null;
 
   if (plausible == null) {
     Logger().w('Plausible is not enabled');
@@ -222,102 +222,111 @@ class ApplicationState extends State<Application> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<ThemeNotifier, LocaleNotifier>(
-      builder:
-          (context, themeNotifier, localeNotifier, _) => UpgradeAlert(
-            navigatorKey: Application.navigatorKey,
-            showIgnore: false,
-            child: MaterialApp(
-              title: 'uni',
-              navigatorKey: Application.navigatorKey,
-              theme: lightTheme,
-              themeMode: ThemeMode.light, // themeNotifier.getTheme(),
-              locale: localeNotifier.getLocale().localeCode,
-              localizationsDelegates: const [
-                S.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: S.delegate.supportedLocales,
-              initialRoute: widget.initialRoute,
-              navigatorObservers: navigatorObservers,
-              onGenerateRoute: (settings) {
-                final args = settings.arguments;
-                final courseUnit = args is CourseUnit ? args : null;
-                final transitionFunctions = <String, Route<dynamic> Function()>{
-                  '/${NavigationItem.navSplash.route}':
-                      () => PageTransition.splashTransitionRoute(
-                        page: const SplashScreenView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navEditPersonalArea.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const EditHomeView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navLogin.route}':
-                      () => PageTransition.splashTransitionRoute(
-                        page: const LoginPageView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navPersonalArea.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const HomePageView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navMap.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const MapPage(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navRestaurants.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const RestaurantPageView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navCalendar.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const CalendarPageView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navFaculty.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const FacultyPageView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navAcademicPath.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const AcademicPathPageView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navProfile.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const ProfilePageView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navBugreport.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const BugReportPageView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navAboutus.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const AboutPageView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navCourseUnit.route}':
-                      () => PageTransition.makePageTransition(
-                        page: CourseUnitDetailPageView(courseUnit!),
-                        settings: settings,
-                      ),
-                };
+    return WatchShape(
+      builder: (context, shape, _) {
+        return AmbientMode(
+          builder: (context, mode, _) {
+            return Consumer2<ThemeNotifier, LocaleNotifier>(
+              builder: (context, themeNotifier, localeNotifier, _) =>
+                  UpgradeAlert(
+                    navigatorKey: Application.navigatorKey,
+                    showIgnore: false,
+                    child: MaterialApp(
+                      title: 'uni',
+                      navigatorKey: Application.navigatorKey,
+                      theme: lightTheme,
+                      themeMode: ThemeMode.light, // themeNotifier.getTheme(),
+                      locale: localeNotifier.getLocale().localeCode,
+                      localizationsDelegates: const [
+                        S.delegate,
+                        GlobalMaterialLocalizations.delegate,
+                        GlobalWidgetsLocalizations.delegate,
+                        GlobalCupertinoLocalizations.delegate,
+                      ],
+                      supportedLocales: S.delegate.supportedLocales,
+                      initialRoute: widget.initialRoute,
+                      navigatorObservers: navigatorObservers,
+                      onGenerateRoute: (settings) {
+                        final args = settings.arguments;
+                        final courseUnit = args is CourseUnit ? args : null;
+                        final transitionFunctions =
+                            <String, Route<dynamic> Function()>{
+                              '/${NavigationItem.navSplash.route}': () =>
+                                  PageTransition.splashTransitionRoute(
+                                    page: const SplashScreenView(),
+                                    settings: settings,
+                                  ),
+                              '/${NavigationItem.navEditPersonalArea.route}':
+                                  () => PageTransition.makePageTransition(
+                                    page: const EditHomeView(),
+                                    settings: settings,
+                                  ),
+                              '/${NavigationItem.navLogin.route}': () =>
+                                  PageTransition.splashTransitionRoute(
+                                    page: const LoginPageView(),
+                                    settings: settings,
+                                  ),
+                              '/${NavigationItem.navPersonalArea.route}': () =>
+                                  PageTransition.makePageTransition(
+                                    page: const HomePageView(),
+                                    settings: settings,
+                                  ),
+                              '/${NavigationItem.navMap.route}': () =>
+                                  PageTransition.makePageTransition(
+                                    page: const MapPage(),
+                                    settings: settings,
+                                  ),
+                              '/${NavigationItem.navRestaurants.route}': () =>
+                                  PageTransition.makePageTransition(
+                                    page: const RestaurantPageView(),
+                                    settings: settings,
+                                  ),
+                              '/${NavigationItem.navCalendar.route}': () =>
+                                  PageTransition.makePageTransition(
+                                    page: const CalendarPageView(),
+                                    settings: settings,
+                                  ),
+                              '/${NavigationItem.navFaculty.route}': () =>
+                                  PageTransition.makePageTransition(
+                                    page: const FacultyPageView(),
+                                    settings: settings,
+                                  ),
+                              '/${NavigationItem.navAcademicPath.route}': () =>
+                                  PageTransition.makePageTransition(
+                                    page: const AcademicPathPageView(),
+                                    settings: settings,
+                                  ),
+                              '/${NavigationItem.navProfile.route}': () =>
+                                  PageTransition.makePageTransition(
+                                    page: const ProfilePageView(),
+                                    settings: settings,
+                                  ),
+                              '/${NavigationItem.navBugreport.route}': () =>
+                                  PageTransition.makePageTransition(
+                                    page: const BugReportPageView(),
+                                    settings: settings,
+                                  ),
+                              '/${NavigationItem.navAboutus.route}': () =>
+                                  PageTransition.makePageTransition(
+                                    page: const AboutPageView(),
+                                    settings: settings,
+                                  ),
+                              '/${NavigationItem.navCourseUnit.route}': () =>
+                                  PageTransition.makePageTransition(
+                                    page: CourseUnitDetailPageView(courseUnit!),
+                                    settings: settings,
+                                  ),
+                            };
 
-                final builder = transitionFunctions[settings.name];
-                return builder != null ? builder() : null;
-              },
-            ),
-          ),
+                        final builder = transitionFunctions[settings.name];
+                        return builder != null ? builder() : null;
+                      },
+                    ),
+                  ),
+            );
+          },
+        );
+      },
     );
   }
 }

@@ -1867,6 +1867,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.2"
+  wear_plus:
+    dependency: transitive
+    description:
+      name: wear_plus
+      sha256: "47551b85272ecaeaa5baa9e95ed14875fdd20443a25d1f7ca9272bab64bc44e5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.3"
   web:
     dependency: transitive
     description:
