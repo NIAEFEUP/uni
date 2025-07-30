@@ -43,7 +43,7 @@ class UniIcons {
   static const more = PhosphorIconsDuotone.dotsThreeOutlineVertical;
 
   static const password = PhosphorIconsDuotone.password;
-  
+
   // Locations pins icons
   static const money = PhosphorIconsDuotone.money;
   static const coffee = PhosphorIconsDuotone.coffee;

@@ -98,11 +98,9 @@ class Settings extends StatelessWidget {
             ),
           ),
 
-
-
           GenericCard(
             tooltip: S.of(context).change_password,
-            margin: const EdgeInsets.symmetric(vertical:8),
+            margin: const EdgeInsets.symmetric(vertical: 8),
             child: ProfileListTile(
               icon: UniIcons.password,
               title: S.of(context).change_password,
@@ -110,14 +108,13 @@ class Settings extends StatelessWidget {
                 UniIcons.caretRight,
                 color: Theme.of(context).colorScheme.primary,
               ),
-              onTap: () => launchUrlWithToast(
-                context,
-                'https://self-id.up.pt/password',
-              ),
+              onTap:
+                  () => launchUrlWithToast(
+                    context,
+                    'https://self-id.up.pt/password',
+                  ),
             ),
-        ),
-
-
+          ),
 
           GenericCard(
             tooltip: S.of(context).logout,
