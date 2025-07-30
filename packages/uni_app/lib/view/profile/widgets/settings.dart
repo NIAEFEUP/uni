@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/profile/widgets/locale_switch_button.dart';
@@ -96,6 +97,28 @@ class Settings extends StatelessWidget {
               },
             ),
           ),
+
+
+
+          GenericCard(
+            tooltip: S.of(context).change_password,
+            margin: const EdgeInsets.symmetric(vertical:8),
+            child: ProfileListTile(
+              icon: UniIcons.password,
+              title: S.of(context).change_password,
+              trailing: UniIcon(
+                UniIcons.caretRight,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              onTap: () => launchUrlWithToast(
+                context,
+                'https://self-id.up.pt/password',
+              ),
+            ),
+        ),
+
+
+
           GenericCard(
             tooltip: S.of(context).logout,
             margin: const EdgeInsets.symmetric(vertical: 8),
