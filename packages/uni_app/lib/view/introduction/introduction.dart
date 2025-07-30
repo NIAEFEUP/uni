@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/introduction/widgets/first_page.dart';
 
 class IntroductionScreenView extends StatefulWidget {
