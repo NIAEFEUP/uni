@@ -88,47 +88,44 @@ class HomePageViewState extends State<HomePageView> {
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.light,
+        systemNavigationBarIconBrightness: Brightness.dark,
       ),
-      child: MediaQuery.removePadding(
-        context: context,
-        removeBottom: true,
-        child: Scaffold(
-          extendBody: true,
-          floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Theme.of(context).primaryColor,
-            foregroundColor: Colors.white,
-            shape: const CircleBorder(),
-            onPressed:
-                () => {
-                  Navigator.pushNamed(
-                    context,
-                    '/${NavigationItem.navEditPersonalArea.route}',
-                  ),
-                },
-            child: const UniIcon(UniIcons.edit),
-          ),
-          backgroundColor: Theme.of(context).colorScheme.surface,
-          appBar: homeAppBar(context),
-          bottomNavigationBar: const AppBottomNavbar(),
-          body: RefreshIndicator(
-            onRefresh: () => refreshPage(context),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-              child: ListView.separated(
-                itemCount: favoriteCards.length + 1,
-                separatorBuilder: (_, _) => const SizedBox(height: 10),
-                itemBuilder: (_, index) {
-                  if (index == 0) {
-                    return Visibility(
-                      visible: !_isBannerViewed,
-                      child: TrackingBanner(setBannerViewed),
-                    );
-                  } else {
-                    return typeToCard[favoriteCards[index - 1]];
-                  }
-                },
-              ),
+      child: Scaffold(
+        extendBody: true,
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Colors.white,
+          shape: const CircleBorder(),
+          onPressed:
+              () => {
+                Navigator.pushNamed(
+                  context,
+                  '/${NavigationItem.navEditPersonalArea.route}',
+                ),
+              },
+          child: const UniIcon(UniIcons.edit),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        appBar: homeAppBar(context),
+        bottomNavigationBar: const AppBottomNavbar(),
+        body: RefreshIndicator(
+          onRefresh: () => refreshPage(context),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            child: ListView.separated(
+              itemCount: favoriteCards.length + 1,
+              separatorBuilder: (_, _) => const SizedBox(height: 10),
+              itemBuilder: (_, index) {
+                if (index == 0) {
+                  return Visibility(
+                    visible: !_isBannerViewed,
+                    child: TrackingBanner(setBannerViewed),
+                  );
+                } else {
+                  return typeToCard[favoriteCards[index - 1]];
+                }
+              },
             ),
           ),
         ),

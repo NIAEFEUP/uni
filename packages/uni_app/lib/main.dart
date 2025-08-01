@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logger/logger.dart';
@@ -227,95 +228,105 @@ class ApplicationState extends State<Application> {
           (context, themeNotifier, localeNotifier, _) => UpgradeAlert(
             navigatorKey: Application.navigatorKey,
             showIgnore: false,
-            child: MaterialApp(
-              title: 'uni',
-              navigatorKey: Application.navigatorKey,
-              theme: lightTheme,
-              themeMode: ThemeMode.light, // themeNotifier.getTheme(),
-              locale: localeNotifier.getLocale().localeCode,
-              localizationsDelegates: const [
-                S.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: S.delegate.supportedLocales,
-              initialRoute: widget.initialRoute,
-              navigatorObservers: navigatorObservers,
-              onGenerateRoute: (settings) {
-                final args = settings.arguments;
-                final courseUnit = args is CourseUnit ? args : null;
-                final transitionFunctions = <String, Route<dynamic> Function()>{
-                  '/${NavigationItem.navSplash.route}':
-                      () => PageTransition.splashTransitionRoute(
-                        page: const SplashScreenView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navEditPersonalArea.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const EditHomeView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navLogin.route}':
-                      () => PageTransition.splashTransitionRoute(
-                        page: const LoginPageView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navPersonalArea.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const HomePageView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navMap.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const MapPage(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navRestaurants.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const RestaurantPageView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navCalendar.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const CalendarPageView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navFaculty.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const FacultyPageView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navAcademicPath.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const AcademicPathPageView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navProfile.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const ProfilePageView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navBugreport.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const BugReportPageView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navAboutus.route}':
-                      () => PageTransition.makePageTransition(
-                        page: const AboutPageView(),
-                        settings: settings,
-                      ),
-                  '/${NavigationItem.navCourseUnit.route}':
-                      () => PageTransition.makePageTransition(
-                        page: CourseUnitDetailPageView(courseUnit!),
-                        settings: settings,
-                      ),
-                };
+            child: AnnotatedRegion<SystemUiOverlayStyle>(
+              value: const SystemUiOverlayStyle(
+                systemNavigationBarContrastEnforced: false,
+              ),
+              child: MediaQuery.removePadding(
+                context: context,
+                removeBottom: true,
+                child: MaterialApp(
+                  title: 'uni',
+                  navigatorKey: Application.navigatorKey,
+                  theme: lightTheme,
+                  themeMode: ThemeMode.light, // themeNotifier.getTheme(),
+                  locale: localeNotifier.getLocale().localeCode,
+                  localizationsDelegates: const [
+                    S.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                  supportedLocales: S.delegate.supportedLocales,
+                  initialRoute: widget.initialRoute,
+                  navigatorObservers: navigatorObservers,
+                  onGenerateRoute: (settings) {
+                    final args = settings.arguments;
+                    final courseUnit = args is CourseUnit ? args : null;
+                    final transitionFunctions =
+                        <String, Route<dynamic> Function()>{
+                          '/${NavigationItem.navSplash.route}':
+                              () => PageTransition.splashTransitionRoute(
+                                page: const SplashScreenView(),
+                                settings: settings,
+                              ),
+                          '/${NavigationItem.navEditPersonalArea.route}':
+                              () => PageTransition.makePageTransition(
+                                page: const EditHomeView(),
+                                settings: settings,
+                              ),
+                          '/${NavigationItem.navLogin.route}':
+                              () => PageTransition.splashTransitionRoute(
+                                page: const LoginPageView(),
+                                settings: settings,
+                              ),
+                          '/${NavigationItem.navPersonalArea.route}':
+                              () => PageTransition.makePageTransition(
+                                page: const HomePageView(),
+                                settings: settings,
+                              ),
+                          '/${NavigationItem.navMap.route}':
+                              () => PageTransition.makePageTransition(
+                                page: const MapPage(),
+                                settings: settings,
+                              ),
+                          '/${NavigationItem.navRestaurants.route}':
+                              () => PageTransition.makePageTransition(
+                                page: const RestaurantPageView(),
+                                settings: settings,
+                              ),
+                          '/${NavigationItem.navCalendar.route}':
+                              () => PageTransition.makePageTransition(
+                                page: const CalendarPageView(),
+                                settings: settings,
+                              ),
+                          '/${NavigationItem.navFaculty.route}':
+                              () => PageTransition.makePageTransition(
+                                page: const FacultyPageView(),
+                                settings: settings,
+                              ),
+                          '/${NavigationItem.navAcademicPath.route}':
+                              () => PageTransition.makePageTransition(
+                                page: const AcademicPathPageView(),
+                                settings: settings,
+                              ),
+                          '/${NavigationItem.navProfile.route}':
+                              () => PageTransition.makePageTransition(
+                                page: const ProfilePageView(),
+                                settings: settings,
+                              ),
+                          '/${NavigationItem.navBugreport.route}':
+                              () => PageTransition.makePageTransition(
+                                page: const BugReportPageView(),
+                                settings: settings,
+                              ),
+                          '/${NavigationItem.navAboutus.route}':
+                              () => PageTransition.makePageTransition(
+                                page: const AboutPageView(),
+                                settings: settings,
+                              ),
+                          '/${NavigationItem.navCourseUnit.route}':
+                              () => PageTransition.makePageTransition(
+                                page: CourseUnitDetailPageView(courseUnit!),
+                                settings: settings,
+                              ),
+                        };
 
-                final builder = transitionFunctions[settings.name];
-                return builder != null ? builder() : null;
-              },
+                    final builder = transitionFunctions[settings.name];
+                    return builder != null ? builder() : null;
+                  },
+                ),
+              ),
             ),
           ),
     );
