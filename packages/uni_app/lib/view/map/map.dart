@@ -182,26 +182,33 @@ class MapPageStateView extends State<MapPage> {
                     ),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: ColoredBox(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onPrimary.withAlpha(204),
-                    child: GestureDetector(
-                      onTap:
-                          () => launchUrlWithToast(
-                            context,
-                            'https://www.openstreetmap.org/copyright',
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewPadding.bottom + 110,
+                    left: 20,
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 5),
+                      child: GestureDetector(
+                        onTap:
+                            () => launchUrlWithToast(
+                              context,
+                              'https://www.openstreetmap.org/copyright',
+                            ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 5,
+                            horizontal: 8,
                           ),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 5,
-                          horizontal: 8,
-                        ),
-                        child: MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: Text('©OpenStreetMap @CARTO'),
+                          child: MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: Text(
+                              '©OpenStreetMap @CARTO',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ),
                         ),
                       ),
                     ),
