@@ -11,13 +11,13 @@ import 'package:uni/session/flows/base/session.dart';
 class CourseUnitsInfoFetcher implements SessionDependantFetcher {
   @override
   List<String> getEndpoints(Session session) {
-    return NetworkRouter.getBaseUrlsFromSession(session, languageSensitive: true).toList();
+    return NetworkRouter.getBaseUrlsFromSession(
+      session,
+      languageSensitive: true,
+    ).toList();
   }
 
-  Future<Sheet> fetchSheet(
-    Session session,
-    int occurId,
-  ) async {
+  Future<Sheet> fetchSheet(Session session, int occurId) async {
     //TODO: Through this link we can't retrieve the sheet of a course unit in english
     final responses = await Future.wait(
       getEndpoints(session)

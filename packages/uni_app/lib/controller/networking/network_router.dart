@@ -27,16 +27,23 @@ class NetworkRouter {
 
   /// Returns the base url of the user's faculty.
   static String getBaseUrl(String faculty, {bool languageSensitive = false}) {
-    final languageCode = languageSensitive 
-      ? PreferencesController.getLocale().localeCode 
-      : 'pt';
+    final languageCode =
+        languageSensitive ? PreferencesController.getLocale().localeCode : 'pt';
 
     return 'https://sigarra.up.pt/$faculty/$languageCode/';
   }
 
   /// Returns the base url from the user's previous session.
-  static List<String> getBaseUrlsFromSession(Session session, {bool languageSensitive = false}) {
-    return session.faculties.map((faculty) => getBaseUrl(faculty, languageSensitive: languageSensitive)).toList();
+  static List<String> getBaseUrlsFromSession(
+    Session session, {
+    bool languageSensitive = false,
+  }) {
+    return session.faculties
+        .map(
+          (faculty) =>
+              getBaseUrl(faculty, languageSensitive: languageSensitive),
+        )
+        .toList();
   }
 
   static Future<http.Response> getWithCookies(

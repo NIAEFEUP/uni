@@ -9,7 +9,8 @@ class CurrentCourseUnitsFetcher implements SessionDependantFetcher {
   @override
   List<String> getEndpoints(Session session) {
     // all faculties list user course units on all faculties
-    final url = '${NetworkRouter.getBaseUrlsFromSession(session, languageSensitive: true)[0]}'
+    final url =
+        '${NetworkRouter.getBaseUrlsFromSession(session, languageSensitive: true)[0]}'
         'mob_fest_geral.ucurr_inscricoes_corrente';
     return [url];
   }

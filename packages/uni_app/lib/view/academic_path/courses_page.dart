@@ -73,7 +73,7 @@ class CoursesPageState extends State<CoursesPage> {
       return '???';
     }
 
-    //TODO: This fix(finished courses the abbreviation is null) works when the 
+    //TODO: This fix(finished courses the abbreviation is null) works when the
     //app is in portuguese, but not in english. Where instead of LEIC it will be BICE.
     return course.name!
         .replaceAll('Licenciatura', 'Licenciatura.')
