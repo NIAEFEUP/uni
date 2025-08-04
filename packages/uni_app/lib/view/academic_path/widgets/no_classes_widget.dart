@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/view/common_widgets/expanded_image_label.dart';
+import 'package:uni/view/widgets/expanded_image_label.dart';
 
 class NoClassesWidget extends StatelessWidget {
   const NoClassesWidget({super.key});
@@ -9,7 +9,7 @@ class NoClassesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ImageLabel(
       imagePath: 'assets/images/school.png',
-      label: S.of(context).no_class,
+      label: S.of(context).no_classes,
       labelTextStyle: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 18,

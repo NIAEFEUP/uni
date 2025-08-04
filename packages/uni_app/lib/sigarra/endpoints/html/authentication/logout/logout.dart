@@ -3,9 +3,7 @@ import 'package:uni/sigarra/options.dart';
 import 'package:uni/sigarra/response.dart';
 
 class Logout extends Endpoint {
-  const Logout({
-    this.options,
-  });
+  const Logout({this.options});
 
   final FacultyRequestOptions? options;
 

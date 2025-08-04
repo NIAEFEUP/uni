@@ -23,7 +23,8 @@ class AuthenticatedClient extends http.BaseClient {
   Future<bool> _isUserLoggedIn(Session session) async {
     Logger().d('Checking if user is still logged in');
 
-    final url = '${NetworkRouter.getBaseUrl(session.mainFaculty)}'
+    final url =
+        '${NetworkRouter.getBaseUrl(session.mainFaculty)}'
         'fest_geral.cursos_list?pv_num_unico=${session.username}';
 
     final client = CookieClient(_inner, cookies: () => session.cookies);
@@ -43,11 +44,12 @@ class AuthenticatedClient extends http.BaseClient {
         cookies: () => snapshot.session.cookies,
       ),
       [Duration.zero],
-      when: (response) async =>
-          // We retry if the request is unauthorized
-          response.statusCode == 403 &&
-          // and, to be sure, if the user is not logged in SIGARRA.
-          !await _isUserLoggedIn(snapshot.session),
+      when:
+          (response) async =>
+              // We retry if the request is unauthorized
+              response.statusCode == 403 &&
+              // and, to be sure, if the user is not logged in SIGARRA.
+              !await _isUserLoggedIn(snapshot.session),
       onRetry: (request, response, attempt) async {
         // When retrying, the previous session should be invalidated
         // and the session should be refreshed.

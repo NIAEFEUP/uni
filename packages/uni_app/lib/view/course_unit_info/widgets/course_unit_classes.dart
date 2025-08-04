@@ -16,9 +16,9 @@ class CourseUnitClassesView extends StatefulWidget {
 
 class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
   static const double _itemWidth = 140;
-  static const Duration _scrollDuration = Duration(milliseconds: 300);
+  static const _scrollDuration = Duration(milliseconds: 300);
 
-  final ScrollController _scrollController = ScrollController();
+  final _scrollController = ScrollController();
 
   late int selectedIndex;
   late int studentNumber;
@@ -91,8 +91,9 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
           itemCount: widget.classes.length,
           itemBuilder: (context, index) {
             final courseUnitClass = widget.classes[index];
-            final isMyClass = courseUnitClass.students
-                .any((student) => student.number == studentNumber);
+            final isMyClass = courseUnitClass.students.any(
+              (student) => student.number == studentNumber,
+            );
             final isSelected = index == selectedIndex;
 
             return ConstrainedBox(
@@ -103,16 +104,19 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
               child: GestureDetector(
                 onTap: () => _handleClassTap(index),
                 child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
-                    color: isSelected
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.secondary,
+                    color:
+                        isSelected
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.secondary,
                     borderRadius: BorderRadius.circular(25),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withAlpha(51), // 20% opacity
                         spreadRadius: 2,
                         blurRadius: 5,
                         offset: const Offset(0, 2),
@@ -128,11 +132,12 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
                     isMyClass
                         ? '${courseUnitClass.className} *'
                         : courseUnitClass.className,
-                    style: isSelected
-                        ? Theme.of(context).textTheme.labelMedium?.copyWith(
+                    style:
+                        isSelected
+                            ? Theme.of(context).textTheme.labelMedium?.copyWith(
                               color: Theme.of(context).colorScheme.onPrimary,
                             )
-                        : Theme.of(context).textTheme.labelMedium,
+                            : Theme.of(context).textTheme.labelMedium,
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -149,7 +154,7 @@ class _CourseUnitClassesViewState extends State<CourseUnitClassesView> {
   Widget _buildStudentList(SessionProvider session) {
     final currentClass = widget.classes[selectedIndex];
     return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+      padding: const EdgeInsets.only(bottom: 8),
       child: GridView.builder(
         key: ValueKey(currentClass.className),
         shrinkWrap: true,

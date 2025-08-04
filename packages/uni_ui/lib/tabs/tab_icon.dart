@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uni_ui/icons.dart';
 
 class TabIcon extends StatelessWidget {
-  const TabIcon({
-    super.key,
-    required this.icon,
-    required this.text,
-  });
+  const TabIcon({super.key, required this.icon, required this.text});
 
   final IconData icon;
   final String text;
@@ -19,12 +15,7 @@ class TabIcon extends StatelessWidget {
         children: [
           UniIcon(icon),
           const SizedBox(width: 4),
-          Expanded(
-            child: Text(
-              text,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
+          Flexible(child: Text(text, overflow: TextOverflow.ellipsis)),
         ],
       ),
     );

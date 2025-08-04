@@ -21,7 +21,8 @@ class ModalPersonInfo extends StatelessWidget {
           Text(
             name,
             style: Theme.of(context).textTheme.displaySmall,
-          )
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );

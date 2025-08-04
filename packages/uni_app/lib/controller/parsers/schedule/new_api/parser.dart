@@ -8,9 +8,7 @@ import 'package:uni/model/entities/lecture.dart';
 /// Extracts the user's lecture API URL.
 ///
 /// This function parses the schedule's HTML page.
-String? getScheduleApiUrlFromHtml(
-  http.Response response,
-) {
+String? getScheduleApiUrlFromHtml(http.Response response) {
   final document = parse(response.body);
 
   final scheduleElement = document.querySelector('#cal-shadow-container');
@@ -19,9 +17,7 @@ String? getScheduleApiUrlFromHtml(
   return apiUrl;
 }
 
-List<Lecture> getLecturesFromApiResponse(
-  http.Response response,
-) {
+List<Lecture> getLecturesFromApiResponse(http.Response response) {
   final json = jsonDecode(response.body) as Map<String, dynamic>;
   final data = json['data'] as List<dynamic>;
 
@@ -37,6 +33,8 @@ List<Lecture> getLecturesFromApiResponse(
           lecture.end,
           lecture.rooms.first.name,
           lecture.persons.map((person) => person.acronym).join('+'),
+          _filterTeacherName(lecture.persons.first.name),
+          _filterTeacherCode(lecture.persons.first.name),
           lecture.classes.length > 1
               ? '${lecture.classes.first.acronym} + ${lecture.classes.length - 1}'
               : lecture.classes.first.acronym,
@@ -49,4 +47,14 @@ List<Lecture> getLecturesFromApiResponse(
 String _filterSubjectName(String subject) {
   return RegExp(r' - ([^()]*)(?: \(|$)').firstMatch(subject)?.group(1) ??
       subject;
+}
+
+int _filterTeacherCode(String name) {
+  final match = RegExp(r'^(\d+)').firstMatch(name);
+  return match != null ? int.parse(match.group(1)!) : 0;
+}
+
+String _filterTeacherName(String name) {
+  final match = RegExp(r' - (.+)$').firstMatch(name);
+  return match != null ? match.group(1)! : name;
 }

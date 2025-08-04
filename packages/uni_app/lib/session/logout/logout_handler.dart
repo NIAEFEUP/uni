@@ -5,10 +5,10 @@ import 'package:uni/session/flows/credentials/session.dart';
 import 'package:uni/session/flows/federated/session.dart';
 
 abstract class LogoutHandler {
-  FutureOr<void> closeCredentialsSession(CredentialsSession session) {}
-  FutureOr<void> closeFederatedSession(FederatedSession session) {}
+  Future<void>? closeCredentialsSession(CredentialsSession session) => null;
+  Future<void>? closeFederatedSession(FederatedSession session) => null;
 
-  FutureOr<void> close(Session session) {
+  Future<void>? close(Session session) {
     if (session is FederatedSession) {
       return closeFederatedSession(session);
     } else if (session is CredentialsSession) {

@@ -12,8 +12,6 @@ class SchedulePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const bottomNavbarHeight = 120.0;
-
     return MediaQuery.removePadding(
       context: context,
       removeBottom: true,
@@ -21,24 +19,18 @@ class SchedulePage extends StatelessWidget {
         builder: (context, lectures) {
           final startOfWeek = _getStartOfWeek(now, lectures);
 
-          return SchedulePageView(
-            lectures,
-            startOfWeek: startOfWeek,
-            now: now,
-          );
+          return SchedulePageView(lectures, startOfWeek: startOfWeek, now: now);
         },
         hasContent: (lectures) => lectures.isNotEmpty,
         onNullContent: LayoutBuilder(
-          builder: (context, constraints) => SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Container(
-              height: constraints.maxHeight,
-              padding: const EdgeInsets.only(bottom: bottomNavbarHeight),
-              child: const Center(
-                child: NoClassesWidget(),
+          builder:
+              (context, constraints) => SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: SizedBox(
+                  height: constraints.maxHeight,
+                  child: const Center(child: NoClassesWidget()),
+                ),
               ),
-            ),
-          ),
         ),
         mapper: (lectures) {
           final startOfWeek = _getStartOfWeek(now, lectures);
@@ -62,7 +54,7 @@ class SchedulePage extends StatelessWidget {
 
     final hasLecturesThisWeek = lectures.any(
       (lecture) =>
-          lecture.startTime.isAfter(now) &&
+          lecture.endTime.isAfter(now) &&
           lecture.startTime.isBefore(secondSunday),
     );
 

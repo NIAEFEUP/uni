@@ -10,21 +10,21 @@ import 'package:uni/model/entities/profile.dart';
 /// This database stores information about the user's university profile.
 class AppUserDataDatabase extends AppDatabase<Profile> {
   AppUserDataDatabase()
-      : super(
-          'userdata.db',
-          ['CREATE TABLE userdata(name TEXT, value TEXT)'],
-          onUpgrade: migrate,
-          version: 2,
-        );
+    : super(
+        'userdata.db',
+        ['CREATE TABLE userdata(name TEXT, value TEXT)'],
+        onUpgrade: migrate,
+        version: 2,
+      );
 
   /// Adds [data] (profile) to this database.
   @override
   Future<void> saveToDatabase(Profile data) async {
     for (final keymap in data.keymapValues()) {
-      await insertInDatabase(
-        'userdata',
-        {'name': keymap.$1, 'value': keymap.$2},
-      );
+      await insertInDatabase('userdata', {
+        'name': keymap.$1,
+        'value': keymap.$2,
+      });
     }
   }
 
@@ -78,14 +78,15 @@ class AppUserDataDatabase extends AppDatabase<Profile> {
     await db.delete('userdata');
   }
 
-  static FutureOr<void> migrate(
+  static Future<void>? migrate(
     Database db,
     int oldVersion,
     int newVersion,
   ) async {
-    final batch = db.batch()
-      ..execute('DROP TABLE IF EXISTS userdata')
-      ..execute('CREATE TABLE userdata(name TEXT, value TEXT)');
+    final batch =
+        db.batch()
+          ..execute('DROP TABLE IF EXISTS userdata')
+          ..execute('CREATE TABLE userdata(name TEXT, value TEXT)');
     await batch.commit();
   }
 }

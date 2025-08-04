@@ -56,15 +56,13 @@ class NotificationManager {
 
   NotificationManager._internal();
 
-  static final NotificationManager _notificationManager =
-      NotificationManager._internal();
+  static final _notificationManager = NotificationManager._internal();
 
-  static final FlutterLocalNotificationsPlugin _localNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  static final _localNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-  static bool _initialized = false;
+  static var _initialized = false;
 
-  static const Duration _notificationWorkerPeriod = Duration(hours: 1);
+  static const _notificationWorkerPeriod = Duration(hours: 1);
 
   Future<void> initializeNotifications() async {
     // guarantees that the execution is only done
@@ -78,8 +76,9 @@ class NotificationManager {
   }
 
   static Future<void> _initFlutterNotificationsPlugin() async {
-    const initializationSettingsAndroid =
-        AndroidInitializationSettings('ic_notification');
+    const initializationSettingsAndroid = AndroidInitializationSettings(
+      '@mipmap/ic_launcher',
+    );
 
     // request for notifications immediatly on iOS
     const darwinInitializationSettings = DarwinInitializationSettings(
@@ -98,8 +97,10 @@ class NotificationManager {
     // the first notification channel opens
     if (Platform.isAndroid) {
       final androidPlugin =
-          _localNotificationsPlugin.resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>()!;
+          _localNotificationsPlugin
+              .resolvePlatformSpecificImplementation<
+                AndroidFlutterLocalNotificationsPlugin
+              >()!;
       try {
         final permissionGranted =
             await androidPlugin.requestNotificationsPermission();
@@ -158,8 +159,9 @@ class NotificationManager {
 
     for (final value in notificationMap.values) {
       final notification = value();
-      final lastRan = notificationStorage
-          .getLastTimeNotificationExecuted(notification.uniqueID);
+      final lastRan = notificationStorage.getLastTimeNotificationExecuted(
+        notification.uniqueID,
+      );
       if (lastRan.add(notification.timeout).isBefore(DateTime.now())) {
         await notification.displayNotificationIfPossible(
           session,

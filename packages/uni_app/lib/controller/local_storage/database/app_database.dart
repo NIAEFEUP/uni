@@ -8,12 +8,7 @@ import 'package:uni/controller/local_storage/preferences_controller.dart';
 ///
 /// This class is the foundation for all other database managers.
 abstract class AppDatabase<T> {
-  AppDatabase(
-    this.name,
-    this.commands, {
-    this.onUpgrade,
-    this.version = 1,
-  });
+  AppDatabase(this.name, this.commands, {this.onUpgrade, this.version = 1});
 
   /// An instance of this database.
   Database? _db;
@@ -28,10 +23,10 @@ abstract class AppDatabase<T> {
   bool? _persistentSession;
 
   /// The lock timeout for database operations.
-  static const Duration lockTimeout = Duration(seconds: 5);
+  static const lockTimeout = Duration(seconds: 5);
 
   /// A lock that synchronizes all database insertions.
-  static Lock lock = Lock();
+  static final lock = Lock();
 
   /// A function that is called when the [version] changes.
   final OnDatabaseVersionChangeFn? onUpgrade;
@@ -67,18 +62,15 @@ abstract class AppDatabase<T> {
     String? nullColumnHack,
     ConflictAlgorithm? conflictAlgorithm,
   }) async {
-    await lock.synchronized(
-      () async {
-        final db = await getDatabase();
-        await db.insert(
-          table,
-          values,
-          nullColumnHack: nullColumnHack,
-          conflictAlgorithm: conflictAlgorithm,
-        );
-      },
-      timeout: lockTimeout,
-    );
+    await lock.synchronized(() async {
+      final db = await getDatabase();
+      await db.insert(
+        table,
+        values,
+        nullColumnHack: nullColumnHack,
+        conflictAlgorithm: conflictAlgorithm,
+      );
+    }, timeout: lockTimeout);
   }
 
   /// Initializes this database.

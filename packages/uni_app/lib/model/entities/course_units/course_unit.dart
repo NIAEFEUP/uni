@@ -1,9 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:objectbox/objectbox.dart';
 
 part '../../../generated/model/entities/course_units/course_unit.g.dart';
 
 /// Stores information about a course unit.
 @JsonSerializable()
+@Entity()
 class CourseUnit {
   CourseUnit({
     required this.abbreviation,
@@ -28,6 +30,7 @@ class CourseUnit {
       _$CourseUnitFromJson(json);
 
   @JsonKey(name: 'ucurr_id')
+  @Id(assignable: true)
   int? id;
   @JsonKey(name: 'ucurr_codigo')
   String code;
@@ -54,10 +57,11 @@ class CourseUnit {
   @JsonKey(name: 'resultado_insc')
   String? result;
   @JsonKey(name: 'creditos_ects')
-  num? ects;
+  double? ects;
   @JsonKey(name: 'fest_id') // Course id
   int? festId;
   String? schoolYear;
+
   Map<String, dynamic> toJson() => _$CourseUnitToJson(this);
 
   bool enrollmentIsValid() {

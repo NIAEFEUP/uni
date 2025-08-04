@@ -24,10 +24,7 @@ Future<List<Lecture>> parseScheduleMultipleRequests(
 /// date.
 ///
 /// This function parses a JSON object.
-Future<List<Lecture>> parseSchedule(
-  http.Response response,
-  Week week,
-) async {
+Future<List<Lecture>> parseSchedule(http.Response response, Week week) async {
   final lectures = <Lecture>{};
 
   final json = jsonDecode(response.body) as Map<String, dynamic>;
@@ -38,11 +35,7 @@ Future<List<Lecture>> parseSchedule(
 
     final startTime = week
         .getWeekday(WeekdayMapper.fromSigarraToDart.map(lecture['dia'] as int))
-        .add(
-          Duration(
-            seconds: lecture['hora_inicio'] as int,
-          ),
-        );
+        .add(Duration(seconds: lecture['hora_inicio'] as int));
 
     final subject = lecture['ucurr_sigla'] as String;
     final typeClass = lecture['tipo'] as String;
@@ -51,12 +44,15 @@ Future<List<Lecture>> parseSchedule(
     // or 2 hours long and so on. When the lecture is 1.5 hours long, it
     // returns a double, with the value 1.5.
     final lectureDuration = lecture['aula_duracao'];
-    final blocks = lectureDuration is double
-        ? (lectureDuration * 2).toInt()
-        : (lectureDuration as int) * 2;
+    final blocks =
+        lectureDuration is double
+            ? (lectureDuration * 2).toInt()
+            : (lectureDuration as int) * 2;
 
-    final room =
-        (lecture['sala_sigla'] as String).replaceAll(RegExp(r'\+'), '\n');
+    final room = (lecture['sala_sigla'] as String).replaceAll(
+      RegExp(r'\+'),
+      '\n',
+    );
     final teacher = lecture['doc_sigla'] as String;
     final classNumber = lecture['turma_sigla'] as String;
     final occurrId = lecture['ocorrencia_id'] as int;
@@ -69,6 +65,8 @@ Future<List<Lecture>> parseSchedule(
       blocks,
       room,
       teacher,
+      '',
+      0, // doesn't matter since this is the old api and isn't being used, right?
       classNumber,
       occurrId,
     );

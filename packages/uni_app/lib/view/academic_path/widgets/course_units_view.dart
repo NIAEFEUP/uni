@@ -5,16 +5,13 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/view/course_unit_info/course_unit_info.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/cards/course_grade_card.dart';
 import 'package:uni_ui/icons.dart';
 
 class CourseUnitsView extends StatefulWidget {
-  const CourseUnitsView({
-    super.key,
-    this.course,
-  });
+  const CourseUnitsView({super.key, this.course});
 
   final Course? course;
 
@@ -33,9 +30,10 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
     return LazyConsumer<ProfileProvider, Profile>(
       builder: (context, profile) {
         final courseUnits = profile.courseUnits;
-        final courseGradeCards = _applyFilters(courseUnits)
-            .map((courseUnit) => _toCourseGradeCard(courseUnit, context))
-            .toList();
+        final courseGradeCards =
+            _applyFilters(courseUnits)
+                .map((courseUnit) => _toCourseGradeCard(courseUnit, context))
+                .toList();
 
         return Column(
           children: [
@@ -45,14 +43,15 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
                   padding: const EdgeInsets.only(left: 8, right: 8),
                   child: DropdownButton(
                     underline: Container(),
-                    items: _getAvailableYears(courseUnits)
-                        .map(
-                          (year) => _toDropdownMenuItem(
-                            year,
-                            S.of(context).all_feminine,
-                          ),
-                        )
-                        .toList(),
+                    items:
+                        _getAvailableYears(courseUnits)
+                            .map(
+                              (year) => _toDropdownMenuItem(
+                                year,
+                                S.of(context).all_feminine,
+                              ),
+                            )
+                            .toList(),
                     value: selectedSchoolYear,
                     onChanged: (value) {
                       setState(() {
@@ -64,14 +63,13 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
                 ),
                 DropdownButton(
                   underline: Container(),
-                  items: _getAvailableSemesters(courseUnits)
-                      .map(
-                        (semester) => _toDropdownMenuItem(
-                          semester,
-                          '1S+2S',
-                        ),
-                      )
-                      .toList(),
+                  items:
+                      _getAvailableSemesters(courseUnits)
+                          .map(
+                            (semester) =>
+                                _toDropdownMenuItem(semester, '1S+2S'),
+                          )
+                          .toList(),
                   value: selectedSemester,
                   onChanged: (value) {
                     setState(() {
@@ -105,9 +103,10 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
               crossAxisCount: isGrid ? 2 : 1,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              childAspectRatio: isGrid
-                  ? (width - 40) / (width * 2) * 5
-                  : (width - 32) / width * 5,
+              childAspectRatio:
+                  isGrid
+                      ? (width - 40) / (width * 2) * 5
+                      : (width - 32) / width * 5,
               // Calculate aspect ratio, to avoid inconsistencies between grid and list view
               mainAxisSpacing: 8,
               crossAxisSpacing: 8,
@@ -122,18 +121,17 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
   }
 
   void _toCourseGradeCardOnTap(CourseUnit courseUnit, BuildContext context) {
-    Navigator.push(
+    Navigator.pushNamed(
       context,
-      MaterialPageRoute<CourseUnitDetailPageView>(
-        builder: (context) => CourseUnitDetailPageView(courseUnit),
-      ),
+      '/${NavigationItem.navCourseUnit.route}',
+      arguments: courseUnit,
     );
   }
 
   CourseGradeCard _toCourseGradeCard(CourseUnit unit, BuildContext context) {
     return CourseGradeCard(
       courseName: unit.name,
-      ects: (unit.ects ?? 0).toDouble(),
+      ects: unit.ects ?? 0,
       grade: unit.grade != null ? double.tryParse(unit.grade!)?.round() : null,
       tooltip: unit.name,
       onTap: () => _toCourseGradeCardOnTap(unit, context),
@@ -142,9 +140,10 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
 
   static List<String?> _getAvailableYears(List<CourseUnit> courseUnits) {
     final years = courseUnits.map((unit) => unit.schoolYear).nonNulls.toSet();
-    final yearsList = years.map((year) => year as String?).toList()
-      ..sort()
-      ..insert(0, null);
+    final yearsList =
+        years.map((year) => year as String?).toList()
+          ..sort()
+          ..insert(0, null);
     return yearsList;
   }
 
@@ -162,10 +161,7 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
     String? option,
     String nullName,
   ) {
-    return DropdownMenuItem(
-      value: option,
-      child: Text(option ?? nullName),
-    );
+    return DropdownMenuItem(value: option, child: Text(option ?? nullName));
   }
 
   static bool compareToFilter<T>(T? value, T? filter) {

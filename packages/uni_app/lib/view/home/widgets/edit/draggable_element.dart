@@ -1,43 +1,45 @@
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 
-class DraggableElement extends StatelessWidget {
+class DraggableElement<T extends Object> extends StatelessWidget {
   const DraggableElement({
     super.key,
-    required this.child,
-    required this.feedback,
+    required Widget Function(BuildContext context, T data) childBuilder,
+    required Widget Function(BuildContext context, T data) feedbackBuilder,
+    required this.feedbackSize,
     required this.data,
     this.callback,
-  });
+  }) : _childBuilder = childBuilder,
+       _feedbackBuilder = feedbackBuilder;
 
-  final Widget child;
-  final Widget feedback;
-  final Object data;
+  final T data;
+  final Widget Function(BuildContext context, T data) _childBuilder;
+  final Widget Function(BuildContext context, T data) _feedbackBuilder;
+  final Offset feedbackSize;
   final void Function()? callback;
 
   @override
   Widget build(BuildContext context) {
     return LongPressDraggable(
-      // dragAnchorStrategy: pointerDragAnchorStrategy,
+      delay: const Duration(milliseconds: 200),
       data: data,
-      feedback: ClipSmoothRect(
-        radius: SmoothBorderRadius(
-          cornerRadius: 15,
-          cornerSmoothing: 1,
+      dragAnchorStrategy: pointerDragAnchorStrategy,
+      feedback: Transform.translate(
+        offset: -feedbackSize / 2,
+        child: ClipSmoothRect(
+          radius: SmoothBorderRadius(cornerRadius: 15, cornerSmoothing: 1),
+          child: _feedbackBuilder(context, data),
         ),
-        child: feedback,
       ),
       onDragStarted: () {
+        final callback = this.callback;
         if (callback != null) {
-          callback!.call();
+          callback();
         }
       },
       child: ClipSmoothRect(
-        radius: SmoothBorderRadius(
-          cornerRadius: 15,
-          cornerSmoothing: 1,
-        ),
-        child: child,
+        radius: SmoothBorderRadius(cornerRadius: 15, cornerSmoothing: 1),
+        child: _childBuilder(context, data),
       ),
     );
   }

@@ -16,11 +16,9 @@ class CurrentCourseUnitsFetcher implements SessionDependantFetcher {
 
   Future<List<CourseUnit>> getCurrentCourseUnits(Session session) async {
     final url = getEndpoints(session)[0];
-    final response = await NetworkRouter.getWithCookies(
-      url,
-      {'pv_codigo': session.username},
-      session,
-    );
+    final response = await NetworkRouter.getWithCookies(url, {
+      'pv_codigo': session.username,
+    }, session);
 
     if (response.statusCode != 200) {
       return <CourseUnit>[];

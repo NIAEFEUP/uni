@@ -12,16 +12,16 @@ class ServicesCard extends StatelessWidget {
     super.key,
     required this.name,
     required this.openingHours,
-    this.location = '',
-    this.telephone = '',
-    this.email = '',
+    this.location,
+    this.telephone,
+    this.email,
   });
 
   final String name;
   final List<String> openingHours;
-  final String telephone;
-  final String email;
-  final String location;
+  final String? telephone;
+  final String? email;
+  final String? location;
 
   void onClick(BuildContext context) {
     popUp(context);
@@ -44,45 +44,37 @@ class ServicesCard extends StatelessWidget {
         return ModalDialog(
           children: [
             ModalServiceInfo(name: name, durations: openingHours),
-            if (location != '')
+            if (location != null)
               ModalInfoRow(
-                title: 'Location',
+                title: S.of(context).location,
                 description: location,
-                icon: UniIcon(
-                  UniIcons.location,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+                icon: UniIcons.location,
               ),
-            if (telephone != '')
+            if (telephone != null)
               GestureDetector(
-                onTap: () => launchUrlWithToast(
-                  context,
-                  'tel:${telephone.substring(5)}',
-                ),
+                onTap:
+                    () => launchUrlWithToast(
+                      context,
+                      'tel:${telephone?.substring(5)}',
+                    ),
                 child: ModalInfoRow(
                   title: S.of(context).telephone,
                   description: telephone,
-                  icon: UniIcon(
-                    UniIcons.phone,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  optionalIcon: UniIcon(
+                  icon: UniIcons.phone,
+                  trailing: UniIcon(
                     UniIcons.caretRight,
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               ),
-            if (email != '')
+            if (email != null)
               GestureDetector(
                 onTap: () => launchUrlWithToast(context, 'mailto:$email'),
                 child: ModalInfoRow(
-                  title: 'Email',
+                  title: S.of(context).email,
                   description: email,
-                  icon: UniIcon(
-                    UniIcons.email,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  optionalIcon: UniIcon(
+                  icon: UniIcons.email,
+                  trailing: UniIcon(
                     UniIcons.caretRight,
                     color: Theme.of(context).colorScheme.primary,
                   ),

@@ -34,26 +34,53 @@ class RestaurantUtils {
     }
   }
 
-  static bool mealMatchesFilter(int? selectedType, String mealType) {
-    switch (selectedType) {
-      case 1:
-        return true;
-      case 2:
-        return ['Carne', 'Prato de Carne'].contains(mealType);
-      case 3:
-        return ['Pescado', 'Peixe', 'Prato de Peixe'].contains(mealType);
-      case 4:
-        return ['Vegetariano', 'Prato Vegetariano'].contains(mealType);
-      case 5:
-        return ['Sopa'].contains(mealType);
-      case 6:
-        return ['Hortícola'].contains(mealType);
-      case 7:
-        return ['Dieta'].contains(mealType);
-      case 8:
-        return ['Prato do Dia'].contains(mealType);
+  static bool mealMatchesFilter(Set<String> selectedTypes, String mealType) {
+    if (selectedTypes.isEmpty) {
+      return true; // If nothing selected, show everything
     }
+
+    final typeToMealNames = <String, List<String>>{
+      'meat_dishes': ['Carne', 'Prato de Carne'],
+      'fish_dishes': ['Pescado', 'Peixe', 'Prato de Peixe'],
+      'vegetarian_dishes': ['Vegetariano', 'Prato Vegetariano'],
+      'soups': ['Sopa'],
+      'salads': ['Hortícola'],
+      'diet_dishes': ['Dieta'],
+      'dishes_of_the_day': ['Prato do Dia'],
+    };
+
+    for (final type in selectedTypes) {
+      if (typeToMealNames[type]?.contains(mealType) ?? false) {
+        return true;
+      }
+    }
+
     return false;
+  }
+
+  static int getMealTypeId(String mealType) {
+    switch (mealType) {
+      case 'Carne':
+      case 'Prato de Carne':
+        return 1;
+      case 'Pescado':
+      case 'Peixe':
+      case 'Prato de Peixe':
+        return 2;
+      case 'Vegetariano':
+      case 'Prato Vegetariano':
+        return 3;
+      case 'Sopa':
+        return 4;
+      case 'Hortícola':
+        return 5;
+      case 'Dieta':
+        return 6;
+      case 'Prato do Dia':
+        return 7;
+      default:
+        return 0;
+    }
   }
 
   static String getLocaleTranslation(
@@ -74,10 +101,6 @@ class RestaurantUtils {
     final translatedPeriod = S.of(context).restaurant_period(period);
     return translatedPeriod == 'Other'
         ? getLocaleTranslation(locale, portugueseName, englishName)
-        : '${getLocaleTranslation(
-            locale,
-            portugueseName,
-            englishName,
-          )} - ${S.of(context).restaurant_period(period)}';
+        : '${getLocaleTranslation(locale, portugueseName, englishName)} - ${S.of(context).restaurant_period(period)}';
   }
 }

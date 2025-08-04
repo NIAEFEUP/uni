@@ -6,18 +6,20 @@ import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/academic_path/courses_page.dart';
 import 'package:uni/view/academic_path/exam_page.dart';
 import 'package:uni/view/academic_path/schedule_page.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/widgets/pages_layouts/general/general.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/tabs/tab_icon.dart';
 
 class AcademicPathPageView extends StatefulWidget {
-  const AcademicPathPageView({super.key});
+  const AcademicPathPageView({super.key, this.initialTabIndex = 0});
+  final int initialTabIndex;
 
   @override
   State<StatefulWidget> createState() => AcademicPathPageViewState();
 }
 
-class AcademicPathPageViewState extends GeneralPageViewState
+class AcademicPathPageViewState
+    extends GeneralPageViewState<AcademicPathPageView>
     with SingleTickerProviderStateMixin {
   @override
   String? getTitle() =>
@@ -28,7 +30,11 @@ class AcademicPathPageViewState extends GeneralPageViewState
   @override
   void initState() {
     super.initState();
-    tabController = TabController(vsync: this, length: 3);
+    tabController = TabController(
+      vsync: this,
+      length: 3,
+      initialIndex: widget.initialTabIndex,
+    );
   }
 
   @override
@@ -54,17 +60,15 @@ class AcademicPathPageViewState extends GeneralPageViewState
   Widget getBody(BuildContext context) {
     return TabBarView(
       controller: tabController,
-      children: [
-        const CoursesPage(),
-        SchedulePage(),
-        const ExamsPage(),
-      ],
+      children: [const CoursesPage(), SchedulePage(), const ExamsPage()],
     );
   }
 
   @override
   Future<void> onRefresh(BuildContext context) async {
-    await Provider.of<ProfileProvider>(context, listen: false)
-        .forceRefresh(context);
+    await Provider.of<ProfileProvider>(
+      context,
+      listen: false,
+    ).forceRefresh(context);
   }
 }

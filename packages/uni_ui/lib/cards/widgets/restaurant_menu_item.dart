@@ -15,15 +15,16 @@ class RestaurantMenuItem extends StatelessWidget {
         children: [
           Expanded(flex: 1, child: icon),
           Expanded(
-              flex: 5,
-              child: Container(
-                padding: const EdgeInsets.only(right: 32.0),
-                child: Text(
-                  name,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                  softWrap: true,
-                ),
-              )),
+            flex: 5,
+            child: Container(
+              padding: const EdgeInsets.only(right: 32.0),
+              child: Text(
+                name,
+                style: Theme.of(context).textTheme.bodyLarge,
+                softWrap: true,
+              ),
+            ),
+          ),
         ],
       ),
     );

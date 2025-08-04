@@ -6,13 +6,8 @@ import 'package:uni/model/entities/course_units/course_unit.dart';
 
 class AppCourseUnitsDatabase extends AppDatabase<List<CourseUnit>> {
   AppCourseUnitsDatabase()
-      : super(
-          'course_units.db',
-          [createScript],
-          onUpgrade: migrate,
-          version: 3,
-        );
-  static const String createScript =
+    : super('course_units.db', [createScript], onUpgrade: migrate, version: 3);
+  static const createScript =
       '''CREATE TABLE course_units(ucurr_id INTEGER, ucurr_codigo TEXT, ucurr_sigla TEXT , '''
       '''ucurr_nome TEXT, ano INTEGER, ocorr_id INTEGER, per_codigo TEXT, '''
       '''per_nome TEXT, tipo TEXT, estado TEXT, resultado_melhor TEXT, resultado_ects TEXT, '''
@@ -40,14 +35,15 @@ class AppCourseUnitsDatabase extends AppDatabase<List<CourseUnit>> {
     await db.delete('course_units');
   }
 
-  static FutureOr<void> migrate(
+  static Future<void>? migrate(
     Database db,
     int oldVersion,
     int newVersion,
   ) async {
-    final batch = db.batch()
-      ..execute('DROP TABLE IF EXISTS course_units')
-      ..execute(createScript);
+    final batch =
+        db.batch()
+          ..execute('DROP TABLE IF EXISTS course_units')
+          ..execute(createScript);
     await batch.commit();
   }
 

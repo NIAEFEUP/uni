@@ -16,22 +16,16 @@ typedef FilesMap = Map<CourseUnit, List<CourseUnitFileDirectory>>;
 class CourseUnitsInfoProvider
     extends StateProviderNotifier<(SheetsMap, ClassesMap, FilesMap)> {
   CourseUnitsInfoProvider()
-      : super(
-          cacheDuration: null,
-          // Const constructor is not allowed here because of the
-          // need for mutable maps
-          // ignore: prefer_const_constructors
-          initialState: ({}, {}, {}),
-        );
+    : super(cacheDuration: null, initialState: ({}, {}, {}));
 
   UnmodifiableMapView<CourseUnit, Sheet> get courseUnitsSheets =>
       UnmodifiableMapView(state!.$1);
 
   UnmodifiableMapView<CourseUnit, List<CourseUnitClass>>
-      get courseUnitsClasses => UnmodifiableMapView(state!.$2);
+  get courseUnitsClasses => UnmodifiableMapView(state!.$2);
 
   UnmodifiableMapView<CourseUnit, List<CourseUnitFileDirectory>>
-      get courseUnitsFiles => UnmodifiableMapView(state!.$3);
+  get courseUnitsFiles => UnmodifiableMapView(state!.$3);
 
   Future<void> fetchCourseUnitSheet(
     CourseUnit courseUnit,
@@ -42,8 +36,10 @@ class CourseUnitsInfoProvider
       return;
     }
 
-    state!.$1[courseUnit] =
-        await CourseUnitsInfoFetcher().fetchSheet(session, occurrId);
+    state!.$1[courseUnit] = await CourseUnitsInfoFetcher().fetchSheet(
+      session,
+      occurrId,
+    );
   }
 
   Future<void> fetchCourseUnitClasses(
@@ -69,8 +65,10 @@ class CourseUnitsInfoProvider
       return;
     }
 
-    state!.$3[courseUnit] =
-        await CourseUnitsInfoFetcher().fetchCourseUnitFiles(session, occurrId);
+    state!.$3[courseUnit] = await CourseUnitsInfoFetcher().fetchCourseUnitFiles(
+      session,
+      occurrId,
+    );
     notifyListeners();
   }
 
@@ -81,7 +79,7 @@ class CourseUnitsInfoProvider
     return (
       <CourseUnit, Sheet>{},
       <CourseUnit, List<CourseUnitClass>>{},
-      <CourseUnit, List<CourseUnitFileDirectory>>{}
+      <CourseUnit, List<CourseUnitFileDirectory>>{},
     );
   }
 
@@ -92,7 +90,7 @@ class CourseUnitsInfoProvider
     return (
       <CourseUnit, Sheet>{},
       <CourseUnit, List<CourseUnitClass>>{},
-      <CourseUnit, List<CourseUnitFileDirectory>>{}
+      <CourseUnit, List<CourseUnitFileDirectory>>{},
     );
   }
 }

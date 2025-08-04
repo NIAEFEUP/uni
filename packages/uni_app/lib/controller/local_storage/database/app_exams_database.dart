@@ -10,7 +10,7 @@ import 'package:uni/model/entities/exam.dart';
 /// See the [Exam] class to see what data is stored in this database.
 class AppExamsDatabase extends AppDatabase<List<Exam>> {
   AppExamsDatabase()
-      : super('exams.db', [_createScript], onUpgrade: migrate, version: 8);
+    : super('exams.db', [_createScript], onUpgrade: migrate, version: 8);
 
   static const _createScript = '''
 CREATE TABLE exams(id TEXT, subjectAcronym TEXT, subject TEXT, start TEXT, finish TEXT,
@@ -57,14 +57,15 @@ CREATE TABLE exams(id TEXT, subjectAcronym TEXT, subject TEXT, start TEXT, finis
     await db.delete('exams');
   }
 
-  static FutureOr<void> migrate(
+  static Future<void>? migrate(
     Database db,
     int oldVersion,
     int newVersion,
   ) async {
-    final batch = db.batch()
-      ..execute('DROP TABLE IF EXISTS exams')
-      ..execute(_createScript);
+    final batch =
+        db.batch()
+          ..execute('DROP TABLE IF EXISTS exams')
+          ..execute(_createScript);
     await batch.commit();
   }
 

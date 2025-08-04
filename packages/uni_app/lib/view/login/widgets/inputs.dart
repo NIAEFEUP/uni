@@ -20,11 +20,7 @@ Widget createUsernameInput(
     },
     textInputAction: TextInputAction.next,
     textAlign: TextAlign.left,
-    decoration: textFieldDecoration(
-      context,
-      S.of(context).student_number,
-      textColor: Theme.of(context).indicatorColor,
-    ),
+    decoration: textFieldDecoration(context, S.of(context).student_number),
     validator: (value) => value!.isEmpty ? S.of(context).empty_text : null,
   );
 }
@@ -56,27 +52,22 @@ Widget createPasswordInput(
       toggleObscurePasswordInput,
       obscurePasswordInput: obscurePasswordInput,
     ),
-    validator: (value) =>
-        value != null && value.isEmpty ? S.of(context).empty_text : null,
+    validator:
+        (value) =>
+            value != null && value.isEmpty ? S.of(context).empty_text : null,
   );
 }
 
 /// Decoration for the username field.
-InputDecoration textFieldDecoration(
-  BuildContext context,
-  String placeholder, {
-  required Color textColor,
-}) {
+InputDecoration textFieldDecoration(BuildContext context, String placeholder) {
   return InputDecoration(
-    hintStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
-          color: const Color(0xFF3C0A0E),
-        ),
+    hintStyle: Theme.of(
+      context,
+    ).textTheme.titleMedium?.copyWith(color: const Color(0xFF3C0A0E)),
     hintText: placeholder,
     contentPadding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
     border: const UnderlineInputBorder(),
-    focusedBorder: const UnderlineInputBorder(
-      borderSide: BorderSide(width: 2),
-    ),
+    focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(width: 2)),
   );
 }
 
@@ -88,15 +79,13 @@ InputDecoration passwordFieldDecoration(
   required bool obscurePasswordInput,
 }) {
   return InputDecoration(
-    hintStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
-          color: const Color(0xFF3C0A0E),
-        ),
+    hintStyle: Theme.of(
+      context,
+    ).textTheme.titleMedium?.copyWith(color: const Color(0xFF3C0A0E)),
     hintText: placeholder,
     contentPadding: const EdgeInsets.fromLTRB(10, 25, 0, 0),
     border: const UnderlineInputBorder(),
-    focusedBorder: const UnderlineInputBorder(
-      borderSide: BorderSide(width: 2),
-    ),
+    focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(width: 2)),
 
     /// TO-DO change the Icon to a PhosphorIcon after the icons.dart is merged
     suffixIcon: IconButton(

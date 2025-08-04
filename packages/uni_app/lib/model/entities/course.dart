@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:objectbox/objectbox.dart';
 
 part '../../generated/model/entities/course.g.dart';
 
@@ -12,6 +13,7 @@ part '../../generated/model/entities/course.g.dart';
 /// - The date of the `firstEnrollment`
 /// - The course `state`
 @JsonSerializable(createFactory: false)
+@Entity()
 class Course {
   Course({
     this.id,
@@ -41,11 +43,12 @@ class Course {
       firstEnrollment: json['fest_a_lect_1_insc'] as int?,
       state: json['state'] as String?,
       faculty: json['inst_sigla'].toString().toLowerCase(),
-      finishedEcts: json['finishedEcts'] as num?,
-      currentAverage: json['currentAverage'] as num?,
+      finishedEcts: (json['finishedEcts'] as num?)?.toDouble(),
+      currentAverage: (json['currentAverage'] as num?)?.toDouble(),
     );
   }
   @JsonKey(name: 'cur_id')
+  @Id(assignable: true)
   final int? id;
   @JsonKey(name: 'fest_id')
   final int? festId;
@@ -60,7 +63,7 @@ class Course {
   @JsonKey(name: 'inst_sigla')
   final String? faculty;
   String? state;
-  num? finishedEcts;
-  num? currentAverage;
+  double? finishedEcts;
+  double? currentAverage;
   Map<String, dynamic> toJson() => _$CourseToJson(this);
 }

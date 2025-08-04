@@ -1,11 +1,13 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:uni/model/entities/reference.dart';
+import 'package:objectbox/objectbox.dart';
+import 'package:uni/model/converters/date_time_converter.dart';
 
 part '../../generated/model/entities/lecture.g.dart';
 
 /// Stores information about a lecture.
 @DateTimeConverter()
 @JsonSerializable()
+@Entity()
 class Lecture {
   /// Creates an instance of the class [Lecture].
   Lecture(
@@ -16,6 +18,8 @@ class Lecture {
     this.endTime,
     this.room,
     this.teacher,
+    this.teacherName,
+    this.teacherId,
     this.classNumber,
     this.occurrId,
   );
@@ -31,6 +35,8 @@ class Lecture {
     int blocks,
     String room,
     String teacher,
+    String teacherName,
+    int teacherId,
     String classNumber,
     int occurrId,
   ) {
@@ -43,21 +49,29 @@ class Lecture {
       endTime,
       room,
       teacher,
+      teacherName,
+      teacherId,
       classNumber,
       occurrId,
     );
     return lecture;
   }
 
+  @Id()
+  int? uniqueId;
+
   String acronym;
   String subject;
   String typeClass;
   String room;
   String teacher;
+  String teacherName;
+  int teacherId;
   String classNumber;
   DateTime startTime;
   DateTime endTime;
   int occurrId;
+
   Map<String, dynamic> toJson() => _$LectureToJson(this);
 
   @override
@@ -73,16 +87,18 @@ class Lecture {
 
   @override
   int get hashCode => Object.hash(
-        acronym,
-        subject,
-        startTime,
-        endTime,
-        typeClass,
-        room,
-        teacher,
-        startTime,
-        occurrId,
-      );
+    acronym,
+    subject,
+    startTime,
+    endTime,
+    typeClass,
+    room,
+    teacher,
+    teacherName,
+    teacherId,
+    startTime,
+    occurrId,
+  );
 
   @override
   bool operator ==(Object other) =>
@@ -94,5 +110,7 @@ class Lecture {
       typeClass == other.typeClass &&
       room == other.room &&
       teacher == other.teacher &&
+      teacherName == other.teacherName &&
+      teacherId == other.teacherId &&
       occurrId == other.occurrId;
 }

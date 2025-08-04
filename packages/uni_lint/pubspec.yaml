@@ -1,0 +1,17 @@
+name: uni_lint
+description: Custom lint rules for Uni.
+version: 1.0.0
+
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ">=3.7.0 <4.0.0"
+
+dependencies:
+  custom_lint_builder: ^0.7.0
+  analyzer: ^7.4.5
+  analyzer_plugin: ^0.13.0
+
+dev_dependencies:
+  test: any

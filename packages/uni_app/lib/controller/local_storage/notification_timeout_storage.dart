@@ -52,8 +52,9 @@ class NotificationTimeoutStorage {
         (await getApplicationDocumentsDirectory()).path;
     if (!File('$applicationDirectory/notificationTimeout.json').existsSync()) {
       // empty json
-      await File('$applicationDirectory/notificationTimeout.json')
-          .writeAsString('{}');
+      await File(
+        '$applicationDirectory/notificationTimeout.json',
+      ).writeAsString('{}');
     }
     return File('$applicationDirectory/notificationTimeout.json');
   }

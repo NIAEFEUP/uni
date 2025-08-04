@@ -16,6 +16,7 @@ class ExamCard extends StatelessWidget {
     this.iconAction,
     this.examDay,
     this.examMonth,
+    this.onClick,
   });
 
   final String name;
@@ -28,6 +29,7 @@ class ExamCard extends StatelessWidget {
   final Function()? iconAction;
   final String? examDay;
   final String? examMonth;
+  final VoidCallback? onClick;
 
   static const Map<String, Color> examTypeColors = {
     'MT': BadgeColors.mt,
@@ -43,6 +45,7 @@ class ExamCard extends StatelessWidget {
       child: GenericCard(
         key: key,
         tooltip: name,
+        onClick: onClick,
         child: Row(
           children: [
             Expanded(
@@ -126,7 +129,7 @@ class ExamCard extends StatelessWidget {
                         ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),

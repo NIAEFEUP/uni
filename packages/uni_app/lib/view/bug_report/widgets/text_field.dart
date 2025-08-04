@@ -3,14 +3,12 @@ import 'package:uni/generated/l10n.dart';
 
 class FormTextField extends StatelessWidget {
   const FormTextField(
-    this.controller,
-    this.icon, {
+    this.controller, {
     this.description = '',
     this.minLines = 1,
     this.maxLines = 1,
     this.labelText = '',
     this.hintText = '',
-    this.emptyText = '',
     this.bottomMargin = 0,
     this.isOptional = false,
     this.formatValidator,
@@ -18,11 +16,9 @@ class FormTextField extends StatelessWidget {
   });
 
   final TextEditingController controller;
-  final IconData icon;
   final String description;
   final String labelText;
   final String hintText;
-  final String emptyText;
   final int minLines;
   final int maxLines;
   final double bottomMargin;
@@ -33,46 +29,36 @@ class FormTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: bottomMargin),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            description,
-            style: Theme.of(context).textTheme.bodyMedium,
-            textAlign: TextAlign.left,
+      child: TextFormField(
+        onTapOutside: (event) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        minLines: minLines,
+        maxLines: maxLines,
+        decoration: InputDecoration(
+          labelText: labelText,
+          hintText: hintText,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          border: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            borderRadius: BorderRadius.circular(8),
           ),
-          Row(
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(right: 15),
-                child: Icon(
-                  icon,
-                ),
-              ),
-              Expanded(
-                child: TextFormField(
-                  // margins
-                  minLines: minLines,
-                  maxLines: maxLines,
-                  decoration: InputDecoration(
-                    focusedBorder: const UnderlineInputBorder(),
-                    hintText: hintText,
-                    hintStyle: Theme.of(context).textTheme.bodyMedium,
-                    labelText: labelText,
-                    labelStyle: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  controller: controller,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return isOptional ? null : S.of(context).empty_text;
-                    }
-                    return formatValidator?.call(value);
-                  },
-                ),
-              ),
-            ],
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.primary,
+            ),
           ),
-        ],
+        ),
+        controller: controller,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return isOptional ? null : S.of(context).empty_text;
+          }
+          return formatValidator?.call(value);
+        },
       ),
     );
   }

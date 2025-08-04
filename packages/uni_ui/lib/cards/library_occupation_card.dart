@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni_ui/cards/generic_card.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class FloorOccupationWidget extends StatelessWidget {
   final int capacity;
@@ -83,11 +83,7 @@ class LibraryOccupationCard extends StatelessWidget {
             progressColor: Theme.of(context).primaryColor,
           ),
           const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              children: occupationWidgetsList,
-            ),
-          ),
+          Expanded(child: Column(children: occupationWidgetsList)),
         ],
       ),
     );
