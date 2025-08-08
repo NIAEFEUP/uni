@@ -24,6 +24,7 @@ import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/view/login/widgets/remember_me_checkbox.dart';
 import 'package:uni/view/login/widgets/terms_and_conditions_button.dart';
 import 'package:uni/view/widgets/toast_message.dart';
+import 'package:uni_ui/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginPageView extends StatefulWidget {
@@ -220,12 +221,9 @@ class LoginPageViewState extends State<LoginPageView>
       child: Builder(
         builder:
             (context) => AnnotatedRegion<SystemUiOverlayStyle>(
-              value: const SystemUiOverlayStyle(
+              value: AppSystemOverlayStyles.base.copyWith(
                 statusBarIconBrightness: Brightness.light,
                 systemNavigationBarIconBrightness: Brightness.light,
-                systemNavigationBarContrastEnforced: false,
-                systemNavigationBarColor: Colors.transparent,
-                systemNavigationBarDividerColor: Colors.transparent,
               ),
               child: Scaffold(
                 resizeToAvoidBottomInset: false,

@@ -15,6 +15,7 @@ import 'package:uni/view/map/widgets/floorless_marker_popup.dart';
 import 'package:uni/view/map/widgets/marker.dart';
 import 'package:uni/view/map/widgets/marker_popup.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
+import 'package:uni_ui/theme.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -62,12 +63,9 @@ class MapPageStateView extends State<MapPage> {
           const LatLng(41.18286, -8.59298),
         );
         return AnnotatedRegion<SystemUiOverlayStyle>(
-          value: const SystemUiOverlayStyle(
+          value: AppSystemOverlayStyles.base.copyWith(
             statusBarIconBrightness: Brightness.dark,
             systemNavigationBarIconBrightness: Brightness.dark,
-            systemNavigationBarContrastEnforced: false,
-            systemNavigationBarColor: Colors.transparent,
-            systemNavigationBarDividerColor: Colors.transparent,
           ),
           child: Scaffold(
             resizeToAvoidBottomInset: false,

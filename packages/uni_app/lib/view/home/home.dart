@@ -24,6 +24,7 @@ import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation
 import 'package:uni/view/widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart';
 
 class HomePageView extends StatefulWidget {
   const HomePageView({super.key});
@@ -85,7 +86,7 @@ class HomePageViewState extends State<HomePageView> {
     };
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
+      value: AppSystemOverlayStyles.base.copyWith(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.light,
         systemNavigationBarIconBrightness: Brightness.dark,

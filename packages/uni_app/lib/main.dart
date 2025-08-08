@@ -229,9 +229,7 @@ class ApplicationState extends State<Application> {
             navigatorKey: Application.navigatorKey,
             showIgnore: false,
             child: AnnotatedRegion<SystemUiOverlayStyle>(
-              value: const SystemUiOverlayStyle(
-                systemNavigationBarContrastEnforced: false,
-              ),
+              value: AppSystemOverlayStyles.base,
               child: MediaQuery.removePadding(
                 context: context,
                 removeBottom: true,
