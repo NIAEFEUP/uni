@@ -1,18 +1,18 @@
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/restaurant.dart';
-import 'package:uni/model/providers/lazy/restaurant_provider.dart';
+import 'package:uni/model/providers/riverpod/default_consumer.dart';
+import 'package:uni/model/providers/riverpod/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/restaurants/no_restaurants_home_card.dart';
 import 'package:uni/view/home/widgets/restaurants/restaurants_card_shimmer.dart';
-import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
 import 'package:uni_ui/cards/restaurant_card.dart';
@@ -35,22 +35,23 @@ class RestaurantHomeCard extends GenericHomecard {
       RestaurantSlider(onClick: onCardClick);
 }
 
-class RestaurantSlider extends StatefulWidget {
+class RestaurantSlider extends ConsumerStatefulWidget {
   const RestaurantSlider({super.key, required this.onClick});
 
   final void Function(BuildContext) onClick;
 
   @override
-  RestaurantSliderState createState() => RestaurantSliderState();
+  ConsumerState<RestaurantSlider> createState() => RestaurantSliderState();
 }
 
-class RestaurantSliderState extends State<RestaurantSlider> {
+class RestaurantSliderState extends ConsumerState<RestaurantSlider> {
   var _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    return LazyConsumer<RestaurantProvider, List<Restaurant>>(
-      builder: (context, restaurants) {
+    return DefaultConsumer<List<Restaurant>>(
+      provider: restaurantProvider,
+      builder: (context, ref, restaurants) {
         final favoriteRestaurants =
             restaurants
                 .where(
@@ -61,6 +62,7 @@ class RestaurantSliderState extends State<RestaurantSlider> {
 
         final dailyRestaurants = getRestaurantInformation(
           context,
+          ref,
           favoriteRestaurants,
         );
 
@@ -97,20 +99,22 @@ class RestaurantSliderState extends State<RestaurantSlider> {
                 .toList();
         return getRestaurantInformation(
           context,
+          ref,
           favoriteRestaurants,
         ).isNotEmpty;
       },
-      onNullContent: NoRestaurantsHomeCard(onClick: widget.onClick),
-      contentLoadingWidget: const ShimmerRestaurantsHomeCard(),
+      nullContentWidget: NoRestaurantsHomeCard(onClick: widget.onClick),
+      loadingWidget: const ShimmerRestaurantsHomeCard(),
     );
   }
 }
 
 List<RestaurantCard> getRestaurantInformation(
   BuildContext context,
+  WidgetRef ref,
   List<Restaurant> favoriteRestaurants,
 ) {
-  final locale = Provider.of<LocaleNotifier>(context).getLocale();
+  final locale = ref.watch(localeProvider);
 
   final today = parseDateTime(DateTime.now());
 

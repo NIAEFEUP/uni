@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-abstract class GenericHomecard extends StatelessWidget {
+abstract class GenericHomecard extends ConsumerWidget {
   const GenericHomecard({super.key});
 
   String getTitle(BuildContext context) => '';
@@ -10,7 +11,7 @@ abstract class GenericHomecard extends StatelessWidget {
   void onCardClick(BuildContext context);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () => onCardClick(context),
       child: ConstrainedBox(

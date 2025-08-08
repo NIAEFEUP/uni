@@ -2,7 +2,7 @@
   description = "A basic flake for Flutter development with Nix and NixOS";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=pull/412907/merge";
+    nixpkgs.url = "github:nixos/nixpkgs/9807714d6944a957c2e036f84b0ff8caf9930bc0";
     utils.url = "github:limwa/nix-flake-utils";
 
     # Needed for shell.nix

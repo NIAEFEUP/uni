@@ -1,58 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/localized_events.dart';
-import 'package:uni/model/providers/lazy/calendar_provider.dart';
+import 'package:uni/model/providers/riverpod/calendar_provider.dart';
+import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/calendar/widgets/row_format.dart';
-import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 
-class CalendarPageView extends StatefulWidget {
+class CalendarPageView extends ConsumerStatefulWidget {
   const CalendarPageView({super.key});
 
   @override
-  State<StatefulWidget> createState() => CalendarPageViewState();
+  ConsumerState<CalendarPageView> createState() => CalendarPageViewState();
 }
 
 class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<CalendarProvider, LocalizedEvents>(
-      builder: getTimeline,
+    return DefaultConsumer<LocalizedEvents>(
+      provider: calendarProvider,
       hasContent: (localizedEvents) => localizedEvents.hasAnyEvents,
-      onNullContent: Center(
+      nullContentWidget: Center(
         child: Text(
           S.of(context).no_events,
           style: Theme.of(context).textTheme.headlineLarge,
         ),
       ),
-    );
-  }
+      builder: (context, ref, localizedEvents) {
+        final locale = ref.watch(localeProvider.select((value) => value));
+        final calendar = localizedEvents.getEvents(locale);
 
-  Widget getTimeline(BuildContext context, LocalizedEvents localizedEvents) {
-    final locale = Provider.of<LocaleNotifier>(context).getLocale();
-    final calendar = localizedEvents.getEvents(locale);
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 100),
-        child: Column(
-          children:
-              calendar
-                  .map((event) => RowFormat(event: event, locale: locale))
-                  .toList(),
-        ),
-      ),
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 100),
+            child: Column(
+              children:
+                  calendar
+                      .map((event) => RowFormat(event: event, locale: locale))
+                      .toList(),
+            ),
+          ),
+        );
+      },
     );
   }
 
   @override
-  Future<void> onRefresh(BuildContext context) {
-    return Provider.of<CalendarProvider>(
-      context,
-      listen: false,
-    ).forceRefresh(context);
+  Future<void> onRefresh() async {
+    await ref.read(calendarProvider.notifier).refreshRemote();
   }
 
   @override

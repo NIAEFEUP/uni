@@ -1,49 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uni/view/locale_notifier.dart';
+import 'package:uni/view/restaurant/tab_controller_provider.dart';
 import 'package:uni/view/restaurant/widgets/day_of_week_tab.dart';
 
-import '../../locale_notifier.dart';
-
-class DaysOfWeekTabBar extends StatelessWidget {
-  const DaysOfWeekTabBar({super.key, required this.controller});
-
-  final TabController controller;
+class DaysOfWeekTabBar extends ConsumerWidget {
+  const DaysOfWeekTabBar({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return TabBar(
-      controller: controller,
-      isScrollable: true,
-      padding: EdgeInsets.zero,
-      indicator: const BoxDecoration(),
-      labelPadding: const EdgeInsets.symmetric(horizontal: 5),
-      tabAlignment: TabAlignment.center,
-      tabs: createTabs(context),
-      dividerHeight: 0,
-      overlayColor: WidgetStateProperty.all(Colors.transparent),
-    );
-  }
+  Widget build(BuildContext context, WidgetRef ref) => SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(children: createTabs(context, ref)),
+  );
 
-  List<DayOfWeekTab> createTabs(BuildContext context) {
+  List<Widget> createTabs(BuildContext context, WidgetRef ref) {
+    final selectedTabIndex = ref.watch(tabControllerProvider);
+    final tabController = ref.read(tabControllerProvider.notifier);
+    final localeNotifier = ref.read(localeProvider.notifier);
+
     final weekDay = DateTime.now().weekday;
     final today = DateTime.now();
 
-    final daysOfTheWeek =
-        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
+    final daysOfTheWeek = localeNotifier.getWeekdaysWithLocale();
 
     final dates = List.generate(daysOfTheWeek.length, (i) {
       return today.subtract(Duration(days: weekDay - 1)).add(Duration(days: i));
     });
 
-    final tabs = <DayOfWeekTab>[];
+    final tabs = <Widget>[];
     for (var i = 0; i < daysOfTheWeek.length; i++) {
       tabs.add(
-        DayOfWeekTab(
-          key: Key('cantine-page-tab-${daysOfTheWeek[i]}'),
-          controller: controller,
-          isSelected: controller.index == i,
-          weekDay: toShortVersion(daysOfTheWeek[i]),
-          day: '${dates[i].day}',
+        GestureDetector(
+          onTap: () => tabController.setTabIndex(i),
+          child: DayOfWeekTab(
+            key: Key('cantine-page-tab-${daysOfTheWeek[i]}'),
+            isSelected: selectedTabIndex == i,
+            weekDay: toShortVersion(daysOfTheWeek[i]),
+            day: '${dates[i].day}',
+          ),
         ),
       );
     }

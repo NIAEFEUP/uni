@@ -1,45 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/model/providers/riverpod/default_consumer.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/view/profile/widgets/profile_info.dart';
 import 'package:uni/view/profile/widgets/profile_overview.dart';
 import 'package:uni/view/profile/widgets/settings.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 
-class ProfilePageView extends StatefulWidget {
+class ProfilePageView extends ConsumerStatefulWidget {
   const ProfilePageView({super.key});
 
   @override
-  State<StatefulWidget> createState() => ProfilePageViewState();
+  ConsumerState<ProfilePageView> createState() => ProfilePageViewState();
 }
 
 /// Manages the 'Personal user page' section.
 class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<ProfileProvider, Profile>(
-      builder: (context, profile) {
-        return ListView(
-          children: [
-            ProfileOverview(profile: profile),
-            const ProfileInfo(),
-            const Settings(),
-          ],
-        );
-      },
+    return DefaultConsumer<Profile>(
+      provider: profileProvider,
+      builder:
+          (context, ref, profile) => ListView(
+            children: [
+              ProfileOverview(profile: profile),
+              const ProfileInfo(),
+              const Settings(),
+            ],
+          ),
       hasContent: (profile) => profile.courses.isNotEmpty,
-      onNullContent: Container(),
+      nullContentWidget: Container(),
     );
   }
 
   @override
-  Future<void> onRefresh(BuildContext context) {
-    return Provider.of<ProfileProvider>(
-      context,
-      listen: false,
-    ).forceRefresh(context);
+  Future<void> onRefresh() async {
+    await ref.read(profileProvider.notifier).refreshRemote();
   }
 
   @override

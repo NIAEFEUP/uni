@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/model/providers/riverpod/default_consumer.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
 // import 'package:uni/view/profile/widgets/create_print_mb_dialog.dart';
 import 'package:uni_ui/cards/profile_card.dart';
 
 /// Manages the 'Current account' section inside the user's page (accessible
 /// through the top-right widget with the user picture)
-class ProfileInfo extends StatelessWidget {
+class ProfileInfo extends ConsumerWidget {
   const ProfileInfo({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return LazyConsumer<ProfileProvider, Profile>(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return DefaultConsumer<Profile>(
+      provider: profileProvider,
       builder:
-          (context, profile) => Padding(
+          (context, ref, profile) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Center(
               child: SingleChildScrollView(
@@ -49,8 +51,8 @@ class ProfileInfo extends StatelessWidget {
               ),
             ),
           ),
+      nullContentWidget: Container(),
       hasContent: (profile) => true,
-      onNullContent: Container(),
     );
   }
 }

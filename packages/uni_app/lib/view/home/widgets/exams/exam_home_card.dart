@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/model/providers/lazy/exam_provider.dart';
+import 'package:uni/model/providers/riverpod/default_consumer.dart';
+import 'package:uni/model/providers/riverpod/exam_provider.dart';
 import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/utils/string_formatter.dart';
 import 'package:uni/view/academic_path/academic_path.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/timeline_shimmer.dart';
-import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/widgets/icon_label.dart';
 import 'package:uni_ui/cards/exam_card.dart';
@@ -32,17 +32,18 @@ class ExamHomeCard extends GenericHomecard {
       builder: (context, snapshot) {
         final hiddenExams = snapshot.data ?? [];
 
-        return LazyConsumer<ExamProvider, List<Exam>>(
-          builder: (context, allExams) {
+        return DefaultConsumer<List<Exam>>(
+          provider: examProvider,
+          builder: (context, ref, allExams) {
             final visibleExams =
                 getVisibleExams(allExams, hiddenExams).toList();
-            final items = buildTimelineItems(context, visibleExams).take(2);
+            final items = buildTimelineItems(ref, visibleExams).take(2);
 
             return CardTimeline(items: items.toList());
           },
           hasContent:
               (allExams) => getVisibleExams(allExams, hiddenExams).isNotEmpty,
-          onNullContent: Center(
+          nullContentWidget: Center(
             child: IconLabel(
               icon: const UniIcon(UniIcons.island, size: 45),
               label: S.of(context).no_exams,
@@ -52,7 +53,7 @@ class ExamHomeCard extends GenericHomecard {
               ),
             ),
           ),
-          contentLoadingWidget: const ShimmerCardTimeline(),
+          loadingWidget: const ShimmerCardTimeline(),
         );
       },
     );
@@ -66,21 +67,15 @@ class ExamHomeCard extends GenericHomecard {
     return allExams.where((exam) => !hiddenExamsSet.contains(exam.id));
   }
 
-  List<TimelineItem> buildTimelineItems(
-    BuildContext context,
-    List<Exam> exams,
-  ) {
+  List<TimelineItem> buildTimelineItems(WidgetRef ref, List<Exam> exams) {
+    final locale = ref.watch(localeProvider);
+
     final items =
         exams
             .map(
               (exam) => TimelineItem(
                 title: exam.start.day.toString(),
-                subtitle:
-                    exam.start
-                        .shortMonth(
-                          Provider.of<LocaleNotifier>(context).getLocale(),
-                        )
-                        .capitalize(),
+                subtitle: exam.start.shortMonth(locale).capitalize(),
                 card: ExamCard(
                   showIcon: false,
                   name: exam.subject,
