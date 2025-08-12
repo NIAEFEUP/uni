@@ -11,7 +11,7 @@ int getDaysInMonth(int year, int month) {
         (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0);
     return isLeapYear ? 29 : 28;
   }
-  const List<int> daysInMonth = <int>[
+  const daysInMonth = [
     31,
     28,
     31,
