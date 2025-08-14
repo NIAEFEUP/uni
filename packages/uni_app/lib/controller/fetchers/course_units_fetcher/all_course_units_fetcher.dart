@@ -34,7 +34,7 @@ class AllCourseUnitsFetcher {
     List<CourseUnit>? currentCourseUnits,
   }) async {
     final url =
-        '${NetworkRouter.getBaseUrl(course.faculty!)}'
+        '${NetworkRouter.getBaseUrl(course.faculty!, languageSensitive: true)}'
         'fest_geral.curso_percurso_academico_view';
     final response = await NetworkRouter.getWithCookies(url, {
       'pv_fest_id': course.festId.toString(),
