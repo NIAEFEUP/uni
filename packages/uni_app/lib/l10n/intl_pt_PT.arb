@@ -398,7 +398,7 @@
   "@courses": {},
   "all_feminine": "Todas",
   "@all_feminine": {},
-  "dish_type": "{type, select, all_dishes{Todos os pratos} meat_dishes{Pratos de Carne} fish_dishes{Pratos de Peixe} vegetarian_dishes{Pratos Vegetarianos} soups{Sopas} salads{Saladas} diet_dishes{Pratos de Dieta} dishes_of_the_day{Pratos do Dia} other{Outros}}",
+  "dish_type": "{type, select, all_dishes{Todos os pratos} meat_dishes{Pratos de Carne} fish_dishes{Pratos de Peixe} vegetarian_dishes{Pratos Vegetarianos} soups{Sopas} salads{Saladas} diet_dishes{Pratos de Dieta} dishes_of_the_day{Pratos do Dia} closed{Encerrado} other{Outros}}",
   "@dish_type": {},
   "dish_types": "Tipos de Prato",
   "@dish_types": {},
