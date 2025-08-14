@@ -18,18 +18,35 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
     return DateTime.now().difference(_lastUpdateTime!) < cacheDuration!;
   }
 
-  void _updateState(T? newState) {
+  //TODO: this is probably not the best way to do this, but in case of an empty list,
+  // we cannot differentiate between a list that is indeed empty and a list that is not loaded yet
+  bool _invalidLocalData(dynamic value) {
+    if (value == null) {
+      return true;
+    }
+    if (value is List) {
+      return value.isEmpty;
+    }
+    if (value is Map) {
+      return value.isEmpty;
+    }
+    return false;
+  }
+
+  void _updateState(T? newState, {bool updateTimestamp = true}) {
     if (newState == null) {
       state = const AsyncData(null);
       return;
     }
 
     state = AsyncData(newState);
-    _lastUpdateTime = DateTime.now();
-    PreferencesController.setLastDataClassUpdateTime(
-      runtimeType.toString(),
-      _lastUpdateTime!,
-    );
+    if (updateTimestamp) {
+      _lastUpdateTime = DateTime.now();
+      PreferencesController.setLastDataClassUpdateTime(
+        runtimeType.toString(),
+        _lastUpdateTime!,
+      );
+    }
   }
 
   void _updateError(Object error, [StackTrace? stackTrace]) {
@@ -41,11 +58,14 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
     );
   }
 
-  Future<T?> _safeExecute(Future<T?> Function() operation) async {
+  Future<T?> _safeExecute(
+    Future<T?> Function() operation, {
+    bool updateTimestamp = true,
+  }) async {
     try {
       final result = await operation();
       if (result != null) {
-        _updateState(result);
+        _updateState(result, updateTimestamp: updateTimestamp);
       }
       return result;
     } catch (err, st) {
@@ -61,13 +81,16 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
     );
 
     Logger().d('Loading $runtimeType from storage...');
-    final localData = await _safeExecute(loadFromStorage);
+    final localData = await _safeExecute(
+      loadFromStorage,
+      updateTimestamp: false,
+    );
 
     if (localData != null) {
       Logger().d('✅ Loaded $runtimeType from storage!');
     }
 
-    if (localData == null || !_isCacheValid) {
+    if (_invalidLocalData(localData) || !_isCacheValid) {
       if (!_isCacheValid) {
         Logger().d('$runtimeType cache is invalid');
       }
