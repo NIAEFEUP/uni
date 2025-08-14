@@ -1,13 +1,24 @@
-[ATTENTION. This is the *Pull Request Template*. Replace the two following lines with the indicated information and delete this one. Do not delete anything else]
-
 Closes #[issue number]
-[Description of the changes proposed in the pull request. Include steps to replicate the behavior and screenshots if UI is updated]
+<!--
+Description of the changes proposed in the pull request. 
+Include steps to replicate the behavior and screenshots if UI is updated.
+> If this is release PR select it's template by adding ?template=release_pr_template.md to the url.
+-->
 
 # Review checklist
--   [ ] Terms and conditions reflect the current change
--   [ ] Contains enough appropriate tests
--   [ ] If aimed at production, writes a new summary in `whatsnew/whatsnew-pt-PT`
--   [ ] Properly adds an entry in `changelog.md` with the change
--   [ ] If PR includes UI updates/additions, its description has screenshots
--   [ ] Behavior is as expected
--   [ ] Clean, well-structured code
+
+- [ ] Terms and conditions reflect the changes
+
+## View Changes
+
+- [ ] Description has screenshots of the UI changes.
+- [ ] Tested both in light and dark mode.
+- [ ] New text is both in portuguese (PT) and english (EN).
+- [ ] Works in different text zoom levels.
+- [ ] Works in different screen sizes.
+
+## Performance
+
+- [ ] No helper functions to return widgets are added. New widgets are created instead.
+- [ ] Used ListView.builder for Long Lists.
+- [ ] Controllers (TextEditingController, ...) are beeing  disposed of in dispose() method.
