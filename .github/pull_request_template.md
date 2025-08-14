@@ -7,6 +7,8 @@ Include steps to replicate the behavior and screenshots if UI is updated.
 
 # Review checklist
 
+- [ ] Terms and conditions reflect the changes
+
 ## View Changes
 
 - [ ] Description has screenshots of the UI changes.
