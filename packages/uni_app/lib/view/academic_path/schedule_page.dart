@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/view/academic_path/widgets/no_classes_widget.dart';
+import 'package:uni/view/academic_path/widgets/schedule_page_shimmer.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_view.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
@@ -44,6 +45,7 @@ class SchedulePage extends StatelessWidget {
               )
               .toList();
         },
+        contentLoadingWidget: const ShimmerSchedulePage(),
       ),
     );
   }
