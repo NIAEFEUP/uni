@@ -8,9 +8,10 @@ import 'package:uni/session/flows/base/session.dart';
 class ScheduleFetcherNewApi extends ScheduleFetcher {
   @override
   List<String> getEndpoints(Session session) {
-    final urls = NetworkRouter.getBaseUrlsFromSession(session)
-        .map((url) => '${url}hor_geral.estudantes_view')
-        .toList();
+    final urls =
+        NetworkRouter.getBaseUrlsFromSession(
+          session,
+        ).map((url) => '${url}hor_geral.estudantes_view').toList();
     return urls;
   }
 
@@ -20,15 +21,11 @@ class ScheduleFetcherNewApi extends ScheduleFetcher {
     final url = getEndpoints(session)[0];
     final lectiveYear = getLectiveYear(DateTime.now());
 
-    final scheduleResponse = await NetworkRouter.getWithCookies(
-      url,
-      {
-        'pv_num_unico': session.username,
-        'pv_ano_lectivo': lectiveYear.toString(),
-        'pv_periodos': '1',
-      },
-      session,
-    );
+    final scheduleResponse = await NetworkRouter.getWithCookies(url, {
+      'pv_num_unico': session.username,
+      'pv_ano_lectivo': lectiveYear.toString(),
+      'pv_periodos': '1',
+    }, session);
 
     final scheduleApiUrl = getScheduleApiUrlFromHtml(scheduleResponse);
 

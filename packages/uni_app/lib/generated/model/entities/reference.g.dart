@@ -7,18 +7,18 @@ part of '../../../model/entities/reference.dart';
 // **************************************************************************
 
 Reference _$ReferenceFromJson(Map<String, dynamic> json) => Reference(
-      json['description'] as String,
-      const DateTimeConverter().fromJson(json['limitDate'] as String),
-      (json['entity'] as num).toInt(),
-      (json['reference'] as num).toInt(),
-      (json['amount'] as num).toDouble(),
-    )..id = (json['id'] as num?)?.toInt();
+  json['description'] as String,
+  const DateTimeConverter().fromJson(json['limitDate'] as String),
+  (json['entity'] as num).toInt(),
+  (json['reference'] as num).toInt(),
+  (json['amount'] as num).toDouble(),
+)..id = (json['id'] as num?)?.toInt();
 
 Map<String, dynamic> _$ReferenceToJson(Reference instance) => <String, dynamic>{
-      'id': instance.id,
-      'description': instance.description,
-      'limitDate': const DateTimeConverter().toJson(instance.limitDate),
-      'entity': instance.entity,
-      'reference': instance.reference,
-      'amount': instance.amount,
-    };
+  'id': instance.id,
+  'description': instance.description,
+  'limitDate': const DateTimeConverter().toJson(instance.limitDate),
+  'entity': instance.entity,
+  'reference': instance.reference,
+  'amount': instance.amount,
+};

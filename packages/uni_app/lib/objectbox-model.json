@@ -34,7 +34,7 @@
     },
     {
       "id": "2:6255920829998343914",
-      "lastPropertyId": "8:2201102876981640663",
+      "lastPropertyId": "10:961244772353001235",
       "name": "Course",
       "properties": [
         {
@@ -77,13 +77,23 @@
           "id": "8:2201102876981640663",
           "name": "state",
           "type": 9
+        },
+        {
+          "id": "9:9150862467323502539",
+          "name": "finishedEcts",
+          "type": 8
+        },
+        {
+          "id": "10:961244772353001235",
+          "name": "currentAverage",
+          "type": 8
         }
       ],
       "relations": []
     },
     {
       "id": "3:8214580190937133698",
-      "lastPropertyId": "15:2817971108358835885",
+      "lastPropertyId": "16:5977232238826302161",
       "name": "CourseUnit",
       "properties": [
         {
@@ -161,6 +171,11 @@
           "id": "15:2817971108358835885",
           "name": "schoolYear",
           "type": 9
+        },
+        {
+          "id": "16:5977232238826302161",
+          "name": "ects",
+          "type": 8
         }
       ],
       "relations": []

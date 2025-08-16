@@ -46,8 +46,6 @@ Widget _wrapWidget(Widget widget) {
     ],
     locale: const Locale('pt'),
     supportedLocales: S.delegate.supportedLocales,
-    home: Scaffold(
-      body: widget,
-    ),
+    home: Scaffold(body: widget),
   );
 }

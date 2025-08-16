@@ -7,7 +7,7 @@ class RestaurantLocation implements Location {
   final int floor;
 
   @override
-  final int weight = 4;
+  final weight = 4;
 
   final String name;
 

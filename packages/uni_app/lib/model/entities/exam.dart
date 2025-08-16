@@ -55,7 +55,7 @@ class Exam {
   @Id()
   int? dbId;
 
-  static Map<String, String> types = {
+  static final types = <String, String>{
     'Mini-testes': 'MT',
     'Normal': 'EN',
     'Recurso': 'ER',
@@ -72,16 +72,16 @@ class Exam {
   bool hasEnded() => DateTime.now().compareTo(finish) >= 0;
 
   String weekDay(AppLocale locale) {
-    return DateFormat.EEEE(locale.localeCode.languageCode)
-        .dateSymbols
-        .WEEKDAYS[start.weekday % 7];
+    return DateFormat.EEEE(
+      locale.localeCode.languageCode,
+    ).dateSymbols.WEEKDAYS[start.weekday % 7];
   }
 
   // TODO(thePeras): Remove this method and use {start.month} in the toString. Tests will fail and need to be updated.
   String month(AppLocale locale) {
-    return DateFormat.EEEE(locale.localeCode.languageCode)
-        .dateSymbols
-        .MONTHS[start.month - 1];
+    return DateFormat.EEEE(
+      locale.localeCode.languageCode,
+    ).dateSymbols.MONTHS[start.month - 1];
   }
 
   String monthAcronym(AppLocale locale) {

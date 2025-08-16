@@ -8,7 +8,7 @@ FILES="\$(git diff --diff-filter=d --name-only --cached | grep .*\.dart | grep -
 [ -z "\$FILES" ] && exit 0
 
 
-echo "\$FILES" | xargs dart format 
+echo "\$FILES" | xargs dart format
 echo "\$FILES" | xargs git add 
 EOF
 

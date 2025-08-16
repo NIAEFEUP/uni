@@ -1,45 +1,94 @@
 {
-  description = "A very basic flake";
+  description = "A basic flake for Flutter development with Nix and NixOS";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=pull/412907/merge";
+    utils.url = "github:limwa/nix-flake-utils";
+
+    # Needed for shell.nix
+    flake-compat.url = "github:edolstra/flake-compat";
   };
 
-  outputs = { nixpkgs, ... }: 
-    let
-      system = "x86_64-linux";
-
-      pkgs = import nixpkgs {
-        inherit system;
-        config = {
-          allowUnfree = true;
-          android_sdk.accept_license = true;
+  outputs = {
+    nixpkgs,
+    utils,
+    ...
+  }:
+    utils.lib.mkFlakeWith {
+      forEachSystem = system: let
+        pkgs = import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            android_sdk.accept_license = true;
+          };
         };
+
+        androidComposition = pkgs.androidenv.composeAndroidPackages {
+          includeEmulator = "if-supported";
+          includeNDK = "if-supported";
+          includeSystemImages = "if-supported";
+
+          buildToolsVersions = ["34.0.0"];
+          cmakeVersions = ["3.22.1"];
+          platformVersions = [ "31" "33" "34" "35" ];
+          ndkVersions = [ "25.1.8937393" ];
+        };
+      in {
+        inherit pkgs;
+
+        # Reuse the same Android SDK, JDK and Flutter versions across all derivations
+        androidSdk = androidComposition.androidsdk;
+        flutter = pkgs.flutter332;
+        jdk = pkgs.jdk17;
       };
+    } {
+      formatter = {pkgs, ...}: pkgs.alejandra;
 
-      androidComposition = pkgs.androidenv.composeAndroidPackages {
-        includeSources = true;
-        includeSystemImages = true;
-        includeEmulator = "if-supported";
-        includeNDK = "if-supported";
+      devShell = {
+        pkgs,
+        androidSdk,
+        jdk,
+        flutter,
+        ...
+      }:
+        pkgs.mkShell rec {
+          EMULATOR_NAME = "uni_emulator";
 
-        minPlatformVersion = 31;
-        buildToolsVersions = [ "34.0.0" "35.0.1" "36.0.0" ];
-      };
+          ANDROID_HOME = "${androidSdk}/libexec/android-sdk";
+          JAVA_HOME = "${jdk}";
+          LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [libGL];
 
-      androidSdk = androidComposition.androidsdk;
-    in {
+          packages = [
+            androidSdk
+            flutter
+            jdk
 
-      devShell.${system} = pkgs.mkShell rec {
-        packages = with pkgs; [
-          flutter324
-          jdk17
-          androidSdk
-        ];
+            (pkgs.writeShellApplication {
+              name = "emulator-setup";
 
-        ANDROID_SDK_ROOT="${androidSdk}/libexec/android-sdk";
-        ANDROID_NDK_ROOT = "${ANDROID_SDK_ROOT}/ndk-bundle";
-        JAVA_HOME = "${pkgs.jdk17}";
-      };
+              text = ''
+                avdmanager delete avd -n ${EMULATOR_NAME} 2>/dev/null || true
+                avdmanager create avd -n ${EMULATOR_NAME} -k "system-images;android-35;google_apis;x86_64" -d "pixel_9_pro_xl"
+
+                # Enable GPU acceleration
+                {
+                  echo "hw.gpu.enabled=yes"
+                  echo "hw.gpu.mode=host"
+                } >> ~/.android/avd/${EMULATOR_NAME}.avd/config.ini
+
+                avdmanager list avd
+              '';
+            })
+
+            (pkgs.writeShellApplication {
+              name = "emulator-launch";
+
+              text = ''
+                flutter emulators --launch "${EMULATOR_NAME}"
+              '';
+            })
+          ];
+        };
     };
 }

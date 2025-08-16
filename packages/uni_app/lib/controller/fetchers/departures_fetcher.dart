@@ -29,11 +29,12 @@ class DeparturesFetcher {
     final response = await _client.get(url.toUri());
     final htmlResponse = parse(response.body);
     try {
-      final scriptText = htmlResponse
-          .querySelectorAll('table script')
-          .where((element) => element.text.contains(_stopCode))
-          .map((e) => e.text)
-          .first;
+      final scriptText =
+          htmlResponse
+              .querySelectorAll('table script')
+              .where((element) => element.text.contains(_stopCode))
+              .map((e) => e.text)
+              .first;
 
       final callParam = scriptText
           .substring(scriptText.indexOf('('))
@@ -50,10 +51,7 @@ class DeparturesFetcher {
         Sentry.captureEvent(
           SentryEvent(
             throwable: err,
-            request: SentryRequest(
-              url: url,
-              data: response.body,
-            ),
+            request: SentryRequest(url: url, data: response.body),
           ),
           stackTrace: st,
         ),
@@ -75,8 +73,9 @@ class DeparturesFetcher {
     final response = await _client.get(url.toUri());
     final htmlResponse = parse(response.body);
 
-    final tableEntries =
-        htmlResponse.querySelectorAll('#smsBusResults > tbody > tr.even');
+    final tableEntries = htmlResponse.querySelectorAll(
+      '#smsBusResults > tbody > tr.even',
+    );
 
     final configuredBuses = _stopData.configuredBuses;
 
@@ -92,8 +91,7 @@ class DeparturesFetcher {
         continue;
       }
 
-      final busDestination = rawBusInformation[0]
-          .text
+      final busDestination = rawBusInformation[0].text
           .replaceAll('\n', '')
           .replaceAll('\t', '')
           .replaceAll(' ', '')
@@ -120,9 +118,7 @@ class DeparturesFetcher {
     } else {
       final regex = RegExp('([0-9]+)');
 
-      return int.parse(
-        regex.stringMatch(rawBusInformation[2].text).toString(),
-      );
+      return int.parse(regex.stringMatch(rawBusInformation[2].text).toString());
     }
   }
 

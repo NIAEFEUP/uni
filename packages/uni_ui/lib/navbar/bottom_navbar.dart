@@ -11,7 +11,7 @@ class _BottomNavbarContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 80,
-      margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+      margin: EdgeInsets.only(left: 20, right: 20, bottom: 0),
       decoration: ShapeDecoration(
         color: Theme.of(context).colorScheme.primary,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -37,14 +37,15 @@ class _BottomNavbarContainer extends StatelessWidget {
           ),
           child: Container(
             decoration: BoxDecoration(
-                gradient: RadialGradient(
-              colors: [
-                Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
-                Colors.transparent,
-              ],
-              center: Alignment.bottomRight,
-              radius: 2.5,
-            )),
+              gradient: RadialGradient(
+                colors: [
+                  Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
+                  Colors.transparent,
+                ],
+                center: Alignment.bottomRight,
+                radius: 2.5,
+              ),
+            ),
             child: child,
           ),
         ),
@@ -86,9 +87,10 @@ class _BottomNavbarState extends State<BottomNavbar> {
           elevation: 0,
           iconSize: 32,
           type: BottomNavigationBarType.fixed,
-          items: widget.items
-              .map((item) => item.toBottomNavigationBarItem(context))
-              .toList(),
+          items:
+              widget.items
+                  .map((item) => item.toBottomNavigationBarItem(context))
+                  .toList(),
           selectedFontSize: 0,
           unselectedFontSize: 0,
           showSelectedLabels: false,

@@ -24,6 +24,7 @@ import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation
 import 'package:uni/view/widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart';
 
 class HomePageView extends StatefulWidget {
   const HomePageView({super.key});
@@ -36,12 +37,12 @@ class HomePageViewState extends State<HomePageView> {
   List<FavoriteWidgetType> favoriteCards =
       PreferencesController.getFavoriteCards();
 
-  bool isBannerViewed = true;
+  var _isBannerViewed = true;
 
   double appBarSize = 150;
 
   static Map<FavoriteWidgetType, StateProviderNotifier<dynamic>>
-      typeToProvider = {
+  typeToProvider = {
     FavoriteWidgetType.schedule: LectureProvider(),
     FavoriteWidgetType.exams: ExamProvider(),
     FavoriteWidgetType.library: LibraryOccupationProvider(),
@@ -65,7 +66,7 @@ class HomePageViewState extends State<HomePageView> {
 
   Future<void> checkBannerViewed() async {
     setState(() {
-      isBannerViewed = PreferencesController.isDataCollectionBannerViewed();
+      _isBannerViewed = PreferencesController.isDataCollectionBannerViewed();
     });
   }
 
@@ -85,51 +86,47 @@ class HomePageViewState extends State<HomePageView> {
     };
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
+      value: AppSystemOverlayStyles.base.copyWith(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.light,
+        systemNavigationBarIconBrightness: Brightness.dark,
       ),
-      child: MediaQuery.removePadding(
-        context: context,
-        removeBottom: true,
-        child: Scaffold(
-          extendBody: true,
-          floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Theme.of(context).primaryColor,
-            foregroundColor: Colors.white,
-            shape: const CircleBorder(),
-            onPressed: () => {
-              Navigator.pushNamed(
-                context,
-                '/${NavigationItem.navEditPersonalArea.route}',
-              ),
-            },
-            child: const UniIcon(UniIcons.edit),
-          ),
-          backgroundColor: Theme.of(context).colorScheme.surface,
-          appBar: homeAppBar(context),
-          bottomNavigationBar: const AppBottomNavbar(),
-          body: RefreshIndicator(
-            onRefresh: () async => refreshPage(context),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-              child: ListView.separated(
-                itemCount: favoriteCards.length + 1,
-                separatorBuilder: (_, __) => const SizedBox(
-                  height: 10,
+      child: Scaffold(
+        extendBody: true,
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Colors.white,
+          shape: const CircleBorder(),
+          onPressed:
+              () => {
+                Navigator.pushNamed(
+                  context,
+                  '/${NavigationItem.navEditPersonalArea.route}',
                 ),
-                itemBuilder: (_, index) {
-                  if (index == 0) {
-                    return Visibility(
-                      visible: !isBannerViewed,
-                      child: TrackingBanner(setBannerViewed),
-                    );
-                  } else {
-                    return typeToCard[favoriteCards[index - 1]];
-                  }
-                },
-              ),
+              },
+          child: const UniIcon(UniIcons.edit),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        appBar: homeAppBar(context),
+        bottomNavigationBar: const AppBottomNavbar(),
+        body: RefreshIndicator(
+          onRefresh: () => refreshPage(context),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            child: ListView.separated(
+              itemCount: favoriteCards.length + 1,
+              separatorBuilder: (_, _) => const SizedBox(height: 10),
+              itemBuilder: (_, index) {
+                if (index == 0) {
+                  return Visibility(
+                    visible: !_isBannerViewed,
+                    child: TrackingBanner(setBannerViewed),
+                  );
+                } else {
+                  return typeToCard[favoriteCards[index - 1]];
+                }
+              },
             ),
           ),
         ),
@@ -143,10 +140,7 @@ class HomePageViewState extends State<HomePageView> {
       child: Container(
         decoration: const BoxDecoration(
           gradient: RadialGradient(
-            colors: [
-              Color(0xFF280709),
-              Color(0xFF511515),
-            ],
+            colors: [Color(0xFF280709), Color(0xFF511515)],
             center: Alignment.topLeft,
             radius: 1.5,
             stops: [0, 1],
@@ -183,23 +177,25 @@ class HomePageViewState extends State<HomePageView> {
                         room: lectures[0].room,
                         type: lectures[0].typeClass,
                         onTap: () {
-                          final profile = Provider.of<ProfileProvider>(
-                            context,
-                            listen: false,
-                          ).state;
+                          final profile =
+                              Provider.of<ProfileProvider>(
+                                context,
+                                listen: false,
+                              ).state;
                           if (profile != null) {
-                            final courseUnit =
-                                profile.courseUnits.firstWhereOrNull(
-                              (unit) =>
-                                  unit.abbreviation == lectures[0].acronym,
-                            );
+                            final courseUnit = profile.courseUnits
+                                .firstWhereOrNull(
+                                  (unit) =>
+                                      unit.abbreviation == lectures[0].acronym,
+                                );
                             if (courseUnit != null &&
                                 courseUnit.occurrId != null) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute<CourseUnitDetailPageView>(
-                                  builder: (context) =>
-                                      CourseUnitDetailPageView(courseUnit),
+                                  builder:
+                                      (context) =>
+                                          CourseUnitDetailPageView(courseUnit),
                                 ),
                               );
                             }
@@ -210,11 +206,14 @@ class HomePageViewState extends State<HomePageView> {
                   },
                   hasContent: (lectures) => lectures.isNotEmpty,
                   onNullContent: const SizedBox.shrink(),
-                  mapper: (lectures) => lectures
-                      .where(
-                        (lecture) => lecture.endTime.isAfter(DateTime.now()),
-                      )
-                      .toList(),
+                  mapper:
+                      (lectures) =>
+                          lectures
+                              .where(
+                                (lecture) =>
+                                    lecture.endTime.isAfter(DateTime.now()),
+                              )
+                              .toList(),
                   contentLoadingWidget: Container(),
                 ),
               ],

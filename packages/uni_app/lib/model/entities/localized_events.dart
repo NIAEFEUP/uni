@@ -2,9 +2,7 @@ import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 
 class LocalizedEvents {
-  LocalizedEvents({
-    required this.events,
-  });
+  LocalizedEvents({required this.events});
 
   final Map<AppLocale, List<CalendarEvent>> events;
 

@@ -24,18 +24,10 @@ class IconLabel extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         icon,
-        const SizedBox(
-          height: 8,
-        ),
-        Text(
-          label,
-          style: labelTextStyle,
-        ),
+        const SizedBox(height: 8),
+        Text(label, style: labelTextStyle),
         if (sublabel.isNotEmpty) const SizedBox(height: 10),
-        Text(
-          sublabel,
-          style: sublabelTextStyle,
-        ),
+        Text(sublabel, style: sublabelTextStyle),
       ],
     );
   }

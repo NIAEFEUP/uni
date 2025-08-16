@@ -52,10 +52,11 @@ class ServicesCard extends StatelessWidget {
               ),
             if (telephone != null)
               GestureDetector(
-                onTap: () => launchUrlWithToast(
-                  context,
-                  'tel:${telephone?.substring(5)}',
-                ),
+                onTap:
+                    () => launchUrlWithToast(
+                      context,
+                      'tel:${telephone?.substring(5)}',
+                    ),
                 child: ModalInfoRow(
                   title: S.of(context).telephone,
                   description: telephone,

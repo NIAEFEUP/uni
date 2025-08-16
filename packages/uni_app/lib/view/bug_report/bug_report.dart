@@ -33,7 +33,7 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
     super.initState();
   }
 
-  final Map<int, String> bugDescriptions = {
+  final bugDescriptions = <int, String>{
     0: 'bug_description_visual_detail',
     1: 'bug_description_error',
     2: 'bug_description_Suggestion',
@@ -45,13 +45,13 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
   List<PlatformFile> pickedFiles = [];
   List<Widget> previewImages = [];
 
-  static int _selectedBug = 0;
-  final TextEditingController titleController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
+  static var _selectedBug = 0;
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final emailController = TextEditingController();
 
-  bool _isButtonTapped = false;
-  bool _isConsentGiven = false;
+  var _isButtonTapped = false;
+  var _isConsentGiven = false;
 
   static final _formKey = GlobalKey<FormState>();
 
@@ -65,14 +65,13 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
       4: S.of(context).bug_description_other,
     };
 
-    bugList = bugD.entries
-        .map(
-          (entry) => DropdownMenuItem(
-            value: entry.key,
-            child: Text(entry.value),
-          ),
-        )
-        .toList();
+    bugList =
+        bugD.entries
+            .map(
+              (entry) =>
+                  DropdownMenuItem(value: entry.key, child: Text(entry.value)),
+            )
+            .toList();
   }
 
   @override
@@ -131,9 +130,7 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
             ),
             Container(
               margin: const EdgeInsets.all(1),
-              child: Row(
-                children: previewImages,
-              ),
+              child: Row(children: previewImages),
             ),
             Container(
               padding: EdgeInsets.zero,
@@ -161,28 +158,31 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: _isConsentGiven
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).dividerColor,
+                backgroundColor:
+                    _isConsentGiven
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).dividerColor,
               ),
-              onPressed: !_isConsentGiven
-                  ? null
-                  : () {
-                      if (_formKey.currentState!.validate() &&
-                          !_isButtonTapped) {
-                        if (!FocusScope.of(context).hasPrimaryFocus) {
-                          FocusScope.of(context).unfocus();
+              onPressed:
+                  !_isConsentGiven
+                      ? null
+                      : () {
+                        if (_formKey.currentState!.validate() &&
+                            !_isButtonTapped) {
+                          if (!FocusScope.of(context).hasPrimaryFocus) {
+                            FocusScope.of(context).unfocus();
+                          }
+                          submitBugReport();
                         }
-                        submitBugReport();
-                      }
-                    },
+                      },
               child: Text(
                 S.of(context).send,
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      color: _isConsentGiven
+                  color:
+                      _isConsentGiven
                           ? Theme.of(context).colorScheme.onPrimary
                           : Theme.of(context).colorScheme.onTertiary,
-                    ),
+                ),
               ),
             ),
           ],
@@ -224,22 +224,24 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
         setState(() {
           pickedFiles = result.files.take(3).toList();
 
-          previewImages = pickedFiles.map((file) {
-            return Padding(
-              padding: EdgeInsets.all(
-                8.0 / (pickedFiles.length > 3 ? pickedFiles.length / 3 : 1),
-              ),
-              child: SizedBox(
-                width:
-                    80 / (pickedFiles.length > 3 ? pickedFiles.length / 3 : 1),
-                child: Image.memory(
-                  file.bytes!,
-                  height: 120,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            );
-          }).toList();
+          previewImages =
+              pickedFiles.map((file) {
+                return Padding(
+                  padding: EdgeInsets.all(
+                    8.0 / (pickedFiles.length > 3 ? pickedFiles.length / 3 : 1),
+                  ),
+                  child: SizedBox(
+                    width:
+                        80 /
+                        (pickedFiles.length > 3 ? pickedFiles.length / 3 : 1),
+                    child: Image.memory(
+                      file.bytes!,
+                      height: 120,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                );
+              }).toList();
         });
       }
     } catch (err) {
@@ -257,13 +259,14 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
     final session = Provider.of<SessionProvider>(context, listen: false).state;
     final faculties = session?.faculties ?? [];
 
-    final bugReport = BugReport(
-      titleController.text,
-      descriptionController.text,
-      emailController.text,
-      bugDescriptions[_selectedBug],
-      faculties,
-    ).toJson();
+    final bugReport =
+        BugReport(
+          titleController.text,
+          descriptionController.text,
+          emailController.text,
+          bugDescriptions[_selectedBug],
+          faculties,
+        ).toJson();
 
     FocusScope.of(context).requestFocus(FocusNode());
     try {

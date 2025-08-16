@@ -204,6 +204,8 @@
   "@no_bus_stops": {},
   "no_class": "Não existem turmas para apresentar",
   "@no_class": {},
+  "no_classes_this_week": "Não tens aulas esta semana",
+  "@no_classes_this_week": {},
   "no_classes": "Não existem aulas para apresentar",
   "@no_classes": {},
   "no_classes_on": "Não possui aulas à",
@@ -437,5 +439,7 @@
   "view_course_details": "Ver detalhes da Unidade Curricular",
   "@view_course_details": {},
   "until": "Até",
-  "@until": {}
+  "@until": {},
+	"services": "Serviços",
+	"@services": {}
 }

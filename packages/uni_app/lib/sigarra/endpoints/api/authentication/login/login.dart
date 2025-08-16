@@ -8,11 +8,7 @@ import 'package:uni/sigarra/endpoints/api/authentication/login/response.dart';
 import 'package:uni/sigarra/options.dart';
 
 class Login extends Endpoint<LoginResponse> {
-  const Login({
-    required this.username,
-    required this.password,
-    this.options,
-  });
+  const Login({required this.username, required this.password, this.options});
 
   final String username;
   final String password;
@@ -26,10 +22,7 @@ class Login extends Endpoint<LoginResponse> {
 
     final response = await options.client.post(
       loginUrl,
-      body: {
-        'pv_login': username,
-        'pv_password': password,
-      },
+      body: {'pv_login': username, 'pv_password': password},
     );
 
     return _parse(response);
@@ -37,9 +30,7 @@ class Login extends Endpoint<LoginResponse> {
 
   Future<LoginResponse> _parse(http.Response response) async {
     if (response.statusCode != 200) {
-      return const LoginFailedResponse(
-        reason: LoginFailureReason.serverError,
-      );
+      return const LoginFailedResponse(reason: LoginFailureReason.serverError);
     }
 
     final responseBody = LoginJsonResponse.fromJson(
@@ -53,8 +44,6 @@ class Login extends Endpoint<LoginResponse> {
       );
     }
 
-    return const LoginFailedResponse(
-      reason: LoginFailureReason.unknown,
-    );
+    return const LoginFailedResponse(reason: LoginFailureReason.unknown);
   }
 }

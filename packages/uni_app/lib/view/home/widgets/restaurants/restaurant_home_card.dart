@@ -19,9 +19,7 @@ import 'package:uni_ui/cards/restaurant_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
 
 class RestaurantHomeCard extends GenericHomecard {
-  const RestaurantHomeCard({
-    super.key,
-  });
+  const RestaurantHomeCard({super.key});
 
   @override
   String getTitle(BuildContext context) {
@@ -47,33 +45,35 @@ class RestaurantSlider extends StatefulWidget {
 }
 
 class RestaurantSliderState extends State<RestaurantSlider> {
-  int _currentIndex = 0;
+  var _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return LazyConsumer<RestaurantProvider, List<Restaurant>>(
       builder: (context, restaurants) {
-        final favoriteRestaurants = restaurants
-            .where(
-              (restaurant) => PreferencesController.getFavoriteRestaurants()
-                  .contains(restaurant.namePt + restaurant.period),
-            )
-            .toList();
+        final favoriteRestaurants =
+            restaurants
+                .where(
+                  (restaurant) => PreferencesController.getFavoriteRestaurants()
+                      .contains(restaurant.namePt + restaurant.period),
+                )
+                .toList();
 
-        final dailyRestaurants =
-            getRestaurantInformation(context, favoriteRestaurants);
+        final dailyRestaurants = getRestaurantInformation(
+          context,
+          favoriteRestaurants,
+        );
 
         return Column(
           children: [
             ExpandablePageView(
               children: dailyRestaurants,
-              onPageChanged: (value) => setState(() {
-                _currentIndex = value;
-              }),
+              onPageChanged:
+                  (value) => setState(() {
+                    _currentIndex = value;
+                  }),
             ),
-            const SizedBox(
-              height: 5,
-            ),
+            const SizedBox(height: 5),
             AnimatedSmoothIndicator(
               activeIndex: _currentIndex,
               count: dailyRestaurants.length,
@@ -83,21 +83,22 @@ class RestaurantSliderState extends State<RestaurantSlider> {
                 activeDotColor: Theme.of(context).colorScheme.primary,
               ),
             ),
-            const SizedBox(
-              height: 5,
-            ),
+            const SizedBox(height: 5),
           ],
         );
       },
       hasContent: (restaurants) {
-        final favoriteRestaurants = restaurants
-            .where(
-              (restaurant) => PreferencesController.getFavoriteRestaurants()
-                  .contains(restaurant.namePt + restaurant.period),
-            )
-            .toList();
-        return getRestaurantInformation(context, favoriteRestaurants)
-            .isNotEmpty;
+        final favoriteRestaurants =
+            restaurants
+                .where(
+                  (restaurant) => PreferencesController.getFavoriteRestaurants()
+                      .contains(restaurant.namePt + restaurant.period),
+                )
+                .toList();
+        return getRestaurantInformation(
+          context,
+          favoriteRestaurants,
+        ).isNotEmpty;
       },
       onNullContent: NoRestaurantsHomeCard(onClick: widget.onClick),
       contentLoadingWidget: const ShimmerRestaurantsHomeCard(),
@@ -113,28 +114,30 @@ List<RestaurantCard> getRestaurantInformation(
 
   final today = parseDateTime(DateTime.now());
 
-  final restaurantsWidgets = favoriteRestaurants
-      .where((element) => element.getMealsOfDay(today).isNotEmpty)
-      .map((restaurant) {
-    final menuItems = getMainMenus(today, restaurant, locale);
-    return RestaurantCard(
-      name: RestaurantUtils.getRestaurantName(
-        context,
-        locale,
-        restaurant.namePt,
-        restaurant.namePt,
-        restaurant.period,
-      ),
-      icon: RestaurantUtils.getIcon(
-        restaurant.typeEn ?? restaurant.typePt,
-      ),
-      isFavorite: PreferencesController.getFavoriteRestaurants()
-          .contains(restaurant.namePt + restaurant.period),
-      onFavoriteToggle: () => {},
-      menuItems: menuItems,
-      showFavoriteButton: false,
-    );
-  }).toList();
+  final restaurantsWidgets =
+      favoriteRestaurants
+          .where((element) => element.getMealsOfDay(today).isNotEmpty)
+          .map((restaurant) {
+            final menuItems = getMainMenus(today, restaurant, locale);
+            return RestaurantCard(
+              name: RestaurantUtils.getRestaurantName(
+                context,
+                locale,
+                restaurant.namePt,
+                restaurant.namePt,
+                restaurant.period,
+              ),
+              icon: RestaurantUtils.getIcon(
+                restaurant.typeEn ?? restaurant.typePt,
+              ),
+              isFavorite: PreferencesController.getFavoriteRestaurants()
+                  .contains(restaurant.namePt + restaurant.period),
+              onFavoriteToggle: () => {},
+              menuItems: menuItems,
+              showFavoriteButton: false,
+            );
+          })
+          .toList();
 
   return restaurantsWidgets;
 }
@@ -150,15 +153,18 @@ List<RestaurantMenuItem> getMainMenus(
     return [];
   }
 
-  final mainMeals = meals
-      .where(
-        (meal) => ['Carne', 'Vegetariano', 'Peixe', 'Pescado']
-            .any((keyword) => meal.type.contains(keyword)),
-      )
-      .toList()
-    ..sort(
-      (a, b) => a.type.compareTo(b.type),
-    );
+  final mainMeals =
+      meals
+          .where(
+            (meal) => [
+              'Carne',
+              'Vegetariano',
+              'Peixe',
+              'Pescado',
+            ].any((keyword) => meal.type.contains(keyword)),
+          )
+          .toList()
+        ..sort((a, b) => a.type.compareTo(b.type));
 
   final filteredMeals = mainMeals.isEmpty ? meals.take(2) : mainMeals;
 

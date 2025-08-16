@@ -15,9 +15,9 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
     this.dependsOnSession = true,
     RequestStatus initialStatus = RequestStatus.busy,
     T? initialState,
-  })  : _requestStatus = initialStatus,
-        _initialState = initialState,
-        _state = initialState;
+  }) : _requestStatus = initialStatus,
+       _initialState = initialState,
+       _state = initialState;
 
   /// The initial state of the model.
   final T? _initialState;
@@ -36,7 +36,7 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
   static const _lockTimeout = Duration(seconds: 30);
 
   /// The lock for concurrent state change operations.
-  final Lock _lock = Lock();
+  final _lock = Lock();
 
   /// The last time the model was fetched from the remote.
   DateTime? _lastUpdateTime;
@@ -102,20 +102,23 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
 
     _updateStatus(RequestStatus.busy);
 
-    final shouldReload = force ||
+    final shouldReload =
+        force ||
         _lastUpdateTime == null ||
         cacheDuration == null ||
         DateTime.now().difference(_lastUpdateTime!) > cacheDuration!;
 
     if (!shouldReload) {
-      Logger().d('Last info for $runtimeType is within cache period '
-          '(last updated on $_lastUpdateTime); skipping remote load');
+      Logger().d(
+        'Last info for $runtimeType is within cache period '
+        '(last updated on $_lastUpdateTime); skipping remote load',
+      );
       _updateStatus(RequestStatus.successful);
       return;
     }
 
-    final hasConnectivity =
-        await Connectivity().checkConnectivity() != ConnectivityResult.none;
+    final connectivity = await Connectivity().checkConnectivity();
+    final hasConnectivity = !connectivity.contains(ConnectivityResult.none);
 
     if (!hasConnectivity) {
       Logger().w('No internet connection; skipping $runtimeType remote load');
@@ -151,30 +154,24 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
   }
 
   Future<void> forceRefresh(BuildContext context) async {
-    await _lock.synchronized(
-      () async {
-        if (!context.mounted) {
-          return;
-        }
-        await _loadFromRemoteFromContext(context, force: true);
-      },
-      timeout: _lockTimeout,
-    );
+    await _lock.synchronized(() async {
+      if (!context.mounted) {
+        return;
+      }
+      await _loadFromRemoteFromContext(context, force: true);
+    }, timeout: _lockTimeout);
   }
 
   Future<void> ensureInitialized(BuildContext context) async {
-    await _lock.synchronized(
-      () async {
-        if (!context.mounted || _state != null) {
-          return;
+    await _lock.synchronized(() async {
+      if (!context.mounted || _state != null) {
+        return;
+      }
+      await _loadFromStorage(context).then((value) async {
+        if (context.mounted) {
+          await _loadFromRemoteFromContext(context);
         }
-        await _loadFromStorage(context).then((value) async {
-          if (context.mounted) {
-            await _loadFromRemoteFromContext(context);
-          }
-        });
-      },
-      timeout: _lockTimeout,
-    );
+      });
+    }, timeout: _lockTimeout);
   }
 }

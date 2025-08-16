@@ -7,13 +7,13 @@ part of '../../../model/entities/bus.dart';
 // **************************************************************************
 
 Bus _$BusFromJson(Map<String, dynamic> json) => Bus(
-      busCode: json['busCode'] as String,
-      destination: json['destination'] as String,
-      direction: json['direction'] as bool? ?? false,
-    );
+  busCode: json['busCode'] as String,
+  destination: json['destination'] as String,
+  direction: json['direction'] as bool? ?? false,
+);
 
 Map<String, dynamic> _$BusToJson(Bus instance) => <String, dynamic>{
-      'busCode': instance.busCode,
-      'destination': instance.destination,
-      'direction': instance.direction,
-    };
+  'busCode': instance.busCode,
+  'destination': instance.destination,
+  'direction': instance.direction,
+};

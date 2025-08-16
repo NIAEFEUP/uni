@@ -7,7 +7,7 @@ enum DayOfWeek {
   thursday,
   friday,
   saturday,
-  sunday
+  sunday,
 }
 
 DayOfWeek parseDateTime(DateTime dateTime) {

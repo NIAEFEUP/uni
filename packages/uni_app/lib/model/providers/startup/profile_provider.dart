@@ -19,7 +19,7 @@ import 'package:uni/session/flows/base/session.dart';
 
 class ProfileProvider extends StateProviderNotifier<Profile> {
   ProfileProvider()
-      : super(cacheDuration: const Duration(days: 1), dependsOnSession: false);
+    : super(cacheDuration: const Duration(days: 1), dependsOnSession: true);
 
   @override
   Future<Profile> loadFromStorage(StateProviders stateProviders) async {
@@ -107,8 +107,8 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
       return null;
     }
 
-    final currentCourseUnits =
-        await CurrentCourseUnitsFetcher().getCurrentCourseUnits(session);
+    final currentCourseUnits = await CurrentCourseUnitsFetcher()
+        .getCurrentCourseUnits(session);
 
     profile.courseUnits = currentCourseUnits;
 
@@ -119,19 +119,20 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
     Session session,
     Profile profile,
   ) async {
-    final allCourseUnits =
-        await AllCourseUnitsFetcher().getAllCourseUnitsAndCourseAverages(
-      profile.courses,
-      session,
-      currentCourseUnits: profile.courseUnits,
-    );
+    final allCourseUnits = await AllCourseUnitsFetcher()
+        .getAllCourseUnitsAndCourseAverages(
+          profile.courses,
+          session,
+          currentCourseUnits: profile.courseUnits,
+        );
 
     if (allCourseUnits == null) {
       return allCourseUnits;
     }
 
-    Database()
-        .saveCourses(profile.courses); // TODO(thePeras): Why is this here?
+    Database().saveCourses(
+      profile.courses,
+    ); // TODO(thePeras): Why is this here?
     Database().saveCourseUnits(allCourseUnits);
 
     return allCourseUnits;

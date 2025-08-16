@@ -17,10 +17,8 @@ class LectureProvider extends StateProviderNotifier<List<Lecture>> {
   }
 
   @override
-  Future<List<Lecture>> loadFromRemote(StateProviders stateProviders) async {
-    return fetchUserLectures(
-      stateProviders.sessionProvider.state!,
-    );
+  Future<List<Lecture>> loadFromRemote(StateProviders stateProviders) {
+    return fetchUserLectures(stateProviders.sessionProvider.state!);
   }
 
   Future<List<Lecture>> fetchUserLectures(
@@ -37,12 +35,11 @@ class LectureProvider extends StateProviderNotifier<List<Lecture>> {
   Future<List<Lecture>> getLecturesFromFetcherOrElse(
     ScheduleFetcher? fetcher,
     Session session,
-  ) =>
-      fetcher?.getLectures(session) ?? getLectures(session);
+  ) => fetcher?.getLectures(session) ?? getLectures(session);
 
   Future<List<Lecture>> getLectures(Session session) {
-    return ScheduleFetcherNewApi().getLectures(session).catchError(
-          (e) => <Lecture>[],
-        );
+    return ScheduleFetcherNewApi()
+        .getLectures(session)
+        .catchError((e) => <Lecture>[]);
   }
 }

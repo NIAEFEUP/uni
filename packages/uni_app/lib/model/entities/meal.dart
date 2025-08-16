@@ -10,13 +10,8 @@ part '../../generated/model/entities/meal.g.dart';
 @JsonSerializable()
 @Entity()
 class Meal {
-  Meal(
-    this.type,
-    this.namePt,
-    this.nameEn,
-    this.date, {
-    int? dbDayOfWeek,
-  }) : dayOfWeek = DayOfWeek.values[dbDayOfWeek ?? 0];
+  Meal(this.type, this.namePt, this.nameEn, this.date, {int? dbDayOfWeek})
+    : dayOfWeek = DayOfWeek.values[dbDayOfWeek ?? 0];
 
   factory Meal.fromJson(Map<String, dynamic> json) => _$MealFromJson(json);
 

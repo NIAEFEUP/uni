@@ -23,9 +23,6 @@ class UnknownLocation implements Location {
 
   @override
   Map<String, dynamic> toMap({int? groupId}) {
-    return {
-      'floor': floor,
-      'type': type,
-    };
+    return {'floor': floor, 'type': type};
   }
 }

@@ -8,27 +8,20 @@ import 'package:uni/model/providers/state_providers.dart';
 
 class CalendarProvider extends StateProviderNotifier<LocalizedEvents> {
   CalendarProvider()
-      : super(cacheDuration: const Duration(days: 30), dependsOnSession: false);
+    : super(cacheDuration: const Duration(days: 30), dependsOnSession: false);
 
   @override
-  Future<LocalizedEvents> loadFromStorage(
-    StateProviders stateProviders,
-  ) async {
+  Future<LocalizedEvents> loadFromStorage(StateProviders stateProviders) async {
     final fetcher = CalendarFetcherJson();
     final ptEvents = await fetcher.getCalendar('pt');
     final enEvents = await fetcher.getCalendar('en');
     return LocalizedEvents(
-      events: {
-        AppLocale.pt: ptEvents,
-        AppLocale.en: enEvents,
-      },
+      events: {AppLocale.pt: ptEvents, AppLocale.en: enEvents},
     );
   }
 
   @override
-  Future<LocalizedEvents> loadFromRemote(
-    StateProviders stateProviders,
-  ) async {
+  Future<LocalizedEvents> loadFromRemote(StateProviders stateProviders) async {
     return state!;
   }
 }

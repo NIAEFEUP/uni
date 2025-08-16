@@ -8,9 +8,9 @@ import 'package:uni/model/entities/library_occupation.dart';
 
 /// Fetch the library occupation from Google Sheets
 class LibraryOccupationFetcher {
-  String baseUrl = 'https://webapi.affluences.com/api/fillRate?';
+  final baseUrl = 'https://webapi.affluences.com/api/fillRate?';
 
-  static const List<(String, int)> floorMaxSeats = [
+  static const floorMaxSeats = <(String, int)>[
     ('BruV6IlujdwAe1', 72),
     ('cEhyzJZvC5nHSr', 114),
     ('iceVfgwZWaZRhV', 114),
@@ -24,11 +24,9 @@ class LibraryOccupationFetcher {
 
     await Future.wait(
       floorMaxSeats.mapIndexed((i, entry) async {
-        final url = Uri.parse(baseUrl).replace(
-          queryParameters: {
-            'token': entry.$1,
-          },
-        );
+        final url = Uri.parse(
+          baseUrl,
+        ).replace(queryParameters: {'token': entry.$1});
 
         final response = await http.get(url);
 

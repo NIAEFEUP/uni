@@ -7,6 +7,7 @@ import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets/edit/draggable_square.dart';
 import 'package:uni/view/home/widgets/edit/draggable_tile.dart';
+import 'package:uni_ui/theme.dart';
 
 class EditHomeView extends StatefulWidget {
   const EditHomeView({super.key});
@@ -40,9 +41,10 @@ class EditHomeViewState extends State<EditHomeView> {
 
     activeCards = favoriteCards;
 
-    listlessCards = allCards
-        .where((widgetType) => !favoriteCards.contains(widgetType))
-        .toList();
+    listlessCards =
+        allCards
+            .where((widgetType) => !favoriteCards.contains(widgetType))
+            .toList();
   }
 
   void saveCards() {
@@ -51,9 +53,7 @@ class EditHomeViewState extends State<EditHomeView> {
 
   void addCard(FavoriteWidgetType widgetType) {
     setState(() {
-      activeCards.add(
-        widgetType,
-      );
+      activeCards.add(widgetType);
     });
 
     saveCards();
@@ -70,7 +70,7 @@ class EditHomeViewState extends State<EditHomeView> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
+      value: AppSystemOverlayStyles.base.copyWith(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.light,
       ),
@@ -82,10 +82,7 @@ class EditHomeViewState extends State<EditHomeView> {
             height: 90,
             decoration: const BoxDecoration(
               gradient: RadialGradient(
-                colors: [
-                  Color(0xFF280709),
-                  Color(0xFF511515),
-                ],
+                colors: [Color(0xFF280709), Color(0xFF511515)],
                 center: Alignment.topLeft,
                 radius: 1.5,
                 stops: [0, 1],
@@ -97,9 +94,10 @@ class EditHomeViewState extends State<EditHomeView> {
                   child: Center(
                     child: Text(
                       S.of(context).drag_and_drop,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge, // titleMedium as in figma is with the wrong colors
+                      style:
+                          Theme.of(context)
+                              .textTheme
+                              .titleLarge, // titleMedium as in figma is with the wrong colors
                     ),
                   ),
                 );
@@ -118,24 +116,25 @@ class EditHomeViewState extends State<EditHomeView> {
                   if (index.isEven) {
                     final dropIndex = (index / 2).floor();
                     return DragTarget<FavoriteWidgetType>(
-                      builder: (context, candidate, rejected) => Container(
-                        height: 20,
-                        margin: const EdgeInsets.only(top: 2, bottom: 2),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: candidate.isNotEmpty
-                              ? Theme.of(context).shadowColor.withOpacity(0.2)
-                              : Colors.transparent,
-                        ),
-                      ),
+                      builder:
+                          (context, candidate, rejected) => Container(
+                            height: 20,
+                            margin: const EdgeInsets.only(top: 2, bottom: 2),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color:
+                                  candidate.isNotEmpty
+                                      ? Theme.of(context).shadowColor.withAlpha(
+                                        51,
+                                      ) // 20% opacity
+                                      : Colors.transparent,
+                            ),
+                          ),
                       onAcceptWithDetails: (details) {
                         setState(() {
                           activeCards
                             ..remove(details.data)
-                            ..insert(
-                              dropIndex,
-                              details.data,
-                            );
+                            ..insert(dropIndex, details.data);
                           saveCards();
                         });
                       },
@@ -155,24 +154,22 @@ class EditHomeViewState extends State<EditHomeView> {
         ),
         bottomNavigationBar: DragTarget<FavoriteWidgetType>(
           builder: (context, candidate, rejected) {
-            final listlessCardWidgets = listlessCards
-                .map(
-                  (widgetType) => DraggableSquare(
-                    data: widgetType,
-                    callback: removeListlessWhileDragging,
-                  ),
-                )
-                .toList();
+            final listlessCardWidgets =
+                listlessCards
+                    .map(
+                      (widgetType) => DraggableSquare(
+                        data: widgetType,
+                        callback: removeListlessWhileDragging,
+                      ),
+                    )
+                    .toList();
 
             return Container(
               padding: const EdgeInsets.symmetric(vertical: 35),
               height: 350,
               decoration: const BoxDecoration(
                 gradient: RadialGradient(
-                  colors: [
-                    Color(0xFF280709),
-                    Color(0xFF511515),
-                  ],
+                  colors: [Color(0xFF280709), Color(0xFF511515)],
                   center: Alignment.topLeft,
                   radius: 1.5,
                   stops: [0, 1],
@@ -183,9 +180,10 @@ class EditHomeViewState extends State<EditHomeView> {
                 children: [
                   Text(
                     S.of(context).available_elements,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge, // TODO: titleMedium not working
+                    style:
+                        Theme.of(
+                          context,
+                        ).textTheme.titleLarge, // TODO: titleMedium not working
                   ),
                   SizedBox(
                     width: double.infinity,
@@ -193,35 +191,36 @@ class EditHomeViewState extends State<EditHomeView> {
                       alignment: WrapAlignment.center,
                       spacing: 20,
                       runSpacing: 10,
-                      children: candidate.isEmpty
-                          ? listlessCardWidgets
-                          : [
-                              ...listlessCardWidgets,
-                              ClipSmoothRect(
-                                radius: SmoothBorderRadius(
-                                  cornerRadius: 15,
-                                  cornerSmoothing: 1,
-                                ),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondary
-                                        .withOpacity(0.25),
+                      children:
+                          candidate.isEmpty
+                              ? listlessCardWidgets
+                              : [
+                                ...listlessCardWidgets,
+                                ClipSmoothRect(
+                                  radius: SmoothBorderRadius(
+                                    cornerRadius: 15,
+                                    cornerSmoothing: 1,
                                   ),
-                                  width: 75,
-                                  height: 75,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary
+                                          .withAlpha(64), // 25% opacity
+                                    ),
+                                    width: 75,
+                                    height: 75,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
                     ),
                   ),
                   TextButton(
-                    onPressed: () =>
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/${NavigationItem.navPersonalArea.route}',
-                      (route) => false,
-                    ),
+                    onPressed:
+                        () => Navigator.of(context).pushNamedAndRemoveUntil(
+                          '/${NavigationItem.navPersonalArea.route}',
+                          (route) => false,
+                        ),
                     child: Text(
                       S.of(context).save,
                       style: Theme.of(context).textTheme.titleLarge,
