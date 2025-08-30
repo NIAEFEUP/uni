@@ -11,7 +11,7 @@ class _BottomNavbarContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 80,
-      margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+      margin: EdgeInsets.only(left: 20, right: 20, bottom: 0),
       decoration: ShapeDecoration(
         color: Theme.of(context).colorScheme.primary,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
