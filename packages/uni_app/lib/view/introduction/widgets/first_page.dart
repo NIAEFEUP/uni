@@ -119,25 +119,6 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          decoration: const BoxDecoration(
-            gradient: RadialGradient(
-              center: Alignment(-0.95, -1),
-              colors: [Color(0x705F171D), Color(0x02511515)],
-              stops: [0, 1],
-            ),
-          ),
-        ),
-        Container(
-          decoration: const BoxDecoration(
-            gradient: RadialGradient(
-              center: Alignment(0.1, 0.95),
-              radius: 0.3,
-              colors: [Color(0x705F171D), Color(0x02511515)],
-              stops: [0, 1],
-            ),
-          ),
-        ),
         Align(
           alignment: const Alignment(0, -0.85),
           child: AnimatedBuilder(

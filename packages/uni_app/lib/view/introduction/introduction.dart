@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:uni/view/introduction/widgets/exams_intro_page.dart';
 import 'package:uni/view/introduction/widgets/first_page.dart';
 
 class IntroductionScreenView extends StatefulWidget {
@@ -40,13 +41,36 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView>
       extendBody: true,
       extendBodyBehindAppBar: true,
       backgroundColor: const Color(0xFF280709),
-      body: PageView(
-        controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: <Widget>[
-          FirstPage(pageController: _pageController),
-          _buildSecondPage(),
-          _buildThirdPage(),
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              gradient: RadialGradient(
+                center: Alignment(-0.95, -1),
+                colors: [Color(0x705F171D), Color(0x02511515)],
+                stops: [0, 1],
+              ),
+            ),
+          ),
+          Container(
+            decoration: const BoxDecoration(
+              gradient: RadialGradient(
+                center: Alignment(0.1, 0.95),
+                radius: 0.3,
+                colors: [Color(0x705F171D), Color(0x02511515)],
+                stops: [0, 1],
+              ),
+            ),
+          ),
+          PageView(
+            controller: _pageController,
+            physics: const NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              FirstPage(pageController: _pageController),
+              const ExamsIntroPage(),
+              _buildThirdPage(),
+            ],
+          ),
         ],
       ),
     );

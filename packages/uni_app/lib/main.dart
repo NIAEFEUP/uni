@@ -64,7 +64,7 @@ Future<String> firstRoute() async {
   final savedSession = await PreferencesController.getSavedSession();
 
   if (savedSession != null) {
-    return '/${NavigationItem.navPersonalArea.route}';
+    return '/${NavigationItem.navIntroduction.route}';
   }
 
   await acceptTermsAndConditions();
