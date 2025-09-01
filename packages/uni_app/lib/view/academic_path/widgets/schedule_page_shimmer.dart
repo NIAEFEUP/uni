@@ -11,20 +11,7 @@ int getDaysInMonth(int year, int month) {
         (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0);
     return isLeapYear ? 29 : 28;
   }
-  const daysInMonth = [
-    31,
-    28,
-    31,
-    30,
-    31,
-    30,
-    31,
-    31,
-    30,
-    31,
-    30,
-    31,
-  ];
+  const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   return daysInMonth[month - 1];
 }
 
