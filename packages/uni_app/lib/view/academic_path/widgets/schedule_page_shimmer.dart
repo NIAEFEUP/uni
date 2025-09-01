@@ -105,7 +105,7 @@ class ShimmerSchedulePage extends StatelessWidget {
           ),
         );
       }),
-      initialTab: currentDay.day - 1,
+      initialTab: currentDay.day,
       tabEnabled: List.generate(allDays.length, (index) {
         final today = DateTime(
           currentDay.year,
