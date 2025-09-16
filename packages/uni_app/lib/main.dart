@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -158,7 +159,12 @@ class ApplicationState extends ConsumerState<Application> {
     return UpgradeAlert(
       navigatorKey: Application.navigatorKey,
       showIgnore: false,
-      child: MaterialApp(
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: AppSystemOverlayStyles.base,
+        child: MediaQuery.removePadding(
+          context: context,
+          removeBottom: true,
+          child: MaterialApp(
         title: 'uni',
         navigatorKey: Application.navigatorKey,
         theme: lightTheme,
@@ -247,6 +253,8 @@ class ApplicationState extends ConsumerState<Application> {
           final builder = transitionFunctions[settings.name];
           return builder != null ? builder() : null;
         },
+      ),
+      ),
       ),
     );
   }

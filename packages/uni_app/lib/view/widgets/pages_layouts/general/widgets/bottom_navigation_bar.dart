@@ -48,6 +48,11 @@ class AppBottomNavbar extends StatelessWidget {
       );
     }
 
-    return BottomNavbar(items: navbarItems);
+    final bottomPadding = MediaQuery.of(context).systemGestureInsets.bottom;
+
+    return Padding(
+      padding: EdgeInsets.only(bottom: bottomPadding),
+      child: BottomNavbar(items: navbarItems),
+    );
   }
 }
