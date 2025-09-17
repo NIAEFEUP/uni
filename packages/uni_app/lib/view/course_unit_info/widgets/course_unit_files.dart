@@ -65,13 +65,12 @@ class CourseUnitFilesView extends ConsumerWidget {
     final filename = parts.sublist(0, parts.length - 1).join('_');
 
     return FileCard(
-      session: session,
       filename: filename,
       extension: extension,
       fileCode: file.fileCode,
       fullname: file.name,
       url: file.url,
-      onOpenFile: (context, _, _, _, _, startAnimation, stopAnimation) {
+      onOpenFile: (context, _, _, _, startAnimation, stopAnimation) {
         return openFile(
           context,
           session,
