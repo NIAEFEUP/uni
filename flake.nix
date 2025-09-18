@@ -5,6 +5,9 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     utils.url = "github:limwa/nix-flake-utils";
 
+    # For hardware-accelerated Android emulator on NixOS
+    limwa.url = "github:limwa/nix-registry";
+
     # Needed for shell.nix
     flake-compat.url = "github:edolstra/flake-compat";
   };
@@ -13,6 +16,7 @@
     self,
     nixpkgs,
     utils,
+    limwa,
     ...
   }:
     utils.lib.mkFlakeWith {
@@ -21,10 +25,16 @@
 
         pkgs = import nixpkgs {
           inherit system;
+
           config = {
             allowUnfree = true;
             android_sdk.accept_license = true;
           };
+
+          overlays = [
+            # For hardware-accelerated Android emulator on NixOS
+            limwa.overlays.android
+          ];
         };
 
         # Reuse the same Android SDK, JDK and Flutter versions across all derivations
@@ -36,31 +46,6 @@
           platformVersions = ["31" "33" "34" "35"];
           ndkVersions = ["25.1.8937393"];
         };
-
-        emulator = let
-          base = pkgs.androidenv.emulateApp {
-            name = "uni-emulator";
-
-            platformVersion = "35";
-            abiVersion = "x86_64";
-            systemImageType = "google_apis";
-
-            configOptions = {
-              "hw.gpu.enabled" = "yes";
-              "hw.gpu.mode" = "host";
-            };
-          };
-        in
-          # A wrapper is needed to fix hardware acceleration on NixOS
-          pkgs.runCommandNoCC "${base.name}-wrapped" {
-            nativeBuildInputs = [pkgs.makeWrapper];
-            meta.mainProgram = "emulator";
-          } ''
-            mkdir -p $out/bin
-            makeWrapper "${pkgs.lib.getExe base}" "$out/bin/${emulator.meta.mainProgram}" \
-              --unset ANDROID_HOME \
-              --prefix LD_LIBRARY_PATH : "${pkgs.lib.makeLibraryPath [pkgs.libGL]}"
-          '';
 
         flutter = pkgs.flutter332;
         jdk = pkgs.jdk17;
@@ -102,13 +87,24 @@
       };
 
       apps = utils.lib.invokeAttrs {
-        emulator = {
-          pkgs,
-          emulator,
-          ...
-        }: {
+        emulator = {pkgs, ...}: {
           type = "app";
-          program = pkgs.lib.getExe emulator;
+          program = pkgs.lib.getExe (
+            pkgs.limwa.android.wrapEmulatorWith {} (
+              pkgs.androidenv.emulateApp {
+                name = "uni-emulator";
+                deviceName = "uni_emulator";
+
+                platformVersion = "35";
+                abiVersion = "x86_64";
+                systemImageType = "google_apis_playstore";
+
+                # Specify user home to speed up boot times and avoid creating
+                # a lot of avd instances taking up disk space
+                androidUserHome = "\$HOME/.android";
+              }
+            )
+          );
         };
       };
     };
