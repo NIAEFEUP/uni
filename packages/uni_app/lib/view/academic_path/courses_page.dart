@@ -132,8 +132,9 @@ class CoursesPageState extends State<CoursesPage> {
         builder:
             (context, constraints) => SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
-              child: SizedBox(
+              child: Container(
                 height: constraints.maxHeight,
+                padding: const EdgeInsets.only(bottom: 120),
                 child: const Center(child: NoCoursesWidget()),
               ),
             ),
