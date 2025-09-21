@@ -16,11 +16,11 @@ import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/session/flows/base/session.dart';
 
-final profileProvider = AsyncNotifierProvider<ProfileProvider, Profile?>(
-  ProfileProvider.new,
+final profileProvider = AsyncNotifierProvider<ProfileNotifier, Profile?>(
+  ProfileNotifier.new,
 );
 
-class ProfileProvider extends CachedAsyncNotifier<Profile?> {
+class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
   @override
   Duration? get cacheDuration => const Duration(days: 1);
 

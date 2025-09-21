@@ -6,11 +6,11 @@ import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 
 final restaurantProvider =
-    AsyncNotifierProvider<RestaurantProvider, List<Restaurant>?>(
-      RestaurantProvider.new,
+    AsyncNotifierProvider<RestaurantNotifier, List<Restaurant>?>(
+      RestaurantNotifier.new,
     );
 
-class RestaurantProvider extends CachedAsyncNotifier<List<Restaurant>?> {
+class RestaurantNotifier extends CachedAsyncNotifier<List<Restaurant>?> {
   @override
   Duration? get cacheDuration => const Duration(days: 1);
 

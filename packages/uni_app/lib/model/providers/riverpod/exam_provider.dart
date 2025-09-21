@@ -10,11 +10,11 @@ import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/session/flows/base/session.dart';
 
-final examProvider = AsyncNotifierProvider<ExamProvider, List<Exam>?>(
-  ExamProvider.new,
+final examProvider = AsyncNotifierProvider<ExamNotifier, List<Exam>?>(
+  ExamNotifier.new,
 );
 
-class ExamProvider extends CachedAsyncNotifier<List<Exam>> {
+class ExamNotifier extends CachedAsyncNotifier<List<Exam>> {
   @override
   Duration? get cacheDuration => const Duration(days: 1);
 

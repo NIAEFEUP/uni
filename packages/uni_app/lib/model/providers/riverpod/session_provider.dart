@@ -9,11 +9,11 @@ import 'package:uni/session/flows/base/initiator.dart';
 import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/session/logout/uni_logout_handler.dart';
 
-final sessionProvider = AsyncNotifierProvider<SessionProvider, Session?>(
-  SessionProvider.new,
+final sessionProvider = AsyncNotifierProvider<SessionNotifier, Session?>(
+  SessionNotifier.new,
 );
 
-class SessionProvider extends CachedAsyncNotifier<Session?> {
+class SessionNotifier extends CachedAsyncNotifier<Session?> {
   @override
   Duration? get cacheDuration => null;
 

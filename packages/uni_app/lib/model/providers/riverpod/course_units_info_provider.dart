@@ -15,11 +15,11 @@ typedef FilesMap = Map<CourseUnit, List<CourseUnitFileDirectory>>;
 typedef CourseUnitsInfoState = (SheetsMap, ClassesMap, FilesMap);
 
 final courseUnitsInfoProvider =
-    AsyncNotifierProvider<CourseUnitsInfoProvider, CourseUnitsInfoState?>(
-      CourseUnitsInfoProvider.new,
+    AsyncNotifierProvider<CourseUnitsInfoNotifier, CourseUnitsInfoState?>(
+      CourseUnitsInfoNotifier.new,
     );
 
-class CourseUnitsInfoProvider
+class CourseUnitsInfoNotifier
     extends CachedAsyncNotifier<CourseUnitsInfoState?> {
   @override
   Duration? get cacheDuration => null;

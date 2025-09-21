@@ -4,11 +4,11 @@ import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
 
 final locationsProvider =
-    AsyncNotifierProvider<FacultyLocationsProvider, List<LocationGroup>?>(
-      FacultyLocationsProvider.new,
+    AsyncNotifierProvider<FacultyLocationsNotifier, List<LocationGroup>?>(
+      FacultyLocationsNotifier.new,
     );
 
-class FacultyLocationsProvider
+class FacultyLocationsNotifier
     extends CachedAsyncNotifier<List<LocationGroup>> {
   @override
   Duration? get cacheDuration => const Duration(days: 30);

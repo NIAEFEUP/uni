@@ -5,11 +5,11 @@ import 'package:uni/model/entities/localized_events.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
 
 final calendarProvider =
-    AsyncNotifierProvider<CalendarProvider, LocalizedEvents?>(
-      CalendarProvider.new,
+    AsyncNotifierProvider<CalendarNotifier, LocalizedEvents?>(
+      CalendarNotifier.new,
     );
 
-class CalendarProvider extends CachedAsyncNotifier<LocalizedEvents> {
+class CalendarNotifier extends CachedAsyncNotifier<LocalizedEvents> {
   @override
   Duration? get cacheDuration => const Duration(days: 30);
 

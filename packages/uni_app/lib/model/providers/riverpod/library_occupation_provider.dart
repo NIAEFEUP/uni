@@ -5,11 +5,11 @@ import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
 
 final libraryProvider =
-    AsyncNotifierProvider<LibraryOccupationProvider, LibraryOccupation?>(
-      LibraryOccupationProvider.new,
+    AsyncNotifierProvider<LibraryOccupationNotifier, LibraryOccupation?>(
+      LibraryOccupationNotifier.new,
     );
 
-final class LibraryOccupationProvider
+final class LibraryOccupationNotifier
     extends CachedAsyncNotifier<LibraryOccupation?> {
   @override
   Duration? get cacheDuration => const Duration(hours: 1);
