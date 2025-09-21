@@ -168,18 +168,6 @@ class _RestaurantPageViewState
     );
   }
 
-  // Future<void> _initializeRestaurants() async {
-  //   final restaurantProvider = Provider.of<RestaurantProvider>(
-  //     context,
-  //     listen: false,
-  //   );
-  //   await restaurantProvider.ensureInitialized(context);
-  //   if (restaurantProvider.state != null) {
-  //     setState(() {
-  //       restaurants = restaurantProvider.state!;
-  //     });
-  //   }
-  // }
 
   void _toggleFavorite(String restaurantName, String restaurantPeriod) {
     final key = restaurantName + restaurantPeriod;
