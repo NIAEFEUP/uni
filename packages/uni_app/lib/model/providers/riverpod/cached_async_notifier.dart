@@ -18,7 +18,7 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
     return DateTime.now().difference(_lastUpdateTime!) < cacheDuration!;
   }
 
-  //TODO: this is probably not the best way to do this, but in case of an empty list,
+  // FIXME: this is probably not the best way to do this, but in case of an empty list,
   // we cannot differentiate between a list that is indeed empty and a list that is not loaded yet
   bool _invalidLocalData(dynamic value) {
     if (value == null) {
