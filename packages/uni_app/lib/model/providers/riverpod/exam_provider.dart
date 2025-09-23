@@ -25,7 +25,7 @@ class ExamNotifier extends CachedAsyncNotifier<List<Exam>> {
 
   @override
   Future<List<Exam>?> loadFromRemote() async {
-    final session = await ref.watch(sessionProvider.future);
+    final session = await ref.read(sessionProvider.future);
     if (session == null) {
       return null;
     }

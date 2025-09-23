@@ -33,7 +33,7 @@ class RefreshState extends ConsumerWidget {
                           AxisDirection.down,
                   onRefresh: () async {
                     await onRefresh();
-                    await ProfileProvider.fetchOrGetCachedProfilePicture(
+                    await ProfileNotifier.fetchOrGetCachedProfilePicture(
                       ref.read(sessionProvider).value!,
                     );
                   },

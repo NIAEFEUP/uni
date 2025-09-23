@@ -36,7 +36,7 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
 
   @override
   Future<Profile?> loadFromRemote() async {
-    final session = await ref.watch(sessionProvider.future);
+    final session = await ref.read(sessionProvider.future);
     if (session == null) {
       return null;
     }

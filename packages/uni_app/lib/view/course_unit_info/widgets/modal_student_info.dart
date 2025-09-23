@@ -16,7 +16,7 @@ class StudentInfoModal extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(sessionProvider).value!;
+    final session = ref.read(sessionProvider.select((value) => value.value!));
     return ModalDialog(
       children: [
         Column(
@@ -32,7 +32,7 @@ class StudentInfoModal extends ConsumerWidget {
                               'assets/images/profile_placeholder.png',
                             ),
                   ),
-              future: ProfileProvider.fetchOrGetCachedProfilePicture(
+              future: ProfileNotifier.fetchOrGetCachedProfilePicture(
                 session,
                 studentNumber: student.number,
               ),

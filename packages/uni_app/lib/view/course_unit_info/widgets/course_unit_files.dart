@@ -19,7 +19,7 @@ class CourseUnitFilesView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sessionAsync = ref.watch(sessionProvider);
+    final sessionAsync = ref.read(sessionProvider);
 
     return sessionAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),

@@ -12,12 +12,12 @@ class ProfileOverview extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(sessionProvider.select((value) => value.value!));
+    final session = ref.read(sessionProvider.select((value) => value.value!));
 
     final name = profile.name.split(' ');
 
     return FutureBuilder(
-      future: ProfileProvider.fetchOrGetCachedProfilePicture(session),
+      future: ProfileNotifier.fetchOrGetCachedProfilePicture(session),
       builder:
           (context, profilePic) => Column(
             mainAxisAlignment: MainAxisAlignment.center,

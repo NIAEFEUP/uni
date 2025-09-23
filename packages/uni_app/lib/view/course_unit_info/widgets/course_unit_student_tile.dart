@@ -14,7 +14,7 @@ class CourseUnitStudentTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userImage = ProfileProvider.fetchOrGetCachedProfilePicture(
+    final userImage = ProfileNotifier.fetchOrGetCachedProfilePicture(
       session,
       studentNumber: student.number,
     );

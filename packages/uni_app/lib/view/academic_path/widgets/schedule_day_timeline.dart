@@ -51,7 +51,7 @@ class ScheduleDayTimeline extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final session = ref.watch(sessionProvider.select((value) => value.value));
+    final session = ref.read(sessionProvider.select((value) => value.value));
 
     return lectures.map((lecture) {
       final isActive = _isLectureActive(lecture);
@@ -60,7 +60,7 @@ class ScheduleDayTimeline extends ConsumerWidget {
         title: DateFormat('HH:mm').format(lecture.startTime),
         subtitle: DateFormat('HH:mm').format(lecture.endTime),
         card: FutureBuilder<File?>(
-          future: ProfileProvider.fetchOrGetCachedProfilePicture(
+          future: ProfileNotifier.fetchOrGetCachedProfilePicture(
             session!,
             studentNumber: lecture.teacherId,
           ),

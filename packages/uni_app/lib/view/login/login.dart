@@ -151,7 +151,7 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
   }
 
   Future<void> _falogin() async {
-    final sessionNotifier = ref.watch(sessionProvider.notifier);
+    final sessionNotifier = ref.read(sessionProvider.notifier);
 
     try {
       setState(() {

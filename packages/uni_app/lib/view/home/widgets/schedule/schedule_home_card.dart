@@ -85,7 +85,7 @@ class ScheduleHomeCard extends GenericHomecard {
                 title: DateFormat('HH:mm').format(element.startTime),
                 subtitle: DateFormat('HH:mm').format(element.endTime),
                 card: FutureBuilder<File?>(
-                  future: ProfileProvider.fetchOrGetCachedProfilePicture(
+                  future: ProfileNotifier.fetchOrGetCachedProfilePicture(
                     session.value!,
                     studentNumber: element.teacherId,
                   ),

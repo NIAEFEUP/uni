@@ -50,7 +50,7 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
 
   @override
   Widget build(BuildContext context) {
-    final sessionAsync = ref.watch(sessionProvider);
+    final sessionAsync = ref.read(sessionProvider);
 
     return sessionAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
