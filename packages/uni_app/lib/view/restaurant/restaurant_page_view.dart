@@ -168,7 +168,6 @@ class _RestaurantPageViewState
     );
   }
 
-
   void _toggleFavorite(String restaurantName, String restaurantPeriod) {
     final key = restaurantName + restaurantPeriod;
     final favoriteRestaurants = PreferencesController.getFavoriteRestaurants();
