@@ -32,7 +32,7 @@ class LectureNotifier extends CachedAsyncNotifier<List<Lecture>> {
     return lectures;
   }
 
-  // TODO: i've just ignored the fetcher.
+  // FIXME: delete fallback fetcher code.
   Future<List<Lecture>> _getLectures(Session session) {
     return ScheduleFetcherNewApi()
         .getLectures(session)
