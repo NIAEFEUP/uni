@@ -27,7 +27,7 @@ class ProfessorInfoModal extends ConsumerWidget {
                         ? Image(image: FileImage(snapshot.data!))
                         : Image.asset('assets/images/profile_placeholder.png'),
               ),
-          future: ProfileProvider.fetchOrGetCachedProfilePicture(
+          future: ProfileNotifier.fetchOrGetCachedProfilePicture(
             session,
             studentNumber: int.parse(professor.code),
           ),
