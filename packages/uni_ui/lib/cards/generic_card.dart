@@ -38,17 +38,16 @@ class GenericCard extends StatelessWidget {
         decoration: ShapeDecoration(
           shadows: [
             BoxShadow(
-              color:  shadowColor ??
+              color:
+                  shadowColor ??
                   cardTheme.shadowColor ??
                   Colors.black.withValues(alpha: 0.03),
               blurRadius: blurRadius ?? 0,
             ),
           ],
-        shape: SmoothRectangleBorder(
-        borderRadius: SmoothBorderRadius(
-        cornerRadius: 20,
-    ),
-        ),
+          shape: SmoothRectangleBorder(
+            borderRadius: SmoothBorderRadius(cornerRadius: 20),
+          ),
         ),
 
         /*
