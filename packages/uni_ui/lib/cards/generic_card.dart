@@ -42,29 +42,13 @@ class GenericCard extends StatelessWidget {
                   shadowColor ??
                   cardTheme.shadowColor ??
                   Colors.black.withValues(alpha: 0.03),
-              blurRadius: blurRadius ?? 0,
+              blurRadius: blurRadius ?? 12,
             ),
           ],
           shape: SmoothRectangleBorder(
             borderRadius: SmoothBorderRadius(cornerRadius: 20),
           ),
         ),
-
-        /*
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color:
-                  shadowColor ??
-                  cardTheme.shadowColor ??
-                  Colors.black.withValues(alpha: 0.03),
-              blurRadius: blurRadius ?? 12,
-              spreadRadius: -2,
-              offset: const Offset(0, 1),
-            ),
-          ],
-        ),
-         */
         child: GestureDetector(
           onTap: onClick,
           child: GenericSquircle(
