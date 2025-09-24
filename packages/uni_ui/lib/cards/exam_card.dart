@@ -43,6 +43,8 @@ class ExamCard extends StatelessWidget {
     return Opacity(
       opacity: isInvisible ? 0.6 : 1.0,
       child: GenericCard(
+        shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x3f),
+        blurRadius: 5,
         key: key,
         tooltip: name,
         onClick: onClick,

@@ -21,6 +21,8 @@ class CourseGradeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return GenericCard(
+      shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x3f),
+      blurRadius: 5,
       key: key,
       tooltip: tooltip,
       onClick: onTap,
