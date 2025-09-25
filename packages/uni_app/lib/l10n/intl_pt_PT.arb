@@ -64,6 +64,8 @@
   "@apply": {},
   "change": "Alterar",
   "@change": {},
+  "change_password": "Alterar palavra-passe",
+  "@change_password": {},
   "change_prompt": "Deseja alterar a palavra-passe?",
   "@change_prompt": {},
   "check_internet": "Verifica a tua ligação à internet",
