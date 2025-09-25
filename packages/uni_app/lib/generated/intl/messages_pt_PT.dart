@@ -109,6 +109,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "calendar": MessageLookupByLibrary.simpleMessage("Calendário"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancelar"),
     "change": MessageLookupByLibrary.simpleMessage("Alterar"),
+    "change_password": MessageLookupByLibrary.simpleMessage(
+      "Alterar palavra-passe",
+    ),
     "change_prompt": MessageLookupByLibrary.simpleMessage(
       "Deseja alterar a palavra-passe?",
     ),
