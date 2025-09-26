@@ -36,7 +36,7 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
     final calendar = localizedEvents.getEvents(locale);
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 100),
+        padding: const EdgeInsets.only(bottom: 10),
         child: Column(
           children:
               calendar
