@@ -41,6 +41,7 @@ import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni/view/faculty/faculty.dart';
 import 'package:uni/view/home/edit_home.dart';
 import 'package:uni/view/home/home.dart';
+import 'package:uni/view/introduction/introduction.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/login/login.dart';
 import 'package:uni/view/map/map.dart';
@@ -63,7 +64,7 @@ Future<String> firstRoute() async {
   final savedSession = await PreferencesController.getSavedSession();
 
   if (savedSession != null) {
-    return '/${NavigationItem.navPersonalArea.route}';
+    return '/${NavigationItem.navIntroduction.route}';
   }
 
   await acceptTermsAndConditions();
@@ -316,6 +317,11 @@ class ApplicationState extends State<Application> {
                           '/${NavigationItem.navCourseUnit.route}':
                               () => PageTransition.makePageTransition(
                                 page: CourseUnitDetailPageView(courseUnit!),
+                                settings: settings,
+                              ),
+                          '/${NavigationItem.navIntroduction.route}':
+                              () => PageTransition.introductionTransitionRoute(
+                                page: const IntroductionScreenView(),
                                 settings: settings,
                               ),
                         };
