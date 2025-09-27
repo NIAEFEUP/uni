@@ -33,14 +33,25 @@ class AllCourseUnitsFetcher {
     Session session, {
     List<CourseUnit>? currentCourseUnits,
   }) async {
-    final url =
+    final academicPathUrl =
         '${NetworkRouter.getBaseUrl(course.faculty!)}'
         'fest_geral.curso_percurso_academico_view';
-    final response = await NetworkRouter.getWithCookies(url, {
-      'pv_fest_id': course.festId.toString(),
-    }, session);
+    final curricularUnitsUrl =
+        '${NetworkRouter.getBaseUrl(course.faculty!)}'
+        'fest_geral.ucurr_inscricoes_list';
+    final responseAcademicPath = await NetworkRouter.getWithCookies(
+      academicPathUrl,
+      {'pv_fest_id': course.festId.toString()},
+      session,
+    );
+    final responseCurricularUnits = await NetworkRouter.getWithCookies(
+      curricularUnitsUrl,
+      {'pv_fest_id': course.festId.toString()},
+      session,
+    );
     return parseCourseUnitsAndCourseAverage(
-      response,
+      responseAcademicPath,
+      responseCurricularUnits,
       course,
       currentCourseUnits: currentCourseUnits,
     );
