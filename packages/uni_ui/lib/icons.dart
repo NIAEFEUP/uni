@@ -68,6 +68,7 @@ class UniIcons {
   static const dishOfTheDay = PhosphorIconsDuotone.calendarDot;
   static const heartOutline = PhosphorIconsRegular.heart;
   static const heartFill = PhosphorIconsFill.heart;
+  static const closed = PhosphorIconsDuotone.xCircle;
 
   static const pallete = PhosphorIconsDuotone.palette;
   static const globeHemisphereWest = PhosphorIconsDuotone.globeHemisphereWest;
