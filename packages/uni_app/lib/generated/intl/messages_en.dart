@@ -105,6 +105,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "change": MessageLookupByLibrary.simpleMessage("Change"),
+    "change_password": MessageLookupByLibrary.simpleMessage("Change password"),
     "change_prompt": MessageLookupByLibrary.simpleMessage(
       "Do you want to change the password?",
     ),

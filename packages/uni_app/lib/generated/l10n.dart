@@ -295,6 +295,16 @@ class S {
     return Intl.message('Change', name: 'change', desc: '', args: []);
   }
 
+  /// `Change password`
+  String get change_password {
+    return Intl.message(
+      'Change password',
+      name: 'change_password',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Do you want to change the password?`
   String get change_prompt {
     return Intl.message(
