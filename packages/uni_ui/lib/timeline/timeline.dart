@@ -27,6 +27,7 @@ class _TimelineState extends State<Timeline> {
       ItemPositionsListener.create();
   final ScrollController _tabScrollController = ScrollController();
   final List<GlobalKey> _tabKeys = [];
+  bool _didInitialScroll = false;
 
   @override
   void initState() {
@@ -36,6 +37,8 @@ class _TimelineState extends State<Timeline> {
     _tabKeys.addAll(List.generate(widget.tabs.length, (index) => GlobalKey()));
 
     _itemPositionsListener.itemPositions.addListener(() {
+      if (!_didInitialScroll) return;
+
       final positions = _itemPositionsListener.itemPositions.value;
       if (positions.isNotEmpty) {
         final firstVisibleIndex =
@@ -58,6 +61,24 @@ class _TimelineState extends State<Timeline> {
         }
       }
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      try {
+        await _itemScrollController.scrollTo(
+          index: _currentIndex,
+          duration: const Duration(milliseconds: 1),
+          curve: Curves.easeInOut,
+        );
+      } catch (_) {}
+
+      if (mounted) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) _scrollToCenterTab(_currentIndex);
+        });
+      }
+
+      _didInitialScroll = true;
+    });
   }
 
   @override
@@ -77,9 +98,17 @@ class _TimelineState extends State<Timeline> {
   }
 
   void _scrollToCenterTab(int index) {
+    if (index < 0 || index >= _tabKeys.length) return;
+    final ctx = _tabKeys[index].currentContext;
+    if (ctx == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _scrollToCenterTab(index);
+      });
+      return;
+    }
+
     final screenWidth = MediaQuery.of(context).size.width;
-    final RenderBox tabBox =
-        _tabKeys[index].currentContext!.findRenderObject() as RenderBox;
+    final RenderBox tabBox = ctx.findRenderObject() as RenderBox;
 
     final tabWidth = tabBox.size.width;
     final offset = (_tabScrollController.offset +

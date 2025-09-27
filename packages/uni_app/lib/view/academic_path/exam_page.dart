@@ -37,10 +37,23 @@ class _ExamsPageState extends State<ExamsPage> {
       child: LazyConsumer<ExamProvider, List<Exam>>(
         builder: (context, exams) {
           final examsByMonth = _examsByMonth(exams);
-          final allMonths = List.generate(12, (index) => index + 1);
+          final now = DateTime.now();
+          final currentYear = now.year;
+          final hasNextYearExams = exams.any((e) => e.start.year > currentYear);
+          final years = <int>[currentYear];
+          if (hasNextYearExams) {
+            years.add(currentYear + 1);
+          }
+
+          final monthsDates =
+              years
+                  .expand(
+                    (y) => List.generate(12, (index) => DateTime(y, index + 1)),
+                  )
+                  .toList();
+
           final tabs =
-              allMonths.map((month) {
-                final date = DateTime(DateTime.now().year, month);
+              monthsDates.map((date) {
                 return SizedBox(
                   width: 30,
                   height: 34,
@@ -69,18 +82,19 @@ class _ExamsPageState extends State<ExamsPage> {
                   ),
                 );
               }).toList();
+
           final content =
-              allMonths.map((month) {
-                final monthKey = '${DateTime.now().year}-$month';
-                final exams = examsByMonth[monthKey] ?? [];
+              monthsDates.map((date) {
+                final monthKey = '${date.year}-${date.month}';
+                final examsForMonth = examsByMonth[monthKey] ?? [];
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (exams.isNotEmpty)
+                    if (examsForMonth.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8),
                         child: Text(
-                          DateTime(DateTime.now().year, month)
+                          DateTime(date.year, date.month)
                               .fullMonth(
                                 Provider.of<LocaleNotifier>(
                                   context,
@@ -93,9 +107,9 @@ class _ExamsPageState extends State<ExamsPage> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: exams.length,
+                      itemCount: examsForMonth.length,
                       itemBuilder: (context, index) {
-                        final exam = exams[index];
+                        final exam = examsForMonth[index];
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 4, top: 4),
                           child: TimelineItem(
@@ -108,7 +122,6 @@ class _ExamsPageState extends State<ExamsPage> {
                                       ).getLocale(),
                                     )
                                     .capitalize(),
-                            // isActive: _nextExam(exams) == exam, //TODO: Emphasize next exam together with the exam card.
                             card: ExamCard(
                               name: exam.subject,
                               acronym: exam.subjectAcronym,
@@ -142,18 +155,24 @@ class _ExamsPageState extends State<ExamsPage> {
                   ],
                 );
               }).toList();
+
+          final initialTabIndex = monthsDates.indexWhere((date) {
+            final monthKey = '${date.year}-${date.month}';
+            return examsByMonth.containsKey(monthKey);
+          });
+
           return Timeline(
             tabs: tabs,
             content: content,
-            initialTab: allMonths.indexWhere((month) {
-              final monthKey = '${DateTime.now().year}-$month';
-              return examsByMonth.containsKey(monthKey);
-            }),
+            initialTab: initialTabIndex == -1 ? 0 : initialTabIndex,
             tabEnabled:
-                allMonths.map((month) {
-                  final monthKey = '${DateTime.now().year}-$month';
-                  return examsByMonth.containsKey(monthKey);
-                }).toList(),
+                monthsDates
+                    .map(
+                      (date) => examsByMonth.containsKey(
+                        '${date.year}-${date.month}',
+                      ),
+                    )
+                    .toList(),
           );
         },
         hasContent: (exams) => exams.isNotEmpty,
