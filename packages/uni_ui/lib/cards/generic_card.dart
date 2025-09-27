@@ -1,3 +1,4 @@
+import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_ui/common/generic_squircle.dart';
 
@@ -8,7 +9,7 @@ class GenericCard extends StatelessWidget {
     this.padding,
     this.color,
     this.shadowColor,
-    this.borderRadius,
+    this.blurRadius,
     this.onClick,
     this.child,
     this.gradient,
@@ -19,7 +20,7 @@ class GenericCard extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final Color? color;
   final Color? shadowColor;
-  final double? borderRadius;
+  final double? blurRadius;
   final VoidCallback? onClick;
   final Widget? child;
   final Gradient? gradient;
@@ -34,18 +35,19 @@ class GenericCard extends StatelessWidget {
       message: tooltip,
       child: Container(
         margin: margin ?? cardTheme.margin ?? const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          boxShadow: [
+        decoration: ShapeDecoration(
+          shadows: [
             BoxShadow(
               color:
                   shadowColor ??
                   cardTheme.shadowColor ??
                   Colors.black.withValues(alpha: 0.03),
-              blurRadius: 12,
-              spreadRadius: -2,
-              offset: const Offset(0, 1),
+              blurRadius: blurRadius ?? 12,
             ),
           ],
+          shape: SmoothRectangleBorder(
+            borderRadius: SmoothBorderRadius(cornerRadius: 20),
+          ),
         ),
         child: GestureDetector(
           onTap: onClick,

@@ -213,32 +213,49 @@ class _InstructorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final session = context.read<SessionProvider>().state!;
-    return GestureDetector(
-      onTap: () {
-        showDialog<void>(
-          context: context,
-          builder: (context) => ProfessorInfoModal(instructor),
-        );
-      },
-      child: FutureBuilder<File?>(
-        future: ProfileProvider.fetchOrGetCachedProfilePicture(
-          session,
-          studentNumber: int.parse(instructor.code),
-        ),
-        builder: (context, snapshot) {
-          final profileImage =
-              snapshot.hasData && snapshot.data != null
-                  ? FileImage(snapshot.data!)
-                  : null;
-
-          return InstructorCard(
-            name: instructor.name,
-            isRegent: instructor.isRegent,
-            instructorLabel: S.of(context).instructor,
-            regentLabel: S.of(context).courseRegent,
-            profileImage: profileImage,
+    return Padding(
+      padding: const EdgeInsets.only(top: 3, bottom: 3),
+      child: GestureDetector(
+        onTap: () {
+          showDialog<void>(
+            context: context,
+            builder: (context) => ProfessorInfoModal(instructor),
           );
         },
+        child: Container(
+          decoration: ShapeDecoration(
+            color: Theme.of(context).colorScheme.secondary,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            shadows: [
+              BoxShadow(
+                color: Theme.of(context).colorScheme.shadow.withAlpha(0x3f),
+                blurRadius: 3,
+              ),
+            ],
+          ),
+          child: FutureBuilder<File?>(
+            future: ProfileProvider.fetchOrGetCachedProfilePicture(
+              session,
+              studentNumber: int.parse(instructor.code),
+            ),
+            builder: (context, snapshot) {
+              final profileImage =
+                  snapshot.hasData && snapshot.data != null
+                      ? FileImage(snapshot.data!)
+                      : null;
+
+              return InstructorCard(
+                name: instructor.name,
+                isRegent: instructor.isRegent,
+                instructorLabel: S.of(context).instructor,
+                regentLabel: S.of(context).courseRegent,
+                profileImage: profileImage,
+              );
+            },
+          ),
+        ),
       ),
     );
   }

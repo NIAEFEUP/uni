@@ -26,6 +26,8 @@ class RestaurantCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GenericCard(
+      shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x3f),
+      blurRadius: 5,
       padding: EdgeInsets.zero,
       key: key,
       tooltip: name,

@@ -35,6 +35,12 @@ class CourseUnitStudentTile extends StatelessWidget {
             children: [
               Container(
                 decoration: ShapeDecoration(
+                  shadows: [
+                    BoxShadow(
+                      color: Theme.of(context).colorScheme.shadow.withAlpha(0x3f),
+                      blurRadius: 10,
+                    ),
+                  ],
                   shape: SmoothRectangleBorder(
                     borderRadius: SmoothBorderRadius(
                       cornerRadius: 25,
