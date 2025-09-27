@@ -30,10 +30,27 @@ class CoursesPageState extends State<CoursesPage> {
   // This method is just a band-aid, and will not work correctly for students
   // enrolled in more than one course.
   double _getTotalCredits(Profile profile, Course course) {
-    return profile.courseUnits
-        .where((courseUnit) => courseUnit.festId == course.festId)
-        .map((courseUnit) => courseUnit.ects ?? 0)
-        .fold(0, (a, b) => a + b);
+    final Map<String, double> uniqueCourseUnitsEcts = {};
+
+    for (final cu in profile.courseUnits) {
+      if (cu.festId != course.festId) {
+        continue;
+      }
+
+      final gradeStr = cu.grade?.trim();
+      final grade = double.tryParse(gradeStr ?? '');
+
+      final bool isPassed = grade != null && grade >= 10;
+      final bool isCurrentlyAttempting = gradeStr == null || gradeStr.isEmpty;
+
+      if (isPassed || isCurrentlyAttempting) {
+        if (!uniqueCourseUnitsEcts.containsKey(cu.name)) {
+          uniqueCourseUnitsEcts[cu.name] = cu.ects ?? 0;
+        }
+      }
+    }
+
+    return uniqueCourseUnitsEcts.values.fold(0, (a, b) => a + b);
   }
 
   int? _getEnrollmentYear(Course course) {
