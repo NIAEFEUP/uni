@@ -42,6 +42,8 @@ class UniIcons {
   static const edit = PhosphorIconsDuotone.pencilSimple;
   static const more = PhosphorIconsDuotone.dotsThreeOutlineVertical;
 
+  static const password = PhosphorIconsDuotone.password;
+
   // Locations pins icons
   static const money = PhosphorIconsDuotone.money;
   static const coffee = PhosphorIconsDuotone.coffee;
@@ -66,6 +68,7 @@ class UniIcons {
   static const dishOfTheDay = PhosphorIconsDuotone.calendarDot;
   static const heartOutline = PhosphorIconsRegular.heart;
   static const heartFill = PhosphorIconsFill.heart;
+  static const closed = PhosphorIconsDuotone.xCircle;
 
   static const pallete = PhosphorIconsDuotone.palette;
   static const globeHemisphereWest = PhosphorIconsDuotone.globeHemisphereWest;

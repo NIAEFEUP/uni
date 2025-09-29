@@ -29,6 +29,8 @@ class RestaurantUtils {
         return const UniIcon(UniIcons.diet);
       case 'Prato do Dia':
         return const UniIcon(UniIcons.dishOfTheDay);
+      case 'Encerrado':
+        return const UniIcon(UniIcons.closed);
       default:
         return const UniIcon(UniIcons.restaurant);
     }
@@ -47,6 +49,7 @@ class RestaurantUtils {
       'salads': ['Hortícola'],
       'diet_dishes': ['Dieta'],
       'dishes_of_the_day': ['Prato do Dia'],
+      'closed': ['Encerrado'],
     };
 
     for (final type in selectedTypes) {
@@ -78,6 +81,8 @@ class RestaurantUtils {
         return 6;
       case 'Prato do Dia':
         return 7;
+      case 'Encerrado':
+        return 8;
       default:
         return 0;
     }
