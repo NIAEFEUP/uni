@@ -7,6 +7,7 @@
 
     # For hardware-accelerated Android emulator on NixOS
     limwa.url = "github:limwa/nix-registry";
+    limwa.inputs.nixpkgs.follows = "nixpkgs";
 
     # Needed for shell.nix
     flake-compat.url = "github:edolstra/flake-compat";
@@ -86,26 +87,24 @@
           };
       };
 
-      apps = utils.lib.invokeAttrs {
-        emulator = {pkgs, ...}: {
-          type = "app";
-          program = pkgs.lib.getExe (
-            pkgs.limwa.android.wrapEmulatorWith {} (
-              pkgs.androidenv.emulateApp {
-                name = "uni-emulator";
-                deviceName = "uni_emulator";
+      packages = utils.lib.invokeAttrs {
+        emulator = {pkgs, ...}:
+          pkgs.limwa.android.wrapEmulatorWith {
+            useHardwareGraphics = "vulkan";
+          } (
+            pkgs.androidenv.emulateApp {
+              name = "uni-emulator";
+              deviceName = "uni_emulator";
 
-                platformVersion = "35";
-                abiVersion = "x86_64";
-                systemImageType = "google_apis_playstore";
+              platformVersion = "35";
+              abiVersion = "x86_64";
+              systemImageType = "google_apis_playstore";
 
-                # Specify user home to speed up boot times and avoid creating
-                # a lot of avd instances taking up disk space
-                androidUserHome = "\$HOME/.android";
-              }
-            )
+              # Specify user home to speed up boot times and avoid creating
+              # a lot of avd instances taking up disk space
+              androidUserHome = "\$HOME/.android";
+            }
           );
-        };
       };
     };
 }
