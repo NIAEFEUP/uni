@@ -1,23 +1,23 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/bug_report.dart';
-import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/bug_report/widgets/dropdown_bug_select.dart';
 import 'package:uni/view/bug_report/widgets/text_field.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/widgets/toast_message.dart';
 
-class BugReportPageView extends StatefulWidget {
+class BugReportPageView extends ConsumerStatefulWidget {
   const BugReportPageView({super.key});
 
   @override
-  State<StatefulWidget> createState() => BugReportPageViewState();
+  ConsumerState<BugReportPageView> createState() => BugReportPageViewState();
 }
 
 /// Manages the 'Bugs and sugestions' section of the app.
@@ -192,7 +192,7 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
   }
 
   @override
-  Future<void> onRefresh(BuildContext context) async {
+  Future<void> onRefresh() async {
     clearForm();
   }
 
@@ -256,7 +256,7 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
       _isButtonTapped = true;
     });
 
-    final session = Provider.of<SessionProvider>(context, listen: false).state;
+    final session = await ref.watch(sessionProvider.future);
     final faculties = session?.faculties ?? [];
 
     final bugReport =
@@ -268,7 +268,9 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
           faculties,
         ).toJson();
 
-    FocusScope.of(context).requestFocus(FocusNode());
+    if (mounted) {
+      FocusScope.of(context).requestFocus(FocusNode());
+    }
     try {
       await submitSentryEvent(bugReport, pickedFiles);
       Logger().i('Successfully submitted bug report.');

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/view/academic_path/widgets/schedule_day_timeline.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/timeline/timeline.dart';
 
-class SchedulePageView extends StatelessWidget {
+class SchedulePageView extends ConsumerWidget {
   SchedulePageView(
     this.lectures, {
     required this.now,
@@ -19,14 +19,15 @@ class SchedulePageView extends StatelessWidget {
   final Week currentWeek;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final reorderedDates = List.generate(
       14,
       (index) => currentWeek.start.add(Duration(days: index)),
     );
 
     final daysOfTheWeek =
-        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
+        ref.read(localeProvider.notifier).getWeekdaysWithLocale();
+
     final reorderedDaysOfTheWeek = [
       daysOfTheWeek[6],
       ...daysOfTheWeek.sublist(0, 6),

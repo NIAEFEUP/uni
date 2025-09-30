@@ -1,8 +1,5 @@
-import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:uni/session/flows/base/session.dart';
 
-int getStudentNumber(SessionProvider sessionProvider) {
-  return int.tryParse(
-        sessionProvider.state!.username.replaceAll(RegExp(r'\D'), ''),
-      ) ??
-      0;
+int getStudentNumber(Session session) {
+  return int.tryParse(session.username.replaceAll(RegExp(r'\D'), '')) ?? 0;
 }

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/restaurant.dart';
-import 'package:uni/model/providers/lazy/restaurant_provider.dart';
+import 'package:uni/model/providers/riverpod/default_consumer.dart';
+import 'package:uni/model/providers/riverpod/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
-import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
+import 'package:uni/view/restaurant/tab_controller_provider.dart';
 import 'package:uni/view/restaurant/widgets/days_of_week_tab_bar.dart';
 import 'package:uni/view/restaurant/widgets/dish_type_checkbox_menu.dart';
 import 'package:uni/view/restaurant/widgets/favorite_restaurants_button.dart';
@@ -23,17 +24,15 @@ import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
 import 'package:uni_ui/modal/widgets/service_info.dart';
 
-class RestaurantPageView extends StatefulWidget {
+class RestaurantPageView extends ConsumerStatefulWidget {
   const RestaurantPageView({super.key});
 
   @override
-  State<StatefulWidget> createState() => _RestaurantPageViewState();
+  ConsumerState<RestaurantPageView> createState() => _RestaurantPageViewState();
 }
 
-class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
-    with SingleTickerProviderStateMixin {
-  late List<Restaurant> restaurants;
-  late TabController tabController;
+class _RestaurantPageViewState
+    extends GeneralPageViewState<RestaurantPageView> {
   late ScrollController scrollViewController;
 
   // Filters
@@ -55,16 +54,8 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(vsync: this, length: DayOfWeek.values.length);
-    tabController
-      ..addListener(() {
-        setState(() {});
-      })
-      ..animateTo(DateTime.now().weekday - 1);
-    scrollViewController = ScrollController();
 
-    restaurants = [];
-    _initializeRestaurants();
+    scrollViewController = ScrollController();
 
     selectedCampus = PreferencesController.getSelectedCampus() ?? 0;
 
@@ -76,29 +67,13 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
 
   @override
   void dispose() {
-    tabController.dispose();
     scrollViewController.dispose();
     super.dispose();
   }
 
   @override
-  Future<void> onRefresh(BuildContext context) async {
-    final restaurantProvider = Provider.of<RestaurantProvider>(
-      context,
-      listen: false,
-    );
-
-    await restaurantProvider.forceRefresh(context);
-
-    if (!mounted) {
-      return;
-    }
-
-    if (restaurantProvider.state != null) {
-      setState(() {
-        restaurants = restaurantProvider.state!;
-      });
-    }
+  Future<void> onRefresh() async {
+    await ref.read(restaurantProvider.notifier).refreshRemote();
   }
 
   @override
@@ -142,7 +117,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
       padding: const EdgeInsets.only(bottom: 20),
       child: Column(
         children: [
-          DaysOfWeekTabBar(controller: tabController),
+          const DaysOfWeekTabBar(),
           const SizedBox(height: 12),
           Padding(
             padding: const EdgeInsets.only(right: 25),
@@ -181,9 +156,10 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
 
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<RestaurantProvider, List<Restaurant>>(
-      builder: (context, _) => _createTabViewBuilder(context),
-      onNullContent: Center(
+    return DefaultConsumer<List<Restaurant>>(
+      provider: restaurantProvider,
+      builder: _createTabViewBuilder,
+      nullContentWidget: Center(
         child: Text(
           S.of(context).no_menus,
           style: Theme.of(context).textTheme.titleMedium,
@@ -191,19 +167,6 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
       ),
       hasContent: (restaurants) => restaurants.isNotEmpty,
     );
-  }
-
-  Future<void> _initializeRestaurants() async {
-    final restaurantProvider = Provider.of<RestaurantProvider>(
-      context,
-      listen: false,
-    );
-    await restaurantProvider.ensureInitialized(context);
-    if (restaurantProvider.state != null) {
-      setState(() {
-        restaurants = restaurantProvider.state!;
-      });
-    }
   }
 
   void _toggleFavorite(String restaurantName, String restaurantPeriod) {
@@ -229,77 +192,77 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     }
   }
 
-  Widget _createTabViewBuilder(BuildContext context) {
-    final locale = Provider.of<LocaleNotifier>(context).getLocale();
+  Widget _createTabViewBuilder(
+    BuildContext context,
+    WidgetRef ref,
+    List<Restaurant> restaurants,
+  ) {
+    final locale = ref.watch(localeProvider);
+    final selectedTabIndex = ref.watch(tabControllerProvider);
 
     const daysOfTheWeek = DayOfWeek.values;
+    final selectedDayOfWeek = daysOfTheWeek[selectedTabIndex];
 
-    final dayContents =
-        daysOfTheWeek.map((dayOfWeek) {
-          final restaurantsWidgets =
-              restaurants
-                  // Remove restaurants with no meals
-                  .where((restaurant) {
-                    return restaurant.meals.any(
-                      (meal) => meal.dayOfWeek == dayOfWeek,
-                    );
-                  })
-                  // Apply User filters
-                  .where((restaurant) {
-                    final isFavorite =
-                        isFavoriteFilterOn &&
-                        PreferencesController.getFavoriteRestaurants().contains(
-                          restaurant.namePt + restaurant.period,
-                        );
+    final restaurantsWidgets =
+        restaurants
+            // Remove restaurants with no meals
+            .where((restaurant) {
+              return restaurant.meals.any(
+                (meal) => meal.dayOfWeek == selectedDayOfWeek,
+              );
+            })
+            // Apply User filters
+            .where((restaurant) {
+              final isFavorite =
+                  isFavoriteFilterOn &&
+                  PreferencesController.getFavoriteRestaurants().contains(
+                    restaurant.namePt + restaurant.period,
+                  );
 
-                    final isCampusMatch =
-                        selectedCampus == 0 ||
-                        restaurant.campusId == selectedCampus;
+              final isCampusMatch =
+                  selectedCampus == 0 || restaurant.campusId == selectedCampus;
 
-                    // Show Restaurant if it is in the selected campus and
-                    // it either is a favorite (always show)
-                    // or the favorite filter is off
-                    return isCampusMatch && (isFavorite || !isFavoriteFilterOn);
-                  })
-                  .map((restaurant) {
-                    return _createNewRestaurant(
-                      context,
-                      restaurant,
-                      dayOfWeek,
-                      locale,
-                    );
-                  })
-                  .where((widget) => widget != null)
-                  .toList()
-                ..sort((a, b) {
-                  final isAFavorite = a!.isFavorite ? 1 : 0;
-                  final isBFavorite = b!.isFavorite ? 1 : 0;
+              // Show Restaurant if it is in the selected campus and
+              // it either is a favorite (always show)
+              // or the favorite filter is off
+              return isCampusMatch && (isFavorite || !isFavoriteFilterOn);
+            })
+            .map((restaurant) {
+              return _createNewRestaurant(
+                context,
+                restaurant,
+                selectedDayOfWeek,
+                locale,
+              );
+            })
+            .where((widget) => widget != null)
+            .toList()
+          ..sort((a, b) {
+            final isAFavorite = a!.isFavorite ? 1 : 0;
+            final isBFavorite = b!.isFavorite ? 1 : 0;
 
-                  return isBFavorite.compareTo(isAFavorite);
-                });
+            return isBFavorite.compareTo(isAFavorite);
+          });
 
-          if (restaurantsWidgets.isEmpty) {
-            return Center(
-              child: Text(
-                S.of(context).no_menus,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            );
-          }
+    if (restaurantsWidgets.isEmpty) {
+      return Center(
+        child: Text(
+          S.of(context).no_menus,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+      );
+    }
 
-          return ListView.separated(
-            controller: scrollViewController,
-            itemCount: restaurantsWidgets.length,
-            itemBuilder: (context, index) {
-              return restaurantsWidgets[index];
-            },
-            separatorBuilder: (context, index) {
-              return const SizedBox(height: 10);
-            },
-          );
-        }).toList();
-
-    return TabBarView(controller: tabController, children: dayContents);
+    return ListView.separated(
+      controller: scrollViewController,
+      itemCount: restaurantsWidgets.length,
+      itemBuilder: (context, index) {
+        return restaurantsWidgets[index];
+      },
+      separatorBuilder: (context, index) {
+        return const SizedBox(height: 10);
+      },
+    );
   }
 
   RestaurantCard? _createNewRestaurant(

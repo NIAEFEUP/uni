@@ -2,93 +2,110 @@
   description = "A basic flake for Flutter development with Nix and NixOS";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=pull/412907/merge";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     utils.url = "github:limwa/nix-flake-utils";
+
+    # For hardware-accelerated Android emulator on NixOS
+    limwa.url = "github:limwa/nix-registry";
 
     # Needed for shell.nix
     flake-compat.url = "github:edolstra/flake-compat";
   };
 
   outputs = {
+    self,
     nixpkgs,
     utils,
+    limwa,
     ...
   }:
     utils.lib.mkFlakeWith {
-      forEachSystem = system: let
+      forEachSystem = system: rec {
+        outputs = utils.lib.forSystem self system;
+
         pkgs = import nixpkgs {
           inherit system;
+
           config = {
             allowUnfree = true;
             android_sdk.accept_license = true;
           };
+
+          overlays = [
+            # For hardware-accelerated Android emulator on NixOS
+            limwa.overlays.android
+          ];
         };
 
+        # Reuse the same Android SDK, JDK and Flutter versions across all derivations
         androidComposition = pkgs.androidenv.composeAndroidPackages {
-          includeEmulator = "if-supported";
           includeNDK = "if-supported";
-          includeSystemImages = "if-supported";
 
           buildToolsVersions = ["34.0.0"];
           cmakeVersions = ["3.22.1"];
-          platformVersions = [ "31" "33" "34" "35" ];
-          ndkVersions = [ "25.1.8937393" ];
+          platformVersions = ["31" "33" "34" "35"];
+          ndkVersions = ["25.1.8937393"];
         };
-      in {
-        inherit pkgs;
 
-        # Reuse the same Android SDK, JDK and Flutter versions across all derivations
-        androidSdk = androidComposition.androidsdk;
         flutter = pkgs.flutter332;
         jdk = pkgs.jdk17;
       };
     } {
       formatter = {pkgs, ...}: pkgs.alejandra;
 
-      devShell = {
-        pkgs,
-        androidSdk,
-        jdk,
-        flutter,
-        ...
-      }:
-        pkgs.mkShell rec {
-          EMULATOR_NAME = "uni_emulator";
+      devShells = utils.lib.invokeAttrs {
+        default = {outputs, ...}: outputs.devShells.flutter;
 
-          ANDROID_HOME = "${androidSdk}/libexec/android-sdk";
-          JAVA_HOME = "${jdk}";
-          LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [libGL];
+        # Flutter development shell
+        flutter = {
+          pkgs,
+          androidComposition,
+          flutter,
+          jdk,
+          ...
+        }:
+          pkgs.mkShell rec {
+            meta.description = "A development shell with Flutter and an Android SDK installation";
 
-          packages = [
-            androidSdk
-            flutter
-            jdk
+            env = {
+              # Android environment variables
+              ANDROID_HOME = "${androidComposition.androidsdk}/libexec/android-sdk";
+              GRADLE_OPTS = let
+                buildToolsVersion = pkgs.lib.getVersion (builtins.elemAt androidComposition.build-tools 0);
+              in "-Dorg.gradle.project.android.aapt2FromMavenOverride=${env.ANDROID_HOME}/build-tools/${buildToolsVersion}/aapt2";
 
-            (pkgs.writeShellApplication {
-              name = "emulator-setup";
+              # Java environment variables
+              JAVA_HOME = "${jdk}";
+            };
 
-              text = ''
-                avdmanager delete avd -n ${EMULATOR_NAME} 2>/dev/null || true
-                avdmanager create avd -n ${EMULATOR_NAME} -k "system-images;android-35;google_apis;x86_64" -d "pixel_9_pro_xl"
+            packages = [
+              androidComposition.androidsdk
+              flutter
+              jdk
+            ];
+          };
+      };
 
-                # Enable GPU acceleration
-                {
-                  echo "hw.gpu.enabled=yes"
-                  echo "hw.gpu.mode=host"
-                } >> ~/.android/avd/${EMULATOR_NAME}.avd/config.ini
+      apps = utils.lib.invokeAttrs {
+        emulator = {pkgs, ...}: {
+          type = "app";
+          program = pkgs.lib.getExe (
+            pkgs.limwa.android.wrapEmulatorWith {} (
+              pkgs.androidenv.emulateApp {
+                name = "uni-emulator";
+                deviceName = "uni_emulator";
 
-                avdmanager list avd
-              '';
-            })
+                platformVersion = "35";
+                abiVersion = "x86_64";
+                systemImageType = "google_apis_playstore";
 
-            (pkgs.writeShellApplication {
-              name = "emulator-launch";
-
-              text = ''
-                flutter emulators --launch "${EMULATOR_NAME}"
-              '';
-            })
-          ];
+                # Specify user home to speed up boot times and avoid creating
+                # a lot of avd instances taking up disk space
+                androidUserHome = "\$HOME/.android";
+              }
+            )
+          );
         };
+      };
     };
 }
