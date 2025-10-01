@@ -31,17 +31,19 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
       builder: (context, ref, localizedEvents) {
         final locale = ref.watch(localeProvider.select((value) => value));
         final calendar = localizedEvents.getEvents(locale);
-        
-     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 10),
-        child: Column(
-          children:
-              calendar
-                  .map((event) => RowFormat(event: event, locale: locale))
-                  .toList(),
-        ),
-      ),
+
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Column(
+              children:
+                  calendar
+                      .map((event) => RowFormat(event: event, locale: locale))
+                      .toList(),
+            ),
+          ),
+        );
+      },
     );
   }
 
