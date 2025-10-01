@@ -1,29 +1,26 @@
-import 'dart:async';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/model/providers/state_provider_notifier.dart';
-import 'package:uni/model/providers/state_providers.dart';
-import 'package:uni/model/request_status.dart';
+import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
 import 'package:uni/session/authentication_controller.dart';
 import 'package:uni/session/flows/base/initiator.dart';
 import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/session/logout/uni_logout_handler.dart';
 
-class SessionProvider extends StateProviderNotifier<Session?> {
-  SessionProvider()
-    : super(
-        cacheDuration: null,
-        initialStatus: RequestStatus.none,
-        dependsOnSession: false,
-      );
+final sessionProvider = AsyncNotifierProvider<SessionNotifier, Session?>(
+  SessionNotifier.new,
+);
+
+class SessionNotifier extends CachedAsyncNotifier<Session?> {
+  @override
+  Duration? get cacheDuration => null;
 
   AuthenticationController get controller =>
       NetworkRouter.authenticationController!;
 
-  void initController(Session session) {
+  void _initController(Session session) {
     NetworkRouter.authenticationController = AuthenticationController(
       session,
       logoutHandler: UniLogoutHandler(),
@@ -31,18 +28,18 @@ class SessionProvider extends StateProviderNotifier<Session?> {
   }
 
   @override
-  Future<Session?> loadFromStorage(StateProviders stateProviders) async {
+  Future<Session?> loadFromStorage() async {
     final session = await PreferencesController.getSavedSession();
     if (session != null) {
-      initController(session);
+      _initController(session);
     }
 
     return session;
   }
 
   @override
-  Future<Session?> loadFromRemote(StateProviders stateProviders) async {
-    if (state == null) {
+  Future<Session?> loadFromRemote() async {
+    if (state.value == null) {
       return null;
     }
 
@@ -50,13 +47,13 @@ class SessionProvider extends StateProviderNotifier<Session?> {
     await oldSnapshot.invalidate();
 
     final newSnapshot = await controller.snapshot;
-    final newState = newSnapshot.session;
+    final newSession = newSnapshot.session;
 
     if (await PreferencesController.isSessionPersistent()) {
-      await PreferencesController.saveSession(newSnapshot.session);
+      await PreferencesController.saveSession(newSession);
     }
 
-    return newState;
+    return newSession;
   }
 
   Future<void> login(
@@ -66,8 +63,8 @@ class SessionProvider extends StateProviderNotifier<Session?> {
     final request = await initiator.initiate();
     final session = await request.perform();
 
-    initController(session);
-    setState(session);
+    _initController(session);
+    updateState(session);
 
     if (persistentSession) {
       await PreferencesController.saveSession(session);
