@@ -218,6 +218,7 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
             (context) => AnnotatedRegion<SystemUiOverlayStyle>(
               value: AppSystemOverlayStyles.base.copyWith(
                 statusBarIconBrightness: Brightness.light,
+                statusBarBrightness: Brightness.dark,
                 systemNavigationBarIconBrightness: Brightness.light,
               ),
               child: Scaffold(

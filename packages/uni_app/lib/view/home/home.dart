@@ -92,6 +92,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
       value: AppSystemOverlayStyles.base.copyWith(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
