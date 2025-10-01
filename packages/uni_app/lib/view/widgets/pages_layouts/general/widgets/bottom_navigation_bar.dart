@@ -51,9 +51,9 @@ class AppBottomNavbar extends StatelessWidget {
 
     var bottomPadding = MediaQuery.of(context).systemGestureInsets.bottom;
 
-    const iosAdditionalBottomPadding = 30;
-    if (Platform.isIOS) {
-      bottomPadding += iosAdditionalBottomPadding;
+    const minimumBottomPadding = 30;
+    if (bottomPadding == 0) {
+      bottomPadding += minimumBottomPadding; 
     }
 
     return Padding(
