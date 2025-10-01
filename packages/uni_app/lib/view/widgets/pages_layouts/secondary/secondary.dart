@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/view/widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/refresh_state.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
 
@@ -17,7 +16,6 @@ abstract class SecondaryPageViewState<T extends ConsumerStatefulWidget>
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: getTopNavbar(context),
-        bottomNavigationBar: const AppBottomNavbar(),
         body: RefreshState(
           onRefresh: onRefresh,
           header: getHeader(context),
