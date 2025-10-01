@@ -1,15 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/book_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
+import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/view/course_unit_info/widgets/modal_professor_info.dart';
 import 'package:uni/view/widgets/generic_animated_expandable.dart';
 import 'package:uni/view/widgets/generic_expandable.dart';
@@ -21,14 +21,14 @@ import 'package:uni_ui/cards/remaining_instructors_card.dart';
 const double _horizontalSpacing = 8;
 const double _verticalSpacing = 4;
 
-class CourseUnitSheetView extends StatelessWidget {
+class CourseUnitSheetView extends ConsumerWidget {
   const CourseUnitSheetView(this.courseUnitSheet, this.exams, {super.key});
 
   final Sheet courseUnitSheet;
   final List<Exam> exams;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ListView(
       children: [
         _buildSection(
@@ -205,14 +205,14 @@ class CourseUnitSheetView extends StatelessWidget {
   }
 }
 
-class _InstructorCard extends StatelessWidget {
+class _InstructorCard extends ConsumerWidget {
   const _InstructorCard({required this.instructor});
 
   final Professor instructor;
 
   @override
-  Widget build(BuildContext context) {
-    final session = context.read<SessionProvider>().state!;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final session = ref.read(sessionProvider.select((value) => value.value!));
     return GestureDetector(
       onTap: () {
         showDialog<void>(
@@ -221,7 +221,7 @@ class _InstructorCard extends StatelessWidget {
         );
       },
       child: FutureBuilder<File?>(
-        future: ProfileProvider.fetchOrGetCachedProfilePicture(
+        future: ProfileNotifier.fetchOrGetCachedProfilePicture(
           session,
           studentNumber: int.parse(instructor.code),
         ),
@@ -244,17 +244,17 @@ class _InstructorCard extends StatelessWidget {
   }
 }
 
-class _LimitedInstructorsRow extends StatelessWidget {
+class _LimitedInstructorsRow extends ConsumerWidget {
   const _LimitedInstructorsRow({required this.instructors});
 
   final List<Professor> instructors;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final firstThree = instructors.take(3).toList();
     final remaining = instructors.skip(3).toList();
     final remainingToShow = remaining.take(3).toList();
-    final session = context.read<SessionProvider>().state!;
+    final session = ref.read(sessionProvider.select((value) => value.value!));
 
     return Wrap(
       spacing: _horizontalSpacing,
@@ -267,7 +267,7 @@ class _LimitedInstructorsRow extends StatelessWidget {
           FutureBuilder<List<File?>>(
             future: Future.wait(
               remainingToShow.map(
-                (instructor) => ProfileProvider.fetchOrGetCachedProfilePicture(
+                (instructor) => ProfileNotifier.fetchOrGetCachedProfilePicture(
                   session,
                   studentNumber: int.parse(instructor.code),
                 ),
