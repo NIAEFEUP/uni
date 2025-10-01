@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/model/providers/riverpod/default_consumer.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/view/academic_path/widgets/course_units_view.dart';
 import 'package:uni/view/academic_path/widgets/no_courses_widget.dart';
-import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/courses/average_bar.dart';
 import 'package:uni_ui/courses/course_info.dart';
 import 'package:uni_ui/courses/course_selection.dart';
 
-class CoursesPage extends StatefulWidget {
+class CoursesPage extends ConsumerStatefulWidget {
   const CoursesPage({super.key});
 
   @override
-  CoursesPageState createState() => CoursesPageState();
+  ConsumerState<CoursesPage> createState() => CoursesPageState();
 }
 
-class CoursesPageState extends State<CoursesPage> {
+class CoursesPageState extends ConsumerState<CoursesPage> {
   var _courseUnitIndex = 0;
 
   void _onCourseUnitSelected(int index) {
@@ -82,8 +83,9 @@ class CoursesPageState extends State<CoursesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return LazyConsumer<ProfileProvider, Profile>(
-      builder: (context, profile) {
+    return DefaultConsumer<Profile>(
+      provider: profileProvider,
+      builder: (context, ref, profile) {
         final courses = profile.courses;
         final course = courses[_courseUnitIndex];
 
@@ -126,8 +128,7 @@ class CoursesPageState extends State<CoursesPage> {
           ],
         );
       },
-      hasContent: (profile) => profile.courses.isNotEmpty,
-      onNullContent: LayoutBuilder(
+      nullContentWidget: LayoutBuilder(
         // Band-aid for allowing refresh on null content
         builder:
             (context, constraints) => SingleChildScrollView(
@@ -138,6 +139,7 @@ class CoursesPageState extends State<CoursesPage> {
               ),
             ),
       ),
+      hasContent: (profile) => profile.courses.isNotEmpty,
     );
   }
 }

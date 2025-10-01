@@ -20,7 +20,7 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'pt_PT';
 
   static m0(type) =>
-      "${Intl.select(type, {'all_dishes': 'Todos os pratos', 'meat_dishes': 'Pratos de Carne', 'fish_dishes': 'Pratos de Peixe', 'vegetarian_dishes': 'Pratos Vegetarianos', 'soups': 'Sopas', 'salads': 'Saladas', 'diet_dishes': 'Pratos de Dieta', 'dishes_of_the_day': 'Pratos do Dia', 'other': 'Outros'})}";
+      "${Intl.select(type, {'all_dishes': 'Todos os pratos', 'meat_dishes': 'Pratos de Carne', 'fish_dishes': 'Pratos de Peixe', 'vegetarian_dishes': 'Pratos Vegetarianos', 'soups': 'Sopas', 'salads': 'Saladas', 'diet_dishes': 'Pratos de Dieta', 'dishes_of_the_day': 'Pratos do Dia', 'closed': 'Encerrado', 'other': 'Outros'})}";
 
   static m1(time) => "última atualização às ${time}";
 

@@ -1688,7 +1688,7 @@ class S {
     return Intl.message('All', name: 'all_feminine', desc: '', args: []);
   }
 
-  /// `{type, select, all_dishes{All dishes} meat_dishes{Meat dishes} fish_dishes{Fish dishes} vegetarian_dishes{Vegetarian dishes} soups{Soups} salads{Salads} diet_dishes{Diet dishes} dishes_of_the_day{Dishes of the Day} other{Other}}`
+  /// `{type, select, all_dishes{All dishes} meat_dishes{Meat dishes} fish_dishes{Fish dishes} vegetarian_dishes{Vegetarian dishes} soups{Soups} salads{Salads} diet_dishes{Diet dishes} dishes_of_the_day{Dishes of the Day} closed{Closed} other{Other}}`
   String dish_type(Object type) {
     return Intl.select(
       type,
@@ -1701,6 +1701,7 @@ class S {
         'salads': 'Salads',
         'diet_dishes': 'Diet dishes',
         'dishes_of_the_day': 'Dishes of the Day',
+        'closed': 'Closed',
         'other': 'Other',
       },
       name: 'dish_type',

@@ -1,21 +1,21 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
+import 'package:uni/model/providers/riverpod/session_provider.dart';
 // import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 // import 'package:uni_ui/modal/widgets/info_row.dart';
 import 'package:uni_ui/modal/widgets/person_info.dart';
 
-class ProfessorInfoModal extends StatelessWidget {
+class ProfessorInfoModal extends ConsumerWidget {
   const ProfessorInfoModal(this.professor, {super.key});
   final Professor professor;
 
   @override
-  Widget build(BuildContext context) {
-    final session = context.read<SessionProvider>().state!;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final session = ref.watch(sessionProvider).value!;
     return ModalDialog(
       children: [
         FutureBuilder<File?>(
@@ -27,7 +27,7 @@ class ProfessorInfoModal extends StatelessWidget {
                         ? Image(image: FileImage(snapshot.data!))
                         : Image.asset('assets/images/profile_placeholder.png'),
               ),
-          future: ProfileProvider.fetchOrGetCachedProfilePicture(
+          future: ProfileNotifier.fetchOrGetCachedProfilePicture(
             session,
             studentNumber: int.parse(professor.code),
           ),

@@ -19,6 +19,7 @@ class FileCard extends StatefulWidget {
   final String fileCode;
   final String fullname;
   final String url;
+
   final Function(
     BuildContext context,
     String fileCode,

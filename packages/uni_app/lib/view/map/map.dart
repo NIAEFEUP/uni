@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location_group.dart';
-import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
-import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/model/providers/riverpod/default_consumer.dart';
+import 'package:uni/model/providers/riverpod/faculty_locations_provider.dart';
 import 'package:uni/view/map/widgets/cached_tile_provider.dart';
 import 'package:uni/view/map/widgets/floorless_marker_popup.dart';
 import 'package:uni/view/map/widgets/marker.dart';
@@ -17,14 +18,14 @@ import 'package:uni/view/map/widgets/marker_popup.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni_ui/theme.dart';
 
-class MapPage extends StatefulWidget {
+class MapPage extends ConsumerStatefulWidget {
   const MapPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => MapPageStateView();
+  ConsumerState<MapPage> createState() => MapPageStateView();
 }
 
-class MapPageStateView extends State<MapPage> {
+class MapPageStateView extends ConsumerState<MapPage> {
   ScrollController? scrollViewController;
   final searchFormKey = GlobalKey<FormState>();
   var _searchTerms = '';
@@ -45,8 +46,9 @@ class MapPageStateView extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    return LazyConsumer<FacultyLocationsProvider, List<LocationGroup>>(
-      builder: (context, locations) {
+    return DefaultConsumer<List<LocationGroup>>(
+      provider: locationsProvider,
+      builder: (context, ref, locations) {
         final filteredLocations = List<LocationGroup>.from(locations);
         if (_searchTerms.trim().isNotEmpty) {
           filteredLocations.retainWhere((location) {
@@ -218,8 +220,8 @@ class MapPageStateView extends State<MapPage> {
           ),
         );
       },
+      nullContentWidget: Center(child: Text(S.of(context).no_places_info)),
       hasContent: (locations) => locations.isNotEmpty,
-      onNullContent: Center(child: Text(S.of(context).no_places_info)),
     );
   }
 }

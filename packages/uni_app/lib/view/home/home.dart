@@ -1,15 +1,16 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/model/providers/lazy/exam_provider.dart';
-import 'package:uni/model/providers/lazy/lecture_provider.dart';
-import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
-import 'package:uni/model/providers/lazy/restaurant_provider.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/model/providers/state_provider_notifier.dart';
+import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
+import 'package:uni/model/providers/riverpod/default_consumer.dart';
+import 'package:uni/model/providers/riverpod/exam_provider.dart';
+import 'package:uni/model/providers/riverpod/lecture_provider.dart';
+import 'package:uni/model/providers/riverpod/library_occupation_provider.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
+import 'package:uni/model/providers/riverpod/restaurant_provider.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
@@ -19,21 +20,20 @@ import 'package:uni/view/home/widgets/restaurants/restaurant_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/schedule_home_card.dart';
 import 'package:uni/view/home/widgets/tracking_banner.dart';
 import 'package:uni/view/home/widgets/uni_logo.dart';
-import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/theme.dart';
 
-class HomePageView extends StatefulWidget {
+class HomePageView extends ConsumerStatefulWidget {
   const HomePageView({super.key});
 
   @override
-  State<StatefulWidget> createState() => HomePageViewState();
+  ConsumerState<HomePageView> createState() => HomePageViewState();
 }
 
-class HomePageViewState extends State<HomePageView> {
+class HomePageViewState extends ConsumerState<HomePageView> {
   List<FavoriteWidgetType> favoriteCards =
       PreferencesController.getFavoriteCards();
 
@@ -41,12 +41,15 @@ class HomePageViewState extends State<HomePageView> {
 
   double appBarSize = 150;
 
-  static Map<FavoriteWidgetType, StateProviderNotifier<dynamic>>
+  static Map<
+    FavoriteWidgetType,
+    AsyncNotifierProvider<CachedAsyncNotifier<dynamic>, dynamic>
+  >
   typeToProvider = {
-    FavoriteWidgetType.schedule: LectureProvider(),
-    FavoriteWidgetType.exams: ExamProvider(),
-    FavoriteWidgetType.library: LibraryOccupationProvider(),
-    FavoriteWidgetType.restaurants: RestaurantProvider(),
+    FavoriteWidgetType.schedule: lectureProvider,
+    FavoriteWidgetType.exams: examProvider,
+    FavoriteWidgetType.library: libraryProvider,
+    FavoriteWidgetType.restaurants: restaurantProvider,
   };
 
   @override
@@ -58,7 +61,7 @@ class HomePageViewState extends State<HomePageView> {
   Future<void> refreshPage(BuildContext context) async {
     for (final card in favoriteCards) {
       if (typeToProvider[card] != null) {
-        await typeToProvider[card]!.forceRefresh(context);
+        await ref.read(typeToProvider[card]!.notifier).refreshRemote();
       }
     }
     setState(() {});
@@ -161,8 +164,9 @@ class HomePageViewState extends State<HomePageView> {
                     ],
                   ),
                 ),
-                LazyConsumer<LectureProvider, List<Lecture>>(
-                  builder: (context, lectures) {
+                DefaultConsumer<List<Lecture>>(
+                  provider: lectureProvider,
+                  builder: (context, ref, lectures) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       if (lectures.isNotEmpty && appBarSize != 200) {
                         setState(() {
@@ -178,35 +182,29 @@ class HomePageViewState extends State<HomePageView> {
                         room: lectures[0].room,
                         type: lectures[0].typeClass,
                         onTap: () {
-                          final profile =
-                              Provider.of<ProfileProvider>(
-                                context,
-                                listen: false,
-                              ).state;
-                          if (profile != null) {
-                            final courseUnit = profile.courseUnits
-                                .firstWhereOrNull(
-                                  (unit) =>
-                                      unit.abbreviation == lectures[0].acronym,
-                                );
-                            if (courseUnit != null &&
-                                courseUnit.occurrId != null) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute<CourseUnitDetailPageView>(
-                                  builder:
-                                      (context) =>
-                                          CourseUnitDetailPageView(courseUnit),
-                                ),
+                          final profile = ref.read(profileProvider);
+                          final courseUnit = profile.value?.courseUnits
+                              .firstWhereOrNull(
+                                (unit) =>
+                                    unit.abbreviation == lectures[0].acronym,
                               );
-                            }
+                          if (courseUnit != null &&
+                              courseUnit.occurrId != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<CourseUnitDetailPageView>(
+                                builder:
+                                    (context) =>
+                                        CourseUnitDetailPageView(courseUnit),
+                              ),
+                            );
                           }
                         },
                       ),
                     );
                   },
                   hasContent: (lectures) => lectures.isNotEmpty,
-                  onNullContent: const SizedBox.shrink(),
+                  nullContentWidget: const SizedBox.shrink(),
                   mapper:
                       (lectures) =>
                           lectures
@@ -215,7 +213,7 @@ class HomePageViewState extends State<HomePageView> {
                                     lecture.endTime.isAfter(DateTime.now()),
                               )
                               .toList(),
-                  contentLoadingWidget: Container(),
+                  loadingWidget: Container(),
                 ),
               ],
             ),
