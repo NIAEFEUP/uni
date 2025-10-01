@@ -174,8 +174,9 @@ class _ExamsPageState extends ConsumerState<ExamsPage> {
           builder:
               (context, constraints) => SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                child: SizedBox(
+                child: Container(
                   height: constraints.maxHeight, // Height of bottom navbar
+                  padding: const EdgeInsets.only(bottom: 120),
                   child: const Center(child: NoExamsWidget()),
                 ),
               ),

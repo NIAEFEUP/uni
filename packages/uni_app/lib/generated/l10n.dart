@@ -1855,6 +1855,16 @@ class S {
   String get services {
     return Intl.message('Services', name: 'services', desc: '', args: []);
   }
+
+  /// `Orientation and Integration Office`
+  String get goi {
+    return Intl.message(
+      'Orientation and Integration Office',
+      name: 'goi',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

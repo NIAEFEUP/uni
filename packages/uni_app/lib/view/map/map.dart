@@ -67,6 +67,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: AppSystemOverlayStyles.base.copyWith(
             statusBarIconBrightness: Brightness.dark,
+            statusBarBrightness: Brightness.light,
             systemNavigationBarIconBrightness: Brightness.dark,
           ),
           child: Scaffold(
