@@ -443,5 +443,7 @@
   "until": "Until",
   "@until": {},
 	"services": "Services",
-	"@services": {}
+	"@services": {},
+  "goi": "Orientation and Integration Office",
+  "@goi": {}
 }

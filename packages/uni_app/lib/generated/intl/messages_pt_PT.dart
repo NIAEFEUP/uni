@@ -219,6 +219,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "geral_registration": MessageLookupByLibrary.simpleMessage(
       "Inscrição Geral",
     ),
+    "goi": MessageLookupByLibrary.simpleMessage(
+      "Gabinete de Orientação e Integração",
+    ),
     "improvement_registration": MessageLookupByLibrary.simpleMessage(
       "Inscrição para Melhoria",
     ),
