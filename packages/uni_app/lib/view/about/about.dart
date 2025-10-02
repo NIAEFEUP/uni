@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uni/view/about/widgets/terms_and_conditions.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 
-class AboutPageView extends StatefulWidget {
+class AboutPageView extends ConsumerStatefulWidget {
   const AboutPageView({super.key});
 
   @override
-  State<StatefulWidget> createState() => AboutPageViewState();
+  ConsumerState<AboutPageView> createState() => AboutPageViewState();
 }
 
 /// Manages the 'about' section of the app.
@@ -31,7 +32,7 @@ class AboutPageViewState extends SecondaryPageViewState<AboutPageView> {
   }
 
   @override
-  Future<void> onRefresh(BuildContext context) async {}
+  Future<void> onRefresh() async {}
 
   @override
   String? getTitle() {

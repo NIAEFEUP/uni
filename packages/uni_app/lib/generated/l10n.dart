@@ -295,6 +295,16 @@ class S {
     return Intl.message('Change', name: 'change', desc: '', args: []);
   }
 
+  /// `Change password`
+  String get change_password {
+    return Intl.message(
+      'Change password',
+      name: 'change_password',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Do you want to change the password?`
   String get change_prompt {
     return Intl.message(
@@ -1678,7 +1688,7 @@ class S {
     return Intl.message('All', name: 'all_feminine', desc: '', args: []);
   }
 
-  /// `{type, select, all_dishes{All dishes} meat_dishes{Meat dishes} fish_dishes{Fish dishes} vegetarian_dishes{Vegetarian dishes} soups{Soups} salads{Salads} diet_dishes{Diet dishes} dishes_of_the_day{Dishes of the Day} other{Other}}`
+  /// `{type, select, all_dishes{All dishes} meat_dishes{Meat dishes} fish_dishes{Fish dishes} vegetarian_dishes{Vegetarian dishes} soups{Soups} salads{Salads} diet_dishes{Diet dishes} dishes_of_the_day{Dishes of the Day} closed{Closed} other{Other}}`
   String dish_type(Object type) {
     return Intl.select(
       type,
@@ -1691,6 +1701,7 @@ class S {
         'salads': 'Salads',
         'diet_dishes': 'Diet dishes',
         'dishes_of_the_day': 'Dishes of the Day',
+        'closed': 'Closed',
         'other': 'Other',
       },
       name: 'dish_type',
@@ -1843,6 +1854,16 @@ class S {
   /// `Services`
   String get services {
     return Intl.message('Services', name: 'services', desc: '', args: []);
+  }
+
+  /// `Orientation and Integration Office`
+  String get goi {
+    return Intl.message(
+      'Orientation and Integration Office',
+      name: 'goi',
+      desc: '',
+      args: [],
+    );
   }
 }
 

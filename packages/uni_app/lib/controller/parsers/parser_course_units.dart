@@ -1,21 +1,82 @@
 import 'package:collection/collection.dart';
+import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 
+Map<String, int> _parseOccurIdsFromCurricularUnits(Document? document) {
+  final map = <String, int>{};
+  if (document == null) {
+    return map;
+  }
+
+  final headers = document.querySelectorAll('h3');
+  for (final header in headers) {
+    final yearText = header.text.trim();
+    if (!RegExp(r'\d{4}\s*/\s*\d{4}').hasMatch(yearText)) {
+      continue;
+    }
+    final schoolYear = RegExp(
+      r'\d{4}\s*/\s*\d{4}',
+    ).firstMatch(yearText)!.group(0)!.replaceAll(' ', '');
+
+    Element? table = header.nextElementSibling;
+    while (table != null && table.localName != 'table') {
+      table = table.nextElementSibling;
+    }
+    if (table == null) {
+      continue;
+    }
+
+    for (final row in table.querySelectorAll('tr')) {
+      final codeAnchor = row.querySelector('td a') ?? row.querySelector('a');
+      if (codeAnchor == null) {
+        continue;
+      }
+      final codeName = codeAnchor.text.trim();
+      final href = codeAnchor.attributes['href'];
+      if (href == null) {
+        continue;
+      }
+      final uri = Uri.tryParse(href);
+      if (uri == null) {
+        continue;
+      }
+      final occ = uri.queryParameters['pv_ocorrencia_id'];
+      if (occ == null) {
+        continue;
+      }
+      final occInt = int.tryParse(occ);
+      if (occInt == null) {
+        continue;
+      }
+
+      final key = '$codeName|$schoolYear';
+      map.putIfAbsent(key, () => occInt);
+    }
+  }
+
+  return map;
+}
+
 List<CourseUnit> parseCourseUnitsAndCourseAverage(
-  http.Response response,
+  http.Response responseAcademicPath,
+  http.Response? responseCurricularUnits,
   Course course, {
   List<CourseUnit>? currentCourseUnits,
 }) {
-  final document = parse(response.body);
-  final table = document.getElementById('tabelapercurso');
+  final documentAcademicPath = parse(responseAcademicPath.body);
+  final documentCurricularUnits = parse(responseCurricularUnits?.body);
+  final occurIdMap = _parseOccurIdsFromCurricularUnits(documentCurricularUnits);
+  final table = documentAcademicPath.getElementById('tabelapercurso');
   if (table == null) {
     return [];
   }
 
-  final labels = document.querySelectorAll('.caixa .formulario-legenda');
+  final labels = documentAcademicPath.querySelectorAll(
+    '.caixa .formulario-legenda',
+  );
   if (labels.length >= 2) {
     course.currentAverage ??= double.tryParse(
       labels[0].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0',
@@ -47,10 +108,9 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
 
     final year = row.children[0].innerHtml;
     final semester = row.children[1].innerHtml;
-    final occurId =
-        Uri.parse(
-          row.children[2].firstChild!.attributes['href']!,
-        ).queryParameters['pv_ocorrencia_id']!;
+    final rawHref = row.children[2].firstChild!.attributes['href']!;
+    final originalOccurId =
+        Uri.parse(rawHref).queryParameters['pv_ocorrencia_id']!;
     final codeName = row.children[2].children[0].innerHtml;
     final name = row.children[3].children[0].innerHtml;
     final ects = row.children[5].innerHtml.replaceAll(',', '.');
@@ -74,14 +134,17 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
         (element) => element.code == codeName,
       );
 
+      final schoolYear =
+          '${firstSchoolYear + yearIncrement}/${firstSchoolYear + yearIncrement + 1}';
+      final mappingKey = '$codeName|$schoolYear';
+      final finalOccurIdStr =
+          occurIdMap[mappingKey]?.toString() ?? originalOccurId;
+
       final courseUnit = CourseUnit(
-        schoolYear:
-            '${firstSchoolYear + yearIncrement}/${firstSchoolYear + yearIncrement + 1}',
-        occurrId: int.parse(occurId),
+        schoolYear: schoolYear,
+        occurrId: int.parse(finalOccurIdStr),
         code: codeName,
-        abbreviation:
-            matchingCurrentCourseUnit?.abbreviation ??
-            codeName, // FIXME: this is not the abbreviation
+        abbreviation: matchingCurrentCourseUnit?.abbreviation ?? codeName,
         status: status,
         grade: grade,
         ects: double.tryParse(ects),

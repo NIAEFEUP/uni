@@ -3,21 +3,23 @@ import 'package:flutter/material.dart';
 class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
   const AppTopNavbar({
     this.title,
+    this.subtitle,
     this.rightButton,
     this.leftButton,
     this.centerTitle = false,
-    this.heightSize = const Size.fromHeight(kToolbarHeight),
+    this.heightSize,
     super.key,
   });
 
   final String? title;
+  final String? subtitle;
   final Widget? rightButton;
   final Widget? leftButton;
   final bool centerTitle;
-  final Size heightSize;
+  final Size? heightSize;
 
   @override
-  Size get preferredSize => heightSize;
+  Size get preferredSize => heightSize ?? const Size.fromHeight(kToolbarHeight);
 
   @override
   AppBar build(BuildContext context) {
@@ -35,16 +37,8 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
             Expanded(
               child:
                   centerTitle
-                      ? Center(
-                        child: Text(
-                          title ?? '',
-                          style: Theme.of(context).textTheme.headlineLarge,
-                        ),
-                      )
-                      : Text(
-                        title ?? '',
-                        style: Theme.of(context).textTheme.displaySmall,
-                      ),
+                      ? Center(child: _buildTitleColumn(context))
+                      : _buildTitleColumn(context),
             ),
             if (rightButton == null && centerTitle) const SizedBox(width: 45),
             if (rightButton != null)
@@ -55,6 +49,38 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildTitleColumn(BuildContext context) {
+    final TextStyle? titleStyle =
+        centerTitle
+            ? Theme.of(context).textTheme.headlineLarge
+            : Theme.of(context).textTheme.displaySmall;
+
+    final titleWidget = Text(
+      title ?? '',
+      style: titleStyle,
+      overflow: TextOverflow.ellipsis,
+    );
+
+    if (subtitle == null || subtitle!.isEmpty) {
+      return titleWidget;
+    }
+
+    final subtitleWidget = Text(
+      subtitle!,
+      style:
+          Theme.of(context).textTheme.labelSmall ??
+          Theme.of(context).textTheme.labelMedium,
+      overflow: TextOverflow.ellipsis,
+    );
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment:
+          centerTitle ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+      children: [titleWidget, subtitleWidget],
     );
   }
 }

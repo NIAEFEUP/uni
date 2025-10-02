@@ -1,143 +1,132 @@
 [
-    {
-      "name": "Start of 1st Year/Master classes",
-      "start_date": "2024-09-23",
-      "end_date": "2024-09-23"
-    },
-    {
-      "name": "Start of classes, others",
-      "start_date": "2024-09-16",
-      "end_date": "2024-09-16"
-    },
-    {
-      "name": "FEUP Project Week (1st year/Bachelor)",
-      "start_date": "2024-09-16",
-      "end_date": "2024-09-20"
-    },
-    {
-      "name": "New Masters Celebration",
-      "start_date": "2024-11-23",
-      "end_date": "2024-11-23"
-    },
-    {
-      "name": "FEUP Day",
-      "start_date": "",
-      "end_date": ""
-    },
-    {
-      "name": "FEUP week and Staff Mobil. Week",
-      "start_date": "2024-10-28",
-      "end_date": "2024-11-01"
-    },
-    {
-      "name": "Christmas Holidays",
-      "start_date": "2024-12-23",
-      "end_date": "2025-01-03"
-    },
-    {
-      "name": "End of classes 1st Year/Bachelor",
-      "start_date": "2025-01-10",
-      "end_date": "2025-01-10"
-    },
-    {
-      "name": "End of classes, others",
-      "start_date": "2024-12-20",
-      "end_date": "2024-12-20"
-    },
-    {
-      "name": "Exams, 1st Year/Bachelor",
-      "start_date": "2025-01-20",
-      "end_date": "2025-02-06"
-    },
-    {
-      "name": "Exams, others",
-      "start_date": "2025-01-06",
-      "end_date": "2025-02-07"
-    },
-    {
-      "name": "Publication marks",
-      "start_date": "2025-02-21",
-      "end_date": "2025-02-21"
-    },
-    {
-      "name": "Special examination period, completion of cycle of studies, 1st call",
-      "start_date": "2025-03-05",
-      "end_date": "2025-03-21"
-    },
-    {
-      "name": "Publication marks, special exam. completion of cycle of studies, 1st call",
-      "start_date": "2025-03-28",
-      "end_date": "2025-03-28"
-    },
-    {
-      "name": "Special examination period, legally applicable status",
-      "start_date": "",
-      "end_date": "2025-05-02"
-    },
-    {
-      "name": "Publication marks, special exam. legally applicable status",
-      "start_date": "2025-05-16",
-      "end_date": "2025-05-16"
-    },
-    {
-      "name": "Start of classes",
-      "start_date": "2025-02-10",
-      "end_date": "2025-02-10"
-    },
-    {
-      "name": "Carnival holidays",
-      "start_date": "2025-03-03",
-      "end_date": "2025-03-04"
-    },
-    {
-      "name": "U.Porto Day",
-      "start_date": "",
-      "end_date": ""
-    },
-    {
-      "name": "Easter holidays",
-      "start_date": "2025-04-14",
-      "end_date": "2025-04-21"
-    },
-    {
-      "name": "Academic and Staff mobil. week",
-      "start_date": "2025-05-05",
-      "end_date": "2025-05-09"
-    },
-    {
-      "name": "End of classes",
-      "start_date": "2025-05-30",
-      "end_date": "2025-05-30"
-    },
-    {
-      "name": "Exams",
-      "start_date": "2025-06-02",
-      "end_date": "2025-07-11"
-    },
-    {
-      "name": "Publication marks",
-      "start_date": "2025-07-18",
-      "end_date": "2025-07-18"
-    },
-    {
-      "name": "Special examination period, completion of cycle of studies, 2nd call",
-      "start_date": "2025-09-01",
-      "end_date": "2025-09-12"
-    },
-    {
-      "name": "Publication marks, special exam. completion of cycle of studies, 2nd call",
-      "start_date": "2025-09-20",
-      "end_date": "2025-09-20"
-    },
-    {
-      "name": "Special examination period, legally applicable status",
-      "start_date": "",
-      "end_date": "2025-11-28"
-    },
-    {
-      "name": "Publication of marks, special exam. legally applicable status",
-      "start_date": "2025-12-12",
-      "end_date": "2025-12-12"
-    }
-  ]
-  
+	{
+		"name": "Start of classes, others",
+		"start_date": "2025-09-15",
+		"end_date": "2025-09-15"
+	},
+	{
+		"name": "FEUP Project Week (1st year/1st cycle)",
+		"start_date": "2025-09-15",
+		"end_date": "2025-09-19"
+	},
+	{
+		"name": "Start of classes for 1st Year/2nd Cycle",
+		"start_date": "2025-09-22",
+		"end_date": "2025-09-22"
+	},
+	{
+		"name": "FEUP Week and Faculty Mobilization",
+		"start_date": "2025-10-27",
+		"end_date": "2025-10-31"
+	},
+	{
+		"name": "End of classes, others",
+		"start_date": "2025-12-19",
+		"end_date": "2025-12-19"
+	},
+	{
+		"name": "Christmas Holidays",
+		"start_date": "2025-12-22",
+		"end_date": "2026-01-02"
+	},
+	{
+		"name": "End of classes for 1st Year/1st Cycle",
+		"start_date": "2026-01-09",
+		"end_date": "2026-01-09"
+	},
+	{
+		"name": "Exams, others",
+		"start_date": "2026-01-06",
+		"end_date": "2026-02-07"
+	},
+	{
+		"name": "Exams for 1st Year/1st Cycle",
+		"start_date": "2026-01-12",
+		"end_date": "2026-02-06"
+	},
+	{
+		"name": "Release of grades",
+		"start_date": "2026-02-20",
+		"end_date": "2026-02-20"
+	},
+	{
+		"name": "Carnival Holidays",
+		"start_date": "2026-02-16",
+		"end_date": "2026-02-17"
+	},
+	{
+		"name": "Start of classes",
+		"start_date": "2026-02-18",
+		"end_date": "2026-02-18"
+	},
+	{
+		"name": "Easter Holidays",
+		"start_date": "2026-03-30",
+		"end_date": "2026-04-06"
+	},
+	{
+		"name": "Academic Week and Faculty Mobilization",
+		"start_date": "2026-05-04",
+		"end_date": "2026-05-08"
+	},
+	{
+		"name": "End of classes",
+		"start_date": "2026-06-05",
+		"end_date": "2026-06-05"
+	},
+	{
+		"name": "Exams",
+		"start_date": "2026-06-08",
+		"end_date": "2026-07-14"
+	},
+	{
+		"name": "Release of grades",
+		"start_date": "2026-07-21",
+		"end_date": "2026-07-21"
+	},
+	{
+		"name": "Special period for cycle completion 2nd call",
+		"start_date": "2026-09-01",
+		"end_date": "2026-09-11"
+	},
+	{
+		"name": "Release of grades - Special period for cycle completion, 2nd call",
+		"start_date": "2026-09-18",
+		"end_date": "2026-09-18"
+	},
+	{
+		"name": "New Masters Celebration",
+		"start_date": "",
+		"end_date": ""
+	},
+	{
+		"name": "FEUP Day",
+		"start_date": "",
+		"end_date": ""
+	},
+	{
+		"name": "Special period for cycle completion 1st call",
+		"start_date": "",
+		"end_date": ""
+	},
+	{
+		"name": "Release of grades - Special period for cycle completion, 1st call",
+		"start_date": "",
+		"end_date": ""
+	},
+	{
+		"name": "Special exams for Statutes",
+		"start_date": "",
+		"end_date": ""
+	},
+	{
+		"name": "Release of grades, special exams for Statutes",
+		"start_date": "",
+		"end_date": ""
+	},
+	{
+		"name": "U.Porto Day",
+		"start_date": "",
+		"end_date": ""
+	}
+]
