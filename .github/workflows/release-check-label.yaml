@@ -1,0 +1,25 @@
+name: Check release labels
+
+concurrency:
+  group: ${{ github.workflow }}/${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - labeled
+      - unlabeled
+
+jobs:
+  check:
+    name: release
+    runs-on: ubuntu-latest
+
+    if: ${{ github.head_ref == 'draft-release' }}
+
+    steps:
+      - name: Fail if there is no release label
+        if: ${{ !contains(join(github.event.pull_request.labels.*.name, ','), '1.release:') }}
+        run: exit 1

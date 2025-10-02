@@ -1,0 +1,95 @@
+name: Draft a new release
+
+concurrency:
+  group: ${{ github.workflow }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      type:
+        description: "What is this release's type?"
+        type: choice
+        required: true
+        options:
+          - "Major (1.X.Y to 2.0.0)"
+          - "Minor (X.1.Y to X.2.0)"
+          - "Patch (X.Y.1 to X.Y.2)"
+
+jobs:
+  # First step is to canonicalize the inputs.
+  #
+  # This step is done to get over the fact that choice inputs cannot have
+  # different values and descriptions. This is a limitation of GitHub Actions.
+  #
+  # So, to have values that are easier to work with, we can canonicalize the
+  # inputs, that is, convert "Major (1.X.Y to 2.0.0)" to "major".
+  canonicalize_inputs:
+    name: Canonicalize inputs
+    runs-on: ubuntu-latest
+    outputs:
+      type: ${{ steps.canonicalize.outputs.type }}
+
+    steps:
+      - name: Canonicalize type
+        id: canonicalize
+        run: |
+          input="${{ github.event.inputs.type }}"
+          lowercase_first_word="$(echo "$input" | cut -d' ' -f1 | tr '[:upper:]' '[:lower:]')"
+          echo "type=$lowercase_first_word" >> $GITHUB_OUTPUT
+
+  # Second step is to create a release branch.
+  #
+  # This branch is always taken from the develop branch as a starting point,
+  # but it allows for developers to modify the release branch as they see fit.
+  #
+  # Furthermore, by using a stable name, we can refer to it in other workflows,
+  # making it easier to track and manage.
+  prepare_release_branch:
+    name: Prepare release branch
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout develop branch
+        uses: actions/checkout@v5
+        with:
+          ref: develop
+          fetch-depth: 0
+
+      - name: Delete existing release branch, if it exists
+        run: git push --delete origin draft-release || true
+
+      - name: Reset release branch
+        run: git checkout -B draft-release
+
+      - name: Push release branch
+        run: git push --force origin draft-release
+
+  # Third step is to create a PR from the draft release branch to the master
+  # branch.
+  #
+  # By always using the same branch, this ensures that there is always at most
+  # one PR open at any time.
+  create_pull_request:
+    name: Create Pull Request
+    runs-on: ubuntu-latest
+
+    needs:
+      - canonicalize_inputs
+      - prepare_release_branch
+
+    steps:
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.NIAEFEUPBOT_PAT }}
+
+        run: |
+          gh pr create \
+            --repo "${{ github.repositoryUrl }}" \
+            --base main \
+            --head draft-release \
+            --reviewer limwa \
+            --title "release: preparing..." \
+            --label "1.release: ${{ needs.canonicalize_inputs.outputs.type }}"
+            --body-file ./.github/assets/release-draft-pr-body.md

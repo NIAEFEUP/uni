@@ -85,6 +85,15 @@
               jdk
             ];
           };
+
+          # Python development shell
+          python = { pkgs, ... }: pkgs.mkShell {
+            meta.description = "A development shell with Python3";
+
+            packages = with pkgs; [
+              python3
+            ];
+          };
       };
 
       packages = utils.lib.invokeAttrs {

@@ -1,0 +1,23 @@
+name: Get current app version
+description: Reads the app_version.txt file and outputs the version identifier.
+
+inputs:
+  type:
+    description: The type of version bump [major, minor, patch, track].
+    required: true
+
+outputs:
+  version:
+    description: The version identifier.
+    value: ${{ steps.version.outputs.version }}
+
+runs:
+  using: composite
+  steps:
+    - name: Bump version
+      id: version
+      shell: bash
+      run: |
+        version="$(cat app_version.txt)"
+        new_version="$("$GITHUB_ACTION_PATH/bump-version.py" "${{ inputs.type }}" "$version")"
+        echo "version=$new_version" >> $GITHUB_OUTPUT

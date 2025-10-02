@@ -1,0 +1,21 @@
+name: Extract release type
+description: Extracts the release type from the PR labels.
+
+inputs:
+  labels:
+    description: Comma-separated list of the PR labels.
+    required: true
+
+outputs:
+  type:
+    description: The release type.
+    value: ${{ steps.type.outputs.type }}
+
+runs:
+  using: composite
+  steps:
+    - name: Extract type
+      id: type
+      shell: bash
+      run: |
+        "$GITHUB_ACTION_PATH/extract_bump.py" "${{ inputs.labels }}"

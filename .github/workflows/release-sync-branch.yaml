@@ -1,0 +1,51 @@
+name: Sync release branch
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync_release_branch:
+    name: Merge main into release branch
+    runs-on: ubuntu-latest
+
+    permissions:
+      actions: write
+      contents: write
+
+    steps:
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Checkout release branch
+        id: checkout
+        uses: actions/checkout@v5
+        with:
+          ref: draft-release
+          fetch-depth: 0
+
+      - name: Exit if release branch does not exist
+        if: ${{ steps.checkout.outcome == 'failure' }}
+        run: |
+          gh run cancel ${{ github.run_id }}
+          gh run watch ${{ github.run_id }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Fetch main branch
+        run: git fetch --no-tags origin main
+
+      - name: Merge main into release branch
+        id: merge
+        run: |
+          git merge -X theirs -m "release: sync with main" origin/main
+
+      - name: Push release branch
+        run: git push origin draft-release
