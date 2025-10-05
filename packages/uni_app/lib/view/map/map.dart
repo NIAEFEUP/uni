@@ -29,7 +29,8 @@ class MapPageStateView extends ConsumerState<MapPage> {
   ScrollController? scrollViewController;
   final searchFormKey = GlobalKey<FormState>();
   var _searchTerms = '';
-  var _popupLayerController = PopupController();
+  late final PopupController _popupLayerController;
+  LatLngBounds? _bounds;
 
   @override
   void initState() {
@@ -49,6 +50,13 @@ class MapPageStateView extends ConsumerState<MapPage> {
     return DefaultConsumer<List<LocationGroup>>(
       provider: locationsProvider,
       builder: (context, ref, locations) {
+        var bounds = _bounds;
+        bounds ??= LatLngBounds.fromPoints(
+          locations.map((location) => location.latlng).toList(),
+          drawInSingleWorld: true,
+        );
+        _bounds ??= bounds;
+
         final filteredLocations = List<LocationGroup>.from(locations);
         if (_searchTerms.trim().isNotEmpty) {
           filteredLocations.retainWhere((location) {
@@ -60,10 +68,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
             });
           });
         }
-        final bounds = LatLngBounds(
-          const LatLng(41.17370, -8.59900),
-          const LatLng(41.18286, -8.59298),
-        );
+
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: AppSystemOverlayStyles.base.copyWith(
             statusBarIconBrightness: Brightness.dark,
@@ -76,10 +81,13 @@ class MapPageStateView extends ConsumerState<MapPage> {
             bottomNavigationBar: const AppBottomNavbar(),
             body: FlutterMap(
               options: MapOptions(
-                minZoom: 1,
+                minZoom: 16,
                 maxZoom: 19,
-                cameraConstraint: CameraConstraint.contain(bounds: bounds),
+                initialCenter: bounds.center,
                 initialCameraFit: CameraFit.insideBounds(bounds: bounds),
+                cameraConstraint: CameraConstraint.containCenter(
+                  bounds: bounds,
+                ),
                 onTap:
                     (tapPosition, latlng) =>
                         _popupLayerController.hideAllPopups(),
@@ -90,9 +98,13 @@ class MapPageStateView extends ConsumerState<MapPage> {
               children: <Widget>[
                 TileLayer(
                   urlTemplate:
-                      'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
-                  tileProvider: CachedTileProvider(),
+                      'https://basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
+                  tileProvider: NetworkTileProvider(
+                    cachingProvider:
+                        BuiltInMapCachingProvider.getOrCreateInstance(),
+                  ),
                   retinaMode: RetinaMode.isHighDensity(context),
+                  maxNativeZoom: 20,
                 ),
                 PopupMarkerLayer(
                   options: PopupMarkerLayerOptions(
