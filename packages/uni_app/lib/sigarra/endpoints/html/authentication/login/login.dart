@@ -64,7 +64,7 @@ class Login extends Endpoint<LoginResponse> {
       throw Exception('Could not find failure reason');
     } catch (err, st) {
       unawaited(
-        Sentry.captureException(
+        Sentry.captureEvent(
           SentryEvent(
             throwable: err,
             request: SentryRequest(data: document.outerHtml),
