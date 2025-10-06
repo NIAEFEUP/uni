@@ -4,6 +4,7 @@ import 'package:html/dom.dart' as html;
 import 'package:html/parser.dart' as html_parser;
 import 'package:http/http.dart' as http;
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:uni/http/utils.dart';
 import 'package:uni/sigarra/endpoint.dart';
 import 'package:uni/sigarra/endpoints/html/authentication/login/response.dart';
 import 'package:uni/sigarra/options.dart';
@@ -37,7 +38,7 @@ class Login extends Endpoint<LoginResponse> {
     final document = html_parser.parse(response.body);
 
     if (_isSucessfulResponse(document)) {
-      return const LoginResponse(success: true);
+      return LoginSuccessfulResponse(cookies: extractCookies(response));
     }
 
     final failureReason = _parseFailureReason(document);
@@ -45,8 +46,13 @@ class Login extends Endpoint<LoginResponse> {
   }
 
   bool _isSucessfulResponse(html.Document document) {
-    final refresh = document.head?.querySelector("meta[http-equiv='refresh']");
-    return refresh != null;
+    final httpEquivTags =
+        document.head
+            ?.querySelectorAll('meta[http-equiv]')
+            .map((el) => el.attributes['http-equiv']?.toLowerCase()) ??
+        [];
+
+    return httpEquivTags.contains('refresh');
   }
 
   LoginFailureReason _parseFailureReason(html.Document document) {

@@ -1,13 +1,22 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:uni/controller/fetchers/faculties_fetcher.dart';
+import 'package:uni/http/client/cookie.dart';
 import 'package:uni/session/exception.dart';
 import 'package:uni/session/flows/base/request.dart';
 import 'package:uni/session/flows/credentials/session.dart';
-import 'package:uni/sigarra/endpoints/api/api.dart';
 import 'package:uni/sigarra/endpoints/html/authentication/login/response.dart';
 import 'package:uni/sigarra/endpoints/html/html.dart';
 import 'package:uni/sigarra/options.dart';
+
+// Faculty where all of the temporary sessions are created.
+// The faculty must display the student photo on the home page.
+const tempFaculty = 'feup';
+
+const genericAuthenticationException = AuthenticationException(
+  'Failed to authenticate user',
+);
 
 class CredentialsSessionRequest extends SessionRequest {
   CredentialsSessionRequest({required this.username, required this.password});
@@ -19,37 +28,17 @@ class CredentialsSessionRequest extends SessionRequest {
   Future<CredentialsSession> perform([http.Client? httpClient]) async {
     final client = httpClient ?? http.Client();
 
-    // We need to login to fetch the faculties, so perform a temporary login.
-    final tempSession = await _loginWithApi(username, password, client);
+    // We need to login to fetch the username and faculties,
+    // so perform a temporary login.
+    final loginResponse = await _loginOrFail(username, password, client);
+    final actualUsername = await _getUsername(loginResponse.cookies, client);
 
-    if (tempSession == null) {
-      // Get the fail reason.
-      final failureReason = await _getLoginFailureReason(
-        username,
-        password,
-        client,
-      );
-
-      // FIXME(limwa): convey the reason to the user
-      if (failureReason == LoginFailureReason.expiredCredentials) {
-        throw const AuthenticationException(
-          'Failed to authenticate user',
-          AuthenticationExceptionType.expiredCredentials,
-        );
-      } else if (failureReason == LoginFailureReason.internetError) {
-        throw const AuthenticationException(
-          'Failed to authenticate user',
-          AuthenticationExceptionType.internetError,
-        );
-      } else if (failureReason == LoginFailureReason.wrongCredentials) {
-        throw const AuthenticationException(
-          'Failed to authenticate user',
-          AuthenticationExceptionType.wrongCredentials,
-        );
-      } else {
-        throw const AuthenticationException('Failed to authenticate user');
-      }
-    }
+    final tempSession = CredentialsSession(
+      username: actualUsername,
+      password: password,
+      cookies: loginResponse.cookies,
+      faculties: [tempFaculty],
+    );
 
     final faculties = await getStudentFaculties(tempSession, client);
 
@@ -63,16 +52,15 @@ class CredentialsSessionRequest extends SessionRequest {
     return session;
   }
 
-  Future<CredentialsSession?> _loginWithApi(
+  Future<LoginSuccessfulResponse> _loginOrFail(
     String username,
     String password,
     http.Client httpClient,
   ) async {
-    final api = SigarraApi();
-    const tempFaculty = 'feup';
+    final html = SigarraHtml();
 
     final loginResponse =
-        await api.authentication
+        await html.authentication
             .login(
               username: username,
               password: password,
@@ -84,34 +72,74 @@ class CredentialsSessionRequest extends SessionRequest {
             .call();
 
     if (!loginResponse.success) {
-      return null;
+      _handleLoginFailure(loginResponse.asFailed());
     }
 
-    final info = loginResponse.asSuccessful();
-    return CredentialsSession(
-      username: info.username,
+    return loginResponse.asSuccessful();
+  }
+
+  /*return CredentialsSession(
+      username: '',
       password: password,
       cookies: info.cookies,
       faculties: [tempFaculty],
-    );
+    );*/
+
+  Never _handleLoginFailure(LoginFailedResponse response) {
+    final failureReason = response.reason;
+
+    // FIXME(limwa): convey the reason to the user
+    if (failureReason == LoginFailureReason.expiredCredentials) {
+      throw const AuthenticationException(
+        'Failed to authenticate user',
+        AuthenticationExceptionType.expiredCredentials,
+      );
+    } else if (failureReason == LoginFailureReason.internetError) {
+      throw const AuthenticationException(
+        'Failed to authenticate user',
+        AuthenticationExceptionType.internetError,
+      );
+    } else if (failureReason == LoginFailureReason.wrongCredentials) {
+      throw const AuthenticationException(
+        'Failed to authenticate user',
+        AuthenticationExceptionType.wrongCredentials,
+      );
+    } else {
+      throw genericAuthenticationException;
+    }
   }
 
-  Future<LoginFailureReason> _getLoginFailureReason(
-    String username,
-    String password,
-    http.Client httpClient,
-  ) async {
-    final html = SigarraHtml();
-    final response =
-        await html.authentication
-            .login(
-              username: username,
-              password: password,
-              options: FacultyRequestOptions(client: httpClient),
-            )
-            .call();
+  Future<String> _getUsername(List<Cookie> cookies, http.Client client) async {
+    final authenticatedClient = CookieClient(client, cookies: () => cookies);
 
-    final error = response.asFailed();
-    return error.reason;
+    final html = SigarraHtml();
+    final request = html.home(
+      options: FacultyRequestOptions(
+        // FEUP has the photo on the home page
+        faculty: tempFaculty,
+        client: authenticatedClient,
+      ),
+    );
+
+    final response = await request.call();
+
+    if (!response.success) {
+      throw genericAuthenticationException;
+    }
+
+    final successfulResponse = response.asSuccessful();
+    if (!successfulResponse.authenticated) {
+      throw genericAuthenticationException;
+    }
+
+    final authenticatedResponse = successfulResponse.asAuthenticated();
+    final photoUrl = authenticatedResponse.photoUrl;
+
+    final username = photoUrl?.queryParameters['pct_cod'];
+    if (username == null || username.isEmpty) {
+      throw genericAuthenticationException;
+    }
+
+    return username;
   }
 }
