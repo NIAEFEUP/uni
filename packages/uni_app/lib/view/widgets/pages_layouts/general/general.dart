@@ -31,7 +31,7 @@ abstract class GeneralPageViewState<T extends ConsumerStatefulWidget>
   // Top navigation bar
   AppTopNavbar? getTopNavbar(BuildContext context) {
     return AppTopNavbar(
-      title: this.getTitle(),
+      title: getTitle(),
       rightButton: getRightContent(context),
     );
   }

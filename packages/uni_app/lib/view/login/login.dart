@@ -51,7 +51,9 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed && !_intercepting) {
-      setState(() => _loggingIn = false);
+      if (mounted) {
+        setState(() => _loggingIn = false);
+      }
     }
   }
 
@@ -101,50 +103,56 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
           });
         }
       } on AuthenticationException catch (err, st) {
-        setState(() {
-          _loggingIn = false;
-        });
+        if (mounted) {
+          setState(() {
+            _loggingIn = false;
+          });
 
-        switch (err.type) {
-          case AuthenticationExceptionType.expiredCredentials:
-            _updatePasswordDialog();
-          case AuthenticationExceptionType.internetError:
-            if (mounted) {
+          switch (err.type) {
+            case AuthenticationExceptionType.expiredCredentials:
+              _updatePasswordDialog();
+
+            case AuthenticationExceptionType.internetError:
               unawaited(
                 ToastMessage.warning(
                   context,
                   S.of(context).internet_status_exception,
                 ),
               );
-            }
-          case AuthenticationExceptionType.wrongCredentials:
-            if (mounted) {
+
+            case AuthenticationExceptionType.wrongCredentials:
               unawaited(
                 ToastMessage.error(
                   context,
                   S.of(context).wrong_credentials_exception,
                 ),
               );
-            }
-          default:
-            Logger().e(err, stackTrace: st);
-            unawaited(Sentry.captureException(err, stackTrace: st));
-            if (mounted) {
+            default:
+              Logger().e(err, stackTrace: st);
+              unawaited(Sentry.captureException(err, stackTrace: st));
               unawaited(
                 ToastMessage.error(context, S.of(context).failed_login),
               );
-            }
+          }
+        } else {
+          // Not mounted: log and capture the error but avoid UI calls
+          Logger().e(err, stackTrace: st);
+          unawaited(Sentry.captureException(err, stackTrace: st));
         }
       }
       // Handles other unexpected exceptions
       catch (err, st) {
-        setState(() {
-          _loggingIn = false;
-        });
-        Logger().e(err, stackTrace: st);
-        unawaited(Sentry.captureException(err, stackTrace: st));
         if (mounted) {
+          setState(() {
+            _loggingIn = false;
+          });
+          Logger().e(err, stackTrace: st);
+          unawaited(Sentry.captureException(err, stackTrace: st));
           unawaited(ToastMessage.error(context, S.of(context).failed_login));
+        } else {
+          // Not mounted: log and capture, avoid UI calls
+          Logger().e(err, stackTrace: st);
+          unawaited(Sentry.captureException(err, stackTrace: st));
         }
       }
     }
@@ -154,9 +162,11 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
     final sessionNotifier = ref.read(sessionProvider.notifier);
 
     try {
-      setState(() {
-        _loggingIn = true;
-      });
+      if (mounted) {
+        setState(() {
+          _loggingIn = true;
+        });
+      }
 
       final appLinks = UniAppLinks();
 
@@ -178,10 +188,12 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
         persistentSession: _keepSignedIn,
       );
 
-      setState(() {
-        _intercepting = true;
-        _loggingIn = true;
-      });
+      if (mounted) {
+        setState(() {
+          _intercepting = true;
+          _loggingIn = true;
+        });
+      }
 
       if (mounted) {
         await Navigator.pushReplacementNamed(
@@ -190,21 +202,25 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
         );
       }
 
-      setState(() {
-        _loggingIn = true;
-        _intercepting = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loggingIn = true;
+          _intercepting = false;
+        });
+      }
     } catch (err, st) {
       await Sentry.captureException(err, stackTrace: st);
       await closeInAppWebView();
-      setState(() {
-        _loggingIn = false;
-      });
       if (mounted) {
+        setState(() {
+          _loggingIn = false;
+        });
         Logger().e(S.of(context).fail_to_authenticate);
         unawaited(
           ToastMessage.error(context, S.of(context).fail_to_authenticate),
         );
+      } else {
+        Logger().e(err, stackTrace: st);
       }
     }
   }

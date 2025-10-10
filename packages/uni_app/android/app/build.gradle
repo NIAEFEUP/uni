@@ -31,8 +31,8 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace "pt.up.fe.ni.uni"
 
-    compileSdkVersion 35
-    ndkVersion "25.1.8937393"
+    compileSdkVersion 36
+    ndkVersion "27.0.12077973"
 
     compileOptions {
         targetCompatibility JavaVersion.VERSION_11
@@ -52,7 +52,7 @@ android {
 
     defaultConfig {
         applicationId "pt.up.fe.ni.uni"
-        minSdkVersion 22
+        minSdkVersion flutter.minSdkVersion
         targetSdkVersion 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -93,8 +93,8 @@ configurations {
 }
 
 dependencies {
-    implementation "io.objectbox:objectbox-android:4.3.0"
-    debugImplementation("io.objectbox:objectbox-android-objectbrowser:4.3.0")
+    implementation "io.objectbox:objectbox-android:5.0.1"
+    debugImplementation("io.objectbox:objectbox-android-objectbrowser:5.0.1")
 
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.1.4"
 }

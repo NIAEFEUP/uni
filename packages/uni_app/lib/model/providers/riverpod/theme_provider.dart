@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 
 final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>(

@@ -153,7 +153,7 @@ class ApplicationState extends ConsumerState<Application> {
 
   @override
   Widget build(BuildContext context) {
-    final themeMode = ref.watch(themeProvider);
+    final themeMode = ref.watch<ThemeMode>(themeProvider);
     final locale = ref.watch(localeProvider);
 
     return UpgradeAlert(
