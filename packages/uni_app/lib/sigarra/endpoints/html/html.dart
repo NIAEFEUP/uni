@@ -6,5 +6,6 @@ class SigarraHtml {
   final _authentication = Lazy(SigarraHtmlAuthentication.new);
   SigarraHtmlAuthentication get authentication => _authentication.value;
 
-  final home = Home.new;
+  final _home = Lazy(Home.new);
+  Home get home => _home.value;
 }
