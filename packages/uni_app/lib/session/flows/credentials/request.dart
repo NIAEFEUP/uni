@@ -78,13 +78,6 @@ class CredentialsSessionRequest extends SessionRequest {
     return loginResponse.asSuccessful();
   }
 
-  /*return CredentialsSession(
-      username: '',
-      password: password,
-      cookies: info.cookies,
-      faculties: [tempFaculty],
-    );*/
-
   Never _handleLoginFailure(LoginFailedResponse response) {
     final failureReason = response.reason;
 
