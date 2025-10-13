@@ -32,7 +32,7 @@ android {
     namespace "pt.up.fe.ni.uni"
 
     compileSdkVersion 36
-    ndkVersion "27.0.12077973"
+    ndkVersion flutter.ndkVersion
 
     compileOptions {
         targetCompatibility JavaVersion.VERSION_11

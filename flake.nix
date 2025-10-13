@@ -2,7 +2,7 @@
   description = "A basic flake for Flutter development with Nix and NixOS";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/pull/450619/merge";
     utils.url = "github:limwa/nix-flake-utils";
 
     # For hardware-accelerated Android emulator on NixOS
@@ -42,14 +42,14 @@
         androidComposition = pkgs.androidenv.composeAndroidPackages {
           includeNDK = "if-supported";
 
-          buildToolsVersions = ["34.0.0"];
+          buildToolsVersions = ["35.0.0"];
           cmakeVersions = ["3.22.1"];
-          platformVersions = ["31" "33" "34" "35"];
-          ndkVersions = ["25.1.8937393"];
+          platformVersions = ["36" "35" "34"];
+          ndkVersions = ["27.0.12077973"];
         };
 
-        flutter = pkgs.flutter332;
-        jdk = pkgs.jdk17;
+        flutter = pkgs.flutter335;
+        jdks = with pkgs; [jdk21 jdk17];
       };
     } {
       formatter = {pkgs, ...}: pkgs.alejandra;
@@ -62,28 +62,42 @@
           pkgs,
           androidComposition,
           flutter,
-          jdk,
+          jdks,
           ...
-        }:
+        }: let
+          jdk = builtins.elemAt jdks 0;
+          buildToolsVersion = pkgs.lib.getVersion (builtins.elemAt androidComposition.build-tools 0);
+        in
           pkgs.mkShell rec {
             meta.description = "A development shell with Flutter and an Android SDK installation";
 
             env = {
               # Android environment variables
               ANDROID_HOME = "${androidComposition.androidsdk}/libexec/android-sdk";
-              GRADLE_OPTS = let
-                buildToolsVersion = pkgs.lib.getVersion (builtins.elemAt androidComposition.build-tools 0);
-              in "-Dorg.gradle.project.android.aapt2FromMavenOverride=${env.ANDROID_HOME}/build-tools/${buildToolsVersion}/aapt2";
 
               # Java environment variables
               JAVA_HOME = "${jdk}";
+
+              GRADLE_OPTS = pkgs.lib.concatStringsSep " " [
+                "-Dorg.gradle.project.android.aapt2FromMavenOverride=${env.ANDROID_HOME}/build-tools/${buildToolsVersion}/aapt2"
+                # KMS pls ;w;
+                # https://github.com/gradle/gradle/issues/33307
+                "-Dorg.gradle.project.org.gradle.java.installations.auto-detect=false"
+                "-Dorg.gradle.project.org.gradle.java.installations.auto-download=false"
+                "-Dorg.gradle.project.org.gradle.java.installations.paths=${pkgs.lib.concatStringsSep "," jdks}"
+              ];
             };
 
             packages = [
               androidComposition.androidsdk
+
               flutter
               jdk
             ];
+
+            shellHook = ''
+              export PATH="$ANDROID_HOME/build-tools/${buildToolsVersion}:$PATH"
+            '';
           };
       };
 
