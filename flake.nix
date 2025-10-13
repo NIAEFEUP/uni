@@ -109,7 +109,7 @@
               name = "uni-emulator";
               deviceName = "uni_emulator";
 
-              platformVersion = "35";
+              platformVersion = "36";
               abiVersion = "x86_64";
               systemImageType = "google_apis_playstore";
 
