@@ -90,13 +90,12 @@
 
             packages = [
               androidComposition.androidsdk
-
               flutter
               jdk
             ];
 
             shellHook = ''
-              export PATH="$ANDROID_HOME/build-tools/${buildToolsVersion}:$PATH"
+              export PATH="${env.ANDROID_HOME}/build-tools/${buildToolsVersion}:$PATH"
             '';
           };
       };
