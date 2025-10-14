@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:uni/utils/navbar_items.dart';
 import 'package:uni_ui/navbar/bottom_navbar.dart';
@@ -48,6 +49,16 @@ class AppBottomNavbar extends StatelessWidget {
       );
     }
 
-    return BottomNavbar(items: navbarItems);
+    var bottomPadding = MediaQuery.of(context).systemGestureInsets.bottom;
+
+    const iosAdditionalBottomPadding = 30;
+    if (Platform.isIOS) {
+      bottomPadding += iosAdditionalBottomPadding;
+    }
+
+    return Padding(
+      padding: EdgeInsets.only(bottom: bottomPadding),
+      child: BottomNavbar(items: navbarItems),
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // Widget Colors
 const Color primaryVibrant = Color.fromARGB(255, 102, 9, 16);
@@ -146,4 +147,14 @@ class BadgeColors {
   static const en = Color(0xFF769c87);
   static const er = Color(0xFFab4d39);
   static const ee = Color(0xFFfbc11f);
+}
+
+class AppSystemOverlayStyles {
+  AppSystemOverlayStyles._();
+
+  static const base = SystemUiOverlayStyle(
+    systemNavigationBarContrastEnforced: false,
+    systemNavigationBarColor: Colors.transparent,
+    systemNavigationBarDividerColor: Colors.transparent,
+  );
 }

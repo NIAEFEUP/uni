@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/model/providers/riverpod/default_consumer.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/view/academic_path/widgets/course_units_view.dart';
 import 'package:uni/view/academic_path/widgets/courses_page_shimmer.dart';
 import 'package:uni/view/academic_path/widgets/no_courses_widget.dart';
-import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/courses/average_bar.dart';
 import 'package:uni_ui/courses/course_info.dart';
 import 'package:uni_ui/courses/course_selection.dart';
 
-class CoursesPage extends StatefulWidget {
+class CoursesPage extends ConsumerStatefulWidget {
   const CoursesPage({super.key});
 
   @override
-  CoursesPageState createState() => CoursesPageState();
+  ConsumerState<CoursesPage> createState() => CoursesPageState();
 }
 
-class CoursesPageState extends State<CoursesPage> {
+class CoursesPageState extends ConsumerState<CoursesPage> {
   var _courseUnitIndex = 0;
 
   void _onCourseUnitSelected(int index) {
@@ -31,10 +32,27 @@ class CoursesPageState extends State<CoursesPage> {
   // This method is just a band-aid, and will not work correctly for students
   // enrolled in more than one course.
   double _getTotalCredits(Profile profile, Course course) {
-    return profile.courseUnits
-        .where((courseUnit) => courseUnit.festId == course.festId)
-        .map((courseUnit) => courseUnit.ects ?? 0)
-        .fold(0, (a, b) => a + b);
+    final Map<String, double> uniqueCourseUnitsEcts = {};
+
+    for (final cu in profile.courseUnits) {
+      if (cu.festId != course.festId) {
+        continue;
+      }
+
+      final gradeStr = cu.grade?.trim();
+      final grade = double.tryParse(gradeStr ?? '');
+
+      final bool isPassed = grade != null && grade >= 10;
+      final bool isCurrentlyAttempting = gradeStr == null || gradeStr.isEmpty;
+
+      if (isPassed || isCurrentlyAttempting) {
+        if (!uniqueCourseUnitsEcts.containsKey(cu.name)) {
+          uniqueCourseUnitsEcts[cu.name] = cu.ects ?? 0;
+        }
+      }
+    }
+
+    return uniqueCourseUnitsEcts.values.fold(0, (a, b) => a + b);
   }
 
   int? _getEnrollmentYear(Course course) {
@@ -83,8 +101,9 @@ class CoursesPageState extends State<CoursesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return LazyConsumer<ProfileProvider, Profile>(
-      builder: (context, profile) {
+    return DefaultConsumer<Profile>(
+      provider: profileProvider,
+      builder: (context, ref, profile) {
         final courses = profile.courses;
         final course = courses[_courseUnitIndex];
 
@@ -127,19 +146,20 @@ class CoursesPageState extends State<CoursesPage> {
           ],
         );
       },
-      hasContent: (profile) => profile.courses.isNotEmpty,
-      onNullContent: LayoutBuilder(
+      nullContentWidget: LayoutBuilder(
         // Band-aid for allowing refresh on null content
         builder:
             (context, constraints) => SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
-              child: SizedBox(
+              child: Container(
                 height: constraints.maxHeight,
+                padding: const EdgeInsets.only(bottom: 120),
                 child: const Center(child: NoCoursesWidget()),
               ),
             ),
       ),
       contentLoadingWidget: const ShimmerCoursesPage(),
+      hasContent: (profile) => profile.courses.isNotEmpty,
     );
   }
 }

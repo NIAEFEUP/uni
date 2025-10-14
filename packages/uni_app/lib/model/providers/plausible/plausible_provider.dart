@@ -3,13 +3,17 @@ import 'package:battery_plus/battery_plus.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:plausible_analytics/plausible_analytics.dart';
-import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 
-class PlausibleProvider extends StatefulWidget {
+final plausibleProvider = Provider<Plausible?>(
+  (ref) => throw UnimplementedError(),
+);
+
+class PlausibleProvider extends ConsumerStatefulWidget {
   const PlausibleProvider({
     required this.plausible,
     required this.child,
@@ -20,10 +24,10 @@ class PlausibleProvider extends StatefulWidget {
   final Widget child;
 
   @override
-  State<StatefulWidget> createState() => _PlausibleProviderState();
+  ConsumerState<PlausibleProvider> createState() => _PlausibleProviderState();
 }
 
-class _PlausibleProviderState extends State<PlausibleProvider> {
+class _PlausibleProviderState extends ConsumerState<PlausibleProvider> {
   var _batteryLevel = 0;
   var _isInBatterySaveMode = true;
   ConnectivityResult _connectivityResult = ConnectivityResult.none;
@@ -122,15 +126,18 @@ class _PlausibleProviderState extends State<PlausibleProvider> {
     widget.plausible?.screenWidth =
         MediaQuery.of(context).size.width.toString();
 
-    return Listener(
-      behavior: HitTestBehavior.translucent,
-      onPointerDown: (event) {
-        final plausible = widget.plausible;
-        if (plausible != null) {
-          _updateBatteryState();
-        }
-      },
-      child: Provider.value(value: widget.plausible, child: widget.child),
+    return ProviderScope(
+      overrides: [plausibleProvider.overrideWithValue(widget.plausible)],
+      child: Listener(
+        behavior: HitTestBehavior.translucent,
+        onPointerDown: (event) {
+          final plausible = widget.plausible;
+          if (plausible != null) {
+            _updateBatteryState();
+          }
+        },
+        child: widget.child,
+      ),
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets/edit/draggable_square.dart';
 import 'package:uni/view/home/widgets/edit/draggable_tile.dart';
+import 'package:uni_ui/theme.dart';
 
 class EditHomeView extends StatefulWidget {
   const EditHomeView({super.key});
@@ -69,9 +70,10 @@ class EditHomeViewState extends State<EditHomeView> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
+      value: AppSystemOverlayStyles.base.copyWith(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
       ),
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,

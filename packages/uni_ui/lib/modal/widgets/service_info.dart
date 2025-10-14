@@ -13,7 +13,11 @@ class ModalServiceInfo extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 20.0),
       child: Column(
         children: [
-          Text(name, style: Theme.of(context).textTheme.headlineMedium),
+          Text(
+            name,
+            style: Theme.of(context).textTheme.headlineMedium,
+            textAlign: TextAlign.center,
+          ),
           Padding(padding: EdgeInsets.all(3)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

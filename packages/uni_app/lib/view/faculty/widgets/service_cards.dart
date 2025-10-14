@@ -38,6 +38,13 @@ class AllServiceCardsState extends State<AllServiceCards> {
   Widget build(BuildContext context) {
     final services = <Widget>[
       ServicesCard(
+        name: S.of(context).goi,
+        openingHours: const ['9:30h - 15:30h'],
+        location: 'A210, A211a, A211b, A212, A276',
+        telephone: '+351 220 413 578',
+        email: 'goi@fe.up.pt',
+      ),
+      ServicesCard(
         name: 'FEUP ${S.of(context).copy_center}',
         openingHours: const ['9:00h - 11:30h', '12:30h - 18:00h'],
         location: S.of(context).copy_center_building.split(' | ')[0],
@@ -108,12 +115,13 @@ class AllServiceCardsState extends State<AllServiceCards> {
                 spacing: spacing,
                 runSpacing: spacing,
                 children:
-                    services
-                        .map(
-                          (service) =>
-                              SizedBox(width: itemWidth, child: service),
-                        )
-                        .toList(),
+                    services.asMap().entries.map((entry) {
+                      final idx = entry.key;
+                      final service = entry.value;
+                      final width =
+                          idx == 0 ? (itemWidth * 2 + spacing) : itemWidth;
+                      return SizedBox(width: width, child: service);
+                    }).toList(),
               );
             } else {
               return Column(

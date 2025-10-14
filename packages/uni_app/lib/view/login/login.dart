@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/app_links/uni_app_links.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni/model/providers/state_providers.dart';
+import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/session/exception.dart';
 import 'package:uni/session/flows/credentials/initiator.dart';
 import 'package:uni/session/flows/federated/initiator.dart';
@@ -23,17 +23,18 @@ import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/view/login/widgets/remember_me_checkbox.dart';
 import 'package:uni/view/login/widgets/terms_and_conditions_button.dart';
 import 'package:uni/view/widgets/toast_message.dart';
+import 'package:uni_ui/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class LoginPageView extends StatefulWidget {
+class LoginPageView extends ConsumerStatefulWidget {
   const LoginPageView({super.key});
 
   @override
-  LoginPageViewState createState() => LoginPageViewState();
+  ConsumerState<LoginPageView> createState() => LoginPageViewState();
 }
 
 /// Manages the 'login section' view.
-class LoginPageViewState extends State<LoginPageView>
+class LoginPageViewState extends ConsumerState<LoginPageView>
     with WidgetsBindingObserver {
   static final usernameFocus = FocusNode();
   static final passwordFocus = FocusNode();
@@ -67,10 +68,7 @@ class LoginPageViewState extends State<LoginPageView>
   }
 
   Future<void> _login() async {
-    final sessionProvider = Provider.of<SessionProvider>(
-      context,
-      listen: false,
-    );
+    final sessionNotifier = ref.read(sessionProvider.notifier);
 
     if (!_loggingIn && _formKey.currentState!.validate()) {
       final user = usernameController.text.trim();
@@ -85,7 +83,7 @@ class LoginPageViewState extends State<LoginPageView>
           username: user,
           password: pass,
         );
-        await sessionProvider.login(
+        await sessionNotifier.login(
           initiator,
           persistentSession: _keepSignedIn,
         );
@@ -153,8 +151,7 @@ class LoginPageViewState extends State<LoginPageView>
   }
 
   Future<void> _falogin() async {
-    final stateProviders = StateProviders.fromContext(context);
-    final sessionProvider = stateProviders.sessionProvider;
+    final sessionNotifier = ref.read(sessionProvider.notifier);
 
     try {
       setState(() {
@@ -163,7 +160,7 @@ class LoginPageViewState extends State<LoginPageView>
 
       final appLinks = UniAppLinks();
 
-      await sessionProvider.login(
+      await sessionNotifier.login(
         FederatedSessionInitiator(
           clientId: clientId,
           realm: Uri.parse(realm),
@@ -218,121 +215,127 @@ class LoginPageViewState extends State<LoginPageView>
       data: Theme.of(context),
       child: Builder(
         builder:
-            (context) => Scaffold(
-              resizeToAvoidBottomInset: false,
-              backgroundColor: const Color(0xFF280709),
-              body: BackButtonExitWrapper(
-                child: Stack(
-                  children: [
-                    Center(
-                      child: Align(
-                        alignment: const Alignment(0, -0.4),
-                        child: Hero(
-                          tag: 'logo',
-                          flightShuttleBuilder: (
-                            flightContext,
-                            animation,
-                            flightDirection,
-                            fromHeroContext,
-                            toHeroContext,
-                          ) {
-                            return ScaleTransition(
-                              scale: animation.drive(
-                                Tween<double>(
-                                  begin: 1,
-                                  end: 1,
-                                ).chain(CurveTween(curve: Curves.easeInOut)),
-                              ),
-                              child: SvgPicture.asset(
-                                'assets/images/logo_dark.svg',
-                                width: 90,
-                                height: 90,
-                                colorFilter: const ColorFilter.mode(
-                                  Color(0xFFFFF5F3),
-                                  BlendMode.srcIn,
+            (context) => AnnotatedRegion<SystemUiOverlayStyle>(
+              value: AppSystemOverlayStyles.base.copyWith(
+                statusBarIconBrightness: Brightness.light,
+                statusBarBrightness: Brightness.dark,
+                systemNavigationBarIconBrightness: Brightness.light,
+              ),
+              child: Scaffold(
+                resizeToAvoidBottomInset: false,
+                backgroundColor: const Color(0xFF280709),
+                body: BackButtonExitWrapper(
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: Align(
+                          alignment: const Alignment(0, -0.4),
+                          child: Hero(
+                            tag: 'logo',
+                            flightShuttleBuilder: (
+                              flightContext,
+                              animation,
+                              flightDirection,
+                              fromHeroContext,
+                              toHeroContext,
+                            ) {
+                              return ScaleTransition(
+                                scale: animation.drive(
+                                  Tween<double>(
+                                    begin: 1,
+                                    end: 1,
+                                  ).chain(CurveTween(curve: Curves.easeInOut)),
                                 ),
+                                child: SvgPicture.asset(
+                                  'assets/images/logo_dark.svg',
+                                  width: 90,
+                                  height: 90,
+                                  colorFilter: const ColorFilter.mode(
+                                    Color(0xFFFFF5F3),
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: SvgPicture.asset(
+                              'assets/images/logo_dark.svg',
+                              width: 90,
+                              height: 90,
+                              colorFilter: const ColorFilter.mode(
+                                Color(0xFFFFF5F3),
+                                BlendMode.srcIn,
                               ),
-                            );
-                          },
-                          child: SvgPicture.asset(
-                            'assets/images/logo_dark.svg',
-                            width: 90,
-                            height: 90,
-                            colorFilter: const ColorFilter.mode(
-                              Color(0xFFFFF5F3),
-                              BlendMode.srcIn,
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Container(
-                      decoration: const BoxDecoration(
-                        gradient: RadialGradient(
-                          center: Alignment(-0.95, -1),
-                          colors: [Color(0x705F171D), Color(0x02511515)],
-                          stops: [0, 1],
+                      Container(
+                        decoration: const BoxDecoration(
+                          gradient: RadialGradient(
+                            center: Alignment(-0.95, -1),
+                            colors: [Color(0x705F171D), Color(0x02511515)],
+                            stops: [0, 1],
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      decoration: const BoxDecoration(
-                        gradient: RadialGradient(
-                          center: Alignment(0.1, 0.95),
-                          radius: 0.3,
-                          colors: [Color(0x705F171D), Color(0x02511515)],
-                          stops: [0, 1],
+                      Container(
+                        decoration: const BoxDecoration(
+                          gradient: RadialGradient(
+                            center: Alignment(0.1, 0.95),
+                            radius: 0.3,
+                            colors: [Color(0x705F171D), Color(0x02511515)],
+                            stops: [0, 1],
+                          ),
                         ),
                       ),
-                    ),
-                    if (_loggingIn)
+                      if (_loggingIn)
+                        const Align(
+                          alignment: Alignment(0, 0.35),
+                          child: CircularProgressIndicator(color: Colors.white),
+                        ),
+                      if (!_loggingIn)
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context).size.width / 14,
+                          ),
+                          child: Align(
+                            alignment: const Alignment(0, 0.35),
+                            child: FLoginButton(onPressed: _falogin),
+                          ),
+                        ),
+                      Align(
+                        alignment: const Alignment(0, 0.51),
+                        child: RememberMeCheckBox(
+                          keepSignedIn: _keepSignedIn,
+                          onToggle: () {
+                            setState(() {
+                              _keepSignedIn = !_keepSignedIn;
+                            });
+                          },
+                          padding: const EdgeInsets.symmetric(horizontal: 37),
+                          theme: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(color: const Color(0xFFFFFFFF)),
+                        ),
+                      ),
+                      Align(
+                        alignment: const Alignment(0, 0.58),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 35),
+                          child: LinkWidget(
+                            textStart: S.of(context).try_different_login,
+                            textEnd: S.of(context).login_with_credentials,
+                            recognizer:
+                                TapGestureRecognizer()
+                                  ..onTap = _showAlternativeLogin,
+                          ),
+                        ),
+                      ),
                       const Align(
-                        alignment: Alignment(0, 0.35),
-                        child: CircularProgressIndicator(color: Colors.white),
+                        alignment: Alignment(0, 0.88),
+                        child: TermsAndConditionsButton(),
                       ),
-                    if (!_loggingIn)
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width / 14,
-                        ),
-                        child: Align(
-                          alignment: const Alignment(0, 0.35),
-                          child: FLoginButton(onPressed: _falogin),
-                        ),
-                      ),
-                    Align(
-                      alignment: const Alignment(0, 0.51),
-                      child: RememberMeCheckBox(
-                        keepSignedIn: _keepSignedIn,
-                        onToggle: () {
-                          setState(() {
-                            _keepSignedIn = !_keepSignedIn;
-                          });
-                        },
-                        padding: const EdgeInsets.symmetric(horizontal: 37),
-                        theme: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: const Color(0xFFFFFFFF),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: const Alignment(0, 0.58),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 35),
-                        child: LinkWidget(
-                          textStart: S.of(context).try_different_login,
-                          textEnd: S.of(context).login_with_credentials,
-                          recognizer:
-                              TapGestureRecognizer()
-                                ..onTap = _showAlternativeLogin,
-                        ),
-                      ),
-                    ),
-                    const Align(
-                      alignment: Alignment(0, 0.88),
-                      child: TermsAndConditionsButton(),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
