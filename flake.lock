@@ -39,11 +39,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1759232004,
-        "narHash": "sha256-Zle3jI/4dipFMX9k2+ro9EZlsB4dx5iLR9fGQ33bFms=",
+        "lastModified": 1759618131,
+        "narHash": "sha256-bh4Nt8NdcFECqBwsccNPRCAkM8JWMPqOX5iqycyqwi4=",
         "owner": "limwa",
         "repo": "nix-registry",
-        "rev": "a1b4854927bd0fea198acd91013d22525dd419eb",
+        "rev": "39e71530a7da54edf28708061717129ab3ba3734",
         "type": "github"
       },
       "original": {
@@ -54,16 +54,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1759036355,
-        "narHash": "sha256-0m27AKv6ka+q270dw48KflE0LwQYrO7Fm4/2//KCVWg=",
+        "lastModified": 1760379921,
+        "narHash": "sha256-9CaM0dyrJkbLRvGKYINIcJAdPbdFRyRBRQIxkNVrqQY=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "e9f00bd893984bc8ce46c895c3bf7cac95331127",
+        "rev": "9bd2ca8c355f95b750d2864533a74b7d90287f59",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "nixos-unstable",
+        "ref": "pull/450619/merge",
         "repo": "nixpkgs",
         "type": "github"
       }
