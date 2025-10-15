@@ -156,16 +156,19 @@ class _RestaurantPageViewState
 
   @override
   Widget getBody(BuildContext context) {
-    return DefaultConsumer<List<Restaurant>>(
-      provider: restaurantProvider,
-      builder: _createTabViewBuilder,
-      nullContentWidget: Center(
-        child: Text(
-          S.of(context).no_menus,
-          style: Theme.of(context).textTheme.titleMedium,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: DefaultConsumer<List<Restaurant>>(
+        provider: restaurantProvider,
+        builder: _createTabViewBuilder,
+        nullContentWidget: Center(
+          child: Text(
+            S.of(context).no_menus,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
         ),
+        hasContent: (restaurants) => restaurants.isNotEmpty,
       ),
-      hasContent: (restaurants) => restaurants.isNotEmpty,
     );
   }
 

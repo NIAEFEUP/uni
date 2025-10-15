@@ -154,18 +154,21 @@ class _ExamsPageState extends ConsumerState<ExamsPage> {
             return examsByMonth.containsKey(monthKey);
           });
 
-          return Timeline(
-            tabs: tabs,
-            content: content,
-            initialTab: initialTabIndex == -1 ? 0 : initialTabIndex,
-            tabEnabled:
-                monthsDates
-                    .map(
-                      (date) => examsByMonth.containsKey(
-                        '${date.year}-${date.month}',
-                      ),
-                    )
-                    .toList(),
+          return Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: Timeline(
+              tabs: tabs,
+              content: content,
+              initialTab: initialTabIndex == -1 ? 0 : initialTabIndex,
+              tabEnabled:
+                  monthsDates
+                      .map(
+                        (date) => examsByMonth.containsKey(
+                          '${date.year}-${date.month}',
+                        ),
+                      )
+                      .toList(),
+            ),
           );
         },
         hasContent: (exams) => exams.isNotEmpty,
