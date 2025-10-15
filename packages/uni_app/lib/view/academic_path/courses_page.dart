@@ -107,7 +107,12 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
         final course = courses[_courseUnitIndex];
 
         return ListView(
-          padding: const EdgeInsets.only(bottom: 10, top: 10, left: 20, right: 20),
+          padding: const EdgeInsets.only(
+            bottom: 10,
+            top: 10,
+            left: 20,
+            right: 20,
+          ),
           children: [
             Center(
               child: CourseSelection(
