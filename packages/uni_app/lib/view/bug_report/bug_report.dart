@@ -78,113 +78,118 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
   Widget getBody(BuildContext context) {
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          children: <Widget>[
-            const Padding(padding: EdgeInsets.only(bottom: 10)),
-            dropdownBugSelectWidget(context),
-            FormTextField(
-              titleController,
-              maxLines: 3,
-              hintText: S.of(context).problem_id,
-              labelText: S.of(context).title,
-              bottomMargin: 20,
-            ),
-            FormTextField(
-              emailController,
-              maxLines: 2,
-              description: S.of(context).contact,
-              labelText: S.of(context).desired_email,
-              bottomMargin: 20,
-              isOptional: true,
-              formatValidator: (value) {
-                if (value == null || value.isEmpty) {
-                  return null;
-                }
-                return EmailValidator.validate(value)
-                    ? null
-                    : S.of(context).valid_email;
-              },
-            ),
-            FormTextField(
-              descriptionController,
-              maxLines: 3,
-              hintText: S.of(context).description,
-              labelText: S.of(context).bug_description,
-              bottomMargin: 20,
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: TextButton.icon(
-                icon: Icon(
-                  Icons.add,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
-                ),
-                onPressed: uploadImages,
-                label: Text(S.of(context).add_photo),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+        ),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              const Padding(padding: EdgeInsets.only(bottom: 10)),
+              dropdownBugSelectWidget(context),
+              FormTextField(
+                titleController,
+                maxLines: 3,
+                hintText: S.of(context).problem_id,
+                labelText: S.of(context).title,
+                bottomMargin: 20,
               ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(1),
-              child: Row(children: previewImages),
-            ),
-            Container(
-              padding: EdgeInsets.zero,
-              margin: const EdgeInsets.only(bottom: 20),
-              child: ListTileTheme(
-                contentPadding: EdgeInsets.zero,
-                child: CheckboxListTile(
+              FormTextField(
+                emailController,
+                maxLines: 2,
+                description: S.of(context).contact,
+                labelText: S.of(context).desired_email,
+                bottomMargin: 20,
+                isOptional: true,
+                formatValidator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return null;
+                  }
+                  return EmailValidator.validate(value)
+                      ? null
+                      : S.of(context).valid_email;
+                },
+              ),
+              FormTextField(
+                descriptionController,
+                maxLines: 3,
+                hintText: S.of(context).description,
+                labelText: S.of(context).bug_description,
+                bottomMargin: 20,
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton.icon(
+                  icon: Icon(
+                    Icons.add,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                  ),
+                  onPressed: uploadImages,
+                  label: Text(S.of(context).add_photo),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(1),
+                child: Row(children: previewImages),
+              ),
+              Container(
+                padding: EdgeInsets.zero,
+                margin: const EdgeInsets.only(bottom: 20),
+                child: ListTileTheme(
                   contentPadding: EdgeInsets.zero,
-                  value: _isConsentGiven,
-                  onChanged: (newValue) {
-                    setState(() {
-                      _isConsentGiven = newValue ?? false;
-                    });
-                  },
-                  controlAffinity: ListTileControlAffinity.leading,
-                  activeColor: Theme.of(context).colorScheme.primary,
-                  title: Text(
-                    S.of(context).consent,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    textAlign: TextAlign.left,
+                  child: CheckboxListTile(
+                    contentPadding: EdgeInsets.zero,
+                    value: _isConsentGiven,
+                    onChanged: (newValue) {
+                      setState(() {
+                        _isConsentGiven = newValue ?? false;
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity.leading,
+                    activeColor: Theme.of(context).colorScheme.primary,
+                    title: Text(
+                      S.of(context).consent,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                      textAlign: TextAlign.left,
+                    ),
                   ),
                 ),
               ),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    _isConsentGiven
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).dividerColor,
-              ),
-              onPressed:
-                  !_isConsentGiven
-                      ? null
-                      : () {
-                        if (_formKey.currentState!.validate() &&
-                            !_isButtonTapped) {
-                          if (!FocusScope.of(context).hasPrimaryFocus) {
-                            FocusScope.of(context).unfocus();
-                          }
-                          submitBugReport();
-                        }
-                      },
-              child: Text(
-                S.of(context).send,
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color:
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
                       _isConsentGiven
-                          ? Theme.of(context).colorScheme.onPrimary
-                          : Theme.of(context).colorScheme.onTertiary,
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).dividerColor,
+                ),
+                onPressed:
+                    !_isConsentGiven
+                        ? null
+                        : () {
+                          if (_formKey.currentState!.validate() &&
+                              !_isButtonTapped) {
+                            if (!FocusScope.of(context).hasPrimaryFocus) {
+                              FocusScope.of(context).unfocus();
+                            }
+                            submitBugReport();
+                          }
+                        },
+                child: Text(
+                  S.of(context).send,
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color:
+                        _isConsentGiven
+                            ? Theme.of(context).colorScheme.onPrimary
+                            : Theme.of(context).colorScheme.onTertiary,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
