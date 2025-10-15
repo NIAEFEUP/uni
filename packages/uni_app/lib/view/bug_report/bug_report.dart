@@ -137,22 +137,21 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
               margin: const EdgeInsets.only(bottom: 20),
               child: ListTileTheme(
                 contentPadding: EdgeInsets.zero,
-                child: RadioListTile(
-                  toggleable: true,
-                  value: true,
+                child: CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  value: _isConsentGiven,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _isConsentGiven = newValue ?? false;
+                    });
+                  },
+                  controlAffinity: ListTileControlAffinity.leading,
+                  activeColor: Theme.of(context).colorScheme.primary,
                   title: Text(
                     S.of(context).consent,
                     style: Theme.of(context).textTheme.bodyLarge,
                     textAlign: TextAlign.left,
                   ),
-                  onChanged: (newValue) {
-                    setState(() {
-                      _isConsentGiven = !_isConsentGiven;
-                    });
-                  },
-                  controlAffinity: ListTileControlAffinity.leading,
-                  activeColor: Theme.of(context).colorScheme.primary,
-                  groupValue: _isConsentGiven,
                 ),
               ),
             ),

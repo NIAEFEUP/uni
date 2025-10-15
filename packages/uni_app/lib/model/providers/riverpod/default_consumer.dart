@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 
 typedef DefaultConsumerBuilder<T> =
     Widget Function(BuildContext context, WidgetRef ref, T value);
