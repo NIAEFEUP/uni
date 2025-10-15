@@ -47,7 +47,7 @@ class CalendarHomeCard extends GenericHomecard {
           style: Theme.of(context).textTheme.headlineLarge,
         ),
       ),
-      contentLoadingWidget: const ShimmerCalendarItem(),
+      loadingWidget: const ShimmerCalendarItem(),
       hasContent: (localizedEvents) => localizedEvents.hasAnyEvents,
     );
   }

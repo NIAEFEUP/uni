@@ -182,7 +182,7 @@ class _ExamsPageState extends ConsumerState<ExamsPage> {
                 ),
               ),
         ),
-        contentLoadingWidget: const ShimmerExamPage(),
+        loadingWidget: const ShimmerExamPage(),
       ),
     );
   }

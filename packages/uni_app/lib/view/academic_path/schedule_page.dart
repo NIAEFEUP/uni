@@ -48,7 +48,7 @@ class SchedulePage extends ConsumerWidget {
               )
               .toList();
         },
-        contentLoadingWidget: const ShimmerSchedulePage(),
+        loadingWidget: const ShimmerSchedulePage(),
       ),
     );
   }

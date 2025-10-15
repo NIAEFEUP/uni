@@ -158,7 +158,7 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
               ),
             ),
       ),
-      contentLoadingWidget: const ShimmerCoursesPage(),
+      loadingWidget: const ShimmerCoursesPage(),
       hasContent: (profile) => profile.courses.isNotEmpty,
     );
   }
