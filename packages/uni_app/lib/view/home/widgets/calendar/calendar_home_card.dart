@@ -28,16 +28,27 @@ class CalendarHomeCard extends GenericHomecard {
       builder: (context, ref, localizedEvents) {
         final locale = ref.watch(localeProvider);
         final events = localizedEvents.getEvents(locale);
+        final today = DateTime.now();
+
         return Calendar(
           items:
-              events
-                  .map(
-                    (event) => CalendarItem(
-                      eventPeriod: event.formattedPeriod[0],
-                      eventName: event.name,
-                    ),
-                  )
-                  .toList(),
+              events.map((event) {
+                final start = event.startDate;
+                final end = event.endDate ?? event.startDate;
+                final isToday =
+                    start != null &&
+                        today.year == start.year &&
+                        today.month == start.month &&
+                        today.day == start.day ||
+                    (end != null &&
+                        today.isAfter(start ?? end) &&
+                        today.isBefore(end.add(const Duration(days: 1))));
+                return CalendarItem(
+                  eventPeriod: event.formattedPeriod[0],
+                  eventName: event.name,
+                  isToday: isToday,
+                );
+              }).toList(),
         );
       },
       nullContentWidget: Center(

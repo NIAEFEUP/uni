@@ -81,12 +81,14 @@ class CalendarItem extends StatelessWidget {
     this.eventPeriod,
     this.endYear,
     this.onTap,
+    this.isToday = false,
   });
 
   final String eventName;
   final String? eventPeriod;
   final String? endYear;
   final void Function()? onTap;
+  final bool isToday;
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +132,10 @@ class CalendarItem extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
             width: 140,
             decoration: ShapeDecoration(
-              color: Theme.of(context).colorScheme.secondary,
+              color:
+                  isToday
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.secondary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -144,7 +149,10 @@ class CalendarItem extends StatelessWidget {
             child: Text(
               eventName,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
+                color:
+                    isToday
+                        ? Theme.of(context).colorScheme.secondary
+                        : Theme.of(context).colorScheme.primary,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 height: 1,
