@@ -25,13 +25,13 @@ class CourseUnitsInfoNotifier
   Duration? get cacheDuration => null;
 
   UnmodifiableMapView<CourseUnit, Sheet> get courseUnitsSheets {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     return UnmodifiableMapView(currentState?.$1 ?? <CourseUnit, Sheet>{});
   }
 
   UnmodifiableMapView<CourseUnit, List<CourseUnitClass>>
   get courseUnitsClasses {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     return UnmodifiableMapView(
       currentState?.$2 ?? <CourseUnit, List<CourseUnitClass>>{},
     );
@@ -39,7 +39,7 @@ class CourseUnitsInfoNotifier
 
   UnmodifiableMapView<CourseUnit, List<CourseUnitFileDirectory>>
   get courseUnitsFiles {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     return UnmodifiableMapView(
       currentState?.$3 ?? <CourseUnit, List<CourseUnitFileDirectory>>{},
     );
@@ -77,7 +77,7 @@ class CourseUnitsInfoNotifier
     final sheet = await CourseUnitsInfoFetcher().fetchSheet(session, occurrId);
 
     final currentState =
-        state.valueOrNull ??
+        state.value ??
         (
           <CourseUnit, Sheet>{},
           <CourseUnit, List<CourseUnitClass>>{},
@@ -106,7 +106,7 @@ class CourseUnitsInfoNotifier
     );
 
     final currentState =
-        state.valueOrNull ??
+        state.value ??
         (
           <CourseUnit, Sheet>{},
           <CourseUnit, List<CourseUnitClass>>{},
@@ -137,7 +137,7 @@ class CourseUnitsInfoNotifier
     );
 
     final currentState =
-        state.valueOrNull ??
+        state.value ??
         (
           <CourseUnit, Sheet>{},
           <CourseUnit, List<CourseUnitClass>>{},
