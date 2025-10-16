@@ -27,6 +27,8 @@ class _TimelineState extends State<Timeline> {
       ItemPositionsListener.create();
   final ScrollController _tabScrollController = ScrollController();
   final List<GlobalKey> _tabKeys = [];
+  final GlobalKey _tabsRowKey = GlobalKey();
+  final GlobalKey _tabsViewportKey = GlobalKey();
   bool _didInitialScroll = false;
 
   @override
@@ -107,15 +109,39 @@ class _TimelineState extends State<Timeline> {
       return;
     }
 
-    final screenWidth = MediaQuery.of(context).size.width;
+    final RenderBox? viewportBox =
+        _tabsViewportKey.currentContext?.findRenderObject() as RenderBox?;
+    if (viewportBox == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _scrollToCenterTab(index);
+      });
+      return;
+    }
+    final double viewportWidth = viewportBox.size.width;
     final RenderBox tabBox = ctx.findRenderObject() as RenderBox;
 
+    final rowCtx = _tabsRowKey.currentContext;
+    if (rowCtx == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _scrollToCenterTab(index);
+      });
+      return;
+    }
+
+    final RenderBox rowBox = rowCtx.findRenderObject() as RenderBox;
+
+    final tabGlobal = tabBox.localToGlobal(Offset.zero);
+    final tabLocalInRow = rowBox.globalToLocal(tabGlobal);
+
     final tabWidth = tabBox.size.width;
-    final offset = (_tabScrollController.offset +
-            tabBox.localToGlobal(Offset.zero).dx +
-            (tabWidth / 2) -
-            (screenWidth / 2))
-        .clamp(0.0, _tabScrollController.position.maxScrollExtent);
+
+    final desiredScrollWithinRow =
+        tabLocalInRow.dx + (tabWidth / 2) - (viewportWidth / 2);
+
+    final offset = desiredScrollWithinRow.clamp(
+      0.0,
+      _tabScrollController.position.maxScrollExtent,
+    );
 
     _tabScrollController.animateTo(
       offset,
@@ -129,9 +155,11 @@ class _TimelineState extends State<Timeline> {
     return Column(
       children: [
         SingleChildScrollView(
+          key: _tabsViewportKey,
           scrollDirection: Axis.horizontal,
           controller: _tabScrollController,
           child: Row(
+            key: _tabsRowKey,
             children:
                 widget.tabs.asMap().entries.map((entry) {
                   int index = entry.key;
