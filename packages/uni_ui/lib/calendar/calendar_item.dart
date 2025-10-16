@@ -132,10 +132,16 @@ class CalendarItem extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
             width: 140,
             decoration: ShapeDecoration(
-              color:
+              gradient:
                   isToday
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context).colorScheme.secondary,
+                      ? RadialGradient(
+                        colors: [Color(0xFF280709), Color(0xFF511515)],
+                        center: Alignment.topLeft,
+                        radius: 1.5,
+                        stops: [0, 1],
+                      )
+                      : null,
+              color: isToday ? null : Theme.of(context).colorScheme.secondary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
