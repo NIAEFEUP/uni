@@ -224,10 +224,14 @@ class ApplicationState extends ConsumerState<Application> {
                       settings: settings,
                     ),
                 '/${NavigationItem.navAcademicPath.route}':
-                    () => PageTransition.makePageTransition(
-                      page: const AcademicPathPageView(),
-                      settings: settings,
-                    ),
+                    () {
+                  final arg = settings.arguments;
+                  final initialIndex = arg is int ? arg : 0;
+                  return PageTransition.makePageTransition(
+                    page: AcademicPathPageView(initialTabIndex: initialIndex),
+                    settings: settings,
+                  );
+                },
                 '/${NavigationItem.navProfile.route}':
                     () => PageTransition.makePageTransition(
                       page: const ProfilePageView(),
