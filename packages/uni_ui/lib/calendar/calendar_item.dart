@@ -105,11 +105,25 @@ class CalendarItem extends StatelessWidget {
               height: 20,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
+                color: isToday ? Theme.of(context).primaryColor : Colors.white,
                 border: Border.all(
                   color: Theme.of(context).colorScheme.primary,
                   width: 4.0,
                 ),
               ),
+              child:
+                  isToday
+                      ? Center(
+                        child: Container(
+                          width: 20,
+                          height: 20,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 3),
+                          ),
+                        ),
+                      )
+                      : null,
             ),
             Container(
               width: 4,
