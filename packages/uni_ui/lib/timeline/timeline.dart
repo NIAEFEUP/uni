@@ -155,7 +155,7 @@ class _TimelineState extends State<Timeline> {
     return Column(
       children: [
         SizedBox(
-          height: 80,
+          height: 70,
           child: Stack(
             children: [
               SingleChildScrollView(
