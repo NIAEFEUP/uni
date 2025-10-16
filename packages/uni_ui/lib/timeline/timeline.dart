@@ -154,57 +154,108 @@ class _TimelineState extends State<Timeline> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SingleChildScrollView(
-          key: _tabsViewportKey,
-          scrollDirection: Axis.horizontal,
-          controller: _tabScrollController,
-          child: Row(
-            key: _tabsRowKey,
-            children:
-                widget.tabs.asMap().entries.map((entry) {
-                  int index = entry.key;
-                  Widget tab = entry.value;
-                  bool isSelected = _currentIndex == index;
-                  TextStyle textStyle = Theme.of(context).textTheme.bodySmall!;
-                  return GestureDetector(
-                    onTap: () => _onTabTapped(index),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10.0,
-                        horizontal: 5.0,
-                      ),
-                      child: GenericSquircle(
-                        borderRadius: 10,
-                        child: Container(
-                          key: _tabKeys[index],
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 9.0,
-                            horizontal: 8.0,
-                          ),
-                          color:
-                              isSelected
-                                  ? Theme.of(
-                                    context,
-                                  ).colorScheme.tertiary.withValues(alpha: 0.25)
-                                  : Colors.transparent,
-                          child: DefaultTextStyle(
-                            style: textStyle.copyWith(
-                              color:
-                                  widget.tabEnabled[index]
-                                      ? (isSelected
-                                          ? Theme.of(
-                                            context,
-                                          ).colorScheme.primary
-                                          : Colors.black)
-                                      : Colors.grey,
+        SizedBox(
+          height: 80,
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                key: _tabsViewportKey,
+                scrollDirection: Axis.horizontal,
+                controller: _tabScrollController,
+                child: Row(
+                  key: _tabsRowKey,
+                  children:
+                      widget.tabs.asMap().entries.map((entry) {
+                        int index = entry.key;
+                        Widget tab = entry.value;
+                        bool isSelected = _currentIndex == index;
+                        TextStyle textStyle =
+                            Theme.of(context).textTheme.bodySmall!;
+                        return GestureDetector(
+                          onTap: () => _onTabTapped(index),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 5.0,
                             ),
-                            child: tab,
+                            child: GenericSquircle(
+                              borderRadius: 10,
+                              child: Container(
+                                key: _tabKeys[index],
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 9.0,
+                                  horizontal: 8.0,
+                                ),
+                                color:
+                                    isSelected
+                                        ? Theme.of(context).colorScheme.tertiary
+                                            .withValues(alpha: 0.25)
+                                        : Colors.transparent,
+                                child: DefaultTextStyle(
+                                  style: textStyle.copyWith(
+                                    color:
+                                        widget.tabEnabled[index]
+                                            ? (isSelected
+                                                ? Theme.of(
+                                                  context,
+                                                ).colorScheme.primary
+                                                : Colors.black)
+                                            : Colors.grey,
+                                  ),
+                                  child: tab,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                        );
+                      }).toList(),
+                ),
+              ),
+              Positioned(
+                left: 0,
+                top: 0,
+                bottom: 0,
+                width: 32,
+                child: IgnorePointer(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: [
+                          Theme.of(context).scaffoldBackgroundColor,
+                          Theme.of(
+                            context,
+                          ).scaffoldBackgroundColor.withAlpha(0),
+                        ],
                       ),
                     ),
-                  );
-                }).toList(),
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 0,
+                top: 0,
+                bottom: 0,
+                width: 32,
+                child: IgnorePointer(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.centerRight,
+                        end: Alignment.centerLeft,
+                        colors: [
+                          Theme.of(context).scaffoldBackgroundColor,
+                          Theme.of(
+                            context,
+                          ).scaffoldBackgroundColor.withAlpha(0),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         Expanded(
