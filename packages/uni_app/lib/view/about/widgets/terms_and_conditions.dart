@@ -22,7 +22,7 @@ class TermsAndConditions extends StatelessWidget {
           styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
               .copyWith(
             p: const TextStyle(
-              fontSize: 16,
+              fontSize: 12,
               color: Colors.black87,
               height: 1.5,
             ),
@@ -39,10 +39,12 @@ class TermsAndConditions extends StatelessWidget {
             ),
             h2Align: WrapAlignment.center,
             h3: TextStyle(
-              fontSize: 22,
+              fontSize: 20,
               fontWeight: FontWeight.w600,
               color: Theme.of(context).colorScheme.primary
-            )
+            ),
+            h2Padding: const EdgeInsets.only(top: 16, bottom: 12),
+            h3Padding: const EdgeInsets.only(top: 20, bottom: 8),
           ),
           data: termsAndConditionsSaved!,
           onTapLink: (text, url, title) async {

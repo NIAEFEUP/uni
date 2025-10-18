@@ -3,7 +3,6 @@
 
 ## De estudantes, para estudantes.
 
-
 ### Terms and Conditions  
 
 These terms and conditions ("Terms", "Agreement") are an agreement between NIAEFEUP ("us", "we" or "
@@ -11,7 +10,7 @@ our"), Núcleo de Informática da Associação de Estudantes da Universidade do 
 User", "you" or "your"). This Agreement sets forth the general terms and conditions of your use of
 the Uni Mobile Application and any of its products or services (collectively, "Mobile Application"
 or "Services").
-\
+
 
 ### Accounts and Membership
 
@@ -29,7 +28,7 @@ and is not collected by us in any way.
 If you choose to select the option to keep you logged in, you understand that your sign-in details
 may be stored locally, but not in any way shared with us. These details are stored in the
 application data and we hold no responsibility for ensuring their concealment.
-\
+
 
 ### Ownership of Content
 
@@ -37,7 +36,7 @@ We do not own any data, information or material ("Content") that you submit in t
 Application in the course of using the Service. You shall have sole responsibility for the accuracy,
 quality, integrity, legality, reliability, appropriateness, and intellectual property ownership or
 right to use of all submitted Content.
-\
+
 
 ### Data usage, Monitoring and Privacy
 
@@ -47,7 +46,7 @@ Personal data of users is not collected for any other purpose, unless providing 
 except in certain circumstances described
 in [Play Store’s Privacy Policy](https://support.google.com/googleplay/android-developer/answer/10144311?visit_id=638365485539535125-3072678242&rd=1)
 and [App Store's Privacy Policy](https://developer.apple.com/app-store/app-privacy-details/#user-tracking).
-\
+
 
 ### License and Usage Restrictions:
 
@@ -69,21 +68,21 @@ the Services we provide. We anonymously track page visits and widget clicks, whi
 our self-hosted instance of [plausible analytics](https://plausible.niaefeup.pt/).
 we do not have the license to sell or share sensitive data collected with the purpose of
 facilitating sales.
-\
+
 
 ### Content Removal:
 
 Without limiting any of those representations or warranties, we have the right, though not the
 obligation, to, in our own sole discretion, refuse or remove any content that, in our reasonable
 opinion, violates any of our policies or is in any way harmful or objectionable.
-\
+
 
 ### Backups
 
 We are not responsible for Content residing in the Mobile Application. In no event shall we be held
 liable for any loss of any Content. It is your sole responsibility to maintain appropriate backup of
 your Content.
-\
+
 
 ### Links to Other Mobile Applications
 
@@ -97,7 +96,7 @@ applications. We do not assume any responsibility or liability for the actions, 
 and Content of any other Third-Parties. You should carefully review the legal statements and other
 conditions of use of any Mobile Application which you access through a link from this Mobile
 Application. Your linking to any other off-site Mobile Applications is at your own risk.
-\
+
 
 ### Limitation of Liability
 
@@ -114,7 +113,7 @@ licensors, relating to the services will be limited to an amount greater of one 
 amounts actually paid in cash by you to NIAEFEUP for the prior one month period prior to the first
 event or occurrence giving rise to such liability. The limitations and exclusions also apply if this
 remedy does not fully compensate you for any losses or fails of its essential purpose.
-\
+
 
 ### Changes and Amendments
 
@@ -124,7 +123,7 @@ Application. When we do, we will revise the updated date at the bottom of this p
 of the Mobile Application after any such changes will only constitute if, when prompted, you consent
 to them. Otherwise, you will be logged out of the Mobile Application.
 This policy was created with [Website Policies](https://www.websitepolicies.com).
-\
+
 
 ### Acceptance of These Terms
 
@@ -132,12 +131,12 @@ You acknowledge that you have read this Agreement and agree to all its terms and
 using the Mobile Application or its Services you agree to be bound by this Agreement. If you do not
 agree to abide by the terms of this Agreement, you are not authorized to use or access the Mobile
 Application and its Services.
-\
+
 
 ### Contacting Us
 
 If you would like to contact us to understand more about this Agreement or wish to contact us
 concerning any matter relating to it, you may send an email to [ni@aefeup.pt](mailto:ni@aefeup.pt).
-\
 
-This document was last updated on October 10, 2025.
+
+This document was last updated on October 18, 2025.
