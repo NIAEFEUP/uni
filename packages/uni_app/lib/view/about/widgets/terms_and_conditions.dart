@@ -19,8 +19,7 @@ class TermsAndConditions extends StatelessWidget {
           termsAndConditionsSaved = termsAndConditions.data;
         }
         return MarkdownBody(
-          styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
-              .copyWith(
+          styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
             p: const TextStyle(
               fontSize: 12,
               color: Colors.black87,
@@ -35,13 +34,13 @@ class TermsAndConditions extends StatelessWidget {
             h2: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).colorScheme.primary
+              color: Theme.of(context).colorScheme.primary,
             ),
             h2Align: WrapAlignment.center,
             h3: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).colorScheme.primary
+              color: Theme.of(context).colorScheme.primary,
             ),
             h2Padding: const EdgeInsets.only(top: 16, bottom: 12),
             h3Padding: const EdgeInsets.only(top: 20, bottom: 8),
