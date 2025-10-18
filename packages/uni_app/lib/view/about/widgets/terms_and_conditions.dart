@@ -20,8 +20,24 @@ class TermsAndConditions extends StatelessWidget {
           termsAndConditionsSaved = termsAndConditions.data;
         }
         return MarkdownBody(
-          styleSheet: MarkdownStyleSheet(),
-          shrinkWrap: false,
+          styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
+              .copyWith(
+            p: const TextStyle(
+              fontSize: 16,
+              color: Colors.black87,
+              height: 1.5,
+            ),
+            h1: TextStyle(
+              fontSize: 26,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            h2: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
+              color: Theme.of(context).colorScheme.secondary
+            )
+          ),
           data: termsAndConditionsSaved!,
           onTapLink: (text, url, title) async {
             await launchUrlWithToast(context, url!);
