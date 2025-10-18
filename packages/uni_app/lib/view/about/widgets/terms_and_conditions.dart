@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
@@ -32,10 +31,17 @@ class TermsAndConditions extends StatelessWidget {
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.primary,
             ),
+            h1Align: WrapAlignment.center,
             h2: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w600,
+              color: Theme.of(context).colorScheme.primary
+            ),
+            h2Align: WrapAlignment.center,
+            h3: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).colorScheme.secondary
+              color: Theme.of(context).colorScheme.primary
             )
           ),
           data: termsAndConditionsSaved!,
