@@ -3,27 +3,22 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 
 class ConnectivityService {
   final Connectivity _connectivity = Connectivity();
-  StreamSubscription<ConnectivityResult>? _subscription;
-  final StreamController<bool> _controller = StreamController<bool>.broadcast();
 
-  Stream<bool> get connectionStream => _controller.stream;
-
-  Future<void> initialize() async {
-    final result = await _connectivity.checkConnectivity();
-    _controller.add(result != ConnectivityResult.none);
-
-    _subscription = _connectivity.onConnectivityChanged.listen((result) {
-      _controller.add(result != ConnectivityResult.none);
-    }) as StreamSubscription<ConnectivityResult>?;
+  Stream<bool> get onConnectivityChanged {
+    return _connectivity.onConnectivityChanged.map(_isOffline);
   }
 
   Future<bool> checkConnection() async {
     final result = await _connectivity.checkConnectivity();
-    return result != ConnectivityResult.none;
+    return _isOffline(result);
   }
 
-  void dispose() {
-    _subscription?.cancel();
-    _controller.close();
+  bool _isOffline(dynamic result) {
+    if (result is ConnectivityResult) {
+      return result == ConnectivityResult.none;
+    } else if (result is List<ConnectivityResult>) {
+      return result.contains(ConnectivityResult.none);
+    }
+    return false;
   }
 }

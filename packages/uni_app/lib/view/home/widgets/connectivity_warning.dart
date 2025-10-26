@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/connectivity_service.dart';
@@ -12,21 +13,29 @@ class ConnectivityWarning extends StatefulWidget {
 class _ConnectivityWarningState extends State<ConnectivityWarning> {
   final ConnectivityService _connectivityService = ConnectivityService();
   bool isOffline = false;
+  StreamSubscription? _connectivitySubscription;
 
   @override
   void initState() {
     super.initState();
-    _connectivityService.initialize();
-    _connectivityService.connectionStream.listen((isConnected) {
+    _checkInitialConnection();
+    _connectivitySubscription = _connectivityService.onConnectivityChanged.listen((offline) {
       setState(() {
-        isOffline = !isConnected;
+        isOffline = offline;
       });
+    });
+  }
+
+  Future<void> _checkInitialConnection() async {
+    final offline = await _connectivityService.checkConnection();
+    setState(() {
+      isOffline = offline;
     });
   }
 
   @override
   void dispose() {
-    _connectivityService.dispose();
+    _connectivitySubscription?.cancel();
     super.dispose();
   }
 
@@ -35,22 +44,22 @@ class _ConnectivityWarningState extends State<ConnectivityWarning> {
     return Visibility(
       visible: isOffline,
       child: Tooltip(
-        margin: const EdgeInsets.only(right: 62, bottom: 22),
+        margin: const EdgeInsets.only(right: 50, bottom: 20),
         message: S.of(context).internet_status_exception,
         triggerMode: TooltipTriggerMode.tap,
         waitDuration: Duration.zero,
         showDuration: const Duration(seconds: 2),
         decoration: BoxDecoration(
-          color: Theme.of(context).dialogBackgroundColor,
+          color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(8),
         ),
         textStyle: TextStyle(
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).colorScheme.onPrimary,
         ),
-        child: Icon(
+        child: const Icon(
           Icons.signal_wifi_off,
-          color: Theme.of(context).primaryColor,
-          size: 21,
+          color: Color.fromRGBO(255, 255, 255, 0.8),
+          size: 18,
         ),
       ),
     );

@@ -14,6 +14,7 @@ import 'package:uni/model/providers/riverpod/restaurant_provider.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
+import 'package:uni/view/home/widgets/connectivity_warning.dart';
 import 'package:uni/view/home/widgets/exams/exam_home_card.dart';
 import 'package:uni/view/home/widgets/library/library_home_card.dart';
 import 'package:uni/view/home/widgets/restaurants/restaurant_home_card.dart';
@@ -159,7 +160,9 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      UniLogo(iconColor: Colors.white), // TODO: #1450
+                      UniLogo(iconColor: Colors.white),
+                      SizedBox(width: 170),
+                      ConnectivityWarning(),
                       ProfileButton(),
                     ],
                   ),
