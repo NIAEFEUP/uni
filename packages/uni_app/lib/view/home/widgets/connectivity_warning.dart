@@ -19,11 +19,12 @@ class _ConnectivityWarningState extends State<ConnectivityWarning> {
   void initState() {
     super.initState();
     _checkInitialConnection();
-    _connectivitySubscription = _connectivityService.onConnectivityChanged.listen((offline) {
-      setState(() {
-        isOffline = offline;
-      });
-    });
+    _connectivitySubscription = _connectivityService.onConnectivityChanged
+        .listen((offline) {
+          setState(() {
+            isOffline = offline;
+          });
+        });
   }
 
   Future<void> _checkInitialConnection() async {
@@ -53,9 +54,7 @@ class _ConnectivityWarningState extends State<ConnectivityWarning> {
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(8),
         ),
-        textStyle: TextStyle(
-          color: Theme.of(context).colorScheme.onPrimary,
-        ),
+        textStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
         child: const Icon(
           Icons.signal_wifi_off,
           color: Color.fromRGBO(255, 255, 255, 0.8),
