@@ -38,7 +38,9 @@ class CourseUnitStudentTile extends ConsumerWidget {
                 decoration: ShapeDecoration(
                   shadows: [
                     BoxShadow(
-                      color: Theme.of(context).colorScheme.shadow.withAlpha(0x3f),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.shadow.withAlpha(0x3f),
                       blurRadius: 10,
                     ),
                   ],
