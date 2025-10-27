@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/connectivity_service.dart';
+import 'package:uni_ui/theme.dart';
 
 class ConnectivityWarning extends StatefulWidget {
   const ConnectivityWarning({super.key});
@@ -45,16 +46,16 @@ class _ConnectivityWarningState extends State<ConnectivityWarning> {
     return Visibility(
       visible: isOffline,
       child: Tooltip(
-        margin: const EdgeInsets.only(right: 50, bottom: 20),
-        message: S.of(context).internet_status_exception,
+        margin: const EdgeInsets.only(right: 65, bottom: 20),
+        message: S.of(context).check_internet,
         triggerMode: TooltipTriggerMode.tap,
         waitDuration: Duration.zero,
         showDuration: const Duration(seconds: 2),
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
+          color: grayLight,
           borderRadius: BorderRadius.circular(8),
         ),
-        textStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+        textStyle: const TextStyle(color: primaryVibrant),
         child: const Icon(
           Icons.signal_wifi_off,
           color: Color.fromRGBO(255, 255, 255, 0.8),
