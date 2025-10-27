@@ -52,13 +52,13 @@ class _ConnectivityWarningState extends State<ConnectivityWarning> {
         waitDuration: Duration.zero,
         showDuration: const Duration(seconds: 2),
         decoration: BoxDecoration(
-          color: grayLight,
+          color: secondary,
           borderRadius: BorderRadius.circular(8),
         ),
         textStyle: const TextStyle(color: primaryVibrant),
         child: const Icon(
           Icons.signal_wifi_off,
-          color: Color.fromRGBO(255, 255, 255, 0.8),
+          color: secondary,
           size: 18,
         ),
       ),
