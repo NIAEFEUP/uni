@@ -46,11 +46,12 @@ class _ConnectivityWarningState extends State<ConnectivityWarning> {
     return Visibility(
       visible: isOffline,
       child: Tooltip(
-        margin: const EdgeInsets.only(right: 65, bottom: 20),
+        margin: const EdgeInsets.only(right: 65, bottom: 10),
         message: S.of(context).check_internet,
         triggerMode: TooltipTriggerMode.tap,
         waitDuration: Duration.zero,
         showDuration: const Duration(seconds: 2),
+        verticalOffset: 18,
         decoration: BoxDecoration(
           color: secondary,
           borderRadius: BorderRadius.circular(8),
