@@ -19,6 +19,49 @@ import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
 import 'package:uni_ui/icons.dart';
 
+class TimePeriod {
+  const TimePeriod({required this.start, required this.end});
+
+  final DateTime start;
+  final DateTime end;
+
+  Duration get duration => end.difference(start);
+
+  bool contains(DateTime date) => date.isAfter(start) && date.isBefore(end);
+}
+
+List<Lecture> getMockLectures() {
+  final now = DateTime.now();
+  return [
+    Lecture(
+      'ESOF',
+      'ESOF',
+      'T',
+      now.add(const Duration(days: 1)),
+      now.add(const Duration(hours: 2)),
+      'Room B123',
+      'ademaraguiar',
+      'ademaraguiar',
+      101,
+      '1',
+      1001,
+    ),
+    Lecture(
+      'LTW',
+      'LTW',
+      'TP',
+      now.add(const Duration(days: 1, hours: 1)),
+      now.add(const Duration(days: 4, hours: 2)),
+      'Room B234',
+      'arestivo',
+      'arestivo',
+      102,
+      '2',
+      1002,
+    ),
+  ];
+}
+
 class ScheduleHomeCard extends GenericHomecard {
   const ScheduleHomeCard({super.key});
 
@@ -29,14 +72,20 @@ class ScheduleHomeCard extends GenericHomecard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return DefaultConsumer<List<Lecture>>(
-      provider: lectureProvider,
-      builder:
-          (context, ref, lectures) => CardTimeline(
-            items: buildTimelineItems(lectures, ref).take(2).toList(),
-          ),
-      hasContent: (lectures) => lectures.isNotEmpty,
-      nullContentWidget: Center(
+    final mockLectures = getMockLectures();
+    final now = DateTime.now();
+
+    final todayStart = DateTime(now.year, now.month, now.day);
+    final todayEnd = todayStart.add(const Duration(days: 1));
+    final tomorrowStart = todayStart.add(const Duration(days: 1));
+    final tomorrowEnd = tomorrowStart.add(const Duration(days: 1));
+
+    // Upcoming lectures (from now)
+    final upcomingLectures =
+        mockLectures.where((lecture) => lecture.endTime.isAfter(now)).toList();
+
+    if (upcomingLectures.isEmpty) {
+      return Center(
         child: IconLabel(
           icon: const UniIcon(size: 45, UniIcons.beer),
           label: S.of(context).no_classes,
@@ -45,13 +94,39 @@ class ScheduleHomeCard extends GenericHomecard {
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
-      ),
-      mapper:
-          (lectures) =>
-              lectures
-                  .where((lecture) => lecture.endTime.isAfter(DateTime.now()))
-                  .toList(),
-      loadingWidget: const ShimmerCardTimeline(),
+      );
+    }
+
+    final nextLecture = upcomingLectures.first;
+
+    // Determine display text for date
+    String dateText;
+    if (nextLecture.startTime.isAfter(todayStart) &&
+        nextLecture.startTime.isBefore(todayEnd)) {
+      dateText = 'Today:';
+    } else if (nextLecture.startTime.isAfter(tomorrowStart) &&
+        nextLecture.startTime.isBefore(tomorrowEnd)) {
+      dateText = 'Tomorrow:';
+    } else {
+      dateText = DateFormat('EEEE, dd MMM').format(nextLecture.startTime);
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconLabel(
+          icon: const UniIcon(size: 45, UniIcons.sun),
+          label: S.of(context).no_classes_today + dateText,
+          labelTextStyle: TextStyle(
+            fontSize: 14,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+        const SizedBox(height: 12),
+        CardTimeline(
+          items: buildTimelineItems(upcomingLectures, context).take(2).toList(),
+        ),
+      ],
     );
   }
 
@@ -65,56 +140,53 @@ class ScheduleHomeCard extends GenericHomecard {
     );
   }
 
-  List<TimelineItem> buildTimelineItems(List<Lecture> lectures, WidgetRef ref) {
+  List<TimelineItem> buildTimelineItems(
+      List<Lecture> lectures, BuildContext context) {
     final now = DateTime.now();
+    final period = TimePeriod(start: now, end: now.add(const Duration(hours: 72)));
     final week = Week(start: now);
-    final session = ref.read(sessionProvider);
+    final session = ProviderScope.containerOf(context, listen: false)
+        .read(sessionProvider);
 
     final sortedLectures = lectures
-        .where((lecture) => week.contains(lecture.startTime))
+        .where((lecture) => period.contains(lecture.startTime))
         .toList()
         .sortedBy((lecture) => week.getWeekday(lecture.startTime.weekday));
 
-    final items =
-        sortedLectures
-            .map(
-              (element) => TimelineItem(
-                isActive:
-                    now.isAfter(element.startTime) &&
-                    now.isBefore(element.endTime),
-                title: DateFormat('HH:mm').format(element.startTime),
-                subtitle: DateFormat('HH:mm').format(element.endTime),
-                card: FutureBuilder<File?>(
-                  future:
-                      session.value != null
-                          ? ProfileNotifier.fetchOrGetCachedProfilePicture(
-                            session.value!,
-                            studentNumber: element.teacherId,
-                          )
-                          : Future.value(),
-                  builder: (context, snapshot) {
-                    return ScheduleCard(
-                      isActive:
-                          now.isAfter(element.startTime) &&
-                          now.isBefore(element.endTime),
-                      name: element.subject,
-                      acronym: element.acronym,
-                      room: element.room,
-                      type: element.typeClass,
-                      teacherName: element.teacherName,
-                      teacherPhoto:
-                          snapshot.hasData && snapshot.data != null
-                              ? Image(image: FileImage(snapshot.data!))
-                              : Image.asset(
-                                'assets/images/profile_placeholder.png',
-                              ),
-                    );
-                  },
-                ),
-              ),
-            )
-            .toList();
-
-    return items;
+    return sortedLectures
+        .map(
+          (element) => TimelineItem(
+            isActive: now.isAfter(element.startTime) &&
+                now.isBefore(element.endTime),
+            title: DateFormat('HH:mm').format(element.startTime),
+            subtitle: DateFormat('HH:mm').format(element.endTime),
+            card: FutureBuilder<File?>(
+              future: session.value != null
+                  ? ProfileNotifier.fetchOrGetCachedProfilePicture(
+                      session.value!,
+                      studentNumber: element.teacherId,
+                    )
+                  : Future.value(),
+              builder: (context, snapshot) {
+                return ScheduleCard(
+                  isActive:
+                      now.isAfter(element.startTime) &&
+                      now.isBefore(element.endTime),
+                  name: element.subject,
+                  acronym: element.acronym,
+                  room: element.room,
+                  type: element.typeClass,
+                  teacherName: element.teacherName,
+                  teacherPhoto: snapshot.hasData && snapshot.data != null
+                      ? Image(image: FileImage(snapshot.data!))
+                      : Image.asset(
+                          'assets/images/profile_placeholder.png',
+                        ),
+                );
+              },
+            ),
+          ),
+        )
+        .toList();
   }
 }

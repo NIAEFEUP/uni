@@ -206,6 +206,8 @@
   "@no_classes_on": {},
   "no_classes_on_weekend": "You don't have classes on",
   "@no_classes_on_weekend": {},
+  "no_classes_today": "You don't have any more classes today.\n Here are your next classes for ",
+  "@no_classes_today": {},
   "no_college": "no college",
   "@no_college": {},
   "no_course_units": "No course units in the selected period",
