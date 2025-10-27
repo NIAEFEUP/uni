@@ -34,7 +34,6 @@ dependencies:
   expandable_page_view: ^1.0.17
   expansion_tile_card: ^3.0.0
   figma_squircle: ^0.6.3
-  file_picker: ^10.3.3
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.4.1
@@ -53,6 +52,7 @@ dependencies:
   html: ^0.15.6
   http: ^1.5.0
   image: ^4.5.4
+  image_picker: ^1.2.0
   intl: ^0.20.2
   json_annotation: ^4.9.0
   json_serializable: ^6.11.1
