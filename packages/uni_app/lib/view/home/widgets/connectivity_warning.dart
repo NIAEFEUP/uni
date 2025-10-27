@@ -57,11 +57,7 @@ class _ConnectivityWarningState extends State<ConnectivityWarning> {
           borderRadius: BorderRadius.circular(8),
         ),
         textStyle: const TextStyle(color: primaryVibrant),
-        child: const Icon(
-          Icons.signal_wifi_off,
-          color: secondary,
-          size: 18,
-        ),
+        child: const Icon(Icons.signal_wifi_off, color: secondary, size: 18),
       ),
     );
   }
