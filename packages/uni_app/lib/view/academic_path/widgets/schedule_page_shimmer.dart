@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/view/home/widgets/schedule/timeline_shimmer.dart';
 import 'package:uni_ui/timeline/timeline.dart';
@@ -15,11 +15,11 @@ int getDaysInMonth(int year, int month) {
   return daysInMonth[month - 1];
 }
 
-class ShimmerSchedulePage extends StatelessWidget {
+class ShimmerSchedulePage extends ConsumerWidget {
   const ShimmerSchedulePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final currentDay = DateTime.now();
     final currentMonthLength = getDaysInMonth(
       currentDay.year,
@@ -40,6 +40,7 @@ class ShimmerSchedulePage extends StatelessWidget {
           getDaysInMonth(yearAfter, monthAfter),
       (index) => index + 1,
     );
+    final localeNotifier = ref.read(localeProvider.notifier);
     final tabs =
         allDays.map((day) {
           final date = DateTime(
@@ -54,9 +55,7 @@ class ShimmerSchedulePage extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    date.shortMonth(
-                      Provider.of<LocaleNotifier>(context).getLocale(),
-                    ),
+                    date.shortMonth(localeNotifier.getLocale()),
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                     maxLines: 1,
@@ -90,9 +89,7 @@ class ShimmerSchedulePage extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.only(left: 10, bottom: 10),
                 child: Text(
-                  date.formattedDate(
-                    Provider.of<LocaleNotifier>(context).getLocale(),
-                  ),
+                  date.formattedDate(localeNotifier.getLocale()),
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headlineLarge,
