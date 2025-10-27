@@ -220,58 +220,38 @@ class _InstructorCard extends ConsumerWidget {
           builder: (context) => ProfessorInfoModal(instructor),
         );
       },
-      child: FutureBuilder<File?>(
-        future: ProfileNotifier.fetchOrGetCachedProfilePicture(
-          session,
-          studentNumber: int.parse(instructor.code),
+      child: Container(
+        decoration: ShapeDecoration(
+          color: Theme.of(context).colorScheme.secondary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          shadows: [
+            BoxShadow(
+              color: Theme.of(context).colorScheme.shadow.withAlpha(0x3f),
+              blurRadius: 3,
+            ),
+          ],
         ),
-        builder: (context, snapshot) {
-          final profileImage =
-              snapshot.hasData && snapshot.data != null
-                  ? FileImage(snapshot.data!)
-                  : null;
-
-          return InstructorCard(
-            name: instructor.name,
-            isRegent: instructor.isRegent,
-            instructorLabel: S.of(context).instructor,
-            regentLabel: S.of(context).courseRegent,
-            profileImage: profileImage,
-          );
-        },
-        child: Container(
-          decoration: ShapeDecoration(
-            color: Theme.of(context).colorScheme.secondary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            shadows: [
-              BoxShadow(
-                color: Theme.of(context).colorScheme.shadow.withAlpha(0x3f),
-                blurRadius: 3,
-              ),
-            ],
+        child: FutureBuilder<File?>(
+          future: ProfileNotifier.fetchOrGetCachedProfilePicture(
+            session,
+            studentNumber: int.parse(instructor.code),
           ),
-          child: FutureBuilder<File?>(
-            future: ProfileProvider.fetchOrGetCachedProfilePicture(
-              session,
-              studentNumber: int.parse(instructor.code),
-            ),
-            builder: (context, snapshot) {
-              final profileImage =
-                  snapshot.hasData && snapshot.data != null
-                      ? FileImage(snapshot.data!)
-                      : null;
+          builder: (context, snapshot) {
+            final profileImage =
+                snapshot.hasData && snapshot.data != null
+                    ? FileImage(snapshot.data!)
+                    : null;
 
-              return InstructorCard(
-                name: instructor.name,
-                isRegent: instructor.isRegent,
-                instructorLabel: S.of(context).instructor,
-                regentLabel: S.of(context).courseRegent,
-                profileImage: profileImage,
-              );
-            },
-          ),
+            return InstructorCard(
+              name: instructor.name,
+              isRegent: instructor.isRegent,
+              instructorLabel: S.of(context).instructor,
+              regentLabel: S.of(context).courseRegent,
+              profileImage: profileImage,
+            );
+          },
         ),
       ),
     );
