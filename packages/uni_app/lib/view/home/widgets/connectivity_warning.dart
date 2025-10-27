@@ -13,7 +13,7 @@ class ConnectivityWarning extends StatefulWidget {
 class _ConnectivityWarningState extends State<ConnectivityWarning> {
   final ConnectivityService _connectivityService = ConnectivityService();
   bool isOffline = false;
-  StreamSubscription? _connectivitySubscription;
+  StreamSubscription<bool>? _connectivitySubscription;
 
   @override
   void initState() {
