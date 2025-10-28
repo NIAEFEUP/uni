@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 
 final tabControllerProvider = StateNotifierProvider<TabControllerProvider, int>(

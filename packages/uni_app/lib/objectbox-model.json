@@ -361,9 +361,9 @@
         {
           "id": "6:2491917120285294168",
           "name": "restaurantId",
+          "indexId": "1:860778994234728762",
           "type": 11,
           "flags": 520,
-          "indexId": "1:860778994234728762",
           "relationTarget": "Restaurant"
         },
         {
