@@ -168,7 +168,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                           SizedBox(width: 10),
                           ProfileButton(),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
