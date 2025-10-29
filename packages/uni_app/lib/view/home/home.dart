@@ -161,9 +161,14 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       UniLogo(iconColor: Colors.white),
-                      SizedBox(width: 170),
-                      ConnectivityWarning(),
-                      ProfileButton(),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ConnectivityWarning(),
+                          SizedBox(width: 10),
+                          ProfileButton(),
+                        ],
+                      )
                     ],
                   ),
                 ),

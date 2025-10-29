@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/utils/connectivity_service.dart';
+import 'package:uni/model/services/connectivity_service.dart';
 import 'package:uni_ui/theme.dart';
 
 class ConnectivityWarning extends StatefulWidget {
