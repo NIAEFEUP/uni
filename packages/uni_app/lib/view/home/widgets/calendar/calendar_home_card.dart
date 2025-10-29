@@ -30,25 +30,34 @@ class CalendarHomeCard extends GenericHomecard {
         final events = localizedEvents.getEvents(locale);
         final today = DateTime.now();
 
+        final calendarItems =
+            events.map((event) {
+              final start = event.startDate;
+              final end = event.endDate ?? event.startDate;
+              final isToday =
+                  start != null &&
+                      today.year == start.year &&
+                      today.month == start.month &&
+                      today.day == start.day ||
+                  (end != null &&
+                      today.isAfter(start ?? end) &&
+                      today.isBefore(end.add(const Duration(days: 1))));
+              return CalendarItem(
+                eventPeriod: event.formattedPeriod[0],
+                eventName: event.name,
+                isToday: isToday,
+              );
+            }).toList();
+
+        // current event or next if no current
+        final currentIndex = events.indexWhere((event) {
+          final end = event.endDate ?? event.startDate;
+          return end == null || !end.isBefore(today);
+        });
+
         return Calendar(
-          items:
-              events.map((event) {
-                final start = event.startDate;
-                final end = event.endDate ?? event.startDate;
-                final isToday =
-                    start != null &&
-                        today.year == start.year &&
-                        today.month == start.month &&
-                        today.day == start.day ||
-                    (end != null &&
-                        today.isAfter(start ?? end) &&
-                        today.isBefore(end.add(const Duration(days: 1))));
-                return CalendarItem(
-                  eventPeriod: event.formattedPeriod[0],
-                  eventName: event.name,
-                  isToday: isToday,
-                );
-              }).toList(),
+          items: calendarItems,
+          initialScrollIndex: currentIndex != -1 ? currentIndex : 0,
         );
       },
       nullContentWidget: Center(
