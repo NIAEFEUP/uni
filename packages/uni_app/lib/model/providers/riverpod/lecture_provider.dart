@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_new_api.dart';
 import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/model/entities/lecture.dart';
@@ -28,6 +29,16 @@ class LectureNotifier extends CachedAsyncNotifier<List<Lecture>> {
     }
 
     final lectures = await _getLectures(session);
+
+    try {
+      Database().saveLectures(lectures);
+    } catch (e, st) {
+      Logger().e(
+        'Failed to save lectures to local database',
+        error: e,
+        stackTrace: st,
+      );
+    }
 
     return lectures;
   }
