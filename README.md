@@ -19,16 +19,35 @@
 
 ## Overview
 
-**uni** is a project developed by [NIAEFEUP](https://niaefeup.pt/) to help students of the [University of Porto](https://up.pt) to manage their academic life, including useful features such as upcoming classes and exams. It is a mobile app that is available for both Android and iOS, and is developed using the [Flutter](https://flutter.dev/) framework.
+**uni** is a cross-platform mobile application created by [NIAEFEUP](https://niaefeup.pt/) to help students at the University of Porto discover and manage academic information in one place. The app aggregates data from the college platform and other services to provide timely information such as schedules, exams, grades and useful campus resources.
 
-Some of the features are only available to students of [FEUP](https://fe.up.pt). The reliability of the information provided by the app is not guaranteed, and the app is not affiliated with the University of Porto or any of its faculties.
+## Screenshots
 
-## Licensing
+<div align="center">
+    <img src="./readme-src/screenshots/1.png" width="25%">
+    <img src="./readme-src/screenshots/2.png" width="25%">
+    <img src="./readme-src/screenshots/3.png" width="25%">
+    <img src="./readme-src/screenshots/4.png" width="25%">
+    <img src="./readme-src/screenshots/5.png" width="25%">
+    <img src="./readme-src/screenshots/6.png" width="25%">
+</div>
 
-This application is licensed under the [GNU General Public License v3.0](./LICENSE), which means you can modify and distribute this application as you wish, as long as you refer to the original source.
+## Features
+
+- View upcoming classes and exams.
+- Access grades and course information.
+- View course units details, as well as class colleagues and files.
+- Campus restaurants across the whole city.
+- Access to important faculty resources.
+- Interactive faculty map.
+
+The app requires authentication with an university account and therefore is only available to students. Currently some features are optimized for [FEUP](https://fe.up.pt) students, but an expansion to other faculties is in the works.
+
+## License
+
+This application is licensed under the [GNU General Public License v3.0](./LICENSE). See the `LICENSE` file for details.
+## Disclaimer
+
+This app is an independent project and is not officially affiliated with the University of Porto or its faculties. The reliability of the information provided by the app is not guaranteed.
 
 ## Contributing
-
-Contributions are welcome, and can be made by opening a pull request. Please note, however, that a university's account is required to access most of the app's features.
-
-For further information about the project structure, please refer to [the app's README file](./packages/uni_app/README.md).
