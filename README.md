@@ -1,11 +1,6 @@
 <div align="center">
 
-<img src="./readme-src/icon.png" width="120" style="border-radius: 20px; margin-bottom: 10px">
-<br>
-<h1 style="color: #FFF5F3">by NIAEFEUP</h1>
-
-<br>
-<br>
+<img src="./readme-src/banner.png">
 
 [![Build badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/uni/format_lint_test.yaml?style=for-the-badge&branch=develop)](https://github.com/NIAEFEUP/uni/actions)
 [![Deploy badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/uni/deploy.yaml?label=Deploy&style=for-the-badge&branch=develop)](https://github.com/NIAEFEUP/uni/actions)
