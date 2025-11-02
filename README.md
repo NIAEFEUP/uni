@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="./readme-src/logo_dark.svg" width="80">
+<img src="./readme-src/icon.png" width="120" style="border-radius: 20px; margin-bottom: 10px">
 <br>
-<img src="./readme-src/by_niaefeup.svg" height="30">
+<h1 style="color: #FFF5F3">by NIAEFEUP</h1>
 
 <br>
 <br>
