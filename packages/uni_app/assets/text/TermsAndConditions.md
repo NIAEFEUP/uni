@@ -1,19 +1,18 @@
+
 # App desenvolvida pelo NIAEFEUP.
 
-# De estudantes, para estudantes.
+## De estudantes, para estudantes.
 
-\
-\
-**Terms and Conditions**    
+### Terms and Conditions  
 
 These terms and conditions ("Terms", "Agreement") are an agreement between NIAEFEUP ("us", "we" or "
 our"), Núcleo de Informática da Associação de Estudantes da Universidade do Porto, and you ("
 User", "you" or "your"). This Agreement sets forth the general terms and conditions of your use of
 the Uni Mobile Application and any of its products or services (collectively, "Mobile Application"
 or "Services").
-\
-\
-**Accounts and Membership**
+
+
+### Accounts and Membership
 
 To use the Uni Mobile Application, you are required to hold a digital account provided by
 Universidade
@@ -29,17 +28,17 @@ and is not collected by us in any way.
 If you choose to select the option to keep you logged in, you understand that your sign-in details
 may be stored locally, but not in any way shared with us. These details are stored in the
 application data and we hold no responsibility for ensuring their concealment.
-\
-\
-**Ownership of Content**
+
+
+### Ownership of Content
 
 We do not own any data, information or material ("Content") that you submit in the Mobile
 Application in the course of using the Service. You shall have sole responsibility for the accuracy,
 quality, integrity, legality, reliability, appropriateness, and intellectual property ownership or
 right to use of all submitted Content.
-\
-\
-**Data usage, Monitoring and Privacy**
+
+
+### Data usage, Monitoring and Privacy
 
 We may, at our discretion but with no obligation, monitor and review Content in the Mobile
 Application submitted or created using our Services by you.
@@ -47,9 +46,9 @@ Personal data of users is not collected for any other purpose, unless providing 
 except in certain circumstances described
 in [Play Store’s Privacy Policy](https://support.google.com/googleplay/android-developer/answer/10144311?visit_id=638365485539535125-3072678242&rd=1)
 and [App Store's Privacy Policy](https://developer.apple.com/app-store/app-privacy-details/#user-tracking).
-\
-\
-**License and Usage Restrictions:**
+
+
+### License and Usage Restrictions:
 
 You grant us permission to access, copy, distribute, store, transmit, reformat, display and perform
 the Content of your user account solely as required for the purpose of providing the Services to
@@ -69,23 +68,23 @@ the Services we provide. We anonymously track page visits and widget clicks, whi
 our self-hosted instance of [plausible analytics](https://plausible.niaefeup.pt/).
 we do not have the license to sell or share sensitive data collected with the purpose of
 facilitating sales.
-\
-\
-**Content Removal:**
+
+
+### Content Removal:
 
 Without limiting any of those representations or warranties, we have the right, though not the
 obligation, to, in our own sole discretion, refuse or remove any content that, in our reasonable
 opinion, violates any of our policies or is in any way harmful or objectionable.
-\
-\
-**Backups**
+
+
+### Backups
 
 We are not responsible for Content residing in the Mobile Application. In no event shall we be held
 liable for any loss of any Content. It is your sole responsibility to maintain appropriate backup of
 your Content.
-\
-\
-**Links to Other Mobile Applications**
+
+
+### Links to Other Mobile Applications
 
 Although this Mobile Application may link to other mobile applications, we are not, directly or
 indirectly, implying any approval, association, sponsorship, endorsement, or affiliation with any
@@ -97,9 +96,9 @@ applications. We do not assume any responsibility or liability for the actions, 
 and Content of any other Third-Parties. You should carefully review the legal statements and other
 conditions of use of any Mobile Application which you access through a link from this Mobile
 Application. Your linking to any other off-site Mobile Applications is at your own risk.
-\
-\
-**Limitation of Liability**
+
+
+### Limitation of Liability
 
 To the fullest extent permitted by applicable law, in no event will NIAEFEUP, its affiliates,
 officers, directors, employees, agents, suppliers or licensors be liable to any person for (a): any
@@ -114,9 +113,9 @@ licensors, relating to the services will be limited to an amount greater of one 
 amounts actually paid in cash by you to NIAEFEUP for the prior one month period prior to the first
 event or occurrence giving rise to such liability. The limitations and exclusions also apply if this
 remedy does not fully compensate you for any losses or fails of its essential purpose.
-\
-\
-**Changes and Amendments**
+
+
+### Changes and Amendments
 
 We reserve the right to modify this Agreement or its policies relating to the Mobile Application or
 services at any time, effective upon posting of an updated version of this Agreement in the Mobile
@@ -124,20 +123,20 @@ Application. When we do, we will revise the updated date at the bottom of this p
 of the Mobile Application after any such changes will only constitute if, when prompted, you consent
 to them. Otherwise, you will be logged out of the Mobile Application.
 This policy was created with [Website Policies](https://www.websitepolicies.com).
-\
-\
-**Acceptance of These Terms**
+
+
+### Acceptance of These Terms
 
 You acknowledge that you have read this Agreement and agree to all its terms and conditions. By
 using the Mobile Application or its Services you agree to be bound by this Agreement. If you do not
 agree to abide by the terms of this Agreement, you are not authorized to use or access the Mobile
 Application and its Services.
-\
-\
-**Contacting Us**
+
+
+### Contacting Us
 
 If you would like to contact us to understand more about this Agreement or wish to contact us
 concerning any matter relating to it, you may send an email to [ni@aefeup.pt](mailto:ni@aefeup.pt).
-\
-\
-This document was last updated on March 6, 2024.
+
+
+This document was last updated on October 18, 2025.
