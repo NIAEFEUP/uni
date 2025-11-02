@@ -93,7 +93,7 @@ flutter pub run build_runner watch
     1. Add the translations you want in the `.arb` files of the I10n folder:
     
     `intl_en.arb`
-    ```arb
+    ```json
     {
         "hello": "Hello",
         "@hello": {
@@ -103,7 +103,7 @@ flutter pub run build_runner watch
     ```
 
     `intl_pt.arb`
-    ```arb
+    ```json
     {
         "hello": "Olá",
         "@hello": {
