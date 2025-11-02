@@ -20,7 +20,11 @@ import 'package:uni_ui/cards/timeline_card.dart';
 import 'package:uni_ui/icons.dart';
 
 class ScheduleHomeCard extends GenericHomecard {
-  const ScheduleHomeCard({super.key});
+  const ScheduleHomeCard({super.key})
+    : super(
+        titlePadding: const EdgeInsets.only(left: 20, right: 20),
+        bodyPadding: const EdgeInsets.only(left: 20, right: 20),
+      );
 
   @override
   String getTitle(BuildContext context) {

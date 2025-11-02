@@ -11,9 +11,7 @@ import 'package:uni_ui/calendar/calendar_item.dart';
 
 class CalendarHomeCard extends GenericHomecard {
   const CalendarHomeCard({super.key})
-    : super(
-        titlePadding: const EdgeInsets.only(left: 20, bottom: 8, right: 20),
-      );
+    : super(titlePadding: const EdgeInsets.only(left: 20, right: 20));
 
   @override
   String getTitle(BuildContext context) {

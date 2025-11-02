@@ -11,7 +11,11 @@ import 'package:uni_ui/cards/library_occupation_card.dart';
 import 'package:uni_ui/icons.dart';
 
 class LibraryHomeCard extends GenericHomecard {
-  const LibraryHomeCard({super.key});
+  const LibraryHomeCard({super.key})
+    : super(
+        titlePadding: const EdgeInsets.only(left: 20, right: 20),
+        bodyPadding: const EdgeInsets.only(left: 20, right: 20),
+      );
 
   @override
   String getTitle(BuildContext context) {

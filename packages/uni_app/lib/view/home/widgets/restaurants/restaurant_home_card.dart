@@ -19,7 +19,11 @@ import 'package:uni_ui/cards/restaurant_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
 
 class RestaurantHomeCard extends GenericHomecard {
-  const RestaurantHomeCard({super.key});
+  const RestaurantHomeCard({super.key})
+    : super(
+        titlePadding: const EdgeInsets.only(left: 20, right: 20),
+        bodyPadding: const EdgeInsets.only(left: 20, right: 20),
+      );
 
   @override
   String getTitle(BuildContext context) {

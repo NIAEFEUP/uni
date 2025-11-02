@@ -108,7 +108,7 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
 
         return ListView(
           padding: const EdgeInsets.only(
-            bottom: 10,
+            bottom: 5,
             top: 10,
             left: 20,
             right: 20,

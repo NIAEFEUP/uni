@@ -17,7 +17,11 @@ import 'package:uni_ui/cards/timeline_card.dart';
 import 'package:uni_ui/icons.dart';
 
 class ExamHomeCard extends GenericHomecard {
-  const ExamHomeCard({super.key});
+  const ExamHomeCard({super.key})
+    : super(
+        titlePadding: const EdgeInsets.only(left: 20, right: 20),
+        bodyPadding: const EdgeInsets.only(left: 20, right: 20),
+      );
 
   @override
   String getTitle(BuildContext context) {

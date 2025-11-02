@@ -41,7 +41,7 @@ class SchedulePageView extends ConsumerWidget {
     );
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10, right: 20, left: 20),
+      padding: const EdgeInsets.only(right: 20, left: 20),
       child: Timeline(
         tabs:
             reorderedDates

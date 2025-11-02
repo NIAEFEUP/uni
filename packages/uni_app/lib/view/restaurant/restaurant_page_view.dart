@@ -157,7 +157,7 @@ class _RestaurantPageViewState
   @override
   Widget getBody(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: DefaultConsumer<List<Restaurant>>(
         provider: restaurantProvider,
         builder: _createTabViewBuilder,
