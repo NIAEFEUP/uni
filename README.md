@@ -41,7 +41,7 @@
 - Access to important faculty resources.
 - Interactive faculty map.
 
-The app requires authentication with an university account and therefore is only available to students. Currently some features are optimized for [FEUP](https://fe.up.pt) students, but an expansion to other faculties is in the works.
+The app requires authentication with a university account and therefore is only available to students. Currently some features are optimized for [FEUP](https://fe.up.pt) students, but an expansion to other faculties is in the works.
 
 ## License
 
@@ -51,3 +51,7 @@ This application is licensed under the [GNU General Public License v3.0](./LICEN
 This app is an independent project and is not officially affiliated with the University of Porto or its faculties. The reliability of the information provided by the app is not guaranteed.
 
 ## Contributing
+
+We highly value community contributions, which can be submitted via a pull request. Please be aware, though, that a university account is necessary to utilize the majority of the app's functionalities.
+
+**Ready to contribute?** Full details and guidelines are in the repository's [CONTRIBUTING](./CONTRIBUTING.md) file and on our [wiki](https://github.com/NIAEFEUP/uni/wiki).
