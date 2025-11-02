@@ -54,4 +54,4 @@ This app is an independent project and is not officially affiliated with the Uni
 
 We highly value community contributions, which can be submitted via a pull request. Please be aware, though, that a university account is necessary to utilize the majority of the app's functionalities.
 
-**Ready to contribute?** Full details and guidelines are in the repository's [CONTRIBUTING](./CONTRIBUTING.md) file and on our [wiki](https://github.com/NIAEFEUP/uni/wiki).
+**Ready to contribute?** Full details and guidelines are in the repository's [CONTRIBUTING](https://github.com/NIAEFEUP/uni?tab=contributing-ov-file) file and on our [wiki](https://github.com/NIAEFEUP/uni/wiki).
