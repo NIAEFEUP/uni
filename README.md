@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./readme-src/icon.png" width="25%">
+<img src="./readme-src/icon.png" width="15%">
 
 <h3>uni, by NIAEFEUP</h3>
 
@@ -24,12 +24,12 @@
 ## Screenshots
 
 <div align="center">
-    <img src="./readme-src/screenshots/1.png" width="25%">
-    <img src="./readme-src/screenshots/2.png" width="25%">
-    <img src="./readme-src/screenshots/3.png" width="25%">
-    <img src="./readme-src/screenshots/4.png" width="25%">
-    <img src="./readme-src/screenshots/5.png" width="25%">
-    <img src="./readme-src/screenshots/6.png" width="25%">
+    <img src="./readme-src/screenshots/1.png" width="15%">
+    <img src="./readme-src/screenshots/2.png" width="15%">
+    <img src="./readme-src/screenshots/3.png" width="15%">
+    <img src="./readme-src/screenshots/4.png" width="15%">
+    <img src="./readme-src/screenshots/5.png" width="15%">
+    <img src="./readme-src/screenshots/6.png" width="15%">
 </div>
 
 ## Features
