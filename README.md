@@ -11,10 +11,12 @@
 [![style: very good analysis](https://img.shields.io/badge/style-very_good_analysis-B22C89.svg)](https://pub.dev/packages/very_good_analysis)
 [![License badge](https://img.shields.io/github/license/NIAEFEUP/uni)](https://github.com/NIAEFEUP/uni/blob/develop/LICENSE)
 
-<!-- <a href='https://play.google.com/store/apps/details?id=pt.up.fe.ni.uni&hl=pt_PT&gl=US&pli=1&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img style="width: 135px;" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
-
-<a href="https://apps.apple.com/pt/app/uni/id1585951339?itsct=apps_box_badge&amp;itscg=30200"><img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1633219200" alt="Download on the App Store" style="border-radius: 13px; width: 120px;"></a> -->
-
+<a href='https://play.google.com/store/apps/details?id=pt.up.fe.ni.uni&hl=pt_PT&gl=US&pli=1&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+    <img src='./readme-src/stores/googleplay.svg'alt='Get it on Google Play' width="120"/>
+</a>
+<a href="https://apps.apple.com/pt/app/uni/id1585951339?itscg=30200&itsct=apps_box_badge&mttnsubad=1585951339">
+    <img src="./readme-src/stores/appstore.svg" alt="Download on the App Store" width="110" />
+</a>
 </div>
 
 ## Overview
