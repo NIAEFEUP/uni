@@ -84,7 +84,7 @@ class ExamsPageView extends ConsumerWidget {
     });
 
     return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
+      padding: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
       child: Timeline(
         tabs: tabs,
         content: content,

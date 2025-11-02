@@ -25,12 +25,15 @@ class FacultyPageViewState extends GeneralPageViewState<FacultyPageView> {
     return ListView(
       children: const [
         Padding(
-          padding: EdgeInsets.only(top: 16, left: 20, right: 20),
+          padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
           child: LibraryHomeCard(),
         ),
-        Padding(padding: EdgeInsets.only(top: 16), child: CalendarHomeCard()),
         Padding(
-          padding: EdgeInsets.only(left: 20, right: 20),
+          padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+          child: CalendarHomeCard(),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
           child: AllServiceCards(),
         ),
       ],

@@ -117,7 +117,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
         body: RefreshIndicator(
           onRefresh: () => refreshPage(context),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
             child: ListView.separated(
               itemCount: favoriteCards.length + 1,
               separatorBuilder: (_, _) => const SizedBox(height: 10),

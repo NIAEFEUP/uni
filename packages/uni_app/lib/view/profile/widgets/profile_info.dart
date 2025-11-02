@@ -19,7 +19,7 @@ class ProfileInfo extends ConsumerWidget {
       provider: profileProvider,
       builder:
           (context, ref, profile) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Center(
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
