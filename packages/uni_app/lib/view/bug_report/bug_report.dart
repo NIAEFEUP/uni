@@ -1,7 +1,7 @@
 import 'package:email_validator/email_validator.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/generated/l10n.dart';
@@ -42,7 +42,7 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
   };
 
   List<DropdownMenuItem<int>> bugList = [];
-  List<PlatformFile> pickedFiles = [];
+  List<XFile> pickedFiles = [];
   List<Widget> previewImages = [];
 
   static var _selectedBug = 0;
@@ -213,35 +213,25 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
 
   Future<void> uploadImages() async {
     try {
-      final result = await FilePicker.platform.pickFiles(
-        type: FileType.image,
-        allowMultiple: true,
-        withData: true,
-      );
-
-      if (result != null && result.files.isNotEmpty) {
-        setState(() {
-          pickedFiles = result.files.take(3).toList();
-
-          previewImages =
-              pickedFiles.map((file) {
-                return Padding(
-                  padding: EdgeInsets.all(
-                    8.0 / (pickedFiles.length > 3 ? pickedFiles.length / 3 : 1),
-                  ),
-                  child: SizedBox(
-                    width:
-                        80 /
-                        (pickedFiles.length > 3 ? pickedFiles.length / 3 : 1),
-                    child: Image.memory(
-                      file.bytes!,
-                      height: 120,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                );
-              }).toList();
-        });
+      final picker = ImagePicker();
+      final files = await picker.pickMultiImage();
+      if (files.isNotEmpty) {
+        pickedFiles = files;
+        previewImages = await Future.wait(
+          files.map((file) async {
+            final bytes = await file.readAsBytes();
+            return Padding(
+              padding: EdgeInsets.all(
+                8.0 / (files.length > 3 ? files.length / 3 : 1),
+              ),
+              child: SizedBox(
+                width: 80 / (files.length > 3 ? files.length / 3 : 1),
+                child: Image.memory(bytes, height: 120, fit: BoxFit.cover),
+              ),
+            );
+          }).toList(),
+        );
+        setState(() {});
       }
     } catch (err) {
       if (mounted) {
@@ -295,7 +285,7 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
 
   Future<void> submitSentryEvent(
     Map<String, dynamic> bugReport,
-    List<PlatformFile> pickedFiles,
+    List<XFile> pickedFiles,
   ) async {
     final sentryId = await Sentry.captureMessage(
       'User Feedback',
@@ -304,14 +294,14 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
         await scope.setTag('report.type', bugReport['bugLabel'] as String);
 
         for (final file in pickedFiles) {
-          if (file.bytes != null) {
-            scope.addAttachment(
-              SentryAttachment.fromByteData(
-                file.bytes!.buffer.asByteData(),
-                file.name,
-              ),
-            );
-          }
+          final bytes = await file.readAsBytes();
+          scope.addAttachment(
+            SentryAttachment.fromUint8List(
+              bytes,
+              file.name,
+              contentType: file.mimeType,
+            ),
+          );
         }
       },
     );
