@@ -5,7 +5,7 @@ description: A UP no teu bolso.
 # To change it manually, override the value in app_version.txt.
 # The app version code is automatically also bumped by CI.
 # Do not change it manually.
-version: 2.2.0-beta.9+417
+version: 2.2.0-beta.10+418
 
 publish_to: "none" # We do not publish to pub.dev
 resolution: workspace
@@ -52,6 +52,7 @@ dependencies:
   html: ^0.15.6
   http: ^1.5.0
   image: ^4.5.4
+  image_picker: ^1.2.0
   intl: ^0.20.2
   json_annotation: ^4.9.0
   json_serializable: ^6.11.1
