@@ -1,4 +1,3 @@
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_ui/common/generic_squircle.dart';
 
@@ -45,8 +44,8 @@ class GenericCard extends StatelessWidget {
               blurRadius: blurRadius ?? 12,
             ),
           ],
-          shape: SmoothRectangleBorder(
-            borderRadius: SmoothBorderRadius(cornerRadius: 20),
+          shape: RoundedSuperellipseBorder(
+            borderRadius: BorderRadius.circular(20),
           ),
         ),
         child: GestureDetector(
