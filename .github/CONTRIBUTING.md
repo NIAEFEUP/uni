@@ -87,7 +87,7 @@ flutter pub run build_runner watch
 ```
 
 **Translation Files:**
-- `Intl` package allows the internationalization of the app, currently supporting Portuguese (`pt_PT`) and English (`en_EN`), by generating `.dart` files (one for each language). The generated files maps a key to the correspondent translated string as you can see at `generated/intl` files.
+- `Intl` package allows the internationalization of the app, currently supporting Portuguese (`pt_PT`) and English (`en_EN`), by generating `.dart` files (one for each language). The generated files maps a key to the corresponding translated string as you can see at `generated/intl` files.
 
 - How to create:
     1. Add the translations you want in the `.arb` files of the I10n folder:
