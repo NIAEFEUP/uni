@@ -72,8 +72,6 @@ class ExamMonthTimeline extends ConsumerWidget {
           rooms: exam.rooms,
           type: exam.examType,
           startTime: exam.formatTime(exam.start),
-          examDay: exam.start.day.toString(),
-          examMonth: exam.monthAcronym(appLocale),
           isInvisible: hiddenExams?.contains(exam.id) ?? false,
           onClick: () {
             showDialog<void>(

@@ -22,8 +22,8 @@ import 'package:uni_ui/icons.dart';
 class ScheduleHomeCard extends GenericHomecard {
   const ScheduleHomeCard({super.key})
     : super(
-        titlePadding: const EdgeInsets.only(left: 20, right: 20),
-        bodyPadding: const EdgeInsets.only(left: 20, right: 20),
+        titlePadding: const EdgeInsets.symmetric(horizontal: 20),
+        bodyPadding: const EdgeInsets.symmetric(horizontal: 20),
       );
 
   @override
