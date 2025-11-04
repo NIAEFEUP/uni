@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 
 class MapIntroPage extends StatefulWidget {
   const MapIntroPage({super.key, required this.pageController});
@@ -14,11 +15,11 @@ class _MapIntroPageState extends State<MapIntroPage> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        const Align(
-          alignment: Alignment(0, -0.85),
+        Align(
+          alignment: const Alignment(0, -0.85),
           child: Text(
-            'MAP',
-            style: TextStyle(
+            S.of(context).map.toUpperCase(),
+            style: const TextStyle(
               fontFamily: 'Poppins',
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -26,14 +27,14 @@ class _MapIntroPageState extends State<MapIntroPage> {
             ),
           ),
         ),
-        const Align(
-          alignment: Alignment(0, -0.7),
+        Align(
+          alignment: const Alignment(0, -0.7),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
-              'Explore the campus with our interactive map',
+              S.of(context).map_intro_message,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Poppins',
                 color: Colors.white,
                 fontSize: 16,
@@ -43,7 +44,7 @@ class _MapIntroPageState extends State<MapIntroPage> {
         ),
         Align(
           alignment: const Alignment(0.035, 0.5),
-          child: Image.asset('assets/images/schedule_intro.png', width: 260),
+          child: Image.asset('assets/images/map_intro.png', width: 260),
         ),
         Align(
           alignment: const Alignment(0, 0.95),

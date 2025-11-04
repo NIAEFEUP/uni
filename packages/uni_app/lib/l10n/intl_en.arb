@@ -451,5 +451,17 @@
   "services": "Services",
   "@services": {},
   "goi": "Orientation and Integration Office",
-  "@goi": {}
+  "@goi": {},
+  "map": "Map",
+  "@map": {},
+  "exams_intro_message": "Stay always updated with your exams",
+  "@exams_intro_message": {},
+  "schedule_intro_message": "Keep track of your daily classes and activities",
+  "@schedule_intro_message": {},
+  "restaurants_intro_message": "Discover campus dining options and menus",
+  "@restaurants_intro_message": {},
+  "services_intro_message": "Access various campus services at your fingertips",
+  "@services_intro_message": {},
+  "map_intro_message": "Explore the campus with our interactive map",
+  "@map_intro_message": {}
 }

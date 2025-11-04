@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 
 class RestaurantsIntroPage extends StatefulWidget {
   const RestaurantsIntroPage({super.key, required this.pageController});
@@ -14,11 +15,11 @@ class _RestaurantsIntroPageState extends State<RestaurantsIntroPage> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        const Align(
-          alignment: Alignment(0, -0.85),
+        Align(
+          alignment: const Alignment(0, -0.85),
           child: Text(
-            'RESTAURANTS',
-            style: TextStyle(
+            S.of(context).restaurants.toUpperCase(),
+            style: const TextStyle(
               fontFamily: 'Poppins',
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -26,14 +27,14 @@ class _RestaurantsIntroPageState extends State<RestaurantsIntroPage> {
             ),
           ),
         ),
-        const Align(
-          alignment: Alignment(0, -0.7),
+        Align(
+          alignment: const Alignment(0, -0.7),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
-              'Discover campus dining options and menus',
+              S.of(context).restaurants_intro_message,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Poppins',
                 color: Colors.white,
                 fontSize: 16,
