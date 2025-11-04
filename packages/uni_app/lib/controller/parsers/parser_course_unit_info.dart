@@ -23,18 +23,19 @@ Future<List<CourseUnitFileDirectory>> parseFiles(
   for (var item in json) {
     item = item as Map<String, dynamic>;
     final files = <CourseUnitFile>[];
+    final downloadUrl = await CourseUnitsInfoFetcher().getDownloadLink(session);
     for (final file in item['ficheiros'] as List<dynamic>) {
       if (file is Map<String, dynamic>) {
         final fileName = file['nome'];
         final fileDate = file['data_actualizacao'];
         final fileCode = file['codigo'].toString();
-        final format = file['filename'].toString().substring(
-          file['filename'].toString().indexOf('.'),
-        );
-        final url = await CourseUnitsInfoFetcher().getDownloadLink(session);
+        final filenameStr = file['filename']?.toString() ?? '';
+        final dotIndex = filenameStr.lastIndexOf('.');
+        final format = dotIndex >= 0 ? filenameStr.substring(dotIndex) : '';
+
         final courseUnitFile = CourseUnitFile(
           '${fileName}_$fileDate$format',
-          url,
+          downloadUrl,
           fileCode,
         );
         files.add(courseUnitFile);

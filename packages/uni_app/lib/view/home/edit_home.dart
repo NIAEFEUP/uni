@@ -73,6 +73,7 @@ class EditHomeViewState extends State<EditHomeView> {
       value: AppSystemOverlayStyles.base.copyWith(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
       ),
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,

@@ -110,6 +110,11 @@ class S {
     );
   }
 
+  /// `Accept`
+  String get accept {
+    return Intl.message('Accept', name: 'accept', desc: '', args: []);
+  }
+
   /// `Checking account`
   String get account_card_title {
     return Intl.message(
@@ -293,6 +298,16 @@ class S {
   /// `Change`
   String get change {
     return Intl.message('Change', name: 'change', desc: '', args: []);
+  }
+
+  /// `Change password`
+  String get change_password {
+    return Intl.message(
+      'Change password',
+      name: 'change_password',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Do you want to change the password?`
@@ -1273,6 +1288,11 @@ class S {
     );
   }
 
+  /// `Reject`
+  String get reject {
+    return Intl.message('Reject', name: 'reject', desc: '', args: []);
+  }
+
   /// `Delete`
   String get remove {
     return Intl.message('Delete', name: 'remove', desc: '', args: []);
@@ -1403,6 +1423,16 @@ class S {
     return Intl.message(
       'Terms and Conditions',
       name: 'terms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Changes on uni's Terms and Conditions`
+  String get terms_change {
+    return Intl.message(
+      'Changes on uni\'s Terms and Conditions',
+      name: 'terms_change',
       desc: '',
       args: [],
     );
@@ -1678,7 +1708,7 @@ class S {
     return Intl.message('All', name: 'all_feminine', desc: '', args: []);
   }
 
-  /// `{type, select, all_dishes{All dishes} meat_dishes{Meat dishes} fish_dishes{Fish dishes} vegetarian_dishes{Vegetarian dishes} soups{Soups} salads{Salads} diet_dishes{Diet dishes} dishes_of_the_day{Dishes of the Day} other{Other}}`
+  /// `{type, select, all_dishes{All dishes} meat_dishes{Meat dishes} fish_dishes{Fish dishes} vegetarian_dishes{Vegetarian dishes} soups{Soups} salads{Salads} diet_dishes{Diet dishes} dishes_of_the_day{Dishes of the Day} closed{Closed} other{Other}}`
   String dish_type(Object type) {
     return Intl.select(
       type,
@@ -1691,6 +1721,7 @@ class S {
         'salads': 'Salads',
         'diet_dishes': 'Diet dishes',
         'dishes_of_the_day': 'Dishes of the Day',
+        'closed': 'Closed',
         'other': 'Other',
       },
       name: 'dish_type',
@@ -1843,6 +1874,16 @@ class S {
   /// `Services`
   String get services {
     return Intl.message('Services', name: 'services', desc: '', args: []);
+  }
+
+  /// `Orientation and Integration Office`
+  String get goi {
+    return Intl.message(
+      'Orientation and Integration Office',
+      name: 'goi',
+      desc: '',
+      args: [],
+    );
   }
 }
 

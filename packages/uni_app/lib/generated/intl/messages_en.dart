@@ -20,7 +20,7 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
   static m0(type) =>
-      "${Intl.select(type, {'all_dishes': 'All dishes', 'meat_dishes': 'Meat dishes', 'fish_dishes': 'Fish dishes', 'vegetarian_dishes': 'Vegetarian dishes', 'soups': 'Soups', 'salads': 'Salads', 'diet_dishes': 'Diet dishes', 'dishes_of_the_day': 'Dishes of the Day', 'other': 'Other'})}";
+      "${Intl.select(type, {'all_dishes': 'All dishes', 'meat_dishes': 'Meat dishes', 'fish_dishes': 'Fish dishes', 'vegetarian_dishes': 'Vegetarian dishes', 'soups': 'Soups', 'salads': 'Salads', 'diet_dishes': 'Diet dishes', 'dishes_of_the_day': 'Dishes of the Day', 'closed': 'Closed', 'other': 'Other'})}";
 
   static m1(time) => "last refresh at ${time}";
 
@@ -39,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "academic_services": MessageLookupByLibrary.simpleMessage(
       "Academic services",
     ),
+    "accept": MessageLookupByLibrary.simpleMessage("Accept"),
     "account_card_title": MessageLookupByLibrary.simpleMessage(
       "Checking account",
     ),
@@ -105,6 +106,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "change": MessageLookupByLibrary.simpleMessage("Change"),
+    "change_password": MessageLookupByLibrary.simpleMessage("Change password"),
     "change_prompt": MessageLookupByLibrary.simpleMessage(
       "Do you want to change the password?",
     ),
@@ -207,6 +209,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "geral_registration": MessageLookupByLibrary.simpleMessage(
       "General Registration",
+    ),
+    "goi": MessageLookupByLibrary.simpleMessage(
+      "Orientation and Integration Office",
     ),
     "improvement_registration": MessageLookupByLibrary.simpleMessage(
       "Enrollment for Improvement",
@@ -383,6 +388,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "reference_success": MessageLookupByLibrary.simpleMessage(
       "Reference created successfully!",
     ),
+    "reject": MessageLookupByLibrary.simpleMessage("Reject"),
     "remaining_instructors": MessageLookupByLibrary.simpleMessage(
       "Remaining Instructors",
     ),
@@ -423,6 +429,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "telephone": MessageLookupByLibrary.simpleMessage("Telephone"),
     "terms": MessageLookupByLibrary.simpleMessage("Terms and Conditions"),
+    "terms_change": MessageLookupByLibrary.simpleMessage(
+      "Changes on uni\'s Terms and Conditions",
+    ),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "title": MessageLookupByLibrary.simpleMessage("Title"),
     "try_again": MessageLookupByLibrary.simpleMessage("Try again"),

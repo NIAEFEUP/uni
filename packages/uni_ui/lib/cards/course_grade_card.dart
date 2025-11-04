@@ -13,7 +13,7 @@ class CourseGradeCard extends StatelessWidget {
 
   final String courseName;
   final double ects;
-  final int? grade;
+  final String? grade;
   final String tooltip;
   final VoidCallback onTap;
 
@@ -25,6 +25,12 @@ class CourseGradeCard extends StatelessWidget {
       tooltip: tooltip,
       onClick: onTap,
       margin: EdgeInsets.zero,
+      color:
+          grade == ''
+              ? theme.colorScheme.surfaceContainer
+              : ((double.tryParse(grade!) ?? 0) >= 10
+                  ? theme.colorScheme.surfaceContainer
+                  : const Color.fromARGB(255, 249, 247, 247)),
       child: SizedBox(
         height: 75,
         child: Column(

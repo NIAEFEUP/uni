@@ -32,6 +32,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: AppSystemOverlayStyles.base.copyWith(
         statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
         systemNavigationBarIconBrightness: Brightness.light,
       ),
       child: Scaffold(

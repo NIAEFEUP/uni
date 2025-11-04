@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/model/providers/riverpod/default_consumer.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
-import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/cards/course_grade_card.dart';
 import 'package:uni_ui/icons.dart';
 
-class CourseUnitsView extends StatefulWidget {
+class CourseUnitsView extends ConsumerStatefulWidget {
   const CourseUnitsView({super.key, this.course});
 
   final Course? course;
 
   @override
-  State<CourseUnitsView> createState() => _CourseUnitsViewState();
+  ConsumerState<CourseUnitsView> createState() => _CourseUnitsViewState();
 }
 
-class _CourseUnitsViewState extends State<CourseUnitsView> {
+class _CourseUnitsViewState extends ConsumerState<CourseUnitsView> {
   bool isGrid = PreferencesController.getServiceCardsIsGrid();
   String? selectedSchoolYear = PreferencesController.getSchoolYearValue();
   String? selectedSemester = PreferencesController.getSemesterValue();
@@ -27,8 +28,11 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return LazyConsumer<ProfileProvider, Profile>(
-      builder: (context, profile) {
+
+    return DefaultConsumer<Profile>(
+      provider: profileProvider,
+      hasContent: (profile) => true,
+      builder: (context, ref, profile) {
         final courseUnits = profile.courseUnits;
         final courseGradeCards =
             _applyFilters(courseUnits)
@@ -115,8 +119,7 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
           ],
         );
       },
-      hasContent: (profile) => true,
-      onNullContent: Container(),
+      nullContentWidget: Container(),
     );
   }
 
@@ -132,7 +135,7 @@ class _CourseUnitsViewState extends State<CourseUnitsView> {
     return CourseGradeCard(
       courseName: unit.name,
       ects: unit.ects ?? 0,
-      grade: unit.grade != null ? double.tryParse(unit.grade!)?.round() : null,
+      grade: unit.grade,
       tooltip: unit.name,
       onTap: () => _toCourseGradeCardOnTap(unit, context),
     );

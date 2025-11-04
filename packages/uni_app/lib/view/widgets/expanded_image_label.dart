@@ -21,9 +21,9 @@ class ImageLabel extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Image.asset(imagePath, height: 300, width: 300),
-        Text(label, style: labelTextStyle),
+        Text(label, style: labelTextStyle, textAlign: TextAlign.center),
         if (sublabel.isNotEmpty) const SizedBox(height: 10),
-        Text(sublabel, style: sublabelTextStyle),
+        Text(sublabel, style: sublabelTextStyle, textAlign: TextAlign.center),
       ],
     );
   }
