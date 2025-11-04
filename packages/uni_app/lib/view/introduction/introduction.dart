@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:uni/view/introduction/widgets/exams_intro_page.dart';
 import 'package:uni/view/introduction/widgets/first_page.dart';
+import 'package:uni/view/introduction/widgets/map_intro_page.dart';
+import 'package:uni/view/introduction/widgets/restaurants_intro_page.dart';
+import 'package:uni/view/introduction/widgets/schedule_intro_page.dart';
+import 'package:uni/view/introduction/widgets/services_intro_page.dart';
 
 class IntroductionScreenView extends StatefulWidget {
   const IntroductionScreenView({super.key});
@@ -67,29 +71,14 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView>
             physics: const NeverScrollableScrollPhysics(),
             children: <Widget>[
               FirstPage(pageController: _pageController),
-              const ExamsIntroPage(),
-              _buildThirdPage(),
+              ExamsIntroPage(pageController: _pageController),
+              ScheduleIntroPage(pageController: _pageController),
+              RestaurantsIntroPage(pageController: _pageController),
+              ServicesIntroPage(pageController: _pageController),
+              MapIntroPage(pageController: _pageController),
             ],
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildSecondPage() {
-    return const Center(
-      child: Text(
-        'Page 2',
-        style: TextStyle(color: Color(0xFFFFF5F3), fontSize: 24),
-      ),
-    );
-  }
-
-  Widget _buildThirdPage() {
-    return const Center(
-      child: Text(
-        'Page 3',
-        style: TextStyle(color: Color(0xFFFFF5F3), fontSize: 24),
       ),
     );
   }

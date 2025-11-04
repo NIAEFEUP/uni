@@ -172,7 +172,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
           ),
         ),
         Align(
-          alignment: const Alignment(0, 0.9),
+          alignment: const Alignment(0, 0.95),
           child: AnimatedBuilder(
             animation: _buttonController,
             builder: (context, child) {

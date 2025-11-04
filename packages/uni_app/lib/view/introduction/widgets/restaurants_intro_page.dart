@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class ExamsIntroPage extends StatefulWidget {
-  const ExamsIntroPage({super.key, required this.pageController});
+class RestaurantsIntroPage extends StatefulWidget {
+  const RestaurantsIntroPage({super.key, required this.pageController});
 
   final PageController pageController;
 
   @override
-  State<ExamsIntroPage> createState() => _ExamsIntroPageState();
+  State<RestaurantsIntroPage> createState() => _RestaurantsIntroPageState();
 }
 
-class _ExamsIntroPageState extends State<ExamsIntroPage> {
+class _RestaurantsIntroPageState extends State<RestaurantsIntroPage> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -17,7 +17,7 @@ class _ExamsIntroPageState extends State<ExamsIntroPage> {
         const Align(
           alignment: Alignment(0, -0.85),
           child: Text(
-            'EXAMS',
+            'RESTAURANTS',
             style: TextStyle(
               fontFamily: 'Poppins',
               color: Colors.white,
@@ -31,7 +31,7 @@ class _ExamsIntroPageState extends State<ExamsIntroPage> {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 24),
             child: Text(
-              'Stay always updated with your exam schedules',
+              'Discover campus dining options and menus',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Poppins',
@@ -43,7 +43,7 @@ class _ExamsIntroPageState extends State<ExamsIntroPage> {
         ),
         Align(
           alignment: const Alignment(0.035, 0.5),
-          child: Image.asset('assets/images/exams_intro.png', width: 260),
+          child: Image.asset('assets/images/restaurants_intro.png', width: 260),
         ),
         Align(
           alignment: const Alignment(0, 0.95),
