@@ -103,10 +103,10 @@ class ScheduleHomeCard extends GenericHomecard {
     String dateText;
     if (nextLecture.startTime.isAfter(todayStart) &&
         nextLecture.startTime.isBefore(todayEnd)) {
-      dateText = 'Today:';
+      dateText = S.of(context).today;
     } else if (nextLecture.startTime.isAfter(tomorrowStart) &&
         nextLecture.startTime.isBefore(tomorrowEnd)) {
-      dateText = 'Tomorrow:';
+      dateText = S.of(context).tommorow;
     } else {
       dateText = DateFormat('EEEE, dd MMM').format(nextLecture.startTime);
     }

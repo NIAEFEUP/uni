@@ -447,5 +447,9 @@
 	"services": "Serviços",
 	"@services": {},
   "goi": "Gabinete de Orientação e Integração",
-  "@goi": {}
+  "@goi": {},
+  "tommorow": "amanhã",
+  "@tomorrow": {},
+  "today": "hoje",
+  "@today": {}
 }

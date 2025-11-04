@@ -447,5 +447,9 @@
 	"services": "Services",
 	"@services": {},
   "goi": "Orientation and Integration Office",
-  "@goi": {}
+  "@goi": {},
+  "tommorow": "tommorow",
+  "@tomorrow": {},
+  "today": "today",
+  "@today": {}
 }
