@@ -37,8 +37,8 @@ List<Lecture> getMockLectures() {
       'ESOF',
       'ESOF',
       'T',
-      now.add(const Duration(days: 1)),
-      now.add(const Duration(hours: 2)),
+      now.add(const Duration(days: 5)),
+      now.add(const Duration(hours: 3)),
       'Room B123',
       'ademaraguiar',
       'ademaraguiar',
@@ -50,8 +50,8 @@ List<Lecture> getMockLectures() {
       'LTW',
       'LTW',
       'TP',
-      now.add(const Duration(days: 1, hours: 1)),
-      now.add(const Duration(days: 4, hours: 2)),
+      now.add(const Duration(days: 5, hours: 1)),
+      now.add(const Duration(days: 6, hours: 2)),
       'Room B234',
       'arestivo',
       'arestivo',
@@ -84,7 +84,47 @@ class ScheduleHomeCard extends GenericHomecard {
     final upcomingLectures =
         mockLectures.where((lecture) => lecture.endTime.isAfter(now)).toList();
 
-    if (upcomingLectures.isEmpty) {
+    if (upcomingLectures.isNotEmpty) {
+      final nextLecture = upcomingLectures.first;
+
+    // Determine display text for date
+    String dateText;
+    if (nextLecture.startTime.isAfter(todayStart) &&
+        nextLecture.startTime.isBefore(todayEnd)) {
+      dateText = S.of(context).today;
+    } else if (nextLecture.startTime.isAfter(tomorrowStart) &&
+        nextLecture.startTime.isBefore(tomorrowEnd)) {
+      dateText = S.of(context).tomorrow;
+    } else {
+      dateText = '${DateFormat('EEEE').format(nextLecture.startTime)}:';
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Column(
+          spacing: 16,
+          children: [
+            const UniIcon(size: 45, UniIcons.sun),
+            Text('${S.of(context).no_classes_today}\n${S.of(context).nextclasses}$dateText',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                  fontSize: 14,
+                  
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              )
+          ],
+        ),
+        const SizedBox(height: 18),
+        CardTimeline(
+          items: buildTimelineItems(upcomingLectures, context).take(2).toList(),
+        ),
+      ],
+    );
+    }
+
+    else{
       return Center(
         child: IconLabel(
           icon: const UniIcon(size: 45, UniIcons.beer),
@@ -96,38 +136,6 @@ class ScheduleHomeCard extends GenericHomecard {
         ),
       );
     }
-
-    final nextLecture = upcomingLectures.first;
-
-    // Determine display text for date
-    String dateText;
-    if (nextLecture.startTime.isAfter(todayStart) &&
-        nextLecture.startTime.isBefore(todayEnd)) {
-      dateText = S.of(context).today;
-    } else if (nextLecture.startTime.isAfter(tomorrowStart) &&
-        nextLecture.startTime.isBefore(tomorrowEnd)) {
-      dateText = S.of(context).tommorow;
-    } else {
-      dateText = DateFormat('EEEE, dd MMM').format(nextLecture.startTime);
-    }
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        IconLabel(
-          icon: const UniIcon(size: 45, UniIcons.sun),
-          label: S.of(context).no_classes_today + dateText,
-          labelTextStyle: TextStyle(
-            fontSize: 14,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-        ),
-        const SizedBox(height: 12),
-        CardTimeline(
-          items: buildTimelineItems(upcomingLectures, context).take(2).toList(),
-        ),
-      ],
-    );
   }
 
   @override

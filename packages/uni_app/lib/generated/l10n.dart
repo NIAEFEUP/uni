@@ -1055,10 +1055,10 @@ class S {
     );
   }
 
-  /// `You don't have any more classes today.\n Here are your next classes for `
+  /// `You don't have any more classes today.`
   String get no_classes_today {
     return Intl.message(
-      'You don\'t have any more classes today.\n Here are your next classes for ',
+      'You don\'t have any more classes today.',
       name: 'no_classes_today',
       desc: '',
       args: [],
@@ -2282,21 +2282,31 @@ class S {
     );
   }
 
-  /// `tommorow`
-  String get tommorow {
+  /// `tomorrow:`
+  String get tomorrow {
     return Intl.message(
-      'tommorow',
-      name: 'tommorow',
+      'tomorrow:',
+      name: 'tomorrow',
       desc: '',
       args: [],
     );
   }
 
-  /// `today`
+  /// `today:`
   String get today {
     return Intl.message(
-      'today',
+      'today:',
       name: 'today',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Here are your classes for `
+  String get nextclasses {
+    return Intl.message(
+      'Here are your classes for ',
+      name: 'nextclasses',
       desc: '',
       args: [],
     );

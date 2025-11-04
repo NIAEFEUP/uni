@@ -206,7 +206,7 @@
   "@no_classes_on": {},
   "no_classes_on_weekend": "You don't have classes on",
   "@no_classes_on_weekend": {},
-  "no_classes_today": "You don't have any more classes today.\n Here are your next classes for ",
+  "no_classes_today": "You don't have any more classes today.",
   "@no_classes_today": {},
   "no_college": "no college",
   "@no_college": {},
@@ -448,8 +448,10 @@
 	"@services": {},
   "goi": "Orientation and Integration Office",
   "@goi": {},
-  "tommorow": "tommorow",
+  "tomorrow": "tomorrow:",
   "@tomorrow": {},
-  "today": "today",
-  "@today": {}
+  "today": "today:",
+  "@today": {},
+  "nextclasses": "Here are your classes for ",
+  "@nextclasses": {}
 }
