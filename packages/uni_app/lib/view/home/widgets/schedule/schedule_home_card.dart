@@ -37,8 +37,8 @@ List<Lecture> getMockLectures() {
       'ESOF',
       'ESOF',
       'T',
-      now.add(const Duration(days: 4)),
-      now.add(const Duration(hours: 2)),
+      now.add(const Duration(days: 3, hours: 1)),
+      now.add(const Duration(days: 3, hours: 2)),
       'Room B123',
       'ademaraguiar',
       'ademaraguiar',
@@ -50,8 +50,8 @@ List<Lecture> getMockLectures() {
       'LTW',
       'LTW',
       'TP',
-      now.add(const Duration(days: 5, hours: 1)),
-      now.add(const Duration(days: 6, hours: 2)),
+      now.add(const Duration(days: 4, hours: 1)),
+      now.add(const Duration(days: 4, hours: 2)),
       'Room B234',
       'arestivo',
       'arestivo',
@@ -99,7 +99,7 @@ class ScheduleHomeCard extends GenericHomecard {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              '${S.of(context).nextclasses}$dateText',
+              '$dateText',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
