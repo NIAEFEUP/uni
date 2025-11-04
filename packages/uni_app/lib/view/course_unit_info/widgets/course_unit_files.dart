@@ -50,11 +50,7 @@ class CourseUnitFilesView extends ConsumerWidget {
                   ),
             )
             : Padding(
-              padding: const EdgeInsets.only(
-                left: 16,
-                right: 16,
-                top: 10,
-              ),
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
               child: ListView(children: cards),
             );
       },
