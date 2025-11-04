@@ -37,8 +37,8 @@ List<Lecture> getMockLectures() {
       'ESOF',
       'ESOF',
       'T',
-      now.add(const Duration(days: 3, hours: 1)),
-      now.add(const Duration(days: 3, hours: 2)),
+      now.add(const Duration(days: 7, hours: 1)),
+      now.add(const Duration(days: 7, hours: 2)),
       'Room B123',
       'ademaraguiar',
       'ademaraguiar',
@@ -50,8 +50,8 @@ List<Lecture> getMockLectures() {
       'LTW',
       'LTW',
       'TP',
-      now.add(const Duration(days: 4, hours: 1)),
-      now.add(const Duration(days: 4, hours: 2)),
+      now.add(const Duration(days: 7, hours: 2)),
+      now.add(const Duration(days: 7, hours: 3)),
       'Room B234',
       'arestivo',
       'arestivo',
@@ -89,6 +89,16 @@ class ScheduleHomeCard extends GenericHomecard {
       // ensure the list is sorted so first == next
       upcomingLectures.sort((a, b) => a.startTime.compareTo(b.startTime));
       final nextLecture = upcomingLectures.first;
+      Lecture secondLecture = nextLecture;
+      if(upcomingLectures.length > 1){
+        secondLecture = upcomingLectures[1];
+      }
+      
+      if(secondLecture.startTime.day != nextLecture.startTime.day){
+        upcomingLectures
+          ..clear()
+          ..add(nextLecture);
+      }
 
       // Determine display text for date
       String dateText;
@@ -99,7 +109,7 @@ class ScheduleHomeCard extends GenericHomecard {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              '$dateText',
+              dateText,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
@@ -171,25 +181,14 @@ class ScheduleHomeCard extends GenericHomecard {
           ],
         );
       } else {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const UniIcon(size: 45, UniIcons.sun),
-                const SizedBox(height: 8),
-                Text(
-                  S.of(context).no_classes_this_week,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                )
-              ],
+          return Center(child:
+          IconLabel(icon: const UniIcon(size : 45, UniIcons.sun), 
+          label: S.of(context).no_classes_this_week,
+          labelTextStyle: TextStyle(
+              fontSize: 14,
+              color: Theme.of(context).colorScheme.primary,
             ),
-          ],
+          )
         );
       }
     } else {
