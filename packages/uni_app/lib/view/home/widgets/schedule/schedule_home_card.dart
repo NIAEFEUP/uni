@@ -11,7 +11,7 @@ import 'package:uni/model/providers/riverpod/lecture_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
-import 'package:uni/view/academic_path/academic_path.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/timeline_shimmer.dart';
 import 'package:uni/view/widgets/icon_label.dart';
@@ -20,7 +20,11 @@ import 'package:uni_ui/cards/timeline_card.dart';
 import 'package:uni_ui/icons.dart';
 
 class ScheduleHomeCard extends GenericHomecard {
-  const ScheduleHomeCard({super.key});
+  const ScheduleHomeCard({super.key})
+    : super(
+        titlePadding: const EdgeInsets.symmetric(horizontal: 20),
+        bodyPadding: const EdgeInsets.symmetric(horizontal: 20),
+      );
 
   @override
   String getTitle(BuildContext context) {
@@ -57,11 +61,10 @@ class ScheduleHomeCard extends GenericHomecard {
 
   @override
   void onCardClick(BuildContext context) {
-    Navigator.push(
+    Navigator.pushNamed(
       context,
-      MaterialPageRoute<void>(
-        builder: (context) => const AcademicPathPageView(initialTabIndex: 1),
-      ),
+      '/${NavigationItem.navAcademicPath.route}',
+      arguments: 1,
     );
   }
 

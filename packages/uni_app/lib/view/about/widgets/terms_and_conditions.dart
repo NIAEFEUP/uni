@@ -19,7 +19,7 @@ class TermsAndConditions extends StatelessWidget {
           termsAndConditionsSaved = termsAndConditions.data;
         }
         return Padding(
-          padding: const EdgeInsets.only(bottom: 30),
+          padding: const EdgeInsets.only(left: 20, right: 20, bottom: 30),
           child: MarkdownBody(
             styleSheet: MarkdownStyleSheet.fromTheme(
               Theme.of(context),

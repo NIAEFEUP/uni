@@ -19,12 +19,13 @@ class ProfileInfo extends ConsumerWidget {
       provider: profileProvider,
       builder:
           (context, ref, profile) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Center(
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
+                    const SizedBox(width: 20),
                     ProfileCard(
                       label: S.of(context).balance,
                       content: profile.feesBalance,
@@ -46,6 +47,7 @@ class ProfileInfo extends ConsumerWidget {
                       tooltip: S.of(context).print_balance,
                       // onClick: () => addMoneyDialog(context),
                     ),
+                    const SizedBox(width: 20),
                   ],
                 ),
               ),
