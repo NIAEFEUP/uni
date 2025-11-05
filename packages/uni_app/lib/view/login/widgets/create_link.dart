@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:uni_ui/theme.dart';
 
 class LinkWidget extends StatelessWidget {
   const LinkWidget({
@@ -19,18 +20,16 @@ class LinkWidget extends StatelessWidget {
       textAlign: TextAlign.center,
       text: TextSpan(
         text: textStart,
-        style: Theme.of(
-          context,
-        ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+        style: Theme.of(context).bodyMedium.copyWith(color: white),
         children: [
           const TextSpan(text: ' '),
           TextSpan(
             text: textEnd,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.white,
+            style: Theme.of(context).bodyMedium.copyWith(
+              color: white,
               fontWeight: FontWeight.w700,
               decoration: TextDecoration.underline,
-              decorationColor: Colors.white,
+              decorationColor: white,
             ),
             recognizer: recognizer,
           ),

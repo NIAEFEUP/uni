@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:uni_ui/theme.dart';
 
 class _CalendarItemDate extends StatelessWidget {
   const _CalendarItemDate({this.eventPeriod, this.endYear});
@@ -21,10 +22,7 @@ class _CalendarItemDate extends StatelessWidget {
           ),
           Text(
             endYear ?? '',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.outline,
-              fontSize: 11,
-            ),
+            style: TextStyle(color: Theme.of(context).outline, fontSize: 11),
           ),
         ],
       );
@@ -105,9 +103,9 @@ class CalendarItem extends StatelessWidget {
               height: 20,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isToday ? Theme.of(context).primaryColor : Colors.white,
+                color: isToday ? Theme.of(context).primaryVibrant : white,
                 border: Border.all(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).primaryVibrant,
                   width: 4.0,
                 ),
               ),
@@ -119,7 +117,7 @@ class CalendarItem extends StatelessWidget {
                           height: 20,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 3),
+                            border: Border.all(color: white, width: 3),
                           ),
                         ),
                       )
@@ -134,7 +132,7 @@ class CalendarItem extends StatelessWidget {
                   bottomRight: Radius.circular(2),
                 ),
                 shape: BoxShape.rectangle,
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).primaryVibrant,
               ),
             ),
           ],
@@ -155,13 +153,13 @@ class CalendarItem extends StatelessWidget {
                         stops: [0, 1],
                       )
                       : null,
-              color: isToday ? null : Theme.of(context).colorScheme.secondary,
+              color: isToday ? null : Theme.of(context).secondary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
               shadows: [
                 BoxShadow(
-                  color: Theme.of(context).colorScheme.shadow.withAlpha(0x3f),
+                  color: Theme.of(context).grayMiddle.withAlpha(0x3f),
                   blurRadius: 6,
                 ),
               ],
@@ -171,8 +169,8 @@ class CalendarItem extends StatelessWidget {
               style: TextStyle(
                 color:
                     isToday
-                        ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context).colorScheme.primary,
+                        ? Theme.of(context).secondary
+                        : Theme.of(context).primaryVibrant,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 height: 1,

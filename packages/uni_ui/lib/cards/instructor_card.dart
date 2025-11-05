@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni_ui/cards/generic_card.dart';
+import 'package:uni_ui/theme.dart';
 
 const double _avatarRadius = 20;
 
@@ -30,7 +31,7 @@ class InstructorCard extends StatelessWidget {
             tooltip: name,
             padding: EdgeInsets.all(0),
             margin: EdgeInsets.all(0),
-            shadowColor: Colors.transparent,
+            shadowColor: transparent,
             child: Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(color: CardTheme.of(context).color),
@@ -53,12 +54,12 @@ class InstructorCard extends StatelessWidget {
                       children: [
                         Text(
                           name,
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: Theme.of(context).titleMedium,
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
                           isRegent ? regentLabel : instructorLabel,
-                          style: Theme.of(context).textTheme.labelLarge,
+                          style: Theme.of(context).labelLarge,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],

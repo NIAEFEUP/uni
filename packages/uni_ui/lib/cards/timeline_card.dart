@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class TimelineItem extends StatelessWidget {
   const TimelineItem({
@@ -25,8 +25,8 @@ class TimelineItem extends StatelessWidget {
           width: titleWidth,
           child: Column(
             children: [
-              Text(title, style: Theme.of(context).textTheme.bodyLarge),
-              Text(subtitle, style: Theme.of(context).textTheme.labelLarge),
+              Text(title, style: Theme.of(context).bodyLarge),
+              Text(subtitle, style: Theme.of(context).labelLarge),
             ],
           ),
         ),
@@ -38,9 +38,9 @@ class TimelineItem extends StatelessWidget {
               height: 20,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isActive ? Theme.of(context).primaryColor : Colors.white,
+                color: isActive ? Theme.of(context).primaryVibrant : white,
                 border: Border.all(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).primaryVibrant,
                   width: 4.0,
                 ),
               ),
@@ -52,7 +52,7 @@ class TimelineItem extends StatelessWidget {
                           height: 20,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 3),
+                            border: Border.all(color: white, width: 3),
                           ),
                         ),
                       )
@@ -64,7 +64,7 @@ class TimelineItem extends StatelessWidget {
               width: 3,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).primaryVibrant,
               ),
             ),
           ],

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/utils/date_time_formatter.dart';

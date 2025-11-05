@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:uni/model/entities/lecture.dart';
@@ -10,6 +10,7 @@ import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
+import 'package:uni_ui/theme.dart';
 
 class ScheduleDayTimeline extends ConsumerWidget {
   const ScheduleDayTimeline({
@@ -37,7 +38,7 @@ class ScheduleDayTimeline extends ConsumerWidget {
         children: [
           Text(
             DateFormat('EEEE, d MMMM').format(day),
-            style: Theme.of(context).textTheme.headlineLarge,
+            style: Theme.of(context).headlineLarge,
           ),
           const SizedBox(height: 14),
           CardTimeline(items: _buildTimelineItems(lectures, context, ref)),

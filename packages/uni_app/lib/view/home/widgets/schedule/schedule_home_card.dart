@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:uni/generated/l10n.dart';
@@ -18,6 +18,7 @@ import 'package:uni/view/widgets/icon_label.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart';
 
 class ScheduleHomeCard extends GenericHomecard {
   const ScheduleHomeCard({super.key})
@@ -46,7 +47,7 @@ class ScheduleHomeCard extends GenericHomecard {
           label: S.of(context).no_classes,
           labelTextStyle: TextStyle(
             fontSize: 14,
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).primaryVibrant,
           ),
         ),
       ),

@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
+import 'package:uni_ui/theme.dart';
 
 // TODO(thePeras): This class should be extracted up
 class RowFormat extends StatelessWidget {
@@ -28,8 +29,8 @@ class RowFormat extends StatelessWidget {
         event.name,
         style:
             isToday
-                ? Theme.of(context).textTheme.headlineMedium
-                : Theme.of(context).textTheme.headlineSmall,
+                ? Theme.of(context).headlineMedium
+                : Theme.of(context).headlineSmall,
         maxLines: 5,
       ),
     );

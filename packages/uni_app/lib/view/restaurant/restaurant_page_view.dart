@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
@@ -164,7 +164,7 @@ class _RestaurantPageViewState
         nullContentWidget: Center(
           child: Text(
             S.of(context).no_menus,
-            style: Theme.of(context).textTheme.titleMedium,
+            style: Theme.of(context).titleMedium,
           ),
         ),
         hasContent: (restaurants) => restaurants.isNotEmpty,
@@ -251,7 +251,7 @@ class _RestaurantPageViewState
       return Center(
         child: Text(
           S.of(context).no_menus,
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context).titleMedium,
         ),
       );
     }

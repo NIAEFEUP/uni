@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni_ui/courses/course_card.dart';
 import 'package:uni_ui/courses/course_info.dart';
 

@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart';
 
 class LocationMarker extends Marker {
   LocationMarker(this.latlng, this.locationGroup)
@@ -16,10 +17,8 @@ class LocationMarker extends Marker {
           builder:
               (context) => DecoratedBox(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface,
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
+                  color: Theme.of(context).background,
+                  border: Border.all(color: Theme.of(context).primaryVibrant),
                   borderRadius: const BorderRadius.all(Radius.circular(20)),
                 ),
                 child: MarkerIcon(
@@ -52,7 +51,7 @@ class MarkerIcon extends StatelessWidget {
       );
     } else {
       return UniIcon(
-        Icons.device_unknown,
+        Icons.device_unknown, // not in icons.dart
         color: fontColor,
         size: 12,
         solid: true,
@@ -63,7 +62,7 @@ class MarkerIcon extends StatelessWidget {
   // TODO(thePeras): Duplicated code
   Color _getFontColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.light
-        ? Theme.of(context).colorScheme.primary
-        : Theme.of(context).colorScheme.tertiary;
+        ? Theme.of(context).primaryVibrant
+        : Theme.of(context).details;
   }
 }

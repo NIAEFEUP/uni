@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:uni_ui/theme.dart';
 
 class ModalPersonInfo extends StatelessWidget {
   const ModalPersonInfo({this.image, required this.name});
@@ -15,12 +16,12 @@ class ModalPersonInfo extends StatelessWidget {
           CircleAvatar(
             radius: 60.0,
             backgroundImage: image?.image,
-            backgroundColor: Colors.green,
+            backgroundColor: white,
           ),
           Padding(padding: EdgeInsets.only(top: 10.0)),
           Text(
             name,
-            style: Theme.of(context).textTheme.displaySmall,
+            style: Theme.of(context).displaySmall,
             textAlign: TextAlign.center,
           ),
         ],

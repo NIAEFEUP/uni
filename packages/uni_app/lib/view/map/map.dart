@@ -1,5 +1,5 @@
 import 'package:diacritic/diacritic.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
@@ -160,7 +160,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                     ),
                     child: PhysicalModel(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
+                      color: white,
                       elevation: 3,
                       child: TextFormField(
                         key: searchFormKey,
@@ -173,7 +173,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                         },
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: Theme.of(context).colorScheme.secondary,
+                          fillColor: Theme.of(context).secondary,
                           prefixIcon: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: SvgPicture.asset(
@@ -217,7 +217,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                             cursor: SystemMouseCursors.click,
                             child: Text(
                               '©OpenStreetMap @CARTO',
-                              style: Theme.of(context).textTheme.bodySmall,
+                              style: Theme.of(context).bodySmall,
                             ),
                           ),
                         ),

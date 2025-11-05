@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni_ui/theme.dart';
 
 class FormTextField extends StatelessWidget {
   const FormTextField(
@@ -40,16 +41,12 @@ class FormTextField extends StatelessWidget {
           hintText: hintText,
           floatingLabelBehavior: FloatingLabelBehavior.always,
           border: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.primary,
-            ),
+            borderSide: BorderSide(color: Theme.of(context).primaryVibrant),
             borderRadius: BorderRadius.circular(8),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.primary,
-            ),
+            borderSide: BorderSide(color: Theme.of(context).primaryVibrant),
           ),
         ),
         controller: controller,

@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:uni_ui/common/generic_squircle.dart';
+import 'package:uni_ui/theme.dart';
 
 class ShimmerTimelineItem extends StatelessWidget {
   const ShimmerTimelineItem({super.key});
@@ -8,8 +9,8 @@ class ShimmerTimelineItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
+      baseColor: Theme.of(context).grayMiddle,
+      highlightColor: Theme.of(context).grayLight,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -17,9 +18,9 @@ class ShimmerTimelineItem extends StatelessWidget {
             width: 50,
             child: Column(
               children: [
-                Container(width: 40, height: 16, color: Colors.white),
+                Container(width: 40, height: 16, color: white),
                 const SizedBox(height: 4),
-                Container(width: 30, height: 12, color: Colors.white),
+                Container(width: 30, height: 12, color: white),
               ],
             ),
           ),
@@ -31,7 +32,7 @@ class ShimmerTimelineItem extends StatelessWidget {
                 height: 20,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white,
+                  color: white,
                 ),
               ),
               Container(
@@ -40,7 +41,7 @@ class ShimmerTimelineItem extends StatelessWidget {
                 width: 3,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Colors.white,
+                  color: white,
                 ),
               ),
             ],
@@ -51,7 +52,7 @@ class ShimmerTimelineItem extends StatelessWidget {
               child: Container(
                 height: 70,
                 width: double.infinity,
-                color: Colors.white,
+                color: white,
               ),
             ),
           ),

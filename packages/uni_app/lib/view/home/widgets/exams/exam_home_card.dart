@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
@@ -15,6 +15,7 @@ import 'package:uni/view/widgets/icon_label.dart';
 import 'package:uni_ui/cards/exam_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart';
 
 class ExamHomeCard extends GenericHomecard {
   const ExamHomeCard({super.key})
@@ -53,7 +54,7 @@ class ExamHomeCard extends GenericHomecard {
               label: S.of(context).no_exams,
               labelTextStyle: TextStyle(
                 fontSize: 14,
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).primaryVibrant,
               ),
             ),
           ),

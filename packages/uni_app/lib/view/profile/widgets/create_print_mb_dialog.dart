@@ -1,11 +1,13 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/view/widgets/toast_message.dart';
+import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart';
 
 final moneyValueProvider = StateProvider<double>((ref) => 1.0);
 
@@ -38,13 +40,13 @@ Future<void> addMoneyDialog(BuildContext context) {
                     child: Text(
                       S.of(context).reference_sigarra_help,
                       textAlign: TextAlign.start,
-                      style: Theme.of(context).textTheme.titleSmall,
+                      style: Theme.of(context).titleSmall,
                     ),
                   ),
                   Row(
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.indeterminate_check_box),
+                        icon: const Icon(Icons.indeterminate_check_box), // use uni_ui icons instead
                         tooltip: S.of(context).decrement,
                         onPressed: () {
                           final decreasedValue =
@@ -86,7 +88,7 @@ Future<void> addMoneyDialog(BuildContext context) {
                         ),
                       ),
                       IconButton(
-                        icon: const Icon(Icons.add_box),
+                        icon: const Icon(Icons.add_box), // use uni_ui icons instead
                         tooltip: S.of(context).increment,
                         onPressed: () {
                           controller.value = TextEditingValue(
@@ -103,13 +105,13 @@ Future<void> addMoneyDialog(BuildContext context) {
             ),
             title: Text(
               S.of(context).add_quota,
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).headlineSmall,
             ),
             actions: [
               TextButton(
                 child: Text(
                   S.of(context).cancel,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(context).bodyMedium,
                 ),
                 onPressed: () => Navigator.pop(context),
               ),

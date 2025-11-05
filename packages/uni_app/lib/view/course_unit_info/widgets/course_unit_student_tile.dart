@@ -1,10 +1,11 @@
 import 'package:figma_squircle/figma_squircle.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/view/course_unit_info/widgets/modal_student_info.dart';
+import 'package:uni_ui/theme.dart';
 
 class CourseUnitStudentTile extends ConsumerWidget {
   const CourseUnitStudentTile(this.student, this.session, {super.key});
@@ -65,9 +66,7 @@ class CourseUnitStudentTile extends ConsumerWidget {
                         Text(
                           firstName,
                           overflow: TextOverflow.fade,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleLarge?.copyWith(
+                          style: Theme.of(context).titleLarge?.copyWith(
                             color: const Color.fromARGB(255, 48, 48, 48),
                           ),
                           textAlign: TextAlign.center,
@@ -75,9 +74,7 @@ class CourseUnitStudentTile extends ConsumerWidget {
                         Text(
                           lastName,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleLarge?.copyWith(
+                          style: Theme.of(context).titleLarge?.copyWith(
                             color: const Color.fromARGB(255, 48, 48, 48),
                           ),
                           textAlign: TextAlign.center,

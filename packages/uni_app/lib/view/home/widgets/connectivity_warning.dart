@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/services/connectivity_service.dart';
 import 'package:uni_ui/theme.dart';
@@ -53,11 +53,11 @@ class _ConnectivityWarningState extends State<ConnectivityWarning> {
         showDuration: const Duration(seconds: 2),
         verticalOffset: 18,
         decoration: BoxDecoration(
-          color: secondary,
+          color: Theme.of(context).secondary,
           borderRadius: BorderRadius.circular(8),
         ),
-        textStyle: const TextStyle(color: primaryVibrant),
-        child: const Icon(Icons.signal_wifi_off, color: secondary, size: 18),
+        textStyle: TextStyle(color: Theme.of(context).primaryVibrant),
+        child: Icon(Icons.signal_wifi_off, color: Theme.of(context).secondary, size: 18), // use uni_ui icons instead
       ),
     );
   }

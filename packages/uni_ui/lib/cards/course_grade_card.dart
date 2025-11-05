@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:uni_ui/theme.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 
 class CourseGradeCard extends StatelessWidget {
@@ -27,9 +28,9 @@ class CourseGradeCard extends StatelessWidget {
       margin: EdgeInsets.zero,
       color:
           grade == ''
-              ? theme.colorScheme.surfaceContainer
+              ? theme.secondary
               : ((double.tryParse(grade!) ?? 0) >= 10
-                  ? theme.colorScheme.surfaceContainer
+                  ? theme.secondary
                   : const Color.fromARGB(255, 249, 247, 247)),
       child: SizedBox(
         height: 75,
@@ -39,7 +40,7 @@ class CourseGradeCard extends StatelessWidget {
           children: [
             Text(
               courseName,
-              style: theme.textTheme.bodySmall,
+              style: theme.bodySmall,
               overflow: TextOverflow.ellipsis,
             ),
             Row(
@@ -47,9 +48,9 @@ class CourseGradeCard extends StatelessWidget {
               children: [
                 Text(
                   '${ects == ects.toInt() ? ects.toInt() : ects} ECTS',
-                  style: theme.textTheme.bodySmall,
+                  style: theme.bodySmall,
                 ),
-                Text('${grade ?? ""}', style: theme.textTheme.bodySmall),
+                Text('${grade ?? ""}', style: theme.bodySmall),
               ],
             ),
           ],

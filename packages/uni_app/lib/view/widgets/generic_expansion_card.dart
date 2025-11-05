@@ -1,5 +1,6 @@
 import 'package:expansion_tile_card/expansion_tile_card.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:uni_ui/theme.dart';
 
 /// Card with an expandable child
 abstract class GenericExpansionCard extends StatelessWidget {
@@ -13,7 +14,7 @@ abstract class GenericExpansionCard extends StatelessWidget {
 
   TextStyle? getTitleStyle(BuildContext context) => Theme.of(
     context,
-  ).textTheme.headlineSmall?.apply(color: Theme.of(context).primaryColor);
+  ).headlineSmall.apply(color: Theme.of(context).primaryVibrant);
 
   String getTitle(BuildContext context);
 
@@ -24,7 +25,7 @@ abstract class GenericExpansionCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
       child: ExpansionTileCard(
-        expandedTextColor: Theme.of(context).primaryColor,
+        expandedTextColor: Theme.of(context).primaryVibrant,
         heightFactorCurve: Curves.ease,
         turnsCurve: Curves.easeOutBack,
         expandedColor:
@@ -33,12 +34,12 @@ abstract class GenericExpansionCard extends StatelessWidget {
                 : const Color.fromARGB(255, 43, 43, 43),
         title: Text(
           getTitle(context),
-          style: Theme.of(context).textTheme.headlineSmall?.apply(
-            color: Theme.of(context).primaryColor,
-          ),
+          style: Theme.of(
+            context,
+          ).headlineSmall.apply(color: Theme.of(context).primaryVibrant),
         ),
         elevation: 0,
-        baseColor: Theme.of(context).colorScheme.surface,
+        baseColor: Theme.of(context).background,
         children: <Widget>[
           Container(
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),

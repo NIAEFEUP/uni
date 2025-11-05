@@ -1,7 +1,7 @@
 import 'package:add_2_calendar_new/add_2_calendar_new.dart';
 import 'package:collection/collection.dart';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:uni/generated/l10n.dart';
@@ -15,6 +15,7 @@ import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
+import 'package:uni_ui/theme.dart';
 
 class ExamModal extends ConsumerWidget {
   const ExamModal({super.key, required this.exam});
@@ -27,7 +28,7 @@ class ExamModal extends ConsumerWidget {
 
     return ModalDialog(
       children: [
-        Text(exam.subject, style: Theme.of(context).textTheme.headlineMedium),
+        Text(exam.subject, style: Theme.of(context).headlineMedium),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Row(
@@ -36,24 +37,24 @@ class ExamModal extends ConsumerWidget {
               UniIcon(
                 UniIcons.clock,
                 size: 20,
-                color: Theme.of(context).shadowColor,
+                color: Theme.of(context).grayMiddle,
               ),
               const SizedBox(width: 8),
               Text(
                 '${exam.formatTime(exam.start)} - ${exam.formatTime(exam.finish)}',
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).bodyMedium,
                 overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(width: 16),
               UniIcon(
                 UniIcons.calendar,
                 size: 20,
-                color: Theme.of(context).shadowColor,
+                color: Theme.of(context).grayMiddle,
               ),
               const SizedBox(width: 8),
               Text(
                 '${exam.start.shortMonth(locale).capitalize()} ${exam.start.day}',
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).bodyMedium,
                 overflow: TextOverflow.ellipsis,
               ),
             ],
@@ -64,7 +65,7 @@ class ExamModal extends ConsumerWidget {
           icon: UniIcons.calendar,
           trailing: UniIcon(
             UniIcons.caretRight,
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).primaryVibrant,
           ),
           onPressed: () {
             final event = Event(
@@ -82,7 +83,7 @@ class ExamModal extends ConsumerWidget {
           icon: UniIcons.courseUnit,
           trailing: UniIcon(
             UniIcons.caretRight,
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).primaryVibrant,
           ),
           onPressed: () {
             final profile = ref.watch(

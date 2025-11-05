@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -10,6 +10,7 @@ import 'package:uni/view/widgets/expanded_image_label.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/refresh_state.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
+import 'package:uni_ui/theme.dart';
 
 abstract class GeneralPageViewState<T extends ConsumerStatefulWidget>
     extends ConsumerState<T> {
@@ -94,7 +95,7 @@ abstract class GeneralPageViewState<T extends ConsumerStatefulWidget>
               labelTextStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).primaryVibrant,
               ),
               sublabel: S.of(context).check_internet,
             ),
@@ -116,7 +117,7 @@ abstract class GeneralPageViewState<T extends ConsumerStatefulWidget>
       context: context,
       removeBottom: true,
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: Theme.of(context).background,
         appBar: getTopNavbar(context),
         extendBody: true,
         bottomNavigationBar: const AppBottomNavbar(),

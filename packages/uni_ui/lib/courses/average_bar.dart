@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni_ui/common/generic_squircle.dart';
 
 class AverageBar extends StatelessWidget {
@@ -32,7 +32,7 @@ class AverageBar extends StatelessWidget {
             GenericSquircle(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).secondary,
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                 ),
                 constraints: BoxConstraints(

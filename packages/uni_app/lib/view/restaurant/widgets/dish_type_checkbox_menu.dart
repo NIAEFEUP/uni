@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
+import 'package:uni_ui/theme.dart';
 
 class DishTypeCheckboxMenu extends StatefulWidget {
   const DishTypeCheckboxMenu({
@@ -74,7 +75,7 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                 CheckboxListTile(
                   title: Text(
                     S.of(context).select_all,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).titleMedium,
                   ),
                   value: isAllSelected,
                   onChanged: toggleSelectAll,
@@ -88,7 +89,7 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                     dense: true,
                     title: Text(
                       S.of(context).dish_type(keyLabel),
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme.of(context).bodyMedium,
                     ),
                     value: dialogSelected.contains(keyLabel),
                     onChanged: (isChecked) => toggleDish(keyLabel, isChecked),
@@ -117,10 +118,7 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                       },
                       child: Text(
                         S.of(context).apply,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.white,
-                        ),
+                        style: const TextStyle(fontSize: 12, color: white),
                       ),
                     ),
                   ],
@@ -138,17 +136,14 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
     return TextButton(
       style: TextButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+        backgroundColor: Theme.of(context).secondary,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
       ),
       onPressed: () => _showFilterDialog(context),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            S.of(context).dish_types,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
+          Text(S.of(context).dish_types, style: Theme.of(context).bodyMedium),
           const SizedBox(width: 8),
           const UniIcon(UniIcons.caretDownRegular),
         ],

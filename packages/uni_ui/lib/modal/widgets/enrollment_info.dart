@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:uni_ui/theme.dart';
 
 class ModalEnrollementInfo extends StatelessWidget {
   const ModalEnrollementInfo({required this.enrollements});
@@ -12,13 +13,13 @@ class ModalEnrollementInfo extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(color: Theme.of(context).dividerColor, width: 1),
+          top: BorderSide(color: Theme.of(context).divider, width: 1),
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Enrollments", style: Theme.of(context).textTheme.bodyMedium),
+          Text("Enrollments", style: Theme.of(context).bodyMedium),
           Wrap(
             spacing: 1,
             direction: Axis.horizontal,
@@ -27,20 +28,17 @@ class ModalEnrollementInfo extends StatelessWidget {
                   return Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        entry.key,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
+                      Text(entry.key, style: Theme.of(context).bodyLarge),
                       Container(
                         padding: const EdgeInsets.all(4.0),
                         margin: const EdgeInsets.all(3.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: Theme.of(context).primaryColor,
+                          color: Theme.of(context).primaryVibrant,
                         ),
                         child: Text(
                           entry.value,
-                          style: Theme.of(context).textTheme.titleSmall,
+                          style: Theme.of(context).titleSmall,
                         ),
                       ),
                     ],

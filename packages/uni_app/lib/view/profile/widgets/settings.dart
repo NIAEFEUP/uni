@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
@@ -10,6 +10,7 @@ import 'package:uni/view/profile/widgets/usage_stats_switch.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/cards/profile_list_tile.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
@@ -21,10 +22,7 @@ class Settings extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            S.of(context).settings,
-            style: Theme.of(context).textTheme.headlineLarge,
-          ),
+          Text(S.of(context).settings, style: Theme.of(context).headlineLarge),
           GenericCard(
             tooltip: S.of(context).settings,
             margin: const EdgeInsets.symmetric(vertical: 8),
@@ -69,7 +67,7 @@ class Settings extends StatelessWidget {
               subtitle: S.of(context).feedback_description,
               trailing: UniIcon(
                 UniIcons.caretRight,
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).primaryVibrant,
               ),
               onTap: () {
                 Navigator.pushNamed(
@@ -87,7 +85,7 @@ class Settings extends StatelessWidget {
               title: S.of(context).terms,
               trailing: UniIcon(
                 UniIcons.caretRight,
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).primaryVibrant,
               ),
               onTap: () {
                 Navigator.pushNamed(
@@ -106,7 +104,7 @@ class Settings extends StatelessWidget {
               title: S.of(context).change_password,
               trailing: UniIcon(
                 UniIcons.caretRight,
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).primaryVibrant,
               ),
               onTap:
                   () => launchUrlWithToast(
@@ -124,7 +122,7 @@ class Settings extends StatelessWidget {
               title: S.of(context).logout,
               trailing: UniIcon(
                 UniIcons.caretRight,
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).primaryVibrant,
               ),
               onTap: NetworkRouter.authenticationController?.close,
             ),

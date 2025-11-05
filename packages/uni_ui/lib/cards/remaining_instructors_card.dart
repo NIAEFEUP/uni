@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 
 const double _avatarRadius = 20;
@@ -27,8 +27,8 @@ class RemainingInstructorsCard extends StatelessWidget {
             tooltip: tooltip,
             padding: EdgeInsets.all(0),
             margin: EdgeInsets.all(0),
-            color: Colors.transparent,
-            shadowColor: Colors.transparent,
+            color: transparent,
+            shadowColor: transparent,
             child: Container(
               padding: const EdgeInsets.all(10),
               child: Row(
@@ -78,8 +78,7 @@ class RemainingInstructorsCard extends StatelessWidget {
                                   padding: const EdgeInsets.all(4.0),
                                   child: Text(
                                     '+$remainingCount',
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
+                                    style: Theme.of(context).titleMedium,
                                   ),
                                 ),
                               ),

@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni_ui/theme.dart';
 
 /// Manages the app section displayed when the user presses the back button
 class BackButtonExitWrapper extends StatelessWidget {
@@ -22,7 +23,7 @@ class BackButtonExitWrapper extends StatelessWidget {
               (context) => AlertDialog(
                 title: Text(
                   S.of(context).exit_confirm,
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  style: Theme.of(context).headlineSmall,
                 ),
                 actions: <Widget>[
                   ElevatedButton(

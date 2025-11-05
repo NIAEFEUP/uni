@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course.dart';
@@ -10,6 +10,7 @@ import 'package:uni/view/academic_path/widgets/no_courses_widget.dart';
 import 'package:uni_ui/courses/average_bar.dart';
 import 'package:uni_ui/courses/course_info.dart';
 import 'package:uni_ui/courses/course_selection.dart';
+import 'package:uni_ui/theme.dart';
 
 class CoursesPage extends ConsumerStatefulWidget {
   const CoursesPage({super.key});
@@ -133,7 +134,7 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
               padding: const EdgeInsets.only(top: 16),
               child: Text(
                 course.name ?? '',
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: Theme.of(context).headlineMedium,
                 textAlign: TextAlign.center,
               ),
             ),

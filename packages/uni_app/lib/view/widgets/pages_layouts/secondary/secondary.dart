@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/view/widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/refresh_state.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
+import 'package:uni_ui/theme.dart';
 
 /// Page with a back button on top
 abstract class SecondaryPageViewState<T extends ConsumerStatefulWidget>
@@ -14,7 +15,7 @@ abstract class SecondaryPageViewState<T extends ConsumerStatefulWidget>
       context: context,
       removeBottom: true,
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: Theme.of(context).background,
         appBar: getTopNavbar(context),
         body: RefreshState(
           onRefresh: onRefresh,
@@ -39,9 +40,7 @@ abstract class SecondaryPageViewState<T extends ConsumerStatefulWidget>
       centerTitle: true,
       leftButton: BackButton(
         style: ButtonStyle(
-          iconColor: WidgetStateProperty.all(
-            Theme.of(context).colorScheme.primary,
-          ),
+          iconColor: WidgetStateProperty.all(Theme.of(context).primaryVibrant),
         ),
       ),
       rightButton: getRightContent(context),

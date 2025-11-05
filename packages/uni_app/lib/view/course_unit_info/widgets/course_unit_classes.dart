@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/utils/student_number_getter.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_student_tile.dart';
+import 'package:uni_ui/theme.dart';
 
 class CourseUnitClassesView extends ConsumerStatefulWidget {
   const CourseUnitClassesView(this.classes, {super.key});
@@ -139,12 +140,12 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                   decoration: BoxDecoration(
                     color:
                         isSelected
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.secondary,
+                            ? Theme.of(context).primaryVibrant
+                            : Theme.of(context).secondary,
                     borderRadius: BorderRadius.circular(25),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withAlpha(51), // 20% opacity
+                        color: black.withAlpha(51), // 20% opacity
                         spreadRadius: 2,
                         blurRadius: 5,
                         offset: const Offset(0, 2),
@@ -162,10 +163,10 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                         : courseUnitClass.className,
                     style:
                         isSelected
-                            ? Theme.of(context).textTheme.labelMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onPrimary,
+                            ? Theme.of(context).labelMedium?.copyWith(
+                              color: Theme.of(context).onPrimary,
                             )
-                            : Theme.of(context).textTheme.labelMedium,
+                            : Theme.of(context).labelMedium,
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni_ui/cards/service_card.dart';
@@ -6,6 +6,7 @@ import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
 import 'package:uni_ui/modal/widgets/service_info.dart';
+import 'package:uni_ui/theme.dart';
 
 class ServicesCard extends StatelessWidget {
   const ServicesCard({
@@ -63,7 +64,7 @@ class ServicesCard extends StatelessWidget {
                   icon: UniIcons.phone,
                   trailing: UniIcon(
                     UniIcons.caretRight,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).primaryVibrant,
                   ),
                 ),
               ),
@@ -76,7 +77,7 @@ class ServicesCard extends StatelessWidget {
                   icon: UniIcons.email,
                   trailing: UniIcon(
                     UniIcons.caretRight,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).primaryVibrant,
                   ),
                 ),
               ),

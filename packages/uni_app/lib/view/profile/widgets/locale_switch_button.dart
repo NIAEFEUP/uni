@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/view/locale_notifier.dart';
+import 'package:uni_ui/theme.dart';
 
 class LocaleSwitchButton extends ConsumerWidget {
   const LocaleSwitchButton({super.key});
@@ -18,14 +19,14 @@ class LocaleSwitchButton extends ConsumerWidget {
         child: ElevatedButton(
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all(
-              Theme.of(context).colorScheme.primary,
+              Theme.of(context).primaryVibrant,
             ),
             padding: WidgetStateProperty.all(EdgeInsets.zero),
           ),
           onPressed: localeNotifier.setNextLocale,
           child: Text(
             locale.localeCode.languageCode.toUpperCase(),
-            style: Theme.of(context).textTheme.titleSmall,
+            style: Theme.of(context).titleSmall,
           ),
         ),
       ),

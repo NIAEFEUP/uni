@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
@@ -41,16 +41,37 @@ void main() async {
 
     final beginSopeExam = DateTime.parse('2099-11-18 17:00');
     final endSopeExam = DateTime.parse('2099-11-18 19:00');
-    final sopeExam =
-        Exam('44426', beginSopeExam, endSopeExam, 'SOPE', [], 'MT', 'feup');
+    final sopeExam = Exam(
+      '44426',
+      beginSopeExam,
+      endSopeExam,
+      'SOPE',
+      [],
+      'MT',
+      'feup',
+    );
     final beginSdisExam = DateTime.parse('2099-10-21 17:00');
     final endSdisExam = DateTime.parse('2099-10-21 19:00');
-    final sdisExam =
-        Exam('44425', beginSdisExam, endSdisExam, 'SDIS', [], 'MT', 'feup');
+    final sdisExam = Exam(
+      '44425',
+      beginSdisExam,
+      endSdisExam,
+      'SDIS',
+      [],
+      'MT',
+      'feup',
+    );
     final beginMdisExam = DateTime.parse('2099-10-22 17:00');
     final endMdisExam = DateTime.parse('2099-10-22 19:00');
-    final mdisExam =
-        Exam('44429', beginMdisExam, endMdisExam, 'MDIS', [], 'MT', 'feup');
+    final mdisExam = Exam(
+      '44429',
+      beginMdisExam,
+      endMdisExam,
+      'MDIS',
+      [],
+      'MT',
+      'feup',
+    );
 
     final filteredExams = <String, bool>{};
     for (final type in Exam.displayedTypes) {
@@ -61,20 +82,21 @@ void main() async {
 
     testWidgets('Exams', (tester) async {
       NetworkRouter.httpClient = mockClient;
-      final mockHtml = File('test/integration/resources/exam_example.html')
-          .readAsStringSync();
+      final mockHtml =
+          File(
+            'test/integration/resources/exam_example.html',
+          ).readAsStringSync();
       when(mockResponse.body).thenReturn(mockHtml);
       when(mockResponse.statusCode).thenReturn(200);
-      when(mockClient.get(any, headers: anyNamed('headers')))
-          .thenAnswer((_) async => mockResponse);
+      when(
+        mockClient.get(any, headers: anyNamed('headers')),
+      ).thenAnswer((_) async => mockResponse);
 
       final examProvider = ExamProvider();
 
       const widget = ExamsPageView();
 
-      final providers = [
-        ChangeNotifierProvider(create: (_) => examProvider),
-      ];
+      final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
       await tester.pumpWidget(testableWidget(widget, providers: providers));
 
       expect(find.byKey(Key('$sdisExam-exam')), findsNothing);
@@ -98,20 +120,21 @@ void main() async {
 
     testWidgets('Filtered Exams', (tester) async {
       NetworkRouter.httpClient = mockClient;
-      final mockHtml = File('test/integration/resources/exam_example.html')
-          .readAsStringSync();
+      final mockHtml =
+          File(
+            'test/integration/resources/exam_example.html',
+          ).readAsStringSync();
       when(mockResponse.body).thenReturn(mockHtml);
       when(mockResponse.statusCode).thenReturn(200);
-      when(mockClient.get(any, headers: anyNamed('headers')))
-          .thenAnswer((_) async => mockResponse);
+      when(
+        mockClient.get(any, headers: anyNamed('headers')),
+      ).thenAnswer((_) async => mockResponse);
 
       final examProvider = ExamProvider();
 
       const widget = ExamsPageView();
 
-      final providers = [
-        ChangeNotifierProvider(create: (_) => examProvider),
-      ];
+      final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));
 
@@ -144,11 +167,18 @@ void main() async {
 
       expect(find.byType(AlertDialog), findsOneWidget);
 
-      final mtCheckboxTile = find
-          .byKey(const Key('ExamCheck' 'Mini-testes'))
-          .evaluate()
-          .first
-          .widget as CheckboxListTile;
+      final mtCheckboxTile =
+          find
+                  .byKey(
+                    const Key(
+                      'ExamCheck'
+                      'Mini-testes',
+                    ),
+                  )
+                  .evaluate()
+                  .first
+                  .widget
+              as CheckboxListTile;
 
       expect(find.byWidget(mtCheckboxTile), findsOneWidget);
       expect(mtCheckboxTile.value, true);

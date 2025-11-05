@@ -1,5 +1,5 @@
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
@@ -12,6 +12,7 @@ import 'package:uni/view/bug_report/widgets/dropdown_bug_select.dart';
 import 'package:uni/view/bug_report/widgets/text_field.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/widgets/toast_message.dart';
+import 'package:uni_ui/theme.dart';
 
 class BugReportPageView extends ConsumerStatefulWidget {
   const BugReportPageView({super.key});
@@ -120,11 +121,11 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
                 alignment: Alignment.centerLeft,
                 child: TextButton.icon(
                   icon: Icon(
-                    Icons.add,
-                    color: Theme.of(context).colorScheme.primary,
+                    Icons.add, // use uni_ui icon instead
+                    color: Theme.of(context).primaryVibrant,
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    backgroundColor: Theme.of(context).secondary,
                   ),
                   onPressed: uploadImages,
                   label: Text(S.of(context).add_photo),
@@ -148,10 +149,10 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
                       });
                     },
                     controlAffinity: ListTileControlAffinity.leading,
-                    activeColor: Theme.of(context).colorScheme.primary,
+                    activeColor: Theme.of(context).primaryVibrant,
                     title: Text(
                       S.of(context).consent,
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context).bodyLarge,
                       textAlign: TextAlign.left,
                     ),
                   ),
@@ -161,8 +162,8 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
                       _isConsentGiven
-                          ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context).dividerColor,
+                          ? Theme.of(context).primaryVibrant
+                          : Theme.of(context).divider,
                 ),
                 onPressed:
                     !_isConsentGiven
@@ -178,11 +179,11 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
                         },
                 child: Text(
                   S.of(context).send,
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  style: Theme.of(context).titleLarge!.copyWith(
                     color:
                         _isConsentGiven
-                            ? Theme.of(context).colorScheme.onPrimary
-                            : Theme.of(context).colorScheme.onTertiary,
+                            ? Theme.of(context).onPrimary
+                            : Theme.of(context).onTertiary,
                   ),
                 ),
               ),

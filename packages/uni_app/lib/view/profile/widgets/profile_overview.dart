@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/view/widgets/profile_image.dart';
+import 'package:uni_ui/theme.dart';
 
 class ProfileOverview extends ConsumerWidget {
   const ProfileOverview({required this.profile, super.key});
@@ -27,12 +28,12 @@ class ProfileOverview extends ConsumerWidget {
               Text(
                 '${name.first} ${name.length > 1 ? name.last : ''}',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineLarge,
+                style: Theme.of(context).headlineLarge,
               ),
               Text(
                 profile.email.split('@')[0],
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).bodyLarge,
               ),
               const Padding(padding: EdgeInsets.all(5)),
               Wrap(
@@ -42,9 +43,9 @@ class ProfileOverview extends ConsumerWidget {
                       return Badge(
                         label: Text(
                           type.toUpperCase(),
-                          style: Theme.of(context).textTheme.titleSmall,
+                          style: Theme.of(context).titleSmall,
                         ),
-                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        backgroundColor: Theme.of(context).primaryVibrant,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 8,
                           vertical: 4,

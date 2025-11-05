@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/providers/riverpod/theme_provider.dart';
+import 'package:uni_ui/theme.dart';
 
 class ThemeSwitchButton extends ConsumerWidget {
   const ThemeSwitchButton({super.key});
@@ -12,19 +13,19 @@ class ThemeSwitchButton extends ConsumerWidget {
 
     final icon = switch (themeMode) {
       ThemeMode.light => Icon(
-        Icons.wb_sunny,
+        Icons.wb_sunny, // use uni_ui icons instead
         size: 24,
-        color: Theme.of(context).colorScheme.onPrimary,
+        color: Theme.of(context).onPrimary,
       ),
       ThemeMode.dark => Icon(
-        Icons.nightlight_round,
+        Icons.nightlight_round, // use uni_ui icons instead
         size: 24,
-        color: Theme.of(context).colorScheme.onPrimary,
+        color: Theme.of(context).onPrimary,
       ),
       ThemeMode.system => Icon(
-        Icons.brightness_6,
+        Icons.brightness_6, // use uni_ui icons instead
         size: 24,
-        color: Theme.of(context).colorScheme.onPrimary,
+        color: Theme.of(context).onPrimary,
       ),
     };
     return Padding(
@@ -35,7 +36,7 @@ class ThemeSwitchButton extends ConsumerWidget {
         child: ElevatedButton(
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all(
-              Theme.of(context).colorScheme.primary,
+              Theme.of(context).primaryVibrant,
             ),
             padding: WidgetStateProperty.all(EdgeInsets.zero),
           ),

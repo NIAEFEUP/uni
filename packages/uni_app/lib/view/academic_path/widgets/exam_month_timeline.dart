@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:uni/model/entities/app_locale.dart';
@@ -7,6 +7,7 @@ import 'package:uni/view/academic_path/widgets/exam_modal.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/cards/exam_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
+import 'package:uni_ui/theme.dart';
 
 class ExamMonthTimeline extends ConsumerWidget {
   const ExamMonthTimeline({
@@ -43,7 +44,7 @@ class ExamMonthTimeline extends ConsumerWidget {
               'MMMM yyyy',
               appLocale.localeCode.languageCode,
             ).format(monthDate),
-            style: Theme.of(context).textTheme.headlineLarge,
+            style: Theme.of(context).headlineLarge,
           ),
           const SizedBox(height: 14),
           CardTimeline(

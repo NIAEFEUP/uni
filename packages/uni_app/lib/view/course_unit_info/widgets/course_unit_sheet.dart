@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:uni/controller/fetchers/book_fetcher.dart';
@@ -17,6 +17,7 @@ import 'package:uni_ui/cards/book_card.dart';
 import 'package:uni_ui/cards/exam_card.dart';
 import 'package:uni_ui/cards/instructor_card.dart';
 import 'package:uni_ui/cards/remaining_instructors_card.dart';
+import 'package:uni_ui/theme.dart';
 
 const double _horizontalSpacing = 8;
 const double _verticalSpacing = 4;
@@ -41,7 +42,7 @@ class CourseUnitSheetView extends ConsumerWidget {
                       padding: const EdgeInsets.only(top: 8),
                       child: Text(
                         S.of(context).noInstructors,
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).bodyLarge,
                       ),
                     )
                     : courseUnitSheet.professors.length <= 4
@@ -82,7 +83,7 @@ class CourseUnitSheetView extends ConsumerWidget {
                       padding: const EdgeInsets.only(top: 8),
                       child: Text(
                         S.of(context).noExamsScheduled,
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).bodyLarge,
                       ),
                     )
                     : SizedBox(
@@ -119,7 +120,7 @@ class CourseUnitSheetView extends ConsumerWidget {
               courseUnitSheet.content != 'null'
                   ? courseUnitSheet.content
                   : S.of(context).no_info,
-              textStyle: Theme.of(context).textTheme.bodyLarge,
+              textStyle: Theme.of(context).bodyLarge,
             ),
             context: context,
           ),
@@ -129,7 +130,7 @@ class CourseUnitSheetView extends ConsumerWidget {
               courseUnitSheet.evaluation != 'null'
                   ? courseUnitSheet.evaluation
                   : S.of(context).no_info,
-              textStyle: Theme.of(context).textTheme.bodyLarge,
+              textStyle: Theme.of(context).bodyLarge,
             ),
             context: context,
           ),
@@ -139,7 +140,7 @@ class CourseUnitSheetView extends ConsumerWidget {
               courseUnitSheet.frequency != 'null'
                   ? courseUnitSheet.frequency
                   : S.of(context).no_info,
-              textStyle: Theme.of(context).textTheme.bodyLarge,
+              textStyle: Theme.of(context).bodyLarge,
             ),
             context: context,
           ),
@@ -196,10 +197,7 @@ class CourseUnitSheetView extends ConsumerWidget {
           else ...[
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Text(
-                title,
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
+              child: Text(title, style: Theme.of(context).headlineLarge),
             ),
             content,
           ],

@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:phosphor_flutter/src/phosphor_icon_data.dart';
 import 'package:uni_ui/common_widgets/pulse_animation.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart';
 
 class FileCard extends StatefulWidget {
   const FileCard({
@@ -109,7 +110,7 @@ class _FileCardState extends State<FileCard>
           title: Text(widget.filename, overflow: TextOverflow.ellipsis),
           leading: UniIcon(
             getIconForExtension(widget.extension),
-            color: Theme.of(context).iconTheme.color,
+            color: Theme.of(context).primaryVibrant,
             size: 35,
           ),
         ),

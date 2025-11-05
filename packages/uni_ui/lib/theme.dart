@@ -1,6 +1,11 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+const Color primary = Color.fromARGB(255, 102, 9, 16);
+const Color transparent = Color.fromARGB(0, 255, 255, 255);
+const Color black = Color.fromARGB(255, 0, 0, 0);
+const Color white = Color.fromARGB(255, 255, 255, 255);
+
 class Theme extends InheritedWidget {
   const Theme({super.key, required this.data, required super.child});
 

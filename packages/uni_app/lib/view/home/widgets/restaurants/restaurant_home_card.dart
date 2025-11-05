@@ -1,5 +1,5 @@
 import 'package:expandable_page_view/expandable_page_view.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
@@ -17,6 +17,7 @@ import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
 import 'package:uni_ui/cards/restaurant_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
+import 'package:uni_ui/theme.dart';
 
 class RestaurantHomeCard extends GenericHomecard {
   const RestaurantHomeCard({super.key})
@@ -86,7 +87,7 @@ class RestaurantSliderState extends ConsumerState<RestaurantSlider> {
               effect: WormEffect(
                 dotHeight: 4,
                 dotWidth: 4,
-                activeDotColor: Theme.of(context).colorScheme.primary,
+                activeDotColor: Theme.of(context).primaryVibrant,
               ),
             ),
             const SizedBox(height: 5),

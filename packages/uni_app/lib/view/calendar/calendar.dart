@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/localized_events.dart';
@@ -8,6 +8,7 @@ import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/calendar/widgets/row_format.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
+import 'package:uni_ui/theme.dart';
 
 class CalendarPageView extends ConsumerStatefulWidget {
   const CalendarPageView({super.key});
@@ -25,7 +26,7 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
       nullContentWidget: Center(
         child: Text(
           S.of(context).no_events,
-          style: Theme.of(context).textTheme.headlineLarge,
+          style: Theme.of(context).headlineLarge,
         ),
       ),
       builder: (context, ref, localizedEvents) {

@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:uni_ui/theme.dart';
 
 class UniLogo extends StatelessWidget {
   const UniLogo({super.key, this.iconColor});
@@ -13,7 +14,7 @@ class UniLogo extends StatelessWidget {
       shape: const RoundedRectangleBorder(),
       child: SvgPicture.asset(
         colorFilter: ColorFilter.mode(
-          iconColor ?? Theme.of(context).primaryColor,
+          iconColor ?? Theme.of(context).primaryVibrant,
           BlendMode.srcIn,
         ),
         'assets/images/logo_dark.svg',

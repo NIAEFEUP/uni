@@ -1,6 +1,6 @@
 import 'package:figma_squircle/figma_squircle.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
@@ -71,12 +71,12 @@ class EditHomeViewState extends State<EditHomeView> {
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: AppSystemOverlayStyles.base.copyWith(
-        statusBarColor: Colors.transparent,
+        statusBarColor: transparent,
         statusBarIconBrightness: Brightness.light,
         statusBarBrightness: Brightness.dark,
       ),
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: Theme.of(context).background,
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(125),
           child: Container(
@@ -96,9 +96,9 @@ class EditHomeViewState extends State<EditHomeView> {
                     child: Text(
                       S.of(context).drag_and_drop,
                       style:
-                          Theme.of(context)
-                              .textTheme
-                              .titleLarge, // titleMedium as in figma is with the wrong colors
+                          Theme.of(
+                            context,
+                          ).titleLarge, // titleMedium as in figma is with the wrong colors
                     ),
                   ),
                 );
@@ -125,10 +125,10 @@ class EditHomeViewState extends State<EditHomeView> {
                               borderRadius: BorderRadius.circular(5),
                               color:
                                   candidate.isNotEmpty
-                                      ? Theme.of(context).shadowColor.withAlpha(
+                                      ? Theme.of(context).grayMiddle.withAlpha(
                                         51,
                                       ) // 20% opacity
-                                      : Colors.transparent,
+                                      : transparent,
                             ),
                           ),
                       onAcceptWithDetails: (details) {
@@ -184,7 +184,7 @@ class EditHomeViewState extends State<EditHomeView> {
                     style:
                         Theme.of(
                           context,
-                        ).textTheme.titleLarge, // TODO: titleMedium not working
+                        ).titleLarge, // TODO: titleMedium not working
                   ),
                   SizedBox(
                     width: double.infinity,
@@ -204,10 +204,9 @@ class EditHomeViewState extends State<EditHomeView> {
                                   ),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary
-                                          .withAlpha(64), // 25% opacity
+                                      color: Theme.of(
+                                        context,
+                                      ).secondary.withAlpha(64), // 25% opacity
                                     ),
                                     width: 75,
                                     height: 75,
@@ -224,7 +223,7 @@ class EditHomeViewState extends State<EditHomeView> {
                         ),
                     child: Text(
                       S.of(context).save,
-                      style: Theme.of(context).textTheme.titleLarge,
+                      style: Theme.of(context).titleLarge,
                     ),
                   ),
                 ],

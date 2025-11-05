@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:uni_ui/common/generic_squircle.dart';
+import 'package:uni_ui/theme.dart';
 
 class Timeline extends StatefulWidget {
   const Timeline({
@@ -169,8 +170,7 @@ class _TimelineState extends State<Timeline> {
                         int index = entry.key;
                         Widget tab = entry.value;
                         bool isSelected = _currentIndex == index;
-                        TextStyle textStyle =
-                            Theme.of(context).textTheme.bodySmall!;
+                        TextStyle textStyle = Theme.of(context).bodySmall!;
                         return GestureDetector(
                           onTap: () => _onTabTapped(index),
                           child: Padding(
@@ -188,9 +188,10 @@ class _TimelineState extends State<Timeline> {
                                 ),
                                 color:
                                     isSelected
-                                        ? Theme.of(context).colorScheme.tertiary
-                                            .withValues(alpha: 0.25)
-                                        : Colors.transparent,
+                                        ? Theme.of(
+                                          context,
+                                        ).details.withValues(alpha: 0.25)
+                                        : transparent,
                                 child: DefaultTextStyle(
                                   style: textStyle.copyWith(
                                     color:
@@ -198,9 +199,9 @@ class _TimelineState extends State<Timeline> {
                                             ? (isSelected
                                                 ? Theme.of(
                                                   context,
-                                                ).colorScheme.primary
-                                                : Colors.black)
-                                            : Colors.grey,
+                                                ).primaryVibrant
+                                                : black)
+                                            : Theme.of(context).grayMiddle,
                                   ),
                                   child: tab,
                                 ),

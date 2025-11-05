@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/localized_events.dart';
 import 'package:uni/model/providers/riverpod/calendar_provider.dart';
@@ -8,6 +8,7 @@ import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/calendar/calendar.dart';
 import 'package:uni_ui/calendar/calendar_item.dart';
+import 'package:uni_ui/theme.dart';
 
 class CalendarHomeCard extends GenericHomecard {
   const CalendarHomeCard({super.key})
@@ -65,7 +66,7 @@ class CalendarHomeCard extends GenericHomecard {
       nullContentWidget: Center(
         child: Text(
           S.of(context).no_events,
-          style: Theme.of(context).textTheme.headlineLarge,
+          style: Theme.of(context).headlineLarge,
         ),
       ),
       hasContent: (localizedEvents) => localizedEvents.hasAnyEvents,

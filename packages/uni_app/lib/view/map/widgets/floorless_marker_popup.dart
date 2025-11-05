@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
+import 'package:uni_ui/theme.dart';
 
 class FloorlessLocationMarkerPopup extends StatelessWidget {
   const FloorlessLocationMarkerPopup(
@@ -16,7 +17,7 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
   Widget build(BuildContext context) {
     final locations = locationGroup.floors.values.expand((x) => x).toList();
     return Card(
-      color: Theme.of(context).colorScheme.surface.withAlpha(204),
+      color: Theme.of(context).background.withAlpha(204),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -50,8 +51,8 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
   // TODO(thePeras): Duplicated code
   Color _getFontColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.light
-        ? Theme.of(context).colorScheme.primary
-        : Theme.of(context).colorScheme.tertiary;
+        ? Theme.of(context).primaryVibrant
+        : Theme.of(context).details;
   }
 }
 
@@ -71,7 +72,7 @@ class LocationRow extends StatelessWidget {
   // TODO(thePeras): Duplicated code
   Color _getFontColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.light
-        ? Theme.of(context).colorScheme.primary
-        : Theme.of(context).colorScheme.tertiary;
+        ? Theme.of(context).primaryVibrant
+        : Theme.of(context).details;
   }
 }

@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni_ui/theme.dart';
 
 class NoRestaurantsHomeCard extends StatelessWidget {
   const NoRestaurantsHomeCard({super.key, required this.onClick});
@@ -23,7 +24,7 @@ class NoRestaurantsHomeCard extends StatelessWidget {
             S.of(context).add_restaurants,
             style: TextStyle(
               fontSize: 17,
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).primaryVibrant,
             ),
           ),
         ),

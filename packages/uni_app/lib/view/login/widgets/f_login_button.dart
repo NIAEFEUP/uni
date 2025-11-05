@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni_ui/theme.dart';
 
 class FLoginButton extends StatelessWidget {
   const FLoginButton({required this.onPressed, super.key});
@@ -24,7 +25,7 @@ class FLoginButton extends StatelessWidget {
             S.of(context).login,
             style: Theme.of(
               context,
-            ).textTheme.headlineSmall?.copyWith(color: const Color(0xFF303030)),
+            ).headlineSmall.copyWith(color: const Color(0xFF303030)),
             textAlign: TextAlign.left,
           ),
         ],

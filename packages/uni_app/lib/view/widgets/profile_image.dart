@@ -1,9 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
+import 'package:uni_ui/theme.dart';
 
 class ProfileImage extends ConsumerWidget {
   const ProfileImage({required this.radius, super.key});
@@ -41,7 +42,7 @@ class ProfileImage extends ConsumerWidget {
         return CircleAvatar(
           radius: radius,
           foregroundImage: decorationImage.data?.image,
-          backgroundColor: Colors.transparent,
+          backgroundColor: transparent,
         );
       },
     );

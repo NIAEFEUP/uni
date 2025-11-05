@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
@@ -64,8 +64,15 @@ void main() async {
     );
     final beginQ1004Exam = DateTime.parse('2099-06-07 00:00');
     final endQ1004Exam = DateTime.parse('2099-06-07 00:00');
-    final q1004Exam =
-        Exam('34085', beginQ1004Exam, endQ1004Exam, 'Q1004', [], 'EN', 'fcup');
+    final q1004Exam = Exam(
+      '34085',
+      beginQ1004Exam,
+      endQ1004Exam,
+      'Q1004',
+      [],
+      'EN',
+      'fcup',
+    );
 
     final filteredExams = <String, bool>{};
     for (final type in Exam.displayedTypes) {
@@ -76,20 +83,20 @@ void main() async {
 
     testWidgets('Exams', (tester) async {
       NetworkRouter.httpClient = mockClient;
-      final mockHtml = File('test/integration/resources/exam2_example.html')
-          .readAsStringSync(encoding: latin1);
+      final mockHtml = File(
+        'test/integration/resources/exam2_example.html',
+      ).readAsStringSync(encoding: latin1);
       when(mockResponse.body).thenReturn(mockHtml);
       when(mockResponse.statusCode).thenReturn(200);
-      when(mockClient.get(any, headers: anyNamed('headers')))
-          .thenAnswer((_) async => mockResponse);
+      when(
+        mockClient.get(any, headers: anyNamed('headers')),
+      ).thenAnswer((_) async => mockResponse);
 
       final examProvider = ExamProvider();
 
       const widget = ExamsPageView();
 
-      final providers = [
-        ChangeNotifierProvider(create: (_) => examProvider),
-      ];
+      final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
       await tester.pumpWidget(testableWidget(widget, providers: providers));
 
       expect(find.byKey(Key('$fis3022Exam-exam')), findsNothing);

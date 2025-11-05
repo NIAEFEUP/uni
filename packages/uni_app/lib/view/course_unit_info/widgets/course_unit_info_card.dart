@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/view/widgets/generic_expansion_card.dart';
 
 class CourseUnitInfoCard extends GenericExpansionCard {

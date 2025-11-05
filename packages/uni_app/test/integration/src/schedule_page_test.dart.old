@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
@@ -104,8 +104,9 @@ void main() async {
 
     testWidgets('Schedule with JSON Fetcher', (tester) async {
       NetworkRouter.httpClient = mockClient;
-      final mockJson = File('test/integration/resources/schedule_example.json')
-          .readAsStringSync(encoding: const Latin1Codec());
+      final mockJson = File(
+        'test/integration/resources/schedule_example.json',
+      ).readAsStringSync(encoding: const Latin1Codec());
       when(mockResponse.body).thenReturn(mockJson);
       when(mockResponse.statusCode).thenReturn(200);
       when(

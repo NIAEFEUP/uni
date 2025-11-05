@@ -1,5 +1,6 @@
 import 'package:expandable/expandable.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:uni_ui/theme.dart';
 
 class GenericExpandable extends StatefulWidget {
   const GenericExpandable({
@@ -33,15 +34,12 @@ class _GenericExpandableState extends State<GenericExpandable> {
         controller: _controller,
         header: Align(
           alignment: Alignment.centerLeft,
-          child: Text(
-            widget.title,
-            style: Theme.of(context).textTheme.headlineLarge,
-          ),
+          child: Text(widget.title, style: Theme.of(context).headlineLarge),
         ),
         collapsed: ShaderMask(
           shaderCallback:
               (bounds) => const LinearGradient(
-                colors: [Colors.black, Colors.transparent],
+                colors: [black, transparent],
                 stops: [0.7, 1.0],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,

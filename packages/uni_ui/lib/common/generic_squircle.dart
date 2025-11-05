@@ -1,5 +1,5 @@
 import 'package:figma_squircle/figma_squircle.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class GenericSquircle extends StatelessWidget {
   const GenericSquircle({super.key, this.borderRadius, required this.child});

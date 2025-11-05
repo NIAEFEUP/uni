@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uni_ui/theme.dart';
 
 abstract class GenericHomecard extends ConsumerWidget {
   const GenericHomecard({super.key, this.titlePadding, this.bodyPadding});
@@ -18,7 +19,7 @@ abstract class GenericHomecard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final titleWidget = Text(
       getTitle(context),
-      style: Theme.of(context).textTheme.headlineLarge,
+      style: Theme.of(context).headlineLarge,
     );
 
     return GestureDetector(

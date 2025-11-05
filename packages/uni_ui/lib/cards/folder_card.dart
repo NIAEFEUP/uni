@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart';
 
 class FolderCard extends StatefulWidget {
   FolderCard({required this.title, required this.children, super.key});
@@ -23,7 +24,7 @@ class _FolderCardState extends State<FolderCard> {
         child: UniIcon(
           _isExpanded ? UniIcons.folderOpen : UniIcons.folderClosed,
           key: ValueKey<bool>(_isExpanded),
-          color: Theme.of(context).iconTheme.color,
+          color: Theme.of(context).primaryVibrant,
           size: 35,
         ),
       ),
@@ -33,11 +34,11 @@ class _FolderCardState extends State<FolderCard> {
         child: UniIcon(
           UniIcons.caretDown,
           key: ValueKey<bool>(_isExpanded),
-          color: Theme.of(context).iconTheme.color,
+          color: Theme.of(context).primaryVibrant,
           size: 35,
         ),
       ),
-      shape: Border.all(color: Colors.transparent),
+      shape: Border.all(color: transparent),
       onExpansionChanged: (isExpanded) {
         setState(() {
           _isExpanded = isExpanded;

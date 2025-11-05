@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/widgets/expanded_image_label.dart';
+import 'package:uni_ui/theme.dart';
 
 class NoFilesWidget extends StatelessWidget {
   const NoFilesWidget({super.key});
@@ -13,7 +14,7 @@ class NoFilesWidget extends StatelessWidget {
       labelTextStyle: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 18,
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).primaryVibrant,
       ),
       sublabel: S.of(context).no_files,
       sublabelTextStyle: const TextStyle(fontSize: 15),

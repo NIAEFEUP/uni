@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:uni_ui/theme.dart';
 
 class FloorOccupationWidget extends StatelessWidget {
   final int capacity;
@@ -28,11 +29,11 @@ class FloorOccupationWidget extends StatelessWidget {
             children: [
               Text(
                 '${floorText} ${floorNumber}',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).titleMedium,
               ),
               Text(
                 '${occupation}/${capacity}',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).titleMedium,
               ),
             ],
           ),
@@ -40,7 +41,7 @@ class FloorOccupationWidget extends StatelessWidget {
             lineHeight: 8.0,
             percent: occupation / capacity,
             backgroundColor: const Color.fromRGBO(177, 77, 84, 0.25),
-            progressColor: Theme.of(context).primaryColor,
+            progressColor: Theme.of(context).primaryVibrant,
             barRadius: const Radius.circular(10),
             padding: EdgeInsets.zero,
           ),
@@ -76,11 +77,11 @@ class LibraryOccupationCard extends StatelessWidget {
             percent: occupation / capacity,
             center: Text(
               '${(occupation / capacity * 100).round()}%',
-              style: Theme.of(context).textTheme.displayMedium,
+              style: Theme.of(context).displayMedium,
             ),
             circularStrokeCap: CircularStrokeCap.round,
             backgroundColor: const Color.fromRGBO(177, 77, 84, 0.25),
-            progressColor: Theme.of(context).primaryColor,
+            progressColor: Theme.of(context).primaryVibrant,
           ),
           const SizedBox(width: 10),
           Expanded(child: Column(children: occupationWidgetsList)),

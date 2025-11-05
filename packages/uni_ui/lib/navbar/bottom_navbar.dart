@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni_ui/navbar/bottom_navbar_item.dart';
 import 'package:uni_ui/common/generic_squircle.dart';
+import 'package:uni_ui/theme.dart';
 
 class _BottomNavbarContainer extends StatelessWidget {
   _BottomNavbarContainer({required this.child});
@@ -13,11 +14,11 @@ class _BottomNavbarContainer extends StatelessWidget {
       height: 80,
       margin: EdgeInsets.only(left: 20, right: 20, bottom: 0),
       decoration: ShapeDecoration(
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).primaryVibrant,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         shadows: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.shadow.withAlpha(0x7f),
+            color: Theme.of(context).grayMiddle.withAlpha(0x7f),
             blurRadius: 5,
             offset: Offset(0, 3),
           ),
@@ -27,10 +28,7 @@ class _BottomNavbarContainer extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             gradient: RadialGradient(
-              colors: [
-                Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
-                Colors.transparent,
-              ],
+              colors: [Theme.of(context).details.withAlpha(0x3f), transparent],
               center: Alignment(-0.5, -1.1),
               radius: 2.5,
             ),
@@ -39,8 +37,8 @@ class _BottomNavbarContainer extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: RadialGradient(
                 colors: [
-                  Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
-                  Colors.transparent,
+                  Theme.of(context).details.withAlpha(0x3f),
+                  transparent,
                 ],
                 center: Alignment.bottomRight,
                 radius: 2.5,
@@ -78,12 +76,12 @@ class _BottomNavbarState extends State<BottomNavbar> {
     return _BottomNavbarContainer(
       child: Theme(
         data: Theme.of(context).copyWith(
-          splashColor: Theme.of(context).colorScheme.tertiary.withAlpha(0x1f),
-          highlightColor: Colors.transparent,
+          splashColor: Theme.of(context).details.withAlpha(0x1f),
+          highlightColor: transparent,
         ),
         child: BottomNavigationBar(
           onTap: _onTap,
-          backgroundColor: Colors.transparent,
+          backgroundColor: transparent,
           elevation: 0,
           iconSize: 32,
           type: BottomNavigationBarType.fixed,

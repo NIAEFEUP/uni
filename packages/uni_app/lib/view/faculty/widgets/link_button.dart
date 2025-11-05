@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
+import 'package:uni_ui/theme.dart';
 
 class LinkButton extends StatelessWidget {
   const LinkButton({required this.title, required this.link, super.key});
@@ -18,7 +19,7 @@ class LinkButton extends StatelessWidget {
               child: InkWell(
                 child: Text(
                   title,
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                  style: Theme.of(context).headlineSmall!.copyWith(
                     decoration: TextDecoration.underline,
                   ),
                 ),

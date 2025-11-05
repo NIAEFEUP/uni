@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/providers/riverpod/theme_provider.dart';
 
@@ -6,6 +6,7 @@ class ThemeSwitchButton extends ConsumerWidget {
   const ThemeSwitchButton({super.key});
 
   Icon getThemeIcon(ThemeMode theme) {
+    // use uni_ui icons instead
     switch (theme) {
       case ThemeMode.light:
         return const Icon(Icons.wb_sunny);

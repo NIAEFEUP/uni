@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni_ui/common/generic_squircle.dart';
+import 'package:uni_ui/theme.dart';
 
 class DropdownMenuBugSelect extends StatelessWidget {
   const DropdownMenuBugSelect({
@@ -20,20 +21,23 @@ class DropdownMenuBugSelect extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
       child: GenericSquircle(
         child: DecoratedBox(
-          decoration: BoxDecoration(color: theme.colorScheme.surfaceContainer),
+          decoration: BoxDecoration(color: theme.secondary),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.bug_report, color: theme.colorScheme.primary),
+                Icon(
+                  Icons.bug_report,
+                  color: theme.primaryVibrant,
+                ), // update with uni_ui icon
                 const SizedBox(width: 25),
                 DropdownButton<int>(
                   underline: const SizedBox(),
                   isDense: true,
-                  iconEnabledColor: theme.shadowColor,
+                  iconEnabledColor: theme.grayMiddle,
                   borderRadius: BorderRadius.circular(12),
-                  dropdownColor: theme.colorScheme.surfaceContainer,
+                  dropdownColor: theme.secondary,
                   value: selectedValue,
                   onChanged: onChange,
                   items: items,

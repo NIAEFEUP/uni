@@ -1,11 +1,12 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/about/widgets/terms_and_conditions.dart';
+import 'package:uni_ui/theme.dart';
 
 enum TermsAndConditionsState { accepted, rejected }
 
@@ -40,7 +41,7 @@ class TermsAndConditionDialog {
         return AlertDialog(
           title: Text(
             S.of(context).terms_change,
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: Theme.of(context).headlineSmall,
             textAlign: TextAlign.center,
           ),
           content: Column(
@@ -64,7 +65,7 @@ class TermsAndConditionDialog {
                     },
                     child: Text(
                       S.of(context).accept,
-                      style: const TextStyle(fontSize: 12, color: Colors.white),
+                      style: const TextStyle(fontSize: 12, color: white),
                     ),
                   ),
                   const SizedBox(width: 20),
@@ -80,7 +81,7 @@ class TermsAndConditionDialog {
                     },
                     child: Text(
                       S.of(context).reject,
-                      style: const TextStyle(fontSize: 12, color: Colors.white),
+                      style: const TextStyle(fontSize: 12, color: white),
                     ),
                   ),
                 ],

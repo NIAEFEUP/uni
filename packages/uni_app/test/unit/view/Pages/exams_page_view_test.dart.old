@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
@@ -85,10 +85,7 @@ void main() async {
         'feup',
       );
 
-      final examList = [
-        firstExam,
-        secondExam,
-      ];
+      final examList = [firstExam, secondExam];
 
       const widget = ExamsPageView();
 
@@ -132,10 +129,7 @@ void main() async {
         'ER',
         'feup',
       );
-      final examList = [
-        firstExam,
-        secondExam,
-      ];
+      final examList = [firstExam, secondExam];
 
       const widget = ExamsPageView();
 
@@ -152,8 +146,9 @@ void main() async {
       expect(find.byKey(Key('$secondExam-exam')), findsOneWidget);
     });
 
-    testWidgets('When given four exams from two different dates',
-        (tester) async {
+    testWidgets('When given four exams from two different dates', (
+      tester,
+    ) async {
       final rooms = <String>['B119', 'B107', 'B205'];
       final firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final firstExamEnd = DateTime.parse('$firstExamDate 12:00');

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
@@ -12,6 +12,7 @@ import 'package:uni/view/course_unit_info/widgets/course_unit_sheet.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/tabs/tab_icon.dart';
+import 'package:uni_ui/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CourseUnitDetailPageView extends ConsumerStatefulWidget {
@@ -175,7 +176,7 @@ class CourseUnitDetailPageViewState
     return IconButton(
       icon: UniIcon(
         UniIcons.arrowSquareOut,
-        color: Theme.of(context).iconTheme.color,
+        color: Theme.of(context).primaryVibrant,
       ),
       onPressed: () async {
         // If the course unit isn't from FEUP, sigarra redirects to the correct page

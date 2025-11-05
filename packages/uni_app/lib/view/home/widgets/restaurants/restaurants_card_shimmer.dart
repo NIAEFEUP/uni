@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:uni_ui/common/generic_squircle.dart';
+import 'package:uni_ui/theme.dart';
 
 class ShimmerRestaurantsHomeCard extends StatelessWidget {
   const ShimmerRestaurantsHomeCard({super.key});
@@ -8,12 +9,12 @@ class ShimmerRestaurantsHomeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
+      baseColor: Theme.of(context).grayMiddle,
+      highlightColor: Theme.of(context).grayLight,
       child: GenericSquircle(
         child: Container(
           height: 150,
-          decoration: const BoxDecoration(color: Colors.white),
+          decoration: const BoxDecoration(color: white),
         ),
       ),
     );

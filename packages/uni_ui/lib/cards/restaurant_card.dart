@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
 import 'package:uni_ui/icons.dart';
@@ -68,7 +68,7 @@ class RestaurantCardHeader extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: Theme.of(context).dividerColor, width: 1.0),
+          bottom: BorderSide(color: Theme.of(context).divider, width: 1.0),
         ),
       ),
       child: Row(
@@ -78,7 +78,7 @@ class RestaurantCardHeader extends StatelessWidget {
             flex: 4,
             child: Text(
               name,
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).headlineSmall,
               overflow: TextOverflow.clip,
             ),
           ),

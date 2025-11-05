@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/floor_occupation.dart';
 import 'package:uni/model/entities/library_occupation.dart';
@@ -9,6 +9,7 @@ import 'package:uni/view/home/widgets/library/library_card_shimmer.dart';
 import 'package:uni/view/widgets/icon_label.dart';
 import 'package:uni_ui/cards/library_occupation_card.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart';
 
 class LibraryHomeCard extends GenericHomecard {
   const LibraryHomeCard({super.key})
@@ -45,7 +46,7 @@ class LibraryHomeCard extends GenericHomecard {
           label: S.of(context).no_library_info,
           labelTextStyle: TextStyle(
             fontSize: 14,
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).primaryVibrant,
           ),
         ),
       ),

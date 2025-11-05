@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:uni_ui/theme.dart';
 
 class RestaurantMenuItem extends StatelessWidget {
   const RestaurantMenuItem({super.key, required this.name, required this.icon});
@@ -20,7 +21,7 @@ class RestaurantMenuItem extends StatelessWidget {
               padding: const EdgeInsets.only(right: 32.0),
               child: Text(
                 name,
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).bodyLarge,
                 softWrap: true,
               ),
             ),

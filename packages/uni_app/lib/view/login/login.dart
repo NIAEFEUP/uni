@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:logger/logger.dart';
@@ -307,7 +307,7 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
                       if (_loggingIn)
                         const Align(
                           alignment: Alignment(0, 0.35),
-                          child: CircularProgressIndicator(color: Colors.white),
+                          child: CircularProgressIndicator(color: white),
                         ),
                       if (!_loggingIn)
                         Padding(
@@ -329,8 +329,9 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
                             });
                           },
                           padding: const EdgeInsets.symmetric(horizontal: 37),
-                          theme: Theme.of(context).textTheme.bodyLarge
-                              ?.copyWith(color: const Color(0xFFFFFFFF)),
+                          theme: Theme.of(
+                            context,
+                          ).bodyLarge?.copyWith(color: const Color(0xFFFFFFFF)),
                         ),
                       ),
                       Align(
@@ -369,7 +370,7 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
             S.of(context).login_with_credentials,
             style: Theme.of(
               context,
-            ).textTheme.headlineLarge?.copyWith(color: const Color(0xFF280709)),
+            ).headlineLarge?.copyWith(color: const Color(0xFF280709)),
             textAlign: TextAlign.center,
           ),
           shape: RoundedRectangleBorder(
@@ -414,9 +415,9 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
                         },
                         textColor: const Color(0xFF280709),
                         padding: EdgeInsets.zero,
-                        theme: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: const Color(0xFF280709),
-                        ),
+                        theme: Theme.of(
+                          context,
+                        ).bodyLarge?.copyWith(color: const Color(0xFF280709)),
                       ),
                     ],
                   ),
@@ -475,7 +476,7 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
               Text(
                 S.of(context).pass_change_request,
                 textAlign: TextAlign.start,
-                style: Theme.of(context).textTheme.titleSmall,
+                style: Theme.of(context).titleSmall,
               ),
               const SizedBox(height: 20),
               Align(

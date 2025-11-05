@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart';
 
 class ModalInfoRow extends StatelessWidget {
   const ModalInfoRow({
@@ -22,24 +23,21 @@ class ModalInfoRow extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(color: Theme.of(context).dividerColor, width: 1),
+          top: BorderSide(color: Theme.of(context).divider, width: 1),
         ),
       ),
       child: ListTile(
         dense: true,
         // visualDensity: VisualDensity(vertical: -4),
-        leading: UniIcon(icon, color: Theme.of(context).colorScheme.primary),
+        leading: UniIcon(icon, color: Theme.of(context).primaryVibrant),
         title: Text(
           title,
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.headlineSmall,
+          style: Theme.of(context).headlineSmall,
         ),
         subtitle:
             description != null
-                ? Text(
-                  description!,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                )
+                ? Text(description!, style: Theme.of(context).bodyMedium)
                 : null,
         trailing: trailing,
         onTap: onPressed,

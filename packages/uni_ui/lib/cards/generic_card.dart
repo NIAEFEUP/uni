@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni_ui/common/generic_squircle.dart';
+import 'package:uni_ui/theme.dart';
 
 class GenericCard extends StatelessWidget {
   const GenericCard({
@@ -40,7 +41,7 @@ class GenericCard extends StatelessWidget {
               color:
                   shadowColor ??
                   cardTheme.shadowColor ??
-                  Colors.black.withValues(alpha: 0.03),
+                  black.withValues(alpha: 0.03),
               blurRadius: 12,
               spreadRadius: -2,
               offset: const Offset(0, 1),
@@ -52,10 +53,7 @@ class GenericCard extends StatelessWidget {
           child: GenericSquircle(
             child: Container(
               decoration: BoxDecoration(
-                color:
-                    color ??
-                    cardTheme.color ??
-                    theme.colorScheme.surfaceContainer,
+                color: color ?? cardTheme.color ?? theme.secondary,
                 gradient: gradient,
               ),
               child: Padding(

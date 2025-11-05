@@ -1,7 +1,8 @@
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/about/widgets/terms_and_conditions.dart';
+import 'package:uni_ui/theme.dart';
 
 class TermsAndConditionsButton extends StatelessWidget {
   const TermsAndConditionsButton({super.key});
@@ -9,26 +10,25 @@ class TermsAndConditionsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkResponse(
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
+      splashColor: transparent,
+      highlightColor: transparent,
       child: Container(
         padding: const EdgeInsets.fromLTRB(40, 14, 40, 14),
         child: RichText(
           text: TextSpan(
             text: S.of(context).agree_terms,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.white,
-              decorationColor: Colors.white,
-            ),
+            style: Theme.of(
+              context,
+            ).bodyMedium?.copyWith(color: white, decorationColor: white),
             children: [
               const TextSpan(text: ' '),
               TextSpan(
                 text: S.of(context).terms,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.white,
+                style: Theme.of(context).bodyMedium?.copyWith(
+                  color: white,
                   fontWeight: FontWeight.w700,
                   decoration: TextDecoration.underline,
-                  decorationColor: Colors.white,
+                  decorationColor: white,
                 ),
                 recognizer:
                     TapGestureRecognizer()

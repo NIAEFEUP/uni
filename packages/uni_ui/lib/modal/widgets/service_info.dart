@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:uni_ui/theme.dart';
 
 class ModalServiceInfo extends StatelessWidget {
   const ModalServiceInfo({required this.name, required this.durations});
@@ -15,7 +16,7 @@ class ModalServiceInfo extends StatelessWidget {
         children: [
           Text(
             name,
-            style: Theme.of(context).textTheme.headlineMedium,
+            style: Theme.of(context).headlineMedium,
             textAlign: TextAlign.center,
           ),
           Padding(padding: EdgeInsets.all(3)),
@@ -33,7 +34,7 @@ class ModalServiceInfo extends StatelessWidget {
                     durations.map((duration) {
                       return Text(
                         duration,
-                        style: Theme.of(context).textTheme.bodyMedium!,
+                        style: Theme.of(context).bodyMedium!,
                       );
                     }).toList(),
               ),

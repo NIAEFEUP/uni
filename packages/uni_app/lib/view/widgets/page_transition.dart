@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/view/terms_and_condition_dialog.dart';
 

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:uni_ui/theme.dart';
 
 const double _bookCardWidth = 135;
 const double _bookCardHeight = 140;
@@ -37,7 +38,7 @@ class BookCard extends StatelessWidget {
             child: Text(
               title,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).bodyLarge,
             ),
           ),
         ],

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/theme.dart';
 import 'package:uni_ui/icons.dart';
@@ -31,13 +31,6 @@ class ExamCard extends StatelessWidget {
   final String? examMonth;
   final VoidCallback? onClick;
 
-  static const Map<String, Color> examTypeColors = {
-    'MT': BadgeColors.mt,
-    'EN': BadgeColors.en,
-    'ER': BadgeColors.er,
-    'EE': BadgeColors.ee,
-  };
-
   @override
   Widget build(BuildContext context) {
     return Opacity(
@@ -58,52 +51,52 @@ class ExamCard extends StatelessWidget {
                       Text(
                         acronym,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.headlineSmall!,
+                        style: Theme.of(context).headlineSmall!,
                       ),
                       const SizedBox(width: 8),
                       Badge(
                         label: Text(type),
                         backgroundColor: examTypeColors[type],
-                        textColor: Theme.of(context).colorScheme.surface,
+                        textColor: Theme.of(context).background,
                       ),
                     ],
                   ),
                   Text(
                     name,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodySmall!,
+                    style: Theme.of(context).bodySmall!,
                   ),
                   const SizedBox(height: 5),
                   Row(
                     children: [
                       UniIcon(
                         UniIcons.clock,
-                        color: Theme.of(context).iconTheme.color,
+                        color: Theme.of(context).primaryVibrant,
                         size: 20,
                       ),
                       const SizedBox(width: 4),
                       Text(
                         startTime ?? "--:--",
-                        style: Theme.of(context).textTheme.labelSmall!,
+                        style: Theme.of(context).labelSmall!,
                       ),
                       if (examDay != null && examMonth != null) ...[
                         const SizedBox(width: 8),
                         UniIcon(
                           UniIcons.calendarBlank,
-                          color: Theme.of(context).iconTheme.color,
+                          color: Theme.of(context).primaryVibrant,
                           size: 20,
                         ),
                         const SizedBox(width: 4),
                         Text(
                           '$examDay $examMonth',
-                          style: Theme.of(context).textTheme.labelSmall!,
+                          style: Theme.of(context).labelSmall!,
                         ),
                       ],
                       const SizedBox(width: 8),
                       if (rooms.isNotEmpty)
                         UniIcon(
                           UniIcons.mapPin,
-                          color: Theme.of(context).iconTheme.color,
+                          color: Theme.of(context).primaryVibrant,
                           size: 20,
                         ),
                       const SizedBox(width: 4),
@@ -113,7 +106,7 @@ class ExamCard extends StatelessWidget {
                             return const LinearGradient(
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
-                              colors: <Color>[Colors.black, Colors.transparent],
+                              colors: <Color>[black, transparent],
                               stops: [0.8, 1.0],
                             ).createShader(bounds);
                           },
@@ -123,7 +116,7 @@ class ExamCard extends StatelessWidget {
                             scrollDirection: Axis.horizontal,
                             child: Text(
                               rooms.join(" "),
-                              style: Theme.of(context).textTheme.labelSmall,
+                              style: Theme.of(context).labelSmall,
                             ),
                           ),
                         ),
@@ -138,7 +131,7 @@ class ExamCard extends StatelessWidget {
                 onPressed: iconAction ?? () {},
                 icon: UniIcon(
                   isInvisible ? UniIcons.eyeVisible : UniIcons.eyeHidden,
-                  color: Theme.of(context).iconTheme.color,
+                  color: Theme.of(context).primaryVibrant,
                   size: 35,
                 ),
               ),

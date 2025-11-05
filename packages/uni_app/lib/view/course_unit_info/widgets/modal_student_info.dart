@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
@@ -9,6 +9,7 @@ import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
 import 'package:uni_ui/modal/widgets/person_info.dart';
+import 'package:uni_ui/theme.dart';
 
 class StudentInfoModal extends ConsumerWidget {
   const StudentInfoModal(this.student, {super.key});
@@ -47,7 +48,7 @@ class StudentInfoModal extends ConsumerWidget {
                   icon: UniIcons.email,
                   trailing: UniIcon(
                     UniIcons.caretRight,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).primaryVibrant,
                   ),
                 ),
               ),

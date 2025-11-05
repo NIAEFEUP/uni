@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:uni_ui/theme.dart';
 
 class DayOfWeekTab extends StatelessWidget {
   const DayOfWeekTab({
@@ -21,7 +22,7 @@ class DayOfWeekTab extends StatelessWidget {
       decoration: BoxDecoration(
         color:
             isSelected
-                ? Theme.of(context).focusColor
+                ? Theme.of(context).focused
                 : Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(10),
       ),
@@ -32,8 +33,8 @@ class DayOfWeekTab extends StatelessWidget {
             weekDay,
             style:
                 isSelected
-                    ? Theme.of(context).textTheme.bodySmall
-                    : Theme.of(context).textTheme.bodyLarge,
+                    ? Theme.of(context).bodySmall
+                    : Theme.of(context).bodyLarge,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             maxLines: 1,
@@ -42,8 +43,8 @@ class DayOfWeekTab extends StatelessWidget {
             day,
             style:
                 isSelected
-                    ? Theme.of(context).textTheme.bodySmall
-                    : Theme.of(context).textTheme.bodyLarge,
+                    ? Theme.of(context).bodySmall
+                    : Theme.of(context).bodyLarge,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             maxLines: 1,

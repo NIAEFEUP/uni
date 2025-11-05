@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/icons.dart';
 
@@ -39,8 +39,8 @@ class ServiceCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style:
                       openingHours.length == 0
-                          ? Theme.of(context).textTheme.headlineMedium!
-                          : Theme.of(context).textTheme.headlineSmall!,
+                          ? Theme.of(context).headlineMedium!
+                          : Theme.of(context).headlineSmall!,
                 ),
               ),
             ],
@@ -56,7 +56,7 @@ class ServiceCard extends StatelessWidget {
                         children: [
                           UniIcon(
                             UniIcons.clock,
-                            color: Theme.of(context).shadowColor,
+                            color: Theme.of(context).grayMiddleColor,
                           ),
                           const SizedBox(width: 5),
                           Expanded(
@@ -66,8 +66,7 @@ class ServiceCard extends StatelessWidget {
                                   openingHours.map((hour) {
                                     return Text(
                                       hour,
-                                      style:
-                                          Theme.of(context).textTheme.bodyLarge,
+                                      style: Theme.of(context).bodyLarge,
                                       overflow: TextOverflow.ellipsis,
                                     );
                                   }).toList(),

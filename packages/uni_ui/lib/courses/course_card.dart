@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/courses/course_info.dart';
@@ -37,9 +37,7 @@ class CourseCard extends StatelessWidget {
       key: key,
       onClick: onTap,
       color:
-          selected
-              ? Theme.of(context).colorScheme.surfaceContainerLow
-              : grayLight,
+          selected ? Theme.of(context).secondary : Theme.of(context).grayLight,
       tooltip: '',
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -53,25 +51,25 @@ class CourseCard extends StatelessWidget {
                 size: 32,
                 color:
                     selected
-                        ? Theme.of(context).colorScheme.primary
-                        : grayMiddle,
+                        ? Theme.of(context).primaryVibrant
+                        : Theme.of(context).grayMiddle,
               ),
               Text(
                 courseInfo.abbreviation,
-                style: Theme.of(context).textTheme.titleLarge?.apply(
+                style: Theme.of(context).titleLarge.apply(
                   color:
                       selected
-                          ? Theme.of(context).colorScheme.primary
-                          : grayMiddle,
+                          ? Theme.of(context).primaryVibrant
+                          : Theme.of(context).grayMiddle,
                 ),
               ),
               Text(
                 _getYearText(),
-                style: Theme.of(context).textTheme.bodySmall?.apply(
+                style: Theme.of(context).bodySmall.apply(
                   color:
                       selected
-                          ? Theme.of(context).colorScheme.primary
-                          : grayMiddle,
+                          ? Theme.of(context).primaryVibrant
+                          : Theme.of(context).grayMiddle,
                 ),
               ),
             ],

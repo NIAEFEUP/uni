@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/lecture.dart';
@@ -92,7 +92,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: AppSystemOverlayStyles.base.copyWith(
-        statusBarColor: Colors.transparent,
+        statusBarColor: transparent,
         statusBarIconBrightness: Brightness.light,
         statusBarBrightness: Brightness.dark,
         systemNavigationBarIconBrightness: Brightness.dark,
@@ -101,8 +101,8 @@ class HomePageViewState extends ConsumerState<HomePageView> {
         extendBody: true,
         floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Theme.of(context).primaryColor,
-          foregroundColor: Colors.white,
+          backgroundColor: Theme.of(context).primaryVibrant,
+          foregroundColor: white,
           shape: const CircleBorder(),
           onPressed:
               () => {
@@ -113,7 +113,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
               },
           child: const UniIcon(UniIcons.edit),
         ),
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: Theme.of(context).background,
         appBar: homeAppBar(context),
         bottomNavigationBar: const AppBottomNavbar(),
         body: RefreshIndicator(
@@ -158,7 +158,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      UniLogo(iconColor: Colors.white),
+                      UniLogo(iconColor: white),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni_ui/common/generic_squircle.dart';
+import 'package:uni_ui/theme.dart';
 
 class ModalDialog extends StatelessWidget {
   const ModalDialog({required this.children});
@@ -9,12 +10,12 @@ class ModalDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Colors.transparent,
+      backgroundColor: transparent,
       child: GenericSquircle(
         borderRadius: 30,
         child: Container(
           padding: const EdgeInsets.all(20.0),
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).secondary,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,

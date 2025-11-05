@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/faculty/widgets/generic_service_card.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart';
 
 class AllServiceCards extends StatefulWidget {
   const AllServiceCards({super.key});
@@ -91,7 +92,7 @@ class AllServiceCardsState extends State<AllServiceCards> {
           children: [
             Text(
               S.of(context).services,
-              style: Theme.of(context).textTheme.headlineLarge,
+              style: Theme.of(context).headlineLarge,
             ),
             const Spacer(),
             IconButton(

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:uni_ui/theme.dart';
 
 /// Provides feedback about an operation in a small popup
 ///
@@ -9,9 +9,9 @@ class MessageToast extends StatelessWidget {
     required this.message,
     required this.icon,
     super.key,
-    this.color = Colors.white,
-    this.iconColor = Colors.black,
-    this.textColor = Colors.black,
+    this.color = white,
+    this.iconColor = black,
+    this.textColor = black,
     this.alignment = Alignment.bottomCenter,
     this.elevation = 0.0,
   });
@@ -72,7 +72,7 @@ class ToastMessage {
   static Future<void> _displayDialog(BuildContext context, Widget mToast) {
     return showDialog(
       barrierDismissible: false,
-      barrierColor: Colors.white.withAlpha(0),
+      barrierColor: white.withAlpha(0),
       context: context,
       builder: (toastContext) {
         Future.delayed(const Duration(milliseconds: 2000), () {

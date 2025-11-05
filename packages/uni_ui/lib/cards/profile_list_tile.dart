@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni_ui/icons.dart';
 
 class ProfileListTile extends StatelessWidget {
@@ -20,11 +20,11 @@ class ProfileListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: UniIcon(icon, color: Theme.of(context).colorScheme.primary),
+      leading: UniIcon(icon, color: Theme.of(context).primaryVibrant),
       title: Text(
         title,
         overflow: TextOverflow.ellipsis,
-        style: Theme.of(context).textTheme.headlineSmall,
+        style: Theme.of(context).headlineSmall,
       ),
       subtitle: subtitle != null ? Text(subtitle!) : null,
       trailing: trailing,

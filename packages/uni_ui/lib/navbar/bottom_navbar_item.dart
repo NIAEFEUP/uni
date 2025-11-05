@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart';
 
 class BottomNavbarItem {
   BottomNavbarItem({
@@ -19,15 +20,11 @@ class BottomNavbarItem {
         decoration:
             isSelected()
                 ? BoxDecoration(
-                  color: Theme.of(context).colorScheme.tertiary.withAlpha(0x2f),
+                  color: Theme.of(context).details.withAlpha(0x2f),
                   borderRadius: BorderRadius.circular(10),
                 )
                 : null,
-        child: UniIcon(
-          icon,
-          size: 32,
-          color: Theme.of(context).colorScheme.secondary,
-        ),
+        child: UniIcon(icon, size: 32, color: Theme.of(context).secondary),
       ),
       label: '',
     );

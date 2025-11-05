@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
@@ -40,7 +40,7 @@ class ProfessorInfoModal extends ConsumerWidget {
           icon: UniIcons.email,
           trailing: UniIcon(
             UniIcons.caretRight,
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).primaryVibrant,
           ),
         ),
         const ModalInfoRow(

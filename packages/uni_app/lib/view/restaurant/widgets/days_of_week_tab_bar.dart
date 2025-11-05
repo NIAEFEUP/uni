@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/tab_controller_provider.dart';
