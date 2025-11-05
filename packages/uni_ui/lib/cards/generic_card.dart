@@ -41,7 +41,7 @@ class GenericCard extends StatelessWidget {
                   shadowColor ??
                   cardTheme.shadowColor ??
                   Colors.black.withValues(alpha: 0.03),
-              blurRadius: blurRadius ?? 12,
+              blurRadius: blurRadius ?? 0,
             ),
           ],
           shape: RoundedSuperellipseBorder(

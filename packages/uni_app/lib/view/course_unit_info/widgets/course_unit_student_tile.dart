@@ -40,8 +40,8 @@ class CourseUnitStudentTile extends ConsumerWidget {
                     BoxShadow(
                       color: Theme.of(
                         context,
-                      ).colorScheme.shadow.withAlpha(0x3f),
-                      blurRadius: 10,
+                      ).colorScheme.shadow.withAlpha(0x25),
+                      blurRadius: 2,
                     ),
                   ],
                   shape: SmoothRectangleBorder(
