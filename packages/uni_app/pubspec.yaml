@@ -33,7 +33,7 @@ dependencies:
   expandable: ^5.0.1
   expandable_page_view: ^1.0.17
   expansion_tile_card: ^3.0.0
-  figma_squircle: ^0.6.3
+  file_picker: ^10.3.3
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.4.1
