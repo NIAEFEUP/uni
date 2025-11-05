@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:uni/view/introduction/widgets/exams_intro_page.dart';
 import 'package:uni/view/introduction/widgets/first_page.dart';
 import 'package:uni/view/introduction/widgets/map_intro_page.dart';
+import 'package:uni/view/introduction/widgets/notifications_intro_page.dart';
 import 'package:uni/view/introduction/widgets/restaurants_intro_page.dart';
 import 'package:uni/view/introduction/widgets/schedule_intro_page.dart';
 import 'package:uni/view/introduction/widgets/services_intro_page.dart';
@@ -76,6 +77,7 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView>
               RestaurantsIntroPage(pageController: _pageController),
               ServicesIntroPage(pageController: _pageController),
               MapIntroPage(pageController: _pageController),
+              NotificationsIntroPage(pageController: _pageController),
             ],
           ),
         ],

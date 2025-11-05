@@ -463,5 +463,7 @@
   "services_intro_message": "Access various campus services at your fingertips",
   "@services_intro_message": {},
   "map_intro_message": "Explore the campus with our interactive map",
-  "@map_intro_message": {}
+  "@map_intro_message": {},
+  "notifications_intro_message": "Would you like to receive notifications regarding important updates and alerts, including fee deadlines?",
+  "@notifications_intro_message": {}
 }

@@ -70,6 +70,7 @@ dependencies:
   path: ^1.9.1
   path_provider: ^2.1.5
   percent_indicator: ^4.2.5
+  permission_handler: ^12.0.1
   plausible_analytics: ^0.3.0
   sentry_flutter: ^9.7.0
   shared_preferences: ^2.5.3
