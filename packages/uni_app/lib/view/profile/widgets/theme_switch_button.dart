@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/providers/riverpod/theme_provider.dart';
@@ -15,17 +16,17 @@ class ThemeSwitchButton extends ConsumerWidget {
       ThemeMode.light => Icon(
         Icons.wb_sunny, // use uni_ui icons instead
         size: 24,
-        color: Theme.of(context).onPrimary,
+        color: Theme.of(context).background,
       ),
       ThemeMode.dark => Icon(
         Icons.nightlight_round, // use uni_ui icons instead
         size: 24,
-        color: Theme.of(context).onPrimary,
+        color: Theme.of(context).background,
       ),
       ThemeMode.system => Icon(
         Icons.brightness_6, // use uni_ui icons instead
         size: 24,
-        color: Theme.of(context).onPrimary,
+        color: Theme.of(context).background,
       ),
     };
     return Padding(

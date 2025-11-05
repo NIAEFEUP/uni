@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/widgets/profile_image.dart';

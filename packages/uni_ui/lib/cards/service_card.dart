@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart';
 
 class ServiceCard extends StatelessWidget {
   const ServiceCard({
@@ -56,7 +57,7 @@ class ServiceCard extends StatelessWidget {
                         children: [
                           UniIcon(
                             UniIcons.clock,
-                            color: Theme.of(context).grayMiddleColor,
+                            color: Theme.of(context).grayMiddle,
                           ),
                           const SizedBox(width: 5),
                           Expanded(

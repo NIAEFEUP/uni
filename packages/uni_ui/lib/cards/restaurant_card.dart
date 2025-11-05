@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart';
 
 class RestaurantCard extends StatelessWidget {
   const RestaurantCard({

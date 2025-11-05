@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:uni_ui/cards/generic_card.dart';
+import 'package:flutter/foundation.dart';
+import 'package:uni_ui/theme.dart';
 
 const double _avatarRadius = 20;
 

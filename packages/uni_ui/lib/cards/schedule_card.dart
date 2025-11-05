@@ -25,13 +25,13 @@ class ScheduleCard extends StatelessWidget {
   final Image? teacherPhoto;
   final VoidCallback? onTap;
 
-  static const Map<String, Color> scheduleTypeColors = {
-    'T': BadgeColors.t,
-    'TP': BadgeColors.tp,
-    'P': BadgeColors.p,
-    'PL': BadgeColors.pl,
-    'OT': BadgeColors.ot,
-    'TC': BadgeColors.tc,
+  Map<String, Color> _scheduleTypeColors(BuildContext context) => {
+    'T': Theme.of(context).badgeColors.t,
+    'TP': Theme.of(context).badgeColors.tp,
+    'P': Theme.of(context).badgeColors.p,
+    'PL': Theme.of(context).badgeColors.pl,
+    'OT': Theme.of(context).badgeColors.ot,
+    'TC': Theme.of(context).badgeColors.tc,
   };
 
   @override
@@ -77,7 +77,7 @@ class ScheduleCard extends StatelessWidget {
                     const SizedBox(width: 8), //TODO: Create a custom Gap()?
                     Badge(
                       label: Text(type),
-                      backgroundColor: scheduleTypeColors[type],
+                      backgroundColor: _scheduleTypeColors(context)[type],
                       textColor: Theme.of(context).background,
                     ),
                   ],

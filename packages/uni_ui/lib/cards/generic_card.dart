@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:uni_ui/common/generic_squircle.dart';
 import 'package:uni_ui/theme.dart';
+import 'package:flutter/foundation.dart';
 
 class GenericCard extends StatelessWidget {
   const GenericCard({

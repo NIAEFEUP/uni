@@ -1,4 +1,5 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -182,8 +183,8 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
                   style: Theme.of(context).titleLarge!.copyWith(
                     color:
                         _isConsentGiven
-                            ? Theme.of(context).onPrimary
-                            : Theme.of(context).onTertiary,
+                            ? Theme.of(context).background
+                            : Theme.of(context).background,
                   ),
                 ),
               ),

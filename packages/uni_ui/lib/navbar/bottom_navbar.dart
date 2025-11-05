@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:uni_ui/navbar/bottom_navbar_item.dart';
 import 'package:uni_ui/common/generic_squircle.dart';
 import 'package:uni_ui/theme.dart';
