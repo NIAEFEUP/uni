@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/view/home/widgets/edit/draggable_element.dart';
 import 'package:uni/view/home/widgets/edit/draggable_utils.dart';
+import 'package:uni_ui/common_widgets/list_tile.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/theme.dart';
 

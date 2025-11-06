@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/profile/widgets/tuition_notification_switch.dart';
+import 'package:uni_ui/common_widgets/list_tile.dart';
 
 class NotificationsDialog extends StatelessWidget {
   const NotificationsDialog({super.key});

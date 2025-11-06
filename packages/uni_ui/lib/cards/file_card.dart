@@ -3,6 +3,7 @@ import 'package:phosphor_flutter/src/phosphor_icon_data.dart';
 import 'package:uni_ui/common_widgets/pulse_animation.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/theme.dart';
+import 'package:uni_ui/common_widgets/list_tile.dart';
 
 class FileCard extends StatefulWidget {
   const FileCard({

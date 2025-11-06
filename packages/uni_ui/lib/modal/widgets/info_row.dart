@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/theme.dart';
+import 'package:uni_ui/common_widgets/list_tile.dart';
 
 class ModalInfoRow extends StatelessWidget {
   const ModalInfoRow({

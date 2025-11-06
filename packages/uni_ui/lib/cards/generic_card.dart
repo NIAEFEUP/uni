@@ -29,38 +29,32 @@ class GenericCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cardTheme = CardTheme.of(context);
     final theme = Theme.of(context);
 
-    return Tooltip(
-      message: tooltip,
-      child: Container(
-        margin: margin ?? cardTheme.margin ?? const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color:
-                  shadowColor ??
-                  cardTheme.shadowColor ??
-                  black.withValues(alpha: 0.03),
-              blurRadius: 12,
-              spreadRadius: -2,
-              offset: const Offset(0, 1),
+    return Container(
+      // TODO: add tooltip to generic card
+      margin: margin ?? const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: theme.grayMiddle,
+            blurRadius: 12,
+            spreadRadius: -2,
+            offset: const Offset(0, 1),
+          ),
+        ],
+      ),
+      child: GestureDetector(
+        onTap: onClick,
+        child: GenericSquircle(
+          child: Container(
+            decoration: BoxDecoration(
+              color: color ?? theme.secondary,
+              gradient: gradient,
             ),
-          ],
-        ),
-        child: GestureDetector(
-          onTap: onClick,
-          child: GenericSquircle(
-            child: Container(
-              decoration: BoxDecoration(
-                color: color ?? cardTheme.color ?? theme.secondary,
-                gradient: gradient,
-              ),
-              child: Padding(
-                padding: padding ?? const EdgeInsets.all(10),
-                child: child,
-              ),
+            child: Padding(
+              padding: padding ?? const EdgeInsets.all(10),
+              child: child,
             ),
           ),
         ),
