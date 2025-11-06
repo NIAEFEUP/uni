@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:uni_ui/theme.dart';
+import 'package:uni_ui/common_widgets/circle_avatar.dart';
 
 class ModalPersonInfo extends StatelessWidget {
   const ModalPersonInfo({this.image, required this.name});

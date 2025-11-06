@@ -97,8 +97,10 @@ class ExamModal extends ConsumerWidget {
               if (courseUnit != null && courseUnit.occurrId != null) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute<CourseUnitDetailPageView>(
-                    builder: (context) => CourseUnitDetailPageView(courseUnit),
+                  PageRouteBuilder<CourseUnitDetailPageView>(
+                    pageBuilder:
+                        (context, animation, secondaryAnimation) =>
+                            CourseUnitDetailPageView(courseUnit),
                   ),
                 );
               }

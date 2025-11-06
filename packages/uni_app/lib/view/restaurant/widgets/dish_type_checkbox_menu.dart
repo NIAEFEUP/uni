@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni_ui/common_widgets/divider.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/theme.dart';

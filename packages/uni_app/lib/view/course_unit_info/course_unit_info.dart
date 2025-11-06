@@ -87,8 +87,8 @@ class CourseUnitDetailPageViewState
 
   @override
   Widget getBody(BuildContext context) {
-    return TabBarView(
-      controller: tabController,
+    return IndexedStack(
+      index: tabController.index,
       children: [
         _courseUnitSheetView(context),
         _courseUnitClassesView(context),

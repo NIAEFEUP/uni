@@ -35,17 +35,28 @@ class InstructorCard extends StatelessWidget {
             shadowColor: transparent,
             child: Container(
               padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(color: CardTheme.of(context).color),
+              decoration: BoxDecoration(color: Theme.of(context).secondary),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  CircleAvatar(
-                    radius: _avatarRadius,
-                    backgroundImage:
-                        profileImage ??
-                        const AssetImage(
-                          'assets/images/profile_placeholder.png',
-                        ),
+                  Container(
+                    width: _avatarRadius * 2,
+                    height: _avatarRadius * 2,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image:
+                            profileImage ??
+                            const AssetImage(
+                              'assets/images/profile_placeholder.png',
+                            ),
+                        fit: BoxFit.cover,
+                      ),
+                      border: Border.all(
+                        color: Theme.of(context).primaryVibrant,
+                        width: 2,
+                      ),
+                    ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(

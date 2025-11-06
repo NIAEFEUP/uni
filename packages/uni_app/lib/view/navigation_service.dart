@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:uni/controller/cleanup.dart';
 import 'package:uni/main.dart';
@@ -14,16 +13,17 @@ class NavigationService {
 
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute<LoginPageView>(
-        builder: (context) => const LoginPageView(),
+      PageRouteBuilder<LoginPageView>(
+        pageBuilder:
+            (context, animation, secondaryAnimation) => const LoginPageView(),
       ),
       (route) => false,
     );
   }
 
-  static MaterialPageRoute<Widget> buildLogoutRoute() {
-    return MaterialPageRoute(
-      builder: (context) {
+  static PageRouteBuilder<Widget> buildLogoutRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) {
         cleanupStoredData(context);
         return const LoginPageView();
       },

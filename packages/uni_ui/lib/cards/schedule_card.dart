@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/theme.dart';
+import 'package:uni_ui/common_widgets/circle_avatar.dart';
 
 class ScheduleCard extends StatelessWidget {
   const ScheduleCard({

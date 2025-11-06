@@ -62,8 +62,8 @@ class AcademicPathPageViewState
 
   @override
   Widget getBody(BuildContext context) {
-    return TabBarView(
-      controller: tabController,
+    return IndexedStack(
+      index: tabController.index,
       children: [const CoursesPage(), SchedulePage(), const ExamsPage()],
     );
   }

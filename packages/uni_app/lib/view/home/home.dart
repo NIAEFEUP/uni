@@ -199,9 +199,9 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                               courseUnit.occurrId != null) {
                             Navigator.push(
                               context,
-                              MaterialPageRoute<CourseUnitDetailPageView>(
-                                builder:
-                                    (context) =>
+                              PageRouteBuilder<CourseUnitDetailPageView>(
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
                                         CourseUnitDetailPageView(courseUnit),
                               ),
                             );
