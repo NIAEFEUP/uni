@@ -56,7 +56,7 @@ class AppBottomNavbar extends StatelessWidget {
 
     const iosAdditionalBottomPadding = 30;
     const androidMinimumBottomPadding = 10.0;
-    
+
     if (Platform.isIOS) {
       bottomPadding += iosAdditionalBottomPadding;
     } else if (Platform.isAndroid && bottomPadding == 0) {
