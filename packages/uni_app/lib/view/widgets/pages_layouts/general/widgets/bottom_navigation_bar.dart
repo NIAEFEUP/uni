@@ -49,11 +49,20 @@ class AppBottomNavbar extends StatelessWidget {
       );
     }
 
-    var bottomPadding = MediaQuery.of(context).systemGestureInsets.bottom;
+    // Use viewPadding instead of systemGestureInsets for better compatibility
+    // viewPadding includes the system UI padding and is not affected by
+    // MediaQuery.removePadding
+    var bottomPadding = MediaQuery.of(context).viewPadding.bottom;
 
     const iosAdditionalBottomPadding = 30;
+    const androidMinimumBottomPadding = 10.0;
+    
     if (Platform.isIOS) {
       bottomPadding += iosAdditionalBottomPadding;
+    } else if (Platform.isAndroid && bottomPadding == 0) {
+      // On Android with hidden system navbar (gesture mode),
+      // ensure minimum padding for proper spacing
+      bottomPadding = androidMinimumBottomPadding;
     }
 
     return Padding(
