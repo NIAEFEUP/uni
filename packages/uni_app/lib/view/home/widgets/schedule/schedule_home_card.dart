@@ -104,7 +104,7 @@ class ScheduleHomeCard extends GenericHomecard {
       provider: lectureProvider,
       builder: (context, ref, lectures) {
         final now = DateTime.now();
-        final mockLectures = getMockLectures();
+        //final mockLectures = getMockLectures();
 
         // For the sake of testing uncomment what's below
         /*
@@ -299,7 +299,7 @@ class ScheduleHomeCard extends GenericHomecard {
                         session.value!,
                         studentNumber: element.teacherId,
                       )
-                      : Future<File?>.value(null),
+                      : Future<File?>.value(),
               builder: (context, snapshot) {
                 final teacherPhoto =
                     (snapshot.hasData && snapshot.data != null)
