@@ -39,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "academic_services": MessageLookupByLibrary.simpleMessage(
       "Serviços académicos",
     ),
+    "accept": MessageLookupByLibrary.simpleMessage("Aceito"),
     "account_card_title": MessageLookupByLibrary.simpleMessage(
       "Conta Corrente",
     ),
@@ -411,6 +412,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "reference_success": MessageLookupByLibrary.simpleMessage(
       "Referência criada com sucesso!",
     ),
+    "reject": MessageLookupByLibrary.simpleMessage("Rejeito"),
     "remaining_instructors": MessageLookupByLibrary.simpleMessage(
       "Docentes Restantes",
     ),
@@ -457,6 +459,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "telephone": MessageLookupByLibrary.simpleMessage("Telefone"),
     "terms": MessageLookupByLibrary.simpleMessage("Termos e Condições"),
+    "terms_change": MessageLookupByLibrary.simpleMessage(
+      "Mudança nos Termos e Condições da uni",
+    ),
     "theme": MessageLookupByLibrary.simpleMessage("Tema"),
     "title": MessageLookupByLibrary.simpleMessage("Título"),
     "today": MessageLookupByLibrary.simpleMessage("hoje:"),

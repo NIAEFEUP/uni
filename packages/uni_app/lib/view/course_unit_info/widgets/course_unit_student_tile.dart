@@ -1,4 +1,3 @@
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
@@ -36,11 +35,8 @@ class CourseUnitStudentTile extends ConsumerWidget {
             children: [
               Container(
                 decoration: ShapeDecoration(
-                  shape: SmoothRectangleBorder(
-                    borderRadius: SmoothBorderRadius(
-                      cornerRadius: 25,
-                      cornerSmoothing: 1,
-                    ),
+                  shape: RoundedSuperellipseBorder(
+                    borderRadius: BorderRadius.circular(25),
                   ),
                   image: DecorationImage(
                     fit: BoxFit.cover,

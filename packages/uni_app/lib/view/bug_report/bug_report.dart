@@ -1,7 +1,7 @@
 import 'package:email_validator/email_validator.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/generated/l10n.dart';
@@ -42,7 +42,7 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
   };
 
   List<DropdownMenuItem<int>> bugList = [];
-  List<PlatformFile> pickedFiles = [];
+  List<XFile> pickedFiles = [];
   List<Widget> previewImages = [];
 
   static var _selectedBug = 0;
@@ -78,113 +78,116 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
   Widget getBody(BuildContext context) {
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          children: <Widget>[
-            const Padding(padding: EdgeInsets.only(bottom: 10)),
-            dropdownBugSelectWidget(context),
-            FormTextField(
-              titleController,
-              maxLines: 3,
-              hintText: S.of(context).problem_id,
-              labelText: S.of(context).title,
-              bottomMargin: 20,
-            ),
-            FormTextField(
-              emailController,
-              maxLines: 2,
-              description: S.of(context).contact,
-              labelText: S.of(context).desired_email,
-              bottomMargin: 20,
-              isOptional: true,
-              formatValidator: (value) {
-                if (value == null || value.isEmpty) {
-                  return null;
-                }
-                return EmailValidator.validate(value)
-                    ? null
-                    : S.of(context).valid_email;
-              },
-            ),
-            FormTextField(
-              descriptionController,
-              maxLines: 3,
-              hintText: S.of(context).description,
-              labelText: S.of(context).bug_description,
-              bottomMargin: 20,
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: TextButton.icon(
-                icon: Icon(
-                  Icons.add,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
-                ),
-                onPressed: uploadImages,
-                label: Text(S.of(context).add_photo),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              const Padding(padding: EdgeInsets.only(bottom: 10)),
+              dropdownBugSelectWidget(context),
+              FormTextField(
+                titleController,
+                maxLines: 3,
+                hintText: S.of(context).problem_id,
+                labelText: S.of(context).title,
+                bottomMargin: 20,
               ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(1),
-              child: Row(children: previewImages),
-            ),
-            Container(
-              padding: EdgeInsets.zero,
-              margin: const EdgeInsets.only(bottom: 20),
-              child: ListTileTheme(
-                contentPadding: EdgeInsets.zero,
-                child: CheckboxListTile(
+              FormTextField(
+                emailController,
+                maxLines: 2,
+                description: S.of(context).contact,
+                labelText: S.of(context).desired_email,
+                bottomMargin: 20,
+                isOptional: true,
+                formatValidator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return null;
+                  }
+                  return EmailValidator.validate(value)
+                      ? null
+                      : S.of(context).valid_email;
+                },
+              ),
+              FormTextField(
+                descriptionController,
+                maxLines: 3,
+                hintText: S.of(context).description,
+                labelText: S.of(context).bug_description,
+                bottomMargin: 20,
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton.icon(
+                  icon: Icon(
+                    Icons.add,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                  ),
+                  onPressed: uploadImages,
+                  label: Text(S.of(context).add_photo),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(1),
+                child: Row(children: previewImages),
+              ),
+              Container(
+                padding: EdgeInsets.zero,
+                margin: const EdgeInsets.only(bottom: 20),
+                child: ListTileTheme(
                   contentPadding: EdgeInsets.zero,
-                  value: _isConsentGiven,
-                  onChanged: (newValue) {
-                    setState(() {
-                      _isConsentGiven = newValue ?? false;
-                    });
-                  },
-                  controlAffinity: ListTileControlAffinity.leading,
-                  activeColor: Theme.of(context).colorScheme.primary,
-                  title: Text(
-                    S.of(context).consent,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    textAlign: TextAlign.left,
+                  child: CheckboxListTile(
+                    contentPadding: EdgeInsets.zero,
+                    value: _isConsentGiven,
+                    onChanged: (newValue) {
+                      setState(() {
+                        _isConsentGiven = newValue ?? false;
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity.leading,
+                    activeColor: Theme.of(context).colorScheme.primary,
+                    title: Text(
+                      S.of(context).consent,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                      textAlign: TextAlign.left,
+                    ),
                   ),
                 ),
               ),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    _isConsentGiven
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).dividerColor,
-              ),
-              onPressed:
-                  !_isConsentGiven
-                      ? null
-                      : () {
-                        if (_formKey.currentState!.validate() &&
-                            !_isButtonTapped) {
-                          if (!FocusScope.of(context).hasPrimaryFocus) {
-                            FocusScope.of(context).unfocus();
-                          }
-                          submitBugReport();
-                        }
-                      },
-              child: Text(
-                S.of(context).send,
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color:
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
                       _isConsentGiven
-                          ? Theme.of(context).colorScheme.onPrimary
-                          : Theme.of(context).colorScheme.onTertiary,
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).dividerColor,
+                ),
+                onPressed:
+                    !_isConsentGiven
+                        ? null
+                        : () {
+                          if (_formKey.currentState!.validate() &&
+                              !_isButtonTapped) {
+                            if (!FocusScope.of(context).hasPrimaryFocus) {
+                              FocusScope.of(context).unfocus();
+                            }
+                            submitBugReport();
+                          }
+                        },
+                child: Text(
+                  S.of(context).send,
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color:
+                        _isConsentGiven
+                            ? Theme.of(context).colorScheme.onPrimary
+                            : Theme.of(context).colorScheme.onTertiary,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -213,35 +216,25 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
 
   Future<void> uploadImages() async {
     try {
-      final result = await FilePicker.platform.pickFiles(
-        type: FileType.image,
-        allowMultiple: true,
-        withData: true,
-      );
-
-      if (result != null && result.files.isNotEmpty) {
-        setState(() {
-          pickedFiles = result.files.take(3).toList();
-
-          previewImages =
-              pickedFiles.map((file) {
-                return Padding(
-                  padding: EdgeInsets.all(
-                    8.0 / (pickedFiles.length > 3 ? pickedFiles.length / 3 : 1),
-                  ),
-                  child: SizedBox(
-                    width:
-                        80 /
-                        (pickedFiles.length > 3 ? pickedFiles.length / 3 : 1),
-                    child: Image.memory(
-                      file.bytes!,
-                      height: 120,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                );
-              }).toList();
-        });
+      final picker = ImagePicker();
+      final files = await picker.pickMultiImage();
+      if (files.isNotEmpty) {
+        pickedFiles = files;
+        previewImages = await Future.wait(
+          files.map((file) async {
+            final bytes = await file.readAsBytes();
+            return Padding(
+              padding: EdgeInsets.all(
+                8.0 / (files.length > 3 ? files.length / 3 : 1),
+              ),
+              child: SizedBox(
+                width: 80 / (files.length > 3 ? files.length / 3 : 1),
+                child: Image.memory(bytes, height: 120, fit: BoxFit.cover),
+              ),
+            );
+          }).toList(),
+        );
+        setState(() {});
       }
     } catch (err) {
       if (mounted) {
@@ -295,7 +288,7 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
 
   Future<void> submitSentryEvent(
     Map<String, dynamic> bugReport,
-    List<PlatformFile> pickedFiles,
+    List<XFile> pickedFiles,
   ) async {
     final sentryId = await Sentry.captureMessage(
       'User Feedback',
@@ -304,14 +297,14 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
         await scope.setTag('report.type', bugReport['bugLabel'] as String);
 
         for (final file in pickedFiles) {
-          if (file.bytes != null) {
-            scope.addAttachment(
-              SentryAttachment.fromByteData(
-                file.bytes!.buffer.asByteData(),
-                file.name,
-              ),
-            );
-          }
+          final bytes = await file.readAsBytes();
+          scope.addAttachment(
+            SentryAttachment.fromUint8List(
+              bytes,
+              file.name,
+              contentType: file.mimeType,
+            ),
+          );
         }
       },
     );

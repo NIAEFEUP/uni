@@ -110,6 +110,11 @@ class S {
     );
   }
 
+  /// `Accept`
+  String get accept {
+    return Intl.message('Accept', name: 'accept', desc: '', args: []);
+  }
+
   /// `Checking account`
   String get account_card_title {
     return Intl.message(
@@ -1293,6 +1298,11 @@ class S {
     );
   }
 
+  /// `Reject`
+  String get reject {
+    return Intl.message('Reject', name: 'reject', desc: '', args: []);
+  }
+
   /// `Delete`
   String get remove {
     return Intl.message('Delete', name: 'remove', desc: '', args: []);
@@ -1423,6 +1433,16 @@ class S {
     return Intl.message(
       'Terms and Conditions',
       name: 'terms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Changes on uni's Terms and Conditions`
+  String get terms_change {
+    return Intl.message(
+      'Changes on uni\'s Terms and Conditions',
+      name: 'terms_change',
       desc: '',
       args: [],
     );
