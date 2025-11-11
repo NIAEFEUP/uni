@@ -32,6 +32,98 @@ class TimePeriod {
       date.isBefore(end);
 }
 
+List<Lecture> getMockLectures() {
+
+
+  final now = DateTime.now();
+
+
+  return [
+
+
+    Lecture(
+
+
+      'ESOF',
+
+
+      'ESOF',
+
+
+      'T',
+
+
+      now.subtract(const Duration(hours: 2)),
+
+
+      now.subtract(const Duration(hours: 1)),
+
+
+      'Room B123',
+
+
+      'ademaraguiar',
+
+
+      'ademaraguiar',
+
+
+      101,
+
+
+      '1',
+
+
+      1001,
+
+
+    ),
+
+
+    Lecture(
+
+
+      'LTW',
+
+
+      'LTW',
+
+
+      'TP',
+
+
+      now.add(const Duration(hours: 0)),
+
+
+      now.add(const Duration(hours: 1)),
+
+
+      'Room B234',
+
+
+      'arestivo',
+
+
+      'arestivo',
+
+
+      102,
+
+
+      '2',
+
+
+      1002,
+
+
+    ),
+
+
+  ];
+
+
+}
+
 class ScheduleHomeCard extends GenericHomecard {
   const ScheduleHomeCard({super.key})
     : super(
@@ -50,7 +142,18 @@ class ScheduleHomeCard extends GenericHomecard {
       provider: lectureProvider,
       builder: (context, ref, lectures) {
         final now = DateTime.now();
+        final mockLectures = getMockLectures();
 
+        // For the sake of testing uncomment what's below
+        /*
+            final upcomingLectures = mockLectures
+        .where((lecture) => lecture.endTime.isAfter(now))
+        .toList()
+      ..sort((a, b) => a.startTime.compareTo(b.startTime));
+        
+         */
+
+        // For the sake of testing comment what's below 
         // Get upcoming lectures (end time is after now)
         final upcomingLectures = lectures
             .where((lecture) => lecture.endTime.isAfter(now))
