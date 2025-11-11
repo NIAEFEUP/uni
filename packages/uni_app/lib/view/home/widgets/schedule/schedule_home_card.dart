@@ -27,7 +27,9 @@ class TimePeriod {
 
   Duration get duration => end.difference(start);
 
-  bool contains(DateTime date) => date.isAfter(start) && date.isBefore(end);
+  bool contains(DateTime date) => 
+      (date.isAfter(start) || date.isAtSameMomentAs(start)) && 
+      date.isBefore(end);
 }
 
 List<Lecture> getMockLectures() {
@@ -37,8 +39,8 @@ List<Lecture> getMockLectures() {
       'ESOF',
       'ESOF',
       'T',
-      now.add(const Duration(days: 0, hours: -2)),
-      now.add(const Duration(days: 0, hours: -1)),
+      now.subtract(const Duration(hours: 2)),
+      now.subtract(const Duration(hours: 1)),
       'Room B123',
       'ademaraguiar',
       'ademaraguiar',
@@ -50,8 +52,8 @@ List<Lecture> getMockLectures() {
       'LTW',
       'LTW',
       'TP',
-      now.add(const Duration(days: 1, hours: 2)),
-      now.add(const Duration(days: 1, hours: 3)),
+      now.add(const Duration(hours: 0)),
+      now.add(const Duration(hours: 1)),
       'Room B234',
       'arestivo',
       'arestivo',
@@ -79,135 +81,15 @@ class ScheduleHomeCard extends GenericHomecard {
     final mockLectures = getMockLectures();
     final now = DateTime.now();
 
-    final todayStart = DateTime(now.year, now.month, now.day);
-    final todayEnd = todayStart.add(const Duration(days: 1));
-    final tomorrowStart = todayStart.add(const Duration(days: 1));
-    final tomorrowEnd = tomorrowStart.add(const Duration(days: 1));
-    final weekEnd = todayStart.add(const Duration(days: 7));
+    // Get upcoming lectures (end time is after now)
+    final upcomingLectures = mockLectures
+        .where((lecture) => lecture.endTime.isAfter(now))
+        .toList()
+      ..sort((a, b) => a.startTime.compareTo(b.startTime));
 
-    // Upcoming lectures (from now)
-    final upcomingLectures =
-        mockLectures.where((lecture) => lecture.endTime.isAfter(now)).toList();
+    print('Upcoming lectures: ${upcomingLectures.length}');
 
-    if (upcomingLectures.isNotEmpty) {
-      // ensure the list is sorted so first == next
-      upcomingLectures.sort((a, b) => a.startTime.compareTo(b.startTime));
-      final nextLecture = upcomingLectures.first;
-      Lecture secondLecture = nextLecture;
-      if (upcomingLectures.length > 1) {
-        secondLecture = upcomingLectures[1];
-      }
-
-      if (secondLecture.startTime.day != nextLecture.startTime.day) {
-        upcomingLectures
-          ..clear()
-          ..add(nextLecture);
-      }
-
-      // Determine display text for date
-      String dateText;
-      if (nextLecture.startTime.isAfter(todayStart) &&
-          nextLecture.startTime.isBefore(todayEnd)) {
-        dateText = S.of(context).today;
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              dateText,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-            const SizedBox(height: 18),
-            CardTimeline(
-              items:
-                  buildTimelineItems(
-                    upcomingLectures,
-                    context,
-                  ).take(2).toList(),
-            ),
-          ],
-        );
-      } else if (nextLecture.startTime.isAfter(tomorrowStart) &&
-          nextLecture.startTime.isBefore(tomorrowEnd)) {
-        dateText = S.of(context).tomorrow;
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const UniIcon(size: 45, UniIcons.beer),
-                const SizedBox(height: 8),
-                Text(
-                  '${S.of(context).no_classes_today}\n${S.of(context).nextclasses}$dateText',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 18),
-            CardTimeline(
-              items:
-                  buildTimelineItems(
-                    upcomingLectures,
-                    context,
-                  ).take(2).toList(),
-            ),
-          ],
-        );
-      } else if (nextLecture.startTime.isBefore(weekEnd) &&
-          nextLecture.startTime.isAfter(tomorrowEnd)) {
-        dateText = DateFormat(
-          'EEEE',
-          Localizations.localeOf(context).toString(),
-        ).format(nextLecture.startTime);
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const UniIcon(size: 45, UniIcons.beer),
-                const SizedBox(height: 8),
-                Text(
-                  '${S.of(context).no_classes_today}\n${S.of(context).nextclasses}$dateText:',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 18),
-            CardTimeline(
-              items:
-                  buildTimelineItems(
-                    upcomingLectures,
-                    context,
-                  ).take(2).toList(),
-            ),
-          ],
-        );
-      } else {
-        return Center(
-          child: IconLabel(
-            icon: const UniIcon(size: 45, UniIcons.beer),
-            label: S.of(context).no_classes_this_week,
-            labelTextStyle: TextStyle(
-              fontSize: 14,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-        );
-      }
-    } else {
+    if (upcomingLectures.isEmpty) {
       return Center(
         child: IconLabel(
           icon: const UniIcon(size: 45, UniIcons.beer),
@@ -219,6 +101,92 @@ class ScheduleHomeCard extends GenericHomecard {
         ),
       );
     }
+
+    // Check if any lecture is currently happening
+    final hasCurrentLecture = mockLectures.any((lecture) => _isLectureCurrent(lecture, now));
+
+    // If there's a current lecture, just show the timeline without any message
+    if (hasCurrentLecture) {
+      return CardTimeline(
+        items: buildTimelineItems(upcomingLectures, context),
+      );
+    }
+
+    // Otherwise, determine what message to show
+    final nextLecture = upcomingLectures.first;
+    final today = DateTime(now.year, now.month, now.day);
+    final tomorrow = today.add(const Duration(days: 1));
+
+    if (nextLecture.startTime.isAfter(today) && 
+        nextLecture.startTime.isBefore(today.add(const Duration(days: 1)))) {
+      // Next lecture is today - just show the timeline without "Today" message
+      return CardTimeline(
+        items: buildTimelineItems(upcomingLectures, context),
+      );
+    } else if (nextLecture.startTime.isAfter(tomorrow) && 
+               nextLecture.startTime.isBefore(tomorrow.add(const Duration(days: 1)))) {
+      // Next lecture is tomorrow
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const UniIcon(size: 45, UniIcons.beer),
+              const SizedBox(height: 8),
+              Text(
+                '${S.of(context).no_classes_today}\n${S.of(context).nextclasses}${S.of(context).tomorrow}',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          CardTimeline(
+            items: buildTimelineItems(upcomingLectures, context),
+          ),
+        ],
+      );
+    } else {
+      // Next lecture is later this week
+      final dateText = DateFormat(
+        'EEEE',
+        Localizations.localeOf(context).toString(),
+      ).format(nextLecture.startTime);
+      
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const UniIcon(size: 45, UniIcons.beer),
+              const SizedBox(height: 8),
+              Text(
+                '${S.of(context).no_classes_today}\n${S.of(context).nextclasses}$dateText:',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          CardTimeline(
+            items: buildTimelineItems(upcomingLectures, context),
+          ),
+        ],
+      );
+    }
+  }
+
+  bool _isLectureCurrent(Lecture lecture, DateTime now) {
+    return (now.isAfter(lecture.startTime) || now.isAtSameMomentAs(lecture.startTime)) && 
+           now.isBefore(lecture.endTime);
   }
 
   @override
@@ -245,14 +213,16 @@ class ScheduleHomeCard extends GenericHomecard {
       listen: false,
     ).read(sessionProvider);
 
+    // Use the lectures directly without filtering by period
+    // The lectures are already filtered to be upcoming
     final sortedLectures = lectures
-        .where((lecture) => period.contains(lecture.startTime))
         .toList()
         .sortedBy((lecture) => week.getWeekday(lecture.startTime.weekday));
 
-    return sortedLectures.map((element) {
-      final isActive =
-          now.isAfter(element.startTime) && now.isBefore(element.endTime);
+
+    // Take only the first 2 lectures for the home card
+    return sortedLectures.take(2).map((element) {
+      final isActive = _isLectureCurrent(element, now);
       return TimelineItem(
         isActive: isActive,
         title: DateFormat('HH:mm').format(element.startTime),
