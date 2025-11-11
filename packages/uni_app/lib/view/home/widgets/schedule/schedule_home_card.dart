@@ -32,38 +32,6 @@ class TimePeriod {
       date.isBefore(end);
 }
 
-List<Lecture> getMockLectures() {
-  final now = DateTime.now();
-  return [
-    Lecture(
-      'ESOF',
-      'ESOF',
-      'T',
-      now.subtract(const Duration(hours: 2)),
-      now.subtract(const Duration(hours: 1)),
-      'Room B123',
-      'ademaraguiar',
-      'ademaraguiar',
-      101,
-      '1',
-      1001,
-    ),
-    Lecture(
-      'LTW',
-      'LTW',
-      'TP',
-      now.add(const Duration(hours: 0)),
-      now.add(const Duration(hours: 1)),
-      'Room B234',
-      'arestivo',
-      'arestivo',
-      102,
-      '2',
-      1002,
-    ),
-  ];
-}
-
 class ScheduleHomeCard extends GenericHomecard {
   const ScheduleHomeCard({super.key})
     : super(
@@ -78,18 +46,165 @@ class ScheduleHomeCard extends GenericHomecard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    final mockLectures = getMockLectures();
-    final now = DateTime.now();
+    return DefaultConsumer<List<Lecture>>(
+      provider: lectureProvider,
+      builder: (context, ref, lectures) {
+        final now = DateTime.now();
 
-    // Get upcoming lectures (end time is after now)
-    final upcomingLectures = mockLectures
-        .where((lecture) => lecture.endTime.isAfter(now))
-        .toList()
-      ..sort((a, b) => a.startTime.compareTo(b.startTime));
+        // Debug: Print current time and all lectures
+        print('=== SCHEDULE DEBUG - START ===');
+        print('Current time: $now');
+        print('Total lectures from provider: ${lectures.length}');
+        
+        for (var i = 0; i < lectures.length; i++) {
+          final lecture = lectures[i];
+          print('Lecture $i: ${lecture.subject}');
+          print('  Start: ${lecture.startTime}');
+          print('  End: ${lecture.endTime}');
+          print('  Is current: ${_isLectureCurrent(lecture, now)}');
+          print('  Start is after now: ${lecture.startTime.isAfter(now)}');
+          print('  End is after now: ${lecture.endTime.isAfter(now)}');
+        }
 
+        // Get upcoming lectures (end time is after now)
+        final upcomingLectures = lectures
+            .where((lecture) => lecture.endTime.isAfter(now))
+            .toList()
+          ..sort((a, b) => a.startTime.compareTo(b.startTime));
 
-    if (upcomingLectures.isEmpty) {
-      return Center(
+        print('=== UPCOMING LECTURES FILTERED ===');
+        print('Upcoming lectures count: ${upcomingLectures.length}');
+        for (var i = 0; i < upcomingLectures.length; i++) {
+          final lecture = upcomingLectures[i];
+          print('Upcoming $i: ${lecture.subject} | ${lecture.startTime} -> ${lecture.endTime}');
+        }
+
+        if (upcomingLectures.isEmpty) {
+          print('No upcoming lectures - showing no_classes message');
+          return Center(
+            child: IconLabel(
+              icon: const UniIcon(size: 45, UniIcons.beer),
+              label: S.of(context).no_classes,
+              labelTextStyle: TextStyle(
+                fontSize: 14,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          );
+        }
+
+        // Check if any lecture is currently happening
+        final hasCurrentLecture = upcomingLectures.any((lecture) => _isLectureCurrent(lecture, now));
+        print('Has current lecture: $hasCurrentLecture');
+
+        // If there's a current lecture, just show the timeline without any message
+        if (hasCurrentLecture) {
+          print('Showing current lecture timeline');
+          return CardTimeline(
+            items: buildTimelineItems(upcomingLectures, ref),
+          );
+        }
+
+        // Otherwise, determine what message to show
+        final nextLecture = upcomingLectures.first;
+        final today = DateTime(now.year, now.month, now.day);
+        final tomorrow = today.add(const Duration(days: 1));
+        final weekEnd = today.add(const Duration(days: 7));
+
+        // Check if next lecture is within this week
+        final isWithinThisWeek = nextLecture.startTime.isBefore(weekEnd);
+        print('Next lecture: ${nextLecture.subject} at ${nextLecture.startTime}');
+        print('Is within this week: $isWithinThisWeek');
+        print('Today: $today');
+        print('Tomorrow: $tomorrow');
+        print('Week end: $weekEnd');
+
+        if (!isWithinThisWeek) {
+          // Next class is beyond this week - show "no classes this week" message
+          print('Next lecture is beyond this week - showing no_classes_this_week message');
+          return Center(
+            child: IconLabel(
+              icon: const UniIcon(size: 45, UniIcons.beer),
+              label: S.of(context).no_classes_this_week,
+              labelTextStyle: TextStyle(
+                fontSize: 14,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          );
+        }
+
+        if (nextLecture.startTime.isAfter(today) && 
+            nextLecture.startTime.isBefore(today.add(const Duration(days: 1)))) {
+          // Next lecture is today - just show the timeline without "Today" message
+          print('Next lecture is today - showing timeline without message');
+          return CardTimeline(
+            items: buildTimelineItems(upcomingLectures, ref),
+          );
+        } else if (nextLecture.startTime.isAfter(tomorrow) && 
+                  nextLecture.startTime.isBefore(tomorrow.add(const Duration(days: 1)))) {
+          // Next lecture is tomorrow
+          print('Next lecture is tomorrow - showing tomorrow message with timeline');
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const UniIcon(size: 45, UniIcons.beer),
+                  const SizedBox(height: 8),
+                  Text(
+                    '${S.of(context).no_classes_today}\n${S.of(context).nextclasses}${S.of(context).tomorrow}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 18),
+              CardTimeline(
+                items: buildTimelineItems(upcomingLectures, ref),
+              ),
+            ],
+          );
+        } else {
+          // Next lecture is later this week (but within this week)
+          final dateText = DateFormat(
+            'EEEE',
+            Localizations.localeOf(context).toString(),
+          ).format(nextLecture.startTime);
+          print('Next lecture is later this week ($dateText) - showing weekday message with timeline');
+          
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const UniIcon(size: 45, UniIcons.beer),
+                  const SizedBox(height: 8),
+                  Text(
+                    '${S.of(context).no_classes_today}\n${S.of(context).nextclasses}$dateText:',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 18),
+              CardTimeline(
+                items: buildTimelineItems(upcomingLectures, ref),
+              ),
+            ],
+          );
+        }
+      },
+      hasContent: (lectures) => lectures.isNotEmpty,
+      nullContentWidget: Center(
         child: IconLabel(
           icon: const UniIcon(size: 45, UniIcons.beer),
           label: S.of(context).no_classes,
@@ -98,94 +213,17 @@ class ScheduleHomeCard extends GenericHomecard {
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
-      );
-    }
-
-    // Check if any lecture is currently happening
-    final hasCurrentLecture = mockLectures.any((lecture) => _isLectureCurrent(lecture, now));
-
-    // If there's a current lecture, just show the timeline without any message
-    if (hasCurrentLecture) {
-      return CardTimeline(
-        items: buildTimelineItems(upcomingLectures, context),
-      );
-    }
-
-    // Otherwise, determine what message to show
-    final nextLecture = upcomingLectures.first;
-    final today = DateTime(now.year, now.month, now.day);
-    final tomorrow = today.add(const Duration(days: 1));
-
-    if (nextLecture.startTime.isAfter(today) && 
-        nextLecture.startTime.isBefore(today.add(const Duration(days: 1)))) {
-      // Next lecture is today - just show the timeline without "Today" message
-      return CardTimeline(
-        items: buildTimelineItems(upcomingLectures, context),
-      );
-    } else if (nextLecture.startTime.isAfter(tomorrow) && 
-               nextLecture.startTime.isBefore(tomorrow.add(const Duration(days: 1)))) {
-      // Next lecture is tomorrow
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const UniIcon(size: 45, UniIcons.beer),
-              const SizedBox(height: 8),
-              Text(
-                '${S.of(context).no_classes_today}\n${S.of(context).nextclasses}${S.of(context).tomorrow}',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 18),
-          CardTimeline(
-            items: buildTimelineItems(upcomingLectures, context),
-          ),
-        ],
-      );
-    } else {
-      // Next lecture is later this week
-      final dateText = DateFormat(
-        'EEEE',
-        Localizations.localeOf(context).toString(),
-      ).format(nextLecture.startTime);
-      
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const UniIcon(size: 45, UniIcons.beer),
-              const SizedBox(height: 8),
-              Text(
-                '${S.of(context).no_classes_today}\n${S.of(context).nextclasses}$dateText:',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 18),
-          CardTimeline(
-            items: buildTimelineItems(upcomingLectures, context),
-          ),
-        ],
-      );
-    }
+      ),
+      mapper: (lectures) => lectures,
+      loadingWidget: const ShimmerCardTimeline(),
+    );
   }
 
   bool _isLectureCurrent(Lecture lecture, DateTime now) {
-    return (now.isAfter(lecture.startTime) || now.isAtSameMomentAs(lecture.startTime)) && 
+    final isCurrent = (now.isAfter(lecture.startTime) || now.isAtSameMomentAs(lecture.startTime)) && 
            now.isBefore(lecture.endTime);
+    print('  _isLectureCurrent check for ${lecture.subject}: $isCurrent (now: $now, start: ${lecture.startTime}, end: ${lecture.endTime})');
+    return isCurrent;
   }
 
   @override
@@ -197,31 +235,50 @@ class ScheduleHomeCard extends GenericHomecard {
     );
   }
 
-  List<TimelineItem> buildTimelineItems(
-    List<Lecture> lectures,
-    BuildContext context,
-  ) {
+  List<TimelineItem> buildTimelineItems(List<Lecture> lectures, WidgetRef ref) {
     final now = DateTime.now();
     final period = TimePeriod(
       start: now,
       end: now.add(const Duration(days: 7)),
     );
     final week = Week(start: now);
-    final session = ProviderScope.containerOf(
-      context,
-      listen: false,
-    ).read(sessionProvider);
+    final session = ref.read(sessionProvider);
 
-    // Use the lectures directly without filtering by period
-    // The lectures are already filtered to be upcoming
-    final sortedLectures = lectures
-        .toList()
-        .sortedBy((lecture) => week.getWeekday(lecture.startTime.weekday));
+    print('=== BUILD TIMELINE ITEMS DEBUG ===');
+    print('Input lectures count: ${lectures.length}');
+    print('Period: ${period.start} to ${period.end}');
+    
+    // Print all input lectures to timeline
+    for (var i = 0; i < lectures.length; i++) {
+      final lecture = lectures[i];
+      print('Input lecture $i to timeline: ${lecture.subject} | ${lecture.startTime} -> ${lecture.endTime}');
+    }
 
+    // Filter lectures to only show those within the next 7 days
+    final lecturesThisWeek = lectures
+        .where((lecture) => period.contains(lecture.startTime))
+        .toList();
+
+    print('Lectures this week count: ${lecturesThisWeek.length}');
+    for (var i = 0; i < lecturesThisWeek.length; i++) {
+      final lecture = lecturesThisWeek[i];
+      print('Lecture this week $i: ${lecture.subject} | ${lecture.startTime} -> ${lecture.endTime}');
+    }
+
+    // FIX: Sort by actual date and time, not just weekday
+    final sortedLectures = lecturesThisWeek
+        .sortedBy((lecture) => lecture.startTime);
+
+    print('Sorted lectures:');
+    for (var i = 0; i < sortedLectures.length; i++) {
+      final lecture = sortedLectures[i];
+      print('Sorted $i: ${lecture.subject} | ${lecture.startTime}');
+    }
 
     // Take only the first 2 lectures for the home card
-    return sortedLectures.take(2).map((element) {
+    final timelineItems = sortedLectures.take(2).map((element) {
       final isActive = _isLectureCurrent(element, now);
+      print('Creating timeline item: ${element.subject} - Active: $isActive');
       return TimelineItem(
         isActive: isActive,
         title: DateFormat('HH:mm').format(element.startTime),
@@ -253,5 +310,13 @@ class ScheduleHomeCard extends GenericHomecard {
         ),
       );
     }).toList();
+
+    print('Final timeline items count: ${timelineItems.length}');
+    for (var i = 0; i < timelineItems.length; i++) {
+      final item = timelineItems[i];
+      print('Final timeline item $i: ${item.title} - ${item.subtitle}');
+    }
+    print('=== SCHEDULE DEBUG - END ===');
+    return timelineItems;
   }
 }
