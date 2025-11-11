@@ -37,8 +37,8 @@ List<Lecture> getMockLectures() {
       'ESOF',
       'ESOF',
       'T',
-      now.add(const Duration(days: 7, hours: 1)),
-      now.add(const Duration(days: 7, hours: 2)),
+      now.add(const Duration(days: 0, hours: -2)),
+      now.add(const Duration(days: 0, hours: -1)),
       'Room B123',
       'ademaraguiar',
       'ademaraguiar',
@@ -50,8 +50,8 @@ List<Lecture> getMockLectures() {
       'LTW',
       'LTW',
       'TP',
-      now.add(const Duration(days: 7, hours: 2)),
-      now.add(const Duration(days: 7, hours: 3)),
+      now.add(const Duration(days: 1, hours: 2)),
+      now.add(const Duration(days: 1, hours: 3)),
       'Room B234',
       'arestivo',
       'arestivo',
@@ -139,7 +139,7 @@ class ScheduleHomeCard extends GenericHomecard {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const UniIcon(size: 45, UniIcons.sun),
+                const UniIcon(size: 45, UniIcons.beer),
                 const SizedBox(height: 8),
                 Text(
                   '${S.of(context).no_classes_today}\n${S.of(context).nextclasses}$dateText',
@@ -173,7 +173,7 @@ class ScheduleHomeCard extends GenericHomecard {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const UniIcon(size: 45, UniIcons.sun),
+                const UniIcon(size: 45, UniIcons.beer),
                 const SizedBox(height: 8),
                 Text(
                   '${S.of(context).no_classes_today}\n${S.of(context).nextclasses}$dateText:',
@@ -198,7 +198,7 @@ class ScheduleHomeCard extends GenericHomecard {
       } else {
         return Center(
           child: IconLabel(
-            icon: const UniIcon(size: 45, UniIcons.sun),
+            icon: const UniIcon(size: 45, UniIcons.beer),
             label: S.of(context).no_classes_this_week,
             labelTextStyle: TextStyle(
               fontSize: 14,
