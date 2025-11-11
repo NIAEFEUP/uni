@@ -32,7 +32,7 @@ class TimePeriod {
       date.isBefore(end);
 }
 
-List<Lecture> getMockLectures() {
+/*List<Lecture> getMockLectures() {
   final now = DateTime.now();
 
   return [
@@ -84,7 +84,7 @@ List<Lecture> getMockLectures() {
       1002,
     ),
   ];
-}
+}*/
 
 class ScheduleHomeCard extends GenericHomecard {
   const ScheduleHomeCard({super.key})
@@ -270,7 +270,7 @@ class ScheduleHomeCard extends GenericHomecard {
       start: now,
       end: now.add(const Duration(days: 7)),
     );
-    final week = Week(start: now);
+    //final week = Week(start: now);
     final session = ref.read(sessionProvider);
 
     // Filter lectures to only show those within the next 7 days
