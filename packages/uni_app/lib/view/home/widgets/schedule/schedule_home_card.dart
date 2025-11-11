@@ -90,11 +90,11 @@ class ScheduleHomeCard extends GenericHomecard {
       upcomingLectures.sort((a, b) => a.startTime.compareTo(b.startTime));
       final nextLecture = upcomingLectures.first;
       Lecture secondLecture = nextLecture;
-      if(upcomingLectures.length > 1){
+      if (upcomingLectures.length > 1) {
         secondLecture = upcomingLectures[1];
       }
-      
-      if(secondLecture.startTime.day != nextLecture.startTime.day){
+
+      if (secondLecture.startTime.day != nextLecture.startTime.day) {
         upcomingLectures
           ..clear()
           ..add(nextLecture);
@@ -119,7 +119,10 @@ class ScheduleHomeCard extends GenericHomecard {
             const SizedBox(height: 18),
             CardTimeline(
               items:
-                  buildTimelineItems(upcomingLectures, context).take(2).toList(),
+                  buildTimelineItems(
+                    upcomingLectures,
+                    context,
+                  ).take(2).toList(),
             ),
           ],
         );
@@ -141,20 +144,25 @@ class ScheduleHomeCard extends GenericHomecard {
                     fontSize: 14,
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                )
+                ),
               ],
             ),
             const SizedBox(height: 18),
             CardTimeline(
               items:
-                  buildTimelineItems(upcomingLectures, context).take(2).toList(),
+                  buildTimelineItems(
+                    upcomingLectures,
+                    context,
+                  ).take(2).toList(),
             ),
           ],
         );
       } else if (nextLecture.startTime.isBefore(weekEnd) &&
           nextLecture.startTime.isAfter(tomorrowEnd)) {
-        dateText = DateFormat('EEEE', Localizations.localeOf(context).toString())
-            .format(nextLecture.startTime);
+        dateText = DateFormat(
+          'EEEE',
+          Localizations.localeOf(context).toString(),
+        ).format(nextLecture.startTime);
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -170,25 +178,29 @@ class ScheduleHomeCard extends GenericHomecard {
                     fontSize: 14,
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                )
+                ),
               ],
             ),
             const SizedBox(height: 18),
             CardTimeline(
               items:
-                  buildTimelineItems(upcomingLectures, context).take(2).toList(),
+                  buildTimelineItems(
+                    upcomingLectures,
+                    context,
+                  ).take(2).toList(),
             ),
           ],
         );
       } else {
-          return Center(child:
-          IconLabel(icon: const UniIcon(size : 45, UniIcons.sun), 
-          label: S.of(context).no_classes_this_week,
-          labelTextStyle: TextStyle(
+        return Center(
+          child: IconLabel(
+            icon: const UniIcon(size: 45, UniIcons.sun),
+            label: S.of(context).no_classes_this_week,
+            labelTextStyle: TextStyle(
               fontSize: 14,
               color: Theme.of(context).colorScheme.primary,
             ),
-          )
+          ),
         );
       }
     } else {
@@ -216,55 +228,58 @@ class ScheduleHomeCard extends GenericHomecard {
   }
 
   List<TimelineItem> buildTimelineItems(
-      List<Lecture> lectures, BuildContext context) {
+    List<Lecture> lectures,
+    BuildContext context,
+  ) {
     final now = DateTime.now();
-    final period = TimePeriod(start: now, end: now.add(const Duration(days: 7)));
+    final period = TimePeriod(
+      start: now,
+      end: now.add(const Duration(days: 7)),
+    );
     final week = Week(start: now);
-    final session = ProviderScope.containerOf(context, listen: false)
-        .read(sessionProvider);
+    final session = ProviderScope.containerOf(
+      context,
+      listen: false,
+    ).read(sessionProvider);
 
     final sortedLectures = lectures
         .where((lecture) => period.contains(lecture.startTime))
         .toList()
         .sortedBy((lecture) => week.getWeekday(lecture.startTime.weekday));
 
-    return sortedLectures
-        .map(
-          (element) {
-            final isActive = now.isAfter(element.startTime) &&
-                now.isBefore(element.endTime);
-            return TimelineItem(
-              isActive: isActive,
-              title: DateFormat('HH:mm').format(element.startTime),
-              subtitle: DateFormat('HH:mm').format(element.endTime),
-              card: FutureBuilder<File?>(
-                future: session.value != null
-                    ? ProfileNotifier.fetchOrGetCachedProfilePicture(
-                        session.value!,
-                        studentNumber: element.teacherId,
-                      )
-                    : Future<File?>.value(null),
-                builder: (context, snapshot) {
-                  final teacherPhoto = (snapshot.hasData && snapshot.data != null)
-                      ? Image.file(snapshot.data!)
-                      : Image.asset(
-                          'assets/images/profile_placeholder.png',
-                        );
+    return sortedLectures.map((element) {
+      final isActive =
+          now.isAfter(element.startTime) && now.isBefore(element.endTime);
+      return TimelineItem(
+        isActive: isActive,
+        title: DateFormat('HH:mm').format(element.startTime),
+        subtitle: DateFormat('HH:mm').format(element.endTime),
+        card: FutureBuilder<File?>(
+          future:
+              session.value != null
+                  ? ProfileNotifier.fetchOrGetCachedProfilePicture(
+                    session.value!,
+                    studentNumber: element.teacherId,
+                  )
+                  : Future<File?>.value(null),
+          builder: (context, snapshot) {
+            final teacherPhoto =
+                (snapshot.hasData && snapshot.data != null)
+                    ? Image.file(snapshot.data!)
+                    : Image.asset('assets/images/profile_placeholder.png');
 
-                  return ScheduleCard(
-                    isActive: isActive,
-                    name: element.subject,
-                    acronym: element.acronym,
-                    room: element.room,
-                    type: element.typeClass,
-                    teacherName: element.teacherName,
-                    teacherPhoto: teacherPhoto,
-                  );
-                },
-              ),
+            return ScheduleCard(
+              isActive: isActive,
+              name: element.subject,
+              acronym: element.acronym,
+              room: element.room,
+              type: element.typeClass,
+              teacherName: element.teacherName,
+              teacherPhoto: teacherPhoto,
             );
           },
-        )
-        .toList();
+        ),
+      );
+    }).toList();
   }
 }
