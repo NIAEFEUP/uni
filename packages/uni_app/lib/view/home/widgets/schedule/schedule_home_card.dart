@@ -87,7 +87,6 @@ class ScheduleHomeCard extends GenericHomecard {
         .toList()
       ..sort((a, b) => a.startTime.compareTo(b.startTime));
 
-    print('Upcoming lectures: ${upcomingLectures.length}');
 
     if (upcomingLectures.isEmpty) {
       return Center(
