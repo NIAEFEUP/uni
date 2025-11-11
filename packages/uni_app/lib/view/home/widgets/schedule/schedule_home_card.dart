@@ -27,101 +27,63 @@ class TimePeriod {
 
   Duration get duration => end.difference(start);
 
-  bool contains(DateTime date) => 
-      (date.isAfter(start) || date.isAtSameMomentAs(start)) && 
+  bool contains(DateTime date) =>
+      (date.isAfter(start) || date.isAtSameMomentAs(start)) &&
       date.isBefore(end);
 }
 
 List<Lecture> getMockLectures() {
-
-
   final now = DateTime.now();
 
-
   return [
-
-
     Lecture(
-
-
       'ESOF',
 
-
       'ESOF',
-
 
       'T',
 
-
       now.subtract(const Duration(hours: 2)),
-
 
       now.subtract(const Duration(hours: 1)),
 
-
       'Room B123',
 
-
       'ademaraguiar',
 
-
       'ademaraguiar',
-
 
       101,
 
-
       '1',
 
-
       1001,
-
-
     ),
 
-
     Lecture(
-
-
       'LTW',
 
-
       'LTW',
-
 
       'TP',
 
-
       now.add(const Duration(hours: 0)),
-
 
       now.add(const Duration(hours: 1)),
 
-
       'Room B234',
 
-
       'arestivo',
 
-
       'arestivo',
-
 
       102,
 
-
       '2',
 
-
       1002,
-
-
     ),
-
-
   ];
-
-
 }
 
 class ScheduleHomeCard extends GenericHomecard {
@@ -153,13 +115,11 @@ class ScheduleHomeCard extends GenericHomecard {
         
          */
 
-        // For the sake of testing comment what's below 
+        // For the sake of testing comment what's below
         // Get upcoming lectures (end time is after now)
-        final upcomingLectures = lectures
-            .where((lecture) => lecture.endTime.isAfter(now))
-            .toList()
-          ..sort((a, b) => a.startTime.compareTo(b.startTime));
-
+        final upcomingLectures =
+            lectures.where((lecture) => lecture.endTime.isAfter(now)).toList()
+              ..sort((a, b) => a.startTime.compareTo(b.startTime));
 
         if (upcomingLectures.isEmpty) {
           return Center(
@@ -175,13 +135,13 @@ class ScheduleHomeCard extends GenericHomecard {
         }
 
         // Check if any lecture is currently happening
-        final hasCurrentLecture = upcomingLectures.any((lecture) => _isLectureCurrent(lecture, now));
+        final hasCurrentLecture = upcomingLectures.any(
+          (lecture) => _isLectureCurrent(lecture, now),
+        );
 
         // If there's a current lecture, just show the timeline without any message
         if (hasCurrentLecture) {
-          return CardTimeline(
-            items: buildTimelineItems(upcomingLectures, ref),
-          );
+          return CardTimeline(items: buildTimelineItems(upcomingLectures, ref));
         }
 
         // Otherwise, determine what message to show
@@ -207,14 +167,16 @@ class ScheduleHomeCard extends GenericHomecard {
           );
         }
 
-        if (nextLecture.startTime.isAfter(today) && 
-            nextLecture.startTime.isBefore(today.add(const Duration(days: 1)))) {
+        if (nextLecture.startTime.isAfter(today) &&
+            nextLecture.startTime.isBefore(
+              today.add(const Duration(days: 1)),
+            )) {
           // Next lecture is today - just show the timeline without "Today" message
-          return CardTimeline(
-            items: buildTimelineItems(upcomingLectures, ref),
-          );
-        } else if (nextLecture.startTime.isAfter(tomorrow) && 
-                  nextLecture.startTime.isBefore(tomorrow.add(const Duration(days: 1)))) {
+          return CardTimeline(items: buildTimelineItems(upcomingLectures, ref));
+        } else if (nextLecture.startTime.isAfter(tomorrow) &&
+            nextLecture.startTime.isBefore(
+              tomorrow.add(const Duration(days: 1)),
+            )) {
           // Next lecture is tomorrow
           return Column(
             mainAxisSize: MainAxisSize.min,
@@ -235,9 +197,7 @@ class ScheduleHomeCard extends GenericHomecard {
                 ],
               ),
               const SizedBox(height: 18),
-              CardTimeline(
-                items: buildTimelineItems(upcomingLectures, ref),
-              ),
+              CardTimeline(items: buildTimelineItems(upcomingLectures, ref)),
             ],
           );
         } else {
@@ -247,7 +207,6 @@ class ScheduleHomeCard extends GenericHomecard {
             Localizations.localeOf(context).toString(),
           ).format(nextLecture.startTime);
 
-          
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -267,9 +226,7 @@ class ScheduleHomeCard extends GenericHomecard {
                 ],
               ),
               const SizedBox(height: 18),
-              CardTimeline(
-                items: buildTimelineItems(upcomingLectures, ref),
-              ),
+              CardTimeline(items: buildTimelineItems(upcomingLectures, ref)),
             ],
           );
         }
@@ -291,8 +248,10 @@ class ScheduleHomeCard extends GenericHomecard {
   }
 
   bool _isLectureCurrent(Lecture lecture, DateTime now) {
-    final isCurrent = (now.isAfter(lecture.startTime) || now.isAtSameMomentAs(lecture.startTime)) && 
-           now.isBefore(lecture.endTime);
+    final isCurrent =
+        (now.isAfter(lecture.startTime) ||
+            now.isAtSameMomentAs(lecture.startTime)) &&
+        now.isBefore(lecture.endTime);
     return isCurrent;
   }
 
@@ -314,53 +273,52 @@ class ScheduleHomeCard extends GenericHomecard {
     final week = Week(start: now);
     final session = ref.read(sessionProvider);
 
-
-
     // Filter lectures to only show those within the next 7 days
-    final lecturesThisWeek = lectures
-        .where((lecture) => period.contains(lecture.startTime))
-        .toList();
-
+    final lecturesThisWeek =
+        lectures
+            .where((lecture) => period.contains(lecture.startTime))
+            .toList();
 
     //Sort by actual date and time
-    final sortedLectures = lecturesThisWeek
-        .sortedBy((lecture) => lecture.startTime);
-
+    final sortedLectures = lecturesThisWeek.sortedBy(
+      (lecture) => lecture.startTime,
+    );
 
     // Take only the first 2 lectures for the home card
-    final timelineItems = sortedLectures.take(2).map((element) {
-      final isActive = _isLectureCurrent(element, now);
-      return TimelineItem(
-        isActive: isActive,
-        title: DateFormat('HH:mm').format(element.startTime),
-        subtitle: DateFormat('HH:mm').format(element.endTime),
-        card: FutureBuilder<File?>(
-          future:
-              session.value != null
-                  ? ProfileNotifier.fetchOrGetCachedProfilePicture(
-                    session.value!,
-                    studentNumber: element.teacherId,
-                  )
-                  : Future<File?>.value(null),
-          builder: (context, snapshot) {
-            final teacherPhoto =
-                (snapshot.hasData && snapshot.data != null)
-                    ? Image.file(snapshot.data!)
-                    : Image.asset('assets/images/profile_placeholder.png');
+    final timelineItems =
+        sortedLectures.take(2).map((element) {
+          final isActive = _isLectureCurrent(element, now);
+          return TimelineItem(
+            isActive: isActive,
+            title: DateFormat('HH:mm').format(element.startTime),
+            subtitle: DateFormat('HH:mm').format(element.endTime),
+            card: FutureBuilder<File?>(
+              future:
+                  session.value != null
+                      ? ProfileNotifier.fetchOrGetCachedProfilePicture(
+                        session.value!,
+                        studentNumber: element.teacherId,
+                      )
+                      : Future<File?>.value(null),
+              builder: (context, snapshot) {
+                final teacherPhoto =
+                    (snapshot.hasData && snapshot.data != null)
+                        ? Image.file(snapshot.data!)
+                        : Image.asset('assets/images/profile_placeholder.png');
 
-            return ScheduleCard(
-              isActive: isActive,
-              name: element.subject,
-              acronym: element.acronym,
-              room: element.room,
-              type: element.typeClass,
-              teacherName: element.teacherName,
-              teacherPhoto: teacherPhoto,
-            );
-          },
-        ),
-      );
-    }).toList();
+                return ScheduleCard(
+                  isActive: isActive,
+                  name: element.subject,
+                  acronym: element.acronym,
+                  room: element.room,
+                  type: element.typeClass,
+                  teacherName: element.teacherName,
+                  teacherPhoto: teacherPhoto,
+                );
+              },
+            ),
+          );
+        }).toList();
 
     return timelineItems;
   }
