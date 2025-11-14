@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:uni_ui/cards/generic_card.dart';
-import 'package:uni_ui/common/generic_squircle.dart';
 
 class AverageBar extends StatelessWidget {
   const AverageBar({
