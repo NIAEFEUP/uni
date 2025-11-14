@@ -7,45 +7,43 @@ class ShimmerRestaurantPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: [
-        Container(
-          padding: const EdgeInsets.only(
-            top: 10,
-            bottom: 10,
-            left: 10,
-            right: 22,
-          ),
-          child: Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
-            child: GenericSquircle(
-              child: Container(
-                height: 250,
-                decoration: const BoxDecoration(color: Colors.white),
-              ),
+        Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          child: GenericSquircle(
+            child: Container(
+              height: 200,
+              decoration: const BoxDecoration(color: Colors.white),
             ),
           ),
         ),
-        Container(
-          padding: const EdgeInsets.only(
-            top: 10,
-            bottom: 10,
-            left: 10,
-            right: 22,
-          ),
-          child: Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
-            // Suggestion: change the speed of shimmer
-            child: GenericSquircle(
-              child: Container(
-                height: 250,
-                decoration: const BoxDecoration(color: Colors.white),
-              ),
+        const SizedBox(height: 16),
+        Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          // Suggestion: change the speed of shimmer
+          child: GenericSquircle(
+            child: Container(
+              height: 200,
+              decoration: const BoxDecoration(color: Colors.white),
             ),
           ),
         ),
+        const SizedBox(height: 16),
+        Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          // Suggestion: change the speed of shimmer
+          child: GenericSquircle(
+            child: Container(
+              height: 200,
+              decoration: const BoxDecoration(color: Colors.white),
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
       ],
     );
   }
