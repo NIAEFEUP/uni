@@ -31,7 +31,7 @@ class AverageBar extends StatelessWidget {
         return Row(
           children: [
             GenericCard(
-              tooltip: 'Average',
+              tooltip: averageText,
               child: Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.secondary,

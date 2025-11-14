@@ -19,7 +19,7 @@ import 'package:uni_ui/cards/instructor_card.dart';
 import 'package:uni_ui/cards/remaining_instructors_card.dart';
 
 const double _horizontalSpacing = 8;
-const double _verticalSpacing = 4;
+const double _verticalSpacing = 8;
 
 class CourseUnitSheetView extends ConsumerWidget {
   const CourseUnitSheetView(this.courseUnitSheet, this.exams, {super.key});
@@ -29,23 +29,27 @@ class CourseUnitSheetView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      child: ListView(
-        children: [
-          _buildSection(
-            title: S.of(context).instructors,
-            content:
-                courseUnitSheet.professors.isEmpty
-                    ? Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Text(
-                        S.of(context).noInstructors,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    )
-                    : courseUnitSheet.professors.length <= 4
-                    ? Wrap(
+    return ListView(
+      children: [
+        _buildSection(
+          title: S.of(context).instructors,
+          titlePadding: 20,
+          content:
+              courseUnitSheet.professors.isEmpty
+                  ? Padding(
+                    padding: const EdgeInsets.only(top: 8, left: 20),
+                    child: Text(
+                      S.of(context).noInstructors,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  )
+                  : courseUnitSheet.professors.length <= 4
+                  ? Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 3,
+                    ),
+                    child: Wrap(
                       spacing: _horizontalSpacing,
                       runSpacing: _verticalSpacing,
                       children:
@@ -55,12 +59,24 @@ class CourseUnitSheetView extends ConsumerWidget {
                                     _InstructorCard(instructor: instructor),
                               )
                               .toList(),
-                    )
-                    : AnimatedExpandable(
-                      firstChild: _LimitedInstructorsRow(
+                    ),
+                  )
+                  : AnimatedExpandable(
+                    firstChild: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 2,
+                      ),
+                      child: _LimitedInstructorsRow(
                         instructors: courseUnitSheet.professors,
                       ),
-                      secondChild: Wrap(
+                    ),
+                    secondChild: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 2,
+                      ),
+                      child: Wrap(
                         spacing: _horizontalSpacing,
                         runSpacing: _verticalSpacing,
                         children:
@@ -72,48 +88,56 @@ class CourseUnitSheetView extends ConsumerWidget {
                                 .toList(),
                       ),
                     ),
-            context: context,
-          ),
-          _buildSection(
-            title: S.of(context).assessments,
-            content:
-                exams.isEmpty
-                    ? Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Text(
-                        S.of(context).noExamsScheduled,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    )
-                    : SizedBox(
-                      height: 100,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: exams.length,
-                        separatorBuilder:
-                            (context, index) =>
-                                const SizedBox(width: _horizontalSpacing),
-                        itemBuilder:
-                            (context, index) => SizedBox(
-                              width: 240,
-                              child: ExamCard(
-                                name: exams[index].subject,
-                                acronym: exams[index].subjectAcronym,
-                                rooms: exams[index].rooms,
-                                type: exams[index].examType,
-                                startTime: exams[index].startTime,
-                                examDay: exams[index].start.day.toString(),
-                                examMonth: exams[index].monthAcronym(
-                                  PreferencesController.getLocale(),
-                                ),
-                                showIcon: false,
-                              ),
-                            ),
-                      ),
+                  ),
+          context: context,
+        ),
+        _buildSection(
+          title: S.of(context).assessments,
+          titlePadding: 20,
+          content:
+              exams.isEmpty
+                  ? Padding(
+                    padding: const EdgeInsets.only(top: 8, left: 20),
+                    child: Text(
+                      S.of(context).noExamsScheduled,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
-            context: context,
-          ),
-          _buildSection(
+                  )
+                  : SizedBox(
+                    height: 100,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: exams.length + 2,
+                      separatorBuilder:
+                          (context, index) =>
+                              const SizedBox(width: _horizontalSpacing),
+                      itemBuilder: (context, index) {
+                        if (index == 0 || index == exams.length + 1) {
+                          return const SizedBox(width: 10);
+                        }
+                        return SizedBox(
+                          width: 240,
+                          child: ExamCard(
+                            name: exams[index - 1].subject,
+                            acronym: exams[index - 1].subjectAcronym,
+                            rooms: exams[index - 1].rooms,
+                            type: exams[index - 1].examType,
+                            startTime: exams[index - 1].startTime,
+                            examDay: exams[index - 1].start.day.toString(),
+                            examMonth: exams[index - 1].monthAcronym(
+                              PreferencesController.getLocale(),
+                            ),
+                            showIcon: false,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+          context: context,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: _buildSection(
             title: S.of(context).program,
             content: HtmlWidget(
               courseUnitSheet.content != 'null'
@@ -123,7 +147,10 @@ class CourseUnitSheetView extends ConsumerWidget {
             ),
             context: context,
           ),
-          _buildSection(
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: _buildSection(
             title: S.of(context).evaluation,
             content: HtmlWidget(
               courseUnitSheet.evaluation != 'null'
@@ -133,7 +160,10 @@ class CourseUnitSheetView extends ConsumerWidget {
             ),
             context: context,
           ),
-          _buildSection(
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: _buildSection(
             title: S.of(context).frequency,
             content: HtmlWidget(
               courseUnitSheet.frequency != 'null'
@@ -143,8 +173,11 @@ class CourseUnitSheetView extends ConsumerWidget {
             ),
             context: context,
           ),
-          if (courseUnitSheet.books.isNotEmpty)
-            _buildSection(
+        ),
+        if (courseUnitSheet.books.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: _buildSection(
               title: S.of(context).bibliography,
               content: SizedBox(
                 width: double.infinity,
@@ -175,9 +208,9 @@ class CourseUnitSheetView extends ConsumerWidget {
               ),
               context: context,
             ),
-          const SizedBox(height: 20),
-        ],
-      ),
+          ),
+        const SizedBox(height: 20),
+      ],
     );
   }
 
@@ -185,6 +218,7 @@ class CourseUnitSheetView extends ConsumerWidget {
     required String title,
     required Widget content,
     required BuildContext context,
+    double? titlePadding,
   }) {
     return Padding(
       padding: const EdgeInsets.only(top: 25),
@@ -195,7 +229,10 @@ class CourseUnitSheetView extends ConsumerWidget {
             GenericExpandable(title: title, content: content)
           else ...[
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
+              padding: EdgeInsets.symmetric(
+                horizontal: titlePadding ?? 0,
+                vertical: 8,
+              ),
               child: Text(
                 title,
                 style: Theme.of(context).textTheme.headlineLarge,
@@ -232,8 +269,8 @@ class _InstructorCard extends ConsumerWidget {
           ),
           shadows: [
             BoxShadow(
-              color: Theme.of(context).colorScheme.shadow.withAlpha(0x3f),
-              blurRadius: 3,
+              color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
+              blurRadius: 2,
             ),
           ],
         ),
