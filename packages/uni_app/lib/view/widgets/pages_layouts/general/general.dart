@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/generated/l10n.dart';
@@ -10,13 +11,14 @@ import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation
 import 'package:uni/view/widgets/pages_layouts/general/widgets/refresh_state.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
 
-abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
+abstract class GeneralPageViewState<T extends ConsumerStatefulWidget>
+    extends ConsumerState<T> {
   var _loadedOnce = false;
   var _loading = true;
   var _connected = true;
 
   // Function called when the user pulls down the screen to refresh
-  Future<void> onRefresh(BuildContext context);
+  Future<void> onRefresh();
 
   // Function called when the page is loaded
   Future<void> onLoad(BuildContext context) async {}
@@ -29,7 +31,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   // Top navigation bar
   AppTopNavbar? getTopNavbar(BuildContext context) {
     return AppTopNavbar(
-      title: this.getTitle(),
+      title: getTitle(),
       rightButton: getRightContent(context),
     );
   }
@@ -105,10 +107,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
       context,
       _loading
           ? const Center(child: CircularProgressIndicator())
-          : Padding(
-            padding: const EdgeInsets.only(right: 20, left: 20, bottom: 10),
-            child: getBody(context),
-          ),
+          : getBody(context),
     );
   }
 

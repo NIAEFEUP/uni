@@ -20,7 +20,7 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'pt_PT';
 
   static m0(type) =>
-      "${Intl.select(type, {'all_dishes': 'Todos os pratos', 'meat_dishes': 'Pratos de Carne', 'fish_dishes': 'Pratos de Peixe', 'vegetarian_dishes': 'Pratos Vegetarianos', 'soups': 'Sopas', 'salads': 'Saladas', 'diet_dishes': 'Pratos de Dieta', 'dishes_of_the_day': 'Pratos do Dia', 'other': 'Outros'})}";
+      "${Intl.select(type, {'all_dishes': 'Todos os pratos', 'meat_dishes': 'Pratos de Carne', 'fish_dishes': 'Pratos de Peixe', 'vegetarian_dishes': 'Pratos Vegetarianos', 'soups': 'Sopas', 'salads': 'Saladas', 'diet_dishes': 'Pratos de Dieta', 'dishes_of_the_day': 'Pratos do Dia', 'closed': 'Encerrado', 'other': 'Outros'})}";
 
   static m1(time) => "última atualização às ${time}";
 
@@ -39,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "academic_services": MessageLookupByLibrary.simpleMessage(
       "Serviços académicos",
     ),
+    "accept": MessageLookupByLibrary.simpleMessage("Aceito"),
     "account_card_title": MessageLookupByLibrary.simpleMessage(
       "Conta Corrente",
     ),
@@ -218,6 +219,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "geral_registration": MessageLookupByLibrary.simpleMessage(
       "Inscrição Geral",
+    ),
+    "goi": MessageLookupByLibrary.simpleMessage(
+      "Gabinete de Orientação e Integração",
     ),
     "improvement_registration": MessageLookupByLibrary.simpleMessage(
       "Inscrição para Melhoria",
@@ -402,6 +406,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "reference_success": MessageLookupByLibrary.simpleMessage(
       "Referência criada com sucesso!",
     ),
+    "reject": MessageLookupByLibrary.simpleMessage("Rejeito"),
     "remaining_instructors": MessageLookupByLibrary.simpleMessage(
       "Docentes Restantes",
     ),
@@ -448,6 +453,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "telephone": MessageLookupByLibrary.simpleMessage("Telefone"),
     "terms": MessageLookupByLibrary.simpleMessage("Termos e Condições"),
+    "terms_change": MessageLookupByLibrary.simpleMessage(
+      "Mudança nos Termos e Condições da uni",
+    ),
     "theme": MessageLookupByLibrary.simpleMessage("Tema"),
     "title": MessageLookupByLibrary.simpleMessage("Título"),
     "try_again": MessageLookupByLibrary.simpleMessage("Tentar de novo"),

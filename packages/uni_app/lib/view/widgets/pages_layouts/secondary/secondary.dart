@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/view/widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/refresh_state.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
 
 /// Page with a back button on top
-abstract class SecondaryPageViewState<T extends StatefulWidget>
+abstract class SecondaryPageViewState<T extends ConsumerStatefulWidget>
     extends GeneralPageViewState<T> {
   @override
   Widget getScaffold(BuildContext context, Widget body) {
@@ -16,14 +16,10 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: getTopNavbar(context),
-        bottomNavigationBar: const AppBottomNavbar(),
         body: RefreshState(
           onRefresh: onRefresh,
           header: getHeader(context),
-          body: Padding(
-            padding: const EdgeInsets.only(right: 20, left: 20, bottom: 10),
-            child: getBody(context),
-          ),
+          body: getBody(context),
         ),
       ),
     );
@@ -32,11 +28,14 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
   @override
   String? getTitle();
 
+  String? getSubtitle() => null;
+
   @override
   @nonVirtual
   AppTopNavbar? getTopNavbar(BuildContext context) {
     return AppTopNavbar(
       title: getTitle(),
+      subtitle: getSubtitle(),
       centerTitle: true,
       leftButton: BackButton(
         style: ButtonStyle(

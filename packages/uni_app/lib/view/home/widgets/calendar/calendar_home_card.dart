@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/localized_events.dart';
-import 'package:uni/model/providers/lazy/calendar_provider.dart';
+import 'package:uni/model/providers/riverpod/calendar_provider.dart';
+import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
-import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/calendar/calendar.dart';
 import 'package:uni_ui/calendar/calendar_item.dart';
 
 class CalendarHomeCard extends GenericHomecard {
-  const CalendarHomeCard({super.key});
+  const CalendarHomeCard({super.key})
+    : super(titlePadding: const EdgeInsets.symmetric(horizontal: 20));
 
   @override
   String getTitle(BuildContext context) {
@@ -24,30 +24,51 @@ class CalendarHomeCard extends GenericHomecard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return LazyConsumer<CalendarProvider, LocalizedEvents>(
-      builder: (context, localizedEvents) {
-        final locale =
-            Provider.of<LocaleNotifier>(context, listen: false).getLocale();
+    return DefaultConsumer<LocalizedEvents>(
+      provider: calendarProvider,
+      builder: (context, ref, localizedEvents) {
+        final locale = ref.watch(localeProvider);
         final events = localizedEvents.getEvents(locale);
+        final today = DateTime.now();
+
+        final calendarItems =
+            events.map((event) {
+              final start = event.startDate;
+              final end = event.endDate ?? event.startDate;
+              final isToday =
+                  start != null &&
+                      today.year == start.year &&
+                      today.month == start.month &&
+                      today.day == start.day ||
+                  (end != null &&
+                      today.isAfter(start ?? end) &&
+                      today.isBefore(end.add(const Duration(days: 1))));
+              return CalendarItem(
+                eventPeriod: event.formattedPeriod[0],
+                endYear: event.formattedPeriod[1],
+                eventName: event.name,
+                isToday: isToday,
+              );
+            }).toList();
+
+        // current event or next if no current
+        final currentIndex = events.indexWhere((event) {
+          final end = event.endDate ?? event.startDate;
+          return end == null || !end.isBefore(today);
+        });
+
         return Calendar(
-          items:
-              events
-                  .map(
-                    (event) => CalendarItem(
-                      eventPeriod: event.formattedPeriod[0],
-                      eventName: event.name,
-                    ),
-                  )
-                  .toList(),
+          items: calendarItems,
+          initialScrollIndex: currentIndex != -1 ? currentIndex : 0,
         );
       },
-      hasContent: (localizedEvents) => localizedEvents.hasAnyEvents,
-      onNullContent: Center(
+      nullContentWidget: Center(
         child: Text(
           S.of(context).no_events,
           style: Theme.of(context).textTheme.headlineLarge,
         ),
       ),
+      hasContent: (localizedEvents) => localizedEvents.hasAnyEvents,
     );
   }
 }

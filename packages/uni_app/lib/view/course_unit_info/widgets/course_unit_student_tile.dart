@@ -1,19 +1,19 @@
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/view/course_unit_info/widgets/modal_student_info.dart';
 
-class CourseUnitStudentTile extends StatelessWidget {
+class CourseUnitStudentTile extends ConsumerWidget {
   const CourseUnitStudentTile(this.student, this.session, {super.key});
 
   final CourseUnitStudent student;
   final Session session;
 
   @override
-  Widget build(BuildContext context) {
-    final userImage = ProfileProvider.fetchOrGetCachedProfilePicture(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userImage = ProfileNotifier.fetchOrGetCachedProfilePicture(
       session,
       studentNumber: student.number,
     );
@@ -35,11 +35,8 @@ class CourseUnitStudentTile extends StatelessWidget {
             children: [
               Container(
                 decoration: ShapeDecoration(
-                  shape: SmoothRectangleBorder(
-                    borderRadius: SmoothBorderRadius(
-                      cornerRadius: 25,
-                      cornerSmoothing: 1,
-                    ),
+                  shape: RoundedSuperellipseBorder(
+                    borderRadius: BorderRadius.circular(25),
                   ),
                   image: DecorationImage(
                     fit: BoxFit.cover,

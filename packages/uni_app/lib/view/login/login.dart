@@ -3,15 +3,14 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/app_links/uni_app_links.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni/model/providers/state_providers.dart';
+import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/session/exception.dart';
 import 'package:uni/session/flows/credentials/initiator.dart';
 import 'package:uni/session/flows/federated/initiator.dart';
@@ -27,15 +26,15 @@ import 'package:uni/view/widgets/toast_message.dart';
 import 'package:uni_ui/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class LoginPageView extends StatefulWidget {
+class LoginPageView extends ConsumerStatefulWidget {
   const LoginPageView({super.key});
 
   @override
-  LoginPageViewState createState() => LoginPageViewState();
+  ConsumerState<LoginPageView> createState() => LoginPageViewState();
 }
 
 /// Manages the 'login section' view.
-class LoginPageViewState extends State<LoginPageView>
+class LoginPageViewState extends ConsumerState<LoginPageView>
     with WidgetsBindingObserver {
   static final usernameFocus = FocusNode();
   static final passwordFocus = FocusNode();
@@ -52,7 +51,9 @@ class LoginPageViewState extends State<LoginPageView>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed && !_intercepting) {
-      setState(() => _loggingIn = false);
+      if (mounted) {
+        setState(() => _loggingIn = false);
+      }
     }
   }
 
@@ -69,10 +70,7 @@ class LoginPageViewState extends State<LoginPageView>
   }
 
   Future<void> _login() async {
-    final sessionProvider = Provider.of<SessionProvider>(
-      context,
-      listen: false,
-    );
+    final sessionNotifier = ref.read(sessionProvider.notifier);
 
     if (!_loggingIn && _formKey.currentState!.validate()) {
       final user = usernameController.text.trim();
@@ -87,7 +85,7 @@ class LoginPageViewState extends State<LoginPageView>
           username: user,
           password: pass,
         );
-        await sessionProvider.login(
+        await sessionNotifier.login(
           initiator,
           persistentSession: _keepSignedIn,
         );
@@ -105,67 +103,74 @@ class LoginPageViewState extends State<LoginPageView>
           });
         }
       } on AuthenticationException catch (err, st) {
-        setState(() {
-          _loggingIn = false;
-        });
+        if (mounted) {
+          setState(() {
+            _loggingIn = false;
+          });
 
-        switch (err.type) {
-          case AuthenticationExceptionType.expiredCredentials:
-            _updatePasswordDialog();
-          case AuthenticationExceptionType.internetError:
-            if (mounted) {
+          switch (err.type) {
+            case AuthenticationExceptionType.expiredCredentials:
+              _updatePasswordDialog();
+
+            case AuthenticationExceptionType.internetError:
               unawaited(
                 ToastMessage.warning(
                   context,
                   S.of(context).internet_status_exception,
                 ),
               );
-            }
-          case AuthenticationExceptionType.wrongCredentials:
-            if (mounted) {
+
+            case AuthenticationExceptionType.wrongCredentials:
               unawaited(
                 ToastMessage.error(
                   context,
                   S.of(context).wrong_credentials_exception,
                 ),
               );
-            }
-          default:
-            Logger().e(err, stackTrace: st);
-            unawaited(Sentry.captureException(err, stackTrace: st));
-            if (mounted) {
+            default:
+              Logger().e(err, stackTrace: st);
+              unawaited(Sentry.captureException(err, stackTrace: st));
               unawaited(
                 ToastMessage.error(context, S.of(context).failed_login),
               );
-            }
+          }
+        } else {
+          // Not mounted: log and capture the error but avoid UI calls
+          Logger().e(err, stackTrace: st);
+          unawaited(Sentry.captureException(err, stackTrace: st));
         }
       }
       // Handles other unexpected exceptions
       catch (err, st) {
-        setState(() {
-          _loggingIn = false;
-        });
-        Logger().e(err, stackTrace: st);
-        unawaited(Sentry.captureException(err, stackTrace: st));
         if (mounted) {
+          setState(() {
+            _loggingIn = false;
+          });
+          Logger().e(err, stackTrace: st);
+          unawaited(Sentry.captureException(err, stackTrace: st));
           unawaited(ToastMessage.error(context, S.of(context).failed_login));
+        } else {
+          // Not mounted: log and capture, avoid UI calls
+          Logger().e(err, stackTrace: st);
+          unawaited(Sentry.captureException(err, stackTrace: st));
         }
       }
     }
   }
 
   Future<void> _falogin() async {
-    final stateProviders = StateProviders.fromContext(context);
-    final sessionProvider = stateProviders.sessionProvider;
+    final sessionNotifier = ref.read(sessionProvider.notifier);
 
     try {
-      setState(() {
-        _loggingIn = true;
-      });
+      if (mounted) {
+        setState(() {
+          _loggingIn = true;
+        });
+      }
 
       final appLinks = UniAppLinks();
 
-      await sessionProvider.login(
+      await sessionNotifier.login(
         FederatedSessionInitiator(
           clientId: clientId,
           realm: Uri.parse(realm),
@@ -183,10 +188,12 @@ class LoginPageViewState extends State<LoginPageView>
         persistentSession: _keepSignedIn,
       );
 
-      setState(() {
-        _intercepting = true;
-        _loggingIn = true;
-      });
+      if (mounted) {
+        setState(() {
+          _intercepting = true;
+          _loggingIn = true;
+        });
+      }
 
       if (mounted) {
         await Navigator.pushReplacementNamed(
@@ -195,21 +202,25 @@ class LoginPageViewState extends State<LoginPageView>
         );
       }
 
-      setState(() {
-        _loggingIn = true;
-        _intercepting = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loggingIn = true;
+          _intercepting = false;
+        });
+      }
     } catch (err, st) {
       await Sentry.captureException(err, stackTrace: st);
       await closeInAppWebView();
-      setState(() {
-        _loggingIn = false;
-      });
       if (mounted) {
+        setState(() {
+          _loggingIn = false;
+        });
         Logger().e(S.of(context).fail_to_authenticate);
         unawaited(
           ToastMessage.error(context, S.of(context).fail_to_authenticate),
         );
+      } else {
+        Logger().e(err, stackTrace: st);
       }
     }
   }
@@ -223,6 +234,7 @@ class LoginPageViewState extends State<LoginPageView>
             (context) => AnnotatedRegion<SystemUiOverlayStyle>(
               value: AppSystemOverlayStyles.base.copyWith(
                 statusBarIconBrightness: Brightness.light,
+                statusBarBrightness: Brightness.dark,
                 systemNavigationBarIconBrightness: Brightness.light,
               ),
               child: Scaffold(

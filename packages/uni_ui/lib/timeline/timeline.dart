@@ -27,6 +27,9 @@ class _TimelineState extends State<Timeline> {
       ItemPositionsListener.create();
   final ScrollController _tabScrollController = ScrollController();
   final List<GlobalKey> _tabKeys = [];
+  final GlobalKey _tabsRowKey = GlobalKey();
+  final GlobalKey _tabsViewportKey = GlobalKey();
+  bool _didInitialScroll = false;
 
   @override
   void initState() {
@@ -36,6 +39,8 @@ class _TimelineState extends State<Timeline> {
     _tabKeys.addAll(List.generate(widget.tabs.length, (index) => GlobalKey()));
 
     _itemPositionsListener.itemPositions.addListener(() {
+      if (!_didInitialScroll) return;
+
       final positions = _itemPositionsListener.itemPositions.value;
       if (positions.isNotEmpty) {
         final firstVisibleIndex =
@@ -58,6 +63,24 @@ class _TimelineState extends State<Timeline> {
         }
       }
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      try {
+        await _itemScrollController.scrollTo(
+          index: _currentIndex,
+          duration: const Duration(milliseconds: 1),
+          curve: Curves.easeInOut,
+        );
+      } catch (_) {}
+
+      if (mounted) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) _scrollToCenterTab(_currentIndex);
+        });
+      }
+
+      _didInitialScroll = true;
+    });
   }
 
   @override
@@ -77,16 +100,48 @@ class _TimelineState extends State<Timeline> {
   }
 
   void _scrollToCenterTab(int index) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final RenderBox tabBox =
-        _tabKeys[index].currentContext!.findRenderObject() as RenderBox;
+    if (index < 0 || index >= _tabKeys.length) return;
+    final ctx = _tabKeys[index].currentContext;
+    if (ctx == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _scrollToCenterTab(index);
+      });
+      return;
+    }
+
+    final RenderBox? viewportBox =
+        _tabsViewportKey.currentContext?.findRenderObject() as RenderBox?;
+    if (viewportBox == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _scrollToCenterTab(index);
+      });
+      return;
+    }
+    final double viewportWidth = viewportBox.size.width;
+    final RenderBox tabBox = ctx.findRenderObject() as RenderBox;
+
+    final rowCtx = _tabsRowKey.currentContext;
+    if (rowCtx == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _scrollToCenterTab(index);
+      });
+      return;
+    }
+
+    final RenderBox rowBox = rowCtx.findRenderObject() as RenderBox;
+
+    final tabGlobal = tabBox.localToGlobal(Offset.zero);
+    final tabLocalInRow = rowBox.globalToLocal(tabGlobal);
 
     final tabWidth = tabBox.size.width;
-    final offset = (_tabScrollController.offset +
-            tabBox.localToGlobal(Offset.zero).dx +
-            (tabWidth / 2) -
-            (screenWidth / 2))
-        .clamp(0.0, _tabScrollController.position.maxScrollExtent);
+
+    final desiredScrollWithinRow =
+        tabLocalInRow.dx + (tabWidth / 2) - (viewportWidth / 2);
+
+    final offset = desiredScrollWithinRow.clamp(
+      0.0,
+      _tabScrollController.position.maxScrollExtent,
+    );
 
     _tabScrollController.animateTo(
       offset,
@@ -99,55 +154,108 @@ class _TimelineState extends State<Timeline> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          controller: _tabScrollController,
-          child: Row(
-            children:
-                widget.tabs.asMap().entries.map((entry) {
-                  int index = entry.key;
-                  Widget tab = entry.value;
-                  bool isSelected = _currentIndex == index;
-                  TextStyle textStyle = Theme.of(context).textTheme.bodySmall!;
-                  return GestureDetector(
-                    onTap: () => _onTabTapped(index),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10.0,
-                        horizontal: 5.0,
-                      ),
-                      child: GenericSquircle(
-                        borderRadius: 10,
-                        child: Container(
-                          key: _tabKeys[index],
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 9.0,
-                            horizontal: 8.0,
-                          ),
-                          color:
-                              isSelected
-                                  ? Theme.of(
-                                    context,
-                                  ).colorScheme.tertiary.withValues(alpha: 0.25)
-                                  : Colors.transparent,
-                          child: DefaultTextStyle(
-                            style: textStyle.copyWith(
-                              color:
-                                  widget.tabEnabled[index]
-                                      ? (isSelected
-                                          ? Theme.of(
-                                            context,
-                                          ).colorScheme.primary
-                                          : Colors.black)
-                                      : Colors.grey,
+        SizedBox(
+          height: 70,
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                key: _tabsViewportKey,
+                scrollDirection: Axis.horizontal,
+                controller: _tabScrollController,
+                child: Row(
+                  key: _tabsRowKey,
+                  children:
+                      widget.tabs.asMap().entries.map((entry) {
+                        int index = entry.key;
+                        Widget tab = entry.value;
+                        bool isSelected = _currentIndex == index;
+                        TextStyle textStyle =
+                            Theme.of(context).textTheme.bodySmall!;
+                        return GestureDetector(
+                          onTap: () => _onTabTapped(index),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 5.0,
                             ),
-                            child: tab,
+                            child: GenericSquircle(
+                              borderRadius: 10,
+                              child: Container(
+                                key: _tabKeys[index],
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 9.0,
+                                  horizontal: 8.0,
+                                ),
+                                color:
+                                    isSelected
+                                        ? Theme.of(context).colorScheme.tertiary
+                                            .withValues(alpha: 0.25)
+                                        : Colors.transparent,
+                                child: DefaultTextStyle(
+                                  style: textStyle.copyWith(
+                                    color:
+                                        widget.tabEnabled[index]
+                                            ? (isSelected
+                                                ? Theme.of(
+                                                  context,
+                                                ).colorScheme.primary
+                                                : Colors.black)
+                                            : Colors.grey,
+                                  ),
+                                  child: tab,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                        );
+                      }).toList(),
+                ),
+              ),
+              Positioned(
+                left: 0,
+                top: 0,
+                bottom: 0,
+                width: 32,
+                child: IgnorePointer(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: [
+                          Theme.of(context).scaffoldBackgroundColor,
+                          Theme.of(
+                            context,
+                          ).scaffoldBackgroundColor.withAlpha(0),
+                        ],
                       ),
                     ),
-                  );
-                }).toList(),
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 0,
+                top: 0,
+                bottom: 0,
+                width: 32,
+                child: IgnorePointer(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.centerRight,
+                        end: Alignment.centerLeft,
+                        colors: [
+                          Theme.of(context).scaffoldBackgroundColor,
+                          Theme.of(
+                            context,
+                          ).scaffoldBackgroundColor.withAlpha(0),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         Expanded(

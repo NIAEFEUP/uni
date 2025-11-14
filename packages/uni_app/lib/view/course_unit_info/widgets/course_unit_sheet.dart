@@ -1,15 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/book_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
+import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/view/course_unit_info/widgets/modal_professor_info.dart';
 import 'package:uni/view/widgets/generic_animated_expandable.dart';
 import 'package:uni/view/widgets/generic_expandable.dart';
@@ -21,44 +21,31 @@ import 'package:uni_ui/cards/remaining_instructors_card.dart';
 const double _horizontalSpacing = 8;
 const double _verticalSpacing = 4;
 
-class CourseUnitSheetView extends StatelessWidget {
+class CourseUnitSheetView extends ConsumerWidget {
   const CourseUnitSheetView(this.courseUnitSheet, this.exams, {super.key});
 
   final Sheet courseUnitSheet;
   final List<Exam> exams;
 
   @override
-  Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        _buildSection(
-          title: S.of(context).instructors,
-          content:
-              courseUnitSheet.professors.isEmpty
-                  ? Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: Text(
-                      S.of(context).noInstructors,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  )
-                  : courseUnitSheet.professors.length <= 4
-                  ? Wrap(
-                    spacing: _horizontalSpacing,
-                    runSpacing: _verticalSpacing,
-                    children:
-                        courseUnitSheet.professors
-                            .map(
-                              (instructor) =>
-                                  _InstructorCard(instructor: instructor),
-                            )
-                            .toList(),
-                  )
-                  : AnimatedExpandable(
-                    firstChild: _LimitedInstructorsRow(
-                      instructors: courseUnitSheet.professors,
-                    ),
-                    secondChild: Wrap(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: ListView(
+        children: [
+          _buildSection(
+            title: S.of(context).instructors,
+            content:
+                courseUnitSheet.professors.isEmpty
+                    ? Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(
+                        S.of(context).noInstructors,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    )
+                    : courseUnitSheet.professors.length <= 4
+                    ? Wrap(
                       spacing: _horizontalSpacing,
                       runSpacing: _verticalSpacing,
                       children:
@@ -68,112 +55,129 @@ class CourseUnitSheetView extends StatelessWidget {
                                     _InstructorCard(instructor: instructor),
                               )
                               .toList(),
+                    )
+                    : AnimatedExpandable(
+                      firstChild: _LimitedInstructorsRow(
+                        instructors: courseUnitSheet.professors,
+                      ),
+                      secondChild: Wrap(
+                        spacing: _horizontalSpacing,
+                        runSpacing: _verticalSpacing,
+                        children:
+                            courseUnitSheet.professors
+                                .map(
+                                  (instructor) =>
+                                      _InstructorCard(instructor: instructor),
+                                )
+                                .toList(),
+                      ),
                     ),
-                  ),
-          context: context,
-        ),
-        _buildSection(
-          title: S.of(context).assessments,
-          content:
-              exams.isEmpty
-                  ? Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: Text(
-                      S.of(context).noExamsScheduled,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  )
-                  : SizedBox(
-                    height: 100,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: exams.length,
-                      separatorBuilder:
-                          (context, index) =>
-                              const SizedBox(width: _horizontalSpacing),
-                      itemBuilder:
-                          (context, index) => SizedBox(
-                            width: 240,
-                            child: ExamCard(
-                              name: exams[index].subject,
-                              acronym: exams[index].subjectAcronym,
-                              rooms: exams[index].rooms,
-                              type: exams[index].examType,
-                              startTime: exams[index].startTime,
-                              examDay: exams[index].start.day.toString(),
-                              examMonth: exams[index].monthAcronym(
-                                PreferencesController.getLocale(),
-                              ),
-                              showIcon: false,
-                            ),
-                          ),
-                    ),
-                  ),
-          context: context,
-        ),
-        _buildSection(
-          title: S.of(context).program,
-          content: HtmlWidget(
-            courseUnitSheet.content != 'null'
-                ? courseUnitSheet.content
-                : S.of(context).no_info,
-            textStyle: Theme.of(context).textTheme.bodyLarge,
+            context: context,
           ),
-          context: context,
-        ),
-        _buildSection(
-          title: S.of(context).evaluation,
-          content: HtmlWidget(
-            courseUnitSheet.evaluation != 'null'
-                ? courseUnitSheet.evaluation
-                : S.of(context).no_info,
-            textStyle: Theme.of(context).textTheme.bodyLarge,
-          ),
-          context: context,
-        ),
-        _buildSection(
-          title: S.of(context).frequency,
-          content: HtmlWidget(
-            courseUnitSheet.frequency != 'null'
-                ? courseUnitSheet.frequency
-                : S.of(context).no_info,
-            textStyle: Theme.of(context).textTheme.bodyLarge,
-          ),
-          context: context,
-        ),
-        if (courseUnitSheet.books.isNotEmpty)
           _buildSection(
-            title: S.of(context).bibliography,
-            content: SizedBox(
-              width: double.infinity,
-              child: Wrap(
-                alignment: WrapAlignment.spaceBetween,
-                children:
-                    courseUnitSheet.books.map((book) {
-                      return book.isbn.isNotEmpty
-                          ? FutureBuilder<String?>(
-                            future: BookThumbFetcher().fetchBookThumb(
-                              book.isbn,
+            title: S.of(context).assessments,
+            content:
+                exams.isEmpty
+                    ? Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(
+                        S.of(context).noExamsScheduled,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    )
+                    : SizedBox(
+                      height: 100,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: exams.length,
+                        separatorBuilder:
+                            (context, index) =>
+                                const SizedBox(width: _horizontalSpacing),
+                        itemBuilder:
+                            (context, index) => SizedBox(
+                              width: 240,
+                              child: ExamCard(
+                                name: exams[index].subject,
+                                acronym: exams[index].subjectAcronym,
+                                rooms: exams[index].rooms,
+                                type: exams[index].examType,
+                                startTime: exams[index].startTime,
+                                examDay: exams[index].start.day.toString(),
+                                examMonth: exams[index].monthAcronym(
+                                  PreferencesController.getLocale(),
+                                ),
+                                showIcon: false,
+                              ),
                             ),
-                            builder: (context, snapshot) {
-                              return BookCard(
-                                title: book.title,
-                                isbn: book.isbn,
-                                imageUrl: snapshot.data,
-                              );
-                            },
-                          )
-                          : BookCard(
-                            title: book.title,
-                            isbn: book.isbn,
-                            imageUrl: null,
-                          );
-                    }).toList(),
-              ),
+                      ),
+                    ),
+            context: context,
+          ),
+          _buildSection(
+            title: S.of(context).program,
+            content: HtmlWidget(
+              courseUnitSheet.content != 'null'
+                  ? courseUnitSheet.content
+                  : S.of(context).no_info,
+              textStyle: Theme.of(context).textTheme.bodyLarge,
             ),
             context: context,
           ),
-      ],
+          _buildSection(
+            title: S.of(context).evaluation,
+            content: HtmlWidget(
+              courseUnitSheet.evaluation != 'null'
+                  ? courseUnitSheet.evaluation
+                  : S.of(context).no_info,
+              textStyle: Theme.of(context).textTheme.bodyLarge,
+            ),
+            context: context,
+          ),
+          _buildSection(
+            title: S.of(context).frequency,
+            content: HtmlWidget(
+              courseUnitSheet.frequency != 'null'
+                  ? courseUnitSheet.frequency
+                  : S.of(context).no_info,
+              textStyle: Theme.of(context).textTheme.bodyLarge,
+            ),
+            context: context,
+          ),
+          if (courseUnitSheet.books.isNotEmpty)
+            _buildSection(
+              title: S.of(context).bibliography,
+              content: SizedBox(
+                width: double.infinity,
+                child: Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  children:
+                      courseUnitSheet.books.map((book) {
+                        return book.isbn.isNotEmpty
+                            ? FutureBuilder<String?>(
+                              future: BookThumbFetcher().fetchBookThumb(
+                                book.isbn,
+                              ),
+                              builder: (context, snapshot) {
+                                return BookCard(
+                                  title: book.title,
+                                  isbn: book.isbn,
+                                  imageUrl: snapshot.data,
+                                );
+                              },
+                            )
+                            : BookCard(
+                              title: book.title,
+                              isbn: book.isbn,
+                              imageUrl: null,
+                            );
+                      }).toList(),
+                ),
+              ),
+              context: context,
+            ),
+          const SizedBox(height: 20),
+        ],
+      ),
     );
   }
 
@@ -205,14 +209,14 @@ class CourseUnitSheetView extends StatelessWidget {
   }
 }
 
-class _InstructorCard extends StatelessWidget {
+class _InstructorCard extends ConsumerWidget {
   const _InstructorCard({required this.instructor});
 
   final Professor instructor;
 
   @override
-  Widget build(BuildContext context) {
-    final session = context.read<SessionProvider>().state!;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final session = ref.read(sessionProvider.select((value) => value.value!));
     return GestureDetector(
       onTap: () {
         showDialog<void>(
@@ -221,7 +225,7 @@ class _InstructorCard extends StatelessWidget {
         );
       },
       child: FutureBuilder<File?>(
-        future: ProfileProvider.fetchOrGetCachedProfilePicture(
+        future: ProfileNotifier.fetchOrGetCachedProfilePicture(
           session,
           studentNumber: int.parse(instructor.code),
         ),
@@ -244,17 +248,17 @@ class _InstructorCard extends StatelessWidget {
   }
 }
 
-class _LimitedInstructorsRow extends StatelessWidget {
+class _LimitedInstructorsRow extends ConsumerWidget {
   const _LimitedInstructorsRow({required this.instructors});
 
   final List<Professor> instructors;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final firstThree = instructors.take(3).toList();
     final remaining = instructors.skip(3).toList();
     final remainingToShow = remaining.take(3).toList();
-    final session = context.read<SessionProvider>().state!;
+    final session = ref.read(sessionProvider.select((value) => value.value!));
 
     return Wrap(
       spacing: _horizontalSpacing,
@@ -267,7 +271,7 @@ class _LimitedInstructorsRow extends StatelessWidget {
           FutureBuilder<List<File?>>(
             future: Future.wait(
               remainingToShow.map(
-                (instructor) => ProfileProvider.fetchOrGetCachedProfilePicture(
+                (instructor) => ProfileNotifier.fetchOrGetCachedProfilePicture(
                   session,
                   studentNumber: int.parse(instructor.code),
                 ),
