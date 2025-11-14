@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract class GenericHomecard extends ConsumerWidget {
-  const GenericHomecard({super.key});
+  const GenericHomecard({super.key, this.titlePadding, this.bodyPadding});
+
+  final EdgeInsetsGeometry? titlePadding;
+
+  final EdgeInsetsGeometry? bodyPadding;
 
   String getTitle(BuildContext context) => '';
 
@@ -12,6 +16,11 @@ abstract class GenericHomecard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final titleWidget = Text(
+      getTitle(context),
+      style: Theme.of(context).textTheme.headlineLarge,
+    );
+
     return GestureDetector(
       onTap: () => onCardClick(context),
       child: ConstrainedBox(
@@ -22,13 +31,19 @@ abstract class GenericHomecard extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                getTitle(context),
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
+              if (titlePadding != null)
+                Padding(padding: titlePadding!, child: titleWidget)
+              else
+                titleWidget,
               Container(
                 margin: const EdgeInsets.only(top: 10),
-                child: buildCardContent(context),
+                child:
+                    bodyPadding != null
+                        ? Padding(
+                          padding: bodyPadding!,
+                          child: buildCardContent(context),
+                        )
+                        : buildCardContent(context),
               ),
             ],
           ),

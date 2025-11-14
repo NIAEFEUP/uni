@@ -10,7 +10,8 @@ import 'package:uni_ui/calendar/calendar.dart';
 import 'package:uni_ui/calendar/calendar_item.dart';
 
 class CalendarHomeCard extends GenericHomecard {
-  const CalendarHomeCard({super.key});
+  const CalendarHomeCard({super.key})
+    : super(titlePadding: const EdgeInsets.symmetric(horizontal: 20));
 
   @override
   String getTitle(BuildContext context) {

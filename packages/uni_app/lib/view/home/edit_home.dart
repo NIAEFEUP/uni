@@ -1,4 +1,3 @@
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
@@ -197,20 +196,16 @@ class EditHomeViewState extends State<EditHomeView> {
                               ? listlessCardWidgets
                               : [
                                 ...listlessCardWidgets,
-                                ClipSmoothRect(
-                                  radius: SmoothBorderRadius(
-                                    cornerRadius: 15,
-                                    cornerSmoothing: 1,
-                                  ),
+                                ClipRSuperellipse(
+                                  borderRadius: BorderRadius.circular(15),
                                   child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary
-                                          .withAlpha(64), // 25% opacity
-                                    ),
                                     width: 75,
                                     height: 75,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.secondary.withAlpha(64),
+                                    ),
                                   ),
                                 ),
                               ],

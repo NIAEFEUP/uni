@@ -67,6 +67,7 @@ class LibraryOccupationCard extends StatelessWidget {
     return GenericCard(
       key: key,
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+      margin: EdgeInsets.zero,
       tooltip: '',
       child: Row(
         children: [

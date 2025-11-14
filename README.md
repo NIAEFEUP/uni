@@ -1,37 +1,59 @@
 <div align="center">
 
-<img src="./readme-src/logo_dark.svg" width="80">
-<br>
-<img src="./readme-src/by_niaefeup.svg" height="30">
+<img src="./readme-src/icon.png" width="15%">
 
-<br>
-<br>
+<h3>uni, by NIAEFEUP</h3>
 
-[![Build badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/uni/format_lint_test.yaml?style=for-the-badge&branch=develop)](https://github.com/NIAEFEUP/uni/actions)
-[![Deploy badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/uni/deploy.yaml?label=Deploy&style=for-the-badge&branch=develop)](https://github.com/NIAEFEUP/uni/actions)
-[![Codecov branch](https://img.shields.io/codecov/c/github/NIAEFEUP/uni/develop?style=for-the-badge)](https://app.codecov.io/gh/NIAEFEUP/uni/)
+[![Build badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/uni/format_lint_test.yaml?branch=develop)](https://github.com/NIAEFEUP/uni/actions)
+[![Deploy badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/uni/deploy.yaml?label=deploy&branch=develop)](https://github.com/NIAEFEUP/uni/actions)
+[![Codecov branch](https://img.shields.io/codecov/c/github/NIAEFEUP/uni/develop)](https://app.codecov.io/gh/NIAEFEUP/uni/)
 
-[![style: very good analysis](https://img.shields.io/badge/style-very_good_analysis-B22C89.svg?style=for-the-badge)](https://pub.dev/packages/very_good_analysis)
-[![License badge](https://img.shields.io/github/license/NIAEFEUP/uni?style=for-the-badge)](https://github.com/NIAEFEUP/uni/blob/develop/LICENSE)
+[![style: very good analysis](https://img.shields.io/badge/style-very_good_analysis-B22C89.svg)](https://pub.dev/packages/very_good_analysis)
+[![License badge](https://img.shields.io/github/license/NIAEFEUP/uni)](https://github.com/NIAEFEUP/uni/blob/develop/LICENSE)
 
-<a href='https://play.google.com/store/apps/details?id=pt.up.fe.ni.uni&hl=pt_PT&gl=US&pli=1&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img style="width: 135px;" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
-
-<a href="https://apps.apple.com/pt/app/uni/id1585951339?itsct=apps_box_badge&amp;itscg=30200"><img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1633219200" alt="Download on the App Store" style="border-radius: 13px; width: 120px;"></a>
-
+<a href='https://play.google.com/store/apps/details?id=pt.up.fe.ni.uni&hl=pt_PT&gl=US&pli=1&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+    <img src='./readme-src/stores/googleplay.svg' alt='Get it on Google Play' width="120"/>
+</a>
+<a href="https://apps.apple.com/pt/app/uni/id1585951339?itscg=30200&itsct=apps_box_badge&mttnsubad=1585951339">
+    <img src="./readme-src/stores/appstore.svg" alt="Download on the App Store" width="110" />
+</a>
 </div>
 
 ## Overview
 
-**uni** is a project developed by [NIAEFEUP](https://niaefeup.pt/) to help students of the [University of Porto](https://up.pt) to manage their academic life, including useful features such as upcoming classes and exams. It is a mobile app that is available for both Android and iOS, and is developed using the [Flutter](https://flutter.dev/) framework.
+**uni** is a cross-platform mobile application created by [NIAEFEUP](https://niaefeup.pt/) to help students at the University of Porto discover and manage academic information in one place. The app aggregates data from the college platform and other services to provide timely information such as schedules, exams, grades and useful campus resources.
 
-Some of the features are only available to students of [FEUP](https://fe.up.pt). The reliability of the information provided by the app is not guaranteed, and the app is not affiliated with the University of Porto or any of its faculties.
+## Screenshots
 
-## Licensing
+<div align="center">
+    <img src="./readme-src/screenshots/1.png" width="15%">
+    <img src="./readme-src/screenshots/2.png" width="15%">
+    <img src="./readme-src/screenshots/3.png" width="15%">
+    <img src="./readme-src/screenshots/4.png" width="15%">
+    <img src="./readme-src/screenshots/5.png" width="15%">
+    <img src="./readme-src/screenshots/6.png" width="15%">
+</div>
 
-This application is licensed under the [GNU General Public License v3.0](./LICENSE), which means you can modify and distribute this application as you wish, as long as you refer to the original source.
+## Features
+
+- View upcoming classes and exams.
+- Access grades and course information.
+- View course units details, as well as class colleagues and files.
+- Campus restaurants across the whole city.
+- Access to important faculty resources.
+- Interactive faculty map.
+
+The app requires authentication with a university account and therefore is only available to students. Currently some features are optimized for [FEUP](https://fe.up.pt) students, but an expansion to other faculties is in the works.
+
+## License
+
+This application is licensed under the [GNU General Public License v3.0](./LICENSE). See the `LICENSE` file for details.
+## Disclaimer
+
+This app is an independent project and is not officially affiliated with the University of Porto or its faculties. The reliability of the information provided by the app is not guaranteed.
 
 ## Contributing
 
-Contributions are welcome, and can be made by opening a pull request. Please note, however, that a university's account is required to access most of the app's features.
+We highly value community contributions, which can be submitted via a pull request. Please be aware, though, that a university account is necessary to utilize the majority of the app's functionalities.
 
-For further information about the project structure, please refer to [the app's README file](./packages/uni_app/README.md).
+**Ready to contribute?** Full details and guidelines are in the repository's [CONTRIBUTING](https://github.com/NIAEFEUP/uni?tab=contributing-ov-file) file and on our [wiki](https://github.com/NIAEFEUP/uni/wiki).
