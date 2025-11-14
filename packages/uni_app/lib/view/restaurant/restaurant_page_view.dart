@@ -169,9 +169,8 @@ class _RestaurantPageViewState
           ),
         ),
         hasContent: (restaurants) => restaurants.isNotEmpty,
+        loadingWidget: const ShimmerRestaurantPageView(),
       ),
-      hasContent: (restaurants) => restaurants.isNotEmpty,
-      loadingWidget: const ShimmerRestaurantPageView(),
     );
   }
 

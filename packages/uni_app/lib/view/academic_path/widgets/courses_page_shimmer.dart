@@ -17,14 +17,18 @@ class ShimmerCoursesPage extends StatelessWidget {
             top: 16,
           ),
           child: Center(
-            child: Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
-              child: GenericSquircle(
-                child: Container(
-                  height: 90,
-                  width: 90,
-                  decoration: const BoxDecoration(color: Colors.white),
+            child: FractionallySizedBox(
+              widthFactor: 0.25, // adjust fraction to taste (e.g. 0.2 - 0.35)
+              child: AspectRatio(
+                aspectRatio: 1, // keep it square
+                child: Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: GenericSquircle(
+                    child: Container(
+                      decoration: const BoxDecoration(color: Colors.white),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -71,7 +75,6 @@ class ShimmerCoursesPage extends StatelessWidget {
                         child: GenericSquircle(
                           child: Container(
                             height: 70,
-                            width: 180,
                             decoration: const BoxDecoration(
                               color: Colors.white,
                             ),
@@ -87,7 +90,6 @@ class ShimmerCoursesPage extends StatelessWidget {
                         child: GenericSquircle(
                           child: Container(
                             height: 70,
-                            width: 180,
                             decoration: const BoxDecoration(
                               color: Colors.white,
                             ),
