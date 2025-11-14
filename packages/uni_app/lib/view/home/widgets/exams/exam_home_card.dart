@@ -6,8 +6,8 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
 import 'package:uni/utils/date_time_formatter.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/utils/string_formatter.dart';
-import 'package:uni/view/academic_path/academic_path.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/timeline_shimmer.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -17,7 +17,11 @@ import 'package:uni_ui/cards/timeline_card.dart';
 import 'package:uni_ui/icons.dart';
 
 class ExamHomeCard extends GenericHomecard {
-  const ExamHomeCard({super.key});
+  const ExamHomeCard({super.key})
+    : super(
+        titlePadding: const EdgeInsets.symmetric(horizontal: 20),
+        bodyPadding: const EdgeInsets.symmetric(horizontal: 20),
+      );
 
   @override
   String getTitle(BuildContext context) {
@@ -93,11 +97,10 @@ class ExamHomeCard extends GenericHomecard {
 
   @override
   void onCardClick(BuildContext context) {
-    Navigator.push(
+    Navigator.pushNamed(
       context,
-      MaterialPageRoute<void>(
-        builder: (context) => const AcademicPathPageView(initialTabIndex: 2),
-      ),
+      '/${NavigationItem.navAcademicPath.route}',
+      arguments: 2,
     );
   }
 }
