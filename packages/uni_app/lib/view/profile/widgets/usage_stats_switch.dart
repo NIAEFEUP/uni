@@ -20,9 +20,11 @@ class _UsageStatsSwitchState extends State<UsageStatsSwitch> {
 
   @override
   Widget build(BuildContext context) {
+    final isIOS = Theme.of(context).platform == TargetPlatform.iOS;
     return Switch.adaptive(
       value: usageStatsToggle,
       onChanged: (value) => saveUsageStatsToggle(value: value),
+      activeTrackColor: isIOS ? const Color.fromARGB(255, 102, 9, 16) : null,
     );
   }
 }

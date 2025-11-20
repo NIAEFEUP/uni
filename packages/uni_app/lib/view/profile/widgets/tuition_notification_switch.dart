@@ -21,9 +21,11 @@ class _TuitionNotificationSwitchState extends State<TuitionNotificationSwitch> {
 
   @override
   Widget build(BuildContext context) {
+    final isIOS = Theme.of(context).platform == TargetPlatform.iOS;
     return Switch.adaptive(
       value: tuitionNotificationToggle,
       onChanged: (value) => saveTuitionNotificationToggle(value: value),
+      activeTrackColor: isIOS ? const Color.fromARGB(255, 102, 9, 16) : null,
     );
   }
 }
