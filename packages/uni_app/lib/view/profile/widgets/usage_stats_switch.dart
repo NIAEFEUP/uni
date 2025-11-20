@@ -20,7 +20,6 @@ class _UsageStatsSwitchState extends State<UsageStatsSwitch> {
 
   @override
   Widget build(BuildContext context) {
-    final isIOS = Theme.of(context).platform == TargetPlatform.iOS;
     return Switch.adaptive(
       value: usageStatsToggle,
       onChanged: (value) => saveUsageStatsToggle(value: value),
