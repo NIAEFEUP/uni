@@ -38,10 +38,10 @@ class ProfileOverview extends ConsumerWidget {
               Wrap(
                 spacing: 8,
                 children:
-                    session.faculties.map((type) {
+                    session.instances.map((instance) {
                       return Badge(
                         label: Text(
-                          type.toUpperCase(),
+                          instance.name.toUpperCase(),
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                         backgroundColor: Theme.of(context).colorScheme.primary,

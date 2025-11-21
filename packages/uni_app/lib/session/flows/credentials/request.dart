@@ -7,6 +7,7 @@ import 'package:uni/session/flows/credentials/session.dart';
 import 'package:uni/sigarra/endpoints/api/api.dart';
 import 'package:uni/sigarra/endpoints/html/authentication/login/response.dart';
 import 'package:uni/sigarra/endpoints/html/html.dart';
+import 'package:uni/sigarra/instances.dart';
 import 'package:uni/sigarra/options.dart';
 
 class CredentialsSessionRequest extends SessionRequest {
@@ -56,7 +57,7 @@ class CredentialsSessionRequest extends SessionRequest {
     final session = CredentialsSession(
       username: tempSession.username,
       cookies: tempSession.cookies,
-      faculties: faculties,
+      instances: faculties,
       password: password,
     );
 
@@ -69,15 +70,15 @@ class CredentialsSessionRequest extends SessionRequest {
     http.Client httpClient,
   ) async {
     final api = SigarraApi();
-    const tempFaculty = 'feup';
+    const tempFaculty = Instance.feup;
 
     final loginResponse =
         await api.authentication
             .login(
               username: username,
               password: password,
-              options: FacultyRequestOptions(
-                faculty: tempFaculty,
+              options: InstanceRequestOptions(
+                instance: tempFaculty,
                 client: httpClient,
               ),
             )
@@ -92,7 +93,7 @@ class CredentialsSessionRequest extends SessionRequest {
       username: info.username,
       password: password,
       cookies: info.cookies,
-      faculties: [tempFaculty],
+      instances: [tempFaculty],
     );
   }
 
@@ -107,7 +108,7 @@ class CredentialsSessionRequest extends SessionRequest {
             .login(
               username: username,
               password: password,
-              options: FacultyRequestOptions(client: httpClient),
+              options: InstanceRequestOptions(client: httpClient),
             )
             .call();
 

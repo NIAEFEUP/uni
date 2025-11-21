@@ -10,6 +10,7 @@ import 'package:uni/session/flows/federated/client.dart';
 import 'package:uni/session/flows/federated/session.dart';
 import 'package:uni/sigarra/endpoints/oidc/oidc.dart';
 import 'package:uni/sigarra/endpoints/oidc/token/response.dart';
+import 'package:uni/sigarra/instances.dart';
 import 'package:uni/sigarra/options.dart';
 
 class FederatedSessionUserInfo {
@@ -69,9 +70,11 @@ class FederatedSessionRequest extends SessionRequest {
     final userInfo = FederatedSessionUserInfo(await credential.getUserInfo());
     final successfulResponse = response.asSuccessful();
 
+    const tempFaculty = Instance.feup;
+
     final tempSession = FederatedSession(
       username: userInfo.username,
-      faculties: userInfo.faculties,
+      instances: [tempFaculty],
       cookies: successfulResponse.cookies,
       credential: credential,
     );
@@ -80,7 +83,7 @@ class FederatedSessionRequest extends SessionRequest {
 
     return FederatedSession(
       username: userInfo.username,
-      faculties: faculties,
+      instances: faculties,
       cookies: successfulResponse.cookies,
       credential: credential,
     );

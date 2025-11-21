@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:uni/sigarra/instances.dart';
 
 abstract class BaseRequestOptions {
   BaseRequestOptions({http.Client? client}) : client = client ?? http.Client();
@@ -22,28 +23,28 @@ class SigarraRequestOptions extends BaseRequestOptions {
   }
 }
 
-class FacultyRequestOptions extends SigarraRequestOptions {
-  FacultyRequestOptions({
-    this.faculty = 'up',
+class InstanceRequestOptions extends SigarraRequestOptions {
+  InstanceRequestOptions({
+    this.instance = Instance.up,
     this.language = 'pt',
     super.client,
   });
 
-  final String faculty;
+  final Instance instance;
   final String language;
 
   @override
-  Uri get baseUrl => super.baseUrl.resolve('/$faculty/$language/');
+  Uri get baseUrl => super.baseUrl.resolve('/$instance/$language/');
 
   @override
-  FacultyRequestOptions copyWith({
+  InstanceRequestOptions copyWith({
     String? language,
-    String? faculty,
+    Instance? instance,
     http.Client? client,
   }) {
-    return FacultyRequestOptions(
+    return InstanceRequestOptions(
       language: language ?? this.language,
-      faculty: faculty ?? this.faculty,
+      instance: instance ?? this.instance,
       client: client ?? this.client,
     );
   }

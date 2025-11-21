@@ -5,6 +5,7 @@ import 'package:uni/http/client/authenticated.dart';
 import 'package:uni/http/client/timeout.dart';
 import 'package:uni/session/authentication_controller.dart';
 import 'package:uni/session/flows/base/session.dart';
+import 'package:uni/sigarra/instances.dart';
 import 'package:uni/utils/uri.dart';
 
 extension UriString on String {
@@ -25,8 +26,8 @@ class NetworkRouter {
   static const _requestTimeout = Duration(seconds: 30);
 
   /// Returns the base url of the user's faculties.
-  static List<String> getBaseUrls(List<String> faculties) {
-    return faculties.map(getBaseUrl).toList();
+  static List<String> getBaseUrls(List<Instance> instances) {
+    return instances.map((instance) => getBaseUrl(instance.name)).toList();
   }
 
   /// Returns the base url of the user's faculty.
@@ -36,7 +37,7 @@ class NetworkRouter {
 
   /// Returns the base url from the user's previous session.
   static List<String> getBaseUrlsFromSession(Session session) {
-    return NetworkRouter.getBaseUrls(session.faculties);
+    return NetworkRouter.getBaseUrls(session.instances);
   }
 
   static Future<http.Response> getWithCookies(

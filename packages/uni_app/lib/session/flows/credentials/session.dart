@@ -9,7 +9,7 @@ class CredentialsSession extends Session {
   CredentialsSession({
     required super.username,
     required super.cookies,
-    required super.faculties,
+    required super.instances,
     required this.password,
   });
 

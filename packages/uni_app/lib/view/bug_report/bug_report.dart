@@ -249,7 +249,7 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
     });
 
     final session = await ref.watch(sessionProvider.future);
-    final faculties = session?.faculties ?? [];
+    final faculties = session?.instances.map((i) => i.name).toList() ?? [];
 
     final bugReport =
         BugReport(

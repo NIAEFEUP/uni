@@ -24,7 +24,7 @@ class AuthenticatedClient extends http.BaseClient {
     Logger().d('Checking if user is still logged in');
 
     final url =
-        '${NetworkRouter.getBaseUrl(session.mainFaculty)}'
+        '${NetworkRouter.getBaseUrl(session.mainInstance.name)}'
         'fest_geral.cursos_list?pv_num_unico=${session.username}';
 
     final client = CookieClient(_inner, cookies: () => session.cookies);

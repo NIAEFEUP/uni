@@ -12,11 +12,11 @@ class Login extends Endpoint<LoginResponse> {
 
   final String username;
   final String password;
-  final FacultyRequestOptions? options;
+  final InstanceRequestOptions? options;
 
   @override
   Future<LoginResponse> call() async {
-    final options = this.options ?? FacultyRequestOptions();
+    final options = this.options ?? InstanceRequestOptions();
 
     final loginUrl = options.baseUrl.resolve('mob_val_geral.autentica');
 

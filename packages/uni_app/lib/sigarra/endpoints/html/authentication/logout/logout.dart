@@ -5,11 +5,11 @@ import 'package:uni/sigarra/response.dart';
 class Logout extends Endpoint {
   const Logout({this.options});
 
-  final FacultyRequestOptions? options;
+  final InstanceRequestOptions? options;
 
   @override
   Future<EndpointResponse> call() async {
-    final options = this.options ?? FacultyRequestOptions();
+    final options = this.options ?? InstanceRequestOptions();
 
     final logoutUrl = options.baseUrl.resolve('vld_validacao.sair');
     final response = await options.client.get(logoutUrl);

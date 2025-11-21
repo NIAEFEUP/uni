@@ -2,8 +2,9 @@ import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:uni/http/client/cookie.dart';
 import 'package:uni/session/flows/base/session.dart';
+import 'package:uni/sigarra/instances.dart';
 
-Future<List<String>> getStudentFaculties(
+Future<List<Instance>> getStudentFaculties(
   Session session,
   http.Client httpClient,
 ) async {

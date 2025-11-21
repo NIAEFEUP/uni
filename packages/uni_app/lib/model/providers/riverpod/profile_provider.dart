@@ -8,6 +8,7 @@ import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/controller/fetchers/profile_fetcher.dart';
 import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/controller/local_storage/file_offline_storage.dart';
+import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
@@ -112,9 +113,9 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
     int? studentNumber,
   }) {
     studentNumber ??= int.parse(session.username.replaceAll('up', ''));
-    final faculty = session.faculties.first;
+    final instance = session.mainInstance;
     final url =
-        'https://sigarra.up.pt/$faculty/pt/fotografias_service.foto?pct_cod=$studentNumber';
+        '${NetworkRouter.getBaseUrl(instance.name)}fotografias_service.foto?pct_cod=$studentNumber';
 
     return loadFileFromStorageOrRetrieveNew(
       '${studentNumber}_profile_picture',

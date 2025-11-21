@@ -4,6 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:uni/session/flows/base/request.dart';
 import 'package:uni/session/flows/credentials/session.dart';
 import 'package:uni/session/flows/federated/session.dart';
+import 'package:uni/sigarra/instances.dart';
 
 const _sessionsFromJson = [
   FederatedSession.fromJson,
@@ -14,8 +15,8 @@ abstract class Session {
   Session({
     required this.username,
     required this.cookies,
-    required this.faculties,
-  }) : assert(faculties.isNotEmpty, 'session must have faculties');
+    required this.instances,
+  }) : assert(instances.isNotEmpty, 'session must have instances');
 
   // Serialization logic
 
@@ -36,11 +37,14 @@ abstract class Session {
   // Session implementation
 
   final String username;
-  final List<String> faculties;
+
   @CookieConverter()
   final List<Cookie> cookies; // TODO(limwa): use a CookieJar
 
-  String get mainFaculty => faculties.first;
+  @InstanceConverter()
+  final List<Instance> instances;
+
+  Instance get mainInstance => instances.first;
 
   SessionRequest createRefreshRequest();
 }
