@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:logger/logger.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/controller/background_workers/notifications/tuition_notification.dart';
 import 'package:uni/controller/local_storage/notification_timeout_storage.dart';
@@ -73,6 +74,52 @@ class NotificationManager {
     _initialized = true;
     await _initFlutterNotificationsPlugin();
     await _buildNotificationWorker();
+  }
+
+  Future<bool> hasNotificationPermission() async {
+    if (Platform.isAndroid) {
+      try {
+        final status = await Permission.notification.status;
+        if (status.isGranted) {
+          return true;
+        }
+
+        if (status.isDenied ||
+            status.isPermanentlyDenied ||
+            status.isRestricted) {
+          return false;
+        }
+
+        final androidPlugin =
+            _localNotificationsPlugin
+                .resolvePlatformSpecificImplementation<
+                  AndroidFlutterLocalNotificationsPlugin
+                >();
+        final bool? enabled = await androidPlugin?.areNotificationsEnabled();
+        return enabled ?? true;
+      } catch (_) {
+        final androidPlugin =
+            _localNotificationsPlugin
+                .resolvePlatformSpecificImplementation<
+                  AndroidFlutterLocalNotificationsPlugin
+                >();
+        try {
+          final bool? enabled = await androidPlugin?.areNotificationsEnabled();
+          return enabled ?? true;
+        } catch (_) {
+          return true;
+        }
+      }
+    } else if (Platform.isIOS) {
+      try {
+        final status = await Permission.notification.status;
+        return status.isGranted;
+      } catch (_) {
+        return false;
+      }
+    }
+
+    return false;
   }
 
   static Future<void> _initFlutterNotificationsPlugin() async {

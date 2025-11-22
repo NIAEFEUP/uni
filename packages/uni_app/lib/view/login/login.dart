@@ -60,12 +60,14 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
   @override
   void initState() {
     super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     super.dispose();
   }
 
@@ -96,7 +98,7 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
         if (mounted) {
           await Navigator.pushReplacementNamed(
             context,
-            '/${NavigationItem.navPersonalArea.route}',
+            '/${NavigationItem.navIntroduction.route}',
           );
           setState(() {
             _loggingIn = false;
@@ -167,6 +169,11 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
           _loggingIn = true;
         });
       }
+      if (mounted) {
+        setState(() {
+          _loggingIn = true;
+        });
+      }
 
       final appLinks = UniAppLinks();
 
@@ -194,14 +201,26 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
           _loggingIn = true;
         });
       }
+      if (mounted) {
+        setState(() {
+          _intercepting = true;
+          _loggingIn = true;
+        });
+      }
 
       if (mounted) {
         await Navigator.pushReplacementNamed(
           context,
-          '/${NavigationItem.navPersonalArea.route}',
+          '/${NavigationItem.navIntroduction.route}',
         );
       }
 
+      if (mounted) {
+        setState(() {
+          _loggingIn = true;
+          _intercepting = false;
+        });
+      }
       if (mounted) {
         setState(() {
           _loggingIn = true;
@@ -215,6 +234,8 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
         setState(() {
           _loggingIn = false;
         });
+      }
+      if (mounted) {
         Logger().e(S.of(context).fail_to_authenticate);
         unawaited(
           ToastMessage.error(context, S.of(context).fail_to_authenticate),
@@ -227,6 +248,13 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+      ),
+    );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return Theme(
       data: Theme.of(context),
       child: Builder(

@@ -451,5 +451,19 @@
   "services": "Serviços",
   "@services": {},
   "goi": "Gabinete de Orientação e Integração",
-  "@goi": {}
+  "@goi": {},
+  "map": "Mapa",
+  "@map": {},
+  "exams_intro_message": "Mantém-te sempre atualizado com os teus exames",
+  "@exams_intro_message": {},
+  "schedule_intro_message": "Mantém o controlo das tuas aulas e atividades diárias",
+  "@schedule_intro_message": {},
+  "restaurants_intro_message": "Descobre as opções de restauração do campus e os menus",
+  "@restaurants_intro_message": {},
+  "services_intro_message": "Explora os serviços académicos disponíveis para ti",
+  "@services_intro_message": {},
+  "map_intro_message": "Navega pelo campus com o nosso mapa interativo",
+  "@map_intro_message": {},
+  "notifications_intro_message": "Queres receber alertas de eventos e informações importantes, incluindo o prazo limite de propinas?",
+  "@notifications_intro_message": {}
 }
