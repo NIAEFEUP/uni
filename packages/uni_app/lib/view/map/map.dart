@@ -226,7 +226,17 @@ class MapPageStateView extends ConsumerState<MapPage> {
                     ),
                   ),
                 ),
-                const CurrentLocationLayer(),
+                CurrentLocationLayer(
+                  style: LocationMarkerStyle(
+                    marker: DefaultLocationMarker(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    showAccuracyCircle: false,
+                    headingSectorColor: Theme.of(
+                      context,
+                    ).colorScheme.primary.withValues(alpha: 0.35),
+                  ),
+                ),
               ],
             ),
           ),
