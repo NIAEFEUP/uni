@@ -5,18 +5,18 @@ description: A UP no teu bolso.
 # To change it manually, override the value in app_version.txt.
 # The app version code is automatically also bumped by CI.
 # Do not change it manually.
-version: 2.2.0-beta.17+425
+version: 2.2.0-beta.20+428
 
 publish_to: "none" # We do not publish to pub.dev
 resolution: workspace
 
 environment:
   sdk: ">=3.7.0 <4.0.0"
-  flutter: 3.35.6
+  flutter: 3.38.3
 
 dependencies:
   add_2_calendar_new: ^1.0.4
-  app_links: ^6.4.1
+  app_links: ^7.0.0
   app_settings:
     git:
       url: https://github.com/spencerccf/app_settings.git
@@ -90,11 +90,11 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.7.1
-  custom_lint: ^0.7.6
+  custom_lint: ^0.8.1
   flutter_launcher_icons: ^0.14.4
   flutter_test:
     sdk: flutter
-  leancode_lint: ^18.0.0
+  leancode_lint: ^19.0.1
   mockito: ^5.5.0
   objectbox_generator: any
   sqflite_common_ffi: ^2.3.6

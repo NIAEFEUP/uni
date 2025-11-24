@@ -144,9 +144,11 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                     borderRadius: BorderRadius.circular(25),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withAlpha(51), // 20% opacity
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.shadow.withAlpha(0x25),
                         spreadRadius: 2,
-                        blurRadius: 5,
+                        blurRadius: 2,
                         offset: const Offset(0, 2),
                       ),
                     ],
