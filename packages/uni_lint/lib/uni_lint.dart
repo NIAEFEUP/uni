@@ -23,7 +23,7 @@ class NoStringLiteralsInWidgetsLint extends DartLintRule {
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addStringLiteral((node) {
@@ -47,9 +47,9 @@ class NoStringLiteralsInWidgetsLint extends DartLintRule {
     final extendsClause = parent.extendsClause;
     if (extendsClause != null) {
       final superclass = extendsClause.superclass;
-      return superclass.element2?.displayName == "StatelessWidget" ||
-          superclass.element2?.displayName == "StatefulWidget" ||
-          superclass.element2?.displayName == "State";
+      return superclass.element?.displayName == "StatelessWidget" ||
+          superclass.element?.displayName == "StatefulWidget" ||
+          superclass.element?.displayName == "State";
     }
     return false;
   }
