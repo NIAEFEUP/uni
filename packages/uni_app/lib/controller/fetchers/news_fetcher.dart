@@ -18,6 +18,6 @@ Future<List<News>> fetchNews() async {
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
-    throw Exception('Failed to load news. Status code: ${response.statusCode}' );
+    throw Exception('Failed to load news. Status code: ${response.statusCode}');
   }
 }
