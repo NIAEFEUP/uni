@@ -1,13 +1,14 @@
-import {
-	getLatestFlutterStableVersion,
-	getCurrentFlutterVersionFromPubspec,
-} from "./lib";
-import { saveToKV, readFromKV } from "./database";
-import { sendFlutterVersionUpdateMessage, sendMessageToSlack } from "./slack";
+import { handleSlackCheck, performFlutterCheck } from "./lib";
 
 export default {
-	async fetch(req) {
+	async fetch(req, env) {
 		const url = new URL(req.url);
+
+		if (req.method === "POST" && url.pathname === "/slack/check") {
+			await handleSlackCheck(req, env);
+			return new Response("Slack check received", { status: 200 });
+		}
+
 		url.pathname = "/__scheduled";
 		url.searchParams.append("cron", "0 */6 * * *");
 		return new Response(
@@ -17,35 +18,6 @@ export default {
 
 	async scheduled(event, env, ctx): Promise<void> {
 		console.log("Running scheduled handler at", new Date().toISOString());
-
-		const latestFlutterVersion = await getLatestFlutterStableVersion();
-
-		console.log("Latest Flutter stable version:", latestFlutterVersion);
-
-		const currentVersion = await getCurrentFlutterVersionFromPubspec();
-
-		console.log("Current Flutter version in pubspec.yaml:", currentVersion);
-
-		const lastNotifiedVersion = await readFromKV("last_notified_version", env);
-
-		console.log("Last notified version:", lastNotifiedVersion);
-
-		if (lastNotifiedVersion === latestFlutterVersion) {
-			console.log("Already notified for version", latestFlutterVersion);
-			return;
-		}
-
-		if (currentVersion === latestFlutterVersion) {
-			console.log("Project is up to date. No notification sent.");
-			return;
-		}
-
-		await sendFlutterVersionUpdateMessage(
-			currentVersion,
-			latestFlutterVersion,
-			env,
-		);
-
-		await saveToKV("last_notified_version", latestFlutterVersion, env);
+		performFlutterCheck(env, false);
 	},
 } satisfies ExportedHandler<Env>;

@@ -1,62 +1,50 @@
+import { readFromKV, saveToKV } from "./database";
+import { sendFlutterVersionUpdateMessage } from "./slack";
+import {
+	getCurrentFlutterVersionFromPubspec,
+	getLatestFlutterStableVersion,
+} from "./version-fetcher";
 
-import yaml from "js-yaml";
+export async function handleSlackCheck(req: Request, env: Env) {
+	console.log("Manual check requested.");
 
-interface FlutterRelease {
-	hash: string;
-	channel: string;
-	version: string;
-	dart_sdk_version: string;
-	dart_sdk_arch: string;
-	release_date: string;
-	archive: string;
-	sha256: string;
+	await performFlutterCheck(env, true);
 }
 
-interface FlutterReleasesJSON {
-	base_url: string;
-	current_release: {
-		beta: string;
-		dev: string;
-		stable: string;
-	};
-	releases: FlutterRelease[];
-}
-export async function getLatestFlutterStableVersion(): Promise<string> {
-	const res = await fetch(
-		"https://storage.googleapis.com/flutter_infra_release/releases/releases_linux.json",
+export async function performFlutterCheck(
+	env: Env,
+	manualCheck: boolean,
+): Promise<void> {
+	const latestFlutterVersion = await getLatestFlutterStableVersion();
+
+	console.log("Latest Flutter stable version:", latestFlutterVersion);
+
+	const currentVersion = await getCurrentFlutterVersionFromPubspec();
+
+	console.log("Current Flutter version in pubspec.yaml:", currentVersion);
+
+	const lastNotifiedVersion = await readFromKV(
+		"flutter_last_notified_version",
+		env,
 	);
 
-	if (!res.ok) {
-		throw new Error(`Failed to fetch releases: {res.status}, {res.statusText}`);
+	console.log("Last notified version:", lastNotifiedVersion);
+
+	if (!manualCheck && lastNotifiedVersion === latestFlutterVersion) {
+		console.log("Already notified for version", latestFlutterVersion);
+		return;
 	}
 
-	const data: FlutterReleasesJSON = await res.json();
-
-	const stableHash = data.current_release.stable;
-	const latestRelease = data.releases.find((r) => r.hash === stableHash);
-	if (!latestRelease) throw new Error("Stable release not found");
-
-	const latestVersion = latestRelease.version;
-
-	return latestVersion;
-}
-
-export async function getCurrentFlutterVersionFromPubspec(): Promise<string> {
-	const pubspecUrl =
-		"https://raw.githubusercontent.com/NIAEFEUP/uni/refs/heads/develop/packages/uni_app/pubspec.yaml";
-	const pubspecRes = await fetch(pubspecUrl);
-	if (!pubspecRes.ok) throw new Error("Failed to fetch pubspec.yaml");
-
-	const pubspecText = await pubspecRes.text();
-
-	const pubspecData = yaml.load(pubspecText) as any;
-
-	const currentVersion = pubspecData.environment?.flutter;
-
-	if (!currentVersion) {
-		throw new Error("Could not find Flutter version in pubspec.yaml");
+	if (!manualCheck && currentVersion === latestFlutterVersion) {
+		console.log("Project is up to date. No notification sent.");
+		return;
 	}
 
-	return currentVersion;
-}
+	await sendFlutterVersionUpdateMessage(
+		currentVersion,
+		latestFlutterVersion,
+		env,
+	);
 
+	await saveToKV("flutter_last_notified_version", latestFlutterVersion, env);
+}
