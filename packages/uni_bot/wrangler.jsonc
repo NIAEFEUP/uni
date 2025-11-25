@@ -1,0 +1,33 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "uni-bot",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-11-25",
+  "observability": {
+    "enabled": true,
+  },
+	"workers_dev": false,
+	"preview_urls": false,
+  /**
+   * Environment Variables
+   * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
+   */
+  // "vars": { "MY_VARIABLE": "production_value" }
+  /**
+   * Note: Use secrets to store sensitive data.
+   * https://developers.cloudflare.com/workers/configuration/secrets/
+   */
+  "triggers": {
+    "crons": ["0 */6 * * *"],
+  },
+  "kv_namespaces": [
+    {
+      "binding": "APPSTATE",
+      "id": "601fda460b444e1eacf944a39e31746e",
+    },
+  ],
+}
