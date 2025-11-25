@@ -23,6 +23,7 @@ class _UsageStatsSwitchState extends State<UsageStatsSwitch> {
     return Switch.adaptive(
       value: usageStatsToggle,
       onChanged: (value) => saveUsageStatsToggle(value: value),
+      activeTrackColor: Theme.of(context).colorScheme.primary,
     );
   }
 }
