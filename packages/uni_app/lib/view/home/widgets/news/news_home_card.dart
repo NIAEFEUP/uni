@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/fetchers/news_fetcher.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/news.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni_ui/cards/news_card.dart';
@@ -11,7 +12,7 @@ class NewsHomeCard extends GenericHomecard {
 
   @override
   String getTitle(BuildContext context) {
-    return 'Notícias';
+    return S.of(context).news;
   }
 
   @override
