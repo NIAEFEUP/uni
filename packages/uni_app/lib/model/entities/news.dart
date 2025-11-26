@@ -18,7 +18,12 @@ class News {
     final image = json['featured_image_src'] as String? ?? '';
     final link = json['link'] as String? ?? '';
 
-    return News(title: title, description: description, image: image, link: link);
+    return News(
+      title: title,
+      description: description,
+      image: image,
+      link: link,
+    );
   }
   final String title;
   final String description;
