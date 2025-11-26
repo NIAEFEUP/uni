@@ -41,24 +41,42 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
       return null;
     }
 
-    final profile = await _fetchUserInfo(session);
-    if (profile == null) {
-      return null;
+    try {
+      //try to fetch all data from internet
+      final profile = await _fetchUserInfo(session);
+      if (profile == null) {
+        return null;
+      }
+
+      final courseUnits = await _fetchCourseUnitsAndAverages(session, profile);
+      final (feesBalance, feesLimit) = await _fetchFees(session);
+      final printBalance = await _fetchPrintBalance(session);
+
+      profile
+        ..courseUnits = courseUnits ?? []
+        ..feesBalance = feesBalance
+        ..feesLimit = feesLimit
+        ..printBalance = printBalance;
+
+      //if successful save everything to cache
+      Database().saveProfile(profile);
+
+      return profile;
+    } catch (e) {
+      //if fail check if we have a profile in cache
+      final cachedProfile = Database().profile;
+
+      if (cachedProfile != null) {
+        cachedProfile
+          ..courses = Database().courses
+          ..courseUnits = Database().courseUnits;
+
+        return cachedProfile;
+      }
+
+      //no internet and no cache -> show error
+      rethrow;
     }
-
-    final courseUnits = await _fetchCourseUnitsAndAverages(session, profile);
-    final (feesBalance, feesLimit) = await _fetchFees(session);
-    final printBalance = await _fetchPrintBalance(session);
-
-    profile
-      ..courseUnits = courseUnits ?? []
-      ..feesBalance = feesBalance
-      ..feesLimit = feesLimit
-      ..printBalance = printBalance;
-
-    Database().saveProfile(profile);
-
-    return profile;
   }
 
   Future<Profile?> _fetchUserInfo(Session session) async {

@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_new_api.dart';
 import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/model/entities/lecture.dart';
@@ -28,25 +27,29 @@ class LectureNotifier extends CachedAsyncNotifier<List<Lecture>> {
       return null;
     }
 
-    final lectures = await _getLectures(session);
-
     try {
-      Database().saveLectures(lectures);
-    } catch (e, st) {
-      Logger().e(
-        'Failed to save lectures to local database',
-        error: e,
-        stackTrace: st,
-      );
-    }
+      //try to fetch from the internet
+      final lectures = await _getLectures(session);
 
-    return lectures;
+      //if success save to database (overwrite old cache)
+      Database().saveLectures(lectures);
+
+      return lectures;
+    } catch (e) {
+      //if failure check if we have cached lectures
+      final cachedLectures = Database().lectures;
+
+      if (cachedLectures.isNotEmpty) {
+        return cachedLectures;
+      }
+
+      //if no internet and no cache -> show error
+      rethrow;
+    }
   }
 
-  // FIXME: delete fallback fetcher code.
   Future<List<Lecture>> _getLectures(Session session) {
-    return ScheduleFetcherNewApi()
-        .getLectures(session)
-        .catchError((e) => <Lecture>[]);
+    //removed the .catchError so it throws properly when offline
+    return ScheduleFetcherNewApi().getLectures(session);
   }
 }

@@ -18,19 +18,10 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
     return DateTime.now().difference(_lastUpdateTime!) < cacheDuration!;
   }
 
-  // FIXME: this is probably not the best way to do this, but in case of an empty list,
-  // we cannot differentiate between a list that is indeed empty and a list that is not loaded yet
+  //fix: we now accept empty lists/maps as valid data
+  //we rely on _isCacheValid (time checking) to decide when to refresh
   bool _invalidLocalData(dynamic value) {
-    if (value == null) {
-      return true;
-    }
-    if (value is List) {
-      return value.isEmpty;
-    }
-    if (value is Map) {
-      return value.isEmpty;
-    }
-    return false;
+    return value == null;
   }
 
   void _updateState(T? newState, {bool updateTimestamp = true}) {
