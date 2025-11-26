@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/fetchers/news_fetcher.dart';
 import 'package:uni/model/entities/news.dart';
+import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni_ui/cards/news_card.dart';
 
-class NewsHomeCard extends StatelessWidget {
-  const NewsHomeCard({super.key});
+class NewsHomeCard extends GenericHomecard {
+  const NewsHomeCard({super.key})
+    : super(titlePadding: const EdgeInsets.symmetric(horizontal: 20));
 
   @override
-  Widget build(BuildContext context) {
+  String getTitle(BuildContext context) {
+    return 'Notícias';
+  }
+
+  @override
+  Widget buildCardContent(BuildContext context) {
     return FutureBuilder<List<News>>(
       future: fetchNews(),
       builder: (context, snapshot) {
@@ -43,5 +50,10 @@ class NewsHomeCard extends StatelessWidget {
         return const Center(child: CircularProgressIndicator());
       },
     );
+  }
+
+  @override
+  void onCardClick(BuildContext context) {
+    // TODO: implement onCardClick
   }
 }
