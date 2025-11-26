@@ -78,6 +78,8 @@ class CourseCard extends StatelessWidget {
           ),
         ),
       ),
+      shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
+      blurRadius: 2,
     );
   }
 
