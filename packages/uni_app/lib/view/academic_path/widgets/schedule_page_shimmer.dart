@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:uni/view/home/widgets/schedule/timeline_shimmer.dart';
 import 'package:uni_ui/cards/generic_card.dart';
+import 'package:uni_ui/common/generic_squircle.dart';
 
 class ShimmerSchedulePage extends StatelessWidget {
   const ShimmerSchedulePage({super.key});
@@ -16,21 +17,33 @@ class ShimmerSchedulePage extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                14,
-                (index) => Padding(
-                  padding: const EdgeInsets.only(right: 4),
-                  child: SizedBox(
-                    width: 60,
-                    height: 65,
-                    child: Shimmer.fromColors(
-                      baseColor: Colors.grey[300]!,
-                      highlightColor: Colors.grey[100]!,
-                      child: const GenericCard(borderRadius: 10, tooltip: ' '),
+              children: [
+                const SizedBox(width: 10),
+                ...List.generate(
+                  14,
+                  (index) => Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: 4,
+                      top: 4,
+                      left: 6,
+                      right: 6,
+                    ),
+                    child: SizedBox(
+                      width: 50,
+                      height: 55,
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: GenericSquircle(
+                          borderRadius: 10,
+                          child: Container(color: Colors.grey),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
+                const SizedBox(width: 16),
+              ],
             ),
           ),
         ),
@@ -45,20 +58,21 @@ class ShimmerSchedulePage extends StatelessWidget {
                 right: 150,
               ),
               child: SizedBox(
-                height: 40,
+                height: 30,
+                width: 200,
                 child: Shimmer.fromColors(
                   baseColor: Colors.grey[300]!,
                   highlightColor: Colors.grey[100]!,
-                  child: const GenericCard(tooltip: ' ', borderRadius: 0),
+                  child: Container(height: 20, width: 200, color: Colors.grey),
                 ),
               ),
             ),
             const Padding(
-              padding: EdgeInsets.only(left: 20),
+              padding: EdgeInsets.only(left: 20, right: 20),
               child: ShimmerTimelineItem(),
             ),
             const Padding(
-              padding: EdgeInsets.only(left: 20),
+              padding: EdgeInsets.only(left: 20, right: 20),
               child: ShimmerTimelineItem(),
             ),
           ],

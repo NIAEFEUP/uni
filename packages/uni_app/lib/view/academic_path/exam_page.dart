@@ -4,9 +4,9 @@ import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
-import 'package:uni/view/academic_path/widgets/exam_page_shimmer.dart';
 import 'package:uni/view/academic_path/widgets/exams_page_view.dart';
 import 'package:uni/view/academic_path/widgets/no_exams_widget.dart';
+import 'package:uni/view/academic_path/widgets/schedule_page_shimmer.dart';
 
 class ExamsPage extends ConsumerStatefulWidget {
   const ExamsPage({super.key});
@@ -60,7 +60,7 @@ class _ExamsPageState extends ConsumerState<ExamsPage> {
                 ),
               ),
         ),
-        loadingWidget: const ShimmerExamPage(),
+        loadingWidget: const ShimmerSchedulePage(),
       ),
     );
   }
