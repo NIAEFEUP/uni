@@ -3,6 +3,7 @@ import 'package:uni/controller/fetchers/news_fetcher.dart';
 import 'package:uni/model/entities/news.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni_ui/cards/news_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsHomeCard extends GenericHomecard {
   const NewsHomeCard({super.key})
@@ -23,25 +24,24 @@ class NewsHomeCard extends GenericHomecard {
           if (newsList.isEmpty) {
             return const SizedBox.shrink();
           }
-          return SizedBox(
-            height: 260,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: newsList.length + 2,
-              itemBuilder: (context, index) {
-                if (index == 0 || index == newsList.length + 1) {
-                  return const SizedBox(width: 15);
-                }
-                final news = newsList[index - 1];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: NewsCard(
-                    title: news.title,
-                    description: news.description,
-                    image: news.image,
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                const SizedBox(width: 15),
+                ...newsList.map(
+                  (news) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: NewsCard(
+                      title: news.title,
+                      description: news.description,
+                      image: news.image,
+                      openLink: () => launchUrl(Uri.parse(news.link)),
+                    ),
                   ),
-                );
-              },
+                ),
+                const SizedBox(width: 15),
+              ],
             ),
           );
         } else if (snapshot.hasError) {
