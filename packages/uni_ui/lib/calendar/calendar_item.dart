@@ -161,8 +161,8 @@ class CalendarItem extends StatelessWidget {
               ),
               shadows: [
                 BoxShadow(
-                  color: Theme.of(context).colorScheme.shadow.withAlpha(0x3f),
-                  blurRadius: 6,
+                  color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
+                  blurRadius: 2,
                 ),
               ],
             ),
