@@ -17,47 +17,45 @@ class NewsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.85,
-      child: GenericCard(
-        onClick: openLink,
-        shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
-        blurRadius: 2,
-        tooltip: title,
-        padding: const EdgeInsets.all(0),
-        child: Container(
-          decoration: BoxDecoration(color: CardTheme.of(context).color),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Image.network(image, height: 90, fit: BoxFit.cover),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 12.0,
-                  horizontal: 20.0,
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      title,
-                      style: Theme.of(context).textTheme.headlineSmall,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      description,
-                      style: Theme.of(context).textTheme.bodySmall,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                    ),
-                    const SizedBox(height: 8),
-                  ],
-                ),
+    return GenericCard(
+      onClick: openLink,
+      shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
+      blurRadius: 2,
+      tooltip: title,
+      padding: const EdgeInsets.all(0),
+      child: Container(
+        decoration: BoxDecoration(color: CardTheme.of(context).color),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Image.network(image, height: 90, fit: BoxFit.cover),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 12.0,
+                horizontal: 20.0,
               ),
-            ],
-          ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    description,
+                    style: Theme.of(context).textTheme.bodySmall,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
+                  const SizedBox(height: 8),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
