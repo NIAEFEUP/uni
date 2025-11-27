@@ -22,9 +22,7 @@ Future<void> cleanupStoredData(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.clear();
 
-  await Future.wait([
-    PreferencesController.removeSavedSession(),
-  ]);
+  await Future.wait([PreferencesController.removeSavedSession()]);
 
   Database().clear();
   await Database().remove();
