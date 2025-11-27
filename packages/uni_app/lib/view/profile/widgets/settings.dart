@@ -50,7 +50,7 @@ class Settings extends StatelessWidget {
                 ),
                 ProfileListTile(
                   icon: UniIcons.eyeHidden,
-                  title: 'Hide sensitive info',
+                  title: S.of(context).hide_sensitive_info,
                   trailing: const HideSensitiveInfoSwitch(),
                 ),
                 ProfileListTile(
