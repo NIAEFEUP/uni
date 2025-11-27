@@ -4,7 +4,8 @@ import 'package:objectbox/objectbox.dart';
 @JsonSerializable()
 @Entity()
 class News {
-  const News({
+  News({
+    this.id = 0,
     required this.title,
     required this.description,
     required this.image,
@@ -25,6 +26,10 @@ class News {
       link: link,
     );
   }
+
+  @Id()
+  int id;
+
   final String title;
   final String description;
   final String image;

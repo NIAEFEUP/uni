@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:uni/controller/fetchers/news_fetcher.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/entities/news.dart';
+import 'package:uni/model/providers/riverpod/news_provider.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni_ui/cards/news_card.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,44 +17,45 @@ class NewsHomeCard extends GenericHomecard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return FutureBuilder<List<News>>(
-      future: fetchNews(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final newsList = snapshot.data!;
-          if (newsList.isEmpty) {
-            return const SizedBox.shrink();
-          }
-          return SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                const SizedBox(width: 15),
-                ...newsList.map(
-                  (news) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: NewsCard(
-                      title: news.title,
-                      description: news.description,
-                      image: news.image,
-                      openLink: () => launchUrl(Uri.parse(news.link)),
+    return Consumer(
+      builder: (context, ref, _) {
+        final newsAsync = ref.watch(newsProvider);
+
+        return newsAsync.when(
+          data: (newsList) {
+            if (newsList == null || newsList.isEmpty) {
+              return const SizedBox.shrink();
+            }
+            return SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  const SizedBox(width: 15),
+                  ...newsList.map(
+                    (news) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: NewsCard(
+                        title: news.title,
+                        description: news.description,
+                        image: news.image,
+                        openLink: () => launchUrl(Uri.parse(news.link)),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 15),
-              ],
-            ),
-          );
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        }
-        return const Center(child: CircularProgressIndicator());
+                  const SizedBox(width: 15),
+                ],
+              ),
+            );
+          },
+          error: (error, stackTrace) => Center(child: Text('Error: $error')),
+          loading: () => const Center(child: CircularProgressIndicator()),
+        );
       },
     );
   }
 
   @override
   void onCardClick(BuildContext context) {
-    // TODO: implement onCardClick
+    // no action
   }
 }
