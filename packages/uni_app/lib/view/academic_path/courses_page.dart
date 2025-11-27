@@ -23,6 +23,7 @@ class CoursesPage extends ConsumerStatefulWidget {
 
 class CoursesPageState extends ConsumerState<CoursesPage> {
   var _courseUnitIndex = 0;
+  final _hideSensitiveInformation = PreferencesController.getHideSensitiveInfoToggle();
   var _blurSensitiveInfo = PreferencesController.getHideSensitiveInfoToggle();
 
   void _onCourseUnitSelected(int index) {
@@ -146,7 +147,9 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
               child: GestureDetector (
                 onTap: () {
                   setState(() {
-                    _blurSensitiveInfo = !_blurSensitiveInfo;
+                    if (_hideSensitiveInformation) {
+                      _blurSensitiveInfo = !_blurSensitiveInfo;
+                    }
                   });
                 },
                 child: ImageFiltered (
