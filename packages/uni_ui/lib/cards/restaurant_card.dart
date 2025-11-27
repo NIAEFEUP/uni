@@ -78,10 +78,13 @@ class RestaurantCardHeader extends StatelessWidget {
           Expanded(flex: 1, child: icon),
           Expanded(
             flex: 4,
-            child: Text(
-              name,
-              style: Theme.of(context).textTheme.headlineSmall,
-              overflow: TextOverflow.clip,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              child: Text(
+                name,
+                style: Theme.of(context).textTheme.headlineSmall,
+                overflow: TextOverflow.clip,
+              ),
             ),
           ),
           if (showFavoriteButton)
