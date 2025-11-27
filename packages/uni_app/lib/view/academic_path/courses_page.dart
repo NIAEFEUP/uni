@@ -23,6 +23,7 @@ class CoursesPage extends ConsumerStatefulWidget {
 
 class CoursesPageState extends ConsumerState<CoursesPage> {
   var _courseUnitIndex = 0;
+  var _blurSensitiveInfo = PreferencesController.getHideSensitiveInfoToggle();
 
   void _onCourseUnitSelected(int index) {
     setState(() {
@@ -108,7 +109,6 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
       builder: (context, ref, profile) {
         final courses = profile.courses;
         final course = courses[_courseUnitIndex];
-        final hideSensitiveInfo = PreferencesController.getHideSensitiveInfoToggle();
 
         return ListView(
           padding: const EdgeInsets.only(
@@ -143,14 +143,21 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 40, bottom: 8),
-              child: ImageFiltered (
-                imageFilter: ImageFilter.blur(sigmaX: hideSensitiveInfo ? 8 : 0, sigmaY: hideSensitiveInfo ? 8 : 0),
-                child: AverageBar(
-                  average: course.currentAverage ?? 0,
-                  completedCredits: course.finishedEcts ?? 0,
-                  totalCredits: _getTotalCredits(profile, course),
-                  statusText: course.state ?? '',
-                  averageText: S.of(context).average,
+              child: GestureDetector (
+                onTap: () {
+                  setState(() {
+                    _blurSensitiveInfo = !_blurSensitiveInfo;
+                  });
+                },
+                child: ImageFiltered (
+                  imageFilter: ImageFilter.blur(sigmaX: _blurSensitiveInfo ? 6 : 0, sigmaY: _blurSensitiveInfo ? 6 : 0),
+                  child: AverageBar(
+                    average: course.currentAverage ?? 0,
+                    completedCredits: course.finishedEcts ?? 0,
+                    totalCredits: _getTotalCredits(profile, course),
+                    statusText: course.state ?? '',
+                    averageText: S.of(context).average,
+                  ),
                 ),
               ),
             ),
