@@ -26,6 +26,14 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
   final _hideSensitiveInformation = PreferencesController.getHideSensitiveInfoToggle();
   var _blurSensitiveInfo = PreferencesController.getHideSensitiveInfoToggle();
 
+  void _toggleBlur() {
+    setState(() {
+      if (_hideSensitiveInformation) {
+        _blurSensitiveInfo = !_blurSensitiveInfo;
+      }
+    });
+  }
+
   void _onCourseUnitSelected(int index) {
     setState(() {
       _courseUnitIndex = index;
@@ -145,13 +153,7 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
             Padding(
               padding: const EdgeInsets.only(top: 40, bottom: 8),
               child: GestureDetector (
-                onTap: () {
-                  setState(() {
-                    if (_hideSensitiveInformation) {
-                      _blurSensitiveInfo = !_blurSensitiveInfo;
-                    }
-                  });
-                },
+                onTap: _toggleBlur,
                 child: ImageFiltered (
                   imageFilter: ImageFilter.blur(sigmaX: _blurSensitiveInfo ? 6 : 0, sigmaY: _blurSensitiveInfo ? 6 : 0),
                   child: AverageBar(
