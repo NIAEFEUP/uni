@@ -9,6 +9,7 @@ import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
 import 'package:uni/model/providers/riverpod/lecture_provider.dart';
 import 'package:uni/model/providers/riverpod/library_occupation_provider.dart';
+import 'package:uni/model/providers/riverpod/news_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/restaurant_provider.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
@@ -53,6 +54,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
     FavoriteWidgetType.exams: examProvider,
     FavoriteWidgetType.library: libraryProvider,
     FavoriteWidgetType.restaurants: restaurantProvider,
+    FavoriteWidgetType.news: newsProvider,
   };
 
   @override
