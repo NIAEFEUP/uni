@@ -61,12 +61,19 @@ class HomePageViewState extends ConsumerState<HomePageView> {
   }
 
   Future<void> refreshPage(BuildContext context) async {
+    final futures = <Future<void>>[];
     for (final card in favoriteCards) {
-      if (typeToProvider[card] != null) {
-        await ref.read(typeToProvider[card]!.notifier).refreshRemote();
+      final provider = typeToProvider[card];
+      if (provider != null) {
+        futures.add(ref.read(provider.notifier).refreshRemote());
       }
     }
-    setState(() {});
+    try {
+      await Future.wait(futures);
+    } catch (_) {}
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<void> checkBannerViewed() async {
