@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
@@ -105,6 +108,7 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
       builder: (context, ref, profile) {
         final courses = profile.courses;
         final course = courses[_courseUnitIndex];
+        final hideSensitiveInfo = PreferencesController.getHideSensitiveInfoToggle();
 
         return ListView(
           padding: const EdgeInsets.only(
@@ -139,12 +143,15 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 40, bottom: 8),
-              child: AverageBar(
-                average: course.currentAverage ?? 0,
-                completedCredits: course.finishedEcts ?? 0,
-                totalCredits: _getTotalCredits(profile, course),
-                statusText: course.state ?? '',
-                averageText: S.of(context).average,
+              child: ImageFiltered (
+                imageFilter: ImageFilter.blur(sigmaX: hideSensitiveInfo ? 8 : 0, sigmaY: hideSensitiveInfo ? 8 : 0),
+                child: AverageBar(
+                  average: course.currentAverage ?? 0,
+                  completedCredits: course.finishedEcts ?? 0,
+                  totalCredits: _getTotalCredits(profile, course),
+                  statusText: course.state ?? '',
+                  averageText: S.of(context).average,
+                ),
               ),
             ),
             CourseUnitsView(course: course),
