@@ -79,7 +79,7 @@ class RestaurantCardHeader extends StatelessWidget {
           Expanded(
             flex: 4,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Text(
                 name,
                 style: Theme.of(context).textTheme.headlineSmall,
