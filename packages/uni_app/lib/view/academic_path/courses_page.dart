@@ -23,14 +23,11 @@ class CoursesPage extends ConsumerStatefulWidget {
 
 class CoursesPageState extends ConsumerState<CoursesPage> {
   var _courseUnitIndex = 0;
-  final _hideSensitiveInformation = PreferencesController.getHideSensitiveInfoToggle();
   var _blurSensitiveInfo = PreferencesController.getHideSensitiveInfoToggle();
 
   void _toggleBlur() {
     setState(() {
-      if (_hideSensitiveInformation) {
-        _blurSensitiveInfo = !_blurSensitiveInfo;
-      }
+      _blurSensitiveInfo = !_blurSensitiveInfo;
     });
   }
 
