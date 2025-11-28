@@ -149,10 +149,13 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 40, bottom: 8),
-              child: GestureDetector (
+              child: GestureDetector(
                 onTap: _toggleBlur,
-                child: ImageFiltered (
-                  imageFilter: ImageFilter.blur(sigmaX: _blurSensitiveInfo ? 6 : 0, sigmaY: _blurSensitiveInfo ? 6 : 0),
+                child: ImageFiltered(
+                  imageFilter: ImageFilter.blur(
+                    sigmaX: _blurSensitiveInfo ? 6 : 0,
+                    sigmaY: _blurSensitiveInfo ? 6 : 0,
+                  ),
                   child: AverageBar(
                     average: course.currentAverage ?? 0,
                     completedCredits: course.finishedEcts ?? 0,

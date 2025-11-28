@@ -297,7 +297,6 @@ class PreferencesController {
     _statsToggleStreamController.add(value);
   }
 
-
   static bool getUsageStatsToggle() {
     return prefs.getBool(_usageStatsToggleKey) ?? true;
   }

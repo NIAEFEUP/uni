@@ -9,7 +9,8 @@ class HideSensitiveInfoSwitch extends StatefulWidget {
 }
 
 class _HideSensitiveInfoSwitchState extends State<HideSensitiveInfoSwitch> {
-  bool hideSensitiveInfoToggle = PreferencesController.getHideSensitiveInfoToggle();
+  bool hideSensitiveInfoToggle =
+      PreferencesController.getHideSensitiveInfoToggle();
 
   Future<void> saveHideSensitiveInfoToggle({required bool value}) async {
     await PreferencesController.setHideSensitiveInfoToggle(value: value);
