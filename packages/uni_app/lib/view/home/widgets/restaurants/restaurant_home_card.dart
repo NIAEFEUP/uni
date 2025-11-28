@@ -79,16 +79,18 @@ class RestaurantSliderState extends ConsumerState<RestaurantSlider> {
                     _currentIndex = value;
                   }),
             ),
-            const SizedBox(height: 5),
-            AnimatedSmoothIndicator(
-              activeIndex: _currentIndex,
-              count: dailyRestaurants.length,
-              effect: WormEffect(
-                dotHeight: 4,
-                dotWidth: 4,
-                activeDotColor: Theme.of(context).colorScheme.primary,
+            if (dailyRestaurants.length > 1) ...[
+              const SizedBox(height: 5),
+              AnimatedSmoothIndicator(
+                activeIndex: _currentIndex,
+                count: dailyRestaurants.length,
+                effect: WormEffect(
+                  dotHeight: 4,
+                  dotWidth: 4,
+                  activeDotColor: Theme.of(context).colorScheme.primary,
+                ),
               ),
-            ),
+            ],
             const SizedBox(height: 5),
           ],
         );
