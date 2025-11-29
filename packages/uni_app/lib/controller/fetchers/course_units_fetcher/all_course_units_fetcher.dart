@@ -34,7 +34,7 @@ class AllCourseUnitsFetcher {
     List<CourseUnit>? currentCourseUnits,
   }) async {
     final academicPathUrl =
-        '${NetworkRouter.getBaseUrl(course.faculty!)}'
+        '${NetworkRouter.getBaseUrl(course.faculty!, languageSensitive: true)}'
         'fest_geral.curso_percurso_academico_view';
     final curricularUnitsUrl =
         '${NetworkRouter.getBaseUrl(course.faculty!)}'

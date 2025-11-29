@@ -37,6 +37,8 @@ class ScheduleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GenericCard(
+      shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
+      blurRadius: 2,
       gradient:
           isActive
               ? RadialGradient(
