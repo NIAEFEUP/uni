@@ -23,6 +23,7 @@ import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/view/login/widgets/remember_me_checkbox.dart';
 import 'package:uni/view/login/widgets/terms_and_conditions_button.dart';
 import 'package:uni/view/widgets/toast_message.dart';
+import 'package:uni/view/bug_report/bug_report.dart';
 import 'package:uni_ui/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -354,8 +355,7 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
                             textStart: S.of(context).spotted_an_error,
                             textEnd: S.of(context).report_bug,
                             recognizer:
-                                TapGestureRecognizer()
-                                  ..onTap = () {},
+                                TapGestureRecognizer()..onTap = _reportABug,
                           ),
                         ),
                       ),
@@ -473,6 +473,15 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
           ],
         );
       },
+    );
+  }
+
+  Future<void> _reportABug() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute<BugReportPageView>(
+        builder: (context) => const BugReportPageView(),
+      ),
     );
   }
 
