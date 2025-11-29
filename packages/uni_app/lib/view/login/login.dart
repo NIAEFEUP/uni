@@ -16,7 +16,6 @@ import 'package:uni/session/flows/credentials/initiator.dart';
 import 'package:uni/session/flows/federated/initiator.dart';
 import 'package:uni/utils/constants.dart';
 import 'package:uni/utils/navigation_items.dart';
-import 'package:uni/view/bug_report/bug_report.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
 import 'package:uni/view/login/widgets/create_link.dart';
 import 'package:uni/view/login/widgets/f_login_button.dart';
