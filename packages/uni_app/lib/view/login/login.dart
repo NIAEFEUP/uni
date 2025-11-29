@@ -477,12 +477,7 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
   }
 
   Future<void> _reportABug() async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute<BugReportPageView>(
-        builder: (context) => const BugReportPageView(),
-      ),
-    );
+    await Navigator.pushNamed(context, '/${NavigationItem.navBugreport.route}');
   }
 
   void _updatePasswordDialog() {
