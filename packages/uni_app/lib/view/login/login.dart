@@ -346,6 +346,19 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
                           ),
                         ),
                       ),
+                      Align(
+                        alignment: const Alignment(0, 0.65),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 35),
+                          child: LinkWidget(
+                            textStart: S.of(context).spotted_an_error,
+                            textEnd: S.of(context).report_bug,
+                            recognizer:
+                                TapGestureRecognizer()
+                                  ..onTap = () {},
+                          ),
+                        ),
+                      ),
                       const Align(
                         alignment: Alignment(0, 0.88),
                         child: TermsAndConditionsButton(),
