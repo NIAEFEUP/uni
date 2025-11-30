@@ -86,8 +86,10 @@ class MapPageStateView extends ConsumerState<MapPage> {
                 cameraConstraint: CameraConstraint.containCenter(
                   bounds: bounds,
                 ),
-                onTap: (tapPosition, latlng) =>
-                    _popupLayerController.hideAllPopups(),
+                  onTap: (tapPosition, latlng) {
+                    _popupLayerController.hideAllPopups();
+                    FocusScope.of(context).unfocus();
+                  },
                 interactionOptions: const InteractionOptions(
                   flags: InteractiveFlag.all - InteractiveFlag.rotate,
                 ),
