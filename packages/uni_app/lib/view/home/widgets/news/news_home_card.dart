@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/riverpod/news_provider.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
+import 'package:uni/view/widgets/icon_label.dart';
 import 'package:uni_ui/cards/news_card.dart';
+import 'package:uni_ui/icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NewsHomeCard extends GenericHomecard {
@@ -25,7 +27,16 @@ class NewsHomeCard extends GenericHomecard {
         return newsAsync.when(
           data: (newsList) {
             if (newsList == null || newsList.isEmpty) {
-              return const SizedBox.shrink();
+              return Center(
+                child: IconLabel(
+                  icon: const UniIcon(size: 45, UniIcons.news),
+                  label: S.of(context).no_news,
+                  labelTextStyle: TextStyle(
+                    fontSize: 14,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              );
             }
             return ExpandablePageView.builder(
               controller: PageController(viewportFraction: 0.9),
