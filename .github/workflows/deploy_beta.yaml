@@ -1,18 +1,12 @@
-
-# CI: Deploy Beta Workflow
 name: "CI: Deploy Beta"
-
 
 on:
   push:
     branches: [develop]
 
-
-# Ensure only one workflow runs per branch at a time
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-
 
 jobs:
   # 1. Validate Version
@@ -27,7 +21,6 @@ jobs:
       asc_issuer_id: ${{ secrets.ASC_ISSUER_ID }}
       asc_key_content: ${{ secrets.ASC_KEY_CONTENT }}
 
-
   # 2. Bump Version
   bump_version:
     name: "Bump Version"
@@ -39,7 +32,6 @@ jobs:
       run:
         working-directory: ./packages/uni_app
     outputs:
-      new_version: ${{ steps.bump.outputs.NEW_VERSION }}
       commit_sha: ${{ steps.commit.outputs.COMMIT_SHA }}
     steps:
       - name: Checkout repository
@@ -48,9 +40,9 @@ jobs:
           token: ${{ secrets.NIAEFEUPBOT_PAT }}
           fetch-depth: 0
 
-      - name: Run Bump Version Script (simulated)
-        id: bump
+      - name: Run Bump Version Script
         run: |
+          # Script path must now be relative to packages/uni_app
           chmod +x ../../.github/scripts/bump_version.sh
           ../../.github/scripts/bump_version.sh develop
 
@@ -59,29 +51,40 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          NEW_VERSION=${{ steps.bump.outputs.NEW_VERSION }}
-
+          
           git add app_version.txt pubspec.yaml
-          git commit -m "chore(ci): Bump build to $NEW_VERSION [skip ci]"
+          
+          if ! git diff --staged --quiet; then
+            NEW_VERSION=$(cat app_version.txt)
+            git commit -m "chore(ci): Bump build to $NEW_VERSION [skip ci]"
+            git push origin HEAD:develop
+            echo "COMMIT_SHA=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+          else
+            echo "No version change detected."
+            echo "COMMIT_SHA=${{ github.sha }}" >> $GITHUB_OUTPUT
+          fi
 
-          REMOTE_URL="https://x-access-token:${{ secrets.NIAEFEUPBOT_PAT }}@github.com/${{ github.repository }}.git"
-
-          git push $REMOTE_URL HEAD:develop
-
-          echo "COMMIT_SHA=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-
-  # 3. Deploy Android Beta
-  android_beta:
-    name: "Deploy Android (Beta)"
+  # 3. Deploy Matrix (Android & iOS)
+  deploy_beta:
+    name: "Deploy ${{ matrix.platform }} (Beta)"
     needs: bump_version
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     defaults:
       run:
         working-directory: ./packages/uni_app
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: android
+            os: ubuntu-latest
+            lane: deploy_beta
+          - platform: ios
+            os: macos-latest
+            lane: deploy_testflight
+
     steps:
-      - name: Checkout repository at bumped commit
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: ${{ needs.bump_version.outputs.commit_sha }}
@@ -108,55 +111,24 @@ jobs:
       - name: Create .env file
         run: echo "${{ vars.UNI_ENV_FILE }}" > ./assets/env/.env
 
-      - name: Deploy to Android Beta (simulated Fastlane)
+      - name: Setup Android Keystore
+        if: matrix.platform == 'android'
+        run: |
+          echo "${{ secrets.UPLOAD_KEYSTORE_BASE64 }}" | base64 --decode > /tmp/upload-keystore.jks
+
+      - name: Run Fastlane
         env:
+          # Android Secrets
           ANDROID_JSON_KEY_FILE: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-          ANDROID_KEYSTORE_FILE: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_FILE_PATH: /tmp/upload-keystore.jks
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.UPLOAD_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: upload
           ANDROID_KEY_PASSWORD: ${{ secrets.UPLOAD_KEY_PASSWORD }}
-        run: |
-          echo "$ANDROID_KEYSTORE_FILE" | base64 --decode > /tmp/upload-keystore.jks
-          export ANDROID_KEYSTORE_FILE_PATH=/tmp/upload-keystore.jks
-          bundle exec fastlane android deploy_beta
-
-
-  # 4. Deploy iOS TestFlight
-  ios_beta:
-    name: "Deploy iOS (TestFlight)"
-    needs: bump_version
-    runs-on: macos-latest
-    defaults:
-      run:
-        working-directory: ./packages/uni_app
-    steps:
-      - name: Checkout repository at bumped commit
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ needs.bump_version.outputs.commit_sha }}
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.2'
-          bundler-cache: true
-          working-directory: ./packages/uni_app
-
-      - name: Create .env file
-        run: echo "${{ vars.UNI_ENV_FILE }}" > ./assets/env/.env
-
-      - name: Deploy to iOS TestFlight (simulated Fastlane)
-        env:
+          # iOS Secrets
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
         run: |
-          bundle exec fastlane ios deploy_testflight
+          bundle exec fastlane ${{ matrix.platform }} ${{ matrix.lane }}
