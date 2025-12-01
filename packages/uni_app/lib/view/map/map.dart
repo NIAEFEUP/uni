@@ -86,10 +86,10 @@ class MapPageStateView extends ConsumerState<MapPage> {
                 cameraConstraint: CameraConstraint.containCenter(
                   bounds: bounds,
                 ),
-                  onTap: (tapPosition, latlng) {
-                    _popupLayerController.hideAllPopups();
-                    FocusScope.of(context).unfocus();
-                  },
+                onTap: (tapPosition, latlng) {
+                  _popupLayerController.hideAllPopups();
+                  FocusScope.of(context).unfocus();
+                },
                 interactionOptions: const InteractionOptions(
                   flags: InteractiveFlag.all - InteractiveFlag.rotate,
                 ),
@@ -97,10 +97,10 @@ class MapPageStateView extends ConsumerState<MapPage> {
               children: <Widget>[
                 TileLayer(
                   urlTemplate:
-                      'https://basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
+                  'https://basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
                   tileProvider: NetworkTileProvider(
                     cachingProvider:
-                        BuiltInMapCachingProvider.getOrCreateInstance(),
+                    BuiltInMapCachingProvider.getOrCreateInstance(),
                   ),
                   retinaMode: RetinaMode.isHighDensity(context),
                   maxNativeZoom: 20,
@@ -119,31 +119,8 @@ class MapPageStateView extends ConsumerState<MapPage> {
                         if (marker is LocationMarker) {
                           return marker.locationGroup.isFloorless
                               ? FloorlessLocationMarkerPopup(
-                                  marker.locationGroup,
-                                )
-                              : LocationMarkerPopup(marker.locationGroup);
-                        }
-                        return const Card(child: Text(''));
-                      },
-                    ),
-                  ),
-                ),
-                PopupMarkerLayer(
-                  options: PopupMarkerLayerOptions(
-                    markers: filteredLocations.map((location) {
-                      return LocationMarker(location.latlng, location);
-                    }).toList(),
-                    popupController: _popupLayerController,
-                    popupDisplayOptions: PopupDisplayOptions(
-                      animation: const PopupAnimation.fade(
-                        duration: Duration(milliseconds: 400),
-                      ),
-                      builder: (_, marker) {
-                        if (marker is LocationMarker) {
-                          return marker.locationGroup.isFloorless
-                              ? FloorlessLocationMarkerPopup(
-                                  marker.locationGroup,
-                                )
+                            marker.locationGroup,
+                          )
                               : LocationMarkerPopup(marker.locationGroup);
                         }
                         return const Card(child: Text(''));
@@ -194,8 +171,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                             fontSize: 9,
                             fontWeight: FontWeight.w400,
                             color: Color(0xFF7F7F7F),
-                          )
-                          
+                          ),
                         ),
                       ),
                     ),
