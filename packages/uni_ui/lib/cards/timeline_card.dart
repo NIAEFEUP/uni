@@ -7,6 +7,7 @@ class TimelineItem extends StatelessWidget {
     required this.card,
     this.isActive = false,
     this.titleWidth = 50,
+    this.lineHeight = 75,
     super.key,
   });
 
@@ -15,6 +16,7 @@ class TimelineItem extends StatelessWidget {
   final Widget card;
   final bool isActive;
   final double titleWidth;
+  final double lineHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,7 @@ class TimelineItem extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.only(bottom: 5, left: 10, right: 10),
-              height: isActive ? 75 : 55,
+              height: lineHeight,
               width: 3,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
