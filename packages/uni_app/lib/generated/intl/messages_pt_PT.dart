@@ -456,7 +456,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "school_calendar": MessageLookupByLibrary.simpleMessage(
       "Calendário Escolar",
     ),
-    "search": MessageLookupByLibrary.simpleMessage("Pesquisar"),
+    "search_here": MessageLookupByLibrary.simpleMessage("Pesquisar aqui"),
     "see_more": MessageLookupByLibrary.simpleMessage("Ver mais"),
     "select_all": MessageLookupByLibrary.simpleMessage("Selecionar Todos"),
     "semester": MessageLookupByLibrary.simpleMessage("Semestre"),
