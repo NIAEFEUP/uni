@@ -11,6 +11,7 @@ class CoursesFetcher implements SessionDependantFetcher {
     final urls =
         NetworkRouter.getBaseUrlsFromSession(
           session,
+          languageSensitive: true,
         ).map((url) => '${url}fest_geral.cursos_list?').toList();
     return urls;
   }
