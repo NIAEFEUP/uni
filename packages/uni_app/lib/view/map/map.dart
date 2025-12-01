@@ -156,14 +156,15 @@ class MapPageStateView extends ConsumerState<MapPage> {
                 ),
                 SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                      top: 24,
                     ),
                     child: PhysicalModel(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      elevation: 3,
+                      color: const Color(0xFFFFF5F3),
+                      elevation: 4,
                       child: TextFormField(
                         key: searchFormKey,
                         onChanged: (text) {
@@ -181,7 +182,8 @@ class MapPageStateView extends ConsumerState<MapPage> {
                             child: SvgPicture.asset(
                               'assets/images/logo_dark.svg',
                               semanticsLabel: 'search',
-                              width: 10,
+                              width: 44,
+                              height: 25,
                             ),
                           ),
                           border: OutlineInputBorder(
@@ -189,7 +191,14 @@ class MapPageStateView extends ConsumerState<MapPage> {
                             borderSide: BorderSide.none,
                           ),
                           contentPadding: const EdgeInsets.all(10),
-                          hintText: '${S.of(context).search}...',
+                          hintText: S.of(context).search_here,
+                          hintStyle: const TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 9,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFF7F7F7F),
+                          )
+                          
                         ),
                       ),
                     ),

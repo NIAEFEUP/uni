@@ -403,7 +403,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "save": MessageLookupByLibrary.simpleMessage("Save"),
     "schedule": MessageLookupByLibrary.simpleMessage("Schedule"),
     "school_calendar": MessageLookupByLibrary.simpleMessage("School Calendar"),
-    "search": MessageLookupByLibrary.simpleMessage("Search"),
+    "search_here": MessageLookupByLibrary.simpleMessage("Search here"),
     "see_more": MessageLookupByLibrary.simpleMessage("See more"),
     "select_all": MessageLookupByLibrary.simpleMessage("Select All"),
     "semester": MessageLookupByLibrary.simpleMessage("Semester"),

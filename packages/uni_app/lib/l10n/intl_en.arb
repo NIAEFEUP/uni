@@ -350,7 +350,7 @@
   "@year": {},
   "see_more": "See more",
   "@see_more": {},
-  "search": "Search",
+  "search_here": "Search here",
   "@search": {},
   "confirm_logout": "Do you really want to log out? Your local data will be deleted and you will have to log in again.",
   "@confirm_logout": {},

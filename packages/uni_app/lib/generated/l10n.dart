@@ -1483,9 +1483,9 @@ class S {
     return Intl.message('See more', name: 'see_more', desc: '', args: []);
   }
 
-  /// `Search`
-  String get search {
-    return Intl.message('Search', name: 'search', desc: '', args: []);
+  /// `Search_here`
+  String get search_here {
+    return Intl.message('Search here', name: 'search_here', desc: '', args: []);
   }
 
   /// `Do you really want to log out? Your local data will be deleted and you will have to log in again.`
