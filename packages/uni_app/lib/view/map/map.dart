@@ -130,30 +130,6 @@ class MapPageStateView extends ConsumerState<MapPage> {
                     ),
                   ),
                 ),
-                PopupMarkerLayer(
-                  options: PopupMarkerLayerOptions(
-                    markers:
-                        filteredLocations.map((location) {
-                          return LocationMarker(location.latlng, location);
-                        }).toList(),
-                    popupController: _popupLayerController,
-                    popupDisplayOptions: PopupDisplayOptions(
-                      animation: const PopupAnimation.fade(
-                        duration: Duration(milliseconds: 400),
-                      ),
-                      builder: (_, marker) {
-                        if (marker is LocationMarker) {
-                          return marker.locationGroup.isFloorless
-                              ? FloorlessLocationMarkerPopup(
-                                marker.locationGroup,
-                              )
-                              : LocationMarkerPopup(marker.locationGroup);
-                        }
-                        return const Card(child: Text(''));
-                      },
-                    ),
-                  ),
-                ),
                 SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.only(
