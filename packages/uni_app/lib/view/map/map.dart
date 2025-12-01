@@ -82,7 +82,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                 minZoom: 16,
                 maxZoom: 19,
                 initialCenter: bounds.center,
-                initialCameraFit: CameraFit.insideBounds(bounds: bounds),
+                initialZoom: 17,
                 cameraConstraint: CameraConstraint.containCenter(
                   bounds: bounds,
                 ),
