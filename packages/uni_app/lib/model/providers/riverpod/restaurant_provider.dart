@@ -27,10 +27,24 @@ class RestaurantNotifier extends CachedAsyncNotifier<List<Restaurant>?> {
       return null;
     }
 
-    final restaurants = await RestaurantFetcher().getRestaurants(session);
+    try {
+      //try to fetch from the internet
+      final restaurants = await RestaurantFetcher().getRestaurants(session);
 
-    Database().saveRestaurants(restaurants);
+      //if success save to database
+      Database().saveRestaurants(restaurants);
 
-    return restaurants;
+      return restaurants;
+    } catch (e) {
+      //if failure check if we have cached restaurants in the database
+      final cachedRestaurants = Database().restaurants;
+
+      if (cachedRestaurants.isNotEmpty) {
+        return cachedRestaurants;
+      }
+
+      //if no cache, show error
+      rethrow;
+    }
   }
 }

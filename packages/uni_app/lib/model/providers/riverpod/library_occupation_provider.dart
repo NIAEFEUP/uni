@@ -25,10 +25,28 @@ final class LibraryOccupationNotifier
 
   @override
   Future<LibraryOccupation> loadFromRemote() async {
-    final occupation = await LibraryOccupationFetcher().getLibraryOccupation();
+    try {
+      //try to fetch from internet
+      final occupation =
+          await LibraryOccupationFetcher().getLibraryOccupation();
 
-    Database().saveLibraryOccupations(occupation.floors);
+      //if success save to database
+      Database().saveLibraryOccupations(occupation.floors);
 
-    return occupation;
+      return occupation;
+    } catch (e) {
+      //if failure check if we have cached floors in the DB
+      final cachedFloors = Database().libraryOccupations;
+
+      if (cachedFloors.isNotEmpty) {
+        //reconstruct the object from the cache
+        final occupation = LibraryOccupation(0, 0);
+        cachedFloors.forEach(occupation.addFloor);
+        return occupation;
+      }
+
+      //if no cache, show error
+      rethrow;
+    }
   }
 }
