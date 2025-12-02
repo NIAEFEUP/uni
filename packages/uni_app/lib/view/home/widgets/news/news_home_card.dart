@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,8 +47,21 @@ class NewsHomeCard extends GenericHomecard {
                 return NewsCard(
                   title: news.title,
                   description: news.description,
-                  image: news.image,
-                  openLink: () => launchUrl(Uri.parse(news.link)),
+                  image:
+                      news.image.isNotEmpty
+                          ? CachedNetworkImage(
+                            imageUrl: news.image,
+                            fit: BoxFit.cover,
+                            errorWidget:
+                                (_, _, _) => const SizedBox(height: 90),
+                          )
+                          : null,
+                  openLink: () {
+                    final uri = Uri.tryParse(news.link);
+                    if (uri != null) {
+                      launchUrl(uri);
+                    }
+                  },
                 );
               },
             );

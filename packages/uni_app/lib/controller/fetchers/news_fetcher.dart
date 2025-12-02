@@ -5,9 +5,9 @@ import 'package:uni/model/entities/news.dart';
 
 Future<List<News>?> fetchNews() async {
   try {
-    final response = await http.get(
-      Uri.parse('https://noticias.up.pt/wp-json/wp/v2/posts'),
-    );
+    final response = await http
+        .get(Uri.parse('https://noticias.up.pt/wp-json/wp/v2/posts'))
+        .timeout(const Duration(seconds: 6));
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
