@@ -6,13 +6,13 @@ class NewsCard extends StatelessWidget {
     super.key,
     required this.title,
     required this.description,
-    required this.image,
+    this.image,
     required this.openLink,
   });
 
   final String title;
   final String description;
-  final String image;
+  final Widget? image;
   final void Function()? openLink;
 
   @override
@@ -29,7 +29,7 @@ class NewsCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.network(image, height: 90, fit: BoxFit.cover),
+            if (image != null) SizedBox(height: 90, child: image),
             Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: 12.0,
