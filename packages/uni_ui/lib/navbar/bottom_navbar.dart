@@ -15,13 +15,13 @@ class _BottomNavbarContainer extends StatelessWidget {
       decoration: ShapeDecoration(
         color: Theme.of(context).colorScheme.primary,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        shadows: [
+        /*shadows: [
           BoxShadow(
             color: Theme.of(context).colorScheme.shadow.withAlpha(0x7f),
             blurRadius: 5,
             offset: Offset(0, 3),
           ),
-        ],
+        ],  This currently makes the keyboard on the map page super buggy and slow*/
       ),
       child: GenericSquircle(
         child: Container(
