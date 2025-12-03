@@ -18,10 +18,19 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
     return DateTime.now().difference(_lastUpdateTime!) < cacheDuration!;
   }
 
-  //fix: we now accept empty lists/maps as valid data
-  //we rely on _isCacheValid (time checking) to decide when to refresh
+  // FIXME: this is probably not the best way to do this, but in case of an empty list,
+  // we cannot differentiate between a list that is indeed empty and a list that is not loaded yet
   bool _invalidLocalData(dynamic value) {
-    return value == null;
+    if (value == null) {
+      return true;
+    }
+    if (value is List) {
+      return value.isEmpty;
+    }
+    if (value is Map) {
+      return value.isEmpty;
+    }
+    return false;
   }
 
   void _updateState(T? newState, {bool updateTimestamp = true}) {
@@ -86,10 +95,25 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
         Logger().d('$runtimeType cache is invalid');
       }
       Logger().d('Loading $runtimeType from remote...');
-      final remoteData = await _safeExecute(loadFromRemote);
-      if (remoteData != null) {
-        Logger().d('✅ Loaded $runtimeType from remote!');
-        return remoteData;
+      try {
+        final remoteData = await loadFromRemote();
+        if (remoteData != null) {
+          _updateState(remoteData);
+          Logger().d('✅ Loaded $runtimeType from remote!');
+          return remoteData;
+        }
+      } catch (e, st) {
+        Logger().e(
+          'Failed to load $runtimeType from remote: $e',
+          error: e,
+          stackTrace: st,
+        );
+        if (localData != null && !_invalidLocalData(localData)) {
+          Logger().w('Falling back to local data for $runtimeType');
+          return localData;
+        }
+        _updateError(e, st);
+        rethrow;
       }
     }
 
@@ -98,11 +122,21 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
 
   Future<T?> refreshRemote() async {
     Logger().d('Refreshing $runtimeType from remote...');
-    final result = await _safeExecute(loadFromRemote);
-    if (result != null) {
-      Logger().d('✅ Refreshed $runtimeType from remote!');
+    try {
+      final result = await loadFromRemote();
+      if (result != null) {
+        _updateState(result);
+        Logger().d('✅ Refreshed $runtimeType from remote!');
+      }
+      return result;
+    } catch (e, st) {
+      Logger().e(
+        'Failed to refresh $runtimeType: $e',
+        error: e,
+        stackTrace: st,
+      );
+      return state.value;
     }
-    return result;
   }
 
   void updateState(T newState) {

@@ -49,28 +49,13 @@ class ExamNotifier extends CachedAsyncNotifier<List<Exam>> {
     Session session,
     List<CourseUnit> userUcs,
   ) async {
-    try {
-      //try to fetch exams normally
-      final exams = await ExamFetcher(
-        profile.courses,
-        userUcs,
-      ).extractExams(session, parser);
+    final exams = await ExamFetcher(
+      profile.courses,
+      userUcs,
+    ).extractExams(session, parser);
 
-      //if successful return them (overwriting local cache)
-      exams.sort((exam1, exam2) => exam1.start.compareTo(exam2.start));
-      Database().saveExams(exams);
-      return exams;
-    } catch (e) {
-      //if no internet connection or other error occurs return cached exams, checking if there are any
-      final cachedExams = Database().exams;
-
-      if (cachedExams.isNotEmpty) {
-        //return cached exams so the error disappears
-        return cachedExams;
-      } else {
-        //show the error if there is no cache and there's no internet connection
-        rethrow;
-      }
-    }
+    exams.sort((exam1, exam2) => exam1.start.compareTo(exam2.start));
+    Database().saveExams(exams);
+    return exams;
   }
 }
