@@ -21,6 +21,7 @@ import 'model/entities/exam.dart';
 import 'model/entities/floor_occupation.dart';
 import 'model/entities/lecture.dart';
 import 'model/entities/meal.dart';
+import 'model/entities/news.dart';
 import 'model/entities/profile.dart';
 import 'model/entities/reference.dart';
 import 'model/entities/restaurant.dart';
@@ -454,6 +455,7 @@ final _entities = <obx_int.ModelEntity>[
         type: 11,
         flags: 520,
         indexId: const obx_int.IdUid(1, 860778994234728762),
+        relationField: 'restaurant',
         relationTarget: 'Restaurant',
       ),
       obx_int.ModelProperty(
@@ -640,6 +642,46 @@ final _entities = <obx_int.ModelEntity>[
       ),
     ],
   ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(11, 6737946482330485890),
+    name: 'News',
+    lastPropertyId: const obx_int.IdUid(5, 3080427417569816128),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 6901086034113728774),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 5841942946880606349),
+        name: 'title',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 7308991078768361909),
+        name: 'description',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 9015797628589992550),
+        name: 'image',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 3080427417569816128),
+        name: 'link',
+        type: 9,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -680,7 +722,7 @@ Future<obx.Store> openStore({
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(10, 3321826961057235514),
+    lastEntityId: const obx_int.IdUid(11, 6737946482330485890),
     lastIndexId: const obx_int.IdUid(1, 860778994234728762),
     lastRelationId: const obx_int.IdUid(0, 0),
     lastSequenceId: const obx_int.IdUid(0, 0),
@@ -1499,6 +1541,60 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
+    News: obx_int.EntityDefinition<News>(
+      model: _entities[10],
+      toOneRelations: (News object) => [],
+      toManyRelations: (News object) => {},
+      getId: (News object) => object.id,
+      setId: (News object, int id) {
+        object.id = id;
+      },
+      objectToFB: (News object, fb.Builder fbb) {
+        final titleOffset = fbb.writeString(object.title);
+        final descriptionOffset = fbb.writeString(object.description);
+        final imageOffset = fbb.writeString(object.image);
+        final linkOffset = fbb.writeString(object.link);
+        fbb.startTable(6);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, titleOffset);
+        fbb.addOffset(2, descriptionOffset);
+        fbb.addOffset(3, imageOffset);
+        fbb.addOffset(4, linkOffset);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final titleParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final descriptionParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 8, '');
+        final imageParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 10, '');
+        final linkParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 12, '');
+        final object = News(
+          id: idParam,
+          title: titleParam,
+          description: descriptionParam,
+          image: imageParam,
+          link: linkParam,
+        );
+
+        return object;
+      },
+    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
@@ -1944,5 +2040,31 @@ class Restaurant_ {
   /// see [Restaurant.meals]
   static final meals = obx.QueryBacklinkToMany<Meal, Restaurant>(
     Meal_.restaurant,
+  );
+}
+
+/// [News] entity fields to define ObjectBox queries.
+class News_ {
+  /// See [News.id].
+  static final id = obx.QueryIntegerProperty<News>(_entities[10].properties[0]);
+
+  /// See [News.title].
+  static final title = obx.QueryStringProperty<News>(
+    _entities[10].properties[1],
+  );
+
+  /// See [News.description].
+  static final description = obx.QueryStringProperty<News>(
+    _entities[10].properties[2],
+  );
+
+  /// See [News.image].
+  static final image = obx.QueryStringProperty<News>(
+    _entities[10].properties[3],
+  );
+
+  /// See [News.link].
+  static final link = obx.QueryStringProperty<News>(
+    _entities[10].properties[4],
   );
 }
