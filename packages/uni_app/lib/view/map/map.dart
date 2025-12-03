@@ -85,6 +85,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                 initialCameraFit: CameraFit.insideBounds(bounds: bounds),
                 cameraConstraint: CameraConstraint.containCenter(
                   bounds: bounds,
+                  //A
                 ),
                 onTap:
                     (tapPosition, latlng) =>
