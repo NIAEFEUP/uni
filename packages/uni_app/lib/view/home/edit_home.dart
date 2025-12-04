@@ -165,7 +165,7 @@ class EditHomeViewState extends State<EditHomeView> {
                     .toList();
 
             return Container(
-              padding: const EdgeInsets.symmetric(vertical: 35),
+              padding: const EdgeInsets.symmetric(vertical: 35, horizontal: 20),
               height: 350,
               decoration: const BoxDecoration(
                 gradient: RadialGradient(

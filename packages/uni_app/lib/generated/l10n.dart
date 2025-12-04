@@ -863,6 +863,16 @@ class S {
     );
   }
 
+  /// `No news to display`
+  String get no_news {
+    return Intl.message(
+      'No news to display',
+      name: 'no_news',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `You don't have classes on`
   String get no_classes_on {
     return Intl.message(
