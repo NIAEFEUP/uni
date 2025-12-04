@@ -515,9 +515,43 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "11:6737946482330485890",
+      "lastPropertyId": "5:3080427417569816128",
+      "name": "News",
+      "properties": [
+        {
+          "id": "1:6901086034113728774",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5841942946880606349",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:7308991078768361909",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "4:9015797628589992550",
+          "name": "image",
+          "type": 9
+        },
+        {
+          "id": "5:3080427417569816128",
+          "name": "link",
+          "type": 9
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "10:3321826961057235514",
+  "lastEntityId": "11:6737946482330485890",
   "lastIndexId": "1:860778994234728762",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

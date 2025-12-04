@@ -18,6 +18,8 @@ import 'package:uni_ui/icons.dart';
       return (S.of(context).restaurants, const UniIcon(UniIcons.restaurant));
     case FavoriteWidgetType.calendar:
       return (S.of(context).calendar, const UniIcon(UniIcons.calendar));
+    case FavoriteWidgetType.news:
+      return (S.of(context).news, const UniIcon(UniIcons.news));
     // case 'ucs':
     //   title = 'UCS';
     //   icon = const UniIcon(UniIcons.graduationCap);
