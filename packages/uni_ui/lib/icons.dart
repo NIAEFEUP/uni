@@ -88,6 +88,8 @@ class UniIcons {
 
   static const phone = PhosphorIconsDuotone.phone;
 
+  static const news = PhosphorIconsDuotone.newspaper;
+
   static const courseUnit = PhosphorIconsDuotone.chalkboardTeacher;
 }
 

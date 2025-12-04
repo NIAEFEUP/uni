@@ -204,6 +204,8 @@
   "@no_classes_this_week": {},
   "no_classes": "No classes to present",
   "@no_classes": {},
+  "no_news": "No news to display",
+  "@no_news": {},
   "no_classes_on": "You don't have classes on",
   "@no_classes_on": {},
   "no_classes_on_weekend": "You don't have classes on",
