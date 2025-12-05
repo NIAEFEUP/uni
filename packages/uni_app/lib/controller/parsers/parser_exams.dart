@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
+import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/exam.dart';
 
@@ -36,23 +37,55 @@ class ParserExams {
       examTypes.add(getExamSeasonAbbr(examType.text));
     });
 
-    document.querySelectorAll('div > table > tbody > tr > td').forEach((
-      element,
-    ) {
-      element.querySelectorAll('table:not(.mapa)').forEach((table) {
-        table.querySelectorAll('span.exame-data').forEach((date) {
+    final tdElements = document.querySelectorAll(
+      'div > table > tbody > tr > td',
+    );
+    for (final element in tdElements) {
+      final tables = element.querySelectorAll('table:not(.mapa)');
+      for (final table in tables) {
+        final dateSpans = table.querySelectorAll('span.exame-data');
+        for (final date in dateSpans) {
           dates.add(date.text);
-        });
-        table.querySelectorAll('td.l.k').forEach((exams) {
+        }
+        final examTds = table.querySelectorAll('td.l.k');
+        for (final exams in examTds) {
           if (exams.querySelector('td.exame') != null) {
-            exams.querySelectorAll('td.exame').forEach((examsDay) {
+            final examsDays = exams.querySelectorAll('td.exame');
+            for (final examsDay in examsDays) {
+              String? localOccurrId;
               if (examsDay.querySelector('a') != null) {
                 subjectAcronym = examsDay.querySelector('a')!.text;
                 subject = examsDay.querySelector('a')!.attributes['title'];
-                id =
-                    Uri.parse(
-                      examsDay.querySelector('a')!.attributes['href']!,
-                    ).queryParameters['p_exa_id']!;
+                final href = examsDay.querySelector('a')!.attributes['href']!;
+                id = Uri.parse(href).queryParameters['p_exa_id']!;
+                try {
+                  final detailsUrl =
+                      '${NetworkRouter.getBaseUrl(course.faculty!)}exa_geral.exame_view?p_exa_id=$id';
+                  final detailsResponse = await http.get(Uri.parse(detailsUrl));
+                  final detailsDoc = parse(detailsResponse.body);
+                  final matchingRows = detailsDoc
+                      .querySelectorAll('td.formulario-legenda')
+                      .where((td) => td.text.trim() == 'Código:');
+                  final codigoRow =
+                      matchingRows.isNotEmpty ? matchingRows.first : null;
+                  if (codigoRow != null) {
+                    final codeTd = codigoRow.nextElementSibling;
+                    if (codeTd != null) {
+                      final codeLink = codeTd.querySelector('a');
+                      if (codeLink != null) {
+                        final codeHref = codeLink.attributes['href'];
+                        final occurrMatch = RegExp(
+                          r'pv_ocorrencia_id=(\d+)',
+                        ).firstMatch(codeHref ?? '');
+                        if (occurrMatch != null) {
+                          localOccurrId = occurrMatch.group(1);
+                        }
+                      }
+                    }
+                  }
+                } catch (e) {
+                  localOccurrId = null;
+                }
               }
               if (examsDay.querySelector('span.exame-sala') != null) {
                 rooms =
@@ -84,15 +117,16 @@ class ParserExams {
                 rooms,
                 examTypes[tableNum],
                 course.faculty!,
+                occurrId: localOccurrId,
               );
               examsList.add(exam);
-            });
+            }
           }
           days++;
-        });
-      });
+        }
+      }
       tableNum++;
-    });
+    }
     return examsList;
   }
 }
