@@ -161,10 +161,11 @@ class _RestaurantPageViewState
       child: DefaultConsumer<List<Restaurant>>(
         provider: restaurantProvider,
         builder: _createTabViewBuilder,
-        nullContentWidget: Center(
-          child: Text(
-            S.of(context).no_menus,
-            style: Theme.of(context).textTheme.titleMedium,
+        nullContentWidget: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Center(child: Text(S.of(context).no_menus)),
           ),
         ),
         hasContent: (restaurants) => restaurants.isNotEmpty,
