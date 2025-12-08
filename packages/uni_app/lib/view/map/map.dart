@@ -10,6 +10,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/faculty_locations_provider.dart';
+import 'package:uni/view/map/widgets/floor_selector.dart';
 import 'package:uni/view/map/widgets/floorless_marker_popup.dart';
 import 'package:uni/view/map/widgets/marker.dart';
 import 'package:uni/view/map/widgets/marker_popup.dart';
@@ -29,12 +30,14 @@ class MapPageStateView extends ConsumerState<MapPage> {
   var _searchTerms = '';
   late final PopupController _popupLayerController;
   LatLngBounds? _bounds;
+  int? _selectedFloor;
 
   @override
   void initState() {
     super.initState();
     _searchTerms = '';
     _popupLayerController = PopupController();
+    _selectedFloor = null;
   }
 
   @override
@@ -66,6 +69,16 @@ class MapPageStateView extends ConsumerState<MapPage> {
             });
           });
         }
+
+        if (_selectedFloor != null) {
+          filteredLocations.retainWhere((location) {
+            return location.floors.containsKey(_selectedFloor);
+          });
+        }
+
+        final allFloors =
+            locations.expand((group) => group.floors.keys).toSet().toList()
+              ..sort((a, b) => b.compareTo(a));
 
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: AppSystemOverlayStyles.base.copyWith(
@@ -128,12 +141,28 @@ class MapPageStateView extends ConsumerState<MapPage> {
                     ),
                   ),
                 ),
+                Positioned(
+                  right: 10,
+                  top: 400,
+                  child: SafeArea(
+                    child: FloorSelector(
+                      floors: allFloors,
+                      selectedFloor: _selectedFloor,
+                      onFloorSelected: (floor) {
+                        setState(() {
+                          _selectedFloor = floor;
+                          _popupLayerController.hideAllPopups();
+                        });
+                      },
+                    ),
+                  ),
+                ),
                 SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.only(
                       left: 10,
                       right: 10,
-                      top: 24,
+                      top: 12,
                     ),
                     child: PhysicalModel(
                       borderRadius: BorderRadius.circular(10),
