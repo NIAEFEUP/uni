@@ -6,7 +6,23 @@ final tabControllerProvider = StateNotifierProvider<TabControllerProvider, int>(
 );
 
 class TabControllerProvider extends StateNotifier<int> {
-  TabControllerProvider() : super(DateTime.now().weekday - 1);
+  TabControllerProvider() : super(_getInitialIndex());
+
+  static int _getInitialIndex() {
+    final now = DateTime.now();
+
+    int index = now.weekday - 1;
+
+    if (now.hour >= 21 && now.weekday != DateTime.sunday) {
+      index++;
+    }
+
+    if (index >= DayOfWeek.values.length) {
+      index = 0;
+    }
+
+    return index;
+  }
 
   void setTabIndex(int index) {
     if (index >= 0 && index < DayOfWeek.values.length) {
