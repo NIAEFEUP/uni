@@ -26,6 +26,8 @@ class RestaurantCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GenericCard(
+      shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
+      blurRadius: 2,
       padding: EdgeInsets.zero,
       key: key,
       tooltip: name,
@@ -76,10 +78,13 @@ class RestaurantCardHeader extends StatelessWidget {
           Expanded(flex: 1, child: icon),
           Expanded(
             flex: 4,
-            child: Text(
-              name,
-              style: Theme.of(context).textTheme.headlineSmall,
-              overflow: TextOverflow.clip,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                name,
+                style: Theme.of(context).textTheme.headlineSmall,
+                overflow: TextOverflow.clip,
+              ),
             ),
           ),
           if (showFavoriteButton)
