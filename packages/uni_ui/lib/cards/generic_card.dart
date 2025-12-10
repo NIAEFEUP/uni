@@ -8,6 +8,7 @@ class GenericCard extends StatelessWidget {
     this.padding,
     this.color,
     this.shadowColor,
+    this.borderRadius,
     this.blurRadius,
     this.onClick,
     this.child,
@@ -19,6 +20,7 @@ class GenericCard extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final Color? color;
   final Color? shadowColor;
+  final double? borderRadius;
   final double? blurRadius;
   final VoidCallback? onClick;
   final Widget? child;
@@ -45,12 +47,13 @@ class GenericCard extends StatelessWidget {
             ),
           ],
           shape: RoundedSuperellipseBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(borderRadius ?? 20),
           ),
         ),
         child: GestureDetector(
           onTap: onClick,
           child: GenericSquircle(
+            borderRadius: borderRadius,
             child: Container(
               decoration: BoxDecoration(
                 color:

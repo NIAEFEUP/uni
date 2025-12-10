@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/riverpod/news_provider.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
+import 'package:uni/view/home/widgets/news/news_card_shimmer.dart';
 import 'package:uni/view/widgets/icon_label.dart';
 import 'package:uni_ui/cards/news_card.dart';
 import 'package:uni_ui/icons.dart';
@@ -67,10 +68,7 @@ class NewsHomeCard extends GenericHomecard {
             );
           },
           error: (error, stackTrace) => Center(child: Text('Error: $error')),
-          loading:
-              () => const Center(
-                child: CircularProgressIndicator(),
-              ), // TODO: replace with shimmer
+          loading: () => const Center(child: NewsCardShimmer()),
         );
       },
     );

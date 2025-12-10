@@ -15,6 +15,7 @@ import 'package:uni/view/restaurant/tab_controller_provider.dart';
 import 'package:uni/view/restaurant/widgets/days_of_week_tab_bar.dart';
 import 'package:uni/view/restaurant/widgets/dish_type_checkbox_menu.dart';
 import 'package:uni/view/restaurant/widgets/favorite_restaurants_button.dart';
+import 'package:uni/view/restaurant/widgets/restaurant_page_view_shimmer.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
 import 'package:uni/view/widgets/pages_layouts/general/general.dart';
 import 'package:uni_ui/cards/restaurant_card.dart';
@@ -169,6 +170,7 @@ class _RestaurantPageViewState
           ),
         ),
         hasContent: (restaurants) => restaurants.isNotEmpty,
+        loadingWidget: const ShimmerRestaurantPageView(),
       ),
     );
   }

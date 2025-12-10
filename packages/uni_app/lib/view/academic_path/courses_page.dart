@@ -6,6 +6,7 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/view/academic_path/widgets/course_units_view.dart';
+import 'package:uni/view/academic_path/widgets/courses_page_shimmer.dart';
 import 'package:uni/view/academic_path/widgets/no_courses_widget.dart';
 import 'package:uni_ui/courses/average_bar.dart';
 import 'package:uni_ui/courses/course_info.dart';
@@ -196,6 +197,7 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
               ),
             ),
       ),
+      loadingWidget: const ShimmerCoursesPage(),
       hasContent: (profile) => profile.courses.isNotEmpty,
     );
   }
