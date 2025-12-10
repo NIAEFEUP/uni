@@ -6,6 +6,7 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/view/academic_path/widgets/course_units_view.dart';
+import 'package:uni/view/academic_path/widgets/courses_page_shimmer.dart';
 import 'package:uni/view/academic_path/widgets/no_courses_widget.dart';
 import 'package:uni_ui/courses/average_bar.dart';
 import 'package:uni_ui/courses/course_info.dart';
@@ -19,6 +20,23 @@ class CoursesPage extends ConsumerStatefulWidget {
 }
 
 class CoursesPageState extends ConsumerState<CoursesPage> {
+  Locale? _lastLocale;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final locale = Localizations.localeOf(context);
+    if (_lastLocale != locale) {
+      _lastLocale = locale;
+      Future.microtask(() {
+        final _ = ref.read(profileProvider.notifier).refreshRemote();
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    }
+  }
+
   var _courseUnitIndex = 0;
 
   void _onCourseUnitSelected(int index) {
@@ -59,8 +77,13 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
       return null;
     }
 
-    if (course.state != 'A Frequentar' &&
-        !(course.state?.startsWith('Concluído') ?? false)) {
+    final state = course.state!;
+    final bool isAttending =
+        state.toLowerCase().contains('frequent') ||
+        state.toLowerCase().contains('attend');
+    final bool isConcluded = state.toLowerCase().contains('concl');
+
+    if (!isAttending && !isConcluded) {
       return null;
     }
 
@@ -73,13 +96,22 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
   }
 
   int? _getConclusionYear(Course course) {
-    if (course.state == null || course.state == 'A Frequentar') {
+    if (course.state == null) {
       return null;
     }
 
-    final length = course.state!.length;
-    final year = int.tryParse(course.state!.substring(length - 5, length - 1));
-    return year;
+    final state = course.state!;
+    if (state.toLowerCase().contains('frequent') ||
+        state.toLowerCase().contains('attend')) {
+      return null;
+    }
+
+    final matches = RegExp(r'(19|20)\\d{2}').allMatches(state);
+    if (matches.isEmpty) {
+      return null;
+    }
+    final last = matches.last.group(0);
+    return last != null ? int.tryParse(last) : null;
   }
 
   String _getCourseAbbreviation(Course course) {
@@ -91,6 +123,8 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
       return '???';
     }
 
+    //TODO: This fix(finished courses the abbreviation is null) works when the
+    //app is in portuguese, but not in english. Where instead of LEIC it will be BICE.
     return course.name!
         .replaceAll('Licenciatura', 'Licenciatura.')
         .replaceAll('Mestrado', 'Mestrado.')
@@ -163,6 +197,7 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
               ),
             ),
       ),
+      loadingWidget: const ShimmerCoursesPage(),
       hasContent: (profile) => profile.courses.isNotEmpty,
     );
   }
