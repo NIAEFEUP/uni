@@ -346,6 +346,18 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
                           ),
                         ),
                       ),
+                      Align(
+                        alignment: const Alignment(0, 0.65),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 35),
+                          child: LinkWidget(
+                            textStart: S.of(context).spotted_an_error,
+                            textEnd: S.of(context).report_bug,
+                            recognizer:
+                                TapGestureRecognizer()..onTap = _reportABug,
+                          ),
+                        ),
+                      ),
                       const Align(
                         alignment: Alignment(0, 0.88),
                         child: TermsAndConditionsButton(),
@@ -461,6 +473,10 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
         );
       },
     );
+  }
+
+  Future<void> _reportABug() async {
+    await Navigator.pushNamed(context, '/${NavigationItem.navBugreport.route}');
   }
 
   void _updatePasswordDialog() {
