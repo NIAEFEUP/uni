@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:uni/app_links/uni_app_links.dart';
-import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/session/flows/federated/session.dart';
 import 'package:uni/session/logout/logout_handler.dart';
@@ -29,9 +28,8 @@ class UniLogoutHandler extends LogoutHandler {
   }
 
   @override
-  Future<void>? close(Session session) {
-    Database().clear();
-    NavigationService.logoutAndPopHistory();
+  Future<void>? close(Session session) async {
+    await NavigationService.logoutAndPopHistory();
     return super.close(session);
   }
 }

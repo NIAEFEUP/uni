@@ -132,6 +132,7 @@ class Database {
     _libraryOccupationBox.removeAll();
     _referenceBox.removeAll();
     _restaurantBox.removeAll();
+    _persistentSession = null;
   }
 
   void close() {
