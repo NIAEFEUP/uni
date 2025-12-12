@@ -451,5 +451,9 @@
   "services": "Serviços",
   "@services": {},
   "goi": "Gabinete de Orientação e Integração",
-  "@goi": {}
+  "@goi": {},
+  "no_restaurants_available": "Não existem restaurantes para apresentar",
+  "@no_restaurants_available": {},
+  "no_restaurants_available_sublabel": "Traz a tua marmita de casa.",
+  "@no_restaurants_available_sublabel": {}
 }

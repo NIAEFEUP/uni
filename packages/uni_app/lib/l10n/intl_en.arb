@@ -451,5 +451,9 @@
   "services": "Services",
   "@services": {},
   "goi": "Orientation and Integration Office",
-  "@goi": {}
+  "@goi": {},
+  "no_restaurants_available": "There are no restaurants to display",
+  "@no_restaurants_available": {},
+  "no_restaurants_available_sublabel": "Bring your lunchbox from home.",
+  "@no_restaurants_available_sublabel": {}
 }
