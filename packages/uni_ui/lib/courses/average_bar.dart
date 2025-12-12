@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni_ui/common/generic_squircle.dart';
+import 'package:uni_ui/cards/generic_card.dart';
 
 class AverageBar extends StatelessWidget {
   const AverageBar({
@@ -29,7 +29,8 @@ class AverageBar extends StatelessWidget {
       builder: (context, constraints) {
         return Row(
           children: [
-            GenericSquircle(
+            GenericCard(
+              tooltip: averageText,
               child: Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.secondary,
@@ -53,6 +54,9 @@ class AverageBar extends StatelessWidget {
                   ],
                 ),
               ),
+              padding: EdgeInsets.all(0),
+              shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
+              blurRadius: 2,
             ),
             SizedBox(width: constraints.maxWidth * 0.05),
             Container(

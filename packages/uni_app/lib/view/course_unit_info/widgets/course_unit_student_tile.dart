@@ -35,6 +35,14 @@ class CourseUnitStudentTile extends ConsumerWidget {
             children: [
               Container(
                 decoration: ShapeDecoration(
+                  shadows: [
+                    BoxShadow(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.shadow.withAlpha(0x25),
+                      blurRadius: 2,
+                    ),
+                  ],
                   shape: RoundedSuperellipseBorder(
                     borderRadius: BorderRadius.circular(25),
                   ),
