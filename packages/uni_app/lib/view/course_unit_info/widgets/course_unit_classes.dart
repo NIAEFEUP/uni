@@ -96,6 +96,7 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
           child: Column(
             children: [
               _buildClassSelector(studentNumber),
+              _buildClassProfessor(),
               _buildStudentList(session),
             ],
           ),
@@ -178,6 +179,16 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
           },
         ),
       ),
+    );
+  }
+
+  Widget _buildClassProfessor() {
+    final currentClass = widget.classes[selectedIndex!];
+    
+    
+    return Container(
+      height: 50,
+      color: Theme.of(context).colorScheme.secondary,
     );
   }
 
