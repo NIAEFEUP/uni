@@ -129,6 +129,7 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
         professorCode: professor.code,
       );
       final lectures = await fetcher.getLectures(session);
+      if (!mounted) return;
       final courseAcronym = widget.courseUnit.abbreviation;
 
       for (final lecture in lectures) {
@@ -221,10 +222,25 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
 
   Widget _buildClassProfessor() {
     final currentClass = widget.classes[selectedIndex!];
+    final professor = _classProfessors[currentClass.className];
+    if (professor == null){ 
+      return const SizedBox.shrink();
+    }
+
 
     return Container(
-      height: 50,
-      color: Theme.of(context).colorScheme.secondary,
+      padding: const EdgeInsets.all(10),
+      color: Theme.of(context).colorScheme.secondary, 
+      child: Column(
+        children: [
+     
+          Text(
+            professor.name,
+            style: Theme.of(context).textTheme.titleMedium,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 
