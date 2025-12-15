@@ -245,47 +245,44 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
             builder: (context) => ProfessorInfoModal(professor),
           );
         },
-        child: SizedBox(
-          width: double.infinity,
-          child: Container(
-            decoration: ShapeDecoration(
-              color: Theme.of(context).colorScheme.secondary,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              shadows: [
-                BoxShadow(
-                  color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
-                  blurRadius: 2,
-                ),
-              ],
+
+        child: Container(
+          decoration: ShapeDecoration(
+            color: Theme.of(context).colorScheme.secondary,
+            shape: ContinuousRectangleBorder(
+              borderRadius: BorderRadius.circular(40),
             ),
-            child: FutureBuilder<File?>(
-              future: ProfileNotifier.fetchOrGetCachedProfilePicture(
-                session,
-                studentNumber: int.parse(professor.code),
+            shadows: [
+              BoxShadow(
+                color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
+                blurRadius: 2,
               ),
-              builder: (context, snapshot) {
-                final profileImage =
-                    snapshot.hasData && snapshot.data != null
-                        ? FileImage(snapshot.data!)
-                        : null;
-          
-                return InstructorCard(
-                  name: professor.name,
-                  isRegent: professor.isRegent,
-                  instructorLabel: S.of(context).instructor,
-                  regentLabel: S.of(context).courseRegent,
-                  profileImage: profileImage,
-                );
-              },
+            ],
+          ),
+          child: FutureBuilder<File?>(
+            future: ProfileNotifier.fetchOrGetCachedProfilePicture(
+              session,
+              studentNumber: int.parse(professor.code),
             ),
+            builder: (context, snapshot) {
+              final profileImage =
+                  snapshot.hasData && snapshot.data != null
+                      ? FileImage(snapshot.data!)
+                      : null;
+
+              return InstructorCard(
+                name: professor.name,
+                isRegent: professor.isRegent,
+                instructorLabel: 'Class Teacher',
+                regentLabel: 'Class Teacher',
+                profileImage: profileImage,
+              );
+            },
           ),
         ),
       ),
     );
   }
-  
 
   Widget _buildStudentList(Session session) {
     final currentClass = widget.classes[selectedIndex!];
