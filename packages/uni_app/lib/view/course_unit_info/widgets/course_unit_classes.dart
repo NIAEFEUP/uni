@@ -1,13 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_new_api.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/utils/student_number_getter.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_student_tile.dart';
+import 'package:uni/view/course_unit_info/widgets/modal_professor_info.dart';
+import 'package:uni_ui/cards/instructor_card.dart';
 
 class CourseUnitClassesView extends ConsumerStatefulWidget {
   const CourseUnitClassesView(
@@ -223,26 +229,63 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
   Widget _buildClassProfessor() {
     final currentClass = widget.classes[selectedIndex!];
     final professor = _classProfessors[currentClass.className];
-    if (professor == null){ 
+
+    if (professor == null) {
       return const SizedBox.shrink();
     }
 
+    final session = ref.read(sessionProvider).value!;
 
-    return Container(
-      padding: const EdgeInsets.all(10),
-      color: Theme.of(context).colorScheme.secondary, 
-      child: Column(
-        children: [
-     
-          Text(
-            professor.name,
-            style: Theme.of(context).textTheme.titleMedium,
-            textAlign: TextAlign.center,
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+      child: GestureDetector(
+        onTap: () {
+          showDialog<void>(
+            context: context,
+            builder: (context) => ProfessorInfoModal(professor),
+          );
+        },
+        child: SizedBox(
+          width: double.infinity,
+          child: Container(
+            decoration: ShapeDecoration(
+              color: Theme.of(context).colorScheme.secondary,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              shadows: [
+                BoxShadow(
+                  color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
+                  blurRadius: 2,
+                ),
+              ],
+            ),
+            child: FutureBuilder<File?>(
+              future: ProfileNotifier.fetchOrGetCachedProfilePicture(
+                session,
+                studentNumber: int.parse(professor.code),
+              ),
+              builder: (context, snapshot) {
+                final profileImage =
+                    snapshot.hasData && snapshot.data != null
+                        ? FileImage(snapshot.data!)
+                        : null;
+          
+                return InstructorCard(
+                  name: professor.name,
+                  isRegent: professor.isRegent,
+                  instructorLabel: S.of(context).instructor,
+                  regentLabel: S.of(context).courseRegent,
+                  profileImage: profileImage,
+                );
+              },
+            ),
           ),
-        ],
+        ),
       ),
     );
   }
+  
 
   Widget _buildStudentList(Session session) {
     final currentClass = widget.classes[selectedIndex!];
