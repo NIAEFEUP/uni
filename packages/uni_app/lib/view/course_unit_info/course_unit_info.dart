@@ -165,7 +165,11 @@ class CourseUnitDetailPageViewState
       );
     }
 
-    return CourseUnitClassesView(classes, sheet?.professors ?? [], widget.courseUnit);
+    return CourseUnitClassesView(
+      classes,
+      sheet?.professors ?? [],
+      widget.courseUnit,
+    );
   }
 
   @override
