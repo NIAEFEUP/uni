@@ -155,13 +155,17 @@ class CourseUnitDetailPageViewState
         ref.read(courseUnitsInfoProvider.notifier).courseUnitsClasses[widget
             .courseUnit];
 
+    final sheet =
+        ref.read(courseUnitsInfoProvider.notifier).courseUnitsSheets[widget
+            .courseUnit];
+
     if (classes == null || classes.isEmpty) {
       return Center(
         child: Text(S.of(context).no_class, textAlign: TextAlign.center),
       );
     }
 
-    return CourseUnitClassesView(classes);
+    return CourseUnitClassesView(classes, sheet?.professors ?? []);
   }
 
   @override

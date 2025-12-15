@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
+import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/utils/student_number_getter.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_student_tile.dart';
 
 class CourseUnitClassesView extends ConsumerStatefulWidget {
-  const CourseUnitClassesView(this.classes, {super.key});
+  const CourseUnitClassesView(this.classes, this.professors, {super.key});
 
   final List<CourseUnitClass> classes;
+  final List<Professor> professors;
 
   @override
   ConsumerState<CourseUnitClassesView> createState() =>
