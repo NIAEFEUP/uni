@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_new_api.dart';
-import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
@@ -129,13 +128,17 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
   }
 
   Future<void> _fetchClassProfessors(Session session) async {
-    if (widget.professors.isEmpty) return;
+    if (widget.professors.isEmpty) {
+      return;
+    }
     for (final professor in widget.professors) {
       final fetcher = ScheduleFetcherNewApiProfessor(
         professorCode: professor.code,
       );
       final lectures = await fetcher.getLectures(session);
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
       final courseAcronym = widget.courseUnit.abbreviation;
 
       for (final lecture in lectures) {
