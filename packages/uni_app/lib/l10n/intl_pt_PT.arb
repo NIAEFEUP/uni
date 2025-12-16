@@ -398,6 +398,8 @@
   "@courseRegent": {},
   "instructor": "Docente",
   "@instructor": {},
+  "classProfessor": "Professor da Turma",
+  "@classProfessor": {},
   "lectures": "Aulas",
   "@lectures": {},
   "exams": "Exames",
