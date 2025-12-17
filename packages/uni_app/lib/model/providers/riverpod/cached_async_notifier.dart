@@ -123,6 +123,7 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
   Future<T?> refreshRemote() async {
     Logger().d('Refreshing $runtimeType from remote...');
     try {
+      state = const AsyncLoading();
       final result = await loadFromRemote();
       if (result != null) {
         _updateState(result);
