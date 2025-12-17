@@ -13,7 +13,7 @@ import 'package:uni/model/providers/riverpod/session_provider.dart';
 typedef SheetsMap = Map<CourseUnit, Sheet>;
 typedef ClassesMap = Map<CourseUnit, List<CourseUnitClass>>;
 typedef FilesMap = Map<CourseUnit, List<CourseUnitFileDirectory>>;
-typedef ClassProfessorsMap = Map<CourseUnit, Map<String, Professor>>;
+typedef ClassProfessorsMap = Map<CourseUnit, Map<String, List<Professor>>>;
 typedef CourseUnitsInfoState =
     (SheetsMap, ClassesMap, FilesMap, ClassProfessorsMap);
 
@@ -48,11 +48,11 @@ class CourseUnitsInfoNotifier
     );
   }
 
-  UnmodifiableMapView<CourseUnit, Map<String, Professor>>
+  UnmodifiableMapView<CourseUnit, Map<String, List<Professor>>>
   get courseUnitsClassProfessors {
     final currentState = state.value;
     return UnmodifiableMapView(
-      currentState?.$4 ?? <CourseUnit, Map<String, Professor>>{},
+      currentState?.$4 ?? <CourseUnit, Map<String, List<Professor>>>{},
     );
   }
 
@@ -62,7 +62,7 @@ class CourseUnitsInfoNotifier
       <CourseUnit, Sheet>{},
       <CourseUnit, List<CourseUnitClass>>{},
       <CourseUnit, List<CourseUnitFileDirectory>>{},
-      <CourseUnit, Map<String, Professor>>{},
+      <CourseUnit, Map<String, List<Professor>>>{},
     );
   }
 
@@ -72,7 +72,7 @@ class CourseUnitsInfoNotifier
       <CourseUnit, Sheet>{},
       <CourseUnit, List<CourseUnitClass>>{},
       <CourseUnit, List<CourseUnitFileDirectory>>{},
-      <CourseUnit, Map<String, Professor>>{},
+      <CourseUnit, Map<String, List<Professor>>>{},
     );
   }
 
@@ -95,7 +95,7 @@ class CourseUnitsInfoNotifier
           <CourseUnit, Sheet>{},
           <CourseUnit, List<CourseUnitClass>>{},
           <CourseUnit, List<CourseUnitFileDirectory>>{},
-          <CourseUnit, Map<String, Professor>>{},
+          <CourseUnit, Map<String, List<Professor>>>{},
         );
 
     final updatedSheetsMap = Map<CourseUnit, Sheet>.from(currentState.$1);
@@ -130,7 +130,7 @@ class CourseUnitsInfoNotifier
           <CourseUnit, Sheet>{},
           <CourseUnit, List<CourseUnitClass>>{},
           <CourseUnit, List<CourseUnitFileDirectory>>{},
-          <CourseUnit, Map<String, Professor>>{},
+          <CourseUnit, Map<String, List<Professor>>>{},
         );
 
     final updatedClassesMap = Map<CourseUnit, List<CourseUnitClass>>.from(
@@ -167,7 +167,7 @@ class CourseUnitsInfoNotifier
           <CourseUnit, Sheet>{},
           <CourseUnit, List<CourseUnitClass>>{},
           <CourseUnit, List<CourseUnitFileDirectory>>{},
-          <CourseUnit, Map<String, Professor>>{},
+          <CourseUnit, Map<String, List<Professor>>>{},
         );
 
     final updatedFilesMap = Map<CourseUnit, List<CourseUnitFileDirectory>>.from(
@@ -194,7 +194,7 @@ class CourseUnitsInfoNotifier
     }
 
     final professors = sheet.professors;
-    final Map<String, Professor> classProfessors = {};
+    final Map<String, List<Professor>> classProfessors = {};
     final courseAcronym = courseUnit.abbreviation;
 
     for (final professor in professors) {
@@ -205,8 +205,14 @@ class CourseUnitsInfoNotifier
 
       for (final lecture in lectures) {
         if (lecture.classNumber.isNotEmpty &&
-            lecture.acronym == courseAcronym) {
-          classProfessors[lecture.classNumber] = professor;
+            lecture.acronym == courseAcronym &&
+            lecture.typeClass != 'T') {
+          if (!classProfessors.containsKey(lecture.classNumber)) {
+            classProfessors[lecture.classNumber] = [];
+          }
+          if (!classProfessors[lecture.classNumber]!.contains(professor)) {
+            classProfessors[lecture.classNumber]!.add(professor);
+          }
         }
       }
     }
@@ -217,11 +223,11 @@ class CourseUnitsInfoNotifier
           <CourseUnit, Sheet>{},
           <CourseUnit, List<CourseUnitClass>>{},
           <CourseUnit, List<CourseUnitFileDirectory>>{},
-          <CourseUnit, Map<String, Professor>>{},
+          <CourseUnit, Map<String, List<Professor>>>{},
         );
 
     final updatedClassProfessorsMap =
-        Map<CourseUnit, Map<String, Professor>>.from(currentState.$4);
+        Map<CourseUnit, Map<String, List<Professor>>>.from(currentState.$4);
     updatedClassProfessorsMap[courseUnit] = classProfessors;
     updateState((
       currentState.$1,

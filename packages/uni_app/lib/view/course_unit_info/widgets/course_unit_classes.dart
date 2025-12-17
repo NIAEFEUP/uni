@@ -19,14 +19,14 @@ class CourseUnitClassesView extends ConsumerStatefulWidget {
     this.classes,
     this.professors,
     this.courseUnit, {
-    this.classProfessors = const {},
+    this.classProfessors = const <String, List<Professor>>{},
     super.key,
   });
 
   final List<CourseUnitClass> classes;
   final List<Professor> professors;
   final CourseUnit courseUnit;
-  final Map<String, Professor> classProfessors;
+  final Map<String, List<Professor>> classProfessors;
 
   @override
   ConsumerState<CourseUnitClassesView> createState() =>
@@ -201,9 +201,9 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
 
   Widget _buildClassProfessor() {
     final currentClass = widget.classes[selectedIndex!];
-    final professor = widget.classProfessors[currentClass.className];
+    final professors = widget.classProfessors[currentClass.className];
 
-    if (professor == null) {
+    if (professors == null || professors.isEmpty) {
       return const SizedBox.shrink();
     }
 
@@ -211,48 +211,57 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
 
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-      child: GestureDetector(
-        onTap: () {
-          showDialog<void>(
-            context: context,
-            builder: (context) => ProfessorInfoModal(professor),
-          );
-        },
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children:
+            professors.map((professor) {
+              return GestureDetector(
+                onTap: () {
+                  showDialog<void>(
+                    context: context,
+                    builder: (context) => ProfessorInfoModal(professor),
+                  );
+                },
 
-        child: Container(
-          decoration: ShapeDecoration(
-            color: Theme.of(context).colorScheme.secondary,
-            shape: ContinuousRectangleBorder(
-              borderRadius: BorderRadius.circular(40),
-            ),
-            shadows: [
-              BoxShadow(
-                color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
-                blurRadius: 2,
-              ),
-            ],
-          ),
-          child: FutureBuilder<File?>(
-            future: ProfileNotifier.fetchOrGetCachedProfilePicture(
-              session,
-              studentNumber: int.parse(professor.code),
-            ),
-            builder: (context, snapshot) {
-              final profileImage =
-                  snapshot.hasData && snapshot.data != null
-                      ? FileImage(snapshot.data!)
-                      : null;
+                child: Container(
+                  decoration: ShapeDecoration(
+                    color: Theme.of(context).colorScheme.secondary,
+                    shape: ContinuousRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.shadow.withAlpha(0x25),
+                        blurRadius: 2,
+                      ),
+                    ],
+                  ),
+                  child: FutureBuilder<File?>(
+                    future: ProfileNotifier.fetchOrGetCachedProfilePicture(
+                      session,
+                      studentNumber: int.parse(professor.code),
+                    ),
+                    builder: (context, snapshot) {
+                      final profileImage =
+                          snapshot.hasData && snapshot.data != null
+                              ? FileImage(snapshot.data!)
+                              : null;
 
-              return InstructorCard(
-                name: professor.name,
-                isRegent: professor.isRegent,
-                instructorLabel: S.of(context).classProfessor,
-                regentLabel: S.of(context).classProfessor,
-                profileImage: profileImage,
+                      return InstructorCard(
+                        name: professor.name,
+                        isRegent: professor.isRegent,
+                        instructorLabel: S.of(context).classProfessor,
+                        regentLabel: S.of(context).classProfessor,
+                        profileImage: profileImage,
+                      );
+                    },
+                  ),
+                ),
               );
-            },
-          ),
-        ),
+            }).toList(),
       ),
     );
   }
