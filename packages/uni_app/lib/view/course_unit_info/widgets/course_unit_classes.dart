@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_new_api.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
@@ -20,12 +19,14 @@ class CourseUnitClassesView extends ConsumerStatefulWidget {
     this.classes,
     this.professors,
     this.courseUnit, {
+    this.classProfessors = const {},
     super.key,
   });
 
   final List<CourseUnitClass> classes;
   final List<Professor> professors;
   final CourseUnit courseUnit;
+  final Map<String, Professor> classProfessors;
 
   @override
   ConsumerState<CourseUnitClassesView> createState() =>
@@ -41,9 +42,6 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
 
   int? selectedIndex;
   late int studentNumber;
-
-  final Map<String, Professor> _classProfessors = {};
-  bool _hasFetchedProfessors = false;
 
   void _scrollToSelectedClass() {
     if (selectedIndex == null || widget.classes.isEmpty) {
@@ -93,10 +91,6 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(child: Text('Error: $e')),
       data: (session) {
-        if (!_hasFetchedProfessors) {
-          _hasFetchedProfessors = true;
-          _fetchClassProfessors(session!);
-        }
         final studentNumber = getStudentNumber(session!);
 
         if (selectedIndex == null) {
@@ -126,31 +120,6 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
         );
       },
     );
-  }
-
-  Future<void> _fetchClassProfessors(Session session) async {
-    if (widget.professors.isEmpty) {
-      return;
-    }
-    for (final professor in widget.professors) {
-      final fetcher = ScheduleFetcherNewApiProfessor(
-        professorCode: professor.code,
-      );
-      final lectures = await fetcher.getLectures(session);
-      if (!mounted) {
-        return;
-      }
-      final courseAcronym = widget.courseUnit.abbreviation;
-
-      for (final lecture in lectures) {
-        if (lecture.classNumber.isNotEmpty &&
-            lecture.acronym == courseAcronym) {
-          setState(() {
-            _classProfessors[lecture.classNumber] = professor;
-          });
-        }
-      }
-    }
   }
 
   Widget _buildClassSelector(int studentNumber) {
@@ -232,7 +201,7 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
 
   Widget _buildClassProfessor() {
     final currentClass = widget.classes[selectedIndex!];
-    final professor = _classProfessors[currentClass.className];
+    final professor = widget.classProfessors[currentClass.className];
 
     if (professor == null) {
       return const SizedBox.shrink();

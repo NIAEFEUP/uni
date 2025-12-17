@@ -56,7 +56,13 @@ class CourseUnitDetailPageViewState
     final courseUnitClasses =
         courseUnitsProvider.courseUnitsClasses[widget.courseUnit];
     if (courseUnitClasses == null || force) {
-      await courseUnitsProvider.fetchCourseUnitClasses(widget.courseUnit);
+      courseUnitsProvider.fetchCourseUnitClasses(widget.courseUnit);
+    }
+
+    final courseUnitClassProfessors =
+        courseUnitsProvider.courseUnitsClassProfessors[widget.courseUnit];
+    if (courseUnitClassProfessors == null || force) {
+      courseUnitsProvider.fetchClassProfessors(widget.courseUnit);
     }
   }
 
@@ -151,24 +157,33 @@ class CourseUnitDetailPageViewState
   }
 
   Widget _courseUnitClassesView(BuildContext context) {
-    final classes =
-        ref.read(courseUnitsInfoProvider.notifier).courseUnitsClasses[widget
-            .courseUnit];
+    return Consumer(
+      builder: (context, ref, _) {
+        ref.watch(courseUnitsInfoProvider);
+        final provider = ref.read(courseUnitsInfoProvider.notifier);
 
-    final sheet =
-        ref.read(courseUnitsInfoProvider.notifier).courseUnitsSheets[widget
-            .courseUnit];
+        final classes = provider.courseUnitsClasses[widget.courseUnit];
+        final sheet = provider.courseUnitsSheets[widget.courseUnit];
+        final classProfessors =
+            provider.courseUnitsClassProfessors[widget.courseUnit];
 
-    if (classes == null || classes.isEmpty) {
-      return Center(
-        child: Text(S.of(context).no_class, textAlign: TextAlign.center),
-      );
-    }
+        if (classes == null || classes.isEmpty) {
+          return Center(
+            child: Text(S.of(context).no_class, textAlign: TextAlign.center),
+          );
+        }
 
-    return CourseUnitClassesView(
-      classes,
-      sheet?.professors ?? [],
-      widget.courseUnit,
+        if (classProfessors == null) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return CourseUnitClassesView(
+          classes,
+          sheet?.professors ?? [],
+          widget.courseUnit,
+          classProfessors: classProfessors,
+        );
+      },
     );
   }
 
