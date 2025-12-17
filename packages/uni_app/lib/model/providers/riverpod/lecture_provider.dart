@@ -45,8 +45,6 @@ class LectureNotifier extends CachedAsyncNotifier<List<Lecture>> {
 
   // FIXME: delete fallback fetcher code.
   Future<List<Lecture>> _getLectures(Session session) {
-    return ScheduleFetcherNewApi()
-        .getLectures(session)
-        .catchError((e) => <Lecture>[]);
+    return ScheduleFetcherNewApi().getLectures(session);
   }
 }
