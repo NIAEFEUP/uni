@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -82,15 +81,33 @@ class ScheduleDayTimeline extends ConsumerWidget {
                 );
 
                 if (profile != null) {
-                  final courseUnit = profile.courseUnits.firstWhereOrNull(
-                    (unit) => unit.abbreviation == lecture.acronym,
-                  );
-                  if (courseUnit != null && courseUnit.occurrId != null) {
+                  final ocorrenciasUnits =
+                      profile.courseUnits
+                          .where((unit) => unit.abbreviation == lecture.acronym)
+                          .toList();
+                  if (ocorrenciasUnits.isNotEmpty) {
+                    ocorrenciasUnits.sort((a, b) {
+                      final ayear = a.schoolYear ?? '';
+                      final byear = b.schoolYear ?? '';
+                      final yearCompare = byear.compareTo(ayear);
+                      if (yearCompare != 0) {
+                        return yearCompare;
+                      }
+                      final aId = a.occurrId ?? -1;
+                      final bId = b.occurrId ?? -1;
+                      return bId.compareTo(aId);
+                    });
+                    final correctUnit = ocorrenciasUnits.first;
+                    debugPrint(
+                      'Selected CU: ${correctUnit.abbreviation} | '
+                      'Year: ${correctUnit.schoolYear} | '
+                      'OccurrId: ${correctUnit.occurrId}',
+                    );
                     Navigator.push(
                       context,
                       MaterialPageRoute<CourseUnitDetailPageView>(
                         builder:
-                            (context) => CourseUnitDetailPageView(courseUnit),
+                            (context) => CourseUnitDetailPageView(correctUnit),
                       ),
                     );
                   }
