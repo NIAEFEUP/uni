@@ -60,7 +60,7 @@ void main() {
     ''';
 
     final groups = await fakeFetcher.getFromJSON(rawJson);
-    
+
     fakeFetcher.mockedReturn = groups;
 
     container.read(locationsProvider);
@@ -69,9 +69,9 @@ void main() {
 
     final finalState = container.read(locationsProvider);
 
-    final data = finalState.value; 
+    final data = finalState.value;
 
-    expect(data, isNotNull); 
+    expect(data, isNotNull);
     expect(data, isNotEmpty);
     expect(data!.length, 1);
     expect(data.first.id, 0);
@@ -81,7 +81,7 @@ void main() {
     fakeFetcher.mockedReturn = [];
 
     container.read(locationsProvider);
-   
+
     await Future<void>.delayed(Duration.zero);
 
     final state = container.read(locationsProvider);
@@ -96,10 +96,9 @@ void main() {
     const brokenJSON = '{"error": "wrong format"}'; // its missing the data key
 
     expect(
-      ()  =>  fakeFetcher.getFromJSON(brokenJSON), 
-      throwsA(isA<TypeError>()) 
+      () => fakeFetcher.getFromJSON(brokenJSON),
+      throwsA(isA<TypeError>()),
     );
-
   });
 
   test('Should emit AsyncLoading state when initialization starts', () {
@@ -109,5 +108,4 @@ void main() {
     expect(state.hasValue, isFalse);
     expect(state, isA<AsyncLoading<List<LocationGroup>?>>());
   });
-
 }
