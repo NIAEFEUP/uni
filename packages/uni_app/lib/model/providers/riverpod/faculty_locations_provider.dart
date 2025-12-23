@@ -11,12 +11,14 @@ final locationsProvider =
 
 class FacultyLocationsNotifier
     extends CachedAsyncNotifier<List<LocationGroup>> {
+  FacultyLocationsNotifier({LocationFetcher? fetcher})
+    : _fetcher = fetcher; // constructor
 
   final LocationFetcher? _fetcher;
 
-  FacultyLocationsNotifier({LocationFetcher? fetcher}) : _fetcher = fetcher; // contructor
-
-  LocationFetcher get fetcher => _fetcher ?? LocationFetcherAsset(); // getter, if _fetcher is null(not a mock) it will use the fetcher as before
+  LocationFetcher get fetcher =>
+      _fetcher ??
+      LocationFetcherAsset(); // getter, if _fetcher is null(not a mock) it will use the fetcher as before
 
   @override
   Duration? get cacheDuration => const Duration(days: 30);
