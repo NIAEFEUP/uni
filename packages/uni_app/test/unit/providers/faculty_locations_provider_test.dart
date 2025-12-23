@@ -1,6 +1,5 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/controller/fetchers/location_fetcher/location_fetcher_asset.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
@@ -94,10 +93,10 @@ void main() {
   });
 
   test('Should throw an exception when JSON is not on the right format', () {
-    const String brokenJSON = '{"error": "wrong format"}'; // its missing the data key
+    const brokenJSON = '{"error": "wrong format"}'; // its missing the data key
 
     expect(
-      () async => await fakeFetcher.getFromJSON(brokenJSON), 
+      ()  =>  fakeFetcher.getFromJSON(brokenJSON), 
       throwsA(isA<TypeError>()) 
     );
 
@@ -108,7 +107,7 @@ void main() {
 
     expect(state.isLoading, isTrue);
     expect(state.hasValue, isFalse);
-    expect(state, isA<AsyncLoading>());
+    expect(state, isA<AsyncLoading<List<LocationGroup>?>>());
   });
 
 }
