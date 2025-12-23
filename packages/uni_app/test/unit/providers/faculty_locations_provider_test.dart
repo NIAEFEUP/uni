@@ -37,8 +37,7 @@ void main() {
   });
 
   test('Must load locations with success using a Fake class', () async {
-    // O teu JSON estava certinho de acordo com o teu getFromJSON!
-    const String rawJson = '''
+    const rawJson = '''
     {
       "data": [
         {
@@ -67,7 +66,7 @@ void main() {
 
     container.read(locationsProvider);
 
-    await Future.delayed(Duration.zero);
+    await Future<void>.delayed(Duration.zero);
 
     final finalState = container.read(locationsProvider);
 
@@ -78,4 +77,38 @@ void main() {
     expect(data!.length, 1);
     expect(data.first.id, 0);
   });
+
+  test('Must not crash when given an empty list', () async {
+    fakeFetcher.mockedReturn = [];
+
+    container.read(locationsProvider);
+   
+    await Future<void>.delayed(Duration.zero);
+
+    final state = container.read(locationsProvider);
+
+    final data = state.value;
+
+    expect(data, isEmpty);
+    expect(data, isNotNull);
+  });
+
+  test('Should throw an exception when JSON is not on the right format', () {
+    const String brokenJSON = '{"error": "wrong format"}'; // its missing the data key
+
+    expect(
+      () async => await fakeFetcher.getFromJSON(brokenJSON), 
+      throwsA(isA<TypeError>()) 
+    );
+
+  });
+
+  test('Should emit AsyncLoading state when initialization starts', () {
+    final state = container.read(locationsProvider);
+
+    expect(state.isLoading, isTrue);
+    expect(state.hasValue, isFalse);
+    expect(state, isA<AsyncLoading>());
+  });
+
 }
