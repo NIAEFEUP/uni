@@ -10,6 +10,8 @@ import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/providers/riverpod/calendar_provider.dart';
 
 class FakeCalendarFetcher extends CalendarFetcherJson{
+  bool shouldThrowError = false;
+
   Map<String, List<CalendarEvent>> mockGroups = {
     'pt': [],
     'en': [],
@@ -17,6 +19,9 @@ class FakeCalendarFetcher extends CalendarFetcherJson{
 
   @override
   Future<List<CalendarEvent>> getCalendar(String locale) async {
+    if(shouldThrowError){
+      throw Exception('Error loading calendar');
+    }
     return mockGroups[locale] ?? [];
   }
 }
@@ -41,32 +46,60 @@ void main(){
     addTearDown(() => container.dispose());
   });
 
-  test('Must load correct english JSON successfully', () async {
-    const fakeJSON = '''
-    [
-      {
-        "name": "Start of classes, others",
-        "start_date": "2025-09-15",
-        "end_date": "2025-09-15"
-      }
-    ]
-  ''';
-  
-    final dataList = json.decode(fakeJSON) as List<dynamic>;
+  group('CalendarNotifier Tests', () {
 
-    final eventMap = dataList.first as Map<String, dynamic>;
-    final event = CalendarEvent.fromJson(eventMap);
+  test('Must load English event successfully', () async {
+    final event = CalendarEvent(
+      name: 'Start of classes, others',
+      startDate: DateTime.parse('2025-09-15'),
+      endDate: DateTime.parse('2025-09-15'),
+    );
 
     fakeFetcher.mockGroups['en'] = [event];
 
     final data = await container.read(calendarProvider.future);
-
-    expect(data?.getEvents(AppLocale.en).length, 1);
+    expect(data?.getEvents(AppLocale.en).first.name, equals('Start of classes, others'));
     expect(data?.getEvents(AppLocale.pt), isEmpty);
-    expect(data?.getEvents(AppLocale.en).first.name, 'Start of classes, others');
   });
 
+  test('Must load Portuguese event successfully', () async {
+    final event = CalendarEvent(
+      name: 'Início de aulas, outros',
+      startDate: DateTime.parse('2025-09-15'),
+      endDate: DateTime.parse('2025-09-15'),
+    );
+
+    fakeFetcher.mockGroups['pt'] = [event];
+
+    final data = await container.read(calendarProvider.future);
+    expect(data?.getEvents(AppLocale.pt).first.name, equals('Início de aulas, outros'));
+    expect(data?.getEvents(AppLocale.en), isEmpty);
+  });
+});
+
+  test('Must return empty lists when no events are provided', () async {
+  fakeFetcher.mockGroups['en'] = [];
+  fakeFetcher.mockGroups['pt'] = [];
+
+  final data = await container.read(calendarProvider.future);
+
+  expect(data?.getEvents(AppLocale.en), isEmpty);
+  expect(data?.getEvents(AppLocale.pt), isEmpty);
+  expect(data?.getEvents(AppLocale.en).length, 0);
+  expect(data?.getEvents(AppLocale.pt).length, 0);
+
+});
+  test('Must handle fetcher error gracefully', () {
+    fakeFetcher.shouldThrowError = true; 
+
+    expect(
+      container.read(calendarProvider.future), 
+      throwsA(isA<Exception>())
+    );  
+   
+});  
 }
+
 
 
 
