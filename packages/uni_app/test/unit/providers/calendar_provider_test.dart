@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/controller/fetchers/calendar_fetcher_json.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
@@ -11,7 +8,7 @@ import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/providers/riverpod/calendar_provider.dart';
 
 class FakeCalendarFetcher extends CalendarFetcherJson{
-  bool ThrowError = false;
+  bool throwError = false;
 
   Map<String, List<CalendarEvent>> mockGroups = {
     'pt': [],
@@ -20,7 +17,7 @@ class FakeCalendarFetcher extends CalendarFetcherJson{
 
   @override
   Future<List<CalendarEvent>> getCalendar(String locale) async {
-    if(ThrowError){
+    if(throwError){
       throw Exception('Fetcher failed');
     }
 
@@ -92,7 +89,7 @@ void main(){
 
 });
   test('Must handle fetcher error gracefully', () async {
-    fakeFetcher.ThrowError = true; 
+    fakeFetcher.throwError = true; 
 
     await container.read(calendarProvider.future).catchError((_) => null);
 

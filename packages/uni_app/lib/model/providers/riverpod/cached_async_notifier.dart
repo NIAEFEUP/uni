@@ -34,6 +34,10 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
   }
 
   void _updateState(T? newState, {bool updateTimestamp = true}) {
+    if (!ref.mounted) {
+      return;
+    }
+
     if (newState == null) {
       state = const AsyncData(null);
       return;
@@ -50,6 +54,10 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
   }
 
   void _updateError(Object error, [StackTrace? stackTrace]) {
+    if(!ref.mounted) {
+      return;
+    }
+
     state = AsyncError(error, stackTrace ?? StackTrace.current);
     Logger().e(
       'Error in $runtimeType: $error',
@@ -64,12 +72,14 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
   }) async {
     try {
       final result = await operation();
-      if (result != null) {
+      if (result != null && ref.mounted) {
         _updateState(result, updateTimestamp: updateTimestamp);
       }
       return result;
     } catch (err, st) {
-      _updateError(err, st);
+      if(ref.mounted){
+        _updateError(err, st);
+      }
       rethrow;
     }
   }
@@ -125,6 +135,11 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
     try {
       state = const AsyncLoading();
       final result = await loadFromRemote();
+
+      if(!ref.mounted) {
+        return result;
+      }
+
       if (result != null) {
         _updateState(result);
         Logger().d('✅ Refreshed $runtimeType from remote!');
