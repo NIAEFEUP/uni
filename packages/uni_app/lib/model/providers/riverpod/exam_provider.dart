@@ -55,9 +55,7 @@ class ExamNotifier extends CachedAsyncNotifier<List<Exam>> {
     ).extractExams(session, parser);
 
     exams.sort((exam1, exam2) => exam1.start.compareTo(exam2.start));
-
     Database().saveExams(exams);
-
     return exams;
   }
 }
