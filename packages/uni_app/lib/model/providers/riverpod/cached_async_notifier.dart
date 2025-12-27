@@ -54,7 +54,7 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
   }
 
   void _updateError(Object error, [StackTrace? stackTrace]) {
-    if(!ref.mounted) {
+    if (!ref.mounted) {
       return;
     }
 
@@ -77,7 +77,7 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
       }
       return result;
     } catch (err, st) {
-      if(ref.mounted){
+      if (ref.mounted) {
         _updateError(err, st);
       }
       rethrow;
@@ -136,7 +136,7 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
       state = const AsyncLoading();
       final result = await loadFromRemote();
 
-      if(!ref.mounted) {
+      if (!ref.mounted) {
         return result;
       }
 
