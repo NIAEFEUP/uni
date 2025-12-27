@@ -7,6 +7,7 @@ import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/floor_occupation.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/news.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/reference.dart';
@@ -31,6 +32,7 @@ class Database {
   late final Box<FloorOccupation> _libraryOccupationBox;
   late final Box<Reference> _referenceBox;
   late final Box<Restaurant> _restaurantBox;
+  late final Box<Meal> _mealBox;
   late final Box<News> _newsBox;
   late final Box<Profile> _profileBox;
 
@@ -125,6 +127,7 @@ class Database {
     _libraryOccupationBox = _store.box<FloorOccupation>();
     _referenceBox = _store.box<Reference>();
     _restaurantBox = _store.box<Restaurant>();
+    _mealBox = _store.box<Meal>();
     _newsBox = _store.box<News>();
   }
 
@@ -138,6 +141,7 @@ class Database {
     _libraryOccupationBox.removeAll();
     _referenceBox.removeAll();
     _restaurantBox.removeAll();
+    _mealBox.removeAll();
     _newsBox.removeAll();
     _persistentSession = null;
   }
