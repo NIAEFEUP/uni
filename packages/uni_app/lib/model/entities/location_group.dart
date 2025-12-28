@@ -17,12 +17,11 @@ class LocationGroup {
   }) : floors =
            locations != null
                ? groupBy(locations, (location) => location.floor)
-               : Map.identity() { 
-    
+               : Map.identity() {
     if (latlng.latitude < -90 || latlng.latitude > 90) {
       throw ArgumentError('Invalid latitude: ${latlng.latitude}');
     }
-    
+
     if (latlng.longitude < -180 || latlng.longitude > 180) {
       throw ArgumentError('Invalid longitude: ${latlng.longitude}');
     }
@@ -42,8 +41,8 @@ class LocationGroup {
   /// Returns the Location with the most weight
   Location? getLocationWithMostWeight() {
     final allLocations = floors.values.expand((x) => x).toList();
-    
-    if (allLocations.isEmpty){
+
+    if (allLocations.isEmpty) {
       return null;
     }
 

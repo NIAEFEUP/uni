@@ -14,7 +14,7 @@ class FakeLocationFetcher extends LocationFetcherAsset {
 
   @override
   Future<List<LocationGroup>> getLocations() async {
-    if(mockedError != null){
+    if (mockedError != null) {
       throw mockedError!;
     }
     return mockedReturn;
@@ -42,19 +42,13 @@ void main() {
   });
 
   test('Must load locations with success using a Fake class', () async {
-    final roomGroup = RoomGroupLocation(
-      0,      
-      'B004',  
-      'B007',  
-      locationGroupId: 0, 
-    );
+    final roomGroup = RoomGroupLocation(0, 'B004', 'B007', locationGroupId: 0);
 
     final manualGroup = LocationGroup(
       const LatLng(41.17, -8.59),
       id: 0,
-      locations: [roomGroup], 
+      locations: [roomGroup],
     );
-
 
     fakeFetcher.mockedReturn = [manualGroup];
 
@@ -74,10 +68,7 @@ void main() {
   });
 
   test('Must not crash when given empty values', () async {
-    final manualGroup = LocationGroup(
-      const LatLng(0, 0),
-      locations: [], 
-    );
+    final manualGroup = LocationGroup(const LatLng(0, 0), locations: []);
 
     fakeFetcher.mockedReturn = [manualGroup];
 
@@ -96,12 +87,14 @@ void main() {
 
     try {
       await container.read(locationsProvider.future);
-    } catch (_) {
-    }
+    } catch (_) {}
 
     final state = container.read(locationsProvider);
-    expect(state.hasError, isTrue); 
-    expect(state.error.toString(), contains('Data corruption or Network failure'));
+    expect(state.hasError, isTrue);
+    expect(
+      state.error.toString(),
+      contains('Data corruption or Network failure'),
+    );
   });
 
   test('Should emit AsyncLoading state when initialization starts', () {
@@ -113,20 +106,13 @@ void main() {
   });
 
   test('Provider must reload with new value', () async {
-    final manualGroup = LocationGroup(
-      const LatLng(0, 0),
-      locations: [], 
-    );
+    final manualGroup = LocationGroup(const LatLng(0, 0), locations: []);
 
     fakeFetcher.mockedReturn = [manualGroup];
 
     await container.read(locationsProvider.future);
 
-    final newGroup = LocationGroup(
-      const LatLng(0, 0),
-      id: 2,
-      locations: [], 
-    );
+    final newGroup = LocationGroup(const LatLng(0, 0), id: 2, locations: []);
 
     fakeFetcher.mockedReturn = [newGroup];
 
@@ -139,18 +125,14 @@ void main() {
 
   test('Must recover from an error to a success state', () async {
     fakeFetcher.mockedError = Exception('Exception');
-    try{
+    try {
       await container.read(locationsProvider.futue);
-    }catch(_){}
+    } catch (_) {}
     expect(container.read(locationsProvider).hasError, isTrue);
 
     fakeFetcher.mockedError = null;
-    
-    final manualGroup = LocationGroup(
-      const LatLng(0, 0),
-      id: 1,
-      locations: [], 
-    );
+
+    final manualGroup = LocationGroup(const LatLng(0, 0), id: 1, locations: []);
 
     fakeFetcher.mockedReturn = [manualGroup];
 
