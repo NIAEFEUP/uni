@@ -41,106 +41,117 @@ void main() {
     addTearDown(() => container.dispose());
   });
 
-  test('Must load locations with success using a Fake class', () async {
-    final roomGroup = RoomGroupLocation(0, 'B004', 'B007', locationGroupId: 0);
+  group('locationsProvider test', () {
+    test('Must load locations with success using a Fake class', () async {
+      final roomGroup = RoomGroupLocation(
+        0,
+        'B004',
+        'B007',
+        locationGroupId: 0,
+      );
 
-    final manualGroup = LocationGroup(
-      const LatLng(41.17, -8.59),
-      id: 0,
-      locations: [roomGroup],
-    );
+      final manualGroup = LocationGroup(
+        const LatLng(41.17, -8.59),
+        id: 0,
+        locations: [roomGroup],
+      );
 
-    fakeFetcher.mockedReturn = [manualGroup];
+      fakeFetcher.mockedReturn = [manualGroup];
 
-    container.read(locationsProvider);
+      container.read(locationsProvider);
 
-    await Future<void>.delayed(Duration.zero);
+      await Future<void>.delayed(Duration.zero);
 
-    final finalState = container.read(locationsProvider);
+      final finalState = container.read(locationsProvider);
 
-    final data = finalState.value;
+      final data = finalState.value;
 
-    expect(data, isNotNull);
-    expect(data, isNotEmpty);
-    expect(data!.length, 1);
-    expect(data.first.id, 0);
-    expect(data.first.floors[0]!.first, equals(roomGroup));
-  });
+      expect(data, isNotNull);
+      expect(data, isNotEmpty);
+      expect(data!.length, 1);
+      expect(data.first.id, 0);
+      expect(data.first.floors[0]!.first, equals(roomGroup));
+    });
 
-  test('Must not crash when given empty values', () async {
-    final manualGroup = LocationGroup(const LatLng(0, 0), locations: []);
+    test('Must not crash when given empty values', () async {
+      final manualGroup = LocationGroup(const LatLng(0, 0), locations: []);
 
-    fakeFetcher.mockedReturn = [manualGroup];
+      fakeFetcher.mockedReturn = [manualGroup];
 
-    container.read(locationsProvider);
+      container.read(locationsProvider);
 
-    await Future<void>.delayed(Duration.zero);
+      await Future<void>.delayed(Duration.zero);
 
-    final state = container.read(locationsProvider);
-    final data = state.value;
+      final state = container.read(locationsProvider);
+      final data = state.value;
 
-    expect(data!.first.floors, isEmpty);
-  });
+      expect(data!.first.floors, isEmpty);
+    });
 
-  test('See how provider reacts to possible erros on the fetcher', () async {
-    fakeFetcher.mockedError = Exception('Data corruption or Network failure');
+    test('See how provider reacts to possible erros on the fetcher', () async {
+      fakeFetcher.mockedError = Exception('Data corruption or Network failure');
 
-    try {
+      try {
+        await container.read(locationsProvider.future);
+      } catch (_) {}
+
+      final state = container.read(locationsProvider);
+      expect(state.hasError, isTrue);
+      expect(
+        state.error.toString(),
+        contains('Data corruption or Network failure'),
+      );
+    });
+
+    test('Should emit AsyncLoading state when initialization starts', () {
+      final state = container.read(locationsProvider);
+
+      expect(state.isLoading, isTrue);
+      expect(state.hasValue, isFalse);
+      expect(state, isA<AsyncLoading<List<LocationGroup>?>>());
+    });
+
+    test('Provider must reload with new value', () async {
+      final manualGroup = LocationGroup(const LatLng(0, 0), locations: []);
+
+      fakeFetcher.mockedReturn = [manualGroup];
+
       await container.read(locationsProvider.future);
-    } catch (_) {}
 
-    final state = container.read(locationsProvider);
-    expect(state.hasError, isTrue);
-    expect(
-      state.error.toString(),
-      contains('Data corruption or Network failure'),
-    );
-  });
+      final newGroup = LocationGroup(const LatLng(0, 0), id: 2, locations: []);
 
-  test('Should emit AsyncLoading state when initialization starts', () {
-    final state = container.read(locationsProvider);
+      fakeFetcher.mockedReturn = [newGroup];
 
-    expect(state.isLoading, isTrue);
-    expect(state.hasValue, isFalse);
-    expect(state, isA<AsyncLoading<List<LocationGroup>?>>());
-  });
+      container.invalidate(locationsProvider);
+      await container.read(locationsProvider.future);
 
-  test('Provider must reload with new value', () async {
-    final manualGroup = LocationGroup(const LatLng(0, 0), locations: []);
+      final state = container.read(locationsProvider);
+      expect(state.value!.first.id, 2);
+    });
 
-    fakeFetcher.mockedReturn = [manualGroup];
+    test('Must recover from an error to a success state', () async {
+      fakeFetcher.mockedError = Exception('Exception');
+      try {
+        await container.read(locationsProvider.future);
+      } catch (_) {}
+      expect(container.read(locationsProvider).hasError, isTrue);
 
-    await container.read(locationsProvider.future);
+      fakeFetcher.mockedError = null;
 
-    final newGroup = LocationGroup(const LatLng(0, 0), id: 2, locations: []);
+      final manualGroup = LocationGroup(
+        const LatLng(0, 0),
+        id: 1,
+        locations: [],
+      );
 
-    fakeFetcher.mockedReturn = [newGroup];
+      fakeFetcher.mockedReturn = [manualGroup];
 
-    container.invalidate(locationsProvider);
-    await container.read(locationsProvider.future);
+      container.invalidate(locationsProvider);
+      await container.read(locationsProvider.future);
 
-    final state = container.read(locationsProvider);
-    expect(state.value!.first.id, 2);
-  });
+      final state = container.read(locationsProvider);
 
-  test('Must recover from an error to a success state', () async {
-    fakeFetcher.mockedError = Exception('Exception');
-    try {
-      await container.read(locationsProvider.futue);
-    } catch (_) {}
-    expect(container.read(locationsProvider).hasError, isTrue);
-
-    fakeFetcher.mockedError = null;
-
-    final manualGroup = LocationGroup(const LatLng(0, 0), id: 1, locations: []);
-
-    fakeFetcher.mockedReturn = [manualGroup];
-
-    container.invalidate(locationsProvider);
-    await container.read(locationsProvider.future);
-
-    final state = container.read(locationsProvider);
-
-    expect(state.value!.first.id, 1);
+      expect(state.value!.first.id, 1);
+    });
   });
 }
