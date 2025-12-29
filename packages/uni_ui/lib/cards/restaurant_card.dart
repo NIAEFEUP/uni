@@ -13,6 +13,7 @@ class RestaurantCard extends StatelessWidget {
     required this.onFavoriteToggle,
     this.showFavoriteButton = true,
     this.onClick,
+    this.subtitle,
   });
 
   final String name;
@@ -22,6 +23,7 @@ class RestaurantCard extends StatelessWidget {
   final VoidCallback onFavoriteToggle;
   final bool showFavoriteButton;
   final Function()? onClick;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,7 @@ class RestaurantCard extends StatelessWidget {
             isFavorite: isFavorite,
             onFavoriteToggle: onFavoriteToggle,
             showFavoriteButton: showFavoriteButton,
+            subtitle: subtitle,
           ),
           Column(children: menuItems),
         ],
@@ -57,6 +60,7 @@ class RestaurantCardHeader extends StatelessWidget {
     required this.isFavorite,
     required this.onFavoriteToggle,
     this.showFavoriteButton = true,
+    this.subtitle,
   });
 
   final String name;
@@ -64,6 +68,7 @@ class RestaurantCardHeader extends StatelessWidget {
   final bool isFavorite;
   final VoidCallback onFavoriteToggle;
   final bool showFavoriteButton;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -80,10 +85,36 @@ class RestaurantCardHeader extends StatelessWidget {
             flex: 4,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(
-                name,
-                style: Theme.of(context).textTheme.headlineSmall,
-                overflow: TextOverflow.clip,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    name,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                    overflow: TextOverflow.clip,
+                  ),
+                  if (subtitle != null)
+                    Container(
+                      margin: const EdgeInsets.only(top: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        subtitle!,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
           ),

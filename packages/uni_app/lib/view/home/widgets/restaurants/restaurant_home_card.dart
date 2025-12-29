@@ -122,7 +122,14 @@ List<RestaurantCard> getRestaurantInformation(
 ) {
   final locale = ref.watch(localeProvider);
 
-  final today = parseDateTime(DateTime.now());
+  final now = DateTime.now();
+  var today = parseDateTime(now);
+
+  final showTomorrow = now.hour >= 21 && now.weekday != DateTime.sunday;
+  if (showTomorrow) {
+    final tomorrowIndex = (today.index + 1) % DayOfWeek.values.length;
+    today = DayOfWeek.values[tomorrowIndex];
+  }
 
   final restaurantsWidgets =
       favoriteRestaurants
@@ -145,6 +152,7 @@ List<RestaurantCard> getRestaurantInformation(
               onFavoriteToggle: () => {},
               menuItems: menuItems,
               showFavoriteButton: false,
+              subtitle: showTomorrow ? S.of(context).tomorrows_meals : null,
             );
           })
           .toList();

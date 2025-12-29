@@ -440,6 +440,8 @@
   "@library": {},
   "restaurants": "Restaurantes",
   "@restaurants": {},
+  "tomorrows_meals": "Refeições de Amanhã",
+  "@tomorrows_meals": {},
   "calendar": "Calendário",
   "@calendar": {},
   "ucs": "UCS",

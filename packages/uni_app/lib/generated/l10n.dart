@@ -1846,6 +1846,16 @@ class S {
     return Intl.message('Restaurants', name: 'restaurants', desc: '', args: []);
   }
 
+  /// `Tomorrow's Meals`
+  String get tomorrows_meals {
+    return Intl.message(
+      'Tomorrow\'s Meals',
+      name: 'tomorrows_meals',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Calendar`
   String get calendar {
     return Intl.message('Calendar', name: 'calendar', desc: '', args: []);
