@@ -4,6 +4,21 @@ import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni_ui/icons.dart';
 
 class RestaurantUtils {
+  // Hour after which to show tomorrow's menu (except on Sunday)
+  static const int menuSwitchHour = 21;
+
+  /// Determines if tomorrow's menu should be shown based on current time
+  /// Returns true if it's after menuSwitchHour and not Sunday
+  static bool shouldShowTomorrowMenu(DateTime now) {
+    return now.hour >= menuSwitchHour && now.weekday != DateTime.sunday;
+  }
+
+  /// Determines if it's Sunday night after menuSwitchHour
+  /// (when tomorrow's menu is not available)
+  static bool isSundayNight(DateTime now) {
+    return now.hour >= menuSwitchHour && now.weekday == DateTime.sunday;
+  }
+
   // Method to get a restaurant related UniIcon based on a specific type
   static UniIcon getIcon(String? type, {double size = 24, Color? color}) {
     switch (type) {

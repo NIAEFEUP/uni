@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:uni/model/utils/day_of_week.dart';
+import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
 
 final tabControllerProvider = StateNotifierProvider<TabControllerProvider, int>(
   (ref) => TabControllerProvider(),
@@ -13,7 +14,7 @@ class TabControllerProvider extends StateNotifier<int> {
 
     int index = now.weekday - 1;
 
-    if (now.hour >= 21 && now.weekday != DateTime.sunday) {
+    if (RestaurantUtils.shouldShowTomorrowMenu(now)) {
       index++;
     }
 

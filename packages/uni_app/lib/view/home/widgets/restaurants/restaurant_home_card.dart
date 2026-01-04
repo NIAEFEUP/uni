@@ -125,8 +125,8 @@ List<RestaurantCard> getRestaurantInformation(
   final now = DateTime.now();
   var today = parseDateTime(now);
 
-  final showTomorrow = now.hour >= 21 && now.weekday != DateTime.sunday;
-  final isSundayNight = now.hour >= 21 && now.weekday == DateTime.sunday;
+  final showTomorrow = RestaurantUtils.shouldShowTomorrowMenu(now);
+  final isSundayNight = RestaurantUtils.isSundayNight(now);
 
   if (showTomorrow) {
     final tomorrowIndex = (today.index + 1) % DayOfWeek.values.length;
