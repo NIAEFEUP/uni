@@ -422,7 +422,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "restaurants": MessageLookupByLibrary.simpleMessage("Restaurantes"),
     "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Menu de Amanhã"),
     "no_menu_tomorrow": MessageLookupByLibrary.simpleMessage(
-      "Menu de amanhã indisponível",
+      "Menu de Amanhã Indisponível",
     ),
     "room": MessageLookupByLibrary.simpleMessage("Sala"),
     "save": MessageLookupByLibrary.simpleMessage("Guardar"),

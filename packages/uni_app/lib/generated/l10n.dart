@@ -1856,10 +1856,10 @@ class S {
     );
   }
 
-  /// `Tomorrow's menu unavailable`
+  /// `Tomorrow's Menu Unavailable`
   String get no_menu_tomorrow {
     return Intl.message(
-      'Tomorrow\'s menu unavailable',
+      'Tomorrow\'s Menu Unavailable',
       name: 'no_menu_tomorrow',
       desc: '',
       args: [],
