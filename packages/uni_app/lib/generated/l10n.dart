@@ -1846,11 +1846,21 @@ class S {
     return Intl.message('Restaurants', name: 'restaurants', desc: '', args: []);
   }
 
-  /// `Tomorrow's Meals`
+  /// `Tomorrow's Menu`
   String get tomorrows_meals {
     return Intl.message(
-      'Tomorrow\'s Meals',
+      'Tomorrow\'s Menu',
       name: 'tomorrows_meals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tomorrow's menu unavailable`
+  String get no_menu_tomorrow {
+    return Intl.message(
+      'Tomorrow\'s menu unavailable',
+      name: 'no_menu_tomorrow',
       desc: '',
       args: [],
     );
