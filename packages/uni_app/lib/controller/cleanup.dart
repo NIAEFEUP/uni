@@ -19,13 +19,11 @@ import 'package:uni/model/providers/riverpod/restaurant_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 
 Future<void> cleanupStoredData(BuildContext context) async {
+  Database().clear();
   final prefs = await SharedPreferences.getInstance();
   await prefs.clear();
 
   await Future.wait([PreferencesController.removeSavedSession()]);
-
-  Database().clear();
-  await Database().remove();
 
   final toCleanDirectory = await getApplicationDocumentsDirectory();
   await cleanDirectory(toCleanDirectory, DateTime.now());
