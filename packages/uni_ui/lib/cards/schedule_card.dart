@@ -37,6 +37,8 @@ class ScheduleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GenericCard(
+      shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
+      blurRadius: 2,
       gradient:
           isActive
               ? RadialGradient(
@@ -90,8 +92,8 @@ class ScheduleCard extends StatelessWidget {
                           ? Theme.of(context).textTheme.titleSmall
                           : Theme.of(context).textTheme.bodySmall,
                 ),
-                if (isActive && teacherName != null) SizedBox(height: 5),
-                if (isActive && teacherName != null)
+                if (teacherName != null) SizedBox(height: 5),
+                if (teacherName != null)
                   Row(
                     children: [
                       CircleAvatar(
@@ -104,7 +106,12 @@ class ScheduleCard extends StatelessWidget {
                         child: Text(
                           teacherName!,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.titleSmall,
+                          style: TextStyle(
+                            color:
+                                isActive
+                                    ? Theme.of(context).colorScheme.secondary
+                                    : Theme.of(context).colorScheme.primary,
+                          ),
                         ),
                       ),
                     ],

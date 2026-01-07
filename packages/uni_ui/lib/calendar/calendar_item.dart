@@ -81,12 +81,14 @@ class CalendarItem extends StatelessWidget {
     this.eventPeriod,
     this.endYear,
     this.onTap,
+    this.isToday = false,
   });
 
   final String eventName;
   final String? eventPeriod;
   final String? endYear;
   final void Function()? onTap;
+  final bool isToday;
 
   @override
   Widget build(BuildContext context) {
@@ -103,11 +105,25 @@ class CalendarItem extends StatelessWidget {
               height: 20,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
+                color: isToday ? Theme.of(context).primaryColor : Colors.white,
                 border: Border.all(
                   color: Theme.of(context).colorScheme.primary,
                   width: 4.0,
                 ),
               ),
+              child:
+                  isToday
+                      ? Center(
+                        child: Container(
+                          width: 20,
+                          height: 20,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 3),
+                          ),
+                        ),
+                      )
+                      : null,
             ),
             Container(
               width: 4,
@@ -130,21 +146,35 @@ class CalendarItem extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
             width: 140,
             decoration: ShapeDecoration(
-              color: Theme.of(context).colorScheme.secondary,
+              gradient:
+                  isToday
+                      ? RadialGradient(
+                        colors: [Color(0xFF280709), Color(0xFF511515)],
+                        center: Alignment.topLeft,
+                        radius: 1.5,
+                        stops: [0, 1],
+                      )
+                      : null,
+              color: isToday ? null : Theme.of(context).colorScheme.secondary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
               shadows: [
                 BoxShadow(
-                  color: Theme.of(context).colorScheme.shadow.withAlpha(0x3f),
-                  blurRadius: 6,
+                  color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
+                  blurRadius: 2,
                 ),
               ],
             ),
             child: Text(
               eventName,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
+                color:
+                    isToday
+                        ? Theme.of(context).colorScheme.secondary
+                        : Theme.of(context).colorScheme.primary,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 height: 1,

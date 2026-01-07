@@ -18,6 +18,7 @@ class CourseUnitClassesView extends ConsumerStatefulWidget {
 
 class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
   static const double _itemWidth = 140;
+  static const double _edgeSpacing = 14;
   static const _scrollDuration = Duration(milliseconds: 300);
 
   final _scrollController = ScrollController();
@@ -26,12 +27,29 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
   late int studentNumber;
 
   void _scrollToSelectedClass() {
+    if (selectedIndex == null || widget.classes.isEmpty) {
+      return;
+    }
+    if (!_scrollController.hasClients) {
+      return;
+    }
+
     final screenWidth = MediaQuery.of(context).size.width;
-    final offset =
-        (_itemWidth * selectedIndex!) - (screenWidth - _itemWidth) / 2;
+    var offset =
+        _edgeSpacing +
+        (_itemWidth * selectedIndex!) -
+        (screenWidth - _itemWidth) / 2;
+
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    if (offset < 0) {
+      offset = 0;
+    }
+    if (offset > maxScroll) {
+      offset = maxScroll;
+    }
 
     _scrollController.animateTo(
-      offset < 0 ? 0 : offset,
+      offset,
       duration: _scrollDuration,
       curve: Curves.easeInOut,
     );
@@ -88,19 +106,23 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
 
   Widget _buildClassSelector(int studentNumber) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.only(bottom: 20, top: 10),
       child: SizedBox(
         height: 55,
         child: ListView.builder(
           controller: _scrollController,
           scrollDirection: Axis.horizontal,
-          itemCount: widget.classes.length,
+          itemCount: widget.classes.length + 2,
           itemBuilder: (context, index) {
-            final courseUnitClass = widget.classes[index];
+            if (index == 0 || index == widget.classes.length + 1) {
+              return const SizedBox(width: _edgeSpacing);
+            }
+            final classIndex = index - 1;
+            final courseUnitClass = widget.classes[classIndex];
             final isMyClass = courseUnitClass.students.any(
               (student) => student.number == studentNumber,
             );
-            final isSelected = index == selectedIndex;
+            final isSelected = classIndex == selectedIndex;
 
             return ConstrainedBox(
               constraints: const BoxConstraints(
@@ -108,7 +130,7 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                 maxWidth: _itemWidth,
               ),
               child: GestureDetector(
-                onTap: () => _handleClassTap(index),
+                onTap: () => _handleClassTap(classIndex),
                 child: Container(
                   margin: const EdgeInsets.symmetric(
                     horizontal: 8,
@@ -122,9 +144,11 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                     borderRadius: BorderRadius.circular(25),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withAlpha(51), // 20% opacity
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.shadow.withAlpha(0x25),
                         spreadRadius: 2,
-                        blurRadius: 5,
+                        blurRadius: 2,
                         offset: const Offset(0, 2),
                       ),
                     ],
@@ -161,7 +185,7 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
     final currentClass = widget.classes[selectedIndex!];
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(right: 20, left: 20, bottom: 20),
       child: GridView.builder(
         key: ValueKey(currentClass.className),
         shrinkWrap: true,

@@ -9,13 +9,17 @@ import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
 import 'package:uni/model/providers/riverpod/lecture_provider.dart';
 import 'package:uni/model/providers/riverpod/library_occupation_provider.dart';
+import 'package:uni/model/providers/riverpod/news_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/restaurant_provider.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
+import 'package:uni/view/home/widgets/calendar/calendar_home_card.dart';
+import 'package:uni/view/home/widgets/connectivity_warning.dart';
 import 'package:uni/view/home/widgets/exams/exam_home_card.dart';
 import 'package:uni/view/home/widgets/library/library_home_card.dart';
+import 'package:uni/view/home/widgets/news/news_home_card.dart';
 import 'package:uni/view/home/widgets/restaurants/restaurant_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/schedule_home_card.dart';
 import 'package:uni/view/home/widgets/tracking_banner.dart';
@@ -50,6 +54,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
     FavoriteWidgetType.exams: examProvider,
     FavoriteWidgetType.library: libraryProvider,
     FavoriteWidgetType.restaurants: restaurantProvider,
+    FavoriteWidgetType.news: newsProvider,
   };
 
   @override
@@ -59,12 +64,19 @@ class HomePageViewState extends ConsumerState<HomePageView> {
   }
 
   Future<void> refreshPage(BuildContext context) async {
+    final futures = <Future<void>>[];
     for (final card in favoriteCards) {
-      if (typeToProvider[card] != null) {
-        await ref.read(typeToProvider[card]!.notifier).refreshRemote();
+      final provider = typeToProvider[card];
+      if (provider != null) {
+        futures.add(ref.read(provider.notifier).refreshRemote());
       }
     }
-    setState(() {});
+    try {
+      await Future.wait(futures);
+    } catch (_) {}
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<void> checkBannerViewed() async {
@@ -85,7 +97,8 @@ class HomePageViewState extends ConsumerState<HomePageView> {
       FavoriteWidgetType.exams: const ExamHomeCard(),
       FavoriteWidgetType.library: const LibraryHomeCard(),
       FavoriteWidgetType.restaurants: const RestaurantHomeCard(),
-      // FavoriteWidgetType.calendar: const CalendarHomeCard(), TODO: enable this when dates are properly formatted
+      FavoriteWidgetType.calendar: const CalendarHomeCard(),
+      FavoriteWidgetType.news: const NewsHomeCard(),
     };
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -116,22 +129,19 @@ class HomePageViewState extends ConsumerState<HomePageView> {
         bottomNavigationBar: const AppBottomNavbar(),
         body: RefreshIndicator(
           onRefresh: () => refreshPage(context),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-            child: ListView.separated(
-              itemCount: favoriteCards.length + 1,
-              separatorBuilder: (_, _) => const SizedBox(height: 10),
-              itemBuilder: (_, index) {
-                if (index == 0) {
-                  return Visibility(
-                    visible: !_isBannerViewed,
-                    child: TrackingBanner(setBannerViewed),
-                  );
-                } else {
-                  return typeToCard[favoriteCards[index - 1]];
-                }
-              },
-            ),
+          child: ListView.separated(
+            itemCount: favoriteCards.length + 1,
+            separatorBuilder: (_, _) => const SizedBox(height: 10),
+            itemBuilder: (_, index) {
+              if (index == 0) {
+                return Visibility(
+                  visible: !_isBannerViewed,
+                  child: TrackingBanner(setBannerViewed),
+                );
+              } else {
+                return typeToCard[favoriteCards[index - 1]];
+              }
+            },
           ),
         ),
       ),
@@ -159,8 +169,15 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      UniLogo(iconColor: Colors.white), // TODO: #1450
-                      ProfileButton(),
+                      UniLogo(iconColor: Colors.white),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ConnectivityWarning(),
+                          SizedBox(width: 10),
+                          ProfileButton(),
+                        ],
+                      ),
                     ],
                   ),
                 ),

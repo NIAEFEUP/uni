@@ -19,7 +19,7 @@ import 'package:uni_ui/cards/instructor_card.dart';
 import 'package:uni_ui/cards/remaining_instructors_card.dart';
 
 const double _horizontalSpacing = 8;
-const double _verticalSpacing = 4;
+const double _verticalSpacing = 8;
 
 class CourseUnitSheetView extends ConsumerWidget {
   const CourseUnitSheetView(this.courseUnitSheet, this.exams, {super.key});
@@ -33,32 +33,23 @@ class CourseUnitSheetView extends ConsumerWidget {
       children: [
         _buildSection(
           title: S.of(context).instructors,
+          titlePadding: 20,
           content:
               courseUnitSheet.professors.isEmpty
                   ? Padding(
-                    padding: const EdgeInsets.only(top: 8),
+                    padding: const EdgeInsets.only(top: 8, left: 20),
                     child: Text(
                       S.of(context).noInstructors,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   )
                   : courseUnitSheet.professors.length <= 4
-                  ? Wrap(
-                    spacing: _horizontalSpacing,
-                    runSpacing: _verticalSpacing,
-                    children:
-                        courseUnitSheet.professors
-                            .map(
-                              (instructor) =>
-                                  _InstructorCard(instructor: instructor),
-                            )
-                            .toList(),
-                  )
-                  : AnimatedExpandable(
-                    firstChild: _LimitedInstructorsRow(
-                      instructors: courseUnitSheet.professors,
+                  ? Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 3,
                     ),
-                    secondChild: Wrap(
+                    child: Wrap(
                       spacing: _horizontalSpacing,
                       runSpacing: _verticalSpacing,
                       children:
@@ -69,15 +60,44 @@ class CourseUnitSheetView extends ConsumerWidget {
                               )
                               .toList(),
                     ),
+                  )
+                  : AnimatedExpandable(
+                    firstChild: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 2,
+                      ),
+                      child: _LimitedInstructorsRow(
+                        instructors: courseUnitSheet.professors,
+                      ),
+                    ),
+                    secondChild: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 2,
+                      ),
+                      child: Wrap(
+                        spacing: _horizontalSpacing,
+                        runSpacing: _verticalSpacing,
+                        children:
+                            courseUnitSheet.professors
+                                .map(
+                                  (instructor) =>
+                                      _InstructorCard(instructor: instructor),
+                                )
+                                .toList(),
+                      ),
+                    ),
                   ),
           context: context,
         ),
         _buildSection(
           title: S.of(context).assessments,
+          titlePadding: 20,
           content:
               exams.isEmpty
                   ? Padding(
-                    padding: const EdgeInsets.only(top: 8),
+                    padding: const EdgeInsets.only(top: 8, left: 20),
                     child: Text(
                       S.of(context).noExamsScheduled,
                       style: Theme.of(context).textTheme.bodyLarge,
@@ -87,92 +107,109 @@ class CourseUnitSheetView extends ConsumerWidget {
                     height: 100,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
-                      itemCount: exams.length,
+                      itemCount: exams.length + 2,
                       separatorBuilder:
                           (context, index) =>
                               const SizedBox(width: _horizontalSpacing),
-                      itemBuilder:
-                          (context, index) => SizedBox(
-                            width: 240,
-                            child: ExamCard(
-                              name: exams[index].subject,
-                              acronym: exams[index].subjectAcronym,
-                              rooms: exams[index].rooms,
-                              type: exams[index].examType,
-                              startTime: exams[index].startTime,
-                              examDay: exams[index].start.day.toString(),
-                              examMonth: exams[index].monthAcronym(
-                                PreferencesController.getLocale(),
-                              ),
-                              showIcon: false,
+                      itemBuilder: (context, index) {
+                        if (index == 0 || index == exams.length + 1) {
+                          return const SizedBox(width: 10);
+                        }
+                        return SizedBox(
+                          width: 240,
+                          child: ExamCard(
+                            name: exams[index - 1].subject,
+                            acronym: exams[index - 1].subjectAcronym,
+                            rooms: exams[index - 1].rooms,
+                            type: exams[index - 1].examType,
+                            startTime: exams[index - 1].startTime,
+                            examDay: exams[index - 1].start.day.toString(),
+                            examMonth: exams[index - 1].monthAcronym(
+                              PreferencesController.getLocale(),
                             ),
+                            showIcon: false,
                           ),
+                        );
+                      },
                     ),
                   ),
           context: context,
         ),
-        _buildSection(
-          title: S.of(context).program,
-          content: HtmlWidget(
-            courseUnitSheet.content != 'null'
-                ? courseUnitSheet.content
-                : S.of(context).no_info,
-            textStyle: Theme.of(context).textTheme.bodyLarge,
-          ),
-          context: context,
-        ),
-        _buildSection(
-          title: S.of(context).evaluation,
-          content: HtmlWidget(
-            courseUnitSheet.evaluation != 'null'
-                ? courseUnitSheet.evaluation
-                : S.of(context).no_info,
-            textStyle: Theme.of(context).textTheme.bodyLarge,
-          ),
-          context: context,
-        ),
-        _buildSection(
-          title: S.of(context).frequency,
-          content: HtmlWidget(
-            courseUnitSheet.frequency != 'null'
-                ? courseUnitSheet.frequency
-                : S.of(context).no_info,
-            textStyle: Theme.of(context).textTheme.bodyLarge,
-          ),
-          context: context,
-        ),
-        if (courseUnitSheet.books.isNotEmpty)
-          _buildSection(
-            title: S.of(context).bibliography,
-            content: SizedBox(
-              width: double.infinity,
-              child: Wrap(
-                alignment: WrapAlignment.spaceBetween,
-                children:
-                    courseUnitSheet.books.map((book) {
-                      return book.isbn.isNotEmpty
-                          ? FutureBuilder<String?>(
-                            future: BookThumbFetcher().fetchBookThumb(
-                              book.isbn,
-                            ),
-                            builder: (context, snapshot) {
-                              return BookCard(
-                                title: book.title,
-                                isbn: book.isbn,
-                                imageUrl: snapshot.data,
-                              );
-                            },
-                          )
-                          : BookCard(
-                            title: book.title,
-                            isbn: book.isbn,
-                            imageUrl: null,
-                          );
-                    }).toList(),
-              ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: _buildSection(
+            title: S.of(context).program,
+            content: HtmlWidget(
+              courseUnitSheet.content != 'null'
+                  ? courseUnitSheet.content
+                  : S.of(context).no_info,
+              textStyle: Theme.of(context).textTheme.bodyLarge,
             ),
             context: context,
           ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: _buildSection(
+            title: S.of(context).evaluation,
+            content: HtmlWidget(
+              courseUnitSheet.evaluation != 'null'
+                  ? courseUnitSheet.evaluation
+                  : S.of(context).no_info,
+              textStyle: Theme.of(context).textTheme.bodyLarge,
+            ),
+            context: context,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: _buildSection(
+            title: S.of(context).frequency,
+            content: HtmlWidget(
+              courseUnitSheet.frequency != 'null'
+                  ? courseUnitSheet.frequency
+                  : S.of(context).no_info,
+              textStyle: Theme.of(context).textTheme.bodyLarge,
+            ),
+            context: context,
+          ),
+        ),
+        if (courseUnitSheet.books.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: _buildSection(
+              title: S.of(context).bibliography,
+              content: SizedBox(
+                width: double.infinity,
+                child: Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  children:
+                      courseUnitSheet.books.map((book) {
+                        return book.isbn.isNotEmpty
+                            ? FutureBuilder<String?>(
+                              future: BookThumbFetcher().fetchBookThumb(
+                                book.isbn,
+                              ),
+                              builder: (context, snapshot) {
+                                return BookCard(
+                                  title: book.title,
+                                  isbn: book.isbn,
+                                  imageUrl: snapshot.data,
+                                );
+                              },
+                            )
+                            : BookCard(
+                              title: book.title,
+                              isbn: book.isbn,
+                              imageUrl: null,
+                            );
+                      }).toList(),
+                ),
+              ),
+              context: context,
+            ),
+          ),
+        const SizedBox(height: 20),
       ],
     );
   }
@@ -181,6 +218,7 @@ class CourseUnitSheetView extends ConsumerWidget {
     required String title,
     required Widget content,
     required BuildContext context,
+    double? titlePadding,
   }) {
     return Padding(
       padding: const EdgeInsets.only(top: 25),
@@ -191,7 +229,10 @@ class CourseUnitSheetView extends ConsumerWidget {
             GenericExpandable(title: title, content: content)
           else ...[
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
+              padding: EdgeInsets.symmetric(
+                horizontal: titlePadding ?? 0,
+                vertical: 8,
+              ),
               child: Text(
                 title,
                 style: Theme.of(context).textTheme.headlineLarge,
@@ -220,25 +261,39 @@ class _InstructorCard extends ConsumerWidget {
           builder: (context) => ProfessorInfoModal(instructor),
         );
       },
-      child: FutureBuilder<File?>(
-        future: ProfileNotifier.fetchOrGetCachedProfilePicture(
-          session,
-          studentNumber: int.parse(instructor.code),
+      child: Container(
+        decoration: ShapeDecoration(
+          color: Theme.of(context).colorScheme.secondary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          shadows: [
+            BoxShadow(
+              color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
+              blurRadius: 2,
+            ),
+          ],
         ),
-        builder: (context, snapshot) {
-          final profileImage =
-              snapshot.hasData && snapshot.data != null
-                  ? FileImage(snapshot.data!)
-                  : null;
+        child: FutureBuilder<File?>(
+          future: ProfileNotifier.fetchOrGetCachedProfilePicture(
+            session,
+            studentNumber: int.parse(instructor.code),
+          ),
+          builder: (context, snapshot) {
+            final profileImage =
+                snapshot.hasData && snapshot.data != null
+                    ? FileImage(snapshot.data!)
+                    : null;
 
-          return InstructorCard(
-            name: instructor.name,
-            isRegent: instructor.isRegent,
-            instructorLabel: S.of(context).instructor,
-            regentLabel: S.of(context).courseRegent,
-            profileImage: profileImage,
-          );
-        },
+            return InstructorCard(
+              name: instructor.name,
+              isRegent: instructor.isRegent,
+              instructorLabel: S.of(context).instructor,
+              regentLabel: S.of(context).courseRegent,
+              profileImage: profileImage,
+            );
+          },
+        ),
       ),
     );
   }

@@ -19,7 +19,11 @@ import 'package:uni_ui/cards/restaurant_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
 
 class RestaurantHomeCard extends GenericHomecard {
-  const RestaurantHomeCard({super.key});
+  const RestaurantHomeCard({super.key})
+    : super(
+        titlePadding: const EdgeInsets.symmetric(horizontal: 20),
+        bodyPadding: const EdgeInsets.symmetric(horizontal: 20),
+      );
 
   @override
   String getTitle(BuildContext context) {
@@ -75,16 +79,18 @@ class RestaurantSliderState extends ConsumerState<RestaurantSlider> {
                     _currentIndex = value;
                   }),
             ),
-            const SizedBox(height: 5),
-            AnimatedSmoothIndicator(
-              activeIndex: _currentIndex,
-              count: dailyRestaurants.length,
-              effect: WormEffect(
-                dotHeight: 4,
-                dotWidth: 4,
-                activeDotColor: Theme.of(context).colorScheme.primary,
+            if (dailyRestaurants.length > 1) ...[
+              const SizedBox(height: 5),
+              AnimatedSmoothIndicator(
+                activeIndex: _currentIndex,
+                count: dailyRestaurants.length,
+                effect: WormEffect(
+                  dotHeight: 4,
+                  dotWidth: 4,
+                  activeDotColor: Theme.of(context).colorScheme.primary,
+                ),
               ),
-            ),
+            ],
             const SizedBox(height: 5),
           ],
         );

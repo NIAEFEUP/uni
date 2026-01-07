@@ -10,7 +10,6 @@ environment:
   flutter: 3.35.6
 
 dependencies:
-  figma_squircle: ^0.6.3
   flutter:
     sdk: flutter
   percent_indicator: ^4.2.5
@@ -18,10 +17,10 @@ dependencies:
   scrollable_positioned_list: ^0.3.8
 
 dev_dependencies:
-  custom_lint: ^0.7.6
+  custom_lint: ^0.8.1
   flutter_test:
     sdk: flutter
-  leancode_lint: ^18.0.0
+  leancode_lint: ^19.0.1
   uni_lint: ^1.0.0
   test: ^1.26.2
 

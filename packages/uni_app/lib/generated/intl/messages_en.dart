@@ -39,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "academic_services": MessageLookupByLibrary.simpleMessage(
       "Academic services",
     ),
+    "accept": MessageLookupByLibrary.simpleMessage("Accept"),
     "account_card_title": MessageLookupByLibrary.simpleMessage(
       "Checking account",
     ),
@@ -331,6 +332,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "There are no meals available",
     ),
     "no_name_course": MessageLookupByLibrary.simpleMessage("Unnamed course"),
+    "no_news": MessageLookupByLibrary.simpleMessage("No news to display"),
     "no_places_info": MessageLookupByLibrary.simpleMessage(
       "There is no information available about places",
     ),
@@ -387,6 +389,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "reference_success": MessageLookupByLibrary.simpleMessage(
       "Reference created successfully!",
     ),
+    "reject": MessageLookupByLibrary.simpleMessage("Reject"),
     "remaining_instructors": MessageLookupByLibrary.simpleMessage(
       "Remaining Instructors",
     ),
@@ -427,6 +430,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "telephone": MessageLookupByLibrary.simpleMessage("Telephone"),
     "terms": MessageLookupByLibrary.simpleMessage("Terms and Conditions"),
+    "terms_change": MessageLookupByLibrary.simpleMessage(
+      "Changes on uni\'s Terms and Conditions",
+    ),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "title": MessageLookupByLibrary.simpleMessage("Title"),
     "try_again": MessageLookupByLibrary.simpleMessage("Try again"),
