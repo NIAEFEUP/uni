@@ -102,7 +102,7 @@ class RestaurantCardHeader extends StatelessWidget {
                         vertical: 2,
                       ),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primaryContainer,
+                        color: Theme.of(context).primaryColor.withAlpha(0x20),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
