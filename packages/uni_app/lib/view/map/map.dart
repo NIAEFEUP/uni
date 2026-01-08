@@ -2,6 +2,7 @@ import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -223,6 +224,15 @@ class MapPageStateView extends ConsumerState<MapPage> {
                         ),
                       ),
                     ),
+                  ),
+                ),
+                CurrentLocationLayer(
+                  style: LocationMarkerStyle(
+                    marker: DefaultLocationMarker(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    showAccuracyCircle: false,
+                    headingSectorColor: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               ],

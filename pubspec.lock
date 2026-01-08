@@ -628,6 +628,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "8.2.2"
+  flutter_map_location_marker:
+    dependency: transitive
+    description:
+      name: flutter_map_location_marker
+      sha256: "474695ec9052c17e307bdef98b66be2c183324f956efad24d86ad34a71942e4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "10.1.0"
   flutter_map_marker_popup:
     dependency: transitive
     description:
@@ -668,6 +676,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  flutter_rotation_sensor:
+    dependency: transitive
+    description:
+      name: flutter_rotation_sensor
+      sha256: "7944dbadf3d05be128a81cb0f37b2ba2b53247fef22b85f8096c60b06c1e50a4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.1"
   flutter_secure_storage:
     dependency: transitive
     description:
@@ -758,6 +774,54 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
+  geolocator:
+    dependency: transitive
+    description:
+      name: geolocator
+      sha256: ee2212a3df8292ec4c90b91183b8001d3f5a800823c974b570c5f9344ca320dc
+      url: "https://pub.dev"
+    source: hosted
+    version: "14.0.1"
+  geolocator_android:
+    dependency: transitive
+    description:
+      name: geolocator_android
+      sha256: "179c3cb66dfa674fc9ccbf2be872a02658724d1c067634e2c427cf6df7df901a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.2"
+  geolocator_apple:
+    dependency: transitive
+    description:
+      name: geolocator_apple
+      sha256: dbdd8789d5aaf14cf69f74d4925ad1336b4433a6efdf2fce91e8955dc921bf22
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.13"
+  geolocator_platform_interface:
+    dependency: transitive
+    description:
+      name: geolocator_platform_interface
+      sha256: "30cb64f0b9adcc0fb36f628b4ebf4f731a2961a0ebd849f4b56200205056fe67"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.6"
+  geolocator_web:
+    dependency: transitive
+    description:
+      name: geolocator_web
+      sha256: b1ae9bdfd90f861fde8fd4f209c37b953d65e92823cb73c7dee1fa021b06f172
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.3"
+  geolocator_windows:
+    dependency: transitive
+    description:
+      name: geolocator_windows
+      sha256: "175435404d20278ffd220de83c2ca293b73db95eafbdc8131fe8609be1421eb6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.5"
   glob:
     dependency: transitive
     description:
@@ -1086,6 +1150,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.6.1"
+  native_device_orientation:
+    dependency: transitive
+    description:
+      name: native_device_orientation
+      sha256: bc0bcccc79752048d2235c10545c5fd554a46035fe0a4a4534d1bb9d8bc85e6c
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.4"
   native_toolchain_c:
     dependency: transitive
     description:

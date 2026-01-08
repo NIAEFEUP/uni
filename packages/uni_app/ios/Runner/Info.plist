@@ -59,6 +59,8 @@
 	<string>Exportar exames e eventos para o calendário</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Possibilidade de adicionar prints a um bug report</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Mostrar a localização do utilizador no mapa da faculdade</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UISceneConfigurations</key>
