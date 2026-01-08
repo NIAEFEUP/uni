@@ -10,6 +10,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/faculty_locations_provider.dart';
+import 'package:uni/view/map/widgets/floor_selector.dart';
 import 'package:uni/view/map/widgets/floorless_marker_popup.dart';
 import 'package:uni/view/map/widgets/marker.dart';
 import 'package:uni/view/map/widgets/marker_popup.dart';
@@ -29,12 +30,14 @@ class MapPageStateView extends ConsumerState<MapPage> {
   var _searchTerms = '';
   late final PopupController _popupLayerController;
   LatLngBounds? _bounds;
+  int? _selectedFloor;
 
   @override
   void initState() {
     super.initState();
     _searchTerms = '';
     _popupLayerController = PopupController();
+    _selectedFloor = null;
   }
 
   @override
@@ -67,6 +70,16 @@ class MapPageStateView extends ConsumerState<MapPage> {
           });
         }
 
+        if (_selectedFloor != null) {
+          filteredLocations.retainWhere((location) {
+            return location.floors.containsKey(_selectedFloor);
+          });
+        }
+
+        final allFloors =
+            locations.expand((group) => group.floors.keys).toSet().toList()
+              ..sort((a, b) => b.compareTo(a));
+
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: AppSystemOverlayStyles.base.copyWith(
             statusBarIconBrightness: Brightness.dark,
@@ -82,13 +95,14 @@ class MapPageStateView extends ConsumerState<MapPage> {
                 minZoom: 16,
                 maxZoom: 19,
                 initialCenter: bounds.center,
-                initialCameraFit: CameraFit.insideBounds(bounds: bounds),
+                initialZoom: 17,
                 cameraConstraint: CameraConstraint.containCenter(
                   bounds: bounds,
                 ),
-                onTap:
-                    (tapPosition, latlng) =>
-                        _popupLayerController.hideAllPopups(),
+                onTap: (tapPosition, latlng) {
+                  _popupLayerController.hideAllPopups();
+                  FocusScope.of(context).unfocus();
+                },
                 interactionOptions: const InteractionOptions(
                   flags: InteractiveFlag.all - InteractiveFlag.rotate,
                 ),
@@ -128,40 +142,33 @@ class MapPageStateView extends ConsumerState<MapPage> {
                     ),
                   ),
                 ),
-                PopupMarkerLayer(
-                  options: PopupMarkerLayerOptions(
-                    markers:
-                        filteredLocations.map((location) {
-                          return LocationMarker(location.latlng, location);
-                        }).toList(),
-                    popupController: _popupLayerController,
-                    popupDisplayOptions: PopupDisplayOptions(
-                      animation: const PopupAnimation.fade(
-                        duration: Duration(milliseconds: 400),
-                      ),
-                      builder: (_, marker) {
-                        if (marker is LocationMarker) {
-                          return marker.locationGroup.isFloorless
-                              ? FloorlessLocationMarkerPopup(
-                                marker.locationGroup,
-                              )
-                              : LocationMarkerPopup(marker.locationGroup);
-                        }
-                        return const Card(child: Text(''));
+                Positioned(
+                  right: 10,
+                  top: 400,
+                  child: SafeArea(
+                    child: FloorSelector(
+                      floors: allFloors,
+                      selectedFloor: _selectedFloor,
+                      onFloorSelected: (floor) {
+                        setState(() {
+                          _selectedFloor = floor;
+                          _popupLayerController.hideAllPopups();
+                        });
                       },
                     ),
                   ),
                 ),
                 SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                      top: 12,
                     ),
                     child: PhysicalModel(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      elevation: 3,
+                      color: const Color(0xFFFFF5F3),
+                      elevation: 4,
                       child: TextFormField(
                         key: searchFormKey,
                         onChanged: (text) {
@@ -179,7 +186,8 @@ class MapPageStateView extends ConsumerState<MapPage> {
                             child: SvgPicture.asset(
                               'assets/images/logo_dark.svg',
                               semanticsLabel: 'search',
-                              width: 10,
+                              width: 44,
+                              height: 25,
                             ),
                           ),
                           border: OutlineInputBorder(
@@ -187,7 +195,13 @@ class MapPageStateView extends ConsumerState<MapPage> {
                             borderSide: BorderSide.none,
                           ),
                           contentPadding: const EdgeInsets.all(10),
-                          hintText: '${S.of(context).search}...',
+                          hintText: S.of(context).search_here,
+                          hintStyle: const TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 9,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFF7F7F7F),
+                          ),
                         ),
                       ),
                     ),

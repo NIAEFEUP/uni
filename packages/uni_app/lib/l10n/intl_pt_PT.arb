@@ -352,7 +352,7 @@
   "@widget_prompt": {},
   "year": "Ano",
   "@year": {},
-  "search": "Pesquisar",
+  "search_here": "Pesquisar aqui",
   "@search": {},
   "confirm_logout": "Tens a certeza de que queres terminar sessão? Os teus dados locais serão apagados e terás de iniciar sessão novamente.",
   "@confirm_logout": {},
