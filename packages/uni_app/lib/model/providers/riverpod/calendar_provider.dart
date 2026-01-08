@@ -10,12 +10,17 @@ final calendarProvider =
     );
 
 class CalendarNotifier extends CachedAsyncNotifier<LocalizedEvents> {
+  CalendarNotifier({CalendarFetcherJson? fetcher}) : _fetcher = fetcher;
+
+  final CalendarFetcherJson? _fetcher;
+
+  CalendarFetcherJson get fetcher => _fetcher ?? CalendarFetcherJson();
+
   @override
   Duration? get cacheDuration => const Duration(days: 30);
 
   @override
   Future<LocalizedEvents> loadFromStorage() async {
-    final fetcher = CalendarFetcherJson();
     final ptEvents = await fetcher.getCalendar('pt');
     final enEvents = await fetcher.getCalendar('en');
 
