@@ -20,7 +20,7 @@ class CoursesPage extends ConsumerStatefulWidget {
 }
 
 class CoursesPageState extends ConsumerState<CoursesPage> {
-  Locale? _lastLocale;
+  static Locale? _lastLocale;
 
   @override
   void didChangeDependencies() {
@@ -29,7 +29,7 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
     if (_lastLocale != locale) {
       _lastLocale = locale;
       Future.microtask(() {
-        final _ = ref.read(profileProvider.notifier).refreshRemote();
+        ref.read(profileProvider.notifier).refreshRemote();
         if (mounted) {
           setState(() {});
         }
