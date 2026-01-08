@@ -122,13 +122,30 @@ List<RestaurantCard> getRestaurantInformation(
 ) {
   final locale = ref.watch(localeProvider);
 
-  final today = parseDateTime(DateTime.now());
+  final now = DateTime.now();
+  var today = parseDateTime(now);
+
+  final showTomorrow = RestaurantUtils.shouldShowTomorrowMenu(now);
+  final isSundayNight = RestaurantUtils.isSundayNight(now);
+
+  if (showTomorrow) {
+    final tomorrowIndex = (today.index + 1) % DayOfWeek.values.length;
+    today = DayOfWeek.values[tomorrowIndex];
+  }
 
   final restaurantsWidgets =
       favoriteRestaurants
           .where((element) => element.getMealsOfDay(today).isNotEmpty)
           .map((restaurant) {
             final menuItems = getMainMenus(today, restaurant, locale);
+
+            String? subtitle;
+            if (showTomorrow) {
+              subtitle = S.of(context).tomorrows_meals;
+            } else if (isSundayNight) {
+              subtitle = S.of(context).no_menu_tomorrow;
+            }
+
             return RestaurantCard(
               name: RestaurantUtils.getRestaurantName(
                 context,
@@ -145,6 +162,7 @@ List<RestaurantCard> getRestaurantInformation(
               onFavoriteToggle: () => {},
               menuItems: menuItems,
               showFavoriteButton: false,
+              subtitle: subtitle,
             );
           })
           .toList();
