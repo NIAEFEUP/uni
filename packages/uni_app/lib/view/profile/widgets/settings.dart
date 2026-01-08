@@ -3,6 +3,7 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/profile/widgets/hide_sensitive_info_switch.dart';
 import 'package:uni/view/profile/widgets/locale_switch_button.dart';
 import 'package:uni/view/profile/widgets/notifications_dialog.dart';
 // import 'package:uni/view/profile/widgets/theme_switch_button.dart';
@@ -46,6 +47,11 @@ class Settings extends StatelessWidget {
                   icon: UniIcons.chartBar,
                   title: S.of(context).collect_usage_stats,
                   trailing: const UsageStatsSwitch(),
+                ),
+                ProfileListTile(
+                  icon: UniIcons.eyeHidden,
+                  title: S.of(context).hide_sensitive_info,
+                  trailing: const HideSensitiveInfoSwitch(),
                 ),
                 ProfileListTile(
                   icon: UniIcons.notification,
