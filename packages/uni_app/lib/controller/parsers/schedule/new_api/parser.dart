@@ -14,6 +14,15 @@ String? getScheduleApiUrlFromHtml(http.Response response) {
   final scheduleElement = document.querySelector('#cal-shadow-container');
   final apiUrl = scheduleElement?.attributes['data-evt-source-url'];
 
+  if (apiUrl == null) {
+    return null;
+  }
+
+  final uri = Uri.parse(apiUrl);
+  if (!uri.hasScheme) {
+    throw FormatException('Invalid schedule API URL: $apiUrl');
+  }
+
   return apiUrl;
 }
 
