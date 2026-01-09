@@ -14,7 +14,20 @@ String? getScheduleApiUrlFromHtml(http.Response response) {
   final scheduleElement = document.querySelector('#cal-shadow-container');
   final apiUrl = scheduleElement?.attributes['data-evt-source-url'];
 
-  return apiUrl;
+  if (apiUrl == null) {
+    return null;
+  }
+
+  final uri = Uri.parse(apiUrl);
+  if (uri.hasScheme) {
+    return apiUrl;
+  }
+
+  const baseUrl = 'https://sigarra.up.pt';
+  if (apiUrl.startsWith('/')) {
+    return '$baseUrl$apiUrl';
+  }
+  return '$baseUrl/$apiUrl';
 }
 
 List<Lecture> getLecturesFromApiResponse(http.Response response) {
