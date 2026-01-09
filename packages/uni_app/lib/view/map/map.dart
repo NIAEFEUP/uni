@@ -7,11 +7,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/indoor_floor_plan.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/faculty_locations_provider.dart';
 import 'package:uni/view/map/widgets/floor_selector.dart';
 import 'package:uni/view/map/widgets/floorless_marker_popup.dart';
+import 'package:uni/view/map/widgets/indoor_floor_layer.dart';
 import 'package:uni/view/map/widgets/marker.dart';
 import 'package:uni/view/map/widgets/marker_popup.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
@@ -31,6 +33,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
   late final PopupController _popupLayerController;
   LatLngBounds? _bounds;
   int? _selectedFloor;
+  bool _showIndoorLayer = false;
 
   @override
   void initState() {
@@ -48,9 +51,17 @@ class MapPageStateView extends ConsumerState<MapPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    final indoorPlansAsync = ref.watch(indoorFloorPlansProvider);
+
     return DefaultConsumer<List<LocationGroup>>(
       provider: locationsProvider,
       builder: (context, ref, locations) {
+        final indoorPlans = indoorPlansAsync.when(
+        data: (plans) => plans ?? [],
+        loading: () => <IndoorFloorPlan>[],
+        error: (_, _) => <IndoorFloorPlan>[],
+        );
         var bounds = _bounds;
         bounds ??= LatLngBounds.fromPoints(
           locations.map((location) => location.latlng).toList(),
@@ -118,6 +129,11 @@ class MapPageStateView extends ConsumerState<MapPage> {
                   retinaMode: RetinaMode.isHighDensity(context),
                   maxNativeZoom: 20,
                 ),
+                if (_showIndoorLayer && _selectedFloor != null)
+                  IndoorFloorLayer(
+                  floorPlans: indoorPlans,
+                  selectedFloor: _selectedFloor,
+                ),
                 PopupMarkerLayer(
                   options: PopupMarkerLayerOptions(
                     markers:
@@ -139,6 +155,23 @@ class MapPageStateView extends ConsumerState<MapPage> {
                         }
                         return const Card(child: Text(''));
                       },
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: 10,
+                  bottom: 650,
+                  child: SafeArea(
+                    child: FloatingActionButton(
+                      mini: true,
+                      onPressed: () {
+                        setState(() {
+                          _showIndoorLayer = !_showIndoorLayer;
+                        });
+                      },
+                      child: Icon(
+                        _showIndoorLayer ? Icons.layers_clear : Icons.layers,
+                      ),
                     ),
                   ),
                 ),
