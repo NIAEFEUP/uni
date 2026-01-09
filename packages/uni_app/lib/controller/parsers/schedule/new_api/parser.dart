@@ -19,15 +19,11 @@ String? getScheduleApiUrlFromHtml(http.Response response) {
   }
 
   final uri = Uri.parse(apiUrl);
-  if (uri.hasScheme) {
-    return apiUrl;
+  if (!uri.hasScheme) {
+    throw FormatException('Invalid schedule API URL: $apiUrl');
   }
 
-  const baseUrl = 'https://sigarra.up.pt';
-  if (apiUrl.startsWith('/')) {
-    return '$baseUrl$apiUrl';
-  }
-  return '$baseUrl/$apiUrl';
+  return apiUrl;
 }
 
 List<Lecture> getLecturesFromApiResponse(http.Response response) {
