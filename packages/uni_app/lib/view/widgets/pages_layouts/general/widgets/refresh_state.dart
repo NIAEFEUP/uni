@@ -19,7 +19,7 @@ class RefreshState extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        if (header != null) header!,
+        ?header,
         Expanded(
           child: LayoutBuilder(
             builder: (context, viewportConstraints) {
