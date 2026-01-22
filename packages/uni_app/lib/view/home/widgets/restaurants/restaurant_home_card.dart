@@ -139,8 +139,15 @@ List<RestaurantCard> getRestaurantInformation(
           .map((restaurant) {
             final menuItems = getMainMenus(today, restaurant, locale);
 
+            final isLunchAfter15 =
+                restaurant.period == 'lunch' && now.hour >= 15;
+            final isDinnerAfter21 =
+                restaurant.period == 'dinner' && showTomorrow;
+            final shouldShowTomorrowForPeriod =
+                isLunchAfter15 || isDinnerAfter21;
+
             String? subtitle;
-            if (showTomorrow) {
+            if (shouldShowTomorrowForPeriod) {
               subtitle = S.of(context).tomorrows_meals;
             } else if (isSundayNight) {
               subtitle = S.of(context).no_menu_tomorrow;
