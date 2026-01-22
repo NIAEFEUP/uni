@@ -17,42 +17,38 @@ class ProfileInfo extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return DefaultConsumer<Profile>(
       provider: profileProvider,
-      builder:
-          (context, ref, profile) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Center(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    const SizedBox(width: 20),
-                    ProfileCard(
-                      label: S.of(context).balance,
-                      content: profile.feesBalance,
-                      tooltip: S.of(context).balance,
-                    ),
-                    ProfileCard(
-                      label: S.of(context).fee_date,
-                      content:
-                          profile.feesLimit != null
-                              ? DateFormat(
-                                'yyyy-MM-dd',
-                              ).format(profile.feesLimit!)
-                              : S.of(context).no_date,
-                      tooltip: S.of(context).fee_date,
-                    ),
-                    ProfileCard(
-                      label: S.of(context).print_balance,
-                      content: profile.printBalance,
-                      tooltip: S.of(context).print_balance,
-                      // onClick: () => addMoneyDialog(context),
-                    ),
-                    const SizedBox(width: 20),
-                  ],
+      builder: (context, ref, profile) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Center(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                const SizedBox(width: 20),
+                ProfileCard(
+                  label: S.of(context).balance,
+                  content: profile.feesBalance,
+                  tooltip: S.of(context).balance,
                 ),
-              ),
+                ProfileCard(
+                  label: S.of(context).fee_date,
+                  content: profile.feesLimit != null
+                      ? DateFormat('yyyy-MM-dd').format(profile.feesLimit!)
+                      : S.of(context).no_date,
+                  tooltip: S.of(context).fee_date,
+                ),
+                ProfileCard(
+                  label: S.of(context).print_balance,
+                  content: profile.printBalance,
+                  tooltip: S.of(context).print_balance,
+                  // onClick: () => addMoneyDialog(context),
+                ),
+                const SizedBox(width: 20),
+              ],
             ),
           ),
+        ),
+      ),
       nullContentWidget: Container(),
       hasContent: (profile) => true,
     );

@@ -56,10 +56,10 @@ class Floor extends StatelessWidget {
 
     final floorString =
         0 <= floor &&
-                floor <=
-                    9 // To maintain layout of popup
-            ? ' $floor'
-            : '$floor';
+            floor <=
+                9 // To maintain layout of popup
+        ? ' $floor'
+        : '$floor';
 
     return Row(
       children: [
@@ -78,13 +78,12 @@ class Floor extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children:
-                locations
-                    .map(
-                      (location) =>
-                          LocationRow(location: location, color: fontColor),
-                    )
-                    .toList(),
+            children: locations
+                .map(
+                  (location) =>
+                      LocationRow(location: location, color: fontColor),
+                )
+                .toList(),
           ),
         ),
       ],

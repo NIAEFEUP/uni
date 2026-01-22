@@ -257,10 +257,9 @@ class PreferencesController {
   static Future<void> saveFilteredExams(
     Map<String, bool> newFilteredExamTypes,
   ) async {
-    final newTypes =
-        newFilteredExamTypes.keys
-            .where((type) => newFilteredExamTypes[type] ?? false)
-            .toList();
+    final newTypes = newFilteredExamTypes.keys
+        .where((type) => newFilteredExamTypes[type] ?? false)
+        .toList();
     await prefs.setStringList(_filteredExamsTypes, newTypes);
   }
 

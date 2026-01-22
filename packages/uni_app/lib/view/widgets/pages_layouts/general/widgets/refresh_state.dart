@@ -27,10 +27,8 @@ class RefreshState extends ConsumerWidget {
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: RefreshIndicator(
                   key: GlobalKey<RefreshIndicatorState>(),
-                  notificationPredicate:
-                      (notification) =>
-                          notification.metrics.axisDirection ==
-                          AxisDirection.down,
+                  notificationPredicate: (notification) =>
+                      notification.metrics.axisDirection == AxisDirection.down,
                   onRefresh: () async {
                     await onRefresh();
                     await ProfileNotifier.fetchOrGetCachedProfilePicture(
@@ -43,15 +41,14 @@ class RefreshState extends ConsumerWidget {
                       maxHeight: viewportConstraints.maxHeight,
                     ),
                     child: Builder(
-                      builder:
-                          (context) => GestureDetector(
-                            onHorizontalDragEnd: (dragDetails) {
-                              if (dragDetails.primaryVelocity! > 2) {
-                                Scaffold.of(context).openDrawer();
-                              }
-                            },
-                            child: body,
-                          ),
+                      builder: (context) => GestureDetector(
+                        onHorizontalDragEnd: (dragDetails) {
+                          if (dragDetails.primaryVelocity! > 2) {
+                            Scaffold.of(context).openDrawer();
+                          }
+                        },
+                        child: body,
+                      ),
                     ),
                   ),
                 ),

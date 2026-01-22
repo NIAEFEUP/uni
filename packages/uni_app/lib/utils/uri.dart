@@ -10,8 +10,7 @@ extension UriUtils on Uri {
     );
   }
 
-  Uri normalizeQueryComponent() =>
-      query.isNotEmpty
-          ? replace(query: query.replaceAll('+', '%20'))
-          : stripQueryComponent();
+  Uri normalizeQueryComponent() => query.isNotEmpty
+      ? replace(query: query.replaceAll('+', '%20'))
+      : stripQueryComponent();
 }
