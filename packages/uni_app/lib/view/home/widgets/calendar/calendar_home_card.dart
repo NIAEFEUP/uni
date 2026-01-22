@@ -4,6 +4,7 @@ import 'package:uni/model/entities/localized_events.dart';
 import 'package:uni/model/providers/riverpod/calendar_provider.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/calendar/widgets/calendar_shimmer.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/calendar/calendar.dart';
@@ -68,6 +69,7 @@ class CalendarHomeCard extends GenericHomecard {
           style: Theme.of(context).textTheme.headlineLarge,
         ),
       ),
+      loadingWidget: const ShimmerCalendarItem(),
       hasContent: (localizedEvents) => localizedEvents.hasAnyEvents,
     );
   }
