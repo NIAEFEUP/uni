@@ -4,19 +4,28 @@ import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni_ui/icons.dart';
 
 class RestaurantUtils {
-  // Hour after which to show tomorrow's menu (except on Sunday)
-  static const int menuSwitchHour = 21;
+  // Hour after which to show tomorrow's lunch menu (except on Sunday)
+  static const int lunchSwitchHour = 15;
+  // Hour after which to show tomorrow's dinner menu (except on Sunday)
+  static const int dinnerSwitchHour = 21;
 
   /// Determines if tomorrow's menu should be shown based on current time
-  /// Returns true if it's after menuSwitchHour and not Sunday
-  static bool shouldShowTomorrowMenu(DateTime now) {
-    return now.hour >= menuSwitchHour && now.weekday != DateTime.sunday;
+  /// and meal period (lunch or dinner)
+  /// Returns true if it's after the respective switch hour and not Sunday
+  /// For lunch: switches after 15:00 (3pm)
+  /// For dinner: switches after 21:00 (9pm)
+  /// If no period is specified, uses dinner switch hour (21:00)
+  static bool shouldShowTomorrowMenu(DateTime now, {String? period}) {
+    final switchHour = period == 'lunch' ? lunchSwitchHour : dinnerSwitchHour;
+    return now.hour >= switchHour && now.weekday != DateTime.sunday;
   }
 
-  /// Determines if it's Sunday night after menuSwitchHour
+  /// Determines if it's Sunday night after the switch hour
   /// (when tomorrow's menu is not available)
-  static bool isSundayNight(DateTime now) {
-    return now.hour >= menuSwitchHour && now.weekday == DateTime.sunday;
+  /// If no period is specified, uses dinner switch hour (21:00)
+  static bool isSundayNight(DateTime now, {String? period}) {
+    final switchHour = period == 'lunch' ? lunchSwitchHour : dinnerSwitchHour;
+    return now.hour >= switchHour && now.weekday == DateTime.sunday;
   }
 
   // Method to get a restaurant related UniIcon based on a specific type
