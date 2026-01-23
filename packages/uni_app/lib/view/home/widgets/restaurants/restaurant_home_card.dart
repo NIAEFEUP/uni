@@ -130,18 +130,20 @@ List<RestaurantCard> getRestaurantInformation(
           .where((element) => element.getMealsOfDay(todayInitial).isNotEmpty)
           .map((restaurant) {
             var today = todayInitial;
-            final showTomorrow = RestaurantUtils.shouldShowTomorrowMenu(
-              now,
-              period: restaurant.period,
-            );
-            final isSundayNight = RestaurantUtils.isSundayNight(
+            var showTomorrow = RestaurantUtils.shouldShowTomorrowMenu(
               now,
               period: restaurant.period,
             );
 
             if (showTomorrow) {
               final tomorrowIndex = (today.index + 1) % DayOfWeek.values.length;
-              today = DayOfWeek.values[tomorrowIndex];
+              final tomorrow = DayOfWeek.values[tomorrowIndex];
+
+              if (restaurant.getMealsOfDay(tomorrow).isNotEmpty) {
+                today = tomorrow;
+              } else {
+                showTomorrow = false;
+              }
             }
 
             final menuItems = getMainMenus(today, restaurant, locale);
@@ -149,8 +151,6 @@ List<RestaurantCard> getRestaurantInformation(
             String? subtitle;
             if (showTomorrow) {
               subtitle = S.of(context).tomorrows_meals;
-            } else if (isSundayNight) {
-              subtitle = S.of(context).no_menu_tomorrow;
             }
 
             return RestaurantCard(
