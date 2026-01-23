@@ -123,31 +123,31 @@ List<RestaurantCard> getRestaurantInformation(
   final locale = ref.watch(localeProvider);
 
   final now = DateTime.now();
-  var today = parseDateTime(now);
-
-  final showTomorrow = RestaurantUtils.shouldShowTomorrowMenu(now);
-  final isSundayNight = RestaurantUtils.isSundayNight(now);
-
-  if (showTomorrow) {
-    final tomorrowIndex = (today.index + 1) % DayOfWeek.values.length;
-    today = DayOfWeek.values[tomorrowIndex];
-  }
+  final todayInitial = parseDateTime(now);
 
   final restaurantsWidgets =
       favoriteRestaurants
-          .where((element) => element.getMealsOfDay(today).isNotEmpty)
+          .where((element) => element.getMealsOfDay(todayInitial).isNotEmpty)
           .map((restaurant) {
+            var today = todayInitial;
+            final showTomorrow = RestaurantUtils.shouldShowTomorrowMenu(
+              now,
+              period: restaurant.period,
+            );
+            final isSundayNight = RestaurantUtils.isSundayNight(
+              now,
+              period: restaurant.period,
+            );
+
+            if (showTomorrow) {
+              final tomorrowIndex = (today.index + 1) % DayOfWeek.values.length;
+              today = DayOfWeek.values[tomorrowIndex];
+            }
+
             final menuItems = getMainMenus(today, restaurant, locale);
 
-            final isLunchAfter15 =
-                restaurant.period == 'lunch' && now.hour >= 15;
-            final isDinnerAfter21 =
-                restaurant.period == 'dinner' && showTomorrow;
-            final shouldShowTomorrowForPeriod =
-                isLunchAfter15 || isDinnerAfter21;
-
             String? subtitle;
-            if (shouldShowTomorrowForPeriod) {
+            if (showTomorrow) {
               subtitle = S.of(context).tomorrows_meals;
             } else if (isSundayNight) {
               subtitle = S.of(context).no_menu_tomorrow;
