@@ -42,10 +42,12 @@ class _TimelineState extends State<Timeline> {
       if (!_didInitialScroll) return;
 
       final positions = _itemPositionsListener.itemPositions.value;
-      if (positions.isNotEmpty) {
+      final visiblePositions = positions.where(
+        (ItemPosition position) => position.itemLeadingEdge >= 0,
+      );
+      if (visiblePositions.isNotEmpty) {
         final firstVisibleIndex =
-            positions
-                .where((ItemPosition position) => position.itemLeadingEdge >= 0)
+            visiblePositions
                 .reduce(
                   (ItemPosition current, ItemPosition next) =>
                       current.itemLeadingEdge < next.itemLeadingEdge

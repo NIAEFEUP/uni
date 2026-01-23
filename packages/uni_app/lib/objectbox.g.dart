@@ -242,7 +242,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(4, 7433696585737747799),
     name: 'Exam',
-    lastPropertyId: const obx_int.IdUid(9, 2707328368115093876),
+    lastPropertyId: const obx_int.IdUid(10, 1565565007615085610),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -298,6 +298,12 @@ final _entities = <obx_int.ModelEntity>[
         name: 'dbId',
         type: 6,
         flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(10, 1565565007615085610),
+        name: 'occurrId',
+        type: 9,
+        flags: 0,
       ),
     ],
     relations: <obx_int.ModelRelation>[],
@@ -770,24 +776,23 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final nameParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 4, '');
-        final startDateParam =
-            startDateValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(startDateValue);
-        final endDateParam =
-            endDateValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(endDateValue);
-        final object = CalendarEvent(
-            name: nameParam,
-            startDate: startDateParam,
-            endDate: endDateParam,
-          )
-          ..uniqueId = const fb.Int64Reader().vTableGetNullable(
-            buffer,
-            rootOffset,
-            10,
-          );
+        final startDateParam = startDateValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(startDateValue);
+        final endDateParam = endDateValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(endDateValue);
+        final object =
+            CalendarEvent(
+                name: nameParam,
+                startDate: startDateParam,
+                endDate: endDateParam,
+              )
+              ..uniqueId = const fb.Int64Reader().vTableGetNullable(
+                buffer,
+                rootOffset,
+                10,
+              );
 
         return object;
       },
@@ -809,18 +814,21 @@ obx_int.ModelDefinition getObjectBoxModel() {
         }
       },
       objectToFB: (Course object, fb.Builder fbb) {
-        final nameOffset =
-            object.name == null ? null : fbb.writeString(object.name!);
-        final abbreviationOffset =
-            object.abbreviation == null
-                ? null
-                : fbb.writeString(object.abbreviation!);
-        final currYearOffset =
-            object.currYear == null ? null : fbb.writeString(object.currYear!);
-        final facultyOffset =
-            object.faculty == null ? null : fbb.writeString(object.faculty!);
-        final stateOffset =
-            object.state == null ? null : fbb.writeString(object.state!);
+        final nameOffset = object.name == null
+            ? null
+            : fbb.writeString(object.name!);
+        final abbreviationOffset = object.abbreviation == null
+            ? null
+            : fbb.writeString(object.abbreviation!);
+        final currYearOffset = object.currYear == null
+            ? null
+            : fbb.writeString(object.currYear!);
+        final facultyOffset = object.faculty == null
+            ? null
+            : fbb.writeString(object.faculty!);
+        final stateOffset = object.state == null
+            ? null
+            : fbb.writeString(object.state!);
         fbb.startTable(11);
         fbb.addInt64(0, object.id ?? 0);
         fbb.addInt64(1, object.festId);
@@ -906,30 +914,30 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final codeOffset = fbb.writeString(object.code);
         final abbreviationOffset = fbb.writeString(object.abbreviation);
         final nameOffset = fbb.writeString(object.name);
-        final semesterCodeOffset =
-            object.semesterCode == null
-                ? null
-                : fbb.writeString(object.semesterCode!);
-        final semesterNameOffset =
-            object.semesterName == null
-                ? null
-                : fbb.writeString(object.semesterName!);
-        final typeOffset =
-            object.type == null ? null : fbb.writeString(object.type!);
-        final statusOffset =
-            object.status == null ? null : fbb.writeString(object.status!);
-        final gradeOffset =
-            object.grade == null ? null : fbb.writeString(object.grade!);
-        final ectsGradeOffset =
-            object.ectsGrade == null
-                ? null
-                : fbb.writeString(object.ectsGrade!);
-        final resultOffset =
-            object.result == null ? null : fbb.writeString(object.result!);
-        final schoolYearOffset =
-            object.schoolYear == null
-                ? null
-                : fbb.writeString(object.schoolYear!);
+        final semesterCodeOffset = object.semesterCode == null
+            ? null
+            : fbb.writeString(object.semesterCode!);
+        final semesterNameOffset = object.semesterName == null
+            ? null
+            : fbb.writeString(object.semesterName!);
+        final typeOffset = object.type == null
+            ? null
+            : fbb.writeString(object.type!);
+        final statusOffset = object.status == null
+            ? null
+            : fbb.writeString(object.status!);
+        final gradeOffset = object.grade == null
+            ? null
+            : fbb.writeString(object.grade!);
+        final ectsGradeOffset = object.ectsGrade == null
+            ? null
+            : fbb.writeString(object.ectsGrade!);
+        final resultOffset = object.result == null
+            ? null
+            : fbb.writeString(object.result!);
+        final schoolYearOffset = object.schoolYear == null
+            ? null
+            : fbb.writeString(object.schoolYear!);
         fbb.startTable(17);
         fbb.addInt64(0, object.id ?? 0);
         fbb.addOffset(1, codeOffset);
@@ -1050,7 +1058,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
         );
         final examTypeOffset = fbb.writeString(object.examType);
         final facultyOffset = fbb.writeString(object.faculty);
-        fbb.startTable(10);
+        final occurrIdOffset = object.occurrId == null
+            ? null
+            : fbb.writeString(object.occurrId!);
+        fbb.startTable(11);
         fbb.addInt64(0, object.start.millisecondsSinceEpoch);
         fbb.addInt64(1, object.finish.millisecondsSinceEpoch);
         fbb.addOffset(2, idOffset);
@@ -1060,6 +1071,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addOffset(6, examTypeOffset);
         fbb.addOffset(7, facultyOffset);
         fbb.addInt64(8, object.dbId ?? 0);
+        fbb.addOffset(9, occurrIdOffset);
         fbb.finish(fbb.endTable());
         return object.dbId ?? 0;
       },
@@ -1091,21 +1103,26 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final facultyParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 18, '');
-        final object = Exam(
-            idParam,
-            startParam,
-            finishParam,
-            subjectAcronymParam,
-            subjectParam,
-            roomsParam,
-            examTypeParam,
-            facultyParam,
-          )
-          ..dbId = const fb.Int64Reader().vTableGetNullable(
-            buffer,
-            rootOffset,
-            20,
-          );
+        final occurrIdParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 22);
+        final object =
+            Exam(
+                idParam,
+                startParam,
+                finishParam,
+                subjectAcronymParam,
+                subjectParam,
+                roomsParam,
+                examTypeParam,
+                facultyParam,
+                occurrId: occurrIdParam,
+              )
+              ..dbId = const fb.Int64Reader().vTableGetNullable(
+                buffer,
+                rootOffset,
+                20,
+              );
 
         return object;
       },
@@ -1230,24 +1247,25 @@ obx_int.ModelDefinition getObjectBoxModel() {
           26,
           0,
         );
-        final object = Lecture(
-            acronymParam,
-            subjectParam,
-            typeClassParam,
-            startTimeParam,
-            endTimeParam,
-            roomParam,
-            teacherParam,
-            teacherNameParam,
-            teacherIdParam,
-            classNumberParam,
-            occurrIdParam,
-          )
-          ..uniqueId = const fb.Int64Reader().vTableGetNullable(
-            buffer,
-            rootOffset,
-            4,
-          );
+        final object =
+            Lecture(
+                acronymParam,
+                subjectParam,
+                typeClassParam,
+                startTimeParam,
+                endTimeParam,
+                roomParam,
+                teacherParam,
+                teacherNameParam,
+                teacherIdParam,
+                classNumberParam,
+                occurrIdParam,
+              )
+              ..uniqueId = const fb.Int64Reader().vTableGetNullable(
+                buffer,
+                rootOffset,
+                4,
+              );
 
         return object;
       },
@@ -1356,10 +1374,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final feesBalanceParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 12, '');
-        final feesLimitParam =
-            feesLimitValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(feesLimitValue);
+        final feesLimitParam = feesLimitValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(feesLimitValue);
         final object = Profile(
           name: nameParam,
           email: emailParam,
@@ -1432,24 +1449,24 @@ obx_int.ModelDefinition getObjectBoxModel() {
     Restaurant: obx_int.EntityDefinition<Restaurant>(
       model: _entities[9],
       toOneRelations: (Restaurant object) => [],
-      toManyRelations:
-          (Restaurant object) => {
-            obx_int.RelInfo<Meal>.toOneBacklink(
-                  6,
-                  object.uniqueId!,
-                  (Meal srcObject) => srcObject.restaurant,
-                ):
-                object.meals,
-          },
+      toManyRelations: (Restaurant object) => {
+        obx_int.RelInfo<Meal>.toOneBacklink(
+          6,
+          object.uniqueId!,
+          (Meal srcObject) => srcObject.restaurant,
+        ): object.meals,
+      },
       getId: (Restaurant object) => object.uniqueId,
       setId: (Restaurant object, int id) {
         object.uniqueId = id;
       },
       objectToFB: (Restaurant object, fb.Builder fbb) {
-        final typePtOffset =
-            object.typePt == null ? null : fbb.writeString(object.typePt!);
-        final typeEnOffset =
-            object.typeEn == null ? null : fbb.writeString(object.typeEn!);
+        final typePtOffset = object.typePt == null
+            ? null
+            : fbb.writeString(object.typePt!);
+        final typeEnOffset = object.typeEn == null
+            ? null
+            : fbb.writeString(object.typeEn!);
         final namePtOffset = fbb.writeString(object.namePt);
         final nameEnOffset = fbb.writeString(object.nameEn);
         final periodOffset = fbb.writeString(object.period);
@@ -1512,23 +1529,24 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final emailParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 22, '');
-        final object = Restaurant(
-            idParam,
-            typePtParam,
-            typeEnParam,
-            namePtParam,
-            nameEnParam,
-            periodParam,
-            campusIdParam,
-            referenceParam,
-            openingHoursParam,
-            emailParam,
-          )
-          ..uniqueId = const fb.Int64Reader().vTableGetNullable(
-            buffer,
-            rootOffset,
-            4,
-          );
+        final object =
+            Restaurant(
+                idParam,
+                typePtParam,
+                typeEnParam,
+                namePtParam,
+                nameEnParam,
+                periodParam,
+                campusIdParam,
+                referenceParam,
+                openingHoursParam,
+                emailParam,
+              )
+              ..uniqueId = const fb.Int64Reader().vTableGetNullable(
+                buffer,
+                rootOffset,
+                4,
+              );
         obx_int.InternalToManyAccess.setRelInfo<Restaurant>(
           object.meals,
           store,
@@ -1798,6 +1816,11 @@ class Exam_ {
   /// See [Exam.dbId].
   static final dbId = obx.QueryIntegerProperty<Exam>(
     _entities[3].properties[8],
+  );
+
+  /// See [Exam.occurrId].
+  static final occurrId = obx.QueryStringProperty<Exam>(
+    _entities[3].properties[9],
   );
 }
 

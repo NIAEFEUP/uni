@@ -19,7 +19,8 @@ class FacultyLocationsNotifier
   }
 
   @override
-  Future<List<LocationGroup>> loadFromRemote() async {
-    return state.value!;
+  Future<List<LocationGroup>> loadFromRemote() {
+    //since locations are stored in assets, we don't need internet for this.
+    return LocationFetcherAsset().getLocations();
   }
 }

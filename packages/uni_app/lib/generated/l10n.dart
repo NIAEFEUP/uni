@@ -1543,6 +1543,21 @@ class S {
     );
   }
 
+  /// `Having trouble signing in?`
+  String get spotted_an_error {
+    return Intl.message(
+      'Something not right?',
+      name: 'spotted_an_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login with credentials`
+  String get report_bug {
+    return Intl.message('Report a bug', name: 'report_bug', desc: '', args: []);
+  }
+
   /// `Failed to authenticate`
   String get fail_to_authenticate {
     return Intl.message(
