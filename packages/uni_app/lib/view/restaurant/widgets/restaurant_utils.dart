@@ -22,16 +22,6 @@ class RestaurantUtils {
     return now.hour >= switchHour && now.weekday != DateTime.sunday;
   }
 
-  /// Determines if it's after the switch hour (for general use without restaurant context)
-  /// For lunch: switches after 15:00 (3pm)
-  /// For dinner: switches after 21:00 (9pm)
-  /// Does not switch on Sunday to avoid showing Monday
-  /// If no period is specified, uses dinner switch hour (21:00)
-  static bool isAfterSwitchHour(DateTime now, {String? period}) {
-    final switchHour = period == 'lunch' ? lunchSwitchHour : dinnerSwitchHour;
-    return now.hour >= switchHour && now.weekday != DateTime.sunday;
-  }
-
   // Method to get a restaurant related UniIcon based on a specific type
   static UniIcon getIcon(String? type, {double size = 24, Color? color}) {
     switch (type) {
