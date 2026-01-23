@@ -1,0 +1,14 @@
+default_platform(:android)
+
+platform :android do
+  desc "Get latest version code from Google Play"
+  lane :get_version_code do |options|
+    codes = google_play_track_version_codes(
+      track: options[:track],
+      json_key: options[:key_path]
+    )
+    latest_code = codes.max || 0
+    
+    File.write("../android_version_code.txt", latest_code.to_s)
+  end
+end

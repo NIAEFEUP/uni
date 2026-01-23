@@ -1,0 +1,22 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Get latest build number from TestFlight or App Store"
+  lane :get_version_code do |options|
+    build_number = 0
+    if options[:channel] == "appstore"
+      build_number = app_store_build_number(
+        api_key_path: options[:key_path],
+        live: true
+      )
+    else
+      build_number = latest_testflight_build_number(
+        api_key_path: options[:key_path]
+      )
+    end
+    
+    build_number = (build_number || 0).to_i
+    
+    File.write("../ios_build_number.txt", build_number.to_s)
+  end
+end

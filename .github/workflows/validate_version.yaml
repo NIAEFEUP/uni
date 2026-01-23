@@ -1,18 +1,15 @@
-
 # Validate Version Workflow
 name: "Validate Version"
-
 
 on:
   workflow_call:
     inputs:
       working-directory:
-        description: "Path to the uni_app working directory"
         required: false
         type: string
         default: ./packages/uni_app
       android_track:
-        description: "Google Play track to query (internal, beta, production)"
+        description: "Google Play track to query (beta, production)"
         required: false
         type: string
         default: beta
@@ -25,14 +22,8 @@ on:
       google_service_account_json:
         description: "Google service account JSON for Play Console"
         required: true
-      asc_key_id:
-        description: "App Store Connect API Key ID"
-        required: true
-      asc_issuer_id:
-        description: "App Store Connect Issuer ID"
-        required: true
-      asc_key_content:
-        description: "App Store Connect API Key content (p8)"
+      asc_json:
+        description: "App Store Connect JSON"
         required: true
     outputs:
       current_version:
@@ -47,7 +38,6 @@ on:
       ios_store_build_number:
         description: "Latest iOS build number from selected channel"
         value: ${{ jobs.validate.outputs.ios_store_build_number }}
-
 
 jobs:
   validate:
@@ -68,7 +58,6 @@ jobs:
       - name: Read Current Version
         id: read_version
         run: |
-          # Read version from app_version.txt and extract build number
           FULL_VERSION=$(cat app_version.txt)
           echo "CURRENT_VERSION=$FULL_VERSION" >> $GITHUB_OUTPUT
           BUILD_NUMBER=$(echo "$FULL_VERSION" | cut -d'+' -f2)
@@ -86,30 +75,35 @@ jobs:
         env:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.google_service_account_json }}
         run: |
+          trap 'rm -f /tmp/google_service_account.json' EXIT
           echo "$GOOGLE_SERVICE_ACCOUNT_JSON" > /tmp/google_service_account.json
-          export SUPPLY_JSON_KEY=/tmp/google_service_account.json
-          ANDROID_BUILD=$(bundle exec fastlane run google_play_track_version_codes track:${{ inputs.android_track }} -q 2>/dev/null | grep -oE '[0-9]+' | head -1 || echo "0")
+          
+          cd android
+          
+          bundle exec fastlane get_version_code track:${{ inputs.android_track }} key_path:/tmp/google_service_account.json
+          
+          ANDROID_BUILD=$(cat android_version_code.txt)
+          echo "Final Parsed Android Build: $ANDROID_BUILD"
           echo "ANDROID_STORE_BUILD_NUMBER=$ANDROID_BUILD" >> $GITHUB_OUTPUT
-          rm /tmp/google_service_account.json
 
       - name: Get Latest iOS Store Version
         id: ios_store
         env:
-          ASC_KEY_ID: ${{ secrets.asc_key_id }}
-          ASC_ISSUER_ID: ${{ secrets.asc_issuer_id }}
-          ASC_KEY_CONTENT: ${{ secrets.asc_key_content }}
+          ASC_JSON: ${{ secrets.asc_json }}
         run: |
-          IOS_BUILD="0"
-          if [ "${{ inputs.ios_channel }}" = "appstore" ]; then
-            IOS_BUILD=$(bundle exec fastlane run app_store_build_number -q 2>/dev/null | grep -oE '[0-9]+' | tail -1 || echo "0")
-          else
-            IOS_BUILD=$(bundle exec fastlane run latest_testflight_build_number -q 2>/dev/null | grep -oE '[0-9]+' | tail -1 || echo "0")
-          fi
+          trap 'rm -f /tmp/ios_api_key.json' EXIT
+          echo "$ASC_JSON" > /tmp/ios_api_key.json
+
+          cd ios
+          
+          bundle exec fastlane get_version_code channel:${{ inputs.ios_channel }} key_path:/tmp/ios_api_key.json
+          
+          IOS_BUILD=$(cat ios_build_number.txt)
+          echo "Final Parsed iOS Build: $IOS_BUILD"
           echo "IOS_STORE_BUILD_NUMBER=$IOS_BUILD" >> $GITHUB_OUTPUT
 
       - name: Validate Build Numbers
         run: |
-          # Ensure current build number is greater than both store versions
           CURRENT_BUILD="${{ steps.read_version.outputs.BUILD_NUMBER }}"
           ANDROID_BUILD="${{ steps.android_store.outputs.ANDROID_STORE_BUILD_NUMBER }}"
           IOS_BUILD="${{ steps.ios_store.outputs.IOS_STORE_BUILD_NUMBER }}"
@@ -117,8 +111,12 @@ jobs:
           echo "Current build: $CURRENT_BUILD"
           echo "Android store build: $ANDROID_BUILD"
           echo "iOS store build: $IOS_BUILD"
+          
+          curr=${CURRENT_BUILD:-0}
+          and=${ANDROID_BUILD:-0}
+          ios=${IOS_BUILD:-0}
 
-          if [ "$CURRENT_BUILD" -le "$ANDROID_BUILD" ] || [ "$CURRENT_BUILD" -le "$IOS_BUILD" ]; then
-            echo "Error: Current build number ($CURRENT_BUILD) must be greater than both store versions (Android: $ANDROID_BUILD, iOS: $IOS_BUILD)"
+          if [ "$curr" -le "$and" ] || [ "$curr" -le "$ios" ]; then
+            echo "Error: Current build number ($curr) must be greater than both store versions (Android: $and, iOS: $ios)"
             exit 1
           fi
