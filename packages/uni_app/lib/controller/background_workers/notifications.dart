@@ -77,7 +77,7 @@ class NotificationManager {
 
   static Future<void> _initFlutterNotificationsPlugin() async {
     const initializationSettingsAndroid = AndroidInitializationSettings(
-      '@mipmap/ic_launcher',
+      '@mipmap/launcher_icon',
     );
 
     // request for notifications immediatly on iOS
