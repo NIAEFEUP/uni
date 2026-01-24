@@ -55,9 +55,14 @@ class TuitionNotification extends Notification {
       return false;
     }
     final feesFetcher = FeesFetcher();
-    final dueDate = parseFeesNextLimit(
-      await feesFetcher.getUserFeesResponse(session),
-    );
+    DateTime? dueDate;
+    try {
+      dueDate = parseFeesNextLimit(
+        await feesFetcher.getUserFeesResponse(session),
+      );
+    } catch (_) {
+      return false;
+    }
 
     if (dueDate == null) {
       return false;
