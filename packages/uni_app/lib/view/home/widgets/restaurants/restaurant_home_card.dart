@@ -22,7 +22,7 @@ class RestaurantHomeCard extends GenericHomecard {
   const RestaurantHomeCard({super.key})
     : super(
         titlePadding: const EdgeInsets.symmetric(horizontal: 20),
-        bodyPadding: const EdgeInsets.symmetric(horizontal: 20),
+        bodyPadding: EdgeInsets.zero,
       );
 
   @override
@@ -73,6 +73,7 @@ class RestaurantSliderState extends ConsumerState<RestaurantSlider> {
         return Column(
           children: [
             ExpandablePageView(
+              controller: PageController(viewportFraction: 0.9),
               children: dailyRestaurants,
               onPageChanged:
                   (value) => setState(() {
