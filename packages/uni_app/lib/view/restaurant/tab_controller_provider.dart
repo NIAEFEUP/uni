@@ -14,7 +14,7 @@ class TabControllerProvider extends StateNotifier<int> {
 
     int index = now.weekday - 1;
 
-    if (RestaurantUtils.shouldShowTomorrowMenu(now)) {
+    if (RestaurantUtils.isAfterSwitchHour(now)) {
       index++;
     }
 
