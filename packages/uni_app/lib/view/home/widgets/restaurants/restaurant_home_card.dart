@@ -134,6 +134,7 @@ List<RestaurantCard> getRestaurantInformation(
               now,
               period: restaurant.period,
             );
+            var showNoMenuTomorrow = false;
 
             if (showTomorrow) {
               final tomorrowIndex = (today.index + 1) % DayOfWeek.values.length;
@@ -143,6 +144,15 @@ List<RestaurantCard> getRestaurantInformation(
                 today = tomorrow;
               } else {
                 showTomorrow = false;
+                showNoMenuTomorrow = true;
+              }
+            } else if (now.weekday == DateTime.sunday) {
+              final switchHour =
+                  restaurant.period == 'lunch'
+                      ? RestaurantUtils.lunchSwitchHour
+                      : RestaurantUtils.dinnerSwitchHour;
+              if (now.hour >= switchHour) {
+                showNoMenuTomorrow = true;
               }
             }
 
@@ -151,6 +161,8 @@ List<RestaurantCard> getRestaurantInformation(
             String? subtitle;
             if (showTomorrow) {
               subtitle = S.of(context).tomorrows_meals;
+            } else if (showNoMenuTomorrow) {
+              subtitle = S.of(context).no_menu_tomorrow;
             }
 
             return RestaurantCard(
