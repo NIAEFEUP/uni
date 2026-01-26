@@ -50,7 +50,6 @@ class ExamNotifier extends CachedAsyncNotifier<List<Exam>> {
     List<CourseUnit> userUcs,
   ) async {
     final exams = await ExamFetcher(
-      profile.courses,
       userUcs,
     ).extractExams(session, parser);
 
