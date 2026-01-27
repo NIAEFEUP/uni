@@ -29,8 +29,6 @@ class ParserExams {
     final dates = <String>[];
     final examTypes = <String>[];
     var rooms = <String>[];
-    String? subjectAcronym;
-    String? subject;
     var id = '0';
     var days = 0;
     var tableNum = 0;
@@ -55,8 +53,6 @@ class ParserExams {
             final examsDays = exams.querySelectorAll('td.exame');
             for (final examsDay in examsDays) {
               if (examsDay.querySelector('a') != null) {
-                subjectAcronym = examsDay.querySelector('a')!.text;
-                subject = examsDay.querySelector('a')!.attributes['title'];
                 final href = examsDay.querySelector('a')!.attributes['href']!;
                 id = Uri.parse(href).queryParameters['p_exa_id']!;
               }
@@ -85,8 +81,8 @@ class ParserExams {
                   id,
                   begin,
                   end,
-                  subjectAcronym ?? '',
-                  subject ?? '',
+                  uc.abbreviation,
+                  uc.name,
                   List.from(rooms),
                   examTypes[tableNum],
                   uc.occurrId.toString(),
@@ -100,30 +96,6 @@ class ParserExams {
       tableNum++;
     }
 
-    final occurrIdFutures = <String, Future<String?>>{};
-    final occurrIdResults = <String, String?>{};
-    await Future.wait(
-      occurrIdFutures.entries.map((entry) async {
-        occurrIdResults[entry.key] = await entry.value;
-      }),
-    );
-
-    final examsList = <Exam>{};
-    for (final exam in parsedExams) {
-      examsList.add(
-        Exam(
-          exam.id,
-          exam.start,
-          exam.finish,
-          exam.subjectAcronym,
-          exam.subject,
-          exam.rooms,
-          exam.examType,
-          exam.occurrId,
-        ),
-      );
-    }
-
-    return examsList;
+    return parsedExams.toSet();
   }
 }
