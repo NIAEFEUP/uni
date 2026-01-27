@@ -89,7 +89,7 @@ class ParserExams {
                   subject ?? '',
                   List.from(rooms),
                   examTypes[tableNum],
-                  uc.occurrId.toString()
+                  uc.occurrId.toString(),
                 ),
               );
             }
