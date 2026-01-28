@@ -19,7 +19,11 @@ class ScheduleFetcherApi extends ScheduleFetcher {
 
   /// Fetches the user's lectures from the faculties' API.
   @override
-  Future<List<Lecture>> getLectures(Session session) async {
+  Future<List<Lecture>> getLectures(
+    Session session, {
+    String? period,
+    int? lectiveYear,
+  }) async {
     final dates = getDates();
 
     final urls = getEndpoints(session);

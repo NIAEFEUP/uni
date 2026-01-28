@@ -196,24 +196,46 @@ class CourseUnitsInfoNotifier
     final professors = sheet.professors;
     final Map<String, List<Professor>> classProfessors = {};
     final courseAcronym = courseUnit.abbreviation;
+    final courseOccurrId = courseUnit.occurrId;
+
+    int? lectiveYear;
+    if (courseUnit.schoolYear != null) {
+      final yearMatch = RegExp(r'^(\d{4})').firstMatch(courseUnit.schoolYear!);
+      if (yearMatch != null) {
+        lectiveYear = int.tryParse(yearMatch.group(1)!);
+      }
+    }
 
     for (final professor in professors) {
       final fetcher = ScheduleFetcherNewApiProfessor(
         professorCode: professor.code,
       );
-      final lectures = await fetcher.getLectures(session);
 
-      for (final lecture in lectures) {
-        if (lecture.classNumber.isNotEmpty &&
-            lecture.acronym == courseAcronym &&
-            lecture.typeClass != 'T') {
-          if (!classProfessors.containsKey(lecture.classNumber)) {
-            classProfessors[lecture.classNumber] = [];
-          }
-          if (!classProfessors[lecture.classNumber]!.contains(professor)) {
-            classProfessors[lecture.classNumber]!.add(professor);
+      try {
+        final lectures = await fetcher.getLectures(
+          session,
+          lectiveYear: lectiveYear,
+        );
+
+        for (final lecture in lectures) {
+          // match by occurrId (for old course units) or acronym (for current ones)
+          final matchesOccurrId =
+              courseOccurrId != null && lecture.occurrId == courseOccurrId;
+          final matchesAcronym = lecture.acronym == courseAcronym;
+
+          if (lecture.classNumber.isNotEmpty &&
+              (matchesOccurrId || matchesAcronym) &&
+              lecture.typeClass != 'T') {
+            if (!classProfessors.containsKey(lecture.classNumber)) {
+              classProfessors[lecture.classNumber] = [];
+            }
+            if (!classProfessors[lecture.classNumber]!.contains(professor)) {
+              classProfessors[lecture.classNumber]!.add(professor);
+            }
           }
         }
+      } catch (e) {
+        continue;
       }
     }
 

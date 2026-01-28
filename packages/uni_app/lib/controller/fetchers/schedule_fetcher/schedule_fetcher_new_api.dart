@@ -21,14 +21,18 @@ abstract class ScheduleFetcherNewApiBase extends ScheduleFetcher {
 
   /// Fetches the user's lectures from the schedule's HTML page.
   @override
-  Future<List<Lecture>> getLectures(Session session) async {
+  Future<List<Lecture>> getLectures(
+    Session session, {
+    String? period,
+    int? lectiveYear,
+  }) async {
     final url = getEndpoints(session)[0];
-    final lectiveYear = getLectiveYear(DateTime.now());
+    final year = lectiveYear ?? getLectiveYear(DateTime.now());
 
     final scheduleResponse = await NetworkRouter.getWithCookies(url, {
       ...getQueryParams(session),
-      'pv_ano_lectivo': lectiveYear.toString(),
-      'pv_periodos': '1',
+      'pv_ano_lectivo': year.toString(),
+      'pv_periodos': period ?? '1',
     }, session);
 
     final scheduleApiUrl = getScheduleApiUrlFromHtml(scheduleResponse);
