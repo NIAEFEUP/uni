@@ -333,6 +333,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "There are no meals available",
     ),
     "no_name_course": MessageLookupByLibrary.simpleMessage("Unnamed course"),
+    "no_news": MessageLookupByLibrary.simpleMessage("No news to display"),
     "no_places_info": MessageLookupByLibrary.simpleMessage(
       "There is no information available about places",
     ),
