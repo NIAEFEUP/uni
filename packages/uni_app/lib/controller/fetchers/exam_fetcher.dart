@@ -18,19 +18,17 @@ class ExamFetcher implements SessionDependantFetcher {
     return urls;
   }
 
-  Future<List<Exam>> extractExams(
-    Session session,
-  ) async {
+  Future<List<Exam>> extractExams(Session session) async {
     final parserExams = ParserExams();
     final urls = getEndpoints(session);
-    
+
     final futures = userUcs.expand<Future<Set<Exam>>>(
       (uc) => urls.map((url) async {
         final response = await NetworkRouter.getWithCookies(url, {
           'p_ocorr_id': uc.occurrId.toString(),
         }, session);
         return parserExams.parseExams(response, uc);
-      })
+      }),
     );
 
     final results = await Future.wait(futures);

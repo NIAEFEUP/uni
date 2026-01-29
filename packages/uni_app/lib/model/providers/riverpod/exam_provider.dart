@@ -34,11 +34,7 @@ class ExamNotifier extends CachedAsyncNotifier<List<Exam>> {
       return null;
     }
 
-    return _fetchUserExams(
-      ParserExams(),
-      profile,
-      session,
-    );
+    return _fetchUserExams(ParserExams(), profile, session);
   }
 
   Future<List<Exam>> _fetchUserExams(
