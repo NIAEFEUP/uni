@@ -101,7 +101,15 @@ class PreferencesController {
   }
 
   static Future<Session?> getSavedSession() async {
-    final value = await _secureStorage.read(key: _userSession);
+    String? value;
+
+    try {
+      value = await _secureStorage.read(key: _userSession);
+    } catch (e) {
+      await _secureStorage.deleteAll();
+      return null;
+    }
+
     if (value == null) {
       return null;
     }

@@ -328,6 +328,7 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
     }
     setState(() {
       pickedFiles.clear();
+      previewImages.clear();
       _selectedBug = 0;
       _isConsentGiven = false;
     });
