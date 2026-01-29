@@ -41,18 +41,30 @@ class ExamFetcher implements SessionDependantFetcher {
     final exams = <Exam>{};
     for (final courseExam in courseExams) {
       for (final uc in userUcs) {
-        if (!courseExam.examType.contains(
+        if (courseExam.examType.contains(
               '''Exames ao abrigo de estatutos especiais - Port.Est.Especiais''',
-            ) &&
-            courseExam.examType != 'EE' &&
-            courseExam.examType != 'EAE' &&
-            courseExam.subjectAcronym == uc.abbreviation &&
-            courseExam.subject == uc.name &&
-            uc.enrollmentIsValid() &&
-            !courseExam.hasEnded()) {
-          exams.add(courseExam);
-          break;
+            ) ||
+            courseExam.examType == 'EE' ||
+            courseExam.examType == 'EAE') {
+          continue;
         }
+        if (courseExam.occurrId != null && uc.occurrId != null) {
+          if (courseExam.occurrId != uc.occurrId.toString()) {
+            continue;
+          }
+        } else {
+          if (courseExam.subjectAcronym != uc.abbreviation) {
+            continue;
+          }
+        }
+        if (!uc.enrollmentIsValid()) {
+          continue;
+        }
+        if (courseExam.hasEnded()) {
+          continue;
+        }
+        exams.add(courseExam);
+        break;
       }
     }
     return exams.toList();

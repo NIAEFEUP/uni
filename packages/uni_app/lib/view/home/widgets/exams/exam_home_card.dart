@@ -88,6 +88,7 @@ class ExamHomeCard extends GenericHomecard {
                   type: exam.examType,
                   startTime: exam.startTime,
                 ),
+                lineHeight: 55,
               ),
             )
             .toList();

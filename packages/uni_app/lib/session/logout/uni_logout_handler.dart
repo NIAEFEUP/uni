@@ -28,8 +28,8 @@ class UniLogoutHandler extends LogoutHandler {
   }
 
   @override
-  Future<void>? close(Session session) {
-    NavigationService.logoutAndPopHistory();
+  Future<void>? close(Session session) async {
+    await NavigationService.logoutAndPopHistory();
     return super.close(session);
   }
 }

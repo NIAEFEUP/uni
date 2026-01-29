@@ -182,7 +182,7 @@
     },
     {
       "id": "4:7433696585737747799",
-      "lastPropertyId": "9:2707328368115093876",
+      "lastPropertyId": "10:1565565007615085610",
       "name": "Exam",
       "properties": [
         {
@@ -230,6 +230,11 @@
           "name": "dbId",
           "type": 6,
           "flags": 1
+        },
+        {
+          "id": "10:1565565007615085610",
+          "name": "occurrId",
+          "type": 9
         }
       ],
       "relations": []
