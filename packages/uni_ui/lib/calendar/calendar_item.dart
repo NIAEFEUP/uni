@@ -168,6 +168,8 @@ class CalendarItem extends StatelessWidget {
             ),
             child: Text(
               eventName,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color:
                     isToday

@@ -863,6 +863,16 @@ class S {
     );
   }
 
+  /// `No news to display`
+  String get no_news {
+    return Intl.message(
+      'No news to display',
+      name: 'no_news',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `You don't have classes on`
   String get no_classes_on {
     return Intl.message(
@@ -1531,6 +1541,21 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Having trouble signing in?`
+  String get spotted_an_error {
+    return Intl.message(
+      'Something not right?',
+      name: 'spotted_an_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login with credentials`
+  String get report_bug {
+    return Intl.message('Report a bug', name: 'report_bug', desc: '', args: []);
   }
 
   /// `Failed to authenticate`

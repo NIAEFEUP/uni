@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uni/controller/local_storage/database/app_bus_stop_database.dart';
 import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/providers/riverpod/calendar_provider.dart';
@@ -20,16 +19,11 @@ import 'package:uni/model/providers/riverpod/restaurant_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 
 Future<void> cleanupStoredData(BuildContext context) async {
+  Database().clear();
   final prefs = await SharedPreferences.getInstance();
   await prefs.clear();
 
-  await Future.wait([
-    AppBusStopDatabase().deleteBusStops(),
-    PreferencesController.removeSavedSession(),
-  ]);
-
-  Database().clear();
-  await Database().remove();
+  await Future.wait([PreferencesController.removeSavedSession()]);
 
   final toCleanDirectory = await getApplicationDocumentsDirectory();
   await cleanDirectory(toCleanDirectory, DateTime.now());

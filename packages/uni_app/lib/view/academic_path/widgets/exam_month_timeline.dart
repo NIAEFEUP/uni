@@ -66,6 +66,7 @@ class ExamMonthTimeline extends ConsumerWidget {
         isActive: isActive,
         title: exam.start.day.toString(),
         subtitle: exam.monthAcronym(appLocale),
+        lineHeight: 55,
         card: ExamCard(
           name: exam.subject,
           acronym: exam.subjectAcronym,
