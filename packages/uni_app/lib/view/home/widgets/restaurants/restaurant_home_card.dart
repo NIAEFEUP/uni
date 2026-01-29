@@ -123,13 +123,16 @@ List<RestaurantCard> getRestaurantInformation(
   final locale = ref.watch(localeProvider);
 
   final now = DateTime.now();
-  final todayInitial = parseDateTime(now);
+  final currentDayOfWeek = parseDateTime(now);
 
   final restaurantsWidgets =
       favoriteRestaurants
-          .where((element) => element.getMealsOfDay(todayInitial).isNotEmpty)
+          .where(
+            (element) => element.getMealsOfDay(currentDayOfWeek).isNotEmpty,
+          )
           .map((restaurant) {
-            var today = todayInitial;
+            var displayedDay = currentDayOfWeek;
+
             var showTomorrow = RestaurantUtils.shouldShowTomorrowMenu(
               now,
               period: restaurant.period,
@@ -137,11 +140,12 @@ List<RestaurantCard> getRestaurantInformation(
             var showNoMenuTomorrow = false;
 
             if (showTomorrow) {
-              final tomorrowIndex = (today.index + 1) % DayOfWeek.values.length;
+              final tomorrowIndex =
+                  (displayedDay.index + 1) % DayOfWeek.values.length;
               final tomorrow = DayOfWeek.values[tomorrowIndex];
 
               if (restaurant.getMealsOfDay(tomorrow).isNotEmpty) {
-                today = tomorrow;
+                displayedDay = tomorrow;
               } else {
                 showTomorrow = false;
                 showNoMenuTomorrow = true;
@@ -156,7 +160,7 @@ List<RestaurantCard> getRestaurantInformation(
               }
             }
 
-            final menuItems = getMainMenus(today, restaurant, locale);
+            final menuItems = getMainMenus(displayedDay, restaurant, locale);
 
             String? subtitle;
             if (showTomorrow) {
