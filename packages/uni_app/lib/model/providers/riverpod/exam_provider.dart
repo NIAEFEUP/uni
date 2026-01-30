@@ -36,10 +36,7 @@ class ExamNotifier extends CachedAsyncNotifier<List<Exam>> {
     return _fetchUserExams(profile, session);
   }
 
-  Future<List<Exam>> _fetchUserExams(
-    Profile profile,
-    Session session,
-  ) async {
+  Future<List<Exam>> _fetchUserExams(Profile profile, Session session) async {
     final exams = await ExamFetcher(profile.courseUnits).extractExams(session);
 
     exams.sort((exam1, exam2) => exam1.start.compareTo(exam2.start));
