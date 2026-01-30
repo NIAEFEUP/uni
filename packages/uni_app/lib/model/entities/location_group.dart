@@ -17,7 +17,19 @@ class LocationGroup {
   }) : floors =
            locations != null
                ? groupBy(locations, (location) => location.floor)
-               : Map.identity();
+               : Map.identity() {
+    if (latlng.latitude < -90 || latlng.latitude > 90) {
+      throw ArgumentError('Invalid latitude: ${latlng.latitude}');
+    }
+
+    if (latlng.longitude < -180 || latlng.longitude > 180) {
+      throw ArgumentError('Invalid longitude: ${latlng.longitude}');
+    }
+
+    if (id != null && id! < 0) {
+      throw ArgumentError('ID must not be negative');
+    }
+  }
 
   factory LocationGroup.fromJson(Map<String, dynamic> json) =>
       _$LocationGroupFromJson(json);
@@ -29,6 +41,11 @@ class LocationGroup {
   /// Returns the Location with the most weight
   Location? getLocationWithMostWeight() {
     final allLocations = floors.values.expand((x) => x).toList();
+
+    if (allLocations.isEmpty) {
+      return null;
+    }
+
     return allLocations.reduce(
       (current, next) => current.weight > next.weight ? current : next,
     );
