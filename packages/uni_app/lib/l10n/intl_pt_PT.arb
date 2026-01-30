@@ -220,6 +220,8 @@
   "@no_classes_on": {},
   "no_classes_on_weekend": "Não possui aulas ao",
   "@no_classes_on_weekend": {},
+  "no_classes_today": "Não tens mais aulas hoje.",
+  "@no_classes_today": {},
   "no_college": "sem faculdade",
   "@no_college": {},
   "no_course_units": "Sem cadeiras no período selecionado",
@@ -457,5 +459,11 @@
   "services": "Serviços",
   "@services": {},
   "goi": "Gabinete de Orientação e Integração",
-  "@goi": {}
+  "@goi": {},
+  "tomorrow": "amanhã:",
+  "@tomorrow": {},
+  "today": "hoje:",
+  "@today": {},
+  "nextclasses": "Aqui estão as tuas aulas para ",
+  "@nextclasses": {}
 }
