@@ -200,7 +200,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                     ),
                     child: PhysicalModel(
                       borderRadius: BorderRadius.circular(10),
-                      color: const Color(0xFFFFF5F3),
+                      color: Theme.of(context).colorScheme.secondary,
                       elevation: 4,
                       child: TextFormField(
                         key: searchFormKey,
@@ -229,11 +229,11 @@ class MapPageStateView extends ConsumerState<MapPage> {
                           ),
                           contentPadding: const EdgeInsets.all(10),
                           hintText: S.of(context).search_here,
-                          hintStyle: const TextStyle(
+                          hintStyle: TextStyle(
                             fontFamily: 'Roboto',
                             fontSize: 9,
                             fontWeight: FontWeight.w400,
-                            color: Color(0xFF7F7F7F),
+                            color: Theme.of(context).shadowColor,
                           ),
                         ),
                       ),

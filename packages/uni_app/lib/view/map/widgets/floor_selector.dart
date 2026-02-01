@@ -17,7 +17,7 @@ class FloorSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF5F3),
+        color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.circular(8),
         boxShadow: const [BoxShadow(color: Color(0x40000000), blurRadius: 4)],
       ),
@@ -35,7 +35,7 @@ class FloorSelector extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                     color:
                         isSelected
-                            ? const Color(0x40B14D54)
+                            ? Theme.of(context).focusColor
                             : Colors.transparent,
                   ),
                   child: Center(
