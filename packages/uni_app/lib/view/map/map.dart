@@ -87,9 +87,11 @@ class MapPageStateView extends ConsumerState<MapPage> {
           });
         }
 
-        final allFloors =
-            locations.expand((group) => group.floors.keys).toSet().toList()
-              ..sort((a, b) => b.compareTo(a));
+        // Combine floors from location groups AND indoor floor plans
+        final locationFloors = locations.expand((group) => group.floors.keys).toSet();
+        final indoorFloors = indoorPlans.map((plan) => plan.floor).toSet();
+        final allFloors = {...locationFloors, ...indoorFloors}.toList()
+          ..sort((a, b) => b.compareTo(a));
 
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: AppSystemOverlayStyles.base.copyWith(
