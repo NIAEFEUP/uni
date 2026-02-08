@@ -19,9 +19,9 @@ Future<List<News>?> fetchNews() async {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      return null;
+      throw Exception(response.statusCode);
     }
   } catch (err) {
-    return null;
+    throw Exception(err);
   }
 }
