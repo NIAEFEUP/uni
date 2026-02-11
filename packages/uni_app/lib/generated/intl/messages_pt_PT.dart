@@ -61,6 +61,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "all_widgets_added": MessageLookupByLibrary.simpleMessage(
       "Todos os widgets disponíveis já foram adicionados à tua área pessoal!",
     ),
+    "answer": MessageLookupByLibrary.simpleMessage("Responder"),
     "apply": MessageLookupByLibrary.simpleMessage("Aplicar"),
     "assessments": MessageLookupByLibrary.simpleMessage("Avaliações"),
     "at_least_one_college": MessageLookupByLibrary.simpleMessage(
@@ -122,6 +123,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "class_registration": MessageLookupByLibrary.simpleMessage(
       "Inscrição de Turmas",
     ),
+    "close": MessageLookupByLibrary.simpleMessage("Fechar"),
     "collect_usage_stats": MessageLookupByLibrary.simpleMessage(
       "Partilhar estatísticas de uso",
     ),
@@ -164,6 +166,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "dona_bia": MessageLookupByLibrary.simpleMessage("Papelaria D. Beatriz"),
     "dona_bia_building": MessageLookupByLibrary.simpleMessage(
       "Piso -1 do edifício B (B-142)",
+    ),
+    "dont_show_again": MessageLookupByLibrary.simpleMessage(
+      "Não mostrar novamente",
     ),
     "download_error": MessageLookupByLibrary.simpleMessage(
       "Erro ao descarregar o ficheiro",
@@ -386,6 +391,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Por razões de segurança, as palavras-passe têm de ser alteradas periodicamente.",
     ),
     "password": MessageLookupByLibrary.simpleMessage("Palavra-passe"),
+    "pedagogical_surveys": MessageLookupByLibrary.simpleMessage(
+      "Inquéritos Pedagógicos",
+    ),
+    "pedagogical_surveys_description": MessageLookupByLibrary.simpleMessage(
+      "Já preencheste os inquéritos pedagógicos? Se ainda não, por favor tira um momento para os preencher. O teu feedback é valioso e ajuda a melhorar a qualidade do ensino do teu curso.",
+    ),
     "pendent_references": MessageLookupByLibrary.simpleMessage(
       "Referências pendentes",
     ),
@@ -414,6 +425,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Docentes Restantes",
     ),
     "remove": MessageLookupByLibrary.simpleMessage("Remover"),
+    "report_bug": MessageLookupByLibrary.simpleMessage("Comunicar um erro"),
     "report_error": MessageLookupByLibrary.simpleMessage("Reportar erro"),
     "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
       "Queres ver os teus restaurantes favoritos na página principal?",
@@ -438,6 +450,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "settings": MessageLookupByLibrary.simpleMessage("Definições"),
     "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
     "some_error": MessageLookupByLibrary.simpleMessage("Algum erro!"),
+    "spotted_an_error": MessageLookupByLibrary.simpleMessage(
+      "Algo não está bem?",
+    ),
     "stcp_stops": MessageLookupByLibrary.simpleMessage(
       "STCP - Próximas Viagens",
     ),

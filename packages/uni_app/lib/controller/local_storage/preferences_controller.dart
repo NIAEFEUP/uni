@@ -22,6 +22,7 @@ class PreferencesController {
   static const _userSession = 'user_session';
   static const _termsAndConditions = 'terms_and_conditions';
   static const _areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
+  static const _arePedagogicalSurveysSeenKey = 'is_pedagogical_surveys_seen';
   static const _tuitionNotificationsToggleKey = 'tuition_notification_toogle';
   static const _usageStatsToggleKey = 'usage_stats_toogle';
   static const _themeMode = 'theme_mode';
@@ -132,6 +133,16 @@ class PreferencesController {
   /// Returns whether or not the Terms and Conditions have been accepted.
   static bool areTermsAndConditionsAccepted() {
     return prefs.getBool(_areTermsAndConditionsAcceptedKey) ?? false;
+  }
+
+  /// Sets whether or not the Pedagogical Surveys have been seen.
+  static Future<void> setPedagogicalSurveysSeen({required bool areSeen}) async {
+    await prefs.setBool(_arePedagogicalSurveysSeenKey, areSeen);
+  }
+
+  /// Returns whether or not the Pedagogical Surveys have been seen.
+  static bool arePedagogicalSurveysSeen() {
+    return prefs.getBool(_arePedagogicalSurveysSeenKey) ?? false;
   }
 
   static Future<void> setDataCollectionBannerViewed({

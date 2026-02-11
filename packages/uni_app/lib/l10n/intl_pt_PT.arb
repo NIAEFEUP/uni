@@ -358,6 +358,8 @@
   "@confirm_logout": {},
   "collect_usage_stats": "Partilhar estatísticas de uso",
   "@collect_usage_stats": {},
+  "dont_show_again": "Não mostrar novamente",
+  "@dont_show_again": {},
   "try_again": "Tentar de novo",
   "@try_again": {},
   "try_different_login": "Problemas ao iniciar sessão?",
@@ -457,5 +459,13 @@
   "services": "Serviços",
   "@services": {},
   "goi": "Gabinete de Orientação e Integração",
-  "@goi": {}
+  "@goi": {},
+  "pedagogical_surveys": "Inquéritos Pedagógicos",
+  "@pedagogical_surveys": {},
+  "pedagogical_surveys_description": "Já preencheste os inquéritos pedagógicos? Se ainda não, por favor tira um momento para os preencher. O teu feedback é valioso e ajuda a melhorar a qualidade do ensino do teu curso.",
+  "@pedagogical_surveys_description": {},
+  "answer": "Responder",
+  "@answer": {},
+  "close": "Fechar",
+  "@close": {}
 }
