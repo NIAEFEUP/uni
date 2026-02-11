@@ -37,15 +37,12 @@ class ScheduleHomeCard extends GenericHomecard {
     final week = Week(start: now);
     return DefaultConsumer<List<Lecture>>(
       provider: lectureProvider,
-      builder:
-          (context, ref, lectures) => CardTimeline(
-            items: buildTimelineItems(lectures, ref).take(2).toList(),
-          ),
-      hasContent:
-          (lectures) =>
-              lectures
-                  .where((lecture) => week.contains(lecture.startTime))
-                  .isNotEmpty,
+      builder: (context, ref, lectures) => CardTimeline(
+        items: buildTimelineItems(lectures, ref).take(2).toList(),
+      ),
+      hasContent: (lectures) => lectures
+          .where((lecture) => week.contains(lecture.startTime))
+          .isNotEmpty,
       nullContentWidget: Center(
         child: IconLabel(
           icon: const UniIcon(size: 45, UniIcons.beer),

@@ -221,13 +221,9 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                       ),
                     );
                   },
-                  hasContent:
-                      (lectures) =>
-                          lectures
-                              .where(
-                                (lecture) => week.contains(lecture.startTime),
-                              )
-                              .isNotEmpty,
+                  hasContent: (lectures) => lectures
+                      .where((lecture) => week.contains(lecture.startTime))
+                      .isNotEmpty,
                   nullContentWidget: const SizedBox.shrink(),
                   mapper: (lectures) => lectures
                       .where(
