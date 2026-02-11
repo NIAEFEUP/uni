@@ -64,6 +64,9 @@ abstract class GeneralPageViewState<T extends ConsumerStatefulWidget>
       try {
         await onLoad(context);
       } catch (err, st) {
+        if (!mounted) {
+          return;
+        }
         if (err is SocketException) {
           setState(() {
             _connected = false;

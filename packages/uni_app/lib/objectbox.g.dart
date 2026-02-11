@@ -809,15 +809,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       toManyRelations: (Course object) => {},
       getId: (Course object) => object.id,
       setId: (Course object, int id) {
-        if (object.id != id) {
-          throw ArgumentError(
-            'Field Course.id is read-only '
-            '(final or getter-only) and it was declared to be self-assigned. '
-            'However, the currently inserted object (.id=${object.id}) '
-            "doesn't match the inserted ID (ID $id). "
-            'You must assign an ID before calling [box.put()].',
-          );
-        }
+        object.id = id;
       },
       objectToFB: (Course object, fb.Builder fbb) {
         final nameOffset =
