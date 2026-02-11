@@ -9,10 +9,9 @@ class ReferenceFetcher implements SessionDependantFetcher {
     final baseUrls =
         NetworkRouter.getBaseUrlsFromSession(session) +
         [NetworkRouter.getBaseUrl('sasup')];
-    final urls =
-        baseUrls
-            .map((url) => '${url}gpag_ccorrente_geral.conta_corrente_view')
-            .toList();
+    final urls = baseUrls
+        .map((url) => '${url}gpag_ccorrente_geral.conta_corrente_view')
+        .toList();
     return urls;
   }
 

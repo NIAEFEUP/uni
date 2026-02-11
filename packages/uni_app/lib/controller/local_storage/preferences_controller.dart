@@ -101,7 +101,15 @@ class PreferencesController {
   }
 
   static Future<Session?> getSavedSession() async {
-    final value = await _secureStorage.read(key: _userSession);
+    String? value;
+
+    try {
+      value = await _secureStorage.read(key: _userSession);
+    } catch (e) {
+      await _secureStorage.deleteAll();
+      return null;
+    }
+
     if (value == null) {
       return null;
     }
@@ -257,10 +265,9 @@ class PreferencesController {
   static Future<void> saveFilteredExams(
     Map<String, bool> newFilteredExamTypes,
   ) async {
-    final newTypes =
-        newFilteredExamTypes.keys
-            .where((type) => newFilteredExamTypes[type] ?? false)
-            .toList();
+    final newTypes = newFilteredExamTypes.keys
+        .where((type) => newFilteredExamTypes[type] ?? false)
+        .toList();
     await prefs.setStringList(_filteredExamsTypes, newTypes);
   }
 

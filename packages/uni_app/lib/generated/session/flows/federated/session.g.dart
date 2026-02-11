@@ -9,12 +9,12 @@ part of '../../../../session/flows/federated/session.dart';
 FederatedSession _$FederatedSessionFromJson(Map<String, dynamic> json) =>
     FederatedSession(
       username: json['username'] as String,
-      cookies:
-          (json['cookies'] as List<dynamic>)
-              .map((e) => const CookieConverter().fromJson(e as String))
-              .toList(),
-      faculties:
-          (json['faculties'] as List<dynamic>).map((e) => e as String).toList(),
+      cookies: (json['cookies'] as List<dynamic>)
+          .map((e) => const CookieConverter().fromJson(e as String))
+          .toList(),
+      faculties: (json['faculties'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       credential: Credential.fromJson(
         json['credential'] as Map<String, dynamic>,
       ),

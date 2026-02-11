@@ -91,19 +91,20 @@ class NotificationManager {
       macOS: darwinInitializationSettings,
     );
 
-    await _localNotificationsPlugin.initialize(initializationSettings);
+    await _localNotificationsPlugin.initialize(
+      settings: initializationSettings,
+    );
 
     // specific to android 13+, 12 or lower permission is requested when
     // the first notification channel opens
     if (Platform.isAndroid) {
-      final androidPlugin =
-          _localNotificationsPlugin
-              .resolvePlatformSpecificImplementation<
-                AndroidFlutterLocalNotificationsPlugin
-              >()!;
+      final androidPlugin = _localNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >()!;
       try {
-        final permissionGranted =
-            await androidPlugin.requestNotificationsPermission();
+        final permissionGranted = await androidPlugin
+            .requestNotificationsPermission();
         if (permissionGranted != true) {
           return;
         }

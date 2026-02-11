@@ -87,10 +87,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
           elevation: 0,
           iconSize: 32,
           type: BottomNavigationBarType.fixed,
-          items:
-              widget.items
-                  .map((item) => item.toBottomNavigationBarItem(context))
-                  .toList(),
+          items: widget.items
+              .map((item) => item.toBottomNavigationBarItem(context))
+              .toList(),
           selectedFontSize: 0,
           unselectedFontSize: 0,
           showSelectedLabels: false,
