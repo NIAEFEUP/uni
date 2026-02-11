@@ -86,8 +86,11 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
     );
   }
 
-  final firstSchoolYearData =
-      table.querySelector('tr')?.children[1].text.trim();
+  final firstSchoolYearData = table
+      .querySelector('tr')
+      ?.children[1]
+      .text
+      .trim();
   if (firstSchoolYearData == null) {
     return [];
   }
@@ -109,8 +112,9 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
     final year = row.children[0].innerHtml;
     final semester = row.children[1].innerHtml;
     final rawHref = row.children[2].firstChild!.attributes['href']!;
-    final originalOccurId =
-        Uri.parse(rawHref).queryParameters['pv_ocorrencia_id']!;
+    final originalOccurId = Uri.parse(
+      rawHref,
+    ).queryParameters['pv_ocorrencia_id']!;
     final codeName = row.children[2].children[0].innerHtml;
     final name = row.children[3].children[0].innerHtml;
     final ects = row.children[5].innerHtml.replaceAll(',', '.');
@@ -121,10 +125,12 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
         break;
       }
       yearIncrement++;
-      final status =
-          row.children[7 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
-      final grade =
-          row.children[6 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
+      final status = row.children[7 + i].innerHtml
+          .replaceAll('&nbsp;', ' ')
+          .trim();
+      final grade = row.children[6 + i].innerHtml
+          .replaceAll('&nbsp;', ' ')
+          .trim();
 
       if (status.isEmpty) {
         continue;

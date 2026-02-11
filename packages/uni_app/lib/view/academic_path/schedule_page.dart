@@ -25,15 +25,14 @@ class SchedulePage extends ConsumerWidget {
           return SchedulePageView(lectures, startOfWeek: startOfWeek, now: now);
         },
         nullContentWidget: LayoutBuilder(
-          builder:
-              (context, constraints) => SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Container(
-                  height: constraints.maxHeight,
-                  padding: const EdgeInsets.only(bottom: 120),
-                  child: const Center(child: NoClassesWidget()),
-                ),
-              ),
+          builder: (context, constraints) => SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Container(
+              height: constraints.maxHeight,
+              padding: const EdgeInsets.only(bottom: 120),
+              child: const Center(child: NoClassesWidget()),
+            ),
+          ),
         ),
         hasContent: (lectures) => lectures.isNotEmpty,
         mapper: (lectures) {

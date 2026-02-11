@@ -25,8 +25,9 @@ class SchedulePageView extends ConsumerWidget {
       (index) => currentWeek.start.add(Duration(days: index)),
     );
 
-    final daysOfTheWeek =
-        ref.read(localeProvider.notifier).getWeekdaysWithLocale();
+    final daysOfTheWeek = ref
+        .read(localeProvider.notifier)
+        .getWeekdaysWithLocale();
 
     final reorderedDaysOfTheWeek = [
       daysOfTheWeek[6],
@@ -43,64 +44,60 @@ class SchedulePageView extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Timeline(
-        tabs:
-            reorderedDates
-                .map(
-                  (date) => SizedBox(
-                    width: 30,
-                    height: 34,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            reorderedDaysOfTheWeek[(date.weekday) % 7]
-                                .substring(0, 3),
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                          ),
+        tabs: reorderedDates
+            .map(
+              (date) => SizedBox(
+                width: 30,
+                height: 34,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        reorderedDaysOfTheWeek[(date.weekday) % 7].substring(
+                          0,
+                          3,
                         ),
-                        Expanded(
-                          child: Text(
-                            '${date.day}',
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                          ),
-                        ),
-                      ],
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                      ),
                     ),
-                  ),
-                )
-                .toList(),
-        content:
-            reorderedDates
-                .map(
-                  (date) => ScheduleDayTimeline(
-                    key: Key('schedule-page-day-view-${date.weekday}'),
-                    now: now,
-                    day: date,
-                    lectures: _lecturesOfDay(lectures, date),
-                  ),
-                )
-                .toList(),
+                    Expanded(
+                      child: Text(
+                        '${date.day}',
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+            .toList(),
+        content: reorderedDates
+            .map(
+              (date) => ScheduleDayTimeline(
+                key: Key('schedule-page-day-view-${date.weekday}'),
+                now: now,
+                day: date,
+                lectures: _lecturesOfDay(lectures, date),
+              ),
+            )
+            .toList(),
         initialTab:
             (todayIndex != -1 &&
-                    _lecturesOfDay(
-                      lectures,
-                      reorderedDates[todayIndex],
-                    ).isNotEmpty)
-                ? todayIndex
-                : reorderedDates.indexWhere(
-                  (date) =>
-                      date.isAfter(now) &&
-                      _lecturesOfDay(lectures, date).isNotEmpty,
-                ),
-        tabEnabled:
-            reorderedDates
-                .map((date) => _lecturesOfDay(lectures, date).isNotEmpty)
-                .toList(),
+                _lecturesOfDay(lectures, reorderedDates[todayIndex]).isNotEmpty)
+            ? todayIndex
+            : reorderedDates.indexWhere(
+                (date) =>
+                    date.isAfter(now) &&
+                    _lecturesOfDay(lectures, date).isNotEmpty,
+              ),
+        tabEnabled: reorderedDates
+            .map((date) => _lecturesOfDay(lectures, date).isNotEmpty)
+            .toList(),
       ),
     );
   }

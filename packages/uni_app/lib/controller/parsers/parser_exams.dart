@@ -57,14 +57,13 @@ class ParserExams {
                 id = Uri.parse(href).queryParameters['p_exa_id']!;
               }
               if (examsDay.querySelector('span.exame-sala') != null) {
-                rooms =
-                    examsDay
-                        .querySelector('span.exame-sala')!
-                        .text
-                        .split(',')
-                        .map((e) => e.trim())
-                        .where((e) => e.isNotEmpty)
-                        .toList();
+                rooms = examsDay
+                    .querySelector('span.exame-sala')!
+                    .text
+                    .split(',')
+                    .map((e) => e.trim())
+                    .where((e) => e.isNotEmpty)
+                    .toList();
               }
               final DateTime begin;
               final DateTime end;
