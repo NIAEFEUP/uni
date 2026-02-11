@@ -137,10 +137,9 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                     vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color:
-                        isSelected
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.secondary,
+                    color: isSelected
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.secondary,
                     borderRadius: BorderRadius.circular(25),
                     boxShadow: [
                       BoxShadow(
@@ -162,12 +161,11 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                     isMyClass
                         ? '${courseUnitClass.className} *'
                         : courseUnitClass.className,
-                    style:
-                        isSelected
-                            ? Theme.of(context).textTheme.labelMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                            )
-                            : Theme.of(context).textTheme.labelMedium,
+                    style: isSelected
+                        ? Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          )
+                        : Theme.of(context).textTheme.labelMedium,
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

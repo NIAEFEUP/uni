@@ -30,11 +30,10 @@ class TermsAndConditionsButton extends StatelessWidget {
                   decoration: TextDecoration.underline,
                   decorationColor: Colors.white,
                 ),
-                recognizer:
-                    TapGestureRecognizer()
-                      ..onTap = () {
-                        _showTermsAndConditions(context);
-                      },
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    _showTermsAndConditions(context);
+                  },
               ),
             ],
           ),

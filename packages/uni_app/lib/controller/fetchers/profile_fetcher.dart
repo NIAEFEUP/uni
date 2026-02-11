@@ -8,10 +8,9 @@ import 'package:uni/session/flows/base/session.dart';
 class ProfileFetcher implements SessionDependantFetcher {
   @override
   List<String> getEndpoints(Session session) {
-    final url =
-        NetworkRouter.getBaseUrlsFromSession(
-          session,
-        )[0]; // user profile is the same on all faculties
+    final url = NetworkRouter.getBaseUrlsFromSession(
+      session,
+    )[0]; // user profile is the same on all faculties
     return [url];
   }
 

@@ -104,10 +104,9 @@ class _RestaurantPageViewState
               PreferencesController.setSelectedCampus(campusId);
             });
           },
-          items:
-              campus.map((item) {
-                return DropdownMenuItem<String>(value: item, child: Text(item));
-              }).toList(),
+          items: campus.map((item) {
+            return DropdownMenuItem<String>(value: item, child: Text(item));
+          }).toList(),
         ),
       ),
     );
@@ -286,53 +285,53 @@ class _RestaurantPageViewState
         _getRestaurantMenuItems(dayOfWeek, restaurant, locale) ?? [];
     return menuItems.isNotEmpty
         ? RestaurantCard(
-          name: RestaurantUtils.getRestaurantName(
-            context,
-            locale,
-            restaurant.namePt,
-            restaurant.namePt,
-            restaurant.period,
-          ),
-          icon: RestaurantUtils.getIcon(restaurant.typeEn ?? restaurant.typePt),
-          isFavorite: PreferencesController.getFavoriteRestaurants().contains(
-            restaurant.namePt + restaurant.period,
-          ),
-          onFavoriteToggle: () {
-            return _toggleFavorite(restaurant.namePt, restaurant.period);
-          },
-          menuItems: menuItems,
-          onClick: () {
-            if (restaurant.openingHours.isNotEmpty) {
-              showDialog<ModalDialog>(
-                context: context,
-                builder: (context) {
-                  return ModalDialog(
-                    children: [
-                      ModalServiceInfo(
-                        name: restaurant.namePt,
-                        durations:
-                            restaurant.openingHours
-                              ..sort((a, b) => a.compareTo(b)),
-                      ),
-                      if (restaurant.email != '')
-                        ModalInfoRow(
-                          title: S.of(context).email,
-                          description: restaurant.email,
-                          onPressed:
-                              () => launchUrlWithToast(
-                                context,
-                                'mailto:${restaurant.email}',
-                              ),
-                          icon: UniIcons.email,
-                          trailing: const UniIcon(UniIcons.caretRight),
+            name: RestaurantUtils.getRestaurantName(
+              context,
+              locale,
+              restaurant.namePt,
+              restaurant.namePt,
+              restaurant.period,
+            ),
+            icon: RestaurantUtils.getIcon(
+              restaurant.typeEn ?? restaurant.typePt,
+            ),
+            isFavorite: PreferencesController.getFavoriteRestaurants().contains(
+              restaurant.namePt + restaurant.period,
+            ),
+            onFavoriteToggle: () {
+              return _toggleFavorite(restaurant.namePt, restaurant.period);
+            },
+            menuItems: menuItems,
+            onClick: () {
+              if (restaurant.openingHours.isNotEmpty) {
+                showDialog<ModalDialog>(
+                  context: context,
+                  builder: (context) {
+                    return ModalDialog(
+                      children: [
+                        ModalServiceInfo(
+                          name: restaurant.namePt,
+                          durations: restaurant.openingHours
+                            ..sort((a, b) => a.compareTo(b)),
                         ),
-                    ],
-                  );
-                },
-              );
-            }
-          },
-        )
+                        if (restaurant.email != '')
+                          ModalInfoRow(
+                            title: S.of(context).email,
+                            description: restaurant.email,
+                            onPressed: () => launchUrlWithToast(
+                              context,
+                              'mailto:${restaurant.email}',
+                            ),
+                            icon: UniIcons.email,
+                            trailing: const UniIcon(UniIcons.caretRight),
+                          ),
+                      ],
+                    );
+                  },
+                );
+              }
+            },
+          )
         : null;
   }
 
@@ -370,28 +369,27 @@ class _RestaurantPageViewState
   ) {
     showDialog<void>(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: Text(S.of(context).restaurant_main_page),
-            actions: <Widget>[
-              ElevatedButton(
-                onPressed: () {
-                  PreferencesController.setRestaurantReminderDismissed(true);
-                  Navigator.of(context).pop();
-                },
-                child: Text(S.of(context).no),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  updateHomePage(
-                    favoriteCardTypes + [FavoriteWidgetType.restaurants],
-                  );
-                  Navigator.of(context).pop();
-                },
-                child: Text(S.of(context).yes),
-              ),
-            ],
+      builder: (context) => AlertDialog(
+        title: Text(S.of(context).restaurant_main_page),
+        actions: <Widget>[
+          ElevatedButton(
+            onPressed: () {
+              PreferencesController.setRestaurantReminderDismissed(true);
+              Navigator.of(context).pop();
+            },
+            child: Text(S.of(context).no),
           ),
+          ElevatedButton(
+            onPressed: () {
+              updateHomePage(
+                favoriteCardTypes + [FavoriteWidgetType.restaurants],
+              );
+              Navigator.of(context).pop();
+            },
+            child: Text(S.of(context).yes),
+          ),
+        ],
+      ),
     );
   }
 }

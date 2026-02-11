@@ -13,10 +13,9 @@ class ExamFetcher implements SessionDependantFetcher {
 
   @override
   List<String> getEndpoints(Session session) {
-    final urls =
-        NetworkRouter.getBaseUrlsFromSession(
-          session,
-        ).map((url) => '${url}exa_geral.mapa_de_exames').toList();
+    final urls = NetworkRouter.getBaseUrlsFromSession(
+      session,
+    ).map((url) => '${url}exa_geral.mapa_de_exames').toList();
     return urls;
   }
 

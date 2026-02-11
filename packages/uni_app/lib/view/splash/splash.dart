@@ -40,29 +40,30 @@ class _SplashScreenViewState extends State<SplashScreenView> {
                 children: [
                   Hero(
                     tag: 'logo',
-                    flightShuttleBuilder: (
-                      flightContext,
-                      animation,
-                      flightDirection,
-                      fromHeroContext,
-                      toHeroContext,
-                    ) {
-                      return ScaleTransition(
-                        scale: animation.drive(
-                          Tween<double>(
-                            begin: 0,
-                            end: 1,
-                          ).chain(CurveTween(curve: Curves.easeInOut)),
-                        ),
-                        child: SvgPicture.asset(
-                          'assets/images/logo_dark.svg',
-                          colorFilter: const ColorFilter.mode(
-                            Color(0xFFFFF5F3),
-                            BlendMode.srcIn,
-                          ),
-                        ),
-                      );
-                    },
+                    flightShuttleBuilder:
+                        (
+                          flightContext,
+                          animation,
+                          flightDirection,
+                          fromHeroContext,
+                          toHeroContext,
+                        ) {
+                          return ScaleTransition(
+                            scale: animation.drive(
+                              Tween<double>(
+                                begin: 0,
+                                end: 1,
+                              ).chain(CurveTween(curve: Curves.easeInOut)),
+                            ),
+                            child: SvgPicture.asset(
+                              'assets/images/logo_dark.svg',
+                              colorFilter: const ColorFilter.mode(
+                                Color(0xFFFFF5F3),
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                          );
+                        },
                     child: SvgPicture.asset(
                       'assets/images/logo_dark.svg',
                       colorFilter: const ColorFilter.mode(

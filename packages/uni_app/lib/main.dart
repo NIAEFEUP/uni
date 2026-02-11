@@ -94,10 +94,9 @@ Future<void> main() async {
 
   final ua = await userAgent();
 
-  final plausible =
-      plausibleUrl != null && plausibleDomain != null
-          ? Plausible(plausibleUrl, plausibleDomain, userAgent: ua)
-          : null;
+  final plausible = plausibleUrl != null && plausibleDomain != null
+      ? Plausible(plausibleUrl, plausibleDomain, userAgent: ua)
+      : null;
 
   if (plausible == null) {
     Logger().w('Plausible is not enabled');
@@ -183,43 +182,43 @@ class ApplicationState extends ConsumerState<Application> {
               final args = settings.arguments;
               final courseUnit = args is CourseUnit ? args : null;
               final transitionFunctions = <String, Route<dynamic> Function()>{
-                '/${NavigationItem.navSplash.route}':
-                    () => PageTransition.splashTransitionRoute(
+                '/${NavigationItem.navSplash.route}': () =>
+                    PageTransition.splashTransitionRoute(
                       page: const SplashScreenView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navEditPersonalArea.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navEditPersonalArea.route}': () =>
+                    PageTransition.makePageTransition(
                       page: const EditHomeView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navLogin.route}':
-                    () => PageTransition.splashTransitionRoute(
+                '/${NavigationItem.navLogin.route}': () =>
+                    PageTransition.splashTransitionRoute(
                       page: const LoginPageView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navPersonalArea.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navPersonalArea.route}': () =>
+                    PageTransition.makePageTransition(
                       page: const HomePageView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navMap.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navMap.route}': () =>
+                    PageTransition.makePageTransition(
                       page: const MapPage(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navRestaurants.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navRestaurants.route}': () =>
+                    PageTransition.makePageTransition(
                       page: const RestaurantPageView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navCalendar.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navCalendar.route}': () =>
+                    PageTransition.makePageTransition(
                       page: const CalendarPageView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navFaculty.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navFaculty.route}': () =>
+                    PageTransition.makePageTransition(
                       page: const FacultyPageView(),
                       settings: settings,
                     ),
@@ -231,23 +230,23 @@ class ApplicationState extends ConsumerState<Application> {
                     settings: settings,
                   );
                 },
-                '/${NavigationItem.navProfile.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navProfile.route}': () =>
+                    PageTransition.makePageTransition(
                       page: const ProfilePageView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navBugreport.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navBugreport.route}': () =>
+                    PageTransition.makePageTransition(
                       page: const BugReportPageView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navAboutus.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navAboutus.route}': () =>
+                    PageTransition.makePageTransition(
                       page: const AboutPageView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navCourseUnit.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navCourseUnit.route}': () =>
+                    PageTransition.makePageTransition(
                       page: CourseUnitDetailPageView(courseUnit!),
                       settings: settings,
                     ),

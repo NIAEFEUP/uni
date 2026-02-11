@@ -48,15 +48,13 @@ class NewsHomeCard extends GenericHomecard {
                 return NewsCard(
                   title: news.title,
                   description: news.description,
-                  image:
-                      news.image.isNotEmpty
-                          ? CachedNetworkImage(
-                            imageUrl: news.image,
-                            fit: BoxFit.cover,
-                            errorWidget:
-                                (_, _, _) => const SizedBox(height: 90),
-                          )
-                          : null,
+                  image: news.image.isNotEmpty
+                      ? CachedNetworkImage(
+                          imageUrl: news.image,
+                          fit: BoxFit.cover,
+                          errorWidget: (_, _, _) => const SizedBox(height: 90),
+                        )
+                      : null,
                   openLink: () {
                     final uri = Uri.tryParse(news.link);
                     if (uri != null) {
