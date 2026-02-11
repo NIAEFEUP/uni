@@ -344,6 +344,8 @@
   "@uc_info": {},
   "unavailable": "Unavailable",
   "@unavailable": {},
+  "user_informations": "Personal Information",
+  "@user_informations": {},
   "valid_email": "Please enter a valid email",
   "@valid_email": {},
   "widget_prompt": "Choose a widget to add to your personal area:",

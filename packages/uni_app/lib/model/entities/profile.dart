@@ -11,11 +11,25 @@ class Profile {
   Profile({
     this.name = '',
     this.email = '',
+    this.emailAlt = '',
+    this.phoneNumber = '',
+    this.birthDate = '',
     List<Course>? courses,
+    this.sex = '',
+    this.maritalStatus = '',
+    this.fatherName = '',
+    this.motherName = '',
+    List<String>? nationalities,
+    this.taxNumber = '',
+    this.citizensCard = '',
+    this.socialSecurity = '',
+    List<String>? addresses,
     this.printBalance = '',
     this.feesBalance = '',
     this.feesLimit,
   }) : courses = courses ?? [],
+       nationalities = nationalities ?? [],
+       addresses = addresses ?? [],
        courseUnits = [];
 
   /// Creates a new instance from a JSON object.
@@ -30,6 +44,8 @@ class Profile {
     return Profile(
       name: responseBody['nome'] as String? ?? '',
       email: responseBody['email'] as String? ?? '',
+      emailAlt: responseBody['email_alt'] as String? ?? '',
+      phoneNumber: responseBody['telemovel'] as String? ?? '',
       courses: courses,
     );
   }
@@ -38,6 +54,18 @@ class Profile {
   int? id;
   final String name;
   final String email;
+  final String emailAlt;
+  final String phoneNumber;
+  final String sex;
+  final String birthDate;
+  final String maritalStatus;
+  final String fatherName;
+  final String motherName;
+  List<String> nationalities;
+  final String taxNumber;
+  final String citizensCard;
+  final String socialSecurity;
+  List<String> addresses;
   String printBalance;
   String feesBalance;
   DateTime? feesLimit;
@@ -52,6 +80,8 @@ class Profile {
     return [
       ('name', name),
       ('email', email),
+      ('emailAlt', emailAlt),
+      ('phoneNumber', phoneNumber),
       ('printBalance', printBalance),
       ('feesBalance', feesBalance),
       ('feesLimit', feesLimit != null ? feesLimit!.toIso8601String() : ''),

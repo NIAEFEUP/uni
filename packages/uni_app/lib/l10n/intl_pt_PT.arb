@@ -346,6 +346,8 @@
   "@uc_info": {},
   "unavailable": "Indisponível",
   "@unavailable": {},
+  "user_informations": "Informações Pessoais",
+  "@user_informations": {},
   "valid_email": "Por favor insere um email válido",
   "@valid_email": {},
   "widget_prompt": "Escolhe um widget para adicionares à tua área pessoal:",
