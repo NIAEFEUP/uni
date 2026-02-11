@@ -33,13 +33,15 @@ class ScheduleHomeCard extends GenericHomecard {
 
   @override
   Widget buildCardContent(BuildContext context) {
+    final now = DateTime.now();
+    final week = Week(start: now);
     return DefaultConsumer<List<Lecture>>(
       provider: lectureProvider,
       builder:
           (context, ref, lectures) => CardTimeline(
             items: buildTimelineItems(lectures, ref).take(2).toList(),
           ),
-      hasContent: (lectures) => lectures.isNotEmpty,
+      hasContent: (lectures) => lectures.where((lecture) => week.contains(lecture.startTime)).isNotEmpty,
       nullContentWidget: Center(
         child: IconLabel(
           icon: const UniIcon(size: 45, UniIcons.beer),
