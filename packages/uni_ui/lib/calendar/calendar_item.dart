@@ -111,19 +111,18 @@ class CalendarItem extends StatelessWidget {
                   width: 4.0,
                 ),
               ),
-              child:
-                  isToday
-                      ? Center(
-                        child: Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 3),
-                          ),
+              child: isToday
+                  ? Center(
+                      child: Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 3),
                         ),
-                      )
-                      : null,
+                      ),
+                    )
+                  : null,
             ),
             Container(
               width: 4,
@@ -146,15 +145,14 @@ class CalendarItem extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
             width: 140,
             decoration: ShapeDecoration(
-              gradient:
-                  isToday
-                      ? RadialGradient(
-                        colors: [Color(0xFF280709), Color(0xFF511515)],
-                        center: Alignment.topLeft,
-                        radius: 1.5,
-                        stops: [0, 1],
-                      )
-                      : null,
+              gradient: isToday
+                  ? RadialGradient(
+                      colors: [Color(0xFF280709), Color(0xFF511515)],
+                      center: Alignment.topLeft,
+                      radius: 1.5,
+                      stops: [0, 1],
+                    )
+                  : null,
               color: isToday ? null : Theme.of(context).colorScheme.secondary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -171,10 +169,9 @@ class CalendarItem extends StatelessWidget {
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color:
-                    isToday
-                        ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context).colorScheme.primary,
+                color: isToday
+                    ? Theme.of(context).colorScheme.secondary
+                    : Theme.of(context).colorScheme.primary,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 height: 1,

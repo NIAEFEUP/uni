@@ -56,13 +56,12 @@ class RestaurantSliderState extends ConsumerState<RestaurantSlider> {
     return DefaultConsumer<List<Restaurant>>(
       provider: restaurantProvider,
       builder: (context, ref, restaurants) {
-        final favoriteRestaurants =
-            restaurants
-                .where(
-                  (restaurant) => PreferencesController.getFavoriteRestaurants()
-                      .contains(restaurant.namePt + restaurant.period),
-                )
-                .toList();
+        final favoriteRestaurants = restaurants
+            .where(
+              (restaurant) => PreferencesController.getFavoriteRestaurants()
+                  .contains(restaurant.namePt + restaurant.period),
+            )
+            .toList();
 
         final dailyRestaurants = getRestaurantInformation(
           context,
@@ -74,10 +73,9 @@ class RestaurantSliderState extends ConsumerState<RestaurantSlider> {
           children: [
             ExpandablePageView(
               children: dailyRestaurants,
-              onPageChanged:
-                  (value) => setState(() {
-                    _currentIndex = value;
-                  }),
+              onPageChanged: (value) => setState(() {
+                _currentIndex = value;
+              }),
             ),
             if (dailyRestaurants.length > 1) ...[
               const SizedBox(height: 5),
@@ -96,13 +94,12 @@ class RestaurantSliderState extends ConsumerState<RestaurantSlider> {
         );
       },
       hasContent: (restaurants) {
-        final favoriteRestaurants =
-            restaurants
-                .where(
-                  (restaurant) => PreferencesController.getFavoriteRestaurants()
-                      .contains(restaurant.namePt + restaurant.period),
-                )
-                .toList();
+        final favoriteRestaurants = restaurants
+            .where(
+              (restaurant) => PreferencesController.getFavoriteRestaurants()
+                  .contains(restaurant.namePt + restaurant.period),
+            )
+            .toList();
         return getRestaurantInformation(
           context,
           ref,
@@ -124,30 +121,28 @@ List<RestaurantCard> getRestaurantInformation(
 
   final today = parseDateTime(DateTime.now());
 
-  final restaurantsWidgets =
-      favoriteRestaurants
-          .where((element) => element.getMealsOfDay(today).isNotEmpty)
-          .map((restaurant) {
-            final menuItems = getMainMenus(today, restaurant, locale);
-            return RestaurantCard(
-              name: RestaurantUtils.getRestaurantName(
-                context,
-                locale,
-                restaurant.namePt,
-                restaurant.namePt,
-                restaurant.period,
-              ),
-              icon: RestaurantUtils.getIcon(
-                restaurant.typeEn ?? restaurant.typePt,
-              ),
-              isFavorite: PreferencesController.getFavoriteRestaurants()
-                  .contains(restaurant.namePt + restaurant.period),
-              onFavoriteToggle: () => {},
-              menuItems: menuItems,
-              showFavoriteButton: false,
-            );
-          })
-          .toList();
+  final restaurantsWidgets = favoriteRestaurants
+      .where((element) => element.getMealsOfDay(today).isNotEmpty)
+      .map((restaurant) {
+        final menuItems = getMainMenus(today, restaurant, locale);
+        return RestaurantCard(
+          name: RestaurantUtils.getRestaurantName(
+            context,
+            locale,
+            restaurant.namePt,
+            restaurant.namePt,
+            restaurant.period,
+          ),
+          icon: RestaurantUtils.getIcon(restaurant.typeEn ?? restaurant.typePt),
+          isFavorite: PreferencesController.getFavoriteRestaurants().contains(
+            restaurant.namePt + restaurant.period,
+          ),
+          onFavoriteToggle: () => {},
+          menuItems: menuItems,
+          showFavoriteButton: false,
+        );
+      })
+      .toList();
 
   return restaurantsWidgets;
 }
