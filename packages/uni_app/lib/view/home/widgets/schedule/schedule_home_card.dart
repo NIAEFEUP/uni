@@ -35,10 +35,9 @@ class ScheduleHomeCard extends GenericHomecard {
   Widget buildCardContent(BuildContext context) {
     return DefaultConsumer<List<Lecture>>(
       provider: lectureProvider,
-      builder:
-          (context, ref, lectures) => CardTimeline(
-            items: buildTimelineItems(lectures, ref).take(2).toList(),
-          ),
+      builder: (context, ref, lectures) => CardTimeline(
+        items: buildTimelineItems(lectures, ref).take(2).toList(),
+      ),
       hasContent: (lectures) => lectures.isNotEmpty,
       nullContentWidget: Center(
         child: IconLabel(
@@ -50,11 +49,9 @@ class ScheduleHomeCard extends GenericHomecard {
           ),
         ),
       ),
-      mapper:
-          (lectures) =>
-              lectures
-                  .where((lecture) => lecture.endTime.isAfter(DateTime.now()))
-                  .toList(),
+      mapper: (lectures) => lectures
+          .where((lecture) => lecture.endTime.isAfter(DateTime.now()))
+          .toList(),
       loadingWidget: const ShimmerCardTimeline(),
     );
   }
@@ -78,45 +75,39 @@ class ScheduleHomeCard extends GenericHomecard {
         .toList()
         .sortedBy((lecture) => week.getWeekday(lecture.startTime.weekday));
 
-    final items =
-        sortedLectures
-            .map(
-              (element) => TimelineItem(
-                isActive:
-                    now.isAfter(element.startTime) &&
-                    now.isBefore(element.endTime),
-                title: DateFormat('HH:mm').format(element.startTime),
-                subtitle: DateFormat('HH:mm').format(element.endTime),
-                card: FutureBuilder<File?>(
-                  future:
-                      session.value != null
-                          ? ProfileNotifier.fetchOrGetCachedProfilePicture(
-                            session.value!,
-                            studentNumber: element.teacherId,
-                          )
-                          : Future.value(),
-                  builder: (context, snapshot) {
-                    return ScheduleCard(
-                      isActive:
-                          now.isAfter(element.startTime) &&
-                          now.isBefore(element.endTime),
-                      name: element.subject,
-                      acronym: element.acronym,
-                      room: element.room,
-                      type: element.typeClass,
-                      teacherName: element.teacherName,
-                      teacherPhoto:
-                          snapshot.hasData && snapshot.data != null
-                              ? Image(image: FileImage(snapshot.data!))
-                              : Image.asset(
-                                'assets/images/profile_placeholder.png',
-                              ),
-                    );
-                  },
-                ),
-              ),
-            )
-            .toList();
+    final items = sortedLectures
+        .map(
+          (element) => TimelineItem(
+            isActive:
+                now.isAfter(element.startTime) && now.isBefore(element.endTime),
+            title: DateFormat('HH:mm').format(element.startTime),
+            subtitle: DateFormat('HH:mm').format(element.endTime),
+            card: FutureBuilder<File?>(
+              future: session.value != null
+                  ? ProfileNotifier.fetchOrGetCachedProfilePicture(
+                      session.value!,
+                      studentNumber: element.teacherId,
+                    )
+                  : Future.value(),
+              builder: (context, snapshot) {
+                return ScheduleCard(
+                  isActive:
+                      now.isAfter(element.startTime) &&
+                      now.isBefore(element.endTime),
+                  name: element.subject,
+                  acronym: element.acronym,
+                  room: element.room,
+                  type: element.typeClass,
+                  teacherName: element.teacherName,
+                  teacherPhoto: snapshot.hasData && snapshot.data != null
+                      ? Image(image: FileImage(snapshot.data!))
+                      : Image.asset('assets/images/profile_placeholder.png'),
+                );
+              },
+            ),
+          ),
+        )
+        .toList();
 
     return items;
   }

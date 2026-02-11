@@ -27,8 +27,9 @@ class NetworkRouter {
 
   /// Returns the base url of the user's faculty.
   static String getBaseUrl(String faculty, {bool languageSensitive = false}) {
-    final languageCode =
-        languageSensitive ? PreferencesController.getLocale().localeCode : 'pt';
+    final languageCode = languageSensitive
+        ? PreferencesController.getLocale().localeCode
+        : 'pt';
 
     return 'https://sigarra.up.pt/$faculty/$languageCode/';
   }
@@ -70,10 +71,9 @@ class NetworkRouter {
       ];
     }
 
-    final requestUri =
-        parsedUrl
-            .replace(queryParameters: allQueryParameters)
-            .normalizeQueryComponent();
+    final requestUri = parsedUrl
+        .replace(queryParameters: allQueryParameters)
+        .normalizeQueryComponent();
 
     return client.get(requestUri);
   }

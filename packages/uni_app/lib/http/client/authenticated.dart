@@ -44,12 +44,11 @@ class AuthenticatedClient extends http.BaseClient {
         cookies: () => snapshot.session.cookies,
       ),
       [Duration.zero],
-      when:
-          (response) async =>
-              // We retry if the request is unauthorized
-              response.statusCode == 403 &&
-              // and, to be sure, if the user is not logged in SIGARRA.
-              !await _isUserLoggedIn(snapshot.session),
+      when: (response) async =>
+          // We retry if the request is unauthorized
+          response.statusCode == 403 &&
+          // and, to be sure, if the user is not logged in SIGARRA.
+          !await _isUserLoggedIn(snapshot.session),
       onRetry: (request, response, attempt) async {
         // When retrying, the previous session should be invalidated
         // and the session should be refreshed.

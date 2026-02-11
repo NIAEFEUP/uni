@@ -30,9 +30,8 @@ class DefaultConsumer<T> extends ConsumerWidget {
     final asyncValue = ref.watch(provider);
 
     return asyncValue.when(
-      loading:
-          () =>
-              loadingWidget ?? const Center(child: CircularProgressIndicator()),
+      loading: () =>
+          loadingWidget ?? const Center(child: CircularProgressIndicator()),
       error: (err, _) => errorWidget ?? Center(child: Text('Error: $err')),
       data: (data) {
         if (data == null) {
