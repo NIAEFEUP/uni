@@ -25,12 +25,11 @@ class FederatedSessionUserInfo {
   }
 
   static List<String> _extractFaculties(UserInfo userInfo) {
-    final faculties =
-        userInfo
-            .getTyped<List<dynamic>>('ous')!
-            .cast<String>()
-            .map((element) => element.toLowerCase())
-            .toList();
+    final faculties = userInfo
+        .getTyped<List<dynamic>>('ous')!
+        .cast<String>()
+        .map((element) => element.toLowerCase())
+        .toList();
 
     return faculties;
   }

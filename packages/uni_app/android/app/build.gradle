@@ -93,8 +93,8 @@ configurations {
 }
 
 dependencies {
-    implementation "io.objectbox:objectbox-android:5.0.1"
-    debugImplementation("io.objectbox:objectbox-android-objectbrowser:5.0.1")
+    implementation "io.objectbox:objectbox-android:5.1.0"
+    debugImplementation("io.objectbox:objectbox-android-objectbrowser:5.1.0")
 
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.1.4"
 }

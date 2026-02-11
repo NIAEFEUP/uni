@@ -8,10 +8,9 @@ import 'package:uni/session/flows/base/session.dart';
 class ScheduleFetcherNewApi extends ScheduleFetcher {
   @override
   List<String> getEndpoints(Session session) {
-    final urls =
-        NetworkRouter.getBaseUrlsFromSession(
-          session,
-        ).map((url) => '${url}hor_geral.estudantes_view').toList();
+    final urls = NetworkRouter.getBaseUrlsFromSession(
+      session,
+    ).map((url) => '${url}hor_geral.estudantes_view').toList();
     return urls;
   }
 
