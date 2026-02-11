@@ -19,7 +19,7 @@ class RefreshState extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        if (header != null) header!,
+        ?header,
         Expanded(
           child: LayoutBuilder(
             builder: (context, viewportConstraints) {
@@ -27,10 +27,8 @@ class RefreshState extends ConsumerWidget {
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: RefreshIndicator(
                   key: GlobalKey<RefreshIndicatorState>(),
-                  notificationPredicate:
-                      (notification) =>
-                          notification.metrics.axisDirection ==
-                          AxisDirection.down,
+                  notificationPredicate: (notification) =>
+                      notification.metrics.axisDirection == AxisDirection.down,
                   onRefresh: () async {
                     await onRefresh();
                     if (context.mounted) {
@@ -45,15 +43,14 @@ class RefreshState extends ConsumerWidget {
                       maxHeight: viewportConstraints.maxHeight,
                     ),
                     child: Builder(
-                      builder:
-                          (context) => GestureDetector(
-                            onHorizontalDragEnd: (dragDetails) {
-                              if (dragDetails.primaryVelocity! > 2) {
-                                Scaffold.of(context).openDrawer();
-                              }
-                            },
-                            child: body,
-                          ),
+                      builder: (context) => GestureDetector(
+                        onHorizontalDragEnd: (dragDetails) {
+                          if (dragDetails.primaryVelocity! > 2) {
+                            Scaffold.of(context).openDrawer();
+                          }
+                        },
+                        child: body,
+                      ),
                     ),
                   ),
                 ),

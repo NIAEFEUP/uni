@@ -19,10 +19,9 @@ class DayOfWeekTab extends StatelessWidget {
       width: 45,
       height: 50,
       decoration: BoxDecoration(
-        color:
-            isSelected
-                ? Theme.of(context).focusColor
-                : Theme.of(context).scaffoldBackgroundColor,
+        color: isSelected
+            ? Theme.of(context).focusColor
+            : Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -30,20 +29,18 @@ class DayOfWeekTab extends StatelessWidget {
         children: [
           Text(
             weekDay,
-            style:
-                isSelected
-                    ? Theme.of(context).textTheme.bodySmall
-                    : Theme.of(context).textTheme.bodyLarge,
+            style: isSelected
+                ? Theme.of(context).textTheme.bodySmall
+                : Theme.of(context).textTheme.bodyLarge,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             maxLines: 1,
           ),
           Text(
             day,
-            style:
-                isSelected
-                    ? Theme.of(context).textTheme.bodySmall
-                    : Theme.of(context).textTheme.bodyLarge,
+            style: isSelected
+                ? Theme.of(context).textTheme.bodySmall
+                : Theme.of(context).textTheme.bodyLarge,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             maxLines: 1,

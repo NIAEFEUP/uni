@@ -96,10 +96,10 @@ class TuitionNotification extends Notification {
     );
 
     localNotificationsPlugin.show(
-      2,
-      content.$1,
-      content.$2,
-      notificationDetails,
+      id: 2,
+      title: content.$1,
+      body: content.$2,
+      notificationDetails: notificationDetails,
     );
   }
 }

@@ -78,10 +78,9 @@ Future<File?> _downloadAndSaveFile(
 ) async {
   final header = headers ?? <String, String>{};
 
-  final response =
-      session == null
-          ? await http.get(url.toUri(), headers: headers)
-          : await NetworkRouter.getWithCookies(url, header, session);
+  final response = session == null
+      ? await http.get(url.toUri(), headers: headers)
+      : await NetworkRouter.getWithCookies(url, header, session);
 
   if (response.statusCode == 200) {
     return File(filePath).writeAsBytes(response.bodyBytes);
