@@ -116,13 +116,12 @@ class HomePageViewState extends ConsumerState<HomePageView> {
           backgroundColor: Theme.of(context).primaryColor,
           foregroundColor: Colors.white,
           shape: const CircleBorder(),
-          onPressed:
-              () => {
-                Navigator.pushNamed(
-                  context,
-                  '/${NavigationItem.navEditPersonalArea.route}',
-                ),
-              },
+          onPressed: () => {
+            Navigator.pushNamed(
+              context,
+              '/${NavigationItem.navEditPersonalArea.route}',
+            ),
+          },
           child: const UniIcon(UniIcons.edit),
         ),
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -213,9 +212,8 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                             Navigator.push(
                               context,
                               MaterialPageRoute<CourseUnitDetailPageView>(
-                                builder:
-                                    (context) =>
-                                        CourseUnitDetailPageView(courseUnit),
+                                builder: (context) =>
+                                    CourseUnitDetailPageView(courseUnit),
                               ),
                             );
                           }
@@ -231,14 +229,11 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                               )
                               .isNotEmpty,
                   nullContentWidget: const SizedBox.shrink(),
-                  mapper:
-                      (lectures) =>
-                          lectures
-                              .where(
-                                (lecture) =>
-                                    lecture.endTime.isAfter(DateTime.now()),
-                              )
-                              .toList(),
+                  mapper: (lectures) => lectures
+                      .where(
+                        (lecture) => lecture.endTime.isAfter(DateTime.now()),
+                      )
+                      .toList(),
                   loadingWidget: Container(),
                 ),
               ],
