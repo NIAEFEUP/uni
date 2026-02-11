@@ -41,7 +41,11 @@ class ScheduleHomeCard extends GenericHomecard {
           (context, ref, lectures) => CardTimeline(
             items: buildTimelineItems(lectures, ref).take(2).toList(),
           ),
-      hasContent: (lectures) => lectures.where((lecture) => week.contains(lecture.startTime)).isNotEmpty,
+      hasContent:
+          (lectures) =>
+              lectures
+                  .where((lecture) => week.contains(lecture.startTime))
+                  .isNotEmpty,
       nullContentWidget: Center(
         child: IconLabel(
           icon: const UniIcon(size: 45, UniIcons.beer),
