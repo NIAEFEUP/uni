@@ -9,6 +9,7 @@ import 'package:uni/view/course_unit_info/widgets/course_unit_classes.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_no_files.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_sheet_shimmer.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/tabs/tab_icon.dart';
@@ -114,9 +115,7 @@ class CourseUnitDetailPageViewState
         );
 
         if (sheet == null) {
-          return Center(
-            child: Text(S.of(context).no_info, textAlign: TextAlign.center),
-          );
+          return const ShimmerCourseSheet();
         }
 
         return CourseUnitSheetView(sheet, courseExams);
