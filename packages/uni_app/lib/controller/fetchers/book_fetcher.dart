@@ -24,20 +24,27 @@ class BookThumbFetcher {
       Uri.decodeComponent(googleBooksUrl.toString()).toUri(),
     );
 
-    final numBooks =
-        (json.decode(response.body) as Map<String, dynamic>)['totalItems']
-            as int;
+    final body = json.decode(response.body);
+    if (body is! Map<String, dynamic>) {
+      return null;
+    }
+
+    final numBooks = body['totalItems'] as int? ?? 0;
 
     if (numBooks > 0) {
-      final bookInformation =
-          ((json.decode(response.body) as Map<String, dynamic>)['items']
-                      as List<dynamic>)
-                  .first
-              as Map<String, dynamic>;
-      final thumbnailURL =
-          ((bookInformation['volumeInfo'] as Map<String, dynamic>)['imageLinks']
-              as Map<String, dynamic>)['thumbnail'];
-      return thumbnailURL.toString();
+      final items = body['items'];
+      if (items is List && items.isNotEmpty) {
+        final bookInformation = items.first;
+        if (bookInformation is Map<String, dynamic>) {
+          final volumeInfo = bookInformation['volumeInfo'];
+          if (volumeInfo is Map<String, dynamic>) {
+            final imageLinks = volumeInfo['imageLinks'];
+            if (imageLinks is Map<String, dynamic>) {
+              return imageLinks['thumbnail']?.toString();
+            }
+          }
+        }
+      }
     }
 
     return null;
