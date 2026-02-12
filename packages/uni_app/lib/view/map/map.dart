@@ -248,7 +248,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewPadding.bottom + 110,
+                    bottom: MediaQuery.viewPaddingOf(context).bottom + 110,
                     left: 20,
                   ),
                   child: Align(
