@@ -12,7 +12,6 @@ import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/faculty_locations_provider.dart';
 import 'package:uni/view/map/widgets/floor_selector_button.dart';
-import 'package:uni/view/map/widgets/floor_selector_menu.dart';
 import 'package:uni/view/map/widgets/floorless_marker_popup.dart';
 import 'package:uni/view/map/widgets/indoor_floor_layer.dart';
 import 'package:uni/view/map/widgets/marker.dart';
@@ -62,6 +61,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
           loading: () => <IndoorFloorPlan>[],
           error: (_, _) => <IndoorFloorPlan>[],
         );
+        final isIndoorPlansLoaded = indoorPlansAsync.hasValue;
         var bounds = _bounds;
         bounds ??= LatLngBounds.fromPoints(
           locations.map((location) => location.latlng).toList(),
@@ -162,39 +162,41 @@ class MapPageStateView extends ConsumerState<MapPage> {
                     ),
                   ),
                 ),
-                Positioned(
-                  right: 10,
-                  bottom: 650,
-                  child: SafeArea(
-                    child: FloatingActionButton(
-                      mini: true,
-                      onPressed: () {
-                        setState(() {
-                          _showIndoorLayer = !_showIndoorLayer;
-                        });
-                      },
-                      child: Icon(
-                        _showIndoorLayer ? Icons.layers_clear : Icons.layers,
+                if (isIndoorPlansLoaded)
+                  Positioned(
+                    right: 10,
+                    bottom: 650,
+                    child: SafeArea(
+                      child: FloatingActionButton(
+                        mini: true,
+                        onPressed: () {
+                          setState(() {
+                            _showIndoorLayer = !_showIndoorLayer;
+                          });
+                        },
+                        child: Icon(
+                          _showIndoorLayer ? Icons.layers_clear : Icons.layers,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Positioned(
-                  right: 10,
-                  top: 700,
-                  child: SafeArea(
-                    child: FloorSelectorButton(
-                      floors: allFloors,
-                      selectedFloor: _selectedFloor,
-                      onFloorSelected: (floor) {
-                        setState(() {
-                          _selectedFloor = floor;
-                          _popupLayerController.hideAllPopups();
-                        });
-                      },
+                if (isIndoorPlansLoaded)
+                  Positioned(
+                    right: 10,
+                    top: 700,
+                    child: SafeArea(
+                      child: FloorSelectorButton(
+                        floors: allFloors,
+                        selectedFloor: _selectedFloor,
+                        onFloorSelected: (floor) {
+                          setState(() {
+                            _selectedFloor = floor;
+                            _popupLayerController.hideAllPopups();
+                          });
+                        },
+                      ),
                     ),
                   ),
-                ),
                 SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.only(
