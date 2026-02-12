@@ -9,20 +9,20 @@ class ShimmerCourseSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        // docentes
+        // instructors
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-            child: Container(
-              height: 30,
-              child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
-                child: GenericSquircle(
-                  child: Container(height: 35, color: Colors.grey),
-                ),
+          child: Container(
+            height: 30,
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: GenericSquircle(
+                child: Container(height: 35, color: Colors.grey),
               ),
             ),
           ),
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Center(
@@ -43,20 +43,20 @@ class ShimmerCourseSheet extends StatelessWidget {
             ),
           ),
         ),
-        //avaliaçoes
+        // Assessments
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-            child: Container(
-              height: 30,
-              child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
-                child: GenericSquircle(
-                  child: Container(height: 35, color: Colors.grey),
-                ),
+          child: Container(
+            height: 30,
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: GenericSquircle(
+                child: Container(height: 35, color: Colors.grey),
               ),
             ),
           ),
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Center(
@@ -77,20 +77,20 @@ class ShimmerCourseSheet extends StatelessWidget {
             ),
           ),
         ),
-        //programa
+        // program
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-            child: Container(
-              height: 30,
-              child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
-                child: GenericSquircle(
-                  child: Container(height: 35, color: Colors.grey),
-                ),
+          child: Container(
+            height: 30,
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: GenericSquircle(
+                child: Container(height: 35, color: Colors.grey),
               ),
             ),
           ),
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Center(
@@ -111,20 +111,20 @@ class ShimmerCourseSheet extends StatelessWidget {
             ),
           ),
         ),
-        //avaliação
+        // evaluation
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-            child: Container(
-              height: 30,
-              child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
-                child: GenericSquircle(
-                  child: Container(height: 35, color: Colors.grey),
-                ),
+          child: Container(
+            height: 30,
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: GenericSquircle(
+                child: Container(height: 35, color: Colors.grey),
               ),
             ),
           ),
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Center(
@@ -145,20 +145,20 @@ class ShimmerCourseSheet extends StatelessWidget {
             ),
           ),
         ),
-        //frequencia
+        // Eligibility
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-            child: Container(
-              height: 30,
-              child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
-                child: GenericSquircle(
-                  child: Container(height: 35, color: Colors.grey),
-                ),
+          child: Container(
+            height: 30,
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: GenericSquircle(
+                child: Container(height: 35, color: Colors.grey),
               ),
             ),
           ),
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Center(
@@ -179,20 +179,20 @@ class ShimmerCourseSheet extends StatelessWidget {
             ),
           ),
         ),
-        // bibliografia
+        // bibliography
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-            child: Container(
-              height: 30,
-              child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
-                child: GenericSquircle(
-                  child: Container(height: 35, color: Colors.grey),
-                ),
+          child: Container(
+            height: 30,
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: GenericSquircle(
+                child: Container(height: 35, color: Colors.grey),
               ),
             ),
           ),
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Center(

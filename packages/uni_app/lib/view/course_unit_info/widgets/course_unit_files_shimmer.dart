@@ -11,44 +11,44 @@ class ShimmerCourseFiles extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
-            child: Container(
-              height: 80,
-              child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
-                child: GenericSquircle(
-                  child: Container(height: 35, color: Colors.grey),
-                ),
+          child: Container(
+            height: 80,
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: GenericSquircle(
+                child: Container(height: 35, color: Colors.grey),
               ),
             ),
           ),
-          Padding(
+        ),
+        Padding(
           padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
-            child: Container(
-              height: 80,
-              child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
-                child: GenericSquircle(
-                  child: Container(height: 35, color: Colors.grey),
-                ),
+          child: Container(
+            height: 80,
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: GenericSquircle(
+                child: Container(height: 35, color: Colors.grey),
               ),
             ),
           ),
-          Padding(
+        ),
+        Padding(
           padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
-            child: Container(
-              height: 80,
-              child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
-                child: GenericSquircle(
-                  child: Container(height: 35, color: Colors.grey),
-                ),
+          child: Container(
+            height: 80,
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: GenericSquircle(
+                child: Container(height: 35, color: Colors.grey),
               ),
             ),
           ),
-      ]
+        ),
+      ],
     );
   }
 }

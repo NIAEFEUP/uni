@@ -133,7 +133,7 @@ class CourseUnitDetailPageViewState
     if (files == null) {
       return const ShimmerCourseFiles();
     }
-    
+
     if (files.isEmpty) {
       return LayoutBuilder(
         builder: (context, constraints) => SingleChildScrollView(
@@ -155,10 +155,10 @@ class CourseUnitDetailPageViewState
         .read(courseUnitsInfoProvider.notifier)
         .courseUnitsClasses[widget.courseUnit];
 
-    if (classes == null){
+    if (classes == null) {
       return const ShimmerCourseClasses();
     }
-    
+
     if (classes.isEmpty) {
       return Center(
         child: Text(S.of(context).no_class, textAlign: TextAlign.center),
