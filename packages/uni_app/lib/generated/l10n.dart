@@ -955,7 +955,7 @@ class S {
   /// `There's no files attached`
   String get no_files {
     return Intl.message(
-      'There\'s no files attached',
+      'There are no files attached',
       name: 'no_files',
       desc: '',
       args: [],

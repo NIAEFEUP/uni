@@ -8,6 +8,7 @@ import 'package:uni/model/providers/riverpod/exam_provider.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes_shimmer.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_files_shimmer.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_no_files.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet_shimmer.dart';
@@ -129,7 +130,11 @@ class CourseUnitDetailPageViewState
         .read(courseUnitsInfoProvider.notifier)
         .courseUnitsFiles[widget.courseUnit];
 
-    if (files == null || files.isEmpty) {
+    if (files == null) {
+      return const ShimmerCourseFiles();
+    }
+    
+    if (files.isEmpty) {
       return LayoutBuilder(
         builder: (context, constraints) => SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
