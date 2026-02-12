@@ -54,7 +54,7 @@ class _FloorSelectorButtonState extends State<FloorSelectorButton> {
               children: [
                 CompositedTransformFollower(
                   link: _layerLink,
-                  offset: const Offset(0, -280),
+                  offset: const Offset(0, -300),
                   showWhenUnlinked: false,
                   child: Material(
                     color: Colors.transparent,
