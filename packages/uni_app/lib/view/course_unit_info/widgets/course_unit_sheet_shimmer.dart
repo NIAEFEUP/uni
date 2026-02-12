@@ -12,7 +12,7 @@ class ShimmerCourseSheet extends StatelessWidget {
         // instructors
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-          child: Container(
+          child: SizedBox(
             height: 30,
             child: Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
@@ -46,7 +46,7 @@ class ShimmerCourseSheet extends StatelessWidget {
         // Assessments
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-          child: Container(
+          child: SizedBox(
             height: 30,
             child: Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
@@ -80,7 +80,7 @@ class ShimmerCourseSheet extends StatelessWidget {
         // program
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-          child: Container(
+          child: SizedBox(
             height: 30,
             child: Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
@@ -114,7 +114,7 @@ class ShimmerCourseSheet extends StatelessWidget {
         // evaluation
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-          child: Container(
+          child: SizedBox(
             height: 30,
             child: Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
@@ -148,7 +148,7 @@ class ShimmerCourseSheet extends StatelessWidget {
         // Eligibility
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-          child: Container(
+          child: SizedBox(
             height: 30,
             child: Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
@@ -182,7 +182,7 @@ class ShimmerCourseSheet extends StatelessWidget {
         // bibliography
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-          child: Container(
+          child: SizedBox(
             height: 30,
             child: Shimmer.fromColors(
               baseColor: Colors.grey[300]!,

@@ -11,7 +11,7 @@ class ShimmerCourseFiles extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
-          child: Container(
+          child: SizedBox(
             height: 80,
             child: Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
@@ -24,7 +24,7 @@ class ShimmerCourseFiles extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
-          child: Container(
+          child: SizedBox(
             height: 80,
             child: Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
@@ -37,7 +37,7 @@ class ShimmerCourseFiles extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
-          child: Container(
+          child: SizedBox(
             height: 80,
             child: Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
