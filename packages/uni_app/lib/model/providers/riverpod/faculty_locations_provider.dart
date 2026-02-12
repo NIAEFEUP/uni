@@ -31,11 +31,11 @@ class FacultyLocationsNotifier
   Future<List<LocationGroup>> loadFromRemote() async {
     try {
       final osmData = await LocationFetcherOSM().getLocations();
-      
+
       if (osmData.isNotEmpty) {
         return osmData;
       }
-      
+
       return await loadFromStorage();
     } catch (e) {
       return loadFromStorage();

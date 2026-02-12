@@ -11,7 +11,8 @@ import 'package:uni/model/entities/indoor_floor_plan.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/faculty_locations_provider.dart';
-import 'package:uni/view/map/widgets/floor_selector.dart';
+import 'package:uni/view/map/widgets/floor_selector_button.dart';
+import 'package:uni/view/map/widgets/floor_selector_menu.dart';
 import 'package:uni/view/map/widgets/floorless_marker_popup.dart';
 import 'package:uni/view/map/widgets/indoor_floor_layer.dart';
 import 'package:uni/view/map/widgets/marker.dart';
@@ -51,16 +52,15 @@ class MapPageStateView extends ConsumerState<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-
     final indoorPlansAsync = ref.watch(indoorFloorPlansProvider);
 
     return DefaultConsumer<List<LocationGroup>>(
       provider: locationsProvider,
       builder: (context, ref, locations) {
         final indoorPlans = indoorPlansAsync.when(
-        data: (plans) => plans ?? [],
-        loading: () => <IndoorFloorPlan>[],
-        error: (_, _) => <IndoorFloorPlan>[],
+          data: (plans) => plans ?? [],
+          loading: () => <IndoorFloorPlan>[],
+          error: (_, _) => <IndoorFloorPlan>[],
         );
         var bounds = _bounds;
         bounds ??= LatLngBounds.fromPoints(
@@ -88,10 +88,12 @@ class MapPageStateView extends ConsumerState<MapPage> {
         }
 
         // Combine floors from location groups AND indoor floor plans
-        final locationFloors = locations.expand((group) => group.floors.keys).toSet();
+        final locationFloors =
+            locations.expand((group) => group.floors.keys).toSet();
         final indoorFloors = indoorPlans.map((plan) => plan.floor).toSet();
-        final allFloors = {...locationFloors, ...indoorFloors}.toList()
-          ..sort((a, b) => b.compareTo(a));
+        final allFloors =
+            {...locationFloors, ...indoorFloors}.toList()
+              ..sort((a, b) => b.compareTo(a));
 
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: AppSystemOverlayStyles.base.copyWith(
@@ -133,9 +135,9 @@ class MapPageStateView extends ConsumerState<MapPage> {
                 ),
                 if (_showIndoorLayer && _selectedFloor != null)
                   IndoorFloorLayer(
-                  floorPlans: indoorPlans,
-                  selectedFloor: _selectedFloor,
-                ),
+                    floorPlans: indoorPlans,
+                    selectedFloor: _selectedFloor,
+                  ),
                 PopupMarkerLayer(
                   options: PopupMarkerLayerOptions(
                     markers:
@@ -181,7 +183,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                   right: 10,
                   top: 400,
                   child: SafeArea(
-                    child: FloorSelector(
+                    child: FloorSelectorButton(
                       floors: allFloors,
                       selectedFloor: _selectedFloor,
                       onFloorSelected: (floor) {
