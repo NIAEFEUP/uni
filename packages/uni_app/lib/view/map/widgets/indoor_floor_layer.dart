@@ -19,9 +19,8 @@ class IndoorFloorLayer extends StatelessWidget {
     }
 
     // Filter floor plans for selected floor
-    final currentFloorPlans = floorPlans
-        .where((plan) => plan.floor == selectedFloor)
-        .toList();
+    final currentFloorPlans =
+        floorPlans.where((plan) => plan.floor == selectedFloor).toList();
 
     if (currentFloorPlans.isEmpty) {
       return const SizedBox.shrink();
@@ -31,56 +30,59 @@ class IndoorFloorLayer extends StatelessWidget {
       children: [
         // Rooms layer
         PolygonLayer(
-          polygons: currentFloorPlans
-              .expand(
-                (plan) => plan.rooms.map(
-                  (room) => Polygon(
-                    points: room.polygon,
-                    color: Colors.blue.withValues(alpha: 0.2),
-                    borderColor: Colors.blue,
-                    borderStrokeWidth: 2,
-                    label: room.ref,
-                    labelStyle: const TextStyle(
-                      color: Colors.black87,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
+          polygons:
+              currentFloorPlans
+                  .expand(
+                    (plan) => plan.rooms.map(
+                      (room) => Polygon(
+                        points: room.polygon,
+                        color: Colors.blue.withValues(alpha: 0.2),
+                        borderColor: Colors.blue,
+                        borderStrokeWidth: 2,
+                        label: room.ref,
+                        labelStyle: const TextStyle(
+                          color: Colors.black87,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              )
-              .toList(),
+                  )
+                  .toList(),
         ),
         // Corridors layer
         PolygonLayer(
-          polygons: currentFloorPlans
-              .expand(
-                (plan) => plan.corridors.map(
-                  (corridor) => Polygon(
-                    points: corridor.polygon,
-                    color: Colors.grey.withOpacity(0.1),
-                    borderColor: Colors.grey,
-                    borderStrokeWidth: 1,
-                  ),
-                ),
-              )
-              .toList(),
+          polygons:
+              currentFloorPlans
+                  .expand(
+                    (plan) => plan.corridors.map(
+                      (corridor) => Polygon(
+                        points: corridor.polygon,
+                        color: Colors.grey.withOpacity(0.1),
+                        borderColor: Colors.grey,
+                        borderStrokeWidth: 1,
+                      ),
+                    ),
+                  )
+                  .toList(),
         ),
         // Amenities markers
         MarkerLayer(
-          markers: currentFloorPlans
-              .expand(
-                (plan) => plan.amenities.map(
-                  (amenity) => Marker(
-                    point: amenity.position,
-                    child: Icon(
-                      _getAmenityIcon(amenity.type),
-                      color: _getAmenityColor(amenity.type),
-                      size: 20,
+          markers:
+              currentFloorPlans
+                  .expand(
+                    (plan) => plan.amenities.map(
+                      (amenity) => Marker(
+                        point: amenity.position,
+                        child: Icon(
+                          _getAmenityIcon(amenity.type),
+                          color: _getAmenityColor(amenity.type),
+                          size: 20,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              )
-              .toList(),
+                  )
+                  .toList(),
         ),
       ],
     );

@@ -41,11 +41,13 @@ class LocationFetcherOSM extends LocationFetcher {
   }
 
   Future<http.Response> getData() async {
-  debugPrint('⬇️  Fetching OSM data from Overpass API...');
-  final response = await _queryOverpass();
-  debugPrint('✓ OSM data fetched successfully (${response.body.length} bytes)');
-  return response;
-}
+    debugPrint('⬇️  Fetching OSM data from Overpass API...');
+    final response = await _queryOverpass();
+    debugPrint(
+      '✓ OSM data fetched successfully (${response.body.length} bytes)',
+    );
+    return response;
+  }
 
   Future<http.Response> _queryOverpass() async {
     const overpassUrl = 'https://overpass-api.de/api/interpreter';
@@ -86,9 +88,11 @@ class LocationFetcherOSM extends LocationFetcher {
   List<IndoorFloorPlan> _parseIndoorData(http.Response response) {
     final json = jsonDecode(response.body) as Map<String, dynamic>;
     final elements = json['elements'] as List<dynamic>;
-  
-    debugPrint('📍 Parsing indoor data for ALL buildings from ${elements.length} elements');
-  
+
+    debugPrint(
+      '📍 Parsing indoor data for ALL buildings from ${elements.length} elements',
+    );
+
     // Build node map ONCE for all buildings
     final nodeMap = <int, LatLng>{};
     for (final elem in elements) {
@@ -103,54 +107,56 @@ class LocationFetcherOSM extends LocationFetcher {
       }
     }
     debugPrint('   Built node map with ${nodeMap.length} nodes');
-  
+
     // Map: BuildingCode -> Floor -> FloorData
     final buildingFloorMap = <String, Map<int, _FloorData>>{};
-  
+
     for (final elem in elements) {
       final element = _OSMElement.fromJson(elem as Map<String, dynamic>);
-      
+
       // Extract building code from ref
       final ref = element.tags['ref'] ?? '';
       if (ref.isEmpty) {
         continue;
       }
-      
+
       final buildingCode = _extractBuildingCode(element);
       if (buildingCode == null) {
         continue;
       }
-  
+
       final floor = _extractFloor(element);
-  
+
       // Initialize building and floor if needed
       buildingFloorMap.putIfAbsent(buildingCode, () => {});
       buildingFloorMap[buildingCode]!.putIfAbsent(
         floor,
         () => _FloorData(rooms: [], corridors: [], amenities: []),
       );
-  
+
       // Parse features
       if (element.type == 'way' && element.nodes != null) {
         final polygon = _buildPolygonFromNodeMap(element.nodes!, nodeMap);
         if (polygon.isEmpty) {
           continue;
         }
-  
+
         final indoorType = element.tags['indoor'];
-        
+
         if (indoorType == 'room') {
-          final roomRef = element.tags['ref'] ?? 
-                          element.tags['name'] ?? 
-                          'Room ${element.id}';
+          final roomRef =
+              element.tags['ref'] ??
+              element.tags['name'] ??
+              'Room ${element.id}';
           buildingFloorMap[buildingCode]![floor]!.rooms.add(
             IndoorRoom(
               ref: roomRef,
               polygon: polygon,
               name: element.tags['name'],
-              type: element.tags['room'] ?? 
-                    element.tags['office'] ?? 
-                    element.tags['amenity'],
+              type:
+                  element.tags['room'] ??
+                  element.tags['office'] ??
+                  element.tags['amenity'],
             ),
           );
         } else if (indoorType == 'corridor' || indoorType == 'area') {
@@ -158,7 +164,9 @@ class LocationFetcherOSM extends LocationFetcher {
             IndoorCorridor(polygon: polygon),
           );
         }
-      } else if (element.type == 'node' && element.lat != null && element.lon != null) {
+      } else if (element.type == 'node' &&
+          element.lat != null &&
+          element.lon != null) {
         final amenityType = element.tags['amenity'];
         if (amenityType != null) {
           buildingFloorMap[buildingCode]![floor]!.amenities.add(
@@ -171,20 +179,24 @@ class LocationFetcherOSM extends LocationFetcher {
         }
       }
     }
-  
+
     // Convert to flat list of IndoorFloorPlan
     final allPlans = <IndoorFloorPlan>[];
     for (final buildingEntry in buildingFloorMap.entries) {
       final buildingCode = buildingEntry.key;
-      debugPrint('Building $buildingCode has ${buildingEntry.value.length} floors');
-      
+      debugPrint(
+        'Building $buildingCode has ${buildingEntry.value.length} floors',
+      );
+
       for (final floorEntry in buildingEntry.value.entries) {
         final floor = floorEntry.key;
         final data = floorEntry.value;
-        
-        debugPrint('  Floor $floor: ${data.rooms.length} rooms, '
-              '${data.corridors.length} corridors, ${data.amenities.length} amenities');
-        
+
+        debugPrint(
+          '  Floor $floor: ${data.rooms.length} rooms, '
+          '${data.corridors.length} corridors, ${data.amenities.length} amenities',
+        );
+
         allPlans.add(
           IndoorFloorPlan(
             buildingId: buildingCode,
@@ -197,13 +209,18 @@ class LocationFetcherOSM extends LocationFetcher {
         );
       }
     }
-  
-    debugPrint('✅ Total: ${allPlans.length} floor plans from ${buildingFloorMap.length} buildings');
+
+    debugPrint(
+      '✅ Total: ${allPlans.length} floor plans from ${buildingFloorMap.length} buildings',
+    );
     return allPlans;
   }
 
   /// Build polygon from node IDs using pre-built node map (performance optimization)
-  List<LatLng> _buildPolygonFromNodeMap(List<int> nodeIds, Map<int, LatLng> nodeMap) {
+  List<LatLng> _buildPolygonFromNodeMap(
+    List<int> nodeIds,
+    Map<int, LatLng> nodeMap,
+  ) {
     final polygon = <LatLng>[];
 
     // Build polygon from node IDs
@@ -260,7 +277,9 @@ class LocationFetcherOSM extends LocationFetcher {
 
   String? _extractBuildingCode(_OSMElement element) {
     final ref =
-        element.tags['ref'] ?? element.tags['addr:unit'] ?? element.tags['name'];
+        element.tags['ref'] ??
+        element.tags['addr:unit'] ??
+        element.tags['name'];
 
     if (ref != null) {
       final match = RegExp('^([A-Z])').firstMatch(ref);
@@ -308,7 +327,8 @@ class LocationFetcherOSM extends LocationFetcher {
   }
 
   int _extractFloor(_OSMElement element) {
-    final level = element.tags['level'] ??
+    final level =
+        element.tags['level'] ??
         element.tags['floor'] ??
         element.tags['building:levels'];
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:uni_ui/theme.dart';
 
-class FloorSelector extends StatelessWidget {
-  const FloorSelector({
+class FloorSelectorMenu extends StatelessWidget {
+  const FloorSelectorMenu({
     required this.floors,
     required this.selectedFloor,
     required this.onFloorSelected,
