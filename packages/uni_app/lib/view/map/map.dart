@@ -180,7 +180,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                 ),
                 Positioned(
                   right: 10,
-                  top: 400,
+                  top: 700,
                   child: SafeArea(
                     child: FloorSelectorButton(
                       floors: allFloors,
