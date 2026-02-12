@@ -6,6 +6,7 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/riverpod/course_units_info_provider.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_classes_shimmer.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_no_files.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet.dart';
@@ -149,7 +150,11 @@ class CourseUnitDetailPageViewState
         .read(courseUnitsInfoProvider.notifier)
         .courseUnitsClasses[widget.courseUnit];
 
-    if (classes == null || classes.isEmpty) {
+    if (classes == null){
+      return const ShimmerCourseClasses();
+    }
+    
+    if (classes.isEmpty) {
       return Center(
         child: Text(S.of(context).no_class, textAlign: TextAlign.center),
       );
