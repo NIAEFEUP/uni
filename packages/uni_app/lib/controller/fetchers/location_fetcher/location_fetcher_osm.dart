@@ -26,8 +26,8 @@ class LocationFetcherOSM extends LocationFetcher {
     try {
       final response = await getData();
       return _parseOSMResponse(response);
-    } catch (e) {
-      throw Exception('Failed to fetch from OSM: $e');
+    } catch (err) {
+      throw Exception('Failed to fetch from OSM: $err');
     }
   }
 
@@ -35,8 +35,8 @@ class LocationFetcherOSM extends LocationFetcher {
     try {
       final response = await getData();
       return _parseIndoorData(response);
-    } catch (e) {
-      throw Exception('Failed to fetch indoor data: $e');
+    } catch (err) {
+      throw Exception('Failed to fetch indoor data: $err');
     }
   }
 
@@ -114,6 +114,49 @@ class LocationFetcherOSM extends LocationFetcher {
     for (final elem in elements) {
       final element = _OSMElement.fromJson(elem as Map<String, dynamic>);
 
+    final isAmenity = element.tags['amenity'] != null &&
+                      (element.lat != null && element.lon != null ||
+                       element.nodes != null && element.nodes!.isNotEmpty);
+    
+    if (isAmenity) {
+      final buildingCode = _extractBuildingCode(element) ?? 'NO_BUILDING';
+      final floor = _extractFloor(element);
+    
+      LatLng? position;
+      if (element.lat != null && element.lon != null) {
+        position = LatLng(element.lat!, element.lon!);
+      } else if (element.nodes != null && element.nodes!.isNotEmpty) {
+        // Calculate centroid from nodeMap
+        final nodePositions = element.nodes!
+            .map((id) => nodeMap[id])
+            .where((pos) => pos != null)
+            .cast<LatLng>()
+            .toList();
+        if (nodePositions.isNotEmpty) {
+          final avgLat = nodePositions.map((p) => p.latitude).reduce((a, b) => a + b) / nodePositions.length;
+          final avgLon = nodePositions.map((p) => p.longitude).reduce((a, b) => a + b) / nodePositions.length;
+          position = LatLng(avgLat, avgLon);
+        }
+      }
+    
+      if (position != null) {
+        buildingFloorMap.putIfAbsent(buildingCode, () => {});
+        buildingFloorMap[buildingCode]!.putIfAbsent(
+          floor,
+          () => _FloorData(rooms: [], corridors: [], amenities: []),
+        );
+    
+        buildingFloorMap[buildingCode]![floor]!.amenities.add(
+          IndoorAmenity(
+            position: position,
+            type: element.tags['amenity']!,
+            name: element.tags['name'],
+          ),
+        );
+      }
+      continue;
+    }
+      
       // Extract building code from ref
       final ref = element.tags['ref'] ?? '';
       if (ref.isEmpty) {
@@ -164,9 +207,7 @@ class LocationFetcherOSM extends LocationFetcher {
             IndoorCorridor(polygon: polygon),
           );
         }
-      } else if (element.type == 'node' &&
-          element.lat != null &&
-          element.lon != null) {
+      } else if (element.type == 'node' || element.type == 'way' && element.lat != null && element.lon != null) {
         final amenityType = element.tags['amenity'];
         if (amenityType != null) {
           buildingFloorMap[buildingCode]![floor]!.amenities.add(

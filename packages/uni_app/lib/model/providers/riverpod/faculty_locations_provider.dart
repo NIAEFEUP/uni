@@ -37,7 +37,7 @@ class FacultyLocationsNotifier
       }
 
       return await loadFromStorage();
-    } catch (e) {
+    } catch (err) {
       return loadFromStorage();
     }
   }
@@ -58,7 +58,7 @@ class IndoorFloorPlansNotifier
   Future<List<IndoorFloorPlan>> loadFromRemote() async {
     try {
       return await LocationFetcherOSM().getIndoorFloorPlans();
-    } catch (e) {
+    } catch (err) {
       return loadFromStorage();
     }
   }
