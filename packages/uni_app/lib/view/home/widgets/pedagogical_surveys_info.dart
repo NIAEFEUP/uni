@@ -14,6 +14,7 @@ class PedagogicalSurveysInfo extends StatelessWidget {
       triggerMode: TooltipTriggerMode.longPress,
       waitDuration: Duration.zero,
       showDuration: const Duration(seconds: 2),
+      verticalOffset: 18,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.circular(8),

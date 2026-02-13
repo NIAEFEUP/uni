@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni_ui/theme.dart';
+import 'package:uni_ui/icons.dart';
 
 class ConnectivityWarning extends StatelessWidget {
   const ConnectivityWarning({super.key});
@@ -15,11 +15,14 @@ class ConnectivityWarning extends StatelessWidget {
       showDuration: const Duration(seconds: 2),
       verticalOffset: 18,
       decoration: BoxDecoration(
-        color: secondary,
+        color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.circular(8),
       ),
-      textStyle: const TextStyle(color: primaryVibrant),
-      child: const Icon(Icons.signal_wifi_off, color: secondary, size: 18),
+      textStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
+      child: UniIcon(
+        UniIcons.noWifi,
+        color: Theme.of(context).colorScheme.secondary,
+      ),
     );
   }
 }
