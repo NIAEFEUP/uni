@@ -35,6 +35,14 @@ class PedagogicalSurveysDialog {
     return PedagogicalSurveysState.seen;
   }
 
+  static Future<PedagogicalSurveysState> forceBuild(BuildContext context) {
+    final routeCompleter = Completer<PedagogicalSurveysState>();
+    SchedulerBinding.instance.addPostFrameCallback(
+      (timestamp) => _buildShowDialog(context, routeCompleter),
+    );
+    return routeCompleter.future;
+  }
+
   static Future<void> _buildShowDialog(
     BuildContext context,
     Completer<PedagogicalSurveysState> userSurveySeen,

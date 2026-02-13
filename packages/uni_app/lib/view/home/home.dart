@@ -5,11 +5,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
+import 'package:uni/model/providers/riverpod/connectivity_provider.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
 import 'package:uni/model/providers/riverpod/lecture_provider.dart';
 import 'package:uni/model/providers/riverpod/library_occupation_provider.dart';
 import 'package:uni/model/providers/riverpod/news_provider.dart';
+import 'package:uni/model/providers/riverpod/pedagogical_surveys_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/restaurant_provider.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
@@ -20,6 +22,7 @@ import 'package:uni/view/home/widgets/connectivity_warning.dart';
 import 'package:uni/view/home/widgets/exams/exam_home_card.dart';
 import 'package:uni/view/home/widgets/library/library_home_card.dart';
 import 'package:uni/view/home/widgets/news/news_home_card.dart';
+import 'package:uni/view/home/widgets/pedagogical_surveys_info.dart';
 import 'package:uni/view/home/widgets/restaurants/restaurant_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/schedule_home_card.dart';
 import 'package:uni/view/home/widgets/tracking_banner.dart';
@@ -148,6 +151,9 @@ class HomePageViewState extends ConsumerState<HomePageView> {
   }
 
   PreferredSize homeAppBar(BuildContext context) {
+    final bool isOffline = ref.watch(connectivityProvider).value ?? false;
+    final bool showSurveys = ref.watch(pedagogicalSurveysProvider);
+
     return PreferredSize(
       preferredSize: Size.fromHeight(appBarSize),
       child: Container(
@@ -164,17 +170,18 @@ class HomePageViewState extends ConsumerState<HomePageView> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const SafeArea(
+                SafeArea(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      UniLogo(iconColor: Colors.white),
+                      const UniLogo(iconColor: Colors.white),
                       Row(
+                        spacing: 12,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          ConnectivityWarning(),
-                          SizedBox(width: 10),
-                          ProfileButton(),
+                          if (isOffline) const ConnectivityWarning(),
+                          if (showSurveys) const PedagogicalSurveysInfo(),
+                          const ProfileButton(),
                         ],
                       ),
                     ],
