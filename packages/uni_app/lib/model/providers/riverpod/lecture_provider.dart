@@ -17,7 +17,7 @@ class LectureNotifier extends CachedAsyncNotifier<List<Lecture>> {
 
   @override
   Future<List<Lecture>> loadFromStorage() async {
-    return Database().lectures;
+    return Database().lectures.toSet().toList();
   }
 
   @override
@@ -28,7 +28,7 @@ class LectureNotifier extends CachedAsyncNotifier<List<Lecture>> {
       return null;
     }
 
-    final lectures = await _getLectures(session);
+    final lectures = (await _getLectures(session)).toSet().toList();
 
     try {
       Database().saveLectures(lectures);
