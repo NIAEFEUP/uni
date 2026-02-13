@@ -176,7 +176,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                     children: [
                       const UniLogo(iconColor: Colors.white),
                       Row(
-                        spacing: 12,
+                        spacing: 16,
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           if (isOffline) const ConnectivityWarning(),
