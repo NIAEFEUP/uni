@@ -1855,6 +1855,26 @@ class S {
     return Intl.message('Restaurants', name: 'restaurants', desc: '', args: []);
   }
 
+  /// `Tomorrow's Menu`
+  String get tomorrows_meals {
+    return Intl.message(
+      'Tomorrow\'s Menu',
+      name: 'tomorrows_meals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tomorrow's Menu Unavailable`
+  String get no_menu_tomorrow {
+    return Intl.message(
+      'Tomorrow\'s Menu Unavailable',
+      name: 'no_menu_tomorrow',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Calendar`
   String get calendar {
     return Intl.message('Calendar', name: 'calendar', desc: '', args: []);
