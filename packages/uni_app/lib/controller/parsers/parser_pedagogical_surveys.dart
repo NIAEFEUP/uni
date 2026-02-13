@@ -2,6 +2,10 @@ import 'package:html/parser.dart';
 import 'package:http/http.dart';
 
 bool parsePedagogicalSurveys(List<Response> coursesResponses) {
+  if (coursesResponses.isEmpty) {
+    return true;
+  }
+
   for (final response in coursesResponses) {
     final document = parse(response.body);
 
@@ -12,9 +16,9 @@ bool parsePedagogicalSurveys(List<Response> coursesResponses) {
               el.attributes['href'] != null &&
               el.attributes['href']!.contains('ipup2016_geral.ipup_inicio'),
         );
-    if (surveys.isEmpty) {
-      return true;
+    if (surveys.isNotEmpty) {
+      return false;
     }
   }
-  return false;
+  return true;
 }
