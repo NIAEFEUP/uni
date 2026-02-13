@@ -14,6 +14,7 @@ import 'package:uni/model/providers/riverpod/news_provider.dart';
 import 'package:uni/model/providers/riverpod/pedagogical_surveys_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/restaurant_provider.dart';
+import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
@@ -154,6 +155,8 @@ class HomePageViewState extends ConsumerState<HomePageView> {
     final bool isOffline = ref.watch(connectivityProvider).value ?? false;
     final bool showSurveys = ref.watch(pedagogicalSurveysProvider);
 
+    final now = DateTime.now();
+    final week = Week(start: now);
     return PreferredSize(
       preferredSize: Size.fromHeight(appBarSize),
       child: Container(
@@ -225,7 +228,9 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                       ),
                     );
                   },
-                  hasContent: (lectures) => lectures.isNotEmpty,
+                  hasContent: (lectures) => lectures
+                      .where((lecture) => week.contains(lecture.startTime))
+                      .isNotEmpty,
                   nullContentWidget: const SizedBox.shrink(),
                   mapper: (lectures) => lectures
                       .where(
