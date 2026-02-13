@@ -44,8 +44,9 @@ Future<void> cleanupStoredData(BuildContext context) async {
 
 Future<void> cleanupCachedFiles() async {
   final lastCleanupDate = PreferencesController.getLastCleanUpDate();
-  final daysSinceLastCleanup =
-      DateTime.now().difference(lastCleanupDate).inDays;
+  final daysSinceLastCleanup = DateTime.now()
+      .difference(lastCleanupDate)
+      .inDays;
 
   if (daysSinceLastCleanup < 14) {
     return;

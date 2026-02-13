@@ -22,16 +22,12 @@ class StudentInfoModal extends ConsumerWidget {
         Column(
           children: [
             FutureBuilder<File?>(
-              builder:
-                  (context, snapshot) => ModalPersonInfo(
-                    name: student.name,
-                    image:
-                        snapshot.hasData && snapshot.data != null
-                            ? Image(image: FileImage(snapshot.data!))
-                            : Image.asset(
-                              'assets/images/profile_placeholder.png',
-                            ),
-                  ),
+              builder: (context, snapshot) => ModalPersonInfo(
+                name: student.name,
+                image: snapshot.hasData && snapshot.data != null
+                    ? Image(image: FileImage(snapshot.data!))
+                    : Image.asset('assets/images/profile_placeholder.png'),
+              ),
               future: ProfileNotifier.fetchOrGetCachedProfilePicture(
                 session,
                 studentNumber: student.number,
@@ -39,8 +35,8 @@ class StudentInfoModal extends ConsumerWidget {
             ),
             if (student.mail != '')
               GestureDetector(
-                onTap:
-                    () => launchUrlWithToast(context, 'mailto:${student.mail}'),
+                onTap: () =>
+                    launchUrlWithToast(context, 'mailto:${student.mail}'),
                 child: ModalInfoRow(
                   title: 'Email',
                   description: student.mail,

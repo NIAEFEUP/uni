@@ -60,9 +60,11 @@ class _FileCardState extends State<FileCard>
   }
 
   void stopAnimation() {
-    _controller
-      ..stop()
-      ..reset();
+    if (mounted) {
+      _controller
+        ..stop()
+        ..reset();
+    }
   }
 
   PhosphorDuotoneIconData getIconForExtension(String extension) {

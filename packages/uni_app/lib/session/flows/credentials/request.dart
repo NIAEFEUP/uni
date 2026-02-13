@@ -59,17 +59,16 @@ class CredentialsSessionRequest extends SessionRequest {
   ) async {
     final html = SigarraHtml();
 
-    final loginResponse =
-        await html.authentication
-            .login(
-              username: username,
-              password: password,
-              options: FacultyRequestOptions(
-                faculty: tempFaculty,
-                client: httpClient,
-              ),
-            )
-            .call();
+    final loginResponse = await html.authentication
+        .login(
+          username: username,
+          password: password,
+          options: FacultyRequestOptions(
+            faculty: tempFaculty,
+            client: httpClient,
+          ),
+        )
+        .call();
 
     if (!loginResponse.success) {
       _handleLoginFailure(loginResponse.asFailed());

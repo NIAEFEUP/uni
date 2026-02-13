@@ -48,12 +48,11 @@ class CourseUnitStudentTile extends ConsumerWidget {
                   ),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image:
-                        snapshot.hasData && snapshot.data!.lengthSync() > 0
-                            ? FileImage(snapshot.data!) as ImageProvider
-                            : const AssetImage(
-                              'assets/images/profile_placeholder.png',
-                            ),
+                    image: snapshot.hasData && snapshot.data!.lengthSync() > 0
+                        ? FileImage(snapshot.data!) as ImageProvider
+                        : const AssetImage(
+                            'assets/images/profile_placeholder.png',
+                          ),
                   ),
                 ),
                 child: AspectRatio(aspectRatio: 1, child: Container()),
@@ -69,21 +68,19 @@ class CourseUnitStudentTile extends ConsumerWidget {
                         Text(
                           firstName,
                           overflow: TextOverflow.fade,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleLarge?.copyWith(
-                            color: const Color.fromARGB(255, 48, 48, 48),
-                          ),
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(
+                                color: const Color.fromARGB(255, 48, 48, 48),
+                              ),
                           textAlign: TextAlign.center,
                         ),
                         Text(
                           lastName,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleLarge?.copyWith(
-                            color: const Color.fromARGB(255, 48, 48, 48),
-                          ),
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(
+                                color: const Color.fromARGB(255, 48, 48, 48),
+                              ),
                           textAlign: TextAlign.center,
                         ),
                       ],

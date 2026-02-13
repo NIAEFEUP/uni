@@ -22,7 +22,7 @@ class RestaurantHomeCard extends GenericHomecard {
   const RestaurantHomeCard({super.key})
     : super(
         titlePadding: const EdgeInsets.symmetric(horizontal: 20),
-        bodyPadding: const EdgeInsets.symmetric(horizontal: 20),
+        bodyPadding: EdgeInsets.zero,
       );
 
   @override
@@ -56,13 +56,12 @@ class RestaurantSliderState extends ConsumerState<RestaurantSlider> {
     return DefaultConsumer<List<Restaurant>>(
       provider: restaurantProvider,
       builder: (context, ref, restaurants) {
-        final favoriteRestaurants =
-            restaurants
-                .where(
-                  (restaurant) => PreferencesController.getFavoriteRestaurants()
-                      .contains(restaurant.namePt + restaurant.period),
-                )
-                .toList();
+        final favoriteRestaurants = restaurants
+            .where(
+              (restaurant) => PreferencesController.getFavoriteRestaurants()
+                  .contains(restaurant.namePt + restaurant.period),
+            )
+            .toList();
 
         final dailyRestaurants = getRestaurantInformation(
           context,
@@ -73,11 +72,11 @@ class RestaurantSliderState extends ConsumerState<RestaurantSlider> {
         return Column(
           children: [
             ExpandablePageView(
+              controller: PageController(viewportFraction: 0.9),
               children: dailyRestaurants,
-              onPageChanged:
-                  (value) => setState(() {
-                    _currentIndex = value;
-                  }),
+              onPageChanged: (value) => setState(() {
+                _currentIndex = value;
+              }),
             ),
             if (dailyRestaurants.length > 1) ...[
               const SizedBox(height: 5),
@@ -96,13 +95,12 @@ class RestaurantSliderState extends ConsumerState<RestaurantSlider> {
         );
       },
       hasContent: (restaurants) {
-        final favoriteRestaurants =
-            restaurants
-                .where(
-                  (restaurant) => PreferencesController.getFavoriteRestaurants()
-                      .contains(restaurant.namePt + restaurant.period),
-                )
-                .toList();
+        final favoriteRestaurants = restaurants
+            .where(
+              (restaurant) => PreferencesController.getFavoriteRestaurants()
+                  .contains(restaurant.namePt + restaurant.period),
+            )
+            .toList();
         return getRestaurantInformation(
           context,
           ref,
@@ -125,70 +123,65 @@ List<RestaurantCard> getRestaurantInformation(
   final now = DateTime.now();
   final currentDayOfWeek = parseDateTime(now);
 
-  final restaurantsWidgets =
-      favoriteRestaurants
-          .where(
-            (element) => element.getMealsOfDay(currentDayOfWeek).isNotEmpty,
-          )
-          .map((restaurant) {
-            var displayedDay = currentDayOfWeek;
+  final restaurantsWidgets = favoriteRestaurants
+      .where((element) => element.getMealsOfDay(currentDayOfWeek).isNotEmpty)
+      .map((restaurant) {
+        var displayedDay = currentDayOfWeek;
 
-            var showTomorrow = RestaurantUtils.shouldShowTomorrowMenu(
-              now,
-              period: restaurant.period,
-            );
-            var showNoMenuTomorrow = false;
+        var showTomorrow = RestaurantUtils.shouldShowTomorrowMenu(
+          now,
+          period: restaurant.period,
+        );
+        var showNoMenuTomorrow = false;
 
-            if (showTomorrow) {
-              final tomorrowIndex =
-                  (displayedDay.index + 1) % DayOfWeek.values.length;
-              final tomorrow = DayOfWeek.values[tomorrowIndex];
+        if (showTomorrow) {
+          final tomorrowIndex =
+              (displayedDay.index + 1) % DayOfWeek.values.length;
+          final tomorrow = DayOfWeek.values[tomorrowIndex];
 
-              if (restaurant.getMealsOfDay(tomorrow).isNotEmpty) {
-                displayedDay = tomorrow;
-              } else {
-                showTomorrow = false;
-                showNoMenuTomorrow = true;
-              }
-            } else if (now.weekday == DateTime.sunday) {
-              final switchHour =
-                  restaurant.period == 'lunch'
-                      ? RestaurantUtils.lunchSwitchHour
-                      : RestaurantUtils.dinnerSwitchHour;
-              if (now.hour >= switchHour) {
-                showNoMenuTomorrow = true;
-              }
-            }
+          if (restaurant.getMealsOfDay(tomorrow).isNotEmpty) {
+            displayedDay = tomorrow;
+          } else {
+            showTomorrow = false;
+            showNoMenuTomorrow = true;
+          }
+        } else if (now.weekday == DateTime.sunday) {
+          final switchHour = restaurant.period == 'lunch'
+              ? RestaurantUtils.lunchSwitchHour
+              : RestaurantUtils.dinnerSwitchHour;
+          if (now.hour >= switchHour) {
+            showNoMenuTomorrow = true;
+          }
+        }
 
-            final menuItems = getMainMenus(displayedDay, restaurant, locale);
+        final menuItems = getMainMenus(displayedDay, restaurant, locale);
 
-            String? subtitle;
-            if (showTomorrow) {
-              subtitle = S.of(context).tomorrows_meals;
-            } else if (showNoMenuTomorrow) {
-              subtitle = S.of(context).no_menu_tomorrow;
-            }
+        String? subtitle;
+        if (showTomorrow) {
+          subtitle = S.of(context).tomorrows_meals;
+        } else if (showNoMenuTomorrow) {
+          subtitle = S.of(context).no_menu_tomorrow;
+        }
 
-            return RestaurantCard(
-              name: RestaurantUtils.getRestaurantName(
-                context,
-                locale,
-                restaurant.namePt,
-                restaurant.namePt,
-                restaurant.period,
-              ),
-              icon: RestaurantUtils.getIcon(
-                restaurant.typeEn ?? restaurant.typePt,
-              ),
-              isFavorite: PreferencesController.getFavoriteRestaurants()
-                  .contains(restaurant.namePt + restaurant.period),
-              onFavoriteToggle: () => {},
-              menuItems: menuItems,
-              showFavoriteButton: false,
-              subtitle: subtitle,
-            );
-          })
-          .toList();
+        return RestaurantCard(
+          name: RestaurantUtils.getRestaurantName(
+            context,
+            locale,
+            restaurant.namePt,
+            restaurant.namePt,
+            restaurant.period,
+          ),
+          icon: RestaurantUtils.getIcon(restaurant.typeEn ?? restaurant.typePt),
+          isFavorite: PreferencesController.getFavoriteRestaurants().contains(
+            restaurant.namePt + restaurant.period,
+          ),
+          onFavoriteToggle: () => {},
+          menuItems: menuItems,
+          showFavoriteButton: false,
+          subtitle: subtitle,
+        );
+      })
+      .toList();
 
   return restaurantsWidgets;
 }

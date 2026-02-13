@@ -39,15 +39,14 @@ class ScheduleCard extends StatelessWidget {
     return GenericCard(
       shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
       blurRadius: 2,
-      gradient:
-          isActive
-              ? RadialGradient(
-                colors: [Color(0xFF280709), Color(0xFF511515)],
-                center: Alignment.topLeft,
-                radius: 1.5,
-                stops: [0, 1],
-              )
-              : null,
+      gradient: isActive
+          ? RadialGradient(
+              colors: [Color(0xFF280709), Color(0xFF511515)],
+              center: Alignment.topLeft,
+              radius: 1.5,
+              stops: [0, 1],
+            )
+          : null,
       key: key,
       tooltip: '',
       onClick: onTap,
@@ -71,10 +70,9 @@ class ScheduleCard extends StatelessWidget {
                     Text(
                       acronym,
                       overflow: TextOverflow.ellipsis,
-                      style:
-                          isActive
-                              ? Theme.of(context).textTheme.titleLarge
-                              : Theme.of(context).textTheme.headlineSmall,
+                      style: isActive
+                          ? Theme.of(context).textTheme.titleLarge
+                          : Theme.of(context).textTheme.headlineSmall,
                     ),
                     const SizedBox(width: 8), //TODO: Create a custom Gap()?
                     Badge(
@@ -87,10 +85,9 @@ class ScheduleCard extends StatelessWidget {
                 Text(
                   name,
                   overflow: TextOverflow.ellipsis,
-                  style:
-                      isActive
-                          ? Theme.of(context).textTheme.titleSmall
-                          : Theme.of(context).textTheme.bodySmall,
+                  style: isActive
+                      ? Theme.of(context).textTheme.titleSmall
+                      : Theme.of(context).textTheme.bodySmall,
                 ),
                 if (teacherName != null) SizedBox(height: 5),
                 if (teacherName != null)
@@ -107,10 +104,9 @@ class ScheduleCard extends StatelessWidget {
                           teacherName!,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            color:
-                                isActive
-                                    ? Theme.of(context).colorScheme.secondary
-                                    : Theme.of(context).colorScheme.primary,
+                            color: isActive
+                                ? Theme.of(context).colorScheme.secondary
+                                : Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       ),
@@ -123,20 +119,18 @@ class ScheduleCard extends StatelessWidget {
             children: [
               PhosphorIcon(
                 PhosphorIcons.mapPin(PhosphorIconsStyle.duotone),
-                color:
-                    isActive
-                        ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context).iconTheme.color,
+                color: isActive
+                    ? Theme.of(context).colorScheme.secondary
+                    : Theme.of(context).iconTheme.color,
                 size: 35,
               ),
               Text(
                 room,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  color:
-                      isActive
-                          ? Theme.of(context).colorScheme.secondary
-                          : Theme.of(context).colorScheme.primary,
+                  color: isActive
+                      ? Theme.of(context).colorScheme.secondary
+                      : Theme.of(context).colorScheme.primary,
                 ),
               ),
             ],
