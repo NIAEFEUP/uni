@@ -406,6 +406,8 @@
   "@courseRegent": {},
   "instructor": "Instructor",
   "@instructor": {},
+  "classProfessor": "Class Professor",
+  "@classProfessor": {},
   "lectures": "Lectures",
   "@lectures": {},
   "exams": "Exams",

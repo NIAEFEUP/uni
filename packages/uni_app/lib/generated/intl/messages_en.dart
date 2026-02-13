@@ -114,6 +114,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "check_internet": MessageLookupByLibrary.simpleMessage(
       "Check your internet connection",
     ),
+    "classProfessor": MessageLookupByLibrary.simpleMessage("Class Professor"),
     "class_registration": MessageLookupByLibrary.simpleMessage(
       "Class Registration",
     ),

@@ -1722,6 +1722,16 @@ class S {
     return Intl.message('Instructor', name: 'instructor', desc: '', args: []);
   }
 
+  /// `Class Professor`
+  String get classProfessor {
+    return Intl.message(
+      'Class Professor',
+      name: 'classProfessor',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Lectures`
   String get lectures {
     return Intl.message('Lectures', name: 'lectures', desc: '', args: []);
