@@ -22,7 +22,10 @@ class PreferencesController {
   static const _userSession = 'user_session';
   static const _termsAndConditions = 'terms_and_conditions';
   static const _areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
-  static const _arePedagogicalSurveysSeenKey = 'is_pedagogical_surveys_seen';
+  static const _pedagogicalSurveysDismissedKey =
+      'pedagogical_surveys_dismissed';
+  static const _pedagogicalSurveysShowDialogKey =
+      'pedagogical_surveys_show_dialog';
   static const _tuitionNotificationsToggleKey = 'tuition_notification_toogle';
   static const _usageStatsToggleKey = 'usage_stats_toogle';
   static const _themeMode = 'theme_mode';
@@ -135,14 +138,28 @@ class PreferencesController {
     return prefs.getBool(_areTermsAndConditionsAcceptedKey) ?? false;
   }
 
-  /// Sets whether or not the Pedagogical Surveys have been seen.
-  static Future<void> setPedagogicalSurveysSeen({required bool areSeen}) async {
-    await prefs.setBool(_arePedagogicalSurveysSeenKey, areSeen);
+  /// Sets whether or not the Pedagogical Surveys have been dismissed.
+  static Future<void> setPedagogicalSurveysDismissed({
+    required bool dismissed,
+  }) async {
+    await prefs.setBool(_pedagogicalSurveysDismissedKey, dismissed);
   }
 
-  /// Returns whether or not the Pedagogical Surveys have been seen.
-  static bool arePedagogicalSurveysSeen() {
-    return prefs.getBool(_arePedagogicalSurveysSeenKey) ?? false;
+  /// Returns whether or not the Pedagogical Surveys have been dismissed.
+  static bool isPedagogicalSurveysDismissed() {
+    return prefs.getBool(_pedagogicalSurveysDismissedKey) ?? false;
+  }
+
+  /// Sets whether or not the Pedagogical Surveys dialog should be shown.
+  static Future<void> setPedagogicalSurveysShowDialog({
+    required bool show,
+  }) async {
+    await prefs.setBool(_pedagogicalSurveysShowDialogKey, show);
+  }
+
+  /// Returns whether or not the Pedagogical Surveys dialog should be shown.
+  static bool shouldShowPedagogicalSurveysDialog() {
+    return prefs.getBool(_pedagogicalSurveysShowDialogKey) ?? false;
   }
 
   static Future<void> setDataCollectionBannerViewed({

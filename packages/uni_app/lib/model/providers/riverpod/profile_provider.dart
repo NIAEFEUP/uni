@@ -8,6 +8,7 @@ import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/controller/fetchers/profile_fetcher.dart';
 import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/controller/local_storage/file_offline_storage.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
@@ -55,6 +56,13 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
       ..feesBalance = feesBalance
       ..feesLimit = feesLimit
       ..printBalance = printBalance;
+
+    if (profile.answeredPedagogicalSurveys) {
+      await PreferencesController.setPedagogicalSurveysShowDialog(show: false);
+      await PreferencesController.setPedagogicalSurveysDismissed(dismissed: false);
+    } else {
+      await PreferencesController.setPedagogicalSurveysShowDialog(show: true);
+    }
 
     //if successful save everything to cache
     Database().saveProfile(profile);

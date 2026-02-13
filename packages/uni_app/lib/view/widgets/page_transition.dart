@@ -82,6 +82,7 @@ class PageTransition {
           await PedagogicalSurveysDialog.buildIfPedagogicalSurveysUnseen(
             context,
           );
+
       switch (pedagogicalSurveysState) {
         case PedagogicalSurveysState.seen:
           return;

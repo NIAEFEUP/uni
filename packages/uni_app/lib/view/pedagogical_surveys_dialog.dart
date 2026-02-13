@@ -14,9 +14,16 @@ class PedagogicalSurveysDialog {
   static Future<PedagogicalSurveysState> buildIfPedagogicalSurveysUnseen(
     BuildContext context,
   ) async {
-    final alertWasSeen = PreferencesController.arePedagogicalSurveysSeen();
+    final shouldShow =
+        PreferencesController.shouldShowPedagogicalSurveysDialog();
 
-    if (!alertWasSeen) {
+    final isDismissed = PreferencesController.isPedagogicalSurveysDismissed();
+
+    if (shouldShow) {
+      if (isDismissed) {
+        return PedagogicalSurveysState.seen;
+      }
+
       final routeCompleter = Completer<PedagogicalSurveysState>();
       SchedulerBinding.instance.addPostFrameCallback(
         (timestamp) => _buildShowDialog(context, routeCompleter),
@@ -44,14 +51,12 @@ class PedagogicalSurveysDialog {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                S.of(context).pedagogical_surveys_description,
-              ),
+              Text(S.of(context).pedagogical_surveys_description),
               const SizedBox(height: 20),
               StatefulBuilder(
                 builder: (context, setState) {
                   final dontShowAgain =
-                      PreferencesController.arePedagogicalSurveysSeen();
+                      PreferencesController.isPedagogicalSurveysDismissed();
                   return CheckboxListTile(
                     contentPadding: EdgeInsets.zero,
                     title: Text(
@@ -60,8 +65,8 @@ class PedagogicalSurveysDialog {
                     ),
                     value: dontShowAgain,
                     onChanged: (value) async {
-                      await PreferencesController.setPedagogicalSurveysSeen(
-                        areSeen: value ?? false,
+                      await PreferencesController.setPedagogicalSurveysDismissed(
+                        dismissed: value ?? false,
                       );
                       setState(() {});
                     },
@@ -75,12 +80,9 @@ class PedagogicalSurveysDialog {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                  onPressed: () async {
+                  onPressed: () {
                     Navigator.of(context).pop();
                     userSurveySeen.complete(PedagogicalSurveysState.unseen);
-                    await PreferencesController.setPedagogicalSurveysSeen(
-                      areSeen: false,
-                    );
                   },
                   child: Text(
                     S.of(context).close,
@@ -101,7 +103,7 @@ class PedagogicalSurveysDialog {
                   },
                   child: Text(
                     S.of(context).answer,
-                    style: TextStyle(fontSize: 12, color: Colors.white),
+                    style: const TextStyle(fontSize: 12, color: Colors.white),
                   ),
                 ),
               ],
