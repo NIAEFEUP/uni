@@ -14,8 +14,12 @@ typedef SheetsMap = Map<CourseUnit, Sheet>;
 typedef ClassesMap = Map<CourseUnit, List<CourseUnitClass>>;
 typedef FilesMap = Map<CourseUnit, List<CourseUnitFileDirectory>>;
 typedef ClassProfessorsMap = Map<CourseUnit, Map<String, List<Professor>>>;
-typedef CourseUnitsInfoState =
-    (SheetsMap, ClassesMap, FilesMap, ClassProfessorsMap);
+typedef CourseUnitsInfoState = (
+  SheetsMap,
+  ClassesMap,
+  FilesMap,
+  ClassProfessorsMap,
+);
 
 final courseUnitsInfoProvider =
     AsyncNotifierProvider<CourseUnitsInfoNotifier, CourseUnitsInfoState?>(

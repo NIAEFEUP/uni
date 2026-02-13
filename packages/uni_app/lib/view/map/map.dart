@@ -86,9 +86,8 @@ class MapPageStateView extends ConsumerState<MapPage> {
                 cameraConstraint: CameraConstraint.containCenter(
                   bounds: bounds,
                 ),
-                onTap:
-                    (tapPosition, latlng) =>
-                        _popupLayerController.hideAllPopups(),
+                onTap: (tapPosition, latlng) =>
+                    _popupLayerController.hideAllPopups(),
                 interactionOptions: const InteractionOptions(
                   flags: InteractiveFlag.all - InteractiveFlag.rotate,
                 ),
@@ -106,10 +105,9 @@ class MapPageStateView extends ConsumerState<MapPage> {
                 ),
                 PopupMarkerLayer(
                   options: PopupMarkerLayerOptions(
-                    markers:
-                        filteredLocations.map((location) {
-                          return LocationMarker(location.latlng, location);
-                        }).toList(),
+                    markers: filteredLocations.map((location) {
+                      return LocationMarker(location.latlng, location);
+                    }).toList(),
                     popupController: _popupLayerController,
                     popupDisplayOptions: PopupDisplayOptions(
                       animation: const PopupAnimation.fade(
@@ -119,8 +117,8 @@ class MapPageStateView extends ConsumerState<MapPage> {
                         if (marker is LocationMarker) {
                           return marker.locationGroup.isFloorless
                               ? FloorlessLocationMarkerPopup(
-                                marker.locationGroup,
-                              )
+                                  marker.locationGroup,
+                                )
                               : LocationMarkerPopup(marker.locationGroup);
                         }
                         return const Card(child: Text(''));
@@ -130,10 +128,9 @@ class MapPageStateView extends ConsumerState<MapPage> {
                 ),
                 PopupMarkerLayer(
                   options: PopupMarkerLayerOptions(
-                    markers:
-                        filteredLocations.map((location) {
-                          return LocationMarker(location.latlng, location);
-                        }).toList(),
+                    markers: filteredLocations.map((location) {
+                      return LocationMarker(location.latlng, location);
+                    }).toList(),
                     popupController: _popupLayerController,
                     popupDisplayOptions: PopupDisplayOptions(
                       animation: const PopupAnimation.fade(
@@ -143,8 +140,8 @@ class MapPageStateView extends ConsumerState<MapPage> {
                         if (marker is LocationMarker) {
                           return marker.locationGroup.isFloorless
                               ? FloorlessLocationMarkerPopup(
-                                marker.locationGroup,
-                              )
+                                  marker.locationGroup,
+                                )
                               : LocationMarkerPopup(marker.locationGroup);
                         }
                         return const Card(child: Text(''));
@@ -203,11 +200,10 @@ class MapPageStateView extends ConsumerState<MapPage> {
                     child: Container(
                       margin: const EdgeInsets.only(bottom: 5),
                       child: GestureDetector(
-                        onTap:
-                            () => launchUrlWithToast(
-                              context,
-                              'https://www.openstreetmap.org/copyright',
-                            ),
+                        onTap: () => launchUrlWithToast(
+                          context,
+                          'https://www.openstreetmap.org/copyright',
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                             vertical: 5,

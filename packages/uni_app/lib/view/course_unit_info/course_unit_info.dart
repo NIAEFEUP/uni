@@ -118,22 +118,18 @@ class CourseUnitDetailPageViewState
   Widget _courseUnitSheetView(BuildContext context) {
     return Consumer(
       builder: (context, ref, _) {
-        final sheet =
-            ref.watch(courseUnitsInfoProvider.notifier).courseUnitsSheets[widget
-                .courseUnit];
+        final sheet = ref
+            .watch(courseUnitsInfoProvider.notifier)
+            .courseUnitsSheets[widget.courseUnit];
 
         final exams = ref.watch(examProvider);
 
         final courseExams = exams.maybeWhen(
-          data:
-              (list) =>
-                  list!
-                      .where(
-                        (exam) =>
-                            exam.subjectAcronym ==
-                            widget.courseUnit.abbreviation,
-                      )
-                      .toList(),
+          data: (list) => list!
+              .where(
+                (exam) => exam.subjectAcronym == widget.courseUnit.abbreviation,
+              )
+              .toList(),
           orElse: () => <Exam>[],
         );
 
@@ -149,21 +145,20 @@ class CourseUnitDetailPageViewState
   }
 
   Widget _courseUnitFilesView(BuildContext context) {
-    final files =
-        ref.read(courseUnitsInfoProvider.notifier).courseUnitsFiles[widget
-            .courseUnit];
+    final files = ref
+        .read(courseUnitsInfoProvider.notifier)
+        .courseUnitsFiles[widget.courseUnit];
 
     if (files == null || files.isEmpty) {
       return LayoutBuilder(
-        builder:
-            (context, constraints) => SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Container(
-                height: constraints.maxHeight,
-                padding: const EdgeInsets.only(bottom: 120),
-                child: const Center(child: NoFilesWidget()),
-              ),
-            ),
+        builder: (context, constraints) => SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Container(
+            height: constraints.maxHeight,
+            padding: const EdgeInsets.only(bottom: 120),
+            child: const Center(child: NoFilesWidget()),
+          ),
+        ),
       );
     }
 

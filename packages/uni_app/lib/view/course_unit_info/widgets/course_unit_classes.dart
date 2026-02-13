@@ -155,10 +155,9 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                     vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color:
-                        isSelected
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.secondary,
+                    color: isSelected
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.secondary,
                     borderRadius: BorderRadius.circular(25),
                     boxShadow: [
                       BoxShadow(
@@ -180,12 +179,11 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                     isMyClass
                         ? '${courseUnitClass.className} *'
                         : courseUnitClass.className,
-                    style:
-                        isSelected
-                            ? Theme.of(context).textTheme.labelMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                            )
-                            : Theme.of(context).textTheme.labelMedium,
+                    style: isSelected
+                        ? Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          )
+                        : Theme.of(context).textTheme.labelMedium,
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -214,54 +212,50 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
       child: Wrap(
         spacing: 8,
         runSpacing: 8,
-        children:
-            professors.map((professor) {
-              return GestureDetector(
-                onTap: () {
-                  showDialog<void>(
-                    context: context,
-                    builder: (context) => ProfessorInfoModal(professor),
+        children: professors.map((professor) {
+          return GestureDetector(
+            onTap: () {
+              showDialog<void>(
+                context: context,
+                builder: (context) => ProfessorInfoModal(professor),
+              );
+            },
+
+            child: Container(
+              decoration: ShapeDecoration(
+                color: Theme.of(context).colorScheme.secondary,
+                shape: ContinuousRectangleBorder(
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                shadows: [
+                  BoxShadow(
+                    color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
+                    blurRadius: 2,
+                  ),
+                ],
+              ),
+              child: FutureBuilder<File?>(
+                future: ProfileNotifier.fetchOrGetCachedProfilePicture(
+                  session,
+                  studentNumber: int.parse(professor.code),
+                ),
+                builder: (context, snapshot) {
+                  final profileImage = snapshot.hasData && snapshot.data != null
+                      ? FileImage(snapshot.data!)
+                      : null;
+
+                  return InstructorCard(
+                    name: professor.name,
+                    isRegent: professor.isRegent,
+                    instructorLabel: S.of(context).classProfessor,
+                    regentLabel: S.of(context).classProfessor,
+                    profileImage: profileImage,
                   );
                 },
-
-                child: Container(
-                  decoration: ShapeDecoration(
-                    color: Theme.of(context).colorScheme.secondary,
-                    shape: ContinuousRectangleBorder(
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                    shadows: [
-                      BoxShadow(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.shadow.withAlpha(0x25),
-                        blurRadius: 2,
-                      ),
-                    ],
-                  ),
-                  child: FutureBuilder<File?>(
-                    future: ProfileNotifier.fetchOrGetCachedProfilePicture(
-                      session,
-                      studentNumber: int.parse(professor.code),
-                    ),
-                    builder: (context, snapshot) {
-                      final profileImage =
-                          snapshot.hasData && snapshot.data != null
-                              ? FileImage(snapshot.data!)
-                              : null;
-
-                      return InstructorCard(
-                        name: professor.name,
-                        isRegent: professor.isRegent,
-                        instructorLabel: S.of(context).classProfessor,
-                        regentLabel: S.of(context).classProfessor,
-                        profileImage: profileImage,
-                      );
-                    },
-                  ),
-                ),
-              );
-            }).toList(),
+              ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }

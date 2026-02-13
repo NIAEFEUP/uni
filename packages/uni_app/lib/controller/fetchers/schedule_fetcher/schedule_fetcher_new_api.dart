@@ -12,10 +12,9 @@ abstract class ScheduleFetcherNewApiBase extends ScheduleFetcher {
 
   @override
   List<String> getEndpoints(Session session) {
-    final urls =
-        NetworkRouter.getBaseUrlsFromSession(
-          session,
-        ).map((url) => '${url}hor_geral.${getEndpointView()}').toList();
+    final urls = NetworkRouter.getBaseUrlsFromSession(
+      session,
+    ).map((url) => '${url}hor_geral.${getEndpointView()}').toList();
     return urls;
   }
 

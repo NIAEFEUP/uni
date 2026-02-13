@@ -30,55 +30,50 @@ class ServiceCard extends StatelessWidget {
         children: [
           const SizedBox(height: 6),
           Row(
-            mainAxisAlignment:
-                openingHours.length == 0
-                    ? MainAxisAlignment.center
-                    : MainAxisAlignment.start,
+            mainAxisAlignment: openingHours.length == 0
+                ? MainAxisAlignment.center
+                : MainAxisAlignment.start,
             children: [
               Flexible(
                 child: Text(
                   name,
                   overflow: TextOverflow.ellipsis,
-                  style:
-                      openingHours.length == 0
-                          ? Theme.of(context).textTheme.headlineMedium!
-                          : Theme.of(context).textTheme.headlineSmall!,
+                  style: openingHours.length == 0
+                      ? Theme.of(context).textTheme.headlineMedium!
+                      : Theme.of(context).textTheme.headlineSmall!,
                 ),
               ),
             ],
           ),
           Column(
-            children:
-                openingHours.length == 0
-                    ? []
-                    : [
-                      const SizedBox(height: 15),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          UniIcon(
-                            UniIcons.clock,
-                            color: Theme.of(context).shadowColor,
+            children: openingHours.length == 0
+                ? []
+                : [
+                    const SizedBox(height: 15),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        UniIcon(
+                          UniIcons.clock,
+                          color: Theme.of(context).shadowColor,
+                        ),
+                        const SizedBox(width: 5),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: openingHours.map((hour) {
+                              return Text(
+                                hour,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                                overflow: TextOverflow.ellipsis,
+                              );
+                            }).toList(),
                           ),
-                          const SizedBox(width: 5),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children:
-                                  openingHours.map((hour) {
-                                    return Text(
-                                      hour,
-                                      style:
-                                          Theme.of(context).textTheme.bodyLarge,
-                                      overflow: TextOverflow.ellipsis,
-                                    );
-                                  }).toList(),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 5),
-                    ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 5),
+                  ],
           ),
         ],
       ),

@@ -18,42 +18,37 @@ class ProfileOverview extends ConsumerWidget {
 
     return FutureBuilder(
       future: ProfileNotifier.fetchOrGetCachedProfilePicture(session),
-      builder:
-          (context, profilePic) => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const ProfileImage(radius: 75),
-              const Padding(padding: EdgeInsets.all(8)),
-              Text(
-                '${name.first} ${name.length > 1 ? name.last : ''}',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
-              Text(
-                profile.email.split('@')[0],
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              const Padding(padding: EdgeInsets.all(5)),
-              Wrap(
-                spacing: 8,
-                children:
-                    session.faculties.map((type) {
-                      return Badge(
-                        label: Text(
-                          type.toUpperCase(),
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                      );
-                    }).toList(),
-              ),
-            ],
+      builder: (context, profilePic) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const ProfileImage(radius: 75),
+          const Padding(padding: EdgeInsets.all(8)),
+          Text(
+            '${name.first} ${name.length > 1 ? name.last : ''}',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headlineLarge,
           ),
+          Text(
+            profile.email.split('@')[0],
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          const Padding(padding: EdgeInsets.all(5)),
+          Wrap(
+            spacing: 8,
+            children: session.faculties.map((type) {
+              return Badge(
+                label: Text(
+                  type.toUpperCase(),
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
     );
   }
 }
