@@ -59,7 +59,9 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
 
     if (profile.answeredPedagogicalSurveys) {
       await PreferencesController.setPedagogicalSurveysShowDialog(show: false);
-      await PreferencesController.setPedagogicalSurveysDismissed(dismissed: false);
+      await PreferencesController.setPedagogicalSurveysDismissed(
+        dismissed: false,
+      );
     } else {
       await PreferencesController.setPedagogicalSurveysShowDialog(show: true);
     }
