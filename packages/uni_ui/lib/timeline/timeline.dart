@@ -42,17 +42,18 @@ class _TimelineState extends State<Timeline> {
       if (!_didInitialScroll) return;
 
       final positions = _itemPositionsListener.itemPositions.value;
-      if (positions.isNotEmpty) {
-        final firstVisibleIndex =
-            positions
-                .where((ItemPosition position) => position.itemLeadingEdge >= 0)
-                .reduce(
-                  (ItemPosition current, ItemPosition next) =>
-                      current.itemLeadingEdge < next.itemLeadingEdge
-                          ? current
-                          : next,
-                )
-                .index;
+      final visiblePositions = positions.where(
+        (ItemPosition position) => position.itemLeadingEdge >= 0,
+      );
+      if (visiblePositions.isNotEmpty) {
+        final firstVisibleIndex = visiblePositions
+            .reduce(
+              (ItemPosition current, ItemPosition next) =>
+                  current.itemLeadingEdge < next.itemLeadingEdge
+                  ? current
+                  : next,
+            )
+            .index;
 
         if (_currentIndex != firstVisibleIndex) {
           setState(() {
@@ -164,51 +165,50 @@ class _TimelineState extends State<Timeline> {
                 controller: _tabScrollController,
                 child: Row(
                   key: _tabsRowKey,
-                  children:
-                      widget.tabs.asMap().entries.map((entry) {
-                        int index = entry.key;
-                        Widget tab = entry.value;
-                        bool isSelected = _currentIndex == index;
-                        TextStyle textStyle =
-                            Theme.of(context).textTheme.bodySmall!;
-                        return GestureDetector(
-                          onTap: () => _onTabTapped(index),
-                          child: Padding(
+                  children: widget.tabs.asMap().entries.map((entry) {
+                    int index = entry.key;
+                    Widget tab = entry.value;
+                    bool isSelected = _currentIndex == index;
+                    TextStyle textStyle = Theme.of(
+                      context,
+                    ).textTheme.bodySmall!;
+                    return GestureDetector(
+                      onTap: () => _onTabTapped(index),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 5.0,
+                        ),
+                        child: GenericSquircle(
+                          borderRadius: 10,
+                          child: Container(
+                            key: _tabKeys[index],
                             padding: const EdgeInsets.symmetric(
-                              vertical: 10.0,
-                              horizontal: 5.0,
+                              vertical: 9.0,
+                              horizontal: 8.0,
                             ),
-                            child: GenericSquircle(
-                              borderRadius: 10,
-                              child: Container(
-                                key: _tabKeys[index],
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 9.0,
-                                  horizontal: 8.0,
-                                ),
-                                color:
-                                    isSelected
-                                        ? Theme.of(context).colorScheme.tertiary
-                                            .withValues(alpha: 0.25)
-                                        : Colors.transparent,
-                                child: DefaultTextStyle(
-                                  style: textStyle.copyWith(
-                                    color:
-                                        widget.tabEnabled[index]
-                                            ? (isSelected
-                                                ? Theme.of(
-                                                  context,
-                                                ).colorScheme.primary
-                                                : Colors.black)
-                                            : Colors.grey,
-                                  ),
-                                  child: tab,
-                                ),
+                            color: isSelected
+                                ? Theme.of(
+                                    context,
+                                  ).colorScheme.tertiary.withValues(alpha: 0.25)
+                                : Colors.transparent,
+                            child: DefaultTextStyle(
+                              style: textStyle.copyWith(
+                                color: widget.tabEnabled[index]
+                                    ? (isSelected
+                                          ? Theme.of(
+                                              context,
+                                            ).colorScheme.primary
+                                          : Colors.black)
+                                    : Colors.grey,
                               ),
+                              child: tab,
                             ),
                           ),
-                        );
-                      }).toList(),
+                        ),
+                      ),
+                    );
+                  }).toList(),
                 ),
               ),
               Positioned(

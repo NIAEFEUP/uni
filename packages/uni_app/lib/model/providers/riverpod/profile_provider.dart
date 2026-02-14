@@ -26,10 +26,9 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
 
   @override
   Future<Profile?> loadFromStorage() async {
-    final profile =
-        Database().profile
-          ?..courses = Database().courses
-          ..courseUnits = Database().courseUnits;
+    final profile = Database().profile
+      ?..courses = Database().courses
+      ..courseUnits = Database().courseUnits;
 
     return profile;
   }
@@ -41,6 +40,7 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
       return null;
     }
 
+    //try to fetch all data from internet
     final profile = await _fetchUserInfo(session);
     if (profile == null) {
       return null;
@@ -56,6 +56,7 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
       ..feesLimit = feesLimit
       ..printBalance = printBalance;
 
+    //if successful save everything to cache
     Database().saveProfile(profile);
 
     return profile;

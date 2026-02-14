@@ -20,7 +20,7 @@ class CoursesPage extends ConsumerStatefulWidget {
 }
 
 class CoursesPageState extends ConsumerState<CoursesPage> {
-  Locale? _lastLocale;
+  static Locale? _lastLocale;
 
   @override
   void didChangeDependencies() {
@@ -29,7 +29,7 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
     if (_lastLocale != locale) {
       _lastLocale = locale;
       Future.microtask(() {
-        final _ = ref.read(profileProvider.notifier).refreshRemote();
+        ref.read(profileProvider.notifier).refreshRemote();
         if (mounted) {
           setState(() {});
         }
@@ -150,14 +150,13 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
           children: [
             Center(
               child: CourseSelection(
-                courseInfos:
-                    courses.map((course) {
-                      return CourseInfo(
-                        abbreviation: _getCourseAbbreviation(course),
-                        enrollmentYear: _getEnrollmentYear(course),
-                        conclusionYear: _getConclusionYear(course),
-                      );
-                    }).toList(),
+                courseInfos: courses.map((course) {
+                  return CourseInfo(
+                    abbreviation: _getCourseAbbreviation(course),
+                    enrollmentYear: _getEnrollmentYear(course),
+                    conclusionYear: _getConclusionYear(course),
+                  );
+                }).toList(),
                 onSelected: _onCourseUnitSelected,
                 selected: _courseUnitIndex,
                 nowText: S.of(context).now,
@@ -187,15 +186,14 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
       },
       nullContentWidget: LayoutBuilder(
         // Band-aid for allowing refresh on null content
-        builder:
-            (context, constraints) => SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Container(
-                height: constraints.maxHeight,
-                padding: const EdgeInsets.only(bottom: 120),
-                child: const Center(child: NoCoursesWidget()),
-              ),
-            ),
+        builder: (context, constraints) => SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Container(
+            height: constraints.maxHeight,
+            padding: const EdgeInsets.only(bottom: 120),
+            child: const Center(child: NoCoursesWidget()),
+          ),
+        ),
       ),
       loadingWidget: const ShimmerCoursesPage(),
       hasContent: (profile) => profile.courses.isNotEmpty,

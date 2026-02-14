@@ -1,15 +1,32 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
+import 'package:uni/model/entities/course_units/sheet.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/utils/student_number_getter.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_student_tile.dart';
+import 'package:uni/view/course_unit_info/widgets/modal_professor_info.dart';
+import 'package:uni_ui/cards/instructor_card.dart';
 
 class CourseUnitClassesView extends ConsumerStatefulWidget {
-  const CourseUnitClassesView(this.classes, {super.key});
+  const CourseUnitClassesView(
+    this.classes,
+    this.professors,
+    this.courseUnit, {
+    this.classProfessors = const <String, List<Professor>>{},
+    super.key,
+  });
 
   final List<CourseUnitClass> classes;
+  final List<Professor> professors;
+  final CourseUnit courseUnit;
+  final Map<String, List<Professor>> classProfessors;
 
   @override
   ConsumerState<CourseUnitClassesView> createState() =>
@@ -96,6 +113,7 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
           child: Column(
             children: [
               _buildClassSelector(studentNumber),
+              _buildClassProfessor(),
               _buildStudentList(session),
             ],
           ),
@@ -137,10 +155,9 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                     vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color:
-                        isSelected
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.secondary,
+                    color: isSelected
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.secondary,
                     borderRadius: BorderRadius.circular(25),
                     boxShadow: [
                       BoxShadow(
@@ -162,12 +179,11 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                     isMyClass
                         ? '${courseUnitClass.className} *'
                         : courseUnitClass.className,
-                    style:
-                        isSelected
-                            ? Theme.of(context).textTheme.labelMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                            )
-                            : Theme.of(context).textTheme.labelMedium,
+                    style: isSelected
+                        ? Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          )
+                        : Theme.of(context).textTheme.labelMedium,
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -177,6 +193,69 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
             );
           },
         ),
+      ),
+    );
+  }
+
+  Widget _buildClassProfessor() {
+    final currentClass = widget.classes[selectedIndex!];
+    final professors = widget.classProfessors[currentClass.className];
+
+    if (professors == null || professors.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    final session = ref.read(sessionProvider).value!;
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: professors.map((professor) {
+          return GestureDetector(
+            onTap: () {
+              showDialog<void>(
+                context: context,
+                builder: (context) => ProfessorInfoModal(professor),
+              );
+            },
+
+            child: Container(
+              decoration: ShapeDecoration(
+                color: Theme.of(context).colorScheme.secondary,
+                shape: ContinuousRectangleBorder(
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                shadows: [
+                  BoxShadow(
+                    color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
+                    blurRadius: 2,
+                  ),
+                ],
+              ),
+              child: FutureBuilder<File?>(
+                future: ProfileNotifier.fetchOrGetCachedProfilePicture(
+                  session,
+                  studentNumber: int.parse(professor.code),
+                ),
+                builder: (context, snapshot) {
+                  final profileImage = snapshot.hasData && snapshot.data != null
+                      ? FileImage(snapshot.data!)
+                      : null;
+
+                  return InstructorCard(
+                    name: professor.name,
+                    isRegent: professor.isRegent,
+                    instructorLabel: S.of(context).classProfessor,
+                    regentLabel: S.of(context).classProfessor,
+                    profileImage: profileImage,
+                  );
+                },
+              ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }
