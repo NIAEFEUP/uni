@@ -79,8 +79,9 @@ class AverageBar extends StatelessWidget {
                   ),
                   LinearProgressIndicator(
                     minHeight: 8,
-                    value:
-                        totalCredits != 0 ? completedCredits / totalCredits : 1,
+                    value: totalCredits != 0
+                        ? completedCredits / totalCredits
+                        : 1,
                     borderRadius: BorderRadius.all(Radius.circular(5)),
                   ),
                   Text(statusText),

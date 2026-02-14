@@ -55,9 +55,14 @@ class TuitionNotification extends Notification {
       return false;
     }
     final feesFetcher = FeesFetcher();
-    final dueDate = parseFeesNextLimit(
-      await feesFetcher.getUserFeesResponse(session),
-    );
+    DateTime? dueDate;
+    try {
+      dueDate = parseFeesNextLimit(
+        await feesFetcher.getUserFeesResponse(session),
+      );
+    } catch (_) {
+      return false;
+    }
 
     if (dueDate == null) {
       return false;
@@ -91,10 +96,10 @@ class TuitionNotification extends Notification {
     );
 
     localNotificationsPlugin.show(
-      2,
-      content.$1,
-      content.$2,
-      notificationDetails,
+      id: 2,
+      title: content.$1,
+      body: content.$2,
+      notificationDetails: notificationDetails,
     );
   }
 }

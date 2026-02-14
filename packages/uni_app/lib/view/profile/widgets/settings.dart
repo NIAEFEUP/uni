@@ -108,11 +108,8 @@ class Settings extends StatelessWidget {
                 UniIcons.caretRight,
                 color: Theme.of(context).colorScheme.primary,
               ),
-              onTap:
-                  () => launchUrlWithToast(
-                    context,
-                    'https://self-id.up.pt/password',
-                  ),
+              onTap: () =>
+                  launchUrlWithToast(context, 'https://self-id.up.pt/password'),
             ),
           ),
 

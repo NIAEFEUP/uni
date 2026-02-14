@@ -46,19 +46,18 @@ class TimelineItem extends StatelessWidget {
                   width: 4.0,
                 ),
               ),
-              child:
-                  isActive
-                      ? Center(
-                        child: Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 3),
-                          ),
+              child: isActive
+                  ? Center(
+                      child: Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 3),
                         ),
-                      )
-                      : null,
+                      ),
+                    )
+                  : null,
             ),
             Container(
               margin: EdgeInsets.only(bottom: 5, left: 10, right: 10),

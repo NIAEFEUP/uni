@@ -78,8 +78,9 @@ class RemainingInstructorsCard extends StatelessWidget {
                                   padding: const EdgeInsets.all(4.0),
                                   child: Text(
                                     '+$remainingCount',
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.titleMedium,
                                   ),
                                 ),
                               ),

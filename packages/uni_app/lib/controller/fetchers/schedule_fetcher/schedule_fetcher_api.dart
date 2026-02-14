@@ -10,16 +10,15 @@ import 'package:uni/session/flows/base/session.dart';
 class ScheduleFetcherApi extends ScheduleFetcher {
   @override
   List<String> getEndpoints(Session session) {
-    final urls =
-        NetworkRouter.getBaseUrlsFromSession(
-          session,
-        ).map((url) => '${url}mob_hor_geral.estudante').toList();
+    final urls = NetworkRouter.getBaseUrlsFromSession(
+      session,
+    ).map((url) => '${url}mob_hor_geral.estudante').toList();
     return urls;
   }
 
   /// Fetches the user's lectures from the faculties' API.
   @override
-  Future<List<Lecture>> getLectures(Session session) async {
+  Future<List<Lecture>> getLectures(Session session, {int? lectiveYear}) async {
     final dates = getDates();
 
     final urls = getEndpoints(session);

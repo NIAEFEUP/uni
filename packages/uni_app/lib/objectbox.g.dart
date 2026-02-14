@@ -727,6 +727,11 @@ Future<obx.Store> openStore({
 /// [obx.Store.new].
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
+    // If this version is not found, it means that this file was generated
+    // with an older version of the ObjectBox Dart generator.
+    // Please regenerate this file with the current generator version.
+    // Typically, this is done with `dart run build_runner build`.
+    generatorVersion: obx_int.GeneratorVersion.v2025_12_16,
     entities: _entities,
     lastEntityId: const obx_int.IdUid(11, 6737946482330485890),
     lastIndexId: const obx_int.IdUid(1, 860778994234728762),
@@ -803,15 +808,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       toManyRelations: (Course object) => {},
       getId: (Course object) => object.id,
       setId: (Course object, int id) {
-        if (object.id != id) {
-          throw ArgumentError(
-            'Field Course.id is read-only '
-            '(final or getter-only) and it was declared to be self-assigned. '
-            'However, the currently inserted object (.id=${object.id}) '
-            "doesn't match the inserted ID (ID $id). "
-            'You must assign an ID before calling [box.put()].',
-          );
-        }
+        object.id = id;
       },
       objectToFB: (Course object, fb.Builder fbb) {
         final nameOffset = object.name == null
