@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   integrity_check:
+    name: Version Integrity Check
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
@@ -86,7 +87,7 @@ jobs:
         run: flutter analyze .
 
   test:
-    name: 🧪 Test
+    name: Test
     runs-on: ubuntu-latest
     needs: lint
     defaults:
@@ -120,6 +121,7 @@ jobs:
           fail_ci_if_error: true
 
   label_check:
+    name: Release Label Check
     if: github.event_name == 'pull_request' && github.base_ref == 'main'
     runs-on: ubuntu-latest
     steps:
