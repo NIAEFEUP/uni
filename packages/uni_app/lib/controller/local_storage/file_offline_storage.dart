@@ -26,7 +26,11 @@ Future<File?> loadFileFromStorageOrRetrieveNew(
   bool forceRetrieval = false,
 }) async {
   final path = await _localPath;
-  final targetPath = '$path/$localFileName';
+  final sanitizedLocalFileName = localFileName.replaceAll(
+    RegExp(r'[/\\]'),
+    '_',
+  );
+  final targetPath = '$path/$sanitizedLocalFileName';
   final file = File(targetPath);
 
   final fileExists = file.existsSync();
@@ -74,10 +78,9 @@ Future<File?> _downloadAndSaveFile(
 ) async {
   final header = headers ?? <String, String>{};
 
-  final response =
-      session == null
-          ? await http.get(url.toUri(), headers: headers)
-          : await NetworkRouter.getWithCookies(url, header, session);
+  final response = session == null
+      ? await http.get(url.toUri(), headers: headers)
+      : await NetworkRouter.getWithCookies(url, header, session);
 
   if (response.statusCode == 200) {
     return File(filePath).writeAsBytes(response.bodyBytes);

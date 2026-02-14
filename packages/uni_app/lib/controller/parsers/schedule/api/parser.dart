@@ -44,10 +44,9 @@ Future<List<Lecture>> parseSchedule(http.Response response, Week week) async {
     // or 2 hours long and so on. When the lecture is 1.5 hours long, it
     // returns a double, with the value 1.5.
     final lectureDuration = lecture['aula_duracao'];
-    final blocks =
-        lectureDuration is double
-            ? (lectureDuration * 2).toInt()
-            : (lectureDuration as int) * 2;
+    final blocks = lectureDuration is double
+        ? (lectureDuration * 2).toInt()
+        : (lectureDuration as int) * 2;
 
     final room = (lecture['sala_sigla'] as String).replaceAll(
       RegExp(r'\+'),

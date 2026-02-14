@@ -29,15 +29,14 @@ class LibraryHomeCard extends GenericHomecard {
   Widget buildCardContent(BuildContext context) {
     return DefaultConsumer<LibraryOccupation>(
       provider: libraryProvider,
-      builder:
-          (context, ref, libraryOccupation) => LibraryOccupationCard(
-            capacity: libraryOccupation.capacity,
-            occupation: libraryOccupation.occupation,
-            occupationWidgetsList: buildFloorOccupation(
-              context,
-              libraryOccupation.floors,
-            ),
-          ),
+      builder: (context, ref, libraryOccupation) => LibraryOccupationCard(
+        capacity: libraryOccupation.capacity,
+        occupation: libraryOccupation.occupation,
+        occupationWidgetsList: buildFloorOccupation(
+          context,
+          libraryOccupation.floors,
+        ),
+      ),
       hasContent: (libraryOccupation) => libraryOccupation.capacity > 0,
       nullContentWidget: Center(
         child: IconLabel(
@@ -58,17 +57,16 @@ List<FloorOccupationWidget> buildFloorOccupation(
   BuildContext context,
   List<FloorOccupation> floors,
 ) {
-  final items =
-      floors
-          .map(
-            (floor) => FloorOccupationWidget(
-              capacity: floor.capacity,
-              occupation: floor.occupation,
-              floorText: S.of(context).floor,
-              floorNumber: floor.number,
-            ),
-          )
-          .toList();
+  final items = floors
+      .map(
+        (floor) => FloorOccupationWidget(
+          capacity: floor.capacity,
+          occupation: floor.occupation,
+          floorText: S.of(context).floor,
+          floorNumber: floor.number,
+        ),
+      )
+      .toList();
 
   return items;
 }
