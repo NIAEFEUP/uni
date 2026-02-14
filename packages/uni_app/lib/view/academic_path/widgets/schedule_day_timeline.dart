@@ -71,32 +71,23 @@ class ScheduleDayTimeline extends ConsumerWidget {
               room: lecture.room,
               type: lecture.typeClass,
               teacherName: lecture.teacherName,
-              teacherPhoto:
-                  snapshot.hasData && snapshot.data != null
-                      ? Image(image: FileImage(snapshot.data!))
-                      : Image.asset('assets/images/profile_placeholder.png'),
+              teacherPhoto: snapshot.hasData && snapshot.data != null
+                  ? Image(image: FileImage(snapshot.data!))
+                  : Image.asset('assets/images/profile_placeholder.png'),
               onTap: () {
                 final profile = ref.watch(
                   profileProvider.select((value) => value.value),
                 );
 
                 if (profile != null) {
-                  final ocorrenciasUnits =
-                      profile.courseUnits
-                          .where((unit) => unit.abbreviation == lecture.acronym)
-                          .toList();
+                  final ocorrenciasUnits = profile.courseUnits
+                      .where(
+                        (unit) =>
+                            unit.occurrId != null &&
+                            unit.occurrId == lecture.occurrId,
+                      )
+                      .toList();
                   if (ocorrenciasUnits.isNotEmpty) {
-                    ocorrenciasUnits.sort((a, b) {
-                      final ayear = a.schoolYear ?? '';
-                      final byear = b.schoolYear ?? '';
-                      final yearCompare = byear.compareTo(ayear);
-                      if (yearCompare != 0) {
-                        return yearCompare;
-                      }
-                      final aId = a.occurrId ?? -1;
-                      final bId = b.occurrId ?? -1;
-                      return bId.compareTo(aId);
-                    });
                     final correctUnit = ocorrenciasUnits.first;
                     debugPrint(
                       'Selected CU: ${correctUnit.abbreviation} | '
@@ -106,8 +97,8 @@ class ScheduleDayTimeline extends ConsumerWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute<CourseUnitDetailPageView>(
-                        builder:
-                            (context) => CourseUnitDetailPageView(correctUnit),
+                        builder: (context) =>
+                            CourseUnitDetailPageView(correctUnit),
                       ),
                     );
                   }
