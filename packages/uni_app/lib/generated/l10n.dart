@@ -1712,6 +1712,16 @@ class S {
     return Intl.message('Instructor', name: 'instructor', desc: '', args: []);
   }
 
+  /// `Class Professor`
+  String get classProfessor {
+    return Intl.message(
+      'Class Professor',
+      name: 'classProfessor',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Lectures`
   String get lectures {
     return Intl.message('Lectures', name: 'lectures', desc: '', args: []);
@@ -1843,6 +1853,26 @@ class S {
   /// `Restaurants`
   String get restaurants {
     return Intl.message('Restaurants', name: 'restaurants', desc: '', args: []);
+  }
+
+  /// `Tomorrow's Menu`
+  String get tomorrows_meals {
+    return Intl.message(
+      'Tomorrow\'s Menu',
+      name: 'tomorrows_meals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tomorrow's Menu Unavailable`
+  String get no_menu_tomorrow {
+    return Intl.message(
+      'Tomorrow\'s Menu Unavailable',
+      name: 'no_menu_tomorrow',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Calendar`

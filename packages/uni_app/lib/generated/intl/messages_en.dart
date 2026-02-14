@@ -113,6 +113,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "check_internet": MessageLookupByLibrary.simpleMessage(
       "Check your internet connection",
     ),
+    "classProfessor": MessageLookupByLibrary.simpleMessage("Class Professor"),
     "class_registration": MessageLookupByLibrary.simpleMessage(
       "Class Registration",
     ),
@@ -407,6 +408,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "restaurant_period": m4,
     "restaurants": MessageLookupByLibrary.simpleMessage("Restaurants"),
+    "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Tomorrow's Menu"),
+    "no_menu_tomorrow": MessageLookupByLibrary.simpleMessage(
+      "Tomorrow's Menu Unavailable",
+    ),
     "room": MessageLookupByLibrary.simpleMessage("Room"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
     "schedule": MessageLookupByLibrary.simpleMessage("Schedule"),
