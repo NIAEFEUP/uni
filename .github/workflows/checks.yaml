@@ -122,7 +122,7 @@ jobs:
 
   label_check:
     name: Release Label Check
-    if: github.event_name == 'pull_request' && github.base_ref == 'main'
+    if: github.event_name == 'pull_request' && github.base_ref == 'master'
     runs-on: ubuntu-latest
     steps:
       - name: Verify Release Label
@@ -134,6 +134,6 @@ jobs:
           if [[ $labels == *"release:patch"* ]]; then count=$((count+1)); fi
           
           if [ $count -ne 1 ]; then
-            echo "Error: PR to main must have exactly one label: release:major, release:minor, or release:patch"
+            echo "Error: PR to master must have exactly one label: release:major, release:minor, or release:patch"
             exit 1
           fi

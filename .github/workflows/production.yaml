@@ -2,7 +2,7 @@ name: Production
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
     types: [closed]
 
 concurrency:
@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
+          ref: master
           token: ${{ secrets.NIAEFEUPBOT_PAT }}
 
       - name: Determine Release Type
@@ -36,7 +36,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "chore(release): ${{ steps.bump.outputs.NEW_VERSION }} [skip ci]"
-          branch: main
+          branch: master
           tagging_message: "v${{ steps.bump.outputs.NEW_VERSION }}"
           file_pattern: 'packages/uni_app/app_version.txt packages/uni_app/pubspec.yaml'
 
@@ -51,7 +51,7 @@ jobs:
     secrets: inherit
 
   sync_develop:
-    name: Sync develop with main
+    name: Sync develop with master
     needs: deploy_prod
     runs-on: ubuntu-latest
     concurrency:
@@ -69,7 +69,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Rebase develop onto main
+      - name: Rebase develop onto master
         run: |
           set -euo pipefail
 
@@ -78,7 +78,7 @@ jobs:
           git checkout develop
           git reset --hard origin/develop
 
-          git rebase origin/main || {
+          git rebase origin/master || {
             echo "Rebase conflict detected!"
             echo "Manual resolution required."
             exit 1
@@ -86,4 +86,4 @@ jobs:
 
           git push --force-with-lease origin develop
 
-          echo "✅ Develop successfully rebased onto main"
+          echo "✅ Develop successfully rebased onto master"
