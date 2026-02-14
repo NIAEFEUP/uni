@@ -457,5 +457,9 @@
   "services": "Serviços",
   "@services": {},
   "goi": "Gabinete de Orientação e Integração",
-  "@goi": {}
+  "@goi": {},
+  "no_course_unit_classes": "Ainda não foram atribuídas turmas a esta unidade curricular",
+  "@no_course_unit_classes": {},
+  "no_course_unit_info": "Esta unidade curricular ainda não tem informação disponível",
+  "@no_course_unit_info": {}
 }

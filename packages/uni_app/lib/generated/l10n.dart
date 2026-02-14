@@ -1542,7 +1542,7 @@ class S {
     );
   }
 
-  /// `Having trouble signing in?`
+  /// `Something not right?`
   String get spotted_an_error {
     return Intl.message(
       'Something not right?',
@@ -1552,7 +1552,7 @@ class S {
     );
   }
 
-  /// `Login with credentials`
+  /// `Report a bug`
   String get report_bug {
     return Intl.message('Report a bug', name: 'report_bug', desc: '', args: []);
   }
@@ -1905,6 +1905,26 @@ class S {
     return Intl.message(
       'Orientation and Integration Office',
       name: 'goi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No classes have been assigned to this course unit yet`
+  String get no_course_unit_classes {
+    return Intl.message(
+      'No classes have been assigned to this course unit yet',
+      name: 'no_course_unit_classes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This course unit has no information available yet`
+  String get no_course_unit_info {
+    return Intl.message(
+      'This course unit has no information available yet',
+      name: 'no_course_unit_info',
       desc: '',
       args: [],
     );

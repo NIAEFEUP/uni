@@ -457,5 +457,9 @@
   "services": "Services",
   "@services": {},
   "goi": "Orientation and Integration Office",
-  "@goi": {}
+  "@goi": {},
+  "no_course_unit_classes": "No classes have been assigned to this course unit yet",
+  "@no_course_unit_classes": {},
+  "no_course_unit_info": "This course unit has no information available yet",
+  "@no_course_unit_info": {}
 }

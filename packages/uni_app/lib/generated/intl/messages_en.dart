@@ -283,6 +283,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "You have no classes this week",
     ),
     "no_college": MessageLookupByLibrary.simpleMessage("no college"),
+    "no_course_unit_classes": MessageLookupByLibrary.simpleMessage(
+      "No classes have been assigned to this course unit yet",
+    ),
+    "no_course_unit_info": MessageLookupByLibrary.simpleMessage(
+      "This course unit has no information available yet",
+    ),
     "no_course_units": MessageLookupByLibrary.simpleMessage(
       "No course units in the selected period",
     ),
@@ -394,6 +400,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Remaining Instructors",
     ),
     "remove": MessageLookupByLibrary.simpleMessage("Delete"),
+    "report_bug": MessageLookupByLibrary.simpleMessage("Report a bug"),
     "report_error": MessageLookupByLibrary.simpleMessage("Report error"),
     "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
       "Do you want to see your favorite restaurants in the main page?",
@@ -416,6 +423,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
     "some_error": MessageLookupByLibrary.simpleMessage("Some error!"),
+    "spotted_an_error": MessageLookupByLibrary.simpleMessage(
+      "Something not right?",
+    ),
     "stcp_stops": MessageLookupByLibrary.simpleMessage("STCP - Upcoming Trips"),
     "student_number": MessageLookupByLibrary.simpleMessage("Student Number"),
     "success": MessageLookupByLibrary.simpleMessage("Sent with success"),

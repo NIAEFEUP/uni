@@ -9,7 +9,9 @@ import 'package:uni/view/course_unit_info/widgets/course_unit_classes.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes_shimmer.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files_shimmer.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_no_classes.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_no_files.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_no_info.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet_shimmer.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
@@ -120,6 +122,19 @@ class CourseUnitDetailPageViewState
           return const ShimmerCourseSheet();
         }
 
+        final hasNoInfo =
+            sheet.professors.isEmpty &&
+            sheet.content == 'null' &&
+            sheet.evaluation == 'null' &&
+            sheet.frequency == 'null' &&
+            sheet.books.isEmpty;
+
+        if (hasNoInfo) {
+          return const Center(
+            child: NoInfoWidget(),
+          ); // ou o widget que quiseres
+        }
+
         return CourseUnitSheetView(sheet, courseExams);
       },
     );
@@ -160,8 +175,15 @@ class CourseUnitDetailPageViewState
     }
 
     if (classes.isEmpty) {
-      return Center(
-        child: Text(S.of(context).no_class, textAlign: TextAlign.center),
+      return LayoutBuilder(
+        builder: (context, constraints) => SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Container(
+            height: constraints.maxHeight,
+            padding: const EdgeInsets.only(bottom: 120),
+            child: const Center(child: NoClassWidget()),
+          ),
+        ),
       );
     }
 

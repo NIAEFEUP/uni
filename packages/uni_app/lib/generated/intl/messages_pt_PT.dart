@@ -297,6 +297,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Não tens aulas esta semana",
     ),
     "no_college": MessageLookupByLibrary.simpleMessage("sem faculdade"),
+    "no_course_unit_classes": MessageLookupByLibrary.simpleMessage(
+      "Ainda não foram atribuídas turmas a esta unidade curricular",
+    ),
+    "no_course_unit_info": MessageLookupByLibrary.simpleMessage(
+      "Esta unidade curricular ainda não tem informação disponível",
+    ),
     "no_course_units": MessageLookupByLibrary.simpleMessage(
       "Sem cadeiras no período selecionado",
     ),
@@ -414,6 +420,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Docentes Restantes",
     ),
     "remove": MessageLookupByLibrary.simpleMessage("Remover"),
+    "report_bug": MessageLookupByLibrary.simpleMessage("Comunicar um erro"),
     "report_error": MessageLookupByLibrary.simpleMessage("Reportar erro"),
     "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
       "Queres ver os teus restaurantes favoritos na página principal?",
@@ -438,6 +445,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "settings": MessageLookupByLibrary.simpleMessage("Definições"),
     "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
     "some_error": MessageLookupByLibrary.simpleMessage("Algum erro!"),
+    "spotted_an_error": MessageLookupByLibrary.simpleMessage(
+      "Algo não está bem?",
+    ),
     "stcp_stops": MessageLookupByLibrary.simpleMessage(
       "STCP - Próximas Viagens",
     ),
