@@ -1,0 +1,137 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [master, develop]
+
+env:
+  JAVA_VERSION: 21.x
+  WORKING_DIR: packages/uni_app
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  integrity_check:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
+      
+      - name: Validate Version Integrity
+        run: |
+          FILE_PATH="${{ env.WORKING_DIR }}/app_version.txt"
+          git fetch origin ${{ github.base_ref }}
+          if ! git diff --quiet origin/${{ github.base_ref }} -- $FILE_PATH; then
+            echo "Error: Manual changes to $FILE_PATH are not allowed."
+            echo "Versioning is handled automatically by the CD pipeline."
+            exit 1
+          fi
+
+  format:
+    name: Format
+    runs-on: ubuntu-latest
+    needs: integrity_check
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIR }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: ${{ env.WORKING_DIR }}/pubspec.yaml
+          cache: true
+      
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Check Formatting
+        run: |
+          dart format $(find . -type f -name "*.dart" -a -not -name "*.g.dart" -a -not -name "*.mocks.dart") --set-exit-if-changed
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    needs: format
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIR }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'zulu'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: ${{ env.WORKING_DIR }}/pubspec.yaml
+          cache: true
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze .
+
+  test:
+    name: 🧪 Test
+    runs-on: ubuntu-latest
+    needs: lint
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIR }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'zulu'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: ${{ env.WORKING_DIR }}/pubspec.yaml
+          cache: true
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Run Tests
+        run: flutter test --coverage
+
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+
+  label_check:
+    if: github.event_name == 'pull_request' && github.base_ref == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify Release Label
+        run: |
+          labels="${{ join(github.event.pull_request.labels.*.name, ',') }}"
+          count=0
+          if [[ $labels == *"release:major"* ]]; then count=$((count+1)); fi
+          if [[ $labels == *"release:minor"* ]]; then count=$((count+1)); fi
+          if [[ $labels == *"release:patch"* ]]; then count=$((count+1)); fi
+          
+          if [ $count -ne 1 ]; then
+            echo "Error: PR to main must have exactly one label: release:major, release:minor, or release:patch"
+            exit 1
+          fi
