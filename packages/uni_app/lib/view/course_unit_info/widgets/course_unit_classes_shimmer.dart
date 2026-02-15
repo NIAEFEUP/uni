@@ -11,7 +11,7 @@ class ShimmerCourseClasses extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(
-            bottom: 40,
+            bottom: 20,
             top: 10,
             right: 20,
             left: 20,
@@ -51,6 +51,22 @@ class ShimmerCourseClasses extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+        ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+            child: SizedBox(
+              height: 40,
+              width: 150,
+              child: Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                child: GenericSquircle(
+                  child: Container(height: 35, color: Colors.grey),
+                ),
+              ),
+            ),
           ),
         ),
         GridView.count(

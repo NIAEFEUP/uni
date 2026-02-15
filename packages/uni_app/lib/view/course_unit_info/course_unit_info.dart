@@ -150,9 +150,7 @@ class CourseUnitDetailPageViewState
             sheet.books.isEmpty;
 
         if (hasNoInfo) {
-          return const Center(
-            child: NoInfoWidget(),
-          ); // ou o widget que quiseres
+          return const Center(child: NoInfoWidget());
         }
 
         return CourseUnitSheetView(sheet, courseExams);
@@ -191,14 +189,17 @@ class CourseUnitDetailPageViewState
         ref.watch(courseUnitsInfoProvider);
         final provider = ref.read(courseUnitsInfoProvider.notifier);
 
-
         final classes = provider.courseUnitsClasses[widget.courseUnit];
         final sheet = provider.courseUnitsSheets[widget.courseUnit];
         final classProfessors =
             provider.courseUnitsClassProfessors[widget.courseUnit];
 
         if (classes == null) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: ShimmerCourseClasses());
+        }
+
+        if (classProfessors == null) {
+          return const Center(child: ShimmerCourseClasses());
         }
 
         if (classes.isEmpty) {
@@ -212,10 +213,6 @@ class CourseUnitDetailPageViewState
               ),
             ),
           );
-        }
-
-        if (classProfessors == null) {
-          return const Center(child: CircularProgressIndicator());
         }
 
         return CourseUnitClassesView(
