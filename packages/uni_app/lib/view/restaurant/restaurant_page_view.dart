@@ -163,15 +163,14 @@ class _RestaurantPageViewState
         provider: restaurantProvider,
         builder: _createTabViewBuilder,
         nullContentWidget: LayoutBuilder(
-          builder:
-              (context, constraints) => SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Container(
-                  height: constraints.maxHeight,
-                  padding: const EdgeInsets.only(bottom: 120),
-                  child: const Center(child: NoRestaurantsWidget()),
-                ),
-              ),
+          builder: (context, constraints) => SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Container(
+              height: constraints.maxHeight,
+              padding: const EdgeInsets.only(bottom: 120),
+              child: const Center(child: NoRestaurantsWidget()),
+            ),
+          ),
         ),
         hasContent: (restaurants) => restaurants.isNotEmpty,
         loadingWidget: const ShimmerRestaurantPageView(),
