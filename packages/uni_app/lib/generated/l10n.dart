@@ -1542,7 +1542,7 @@ class S {
     );
   }
 
-  /// `Having trouble signing in?`
+  /// `Something not right?`
   String get spotted_an_error {
     return Intl.message(
       'Something not right?',
@@ -1552,7 +1552,7 @@ class S {
     );
   }
 
-  /// `Login with credentials`
+  /// `Report a bug`
   String get report_bug {
     return Intl.message('Report a bug', name: 'report_bug', desc: '', args: []);
   }
@@ -1935,6 +1935,26 @@ class S {
     return Intl.message(
       'Orientation and Integration Office',
       name: 'goi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no restaurants to display`
+  String get no_restaurants_available {
+    return Intl.message(
+      'There are no restaurants to display',
+      name: 'no_restaurants_available',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bring your lunchbox from home.`
+  String get no_restaurants_available_sublabel {
+    return Intl.message(
+      'Bring your lunchbox from home.',
+      name: 'no_restaurants_available_sublabel',
       desc: '',
       args: [],
     );

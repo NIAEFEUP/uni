@@ -365,6 +365,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_references": MessageLookupByLibrary.simpleMessage(
       "Não existem referências a pagar",
     ),
+    "no_restaurants_available": MessageLookupByLibrary.simpleMessage(
+      "Não existem restaurantes para apresentar",
+    ),
+    "no_restaurants_available_sublabel": MessageLookupByLibrary.simpleMessage(
+      "Traz a tua marmita de casa.",
+    ),
     "no_results": MessageLookupByLibrary.simpleMessage("Sem resultados"),
     "no_selected_courses": MessageLookupByLibrary.simpleMessage(
       "Não existem cadeiras para apresentar",
@@ -417,6 +423,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Docentes Restantes",
     ),
     "remove": MessageLookupByLibrary.simpleMessage("Remover"),
+    "report_bug": MessageLookupByLibrary.simpleMessage("Comunicar um erro"),
     "report_error": MessageLookupByLibrary.simpleMessage("Reportar erro"),
     "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
       "Queres ver os teus restaurantes favoritos na página principal?",
@@ -445,6 +452,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "settings": MessageLookupByLibrary.simpleMessage("Definições"),
     "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
     "some_error": MessageLookupByLibrary.simpleMessage("Algum erro!"),
+    "spotted_an_error": MessageLookupByLibrary.simpleMessage(
+      "Algo não está bem?",
+    ),
     "stcp_stops": MessageLookupByLibrary.simpleMessage(
       "STCP - Próximas Viagens",
     ),

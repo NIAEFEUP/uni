@@ -343,6 +343,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_references": MessageLookupByLibrary.simpleMessage(
       "There are no references to pay",
     ),
+    "no_restaurants_available": MessageLookupByLibrary.simpleMessage(
+      "There are no restaurants to display",
+    ),
+    "no_restaurants_available_sublabel": MessageLookupByLibrary.simpleMessage(
+      "Bring your lunchbox from home.",
+    ),
     "no_results": MessageLookupByLibrary.simpleMessage("No match"),
     "no_selected_courses": MessageLookupByLibrary.simpleMessage(
       "There are no course units to display",
@@ -395,6 +401,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Remaining Instructors",
     ),
     "remove": MessageLookupByLibrary.simpleMessage("Delete"),
+    "report_bug": MessageLookupByLibrary.simpleMessage("Report a bug"),
     "report_error": MessageLookupByLibrary.simpleMessage("Report error"),
     "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
       "Do you want to see your favorite restaurants in the main page?",
@@ -421,6 +428,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
     "some_error": MessageLookupByLibrary.simpleMessage("Some error!"),
+    "spotted_an_error": MessageLookupByLibrary.simpleMessage(
+      "Something not right?",
+    ),
     "stcp_stops": MessageLookupByLibrary.simpleMessage("STCP - Upcoming Trips"),
     "student_number": MessageLookupByLibrary.simpleMessage("Student Number"),
     "success": MessageLookupByLibrary.simpleMessage("Sent with success"),
