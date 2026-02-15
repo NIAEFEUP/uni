@@ -41,6 +41,13 @@ class CourseUnitDetailPageViewState
   void initState() {
     super.initState();
     tabController = TabController(vsync: this, length: 3);
+    tabController.addListener(_onTabChanged);
+  }
+
+  void _onTabChanged() {
+    if (tabController.index == 1) {
+      loadClasses(force: false);
+    }
   }
 
   Future<void> loadInfo({required bool force}) async {
@@ -57,17 +64,30 @@ class CourseUnitDetailPageViewState
     if (courseUnitFiles == null || force) {
       await courseUnitsProvider.fetchCourseUnitFiles(widget.courseUnit);
     }
+  }
+
+  Future<void> loadClasses({required bool force}) async {
+    final courseUnitsProvider = ref.read(courseUnitsInfoProvider.notifier);
 
     final courseUnitClasses =
         courseUnitsProvider.courseUnitsClasses[widget.courseUnit];
     if (courseUnitClasses == null || force) {
       await courseUnitsProvider.fetchCourseUnitClasses(widget.courseUnit);
     }
+
+    final courseUnitClassProfessors =
+        courseUnitsProvider.courseUnitsClassProfessors[widget.courseUnit];
+    if (courseUnitClassProfessors == null || force) {
+      await courseUnitsProvider.fetchClassProfessors(widget.courseUnit);
+    }
   }
 
   @override
   Future<void> onRefresh() async {
     await loadInfo(force: true);
+    if (tabController.index == 1) {
+      await loadClasses(force: true);
+    }
   }
 
   @override
@@ -166,28 +186,46 @@ class CourseUnitDetailPageViewState
   }
 
   Widget _courseUnitClassesView(BuildContext context) {
-    final classes = ref
-        .read(courseUnitsInfoProvider.notifier)
-        .courseUnitsClasses[widget.courseUnit];
+    return Consumer(
+      builder: (context, ref, _) {
+        ref.watch(courseUnitsInfoProvider);
+        final provider = ref.read(courseUnitsInfoProvider.notifier);
 
-    if (classes == null) {
-      return const ShimmerCourseClasses();
-    }
 
-    if (classes.isEmpty) {
-      return LayoutBuilder(
-        builder: (context, constraints) => SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Container(
-            height: constraints.maxHeight,
-            padding: const EdgeInsets.only(bottom: 120),
-            child: const Center(child: NoClassWidget()),
-          ),
-        ),
-      );
-    }
+        final classes = provider.courseUnitsClasses[widget.courseUnit];
+        final sheet = provider.courseUnitsSheets[widget.courseUnit];
+        final classProfessors =
+            provider.courseUnitsClassProfessors[widget.courseUnit];
 
-    return CourseUnitClassesView(classes);
+        if (classes == null) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (classes.isEmpty) {
+          return LayoutBuilder(
+            builder: (context, constraints) => SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Container(
+                height: constraints.maxHeight,
+                padding: const EdgeInsets.only(bottom: 120),
+                child: const Center(child: NoClassWidget()),
+              ),
+            ),
+          );
+        }
+
+        if (classProfessors == null) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return CourseUnitClassesView(
+          classes,
+          sheet?.professors ?? [],
+          widget.courseUnit,
+          classProfessors: classProfessors,
+        );
+      },
+    );
   }
 
   @override

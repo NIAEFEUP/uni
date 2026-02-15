@@ -4,6 +4,24 @@ import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni_ui/icons.dart';
 
 class RestaurantUtils {
+  // Hour after which to show tomorrow's lunch menu
+  static const int lunchSwitchHour = 15;
+  // Hour after which to show tomorrow's dinner menu
+  static const int dinnerSwitchHour = 21;
+
+  /// Determines if tomorrow's menu should be shown based on current time
+  /// and meal period (lunch or dinner)
+  /// Returns true if:
+  /// - It's after the respective switch hour (15:00 for lunch, 21:00 for dinner)
+  /// - It's not Sunday (to avoid showing Monday's menu)
+  /// For lunch: switches after 15:00 (3pm)
+  /// For dinner: switches after 21:00 (9pm)
+  /// If no period is specified, uses dinner switch hour (21:00)
+  static bool shouldShowTomorrowMenu(DateTime now, {String? period}) {
+    final switchHour = period == 'lunch' ? lunchSwitchHour : dinnerSwitchHour;
+    return now.hour >= switchHour && now.weekday != DateTime.sunday;
+  }
+
   // Method to get a restaurant related UniIcon based on a specific type
   static UniIcon getIcon(String? type, {double size = 24, Color? color}) {
     switch (type) {

@@ -5,14 +5,14 @@ description: A UP no teu bolso.
 # To change it manually, override the value in app_version.txt.
 # The app version code is automatically also bumped by CI.
 # Do not change it manually.
-version: 2.2.0-beta.42+451
+version: 2.2.0-beta.48+457
 
 publish_to: "none" # We do not publish to pub.dev
 resolution: workspace
 
 environment:
   sdk: ">=3.10.0 <4.0.0"
-  flutter: 3.38.9
+  flutter: 3.41.1
 
 dependencies:
   add_2_calendar_new: ^1.0.4
