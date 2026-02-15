@@ -1945,11 +1945,6 @@ class S {
     return Intl.message(
       'No classes have been assigned to this course unit yet',
       name: 'no_course_unit_classes',
-  /// `There are no restaurants to display`
-  String get no_restaurants_available {
-    return Intl.message(
-      'There are no restaurants to display',
-      name: 'no_restaurants_available',
       desc: '',
       args: [],
     );
@@ -1960,6 +1955,21 @@ class S {
     return Intl.message(
       'This course unit has no information available yet',
       name: 'no_course_unit_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no restaurants to display`
+  String get no_restaurants_available {
+    return Intl.message(
+      'There are no restaurants to display',
+      name: 'no_restaurants_available',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Bring your lunchbox from home.`
   String get no_restaurants_available_sublabel {
     return Intl.message(
