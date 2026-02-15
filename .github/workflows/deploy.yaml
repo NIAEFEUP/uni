@@ -1,181 +1,136 @@
+name: Deploy
+
 on:
-  push:
-    branches: [master, develop]
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      lane:
+        required: true
+        type: string
+    secrets:
+      NIAEFEUPBOT_PAT:
+        required: true
+      
+      IOS_P12_BASE64:
+        required: true
+      IOS_P12_PASSWORD:
+        required: true
+      IOS_PROVISIONING_PROFILE_BASE64:
+        required: true
+      IOS_BUNDLE_ID:
+        required: true
+      APP_STORE_CONNECT_API_KEY_KEY_ID:
+        required: true
+      APP_STORE_CONNECT_API_KEY_ISSUER_ID:
+        required: true
+      APP_STORE_CONNECT_API_KEY_CONTENT:
+        required: true
+      
+      GOOGLE_SERVICE_ACCOUNT_JSON:
+        required: true
+      ANDROID_KEYSTORE_BASE64: 
+        required: true
+      ANDROID_KEYSTORE_PASSWORD:
+        required: true
+      ANDROID_KEY_ALIAS:
+        required: true
+      ANDROID_KEY_PASSWORD:
+        required: true
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-
-name: Deploy Action
 jobs:
-  build:
-    permissions:
-      actions: "write"
-    name: "Bump version and Build App Bundle"
-    runs-on: ubuntu-latest
-    environment:
-      name: ${{ github.ref_name }}
-    env:
-      PROPERTIES_PATH: android/key.properties
-      JAVA_VERSION: 21.x
-      APP_VERSION_PATH: app_version.txt
-      PUBSPEC_PATH: pubspec.yaml
+  deploy:
+    name: Deploy to ${{ inputs.lane }}
+    runs-on: macos-latest
+    environment: ${{ inputs.environment }}
+    timeout-minutes: 45
     defaults:
       run:
         working-directory: ./packages/uni_app
+
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v3
         with:
-          token: ${{ secrets.NIAEFEUPBOT_PAT }}
-          fetch-depth: 0
-
-      - name: Get develop hash
-        if: github.ref == 'refs/heads/master'
-        # We get the master hash by assuming that the last commit is always a
-        #  merge commit. This is assured by requiring pull requests. You should NOT
-        #  use rebase or squash merges onto the master branch.
-        run: |
-          git fetch origin develop
-          git pull origin master
-          echo "DEVELOP_HASH=$(git rev-parse origin/develop)" >> $GITHUB_ENV
-          echo "MASTER_HASH=$(git rev-parse origin/master^2)" >> $GITHUB_ENV
-
-      - name: Get latest version (develop)
-        if: github.ref != 'refs/heads/master'
-        uses: LuisDuarte1/google-play-latest-version-code@v0.2.1
-        id: latest-beta-version
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'
+      
+      - uses: subosito/flutter-action@v2
         with:
-          google_service_account_json: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-          package_name: ${{ secrets.ANDROID_PACKAGE_NAME }}
-          track: "beta"
-
-      - name: Get latest production version
-        uses: LuisDuarte1/google-play-latest-version-code@v0.2.1
-        id: latest-production-version
-        with:
-          google_service_account_json: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-          package_name: ${{ secrets.ANDROID_PACKAGE_NAME }}
-          track: "production"
-
-      - name: Bump beta version
-        uses: LuisDuarte1/semver-bump-environment@v1.0.0
-        if: github.ref != 'refs/heads/master'
-        id: bump-beta-version
-        with:
-          current_environment: staging
-          production_version: ${{ steps.latest-production-version.outputs.latest_version_name }}
-          staging_version: ${{ steps.latest-beta-version.outputs.latest_version_name }}
-          bump_type: prerelease
-
-      - name: Bump prod version (from develop)
-        uses: LuisDuarte1/semver-bump-environment@v1.0.0
-        if: github.ref == 'refs/heads/master' && env.MASTER_HASH == env.DEVELOP_HASH
-        id: bump-prod-major-version
-        with:
-          current_environment: production
-          production_version: ${{ steps.latest-production-version.outputs.latest_version_name }}
-          bump_type: minor
-
-      - name: Bump prod version (patch)
-        uses: LuisDuarte1/semver-bump-environment@v1.0.0
-        if: github.ref == 'refs/heads/master' && env.MASTER_HASH != env.DEVELOP_HASH
-        id: bump-prod-patch-version
-        with:
-          current_environment: production
-          production_version: ${{ steps.latest-production-version.outputs.latest_version_name }}
-          bump_type: patch
-
-      - name: Combine output and write new version into file
-        run: |
-          export NEW_VERSION_NAME=${{ 
-            (steps.bump-beta-version.outcome == 'success' && steps.bump-beta-version.outputs.new_version) ||
-            (steps.bump-prod-minor-version.outcome == 'success' && steps.bump-prod-minor-version.outputs.new_version) ||
-            (steps.bump-prod-patch-version.outcome == 'success' && steps.bump-prod-patch-version.outputs.new_version) ||
-            (steps.bump-prod-major-version.outcome == 'success' && steps.bump-prod-major-version.outputs.new_version)
-          }}
-          echo "$NEW_VERSION_NAME+$((${{steps.latest-production-version.outputs.latest_version_code}} + 1))" > ${{env.APP_VERSION_PATH}}
-
-      - name: Copy app version to pubspec
-        run: cat ${{ env.APP_VERSION_PATH }} | tr -d '\n' | perl -i -pe 's/^(version:\s+)(.+)$/$1.(<STDIN>)/e' ${{ env.PUBSPEC_PATH }}
-
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "Bump app version [no ci]"
-
-      - uses: actions/setup-java@v4
-        with:
-          java-version: ${{env.JAVA_VERSION}}
-          distribution: "zulu"
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          flutter-version-file: packages/uni_app/pubspec.yaml
+          channel: 'stable'
           cache: true
+          
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: ./packages/uni_app
 
-      - name: Download Android keystore
-        run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > /tmp/key.jks
+      - name: Dependencies
+        run: flutter pub get
 
-      - name: Create key.properties
+      - name: Cache iOS Pods
+        uses: actions/cache@v3
+        with:
+          path: packages/uni_app/ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('packages/uni_app/ios/Podfile.lock') }}
+          restore-keys: ${{ runner.os }}-pods-
+      
+      - name: Setup Android Signing
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: |
-          rm -f -- ${{env.PROPERTIES_PATH}}
-          touch ${{env.PROPERTIES_PATH}}
-          echo "storeFile=/tmp/key.jks" >> ${{env.PROPERTIES_PATH}}
-          echo "storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> ${{env.PROPERTIES_PATH}}
-          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> ${{env.PROPERTIES_PATH}}
-          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> ${{env.PROPERTIES_PATH}}
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
+        
+          echo "storePassword=$ANDROID_KEYSTORE_PASSWORD" > android/key.properties
+          echo "keyPassword=$ANDROID_KEY_PASSWORD" >> android/key.properties
+          echo "keyAlias=$ANDROID_KEY_ALIAS" >> android/key.properties
+          echo "storeFile=upload-keystore.jks" >> android/key.properties
+        
+          echo "$GOOGLE_SERVICE_ACCOUNT_JSON" > android/fastlane/api.json
 
-      - name: Create .env file
-        run: echo "${{vars.UNI_ENV_FILE}}" > ./assets/env/.env
-
-      - name: Build Android App Bundle
+      - name: Setup iOS Signing
+        env:
+          P12_BASE64: ${{ secrets.IOS_P12_BASE64 }}
+          PROFILE_BASE64: ${{ secrets.IOS_PROVISIONING_PROFILE_BASE64 }}
         run: |
-          flutter pub get
-          flutter build appbundle
-
-      - name: Upload App Bundle
-        uses: actions/upload-artifact@v4
-        with:
-          name: appbundle
-          if-no-files-found: error
-          path: packages/uni_app/build/app/outputs/bundle/release/app-release.aab
-
-  deploy_play_store:
-    name: "Deploy to Google Play Store"
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v4
-      - name: Get App Bundle
-        uses: actions/download-artifact@v4
-        with:
-          name: appbundle
-
-      - name: Release app to beta track
-        if: github.ref == 'refs/heads/develop'
-        uses: r0adkll/upload-google-play@v1
-        with:
-          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-          packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
-          releaseFiles: app-release.aab
-          whatsNewDirectory: whatsnew
-          track: beta
-          status: completed
-
-      - name: Release app to production track
-        if: github.ref == 'refs/heads/master'
-        uses: r0adkll/upload-google-play@v1
-        with:
-          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-          packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
-          releaseFiles: app-release.aab
-          whatsNewDirectory: whatsnew
-          track: production
-          status: completed
-
-      - name: Propagate version to develop
-        if: github.ref == 'refs/heads/master'
+          mkdir -p ios/certs
+          echo "$P12_BASE64" | base64 --decode > ios/certs/distribution.p12
+          echo "$PROFILE_BASE64" | base64 --decode > ios/certs/app.mobileprovision
+      
+      - name: Deploy
+        env:
+          IOS_P12_PATH: "certs/distribution.p12"
+          IOS_P12_PASSWORD: ${{ secrets.IOS_P12_PASSWORD }}
+          IOS_PROFILE_PATH: "certs/app.mobileprovision"
+          APP_BUNDLE_ID: ${{ secrets.IOS_BUNDLE_ID }}
+          
+          ASC_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
+          ASC_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
         run: |
-          echo '${{ secrets.NIAEFEUPBOT_PAT }}' | gh auth login --with-token
-          gh workflow run 'Deploy Action' --ref develop
+          cd android
+          bundle exec fastlane ${{ inputs.lane }} &
+          PID_ANDROID=$!
+
+          cd ../ios
+          bundle exec fastlane ${{ inputs.lane }} &
+          PID_IOS=$!
+          
+          wait $PID_ANDROID
+          ANDROID_STATUS=$?
+
+          wait $PID_IOS
+          IOS_STATUS=$?
+
+          if [ $ANDROID_STATUS -ne 0 ] || [ $IOS_STATUS -ne 0 ]; then
+            echo "One or more deployments failed."
+            exit 1
+          fi

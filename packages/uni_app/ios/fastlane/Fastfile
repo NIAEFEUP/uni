@@ -1,0 +1,76 @@
+default_platform(:ios)
+
+platform :ios do
+  before_all do
+    if is_ci
+      setup_manual_signing
+    end
+  end
+
+  desc "Setup Manual Signing (CI Only)"
+  lane :setup_manual_signing do
+    create_keychain(
+      name: "ci_keychain",
+      password: "temp_password",
+      default_keychain: true,
+      unlock: true,
+      timeout: 3600,
+      lock_when_sleeps: false
+    )
+
+    import_certificate(
+      certificate_path: ENV["IOS_P12_PATH"],
+      certificate_password: ENV["IOS_P12_PASSWORD"],
+      keychain_name: "ci_keychain",
+      keychain_password: "temp_password"
+    )
+
+    install_provisioning_profile(
+      profile_path: ENV["IOS_PROFILE_PATH"]
+    )
+
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      targets: ["Runner"],
+      path: "Runner.xcodeproj",
+      bundle_identifier: ENV["APP_BUNDLE_ID"],
+      profile_name: "AppStore Profile",
+      code_sign_identity: "Apple Distribution"
+    )
+  end
+
+  desc "Beta Deployment (TestFlight)"
+  lane :beta do
+
+    build_app(
+      workspace: "Runner.xcworkspace",
+      scheme: "Runner",
+      export_method: "app-store",
+      clean: true
+    )
+    
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true,
+      skip_submission: true
+    )
+  end
+
+  desc "Production Deployment (App Store)"
+  lane :production do
+    
+    build_app(
+      workspace: "Runner.xcworkspace",
+      scheme: "Runner",
+      export_method: "app-store",
+      clean: true
+    )
+    
+    upload_to_app_store(
+      force: true,
+      submit_for_review: false,
+      reject_if_possible: true,
+      skip_metadata: false,
+      skip_screenshots: false
+    )
+  end
+end

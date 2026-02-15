@@ -1,0 +1,89 @@
+name: Production
+
+on:
+  pull_request:
+    branches: [ master ]
+    types: [closed]
+
+concurrency:
+  group: production-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    name: Bump Version
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+          token: ${{ secrets.NIAEFEUPBOT_PAT }}
+
+      - name: Determine Release Type
+        id: type
+        run: |
+          labels="${{ join(github.event.pull_request.labels.*.name, ',') }}"
+          if [[ $labels == *"release:major"* ]]; then echo "level=major" >> $GITHUB_OUTPUT; fi
+          if [[ $labels == *"release:minor"* ]]; then echo "level=minor" >> $GITHUB_OUTPUT; fi
+          if [[ $labels == *"release:patch"* ]]; then echo "level=patch" >> $GITHUB_OUTPUT; fi
+
+      - name: Bump Version
+        id: bump
+        run: ./scripts/bump_version.sh packages/uni_app production ${{ steps.type.outputs.level }}
+
+      - name: Commit & Push
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore(release): ${{ steps.bump.outputs.NEW_VERSION }} [skip ci]"
+          branch: master
+          tagging_message: "v${{ steps.bump.outputs.NEW_VERSION }}"
+          file_pattern: 'packages/uni_app/app_version.txt packages/uni_app/pubspec.yaml'
+
+
+  deploy_prod:
+    name: Deploy to Production
+    needs: bump
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: production
+      lane: production
+    secrets: inherit
+
+  sync_develop:
+    name: Sync develop with master
+    needs: deploy_prod
+    runs-on: ubuntu-latest
+    concurrency:
+      group: production-sync-${{ github.ref }}
+      cancel-in-progress: true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Rebase develop onto master
+        run: |
+          set -euo pipefail
+
+          git fetch origin
+
+          git checkout develop
+          git reset --hard origin/develop
+
+          git rebase origin/master || {
+            echo "Rebase conflict detected!"
+            echo "Manual resolution required."
+            exit 1
+          }
+
+          git push --force-with-lease origin develop
+
+          echo "✅ Develop successfully rebased onto master"

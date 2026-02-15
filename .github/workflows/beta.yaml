@@ -1,0 +1,40 @@
+name: Beta
+
+on:
+  push:
+    branches: [ develop ]
+
+concurrency:
+  group: beta
+  cancel-in-progress: false 
+
+jobs:
+  bump:
+    name: Bump Version
+    runs-on: ubuntu-latest
+    outputs:
+      new_version: ${{ steps.bump.outputs.NEW_VERSION }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.NIAEFEUPBOT_PAT }}
+
+      - name: Bump Version
+        id: bump
+        run: ./scripts/bump_version.sh packages/uni_app develop
+
+      - name: Commit & Push
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore: bump build number to ${{ steps.bump.outputs.NEW_VERSION }} [skip ci]"
+          branch: develop
+          file_pattern: 'packages/uni_app/app_version.txt packages/uni_app/pubspec.yaml'
+
+  deploy_beta:
+    name: Deploy to Beta
+    needs: bump
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: staging
+      lane: beta
+    secrets: inherit
