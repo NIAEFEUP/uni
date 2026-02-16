@@ -477,7 +477,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(8, 5892835885906588151),
     name: 'Profile',
-    lastPropertyId: const obx_int.IdUid(6, 3994951413998147073),
+    lastPropertyId: const obx_int.IdUid(18, 3983698172071069857),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -514,6 +514,78 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(6, 3994951413998147073),
         name: 'feesLimit',
         type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 12182137318775842),
+        name: 'emailAlt',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 1421537906275305620),
+        name: 'phoneNumber',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(9, 6423292108032262778),
+        name: 'sex',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(10, 6646515307716265732),
+        name: 'birthDate',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(11, 888168993804964543),
+        name: 'maritalStatus',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(12, 6065288717015181866),
+        name: 'fatherName',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(13, 6872380155823434809),
+        name: 'motherName',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(14, 1839568603264181743),
+        name: 'nationalities',
+        type: 30,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(15, 4110830964222386163),
+        name: 'taxNumber',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(16, 7304294610429440851),
+        name: 'citizensCard',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(17, 8453357744454009365),
+        name: 'socialSecurity',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(18, 3983698172071069857),
+        name: 'addresses',
+        type: 30,
         flags: 0,
       ),
     ],
@@ -1349,13 +1421,41 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final emailOffset = fbb.writeString(object.email);
         final printBalanceOffset = fbb.writeString(object.printBalance);
         final feesBalanceOffset = fbb.writeString(object.feesBalance);
-        fbb.startTable(7);
+        final emailAltOffset = fbb.writeString(object.emailAlt);
+        final phoneNumberOffset = fbb.writeString(object.phoneNumber);
+        final sexOffset = fbb.writeString(object.sex);
+        final birthDateOffset = fbb.writeString(object.birthDate);
+        final maritalStatusOffset = fbb.writeString(object.maritalStatus);
+        final fatherNameOffset = fbb.writeString(object.fatherName);
+        final motherNameOffset = fbb.writeString(object.motherName);
+        final nationalitiesOffset = fbb.writeList(
+          object.nationalities.map(fbb.writeString).toList(growable: false),
+        );
+        final taxNumberOffset = fbb.writeString(object.taxNumber);
+        final citizensCardOffset = fbb.writeString(object.citizensCard);
+        final socialSecurityOffset = fbb.writeString(object.socialSecurity);
+        final addressesOffset = fbb.writeList(
+          object.addresses.map(fbb.writeString).toList(growable: false),
+        );
+        fbb.startTable(19);
         fbb.addInt64(0, object.id ?? 0);
         fbb.addOffset(1, nameOffset);
         fbb.addOffset(2, emailOffset);
         fbb.addOffset(3, printBalanceOffset);
         fbb.addOffset(4, feesBalanceOffset);
         fbb.addInt64(5, object.feesLimit?.millisecondsSinceEpoch);
+        fbb.addOffset(6, emailAltOffset);
+        fbb.addOffset(7, phoneNumberOffset);
+        fbb.addOffset(8, sexOffset);
+        fbb.addOffset(9, birthDateOffset);
+        fbb.addOffset(10, maritalStatusOffset);
+        fbb.addOffset(11, fatherNameOffset);
+        fbb.addOffset(12, motherNameOffset);
+        fbb.addOffset(13, nationalitiesOffset);
+        fbb.addOffset(14, taxNumberOffset);
+        fbb.addOffset(15, citizensCardOffset);
+        fbb.addOffset(16, socialSecurityOffset);
+        fbb.addOffset(17, addressesOffset);
         fbb.finish(fbb.endTable());
         return object.id ?? 0;
       },
@@ -1373,6 +1473,44 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final emailParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 8, '');
+        final emailAltParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 16, '');
+        final phoneNumberParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 18, '');
+        final birthDateParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 22, '');
+        final sexParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 20, '');
+        final maritalStatusParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 24, '');
+        final fatherNameParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 26, '');
+        final motherNameParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 28, '');
+        final nationalitiesParam = const fb.ListReader<String>(
+          fb.StringReader(asciiOptimization: true),
+          lazy: false,
+        ).vTableGet(buffer, rootOffset, 30, []);
+        final taxNumberParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 32, '');
+        final citizensCardParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 34, '');
+        final socialSecurityParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 36, '');
+        final addressesParam = const fb.ListReader<String>(
+          fb.StringReader(asciiOptimization: true),
+          lazy: false,
+        ).vTableGet(buffer, rootOffset, 38, []);
         final printBalanceParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 10, '');
@@ -1385,6 +1523,18 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final object = Profile(
           name: nameParam,
           email: emailParam,
+          emailAlt: emailAltParam,
+          phoneNumber: phoneNumberParam,
+          birthDate: birthDateParam,
+          sex: sexParam,
+          maritalStatus: maritalStatusParam,
+          fatherName: fatherNameParam,
+          motherName: motherNameParam,
+          nationalities: nationalitiesParam,
+          taxNumber: taxNumberParam,
+          citizensCard: citizensCardParam,
+          socialSecurity: socialSecurityParam,
+          addresses: addressesParam,
           printBalance: printBalanceParam,
           feesBalance: feesBalanceParam,
           feesLimit: feesLimitParam,
@@ -1972,6 +2122,66 @@ class Profile_ {
   /// See [Profile.feesLimit].
   static final feesLimit = obx.QueryDateProperty<Profile>(
     _entities[7].properties[5],
+  );
+
+  /// See [Profile.emailAlt].
+  static final emailAlt = obx.QueryStringProperty<Profile>(
+    _entities[7].properties[6],
+  );
+
+  /// See [Profile.phoneNumber].
+  static final phoneNumber = obx.QueryStringProperty<Profile>(
+    _entities[7].properties[7],
+  );
+
+  /// See [Profile.sex].
+  static final sex = obx.QueryStringProperty<Profile>(
+    _entities[7].properties[8],
+  );
+
+  /// See [Profile.birthDate].
+  static final birthDate = obx.QueryStringProperty<Profile>(
+    _entities[7].properties[9],
+  );
+
+  /// See [Profile.maritalStatus].
+  static final maritalStatus = obx.QueryStringProperty<Profile>(
+    _entities[7].properties[10],
+  );
+
+  /// See [Profile.fatherName].
+  static final fatherName = obx.QueryStringProperty<Profile>(
+    _entities[7].properties[11],
+  );
+
+  /// See [Profile.motherName].
+  static final motherName = obx.QueryStringProperty<Profile>(
+    _entities[7].properties[12],
+  );
+
+  /// See [Profile.nationalities].
+  static final nationalities = obx.QueryStringVectorProperty<Profile>(
+    _entities[7].properties[13],
+  );
+
+  /// See [Profile.taxNumber].
+  static final taxNumber = obx.QueryStringProperty<Profile>(
+    _entities[7].properties[14],
+  );
+
+  /// See [Profile.citizensCard].
+  static final citizensCard = obx.QueryStringProperty<Profile>(
+    _entities[7].properties[15],
+  );
+
+  /// See [Profile.socialSecurity].
+  static final socialSecurity = obx.QueryStringProperty<Profile>(
+    _entities[7].properties[16],
+  );
+
+  /// See [Profile.addresses].
+  static final addresses = obx.QueryStringVectorProperty<Profile>(
+    _entities[7].properties[17],
   );
 }
 

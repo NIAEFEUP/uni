@@ -381,7 +381,7 @@
     },
     {
       "id": "8:5892835885906588151",
-      "lastPropertyId": "6:3994951413998147073",
+      "lastPropertyId": "18:3983698172071069857",
       "name": "Profile",
       "properties": [
         {
@@ -414,6 +414,66 @@
           "id": "6:3994951413998147073",
           "name": "feesLimit",
           "type": 10
+        },
+        {
+          "id": "7:12182137318775842",
+          "name": "emailAlt",
+          "type": 9
+        },
+        {
+          "id": "8:1421537906275305620",
+          "name": "phoneNumber",
+          "type": 9
+        },
+        {
+          "id": "9:6423292108032262778",
+          "name": "sex",
+          "type": 9
+        },
+        {
+          "id": "10:6646515307716265732",
+          "name": "birthDate",
+          "type": 9
+        },
+        {
+          "id": "11:888168993804964543",
+          "name": "maritalStatus",
+          "type": 9
+        },
+        {
+          "id": "12:6065288717015181866",
+          "name": "fatherName",
+          "type": 9
+        },
+        {
+          "id": "13:6872380155823434809",
+          "name": "motherName",
+          "type": 9
+        },
+        {
+          "id": "14:1839568603264181743",
+          "name": "nationalities",
+          "type": 30
+        },
+        {
+          "id": "15:4110830964222386163",
+          "name": "taxNumber",
+          "type": 9
+        },
+        {
+          "id": "16:7304294610429440851",
+          "name": "citizensCard",
+          "type": 9
+        },
+        {
+          "id": "17:8453357744454009365",
+          "name": "socialSecurity",
+          "type": 9
+        },
+        {
+          "id": "18:3983698172071069857",
+          "name": "addresses",
+          "type": 30
         }
       ],
       "relations": []

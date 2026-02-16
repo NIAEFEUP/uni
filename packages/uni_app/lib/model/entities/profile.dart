@@ -56,15 +56,15 @@ class Profile {
   final String email;
   final String emailAlt;
   final String phoneNumber;
-  final String sex;
-  final String birthDate;
-  final String maritalStatus;
-  final String fatherName;
-  final String motherName;
+  String sex;
+  String birthDate;
+  String maritalStatus;
+  String fatherName;
+  String motherName;
   List<String> nationalities;
-  final String taxNumber;
-  final String citizensCard;
-  final String socialSecurity;
+  String taxNumber;
+  String citizensCard;
+  String socialSecurity;
   List<String> addresses;
   String printBalance;
   String feesBalance;
@@ -82,6 +82,14 @@ class Profile {
       ('email', email),
       ('emailAlt', emailAlt),
       ('phoneNumber', phoneNumber),
+      ('sex', sex),
+      ('birthDate', birthDate),
+      ('maritalStatus', maritalStatus),
+      ('fatherName', fatherName),
+      ('motherName', motherName),
+      ('taxNumber', taxNumber),
+      ('citizensCard', citizensCard),
+      ('socialSecurity', socialSecurity),
       ('printBalance', printBalance),
       ('feesBalance', feesBalance),
       ('feesLimit', feesLimit != null ? feesLimit!.toIso8601String() : ''),
