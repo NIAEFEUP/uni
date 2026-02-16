@@ -2,10 +2,9 @@ import 'package:uni/controller/fetchers/courses_fetcher.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_courses.dart';
+import 'package:uni/controller/parsers/parser_profile_info.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/session/flows/base/session.dart';
-
-import 'package:uni/controller/parsers/parser_profile_info.dart';
 
 class ProfileFetcher implements SessionDependantFetcher {
   @override
