@@ -25,6 +25,7 @@ import 'package:uni/view/home/widgets/restaurants/restaurant_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/schedule_home_card.dart';
 import 'package:uni/view/home/widgets/tracking_banner.dart';
 import 'package:uni/view/home/widgets/uni_logo.dart';
+import 'package:uni/view/widgets/general_error_view.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
@@ -151,8 +152,17 @@ class HomePageViewState extends ConsumerState<HomePageView> {
   PreferredSize homeAppBar(BuildContext context) {
     final now = DateTime.now();
     final week = Week(start: now);
+    final lectureState = ref.watch(lectureProvider);
+
+    final double appBarHeight = lectureState.when(
+      data: (lectures) =>
+          (lectures != null && lectures.isNotEmpty) ? 200.0 : 150.0,
+      error: (_, _) => 200.0,
+      loading: () => 150.0,
+    );
+
     return PreferredSize(
-      preferredSize: Size.fromHeight(appBarSize),
+      preferredSize: Size.fromHeight(appBarHeight),
       child: Container(
         decoration: const BoxDecoration(
           gradient: RadialGradient(
@@ -183,19 +193,15 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                     ],
                   ),
                 ),
-                DefaultConsumer<List<Lecture>>(
-                  provider: lectureProvider,
-                  builder: (context, ref, lectures) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      if (lectures.isNotEmpty && appBarSize != 200) {
-                        setState(() {
-                          appBarSize = 200;
-                        });
-                      }
-                    });
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 25),
-                      child: ScheduleCard(
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 25),
+                  child: DefaultConsumer<List<Lecture>>(
+                    provider: lectureProvider,
+                    errorWidget: const GeneralErrorView(
+                      textColor: Colors.white,
+                    ),
+                    builder: (context, ref, lectures) {
+                      return ScheduleCard(
                         name: lectures[0].subject,
                         acronym: lectures[0].acronym,
                         room: lectures[0].room,
@@ -218,19 +224,19 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                             );
                           }
                         },
-                      ),
-                    );
-                  },
-                  hasContent: (lectures) => lectures
-                      .where((lecture) => week.contains(lecture.startTime))
-                      .isNotEmpty,
-                  nullContentWidget: const SizedBox.shrink(),
-                  mapper: (lectures) => lectures
-                      .where(
-                        (lecture) => lecture.endTime.isAfter(DateTime.now()),
-                      )
-                      .toList(),
-                  loadingWidget: Container(),
+                      );
+                    },
+                    hasContent: (lectures) => lectures
+                        .where((lecture) => week.contains(lecture.startTime))
+                        .isNotEmpty,
+                    nullContentWidget: const SizedBox.shrink(),
+                    mapper: (lectures) => lectures
+                        .where(
+                          (lecture) => lecture.endTime.isAfter(DateTime.now()),
+                        )
+                        .toList(),
+                    loadingWidget: Container(),
+                  ),
                 ),
               ],
             ),
