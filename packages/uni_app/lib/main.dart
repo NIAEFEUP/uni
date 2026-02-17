@@ -34,6 +34,7 @@ import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/login/login.dart';
 import 'package:uni/view/map/map.dart';
 import 'package:uni/view/profile/profile.dart';
+import 'package:uni/view/profile_info/profile_info.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/widgets/page_transition.dart';
@@ -248,6 +249,11 @@ class ApplicationState extends ConsumerState<Application> {
                 '/${NavigationItem.navCourseUnit.route}': () =>
                     PageTransition.makePageTransition(
                       page: CourseUnitDetailPageView(courseUnit!),
+                      settings: settings,
+                    ),
+                '/${NavigationItem.navProfileInfo.route}': () =>
+                    PageTransition.makePageTransition(
+                      page: const ProfileInfoPageView(),
                       settings: settings,
                     ),
               };

@@ -38,7 +38,7 @@ class Settings extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  '/${NavigationItem.navBugreport.route}',
+                  '/${NavigationItem.navProfileInfo.route}',
                 );
               },
             ),

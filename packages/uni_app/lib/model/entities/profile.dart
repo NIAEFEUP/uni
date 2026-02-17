@@ -23,13 +23,15 @@ class Profile {
     this.taxNumber = '',
     this.citizensCard = '',
     this.socialSecurity = '',
-    List<String>? addresses,
+    List<String>? officialAddresses,
+    List<String>? addressesInClassesTime,
     this.printBalance = '',
     this.feesBalance = '',
     this.feesLimit,
   }) : courses = courses ?? [],
        nationalities = nationalities ?? [],
-       addresses = addresses ?? [],
+       officialAddresses = officialAddresses ?? [],
+       addressesInClassesTime = addressesInClassesTime ?? [],
        courseUnits = [];
 
   /// Creates a new instance from a JSON object.
@@ -65,7 +67,8 @@ class Profile {
   String taxNumber;
   String citizensCard;
   String socialSecurity;
-  List<String> addresses;
+  List<String> officialAddresses;
+  List<String> addressesInClassesTime;
   String printBalance;
   String feesBalance;
   DateTime? feesLimit;

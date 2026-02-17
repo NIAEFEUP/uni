@@ -57,8 +57,16 @@ class ProfileFetcher implements SessionDependantFetcher {
       'pv_num_unico': session.username,
       'pv_dummy': dummy}, session);
 
-    final profileInfo = parseProfileDetails(responseProfileInfo);
+
+    final profileInfoAndPrefixes = parseProfileDetails(responseProfileInfo);
+    final profileInfo = profileInfoAndPrefixes[0];
     final emailAltPosition = profileInfo.indexOf(profile.emailAlt);
+    final addresses = profileInfo.sublist(emailAltPosition + 1);
+    final types = profileInfoAndPrefixes[1].sublist(emailAltPosition + 1);
+    final addressesAndTypes = List.generate(addresses.length, (i) => [addresses[i], types[i]]);
+    final officialAddresses = addressesAndTypes.where((address) => address.length > 1 && address[1].contains('Residência Oficial')).map((address) => address[0]).toList();
+    final addressesInClassesTime = addressesAndTypes.where((address) => address.length > 1 && address[1].contains('Residência em tempo de aulas')).map((address) => address[0]).toList();
+
     profile
       ..sex = profileInfo[1]
       ..birthDate = profileInfo[2]
@@ -69,7 +77,8 @@ class ProfileFetcher implements SessionDependantFetcher {
       ..taxNumber = profileInfo[emailAltPosition - 4]
       ..citizensCard = profileInfo[emailAltPosition - 3]
       ..socialSecurity = profileInfo[emailAltPosition - 2]
-      ..addresses = profileInfo.sublist(emailAltPosition + 1);
+      ..officialAddresses = officialAddresses
+      ..addressesInClassesTime = addressesInClassesTime;
 
 
     return profile;
