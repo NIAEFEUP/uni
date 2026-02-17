@@ -466,4 +466,8 @@
   "@goi": {},
   "unable_to_load_data" : "Não foi possível carregar dados",
   "@unable_to_load_data": {}
+  "no_restaurants_available": "Não existem restaurantes para apresentar",
+  "@no_restaurants_available": {},
+  "no_restaurants_available_sublabel": "Traz a tua marmita de casa.",
+  "@no_restaurants_available_sublabel": {}
 }

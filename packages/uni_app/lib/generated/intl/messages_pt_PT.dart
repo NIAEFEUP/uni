@@ -368,6 +368,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_references": MessageLookupByLibrary.simpleMessage(
       "Não existem referências a pagar",
     ),
+    "no_restaurants_available": MessageLookupByLibrary.simpleMessage(
+      "Não existem restaurantes para apresentar",
+    ),
+    "no_restaurants_available_sublabel": MessageLookupByLibrary.simpleMessage(
+      "Traz a tua marmita de casa.",
+    ),
     "no_results": MessageLookupByLibrary.simpleMessage("Sem resultados"),
     "no_selected_courses": MessageLookupByLibrary.simpleMessage(
       "Não existem cadeiras para apresentar",

@@ -1945,6 +1945,21 @@ class S {
     return Intl.message(
       'Unable to load data',
       name: 'unable_to_load_data',
+  /// `There are no restaurants to display`
+  String get no_restaurants_available {
+    return Intl.message(
+      'There are no restaurants to display',
+      name: 'no_restaurants_available',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bring your lunchbox from home.`
+  String get no_restaurants_available_sublabel {
+    return Intl.message(
+      'Bring your lunchbox from home.',
+      name: 'no_restaurants_available_sublabel',
       desc: '',
       args: [],
     );

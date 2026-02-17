@@ -15,6 +15,7 @@ import 'package:uni/view/restaurant/tab_controller_provider.dart';
 import 'package:uni/view/restaurant/widgets/days_of_week_tab_bar.dart';
 import 'package:uni/view/restaurant/widgets/dish_type_checkbox_menu.dart';
 import 'package:uni/view/restaurant/widgets/favorite_restaurants_button.dart';
+import 'package:uni/view/restaurant/widgets/no_restaurants_widget.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_page_view_shimmer.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
 import 'package:uni/view/widgets/pages_layouts/general/general.dart';
@@ -161,10 +162,14 @@ class _RestaurantPageViewState
       child: DefaultConsumer<List<Restaurant>>(
         provider: restaurantProvider,
         builder: _createTabViewBuilder,
-        nullContentWidget: Center(
-          child: Text(
-            S.of(context).no_menus,
-            style: Theme.of(context).textTheme.titleMedium,
+        nullContentWidget: LayoutBuilder(
+          builder: (context, constraints) => SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Container(
+              height: constraints.maxHeight,
+              padding: const EdgeInsets.only(bottom: 120),
+              child: const Center(child: NoRestaurantsWidget()),
+            ),
           ),
         ),
         hasContent: (restaurants) => restaurants.isNotEmpty,
