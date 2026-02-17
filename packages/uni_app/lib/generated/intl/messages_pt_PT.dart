@@ -349,6 +349,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_menu_info": MessageLookupByLibrary.simpleMessage(
       "Não há informação disponível sobre refeições",
     ),
+    "no_menu_tomorrow": MessageLookupByLibrary.simpleMessage(
+      "Menu de Amanhã Indisponível",
+    ),
     "no_menus": MessageLookupByLibrary.simpleMessage(
       "Não há refeições disponíveis",
     ),
@@ -417,16 +420,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "Docentes Restantes",
     ),
     "remove": MessageLookupByLibrary.simpleMessage("Remover"),
+    "report_bug": MessageLookupByLibrary.simpleMessage("Comunicar um erro"),
     "report_error": MessageLookupByLibrary.simpleMessage("Reportar erro"),
     "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
       "Queres ver os teus restaurantes favoritos na página principal?",
     ),
     "restaurant_period": m4,
     "restaurants": MessageLookupByLibrary.simpleMessage("Restaurantes"),
-    "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Menu de Amanhã"),
-    "no_menu_tomorrow": MessageLookupByLibrary.simpleMessage(
-      "Menu de Amanhã Indisponível",
-    ),
     "room": MessageLookupByLibrary.simpleMessage("Sala"),
     "save": MessageLookupByLibrary.simpleMessage("Guardar"),
     "schedule": MessageLookupByLibrary.simpleMessage("Aulas"),
@@ -445,6 +445,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "settings": MessageLookupByLibrary.simpleMessage("Definições"),
     "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
     "some_error": MessageLookupByLibrary.simpleMessage("Algum erro!"),
+    "spotted_an_error": MessageLookupByLibrary.simpleMessage(
+      "Algo não está bem?",
+    ),
     "stcp_stops": MessageLookupByLibrary.simpleMessage(
       "STCP - Próximas Viagens",
     ),
@@ -468,12 +471,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "theme": MessageLookupByLibrary.simpleMessage("Tema"),
     "title": MessageLookupByLibrary.simpleMessage("Título"),
+    "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Menu de Amanhã"),
     "try_again": MessageLookupByLibrary.simpleMessage("Tentar de novo"),
     "try_different_login": MessageLookupByLibrary.simpleMessage(
       "Problemas ao iniciar sessão?",
     ),
     "uc_info": MessageLookupByLibrary.simpleMessage("Abrir página da UC"),
     "ucs": MessageLookupByLibrary.simpleMessage("UCS"),
+    "unable_to_load_data": MessageLookupByLibrary.simpleMessage(
+      "Não foi possível carregar dados",
+    ),
     "unavailable": MessageLookupByLibrary.simpleMessage("Indisponível"),
     "until": MessageLookupByLibrary.simpleMessage("Até"),
     "valid_email": MessageLookupByLibrary.simpleMessage(

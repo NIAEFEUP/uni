@@ -1542,7 +1542,7 @@ class S {
     );
   }
 
-  /// `Having trouble signing in?`
+  /// `Something not right?`
   String get spotted_an_error {
     return Intl.message(
       'Something not right?',
@@ -1552,7 +1552,7 @@ class S {
     );
   }
 
-  /// `Login with credentials`
+  /// `Report a bug`
   String get report_bug {
     return Intl.message('Report a bug', name: 'report_bug', desc: '', args: []);
   }
@@ -1935,6 +1935,16 @@ class S {
     return Intl.message(
       'Orientation and Integration Office',
       name: 'goi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unable to load data`
+  String get unable_to_load_data {
+    return Intl.message(
+      'Unable to load data',
+      name: 'unable_to_load_data',
       desc: '',
       args: [],
     );

@@ -463,5 +463,7 @@
   "services": "Serviços",
   "@services": {},
   "goi": "Gabinete de Orientação e Integração",
-  "@goi": {}
+  "@goi": {},
+  "unable_to_load_data" : "Não foi possível carregar dados",
+  "@unable_to_load_data": {}
 }

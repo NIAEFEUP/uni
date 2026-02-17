@@ -463,5 +463,7 @@
   "services": "Services",
   "@services": {},
   "goi": "Orientation and Integration Office",
-  "@goi": {}
+  "@goi": {},
+  "unable_to_load_data" : "Unable to load data",
+  "@unable_to_load_data": {}
 }
