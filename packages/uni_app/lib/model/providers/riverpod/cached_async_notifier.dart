@@ -151,6 +151,7 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
         error: e,
         stackTrace: st,
       );
+      _updateError(e, st);
       return state.value;
     }
   }

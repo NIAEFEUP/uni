@@ -1940,6 +1940,16 @@ class S {
     );
   }
 
+  /// `Unable to load data`
+  String get unable_to_load_data {
+    return Intl.message(
+      'Unable to load data',
+      name: 'unable_to_load_data',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `There are no restaurants to display`
   String get no_restaurants_available {
     return Intl.message(

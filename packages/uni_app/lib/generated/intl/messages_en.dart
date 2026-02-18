@@ -329,6 +329,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_menu_info": MessageLookupByLibrary.simpleMessage(
       "There is no information available about meals",
     ),
+    "no_menu_tomorrow": MessageLookupByLibrary.simpleMessage(
+      "Tomorrow\'s Menu Unavailable",
+    ),
     "no_menus": MessageLookupByLibrary.simpleMessage(
       "There are no meals available",
     ),
@@ -408,10 +411,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "restaurant_period": m4,
     "restaurants": MessageLookupByLibrary.simpleMessage("Restaurants"),
-    "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Tomorrow's Menu"),
-    "no_menu_tomorrow": MessageLookupByLibrary.simpleMessage(
-      "Tomorrow's Menu Unavailable",
-    ),
     "room": MessageLookupByLibrary.simpleMessage("Room"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
     "schedule": MessageLookupByLibrary.simpleMessage("Schedule"),
@@ -450,12 +449,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "title": MessageLookupByLibrary.simpleMessage("Title"),
+    "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Tomorrow\'s Menu"),
     "try_again": MessageLookupByLibrary.simpleMessage("Try again"),
     "try_different_login": MessageLookupByLibrary.simpleMessage(
       "Having trouble signing in?",
     ),
     "uc_info": MessageLookupByLibrary.simpleMessage("Open UC page"),
     "ucs": MessageLookupByLibrary.simpleMessage("UCS"),
+    "unable_to_load_data": MessageLookupByLibrary.simpleMessage(
+      "Unable to load data",
+    ),
     "unavailable": MessageLookupByLibrary.simpleMessage("Unavailable"),
     "until": MessageLookupByLibrary.simpleMessage("Until"),
     "valid_email": MessageLookupByLibrary.simpleMessage(

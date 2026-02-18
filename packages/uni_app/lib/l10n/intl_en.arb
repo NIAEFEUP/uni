@@ -464,6 +464,8 @@
   "@services": {},
   "goi": "Orientation and Integration Office",
   "@goi": {},
+  "unable_to_load_data": "Unable to load data",
+  "@unable_to_load_data": {},
   "no_restaurants_available": "There are no restaurants to display",
   "@no_restaurants_available": {},
   "no_restaurants_available_sublabel": "Bring your lunchbox from home.",
