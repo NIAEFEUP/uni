@@ -444,6 +444,10 @@
   "@library": {},
   "restaurants": "Restaurantes",
   "@restaurants": {},
+  "tomorrows_meals": "Menu de Amanhã",
+  "@tomorrows_meals": {},
+  "no_menu_tomorrow": "Menu de Amanhã Indisponível",
+  "@no_menu_tomorrow": {},
   "calendar": "Calendário",
   "@calendar": {},
   "ucs": "UCS",
@@ -469,5 +473,9 @@
   "answer": "Responder",
   "@answer": {},
   "close": "Fechar",
-  "@close": {}
+  "@close": {},
+  "no_restaurants_available": "Não existem restaurantes para apresentar",
+  "@no_restaurants_available": {},
+  "no_restaurants_available_sublabel": "Traz a tua marmita de casa.",
+  "@no_restaurants_available_sublabel": {}
 }

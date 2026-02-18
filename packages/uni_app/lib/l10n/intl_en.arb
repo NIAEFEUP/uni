@@ -442,6 +442,10 @@
   "@library": {},
   "restaurants": "Restaurants",
   "@restaurants": {},
+  "tomorrows_meals": "Tomorrow's Menu",
+  "@tomorrows_meals": {},
+  "no_menu_tomorrow": "Tomorrow's Menu Unavailable",
+  "@no_menu_tomorrow": {},
   "calendar": "Calendar",
   "@calendar": {},
   "ucs": "UCS",
@@ -469,5 +473,9 @@
   "answer": "Answer",
   "@answer": {},
   "close": "Close",
-  "@close": {}
+  "@close": {},
+  "no_restaurants_available": "There are no restaurants to display",
+  "@no_restaurants_available": {},
+  "no_restaurants_available_sublabel": "Bring your lunchbox from home.",
+  "@no_restaurants_available_sublabel": {}
 }
