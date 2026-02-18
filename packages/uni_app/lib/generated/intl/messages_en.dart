@@ -284,6 +284,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "You have no classes this week",
     ),
     "no_college": MessageLookupByLibrary.simpleMessage("no college"),
+    "no_course_unit_classes": MessageLookupByLibrary.simpleMessage(
+      "No classes have been assigned to this course unit yet",
+    ),
+    "no_course_unit_info": MessageLookupByLibrary.simpleMessage(
+      "This course unit has no information available yet",
+    ),
     "no_course_units": MessageLookupByLibrary.simpleMessage(
       "No course units in the selected period",
     ),
@@ -308,7 +314,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "No favorite restaurants open",
     ),
     "no_files": MessageLookupByLibrary.simpleMessage(
-      "There\'s no files attached",
+      "There are no files attached",
     ),
     "no_files_found": MessageLookupByLibrary.simpleMessage("No files found"),
     "no_files_label": MessageLookupByLibrary.simpleMessage(
@@ -328,6 +334,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "no_menu_info": MessageLookupByLibrary.simpleMessage(
       "There is no information available about meals",
+    ),
+    "no_menu_tomorrow": MessageLookupByLibrary.simpleMessage(
+      "Tomorrow\'s Menu Unavailable",
     ),
     "no_menus": MessageLookupByLibrary.simpleMessage(
       "There are no meals available",
@@ -408,10 +417,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "restaurant_period": m4,
     "restaurants": MessageLookupByLibrary.simpleMessage("Restaurants"),
-    "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Tomorrow's Menu"),
-    "no_menu_tomorrow": MessageLookupByLibrary.simpleMessage(
-      "Tomorrow's Menu Unavailable",
-    ),
     "room": MessageLookupByLibrary.simpleMessage("Room"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
     "schedule": MessageLookupByLibrary.simpleMessage("Schedule"),
@@ -450,6 +455,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "title": MessageLookupByLibrary.simpleMessage("Title"),
+    "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Tomorrow\'s Menu"),
     "try_again": MessageLookupByLibrary.simpleMessage("Try again"),
     "try_different_login": MessageLookupByLibrary.simpleMessage(
       "Having trouble signing in?",

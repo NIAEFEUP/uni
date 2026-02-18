@@ -300,6 +300,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Não tens aulas esta semana",
     ),
     "no_college": MessageLookupByLibrary.simpleMessage("sem faculdade"),
+    "no_course_unit_classes": MessageLookupByLibrary.simpleMessage(
+      "Ainda não foram atribuídas turmas a esta unidade curricular",
+    ),
+    "no_course_unit_info": MessageLookupByLibrary.simpleMessage(
+      "Esta unidade curricular ainda não tem informação disponível",
+    ),
     "no_course_units": MessageLookupByLibrary.simpleMessage(
       "Sem cadeiras no período selecionado",
     ),
@@ -348,6 +354,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "no_menu_info": MessageLookupByLibrary.simpleMessage(
       "Não há informação disponível sobre refeições",
+    ),
+    "no_menu_tomorrow": MessageLookupByLibrary.simpleMessage(
+      "Menu de Amanhã Indisponível",
     ),
     "no_menus": MessageLookupByLibrary.simpleMessage(
       "Não há refeições disponíveis",
@@ -430,10 +439,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "restaurant_period": m4,
     "restaurants": MessageLookupByLibrary.simpleMessage("Restaurantes"),
-    "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Menu de Amanhã"),
-    "no_menu_tomorrow": MessageLookupByLibrary.simpleMessage(
-      "Menu de Amanhã Indisponível",
-    ),
     "room": MessageLookupByLibrary.simpleMessage("Sala"),
     "save": MessageLookupByLibrary.simpleMessage("Guardar"),
     "schedule": MessageLookupByLibrary.simpleMessage("Aulas"),
@@ -478,6 +483,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "theme": MessageLookupByLibrary.simpleMessage("Tema"),
     "title": MessageLookupByLibrary.simpleMessage("Título"),
+    "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Menu de Amanhã"),
     "try_again": MessageLookupByLibrary.simpleMessage("Tentar de novo"),
     "try_different_login": MessageLookupByLibrary.simpleMessage(
       "Problemas ao iniciar sessão?",

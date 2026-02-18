@@ -952,10 +952,10 @@ class S {
     );
   }
 
-  /// `There's no files attached`
+  /// `There are no files attached`
   String get no_files {
     return Intl.message(
-      'There\'s no files attached',
+      'There are no files attached',
       name: 'no_files',
       desc: '',
       args: [],
@@ -1935,6 +1935,26 @@ class S {
     return Intl.message(
       'Orientation and Integration Office',
       name: 'goi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No classes have been assigned to this course unit yet`
+  String get no_course_unit_classes {
+    return Intl.message(
+      'No classes have been assigned to this course unit yet',
+      name: 'no_course_unit_classes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This course unit has no information available yet`
+  String get no_course_unit_info {
+    return Intl.message(
+      'This course unit has no information available yet',
+      name: 'no_course_unit_info',
       desc: '',
       args: [],
     );

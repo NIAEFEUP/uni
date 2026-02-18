@@ -6,9 +6,14 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/riverpod/course_units_info_provider.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_classes_shimmer.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_files_shimmer.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_no_classes.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_no_files.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_no_info.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_sheet_shimmer.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/tabs/tab_icon.dart';
@@ -134,9 +139,18 @@ class CourseUnitDetailPageViewState
         );
 
         if (sheet == null) {
-          return Center(
-            child: Text(S.of(context).no_info, textAlign: TextAlign.center),
-          );
+          return const ShimmerCourseSheet();
+        }
+
+        final hasNoInfo =
+            sheet.professors.isEmpty &&
+            sheet.content == 'null' &&
+            sheet.evaluation == 'null' &&
+            sheet.frequency == 'null' &&
+            sheet.books.isEmpty;
+
+        if (hasNoInfo) {
+          return const Center(child: NoInfoWidget());
         }
 
         return CourseUnitSheetView(sheet, courseExams);
@@ -149,7 +163,11 @@ class CourseUnitDetailPageViewState
         .read(courseUnitsInfoProvider.notifier)
         .courseUnitsFiles[widget.courseUnit];
 
-    if (files == null || files.isEmpty) {
+    if (files == null) {
+      return const ShimmerCourseFiles();
+    }
+
+    if (files.isEmpty) {
       return LayoutBuilder(
         builder: (context, constraints) => SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -177,17 +195,24 @@ class CourseUnitDetailPageViewState
             provider.courseUnitsClassProfessors[widget.courseUnit];
 
         if (classes == null) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        if (classes.isEmpty) {
-          return Center(
-            child: Text(S.of(context).no_class, textAlign: TextAlign.center),
-          );
+          return const Center(child: ShimmerCourseClasses());
         }
 
         if (classProfessors == null) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: ShimmerCourseClasses());
+        }
+
+        if (classes.isEmpty) {
+          return LayoutBuilder(
+            builder: (context, constraints) => SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Container(
+                height: constraints.maxHeight,
+                padding: const EdgeInsets.only(bottom: 120),
+                child: const Center(child: NoClassWidget()),
+              ),
+            ),
+          );
         }
 
         return CourseUnitClassesView(
