@@ -214,6 +214,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "goi": MessageLookupByLibrary.simpleMessage(
       "Orientation and Integration Office",
     ),
+    "hide_sensitive_info": MessageLookupByLibrary.simpleMessage(
+      "Hide sensitive info",
+    ),
     "improvement_registration": MessageLookupByLibrary.simpleMessage(
       "Enrollment for Improvement",
     ),

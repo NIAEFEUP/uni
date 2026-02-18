@@ -358,6 +358,8 @@
   "@confirm_logout": {},
   "collect_usage_stats": "Collect usage statistics",
   "@collect_usage_stats": {},
+  "hide_sensitive_info": "Hide sensitive info",
+  "@hide_sensitive_info": {},
   "try_again": "Try again",
   "@try_again": {},
   "try_different_login": "Having trouble signing in?",

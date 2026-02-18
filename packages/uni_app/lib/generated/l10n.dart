@@ -1517,6 +1517,16 @@ class S {
     );
   }
 
+  /// `Hide sensitive info`
+  String get hide_sensitive_info {
+    return Intl.message(
+      'Hide sensitive info',
+      name: 'hide_sensitive_info',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Try again`
   String get try_again {
     return Intl.message('Try again', name: 'try_again', desc: '', args: []);

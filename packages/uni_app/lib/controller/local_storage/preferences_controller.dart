@@ -23,6 +23,7 @@ class PreferencesController {
   static const _termsAndConditions = 'terms_and_conditions';
   static const _areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
   static const _tuitionNotificationsToggleKey = 'tuition_notification_toogle';
+  static const _hideSensitiveInfoToggleKey = 'hide_sensitive_info_toggle';
   static const _usageStatsToggleKey = 'usage_stats_toogle';
   static const _themeMode = 'theme_mode';
   static const _isDataCollectionBannerViewedKey = 'data_collection_banner';
@@ -292,6 +293,15 @@ class PreferencesController {
     required bool value,
   }) async {
     await prefs.setBool(_tuitionNotificationsToggleKey, value);
+  }
+
+  static bool getHideSensitiveInfoToggle() {
+    return prefs.getBool(_hideSensitiveInfoToggleKey) ?? false;
+  }
+
+  static Future<void> setHideSensitiveInfoToggle({required bool value}) async {
+    await prefs.setBool(_hideSensitiveInfoToggleKey, value);
+    _statsToggleStreamController.add(value);
   }
 
   static bool getUsageStatsToggle() {

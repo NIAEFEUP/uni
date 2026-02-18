@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
@@ -38,6 +41,13 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
   }
 
   var _courseUnitIndex = 0;
+  var _blurSensitiveInfo = PreferencesController.getHideSensitiveInfoToggle();
+
+  void _toggleBlur() {
+    setState(() {
+      _blurSensitiveInfo = !_blurSensitiveInfo;
+    });
+  }
 
   void _onCourseUnitSelected(int index) {
     setState(() {
@@ -172,12 +182,21 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 40, bottom: 8),
-              child: AverageBar(
-                average: course.currentAverage ?? 0,
-                completedCredits: course.finishedEcts ?? 0,
-                totalCredits: _getTotalCredits(profile, course),
-                statusText: course.state ?? '',
-                averageText: S.of(context).average,
+              child: GestureDetector(
+                onTap: _toggleBlur,
+                child: ImageFiltered(
+                  imageFilter: ImageFilter.blur(
+                    sigmaX: _blurSensitiveInfo ? 6 : 0,
+                    sigmaY: _blurSensitiveInfo ? 6 : 0,
+                  ),
+                  child: AverageBar(
+                    average: course.currentAverage ?? 0,
+                    completedCredits: course.finishedEcts ?? 0,
+                    totalCredits: _getTotalCredits(profile, course),
+                    statusText: course.state ?? '',
+                    averageText: S.of(context).average,
+                  ),
+                ),
               ),
             ),
             CourseUnitsView(course: course),
