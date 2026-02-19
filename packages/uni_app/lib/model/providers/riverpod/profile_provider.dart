@@ -14,6 +14,7 @@ import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
+import 'package:uni/model/providers/riverpod/pedagogical_surveys_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/session/flows/base/session.dart';
 
@@ -66,7 +67,10 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
       await PreferencesController.setPedagogicalSurveysShowDialog(show: true);
     }
 
-    //if successful save everything to cache
+    ref.read(pedagogicalSurveysProvider.notifier).state =
+        PreferencesController.shouldShowPedagogicalSurveysDialog();
+
+    // if successful save everything to cache
     Database().saveProfile(profile);
 
     return profile;
