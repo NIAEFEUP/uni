@@ -489,6 +489,16 @@ class S {
     );
   }
 
+  /// `Don't show again`
+  String get dont_show_again {
+    return Intl.message(
+      'Don\'t show again',
+      name: 'dont_show_again',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `ECTS performed: `
   String get ects {
     return Intl.message('ECTS performed: ', name: 'ects', desc: '', args: []);
@@ -1938,6 +1948,36 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Pedagogical Surveys`
+  String get pedagogical_surveys {
+    return Intl.message(
+      'Pedagogical Surveys',
+      name: 'pedagogical_surveys',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Have you already filled out the pedagogical surveys? If not, please take a moment to fill them out. Your feedback is valuable and helps us improve the quality of education at your course.`
+  String get pedagogical_surveys_description {
+    return Intl.message(
+      'Have you already filled out the pedagogical surveys? If not, please take a moment to fill them out. Your feedback is valuable and helps us improve the quality of education at your course.',
+      name: 'pedagogical_surveys_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Answer`
+  String get answer {
+    return Intl.message('Answer', name: 'answer', desc: '', args: []);
+  }
+
+  /// `Close`
+  String get close {
+    return Intl.message('Close', name: 'close', desc: '', args: []);
   }
 
   /// `There are no restaurants to display`

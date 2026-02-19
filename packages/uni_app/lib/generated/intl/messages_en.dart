@@ -57,6 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "all_widgets_added": MessageLookupByLibrary.simpleMessage(
       "All available widgets have already been added to your personal area!",
     ),
+    "answer": MessageLookupByLibrary.simpleMessage("Answer"),
     "apply": MessageLookupByLibrary.simpleMessage("Apply"),
     "assessments": MessageLookupByLibrary.simpleMessage("Assessments"),
     "at_least_one_college": MessageLookupByLibrary.simpleMessage(
@@ -117,6 +118,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "class_registration": MessageLookupByLibrary.simpleMessage(
       "Class Registration",
     ),
+    "close": MessageLookupByLibrary.simpleMessage("Close"),
     "collect_usage_stats": MessageLookupByLibrary.simpleMessage(
       "Collect usage statistics",
     ),
@@ -161,6 +163,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "dona_bia_building": MessageLookupByLibrary.simpleMessage(
       "Floor -1 of building B (B-142)",
+    ),
+    "dont_show_again": MessageLookupByLibrary.simpleMessage(
+      "Don\'t show again",
     ),
     "download_error": MessageLookupByLibrary.simpleMessage(
       "Error downloading the file",
@@ -329,6 +334,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_menu_info": MessageLookupByLibrary.simpleMessage(
       "There is no information available about meals",
     ),
+    "no_menu_tomorrow": MessageLookupByLibrary.simpleMessage(
+      "Tomorrow\'s Menu Unavailable",
+    ),
     "no_menus": MessageLookupByLibrary.simpleMessage(
       "There are no meals available",
     ),
@@ -373,6 +381,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "For security reasons, passwords must be changed periodically.",
     ),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
+    "pedagogical_surveys": MessageLookupByLibrary.simpleMessage(
+      "Pedagogical Surveys",
+    ),
+    "pedagogical_surveys_description": MessageLookupByLibrary.simpleMessage(
+      "Have you already filled out the pedagogical surveys? If not, please take a moment to fill them out. Your feedback is valuable and helps us improve the quality of education at your course.",
+    ),
     "pendent_references": MessageLookupByLibrary.simpleMessage(
       "Pending references",
     ),
@@ -408,10 +422,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "restaurant_period": m4,
     "restaurants": MessageLookupByLibrary.simpleMessage("Restaurants"),
-    "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Tomorrow's Menu"),
-    "no_menu_tomorrow": MessageLookupByLibrary.simpleMessage(
-      "Tomorrow's Menu Unavailable",
-    ),
     "room": MessageLookupByLibrary.simpleMessage("Room"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
     "schedule": MessageLookupByLibrary.simpleMessage("Schedule"),
@@ -450,6 +460,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "title": MessageLookupByLibrary.simpleMessage("Title"),
+    "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Tomorrow\'s Menu"),
     "try_again": MessageLookupByLibrary.simpleMessage("Try again"),
     "try_different_login": MessageLookupByLibrary.simpleMessage(
       "Having trouble signing in?",

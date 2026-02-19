@@ -477,7 +477,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(8, 5892835885906588151),
     name: 'Profile',
-    lastPropertyId: const obx_int.IdUid(6, 3994951413998147073),
+    lastPropertyId: const obx_int.IdUid(7, 5380446091846266850),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -514,6 +514,12 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(6, 3994951413998147073),
         name: 'feesLimit',
         type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 5380446091846266850),
+        name: 'answeredPedagogicalSurveys',
+        type: 1,
         flags: 0,
       ),
     ],
@@ -1341,13 +1347,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final emailOffset = fbb.writeString(object.email);
         final printBalanceOffset = fbb.writeString(object.printBalance);
         final feesBalanceOffset = fbb.writeString(object.feesBalance);
-        fbb.startTable(7);
+        fbb.startTable(8);
         fbb.addInt64(0, object.id ?? 0);
         fbb.addOffset(1, nameOffset);
         fbb.addOffset(2, emailOffset);
         fbb.addOffset(3, printBalanceOffset);
         fbb.addOffset(4, feesBalanceOffset);
         fbb.addInt64(5, object.feesLimit?.millisecondsSinceEpoch);
+        fbb.addBool(6, object.answeredPedagogicalSurveys);
         fbb.finish(fbb.endTable());
         return object.id ?? 0;
       },
@@ -1374,12 +1381,19 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final feesLimitParam = feesLimitValue == null
             ? null
             : DateTime.fromMillisecondsSinceEpoch(feesLimitValue);
+        final answeredPedagogicalSurveysParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          16,
+          false,
+        );
         final object = Profile(
           name: nameParam,
           email: emailParam,
           printBalance: printBalanceParam,
           feesBalance: feesBalanceParam,
           feesLimit: feesLimitParam,
+          answeredPedagogicalSurveys: answeredPedagogicalSurveysParam,
         )..id = const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
 
         return object;
@@ -1964,6 +1978,11 @@ class Profile_ {
   /// See [Profile.feesLimit].
   static final feesLimit = obx.QueryDateProperty<Profile>(
     _entities[7].properties[5],
+  );
+
+  /// See [Profile.answeredPedagogicalSurveys].
+  static final answeredPedagogicalSurveys = obx.QueryBooleanProperty<Profile>(
+    _entities[7].properties[6],
   );
 }
 
