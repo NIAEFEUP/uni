@@ -477,7 +477,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(8, 5892835885906588151),
     name: 'Profile',
-    lastPropertyId: const obx_int.IdUid(6, 3994951413998147073),
+    lastPropertyId: const obx_int.IdUid(7, 5380446091846266850),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -514,6 +514,12 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(6, 3994951413998147073),
         name: 'feesLimit',
         type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 5380446091846266850),
+        name: 'answeredPedagogicalSurveys',
+        type: 1,
         flags: 0,
       ),
     ],
@@ -727,6 +733,11 @@ Future<obx.Store> openStore({
 /// [obx.Store.new].
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
+    // If this version is not found, it means that this file was generated
+    // with an older version of the ObjectBox Dart generator.
+    // Please regenerate this file with the current generator version.
+    // Typically, this is done with `dart run build_runner build`.
+    generatorVersion: obx_int.GeneratorVersion.v2025_12_16,
     entities: _entities,
     lastEntityId: const obx_int.IdUid(11, 6737946482330485890),
     lastIndexId: const obx_int.IdUid(1, 860778994234728762),
@@ -803,15 +814,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       toManyRelations: (Course object) => {},
       getId: (Course object) => object.id,
       setId: (Course object, int id) {
-        if (object.id != id) {
-          throw ArgumentError(
-            'Field Course.id is read-only '
-            '(final or getter-only) and it was declared to be self-assigned. '
-            'However, the currently inserted object (.id=${object.id}) '
-            "doesn't match the inserted ID (ID $id). "
-            'You must assign an ID before calling [box.put()].',
-          );
-        }
+        object.id = id;
       },
       objectToFB: (Course object, fb.Builder fbb) {
         final nameOffset = object.name == null
@@ -1344,13 +1347,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final emailOffset = fbb.writeString(object.email);
         final printBalanceOffset = fbb.writeString(object.printBalance);
         final feesBalanceOffset = fbb.writeString(object.feesBalance);
-        fbb.startTable(7);
+        fbb.startTable(8);
         fbb.addInt64(0, object.id ?? 0);
         fbb.addOffset(1, nameOffset);
         fbb.addOffset(2, emailOffset);
         fbb.addOffset(3, printBalanceOffset);
         fbb.addOffset(4, feesBalanceOffset);
         fbb.addInt64(5, object.feesLimit?.millisecondsSinceEpoch);
+        fbb.addBool(6, object.answeredPedagogicalSurveys);
         fbb.finish(fbb.endTable());
         return object.id ?? 0;
       },
@@ -1377,12 +1381,19 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final feesLimitParam = feesLimitValue == null
             ? null
             : DateTime.fromMillisecondsSinceEpoch(feesLimitValue);
+        final answeredPedagogicalSurveysParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          16,
+          false,
+        );
         final object = Profile(
           name: nameParam,
           email: emailParam,
           printBalance: printBalanceParam,
           feesBalance: feesBalanceParam,
           feesLimit: feesLimitParam,
+          answeredPedagogicalSurveys: answeredPedagogicalSurveysParam,
         )..id = const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
 
         return object;
@@ -1967,6 +1978,11 @@ class Profile_ {
   /// See [Profile.feesLimit].
   static final feesLimit = obx.QueryDateProperty<Profile>(
     _entities[7].properties[5],
+  );
+
+  /// See [Profile.answeredPedagogicalSurveys].
+  static final answeredPedagogicalSurveys = obx.QueryBooleanProperty<Profile>(
+    _entities[7].properties[6],
   );
 }
 

@@ -50,15 +50,14 @@ class _ExamsPageState extends ConsumerState<ExamsPage> {
         hasContent: (exams) => exams.isNotEmpty,
         nullContentWidget: LayoutBuilder(
           // Band-aid for allowing refresh on null content
-          builder:
-              (context, constraints) => SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Container(
-                  height: constraints.maxHeight, // Height of bottom navbar
-                  padding: const EdgeInsets.only(bottom: 120),
-                  child: const Center(child: NoExamsWidget()),
-                ),
-              ),
+          builder: (context, constraints) => SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Container(
+              height: constraints.maxHeight, // Height of bottom navbar
+              padding: const EdgeInsets.only(bottom: 120),
+              child: const Center(child: NoExamsWidget()),
+            ),
+          ),
         ),
         loadingWidget: const ShimmerSchedulePage(),
       ),

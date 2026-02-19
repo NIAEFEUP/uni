@@ -22,6 +22,10 @@ class PreferencesController {
   static const _userSession = 'user_session';
   static const _termsAndConditions = 'terms_and_conditions';
   static const _areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
+  static const _pedagogicalSurveysDismissedKey =
+      'pedagogical_surveys_dismissed';
+  static const _pedagogicalSurveysShowDialogKey =
+      'pedagogical_surveys_show_dialog';
   static const _tuitionNotificationsToggleKey = 'tuition_notification_toogle';
   static const _usageStatsToggleKey = 'usage_stats_toogle';
   static const _themeMode = 'theme_mode';
@@ -101,7 +105,15 @@ class PreferencesController {
   }
 
   static Future<Session?> getSavedSession() async {
-    final value = await _secureStorage.read(key: _userSession);
+    String? value;
+
+    try {
+      value = await _secureStorage.read(key: _userSession);
+    } catch (e) {
+      await _secureStorage.deleteAll();
+      return null;
+    }
+
     if (value == null) {
       return null;
     }
@@ -124,6 +136,30 @@ class PreferencesController {
   /// Returns whether or not the Terms and Conditions have been accepted.
   static bool areTermsAndConditionsAccepted() {
     return prefs.getBool(_areTermsAndConditionsAcceptedKey) ?? false;
+  }
+
+  /// Sets whether or not the Pedagogical Surveys have been dismissed.
+  static Future<void> setPedagogicalSurveysDismissed({
+    required bool dismissed,
+  }) async {
+    await prefs.setBool(_pedagogicalSurveysDismissedKey, dismissed);
+  }
+
+  /// Returns whether or not the Pedagogical Surveys have been dismissed.
+  static bool isPedagogicalSurveysDismissed() {
+    return prefs.getBool(_pedagogicalSurveysDismissedKey) ?? false;
+  }
+
+  /// Sets whether or not the Pedagogical Surveys dialog should be shown.
+  static Future<void> setPedagogicalSurveysShowDialog({
+    required bool show,
+  }) async {
+    await prefs.setBool(_pedagogicalSurveysShowDialogKey, show);
+  }
+
+  /// Returns whether or not the Pedagogical Surveys dialog should be shown.
+  static bool shouldShowPedagogicalSurveysDialog() {
+    return prefs.getBool(_pedagogicalSurveysShowDialogKey) ?? false;
   }
 
   static Future<void> setDataCollectionBannerViewed({
@@ -257,10 +293,9 @@ class PreferencesController {
   static Future<void> saveFilteredExams(
     Map<String, bool> newFilteredExamTypes,
   ) async {
-    final newTypes =
-        newFilteredExamTypes.keys
-            .where((type) => newFilteredExamTypes[type] ?? false)
-            .toList();
+    final newTypes = newFilteredExamTypes.keys
+        .where((type) => newFilteredExamTypes[type] ?? false)
+        .toList();
     await prefs.setStringList(_filteredExamsTypes, newTypes);
   }
 

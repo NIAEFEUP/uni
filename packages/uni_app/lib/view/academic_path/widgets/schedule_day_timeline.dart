@@ -72,10 +72,9 @@ class ScheduleDayTimeline extends ConsumerWidget {
               room: lecture.room,
               type: lecture.typeClass,
               teacherName: lecture.teacherName,
-              teacherPhoto:
-                  snapshot.hasData && snapshot.data != null
-                      ? Image(image: FileImage(snapshot.data!))
-                      : Image.asset('assets/images/profile_placeholder.png'),
+              teacherPhoto: snapshot.hasData && snapshot.data != null
+                  ? Image(image: FileImage(snapshot.data!))
+                  : Image.asset('assets/images/profile_placeholder.png'),
               onTap: () {
                 final profile = ref.watch(
                   profileProvider.select((value) => value.value),
@@ -89,8 +88,8 @@ class ScheduleDayTimeline extends ConsumerWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute<CourseUnitDetailPageView>(
-                        builder:
-                            (context) => CourseUnitDetailPageView(courseUnit),
+                        builder: (context) =>
+                            CourseUnitDetailPageView(courseUnit),
                       ),
                     );
                   }

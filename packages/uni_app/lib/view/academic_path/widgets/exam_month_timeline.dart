@@ -80,8 +80,9 @@ class ExamMonthTimeline extends ConsumerWidget {
               builder: (context) => ExamModal(exam: exam),
             );
           },
-          iconAction:
-              onToggleHidden == null ? null : () => onToggleHidden!(exam.id),
+          iconAction: onToggleHidden == null
+              ? null
+              : () => onToggleHidden!(exam.id),
         ),
       );
     }).toList();

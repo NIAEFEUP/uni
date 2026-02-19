@@ -8,11 +8,13 @@ import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/controller/fetchers/profile_fetcher.dart';
 import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/controller/local_storage/file_offline_storage.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
+import 'package:uni/model/providers/riverpod/pedagogical_surveys_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/session/flows/base/session.dart';
 
@@ -26,10 +28,9 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
 
   @override
   Future<Profile?> loadFromStorage() async {
-    final profile =
-        Database().profile
-          ?..courses = Database().courses
-          ..courseUnits = Database().courseUnits;
+    final profile = Database().profile
+      ?..courses = Database().courses
+      ..courseUnits = Database().courseUnits;
 
     return profile;
   }
@@ -57,7 +58,19 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
       ..feesLimit = feesLimit
       ..printBalance = printBalance;
 
-    //if successful save everything to cache
+    if (profile.answeredPedagogicalSurveys) {
+      await PreferencesController.setPedagogicalSurveysShowDialog(show: false);
+      await PreferencesController.setPedagogicalSurveysDismissed(
+        dismissed: false,
+      );
+    } else {
+      await PreferencesController.setPedagogicalSurveysShowDialog(show: true);
+    }
+
+    ref.read(pedagogicalSurveysProvider.notifier).state =
+        PreferencesController.shouldShowPedagogicalSurveysDialog();
+
+    // if successful save everything to cache
     Database().saveProfile(profile);
 
     return profile;

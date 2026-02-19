@@ -65,13 +65,12 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
       4: S.of(context).bug_description_other,
     };
 
-    bugList =
-        bugD.entries
-            .map(
-              (entry) =>
-                  DropdownMenuItem(value: entry.key, child: Text(entry.value)),
-            )
-            .toList();
+    bugList = bugD.entries
+        .map(
+          (entry) =>
+              DropdownMenuItem(value: entry.key, child: Text(entry.value)),
+        )
+        .toList();
   }
 
   @override
@@ -159,30 +158,27 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      _isConsentGiven
-                          ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context).dividerColor,
+                  backgroundColor: _isConsentGiven
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).dividerColor,
                 ),
-                onPressed:
-                    !_isConsentGiven
-                        ? null
-                        : () {
-                          if (_formKey.currentState!.validate() &&
-                              !_isButtonTapped) {
-                            if (!FocusScope.of(context).hasPrimaryFocus) {
-                              FocusScope.of(context).unfocus();
-                            }
-                            submitBugReport();
+                onPressed: !_isConsentGiven
+                    ? null
+                    : () {
+                        if (_formKey.currentState!.validate() &&
+                            !_isButtonTapped) {
+                          if (!FocusScope.of(context).hasPrimaryFocus) {
+                            FocusScope.of(context).unfocus();
                           }
-                        },
+                          submitBugReport();
+                        }
+                      },
                 child: Text(
                   S.of(context).send,
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color:
-                        _isConsentGiven
-                            ? Theme.of(context).colorScheme.onPrimary
-                            : Theme.of(context).colorScheme.onTertiary,
+                    color: _isConsentGiven
+                        ? Theme.of(context).colorScheme.onPrimary
+                        : Theme.of(context).colorScheme.onTertiary,
                   ),
                 ),
               ),
@@ -251,14 +247,13 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
     final session = await ref.watch(sessionProvider.future);
     final faculties = session?.faculties ?? [];
 
-    final bugReport =
-        BugReport(
-          titleController.text,
-          descriptionController.text,
-          emailController.text,
-          bugDescriptions[_selectedBug],
-          faculties,
-        ).toJson();
+    final bugReport = BugReport(
+      titleController.text,
+      descriptionController.text,
+      emailController.text,
+      bugDescriptions[_selectedBug],
+      faculties,
+    ).toJson();
 
     if (mounted) {
       FocusScope.of(context).requestFocus(FocusNode());
@@ -328,6 +323,7 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
     }
     setState(() {
       pickedFiles.clear();
+      previewImages.clear();
       _selectedBug = 0;
       _isConsentGiven = false;
     });

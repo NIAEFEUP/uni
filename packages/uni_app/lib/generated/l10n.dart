@@ -28,10 +28,9 @@ class S {
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name =
-        (locale.countryCode?.isEmpty ?? false)
-            ? locale.languageCode
-            : locale.toString();
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -485,6 +484,16 @@ class S {
     return Intl.message(
       'Floor -1 of building B (B-142)',
       name: 'dona_bia_building',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don't show again`
+  String get dont_show_again {
+    return Intl.message(
+      'Don\'t show again',
+      name: 'dont_show_again',
       desc: '',
       args: [],
     );
@@ -1543,7 +1552,7 @@ class S {
     );
   }
 
-  /// `Having trouble signing in?`
+  /// `Something not right?`
   String get spotted_an_error {
     return Intl.message(
       'Something not right?',
@@ -1553,7 +1562,7 @@ class S {
     );
   }
 
-  /// `Login with credentials`
+  /// `Report a bug`
   String get report_bug {
     return Intl.message('Report a bug', name: 'report_bug', desc: '', args: []);
   }
@@ -1713,6 +1722,16 @@ class S {
     return Intl.message('Instructor', name: 'instructor', desc: '', args: []);
   }
 
+  /// `Class Professor`
+  String get classProfessor {
+    return Intl.message(
+      'Class Professor',
+      name: 'classProfessor',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Lectures`
   String get lectures {
     return Intl.message('Lectures', name: 'lectures', desc: '', args: []);
@@ -1846,6 +1865,26 @@ class S {
     return Intl.message('Restaurants', name: 'restaurants', desc: '', args: []);
   }
 
+  /// `Tomorrow's Menu`
+  String get tomorrows_meals {
+    return Intl.message(
+      'Tomorrow\'s Menu',
+      name: 'tomorrows_meals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tomorrow's Menu Unavailable`
+  String get no_menu_tomorrow {
+    return Intl.message(
+      'Tomorrow\'s Menu Unavailable',
+      name: 'no_menu_tomorrow',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Calendar`
   String get calendar {
     return Intl.message('Calendar', name: 'calendar', desc: '', args: []);
@@ -1906,6 +1945,56 @@ class S {
     return Intl.message(
       'Orientation and Integration Office',
       name: 'goi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pedagogical Surveys`
+  String get pedagogical_surveys {
+    return Intl.message(
+      'Pedagogical Surveys',
+      name: 'pedagogical_surveys',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Have you already filled out the pedagogical surveys? If not, please take a moment to fill them out. Your feedback is valuable and helps us improve the quality of education at your course.`
+  String get pedagogical_surveys_description {
+    return Intl.message(
+      'Have you already filled out the pedagogical surveys? If not, please take a moment to fill them out. Your feedback is valuable and helps us improve the quality of education at your course.',
+      name: 'pedagogical_surveys_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Answer`
+  String get answer {
+    return Intl.message('Answer', name: 'answer', desc: '', args: []);
+  }
+
+  /// `Close`
+  String get close {
+    return Intl.message('Close', name: 'close', desc: '', args: []);
+  }
+
+  /// `There are no restaurants to display`
+  String get no_restaurants_available {
+    return Intl.message(
+      'There are no restaurants to display',
+      name: 'no_restaurants_available',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bring your lunchbox from home.`
+  String get no_restaurants_available_sublabel {
+    return Intl.message(
+      'Bring your lunchbox from home.',
+      name: 'no_restaurants_available_sublabel',
       desc: '',
       args: [],
     );

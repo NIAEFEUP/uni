@@ -39,14 +39,16 @@ class ExamHomeCard extends GenericHomecard {
         return DefaultConsumer<List<Exam>>(
           provider: examProvider,
           builder: (context, ref, allExams) {
-            final visibleExams =
-                getVisibleExams(allExams, hiddenExams).toList();
+            final visibleExams = getVisibleExams(
+              allExams,
+              hiddenExams,
+            ).toList();
             final items = buildTimelineItems(ref, visibleExams).take(2);
 
             return CardTimeline(items: items.toList());
           },
-          hasContent:
-              (allExams) => getVisibleExams(allExams, hiddenExams).isNotEmpty,
+          hasContent: (allExams) =>
+              getVisibleExams(allExams, hiddenExams).isNotEmpty,
           nullContentWidget: Center(
             child: IconLabel(
               icon: const UniIcon(UniIcons.island, size: 45),
@@ -74,24 +76,23 @@ class ExamHomeCard extends GenericHomecard {
   List<TimelineItem> buildTimelineItems(WidgetRef ref, List<Exam> exams) {
     final locale = ref.watch(localeProvider);
 
-    final items =
-        exams
-            .map(
-              (exam) => TimelineItem(
-                title: exam.start.day.toString(),
-                subtitle: exam.start.shortMonth(locale).capitalize(),
-                card: ExamCard(
-                  showIcon: false,
-                  name: exam.subject,
-                  acronym: exam.subjectAcronym,
-                  rooms: exam.rooms,
-                  type: exam.examType,
-                  startTime: exam.startTime,
-                ),
-                lineHeight: 55,
-              ),
-            )
-            .toList();
+    final items = exams
+        .map(
+          (exam) => TimelineItem(
+            title: exam.start.day.toString(),
+            subtitle: exam.start.shortMonth(locale).capitalize(),
+            card: ExamCard(
+              showIcon: false,
+              name: exam.subject,
+              acronym: exam.subjectAcronym,
+              rooms: exam.rooms,
+              type: exam.examType,
+              startTime: exam.startTime,
+            ),
+            lineHeight: 55,
+          ),
+        )
+        .toList();
 
     return items;
   }
