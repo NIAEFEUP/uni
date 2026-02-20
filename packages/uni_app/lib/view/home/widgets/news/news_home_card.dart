@@ -6,6 +6,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/riverpod/news_provider.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/news/news_card_shimmer.dart';
+import 'package:uni/view/widgets/general_error_view.dart';
 import 'package:uni/view/widgets/icon_label.dart';
 import 'package:uni_ui/cards/news_card.dart';
 import 'package:uni_ui/icons.dart';
@@ -65,7 +66,8 @@ class NewsHomeCard extends GenericHomecard {
               },
             );
           },
-          error: (error, stackTrace) => Center(child: Text('Error: $error')),
+          error: (error, stackTrace) => const GeneralErrorView(),
+
           loading: () => const Center(child: NewsCardShimmer()),
         );
       },
