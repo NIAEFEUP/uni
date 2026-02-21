@@ -322,7 +322,7 @@
     },
     {
       "id": "8:5892835885906588151",
-      "lastPropertyId": "6:3994951413998147073",
+      "lastPropertyId": "7:5380446091846266850",
       "name": "Profile",
       "properties": [
         {
@@ -355,6 +355,11 @@
           "id": "6:3994951413998147073",
           "name": "feesLimit",
           "type": 10
+        },
+        {
+          "id": "7:5380446091846266850",
+          "name": "answeredPedagogicalSurveys",
+          "type": 1
         }
       ],
       "relations": []
