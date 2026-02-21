@@ -1,14 +1,12 @@
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
-import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/session/flows/base/session.dart';
 
 class ExamFetcher implements SessionDependantFetcher {
-  ExamFetcher(this.courses, this.userUcs);
-  List<Course> courses;
+  ExamFetcher(this.userUcs);
   List<CourseUnit> userUcs;
 
   @override
@@ -19,43 +17,25 @@ class ExamFetcher implements SessionDependantFetcher {
     return urls;
   }
 
-  Future<List<Exam>> extractExams(
-    Session session,
-    ParserExams parserExams,
-  ) async {
-    var courseExams = <Exam>{};
+  Future<List<Exam>> extractExams(Session session) async {
+    final parserExams = ParserExams();
     final urls = getEndpoints(session);
-    for (final course in courses) {
-      for (final url in urls) {
-        final currentCourseExams = await parserExams.parseExams(
-          await NetworkRouter.getWithCookies(url, {
-            'p_curso_id': course.id.toString(),
-          }, session),
-          course,
-        );
-        courseExams = Set.from(courseExams)..addAll(currentCourseExams);
-      }
-    }
+
+    final futures = userUcs.expand<Future<Set<Exam>>>(
+      (uc) => urls.map((url) async {
+        final response = await NetworkRouter.getWithCookies(url, {
+          'p_ocorr_id': uc.occurrId.toString(),
+        }, session);
+        return parserExams.parseExams(response, uc);
+      }),
+    );
+
+    final results = await Future.wait(futures);
+    final courseExams = results.expand((i) => i).toSet();
 
     final exams = <Exam>{};
     for (final courseExam in courseExams) {
       for (final uc in userUcs) {
-        if (courseExam.examType.contains(
-              '''Exames ao abrigo de estatutos especiais - Port.Est.Especiais''',
-            ) ||
-            courseExam.examType == 'EE' ||
-            courseExam.examType == 'EAE') {
-          continue;
-        }
-        if (courseExam.occurrId != null && uc.occurrId != null) {
-          if (courseExam.occurrId != uc.occurrId.toString()) {
-            continue;
-          }
-        } else {
-          if (courseExam.subjectAcronym != uc.abbreviation) {
-            continue;
-          }
-        }
         if (!uc.enrollmentIsValid()) {
           continue;
         }

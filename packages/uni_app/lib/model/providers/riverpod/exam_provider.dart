@@ -1,8 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
 import 'package:uni/controller/local_storage/database/database.dart';
-import 'package:uni/controller/parsers/parser_exams.dart';
-import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
@@ -35,24 +33,11 @@ class ExamNotifier extends CachedAsyncNotifier<List<Exam>> {
       return null;
     }
 
-    return _fetchUserExams(
-      ParserExams(),
-      profile,
-      session,
-      profile.courseUnits,
-    );
+    return _fetchUserExams(profile, session);
   }
 
-  Future<List<Exam>> _fetchUserExams(
-    ParserExams parser,
-    Profile profile,
-    Session session,
-    List<CourseUnit> userUcs,
-  ) async {
-    final exams = await ExamFetcher(
-      profile.courses,
-      userUcs,
-    ).extractExams(session, parser);
+  Future<List<Exam>> _fetchUserExams(Profile profile, Session session) async {
+    final exams = await ExamFetcher(profile.courseUnits).extractExams(session);
 
     exams.sort((exam1, exam2) => exam1.start.compareTo(exam2.start));
     Database().saveExams(exams);

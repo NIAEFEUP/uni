@@ -240,76 +240,6 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(4, 7433696585737747799),
-    name: 'Exam',
-    lastPropertyId: const obx_int.IdUid(10, 1565565007615085610),
-    flags: 0,
-    properties: <obx_int.ModelProperty>[
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 6987337288438589113),
-        name: 'start',
-        type: 10,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 1315405305605818236),
-        name: 'finish',
-        type: 10,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 3970356124527746475),
-        name: 'id',
-        type: 9,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 219584084854926435),
-        name: 'subjectAcronym',
-        type: 9,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 2999963298892952116),
-        name: 'subject',
-        type: 9,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(6, 8584035388144963725),
-        name: 'rooms',
-        type: 30,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(7, 3581020021394973372),
-        name: 'examType',
-        type: 9,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(8, 5477126519043307170),
-        name: 'faculty',
-        type: 9,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(9, 2707328368115093876),
-        name: 'dbId',
-        type: 6,
-        flags: 1,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(10, 1565565007615085610),
-        name: 'occurrId',
-        type: 9,
-        flags: 0,
-      ),
-    ],
-    relations: <obx_int.ModelRelation>[],
-    backlinks: <obx_int.ModelBacklink>[],
-  ),
-  obx_int.ModelEntity(
     id: const obx_int.IdUid(5, 3662266281288419262),
     name: 'FloorOccupation',
     lastPropertyId: const obx_int.IdUid(3, 686576101048946938),
@@ -694,6 +624,70 @@ final _entities = <obx_int.ModelEntity>[
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
   ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(13, 6490444939705629128),
+    name: 'Exam',
+    lastPropertyId: const obx_int.IdUid(10, 8007243344551155313),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 156478052443479597),
+        name: 'start',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 6221939923983776269),
+        name: 'finish',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 7872921544934032039),
+        name: 'id',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 1796550337519661183),
+        name: 'subjectAcronym',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 6065589177224784387),
+        name: 'subject',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 6688485810784861801),
+        name: 'rooms',
+        type: 30,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 8558475996860160266),
+        name: 'examType',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(9, 3233632092608389517),
+        name: 'occurrId',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(10, 8007243344551155313),
+        name: 'dbId',
+        type: 6,
+        flags: 1,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -739,13 +733,35 @@ obx_int.ModelDefinition getObjectBoxModel() {
     // Typically, this is done with `dart run build_runner build`.
     generatorVersion: obx_int.GeneratorVersion.v2025_12_16,
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(11, 6737946482330485890),
+    lastEntityId: const obx_int.IdUid(13, 6490444939705629128),
     lastIndexId: const obx_int.IdUid(1, 860778994234728762),
     lastRelationId: const obx_int.IdUid(0, 0),
     lastSequenceId: const obx_int.IdUid(0, 0),
-    retiredEntityUids: const [],
+    retiredEntityUids: const [7433696585737747799, 2134435878788098394],
     retiredIndexUids: const [],
-    retiredPropertyUids: const [],
+    retiredPropertyUids: const [
+      6987337288438589113,
+      1315405305605818236,
+      3970356124527746475,
+      219584084854926435,
+      2999963298892952116,
+      8584035388144963725,
+      3581020021394973372,
+      5477126519043307170,
+      2707328368115093876,
+      1565565007615085610,
+      3449964008339683749,
+      3051965366602037426,
+      2529474153044582513,
+      8904716583028535510,
+      4642934423200130776,
+      6318243260289414891,
+      2568050699050704594,
+      6912083259861338117,
+      6333156226926030205,
+      5485256109039678113,
+      3014197187509270418,
+    ],
     retiredRelationUids: const [],
     modelVersion: 5,
     modelVersionParserMinimum: 5,
@@ -1044,94 +1060,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
-    Exam: obx_int.EntityDefinition<Exam>(
-      model: _entities[3],
-      toOneRelations: (Exam object) => [],
-      toManyRelations: (Exam object) => {},
-      getId: (Exam object) => object.dbId,
-      setId: (Exam object, int id) {
-        object.dbId = id;
-      },
-      objectToFB: (Exam object, fb.Builder fbb) {
-        final idOffset = fbb.writeString(object.id);
-        final subjectAcronymOffset = fbb.writeString(object.subjectAcronym);
-        final subjectOffset = fbb.writeString(object.subject);
-        final roomsOffset = fbb.writeList(
-          object.rooms.map(fbb.writeString).toList(growable: false),
-        );
-        final examTypeOffset = fbb.writeString(object.examType);
-        final facultyOffset = fbb.writeString(object.faculty);
-        final occurrIdOffset = object.occurrId == null
-            ? null
-            : fbb.writeString(object.occurrId!);
-        fbb.startTable(11);
-        fbb.addInt64(0, object.start.millisecondsSinceEpoch);
-        fbb.addInt64(1, object.finish.millisecondsSinceEpoch);
-        fbb.addOffset(2, idOffset);
-        fbb.addOffset(3, subjectAcronymOffset);
-        fbb.addOffset(4, subjectOffset);
-        fbb.addOffset(5, roomsOffset);
-        fbb.addOffset(6, examTypeOffset);
-        fbb.addOffset(7, facultyOffset);
-        fbb.addInt64(8, object.dbId ?? 0);
-        fbb.addOffset(9, occurrIdOffset);
-        fbb.finish(fbb.endTable());
-        return object.dbId ?? 0;
-      },
-      objectFromFB: (obx.Store store, ByteData fbData) {
-        final buffer = fb.BufferContext(fbData);
-        final rootOffset = buffer.derefObject(0);
-        final idParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 8, '');
-        final startParam = DateTime.fromMillisecondsSinceEpoch(
-          const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
-        );
-        final finishParam = DateTime.fromMillisecondsSinceEpoch(
-          const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0),
-        );
-        final subjectAcronymParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 10, '');
-        final subjectParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 12, '');
-        final roomsParam = const fb.ListReader<String>(
-          fb.StringReader(asciiOptimization: true),
-          lazy: false,
-        ).vTableGet(buffer, rootOffset, 14, []);
-        final examTypeParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 16, '');
-        final facultyParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 18, '');
-        final occurrIdParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 22);
-        final object =
-            Exam(
-                idParam,
-                startParam,
-                finishParam,
-                subjectAcronymParam,
-                subjectParam,
-                roomsParam,
-                examTypeParam,
-                facultyParam,
-                occurrId: occurrIdParam,
-              )
-              ..dbId = const fb.Int64Reader().vTableGetNullable(
-                buffer,
-                rootOffset,
-                20,
-              );
-
-        return object;
-      },
-    ),
     FloorOccupation: obx_int.EntityDefinition<FloorOccupation>(
-      model: _entities[4],
+      model: _entities[3],
       toOneRelations: (FloorOccupation object) => [],
       toManyRelations: (FloorOccupation object) => {},
       getId: (FloorOccupation object) => object.number,
@@ -1177,7 +1107,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     Lecture: obx_int.EntityDefinition<Lecture>(
-      model: _entities[5],
+      model: _entities[4],
       toOneRelations: (Lecture object) => [],
       toManyRelations: (Lecture object) => {},
       getId: (Lecture object) => object.uniqueId,
@@ -1274,7 +1204,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     Meal: obx_int.EntityDefinition<Meal>(
-      model: _entities[6],
+      model: _entities[5],
       toOneRelations: (Meal object) => [object.restaurant],
       toManyRelations: (Meal object) => {},
       getId: (Meal object) => object.id,
@@ -1335,7 +1265,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     Profile: obx_int.EntityDefinition<Profile>(
-      model: _entities[7],
+      model: _entities[6],
       toOneRelations: (Profile object) => [],
       toManyRelations: (Profile object) => {},
       getId: (Profile object) => object.id,
@@ -1400,7 +1330,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     Reference: obx_int.EntityDefinition<Reference>(
-      model: _entities[8],
+      model: _entities[7],
       toOneRelations: (Reference object) => [],
       toManyRelations: (Reference object) => {},
       getId: (Reference object) => object.id,
@@ -1458,7 +1388,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     Restaurant: obx_int.EntityDefinition<Restaurant>(
-      model: _entities[9],
+      model: _entities[8],
       toOneRelations: (Restaurant object) => [],
       toManyRelations: (Restaurant object) => {
         obx_int.RelInfo<Meal>.toOneBacklink(
@@ -1571,7 +1501,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     News: obx_int.EntityDefinition<News>(
-      model: _entities[10],
+      model: _entities[9],
       toOneRelations: (News object) => [],
       toManyRelations: (News object) => {},
       getId: (News object) => object.id,
@@ -1620,6 +1550,84 @@ obx_int.ModelDefinition getObjectBoxModel() {
           image: imageParam,
           link: linkParam,
         );
+
+        return object;
+      },
+    ),
+    Exam: obx_int.EntityDefinition<Exam>(
+      model: _entities[10],
+      toOneRelations: (Exam object) => [],
+      toManyRelations: (Exam object) => {},
+      getId: (Exam object) => object.dbId,
+      setId: (Exam object, int id) {
+        object.dbId = id;
+      },
+      objectToFB: (Exam object, fb.Builder fbb) {
+        final idOffset = fbb.writeString(object.id);
+        final subjectAcronymOffset = fbb.writeString(object.subjectAcronym);
+        final subjectOffset = fbb.writeString(object.subject);
+        final roomsOffset = fbb.writeList(
+          object.rooms.map(fbb.writeString).toList(growable: false),
+        );
+        final examTypeOffset = fbb.writeString(object.examType);
+        final occurrIdOffset = fbb.writeString(object.occurrId);
+        fbb.startTable(11);
+        fbb.addInt64(0, object.start.millisecondsSinceEpoch);
+        fbb.addInt64(1, object.finish.millisecondsSinceEpoch);
+        fbb.addOffset(2, idOffset);
+        fbb.addOffset(3, subjectAcronymOffset);
+        fbb.addOffset(4, subjectOffset);
+        fbb.addOffset(5, roomsOffset);
+        fbb.addOffset(6, examTypeOffset);
+        fbb.addOffset(8, occurrIdOffset);
+        fbb.addInt64(9, object.dbId ?? 0);
+        fbb.finish(fbb.endTable());
+        return object.dbId ?? 0;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 8, '');
+        final startParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+        );
+        final finishParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0),
+        );
+        final subjectAcronymParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 10, '');
+        final subjectParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 12, '');
+        final roomsParam = const fb.ListReader<String>(
+          fb.StringReader(asciiOptimization: true),
+          lazy: false,
+        ).vTableGet(buffer, rootOffset, 14, []);
+        final examTypeParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 16, '');
+        final occurrIdParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 20, '');
+        final object =
+            Exam(
+                idParam,
+                startParam,
+                finishParam,
+                subjectAcronymParam,
+                subjectParam,
+                roomsParam,
+                examTypeParam,
+                occurrIdParam,
+              )
+              ..dbId = const fb.Int64Reader().vTableGetNullable(
+                buffer,
+                rootOffset,
+                22,
+              );
 
         return object;
       },
@@ -1788,68 +1796,21 @@ class CourseUnit_ {
   );
 }
 
-/// [Exam] entity fields to define ObjectBox queries.
-class Exam_ {
-  /// See [Exam.start].
-  static final start = obx.QueryDateProperty<Exam>(_entities[3].properties[0]);
-
-  /// See [Exam.finish].
-  static final finish = obx.QueryDateProperty<Exam>(_entities[3].properties[1]);
-
-  /// See [Exam.id].
-  static final id = obx.QueryStringProperty<Exam>(_entities[3].properties[2]);
-
-  /// See [Exam.subjectAcronym].
-  static final subjectAcronym = obx.QueryStringProperty<Exam>(
-    _entities[3].properties[3],
-  );
-
-  /// See [Exam.subject].
-  static final subject = obx.QueryStringProperty<Exam>(
-    _entities[3].properties[4],
-  );
-
-  /// See [Exam.rooms].
-  static final rooms = obx.QueryStringVectorProperty<Exam>(
-    _entities[3].properties[5],
-  );
-
-  /// See [Exam.examType].
-  static final examType = obx.QueryStringProperty<Exam>(
-    _entities[3].properties[6],
-  );
-
-  /// See [Exam.faculty].
-  static final faculty = obx.QueryStringProperty<Exam>(
-    _entities[3].properties[7],
-  );
-
-  /// See [Exam.dbId].
-  static final dbId = obx.QueryIntegerProperty<Exam>(
-    _entities[3].properties[8],
-  );
-
-  /// See [Exam.occurrId].
-  static final occurrId = obx.QueryStringProperty<Exam>(
-    _entities[3].properties[9],
-  );
-}
-
 /// [FloorOccupation] entity fields to define ObjectBox queries.
 class FloorOccupation_ {
   /// See [FloorOccupation.number].
   static final number = obx.QueryIntegerProperty<FloorOccupation>(
-    _entities[4].properties[0],
+    _entities[3].properties[0],
   );
 
   /// See [FloorOccupation.occupation].
   static final occupation = obx.QueryIntegerProperty<FloorOccupation>(
-    _entities[4].properties[1],
+    _entities[3].properties[1],
   );
 
   /// See [FloorOccupation.capacity].
   static final capacity = obx.QueryIntegerProperty<FloorOccupation>(
-    _entities[4].properties[2],
+    _entities[3].properties[2],
   );
 }
 
@@ -1857,94 +1818,94 @@ class FloorOccupation_ {
 class Lecture_ {
   /// See [Lecture.uniqueId].
   static final uniqueId = obx.QueryIntegerProperty<Lecture>(
-    _entities[5].properties[0],
+    _entities[4].properties[0],
   );
 
   /// See [Lecture.acronym].
   static final acronym = obx.QueryStringProperty<Lecture>(
-    _entities[5].properties[1],
+    _entities[4].properties[1],
   );
 
   /// See [Lecture.subject].
   static final subject = obx.QueryStringProperty<Lecture>(
-    _entities[5].properties[2],
+    _entities[4].properties[2],
   );
 
   /// See [Lecture.typeClass].
   static final typeClass = obx.QueryStringProperty<Lecture>(
-    _entities[5].properties[3],
+    _entities[4].properties[3],
   );
 
   /// See [Lecture.room].
   static final room = obx.QueryStringProperty<Lecture>(
-    _entities[5].properties[4],
+    _entities[4].properties[4],
   );
 
   /// See [Lecture.teacher].
   static final teacher = obx.QueryStringProperty<Lecture>(
-    _entities[5].properties[5],
+    _entities[4].properties[5],
   );
 
   /// See [Lecture.teacherName].
   static final teacherName = obx.QueryStringProperty<Lecture>(
-    _entities[5].properties[6],
+    _entities[4].properties[6],
   );
 
   /// See [Lecture.teacherId].
   static final teacherId = obx.QueryIntegerProperty<Lecture>(
-    _entities[5].properties[7],
+    _entities[4].properties[7],
   );
 
   /// See [Lecture.classNumber].
   static final classNumber = obx.QueryStringProperty<Lecture>(
-    _entities[5].properties[8],
+    _entities[4].properties[8],
   );
 
   /// See [Lecture.startTime].
   static final startTime = obx.QueryDateProperty<Lecture>(
-    _entities[5].properties[9],
+    _entities[4].properties[9],
   );
 
   /// See [Lecture.endTime].
   static final endTime = obx.QueryDateProperty<Lecture>(
-    _entities[5].properties[10],
+    _entities[4].properties[10],
   );
 
   /// See [Lecture.occurrId].
   static final occurrId = obx.QueryIntegerProperty<Lecture>(
-    _entities[5].properties[11],
+    _entities[4].properties[11],
   );
 }
 
 /// [Meal] entity fields to define ObjectBox queries.
 class Meal_ {
   /// See [Meal.id].
-  static final id = obx.QueryIntegerProperty<Meal>(_entities[6].properties[0]);
+  static final id = obx.QueryIntegerProperty<Meal>(_entities[5].properties[0]);
 
   /// See [Meal.type].
-  static final type = obx.QueryStringProperty<Meal>(_entities[6].properties[1]);
+  static final type = obx.QueryStringProperty<Meal>(_entities[5].properties[1]);
 
   /// See [Meal.namePt].
   static final namePt = obx.QueryStringProperty<Meal>(
-    _entities[6].properties[2],
+    _entities[5].properties[2],
   );
 
   /// See [Meal.nameEn].
   static final nameEn = obx.QueryStringProperty<Meal>(
-    _entities[6].properties[3],
+    _entities[5].properties[3],
   );
 
   /// See [Meal.date].
-  static final date = obx.QueryDateProperty<Meal>(_entities[6].properties[4]);
+  static final date = obx.QueryDateProperty<Meal>(_entities[5].properties[4]);
 
   /// See [Meal.restaurant].
   static final restaurant = obx.QueryRelationToOne<Meal, Restaurant>(
-    _entities[6].properties[5],
+    _entities[5].properties[5],
   );
 
   /// See [Meal.dbDayOfWeek].
   static final dbDayOfWeek = obx.QueryIntegerProperty<Meal>(
-    _entities[6].properties[6],
+    _entities[5].properties[6],
   );
 }
 
@@ -1952,37 +1913,37 @@ class Meal_ {
 class Profile_ {
   /// See [Profile.id].
   static final id = obx.QueryIntegerProperty<Profile>(
-    _entities[7].properties[0],
+    _entities[6].properties[0],
   );
 
   /// See [Profile.name].
   static final name = obx.QueryStringProperty<Profile>(
-    _entities[7].properties[1],
+    _entities[6].properties[1],
   );
 
   /// See [Profile.email].
   static final email = obx.QueryStringProperty<Profile>(
-    _entities[7].properties[2],
+    _entities[6].properties[2],
   );
 
   /// See [Profile.printBalance].
   static final printBalance = obx.QueryStringProperty<Profile>(
-    _entities[7].properties[3],
+    _entities[6].properties[3],
   );
 
   /// See [Profile.feesBalance].
   static final feesBalance = obx.QueryStringProperty<Profile>(
-    _entities[7].properties[4],
+    _entities[6].properties[4],
   );
 
   /// See [Profile.feesLimit].
   static final feesLimit = obx.QueryDateProperty<Profile>(
-    _entities[7].properties[5],
+    _entities[6].properties[5],
   );
 
   /// See [Profile.answeredPedagogicalSurveys].
   static final answeredPedagogicalSurveys = obx.QueryBooleanProperty<Profile>(
-    _entities[7].properties[6],
+    _entities[6].properties[6],
   );
 }
 
@@ -1990,32 +1951,32 @@ class Profile_ {
 class Reference_ {
   /// See [Reference.id].
   static final id = obx.QueryIntegerProperty<Reference>(
-    _entities[8].properties[0],
+    _entities[7].properties[0],
   );
 
   /// See [Reference.description].
   static final description = obx.QueryStringProperty<Reference>(
-    _entities[8].properties[1],
+    _entities[7].properties[1],
   );
 
   /// See [Reference.limitDate].
   static final limitDate = obx.QueryDateProperty<Reference>(
-    _entities[8].properties[2],
+    _entities[7].properties[2],
   );
 
   /// See [Reference.entity].
   static final entity = obx.QueryIntegerProperty<Reference>(
-    _entities[8].properties[3],
+    _entities[7].properties[3],
   );
 
   /// See [Reference.reference].
   static final reference = obx.QueryIntegerProperty<Reference>(
-    _entities[8].properties[4],
+    _entities[7].properties[4],
   );
 
   /// See [Reference.amount].
   static final amount = obx.QueryDoubleProperty<Reference>(
-    _entities[8].properties[5],
+    _entities[7].properties[5],
   );
 }
 
@@ -2023,57 +1984,57 @@ class Reference_ {
 class Restaurant_ {
   /// See [Restaurant.uniqueId].
   static final uniqueId = obx.QueryIntegerProperty<Restaurant>(
-    _entities[9].properties[0],
+    _entities[8].properties[0],
   );
 
   /// See [Restaurant.id].
   static final id = obx.QueryIntegerProperty<Restaurant>(
-    _entities[9].properties[1],
+    _entities[8].properties[1],
   );
 
   /// See [Restaurant.typePt].
   static final typePt = obx.QueryStringProperty<Restaurant>(
-    _entities[9].properties[2],
+    _entities[8].properties[2],
   );
 
   /// See [Restaurant.typeEn].
   static final typeEn = obx.QueryStringProperty<Restaurant>(
-    _entities[9].properties[3],
+    _entities[8].properties[3],
   );
 
   /// See [Restaurant.namePt].
   static final namePt = obx.QueryStringProperty<Restaurant>(
-    _entities[9].properties[4],
+    _entities[8].properties[4],
   );
 
   /// See [Restaurant.nameEn].
   static final nameEn = obx.QueryStringProperty<Restaurant>(
-    _entities[9].properties[5],
+    _entities[8].properties[5],
   );
 
   /// See [Restaurant.period].
   static final period = obx.QueryStringProperty<Restaurant>(
-    _entities[9].properties[6],
+    _entities[8].properties[6],
   );
 
   /// See [Restaurant.reference].
   static final reference = obx.QueryStringProperty<Restaurant>(
-    _entities[9].properties[7],
+    _entities[8].properties[7],
   );
 
   /// See [Restaurant.openingHours].
   static final openingHours = obx.QueryStringVectorProperty<Restaurant>(
-    _entities[9].properties[8],
+    _entities[8].properties[8],
   );
 
   /// See [Restaurant.email].
   static final email = obx.QueryStringProperty<Restaurant>(
-    _entities[9].properties[9],
+    _entities[8].properties[9],
   );
 
   /// See [Restaurant.campusId].
   static final campusId = obx.QueryIntegerProperty<Restaurant>(
-    _entities[9].properties[10],
+    _entities[8].properties[10],
   );
 
   /// see [Restaurant.meals]
@@ -2085,25 +2046,67 @@ class Restaurant_ {
 /// [News] entity fields to define ObjectBox queries.
 class News_ {
   /// See [News.id].
-  static final id = obx.QueryIntegerProperty<News>(_entities[10].properties[0]);
+  static final id = obx.QueryIntegerProperty<News>(_entities[9].properties[0]);
 
   /// See [News.title].
   static final title = obx.QueryStringProperty<News>(
-    _entities[10].properties[1],
+    _entities[9].properties[1],
   );
 
   /// See [News.description].
   static final description = obx.QueryStringProperty<News>(
-    _entities[10].properties[2],
+    _entities[9].properties[2],
   );
 
   /// See [News.image].
   static final image = obx.QueryStringProperty<News>(
-    _entities[10].properties[3],
+    _entities[9].properties[3],
   );
 
   /// See [News.link].
-  static final link = obx.QueryStringProperty<News>(
+  static final link = obx.QueryStringProperty<News>(_entities[9].properties[4]);
+}
+
+/// [Exam] entity fields to define ObjectBox queries.
+class Exam_ {
+  /// See [Exam.start].
+  static final start = obx.QueryDateProperty<Exam>(_entities[10].properties[0]);
+
+  /// See [Exam.finish].
+  static final finish = obx.QueryDateProperty<Exam>(
+    _entities[10].properties[1],
+  );
+
+  /// See [Exam.id].
+  static final id = obx.QueryStringProperty<Exam>(_entities[10].properties[2]);
+
+  /// See [Exam.subjectAcronym].
+  static final subjectAcronym = obx.QueryStringProperty<Exam>(
+    _entities[10].properties[3],
+  );
+
+  /// See [Exam.subject].
+  static final subject = obx.QueryStringProperty<Exam>(
     _entities[10].properties[4],
+  );
+
+  /// See [Exam.rooms].
+  static final rooms = obx.QueryStringVectorProperty<Exam>(
+    _entities[10].properties[5],
+  );
+
+  /// See [Exam.examType].
+  static final examType = obx.QueryStringProperty<Exam>(
+    _entities[10].properties[6],
+  );
+
+  /// See [Exam.occurrId].
+  static final occurrId = obx.QueryStringProperty<Exam>(
+    _entities[10].properties[7],
+  );
+
+  /// See [Exam.dbId].
+  static final dbId = obx.QueryIntegerProperty<Exam>(
+    _entities[10].properties[8],
   );
 }
