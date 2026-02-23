@@ -11,20 +11,21 @@ class ProfileInfoPageView extends ConsumerStatefulWidget {
   const ProfileInfoPageView({super.key});
 
   @override
-  ConsumerState<ProfileInfoPageView> createState() => ProfileInfoPageViewState();
+  ConsumerState<ProfileInfoPageView> createState() =>
+      ProfileInfoPageViewState();
 }
 
 /// Manages the 'about' section of the app.
-class ProfileInfoPageViewState extends SecondaryPageViewState<ProfileInfoPageView> {
+class ProfileInfoPageViewState
+    extends SecondaryPageViewState<ProfileInfoPageView> {
   @override
-  
   Widget getBody(BuildContext context) {
     return DefaultConsumer<Profile>(
       provider: profileProvider,
       builder: (context, ref, profile) => ListView(
         children: [
           ProfileOverview(profile: profile),
-          ProfileData(profile: profile)
+          ProfileData(profile: profile),
         ],
       ),
       hasContent: (profile) => profile.courses.isNotEmpty,

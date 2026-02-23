@@ -1,9 +1,4 @@
-import 'dart:convert';
-
-import 'package:http/http.dart';
 import 'package:objectbox/objectbox.dart';
-import 'package:uni/model/entities/course.dart';
-import 'package:uni/model/entities/course_units/course_unit.dart';
 
 /// Stores information about the user's profile.
 @Entity()

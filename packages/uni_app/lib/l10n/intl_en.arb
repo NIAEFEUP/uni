@@ -88,6 +88,8 @@
   "@consent": {},
   "contact": "Contact (optional)",
   "@contact": {},
+  "contacts": "Contacts",
+  "@contacts": {},
   "copy_center": "Copy center",
   "@copy_center": {},
   "copy_center_building": "Floor -1 of building B | AEFEUP building",

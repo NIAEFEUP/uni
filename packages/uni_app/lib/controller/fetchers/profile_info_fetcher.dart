@@ -1,9 +1,6 @@
-import 'package:uni/controller/fetchers/courses_fetcher.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/controller/parsers/parser_courses.dart';
 import 'package:uni/controller/parsers/parser_profile_info.dart';
-import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/profile_info.dart';
 import 'package:uni/session/flows/base/session.dart';
 
@@ -19,13 +16,16 @@ class ProfileInfoFetcher implements SessionDependantFetcher {
   /// Returns the user's [ProfileInfo].
   static Future<ProfileInfo?> fetchProfileInfo(Session session) async {
     final now = DateTime.now();
-    final dummy = '${now.year}-${now.month}-${now.day}T${now.hour}:${now.minute}:${now.second}.${now.millisecond}Z'; 
+    final dummy =
+        '${now.year}-${now.month}-${now.day}T${now.hour}:${now.minute}:${now.second}.${now.millisecond}Z';
     final urlProfileInfo =
         '${NetworkRouter.getBaseUrlsFromSession(session, languageSensitive: true)[0]}'
         'fest_geral.info_pessoal_view?';
-    final responseProfileInfo = await NetworkRouter.getWithCookies(urlProfileInfo, {
-      'pv_num_unico': session.username,
-      'pv_dummy': dummy}, session);
+    final responseProfileInfo = await NetworkRouter.getWithCookies(
+      urlProfileInfo,
+      {'pv_num_unico': session.username, 'pv_dummy': dummy},
+      session,
+    );
 
     final data = parseProfileDetails(responseProfileInfo);
 

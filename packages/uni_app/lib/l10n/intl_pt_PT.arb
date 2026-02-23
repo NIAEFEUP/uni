@@ -90,6 +90,8 @@
   "@consent": {},
   "contact": "Contacto (opcional)",
   "@contact": {},
+  "contacts": "Contactos",
+  "@contacts": {},
   "copy_center": "Centro de cópias",
   "@copy_center": {},
   "copy_center_building": "Piso -1 do edifício B | Edifício da AEFEUP",
