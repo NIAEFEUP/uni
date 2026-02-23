@@ -24,7 +24,7 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
       builder: (context, ref, profile) => ListView(
         children: [
           ProfileOverview(profile: profile),
-          const ProfileInfo(),
+          const ProfileInfoWidget(),
           const Settings(),
         ],
       ),

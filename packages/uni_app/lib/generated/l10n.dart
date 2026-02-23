@@ -2341,6 +2341,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Nationalities`
+  String get nationalities {
+    return Intl.message(
+      'Nationalities',
+      name: 'nationalities',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Identification Documents`
+  String get identification_documents {
+    return Intl.message(
+      'Identification Documents',
+      name: 'identification_documents',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Addresses`
+  String get addresses {
+    return Intl.message(
+      'Addresses',
+      name: 'addresses',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

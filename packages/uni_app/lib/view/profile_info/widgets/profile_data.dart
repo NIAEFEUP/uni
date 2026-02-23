@@ -24,130 +24,95 @@ class ProfileData extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Informações Pessoais',
+            S.of(context).user_informations,
             style: Theme.of(context).textTheme.headlineLarge,
           ),
           GenericCard(
             tooltip: S.of(context).user_informations,
             margin: const EdgeInsets.symmetric(vertical: 8),
             child: Column(
-              children: [
-                DataListTile(
-                  prefix: 'Nome',
-                  text: profile.name,
-                ),
-                DataListTile(
-                  prefix: 'Sexo',
-                  text: profile.sex,
-                ),
-                DataListTile(
-                  prefix: 'Data de Nascimento',
-                  text: profile.birthDate,
-                ),
-                DataListTile(
-                  prefix: 'Estado Civil',
-                  text: profile.maritalStatus,
-                ),
-                DataListTile(
-                  prefix: 'Nome do Pai',
-                  text: profile.fatherName,
-                ),
-                DataListTile(
-                  prefix: 'Nome da Mãe',
-                  text: profile.motherName,
-                ),
-              ],
-            ),
-          ),
-
-          Text(
-            'Nacionalidades',
-            style: Theme.of(context).textTheme.headlineLarge,
-          ),
-          GenericCard(
-            tooltip: S.of(context).user_informations,
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            child: Column(
-              children: profile.nationalities
+              children: (profile.profileInfo?.profileInfo ?? [])
                   .asMap()
                   .entries
                   .map((entry) => DataListTile(
-                    prefix: '${entry.key + 1}',
-                    text: entry.value.capitalize(),
+                    prefix: entry.value[0],
+                    text: entry.value[1],
                   ))
                   .toList(),
             ),
           ),
 
           Text(
-            'Documentos de Identificação',
+            S.of(context).nationalities,
             style: Theme.of(context).textTheme.headlineLarge,
           ),
           GenericCard(
             tooltip: S.of(context).user_informations,
             margin: const EdgeInsets.symmetric(vertical: 8),
             child: Column(
-              children: [
-                DataListTile(
-                  prefix: 'Identificação Fiscal',
-                  text: profile.taxNumber,
-                ),
-                DataListTile(
-                  prefix: 'Cartão de Cidadão',
-                  text: profile.citizensCard,
-                ),
-                DataListTile(
-                  prefix: 'Segurança Social',
-                  text: profile.socialSecurity,
-                ),
-              ],
-            ),
-          ),
-
-          Text(
-            'Contactos Gerais',
-            style: Theme.of(context).textTheme.headlineLarge,
-          ),
-          GenericCard(
-            tooltip: S.of(context).user_informations,
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            child: Column(
-              children: [
-                DataListTile(
-                  prefix: 'Telemóvel',
-                  text: profile.phoneNumber,
-                ),
-                DataListTile(
-                  prefix: 'E-mail',
-                  text: profile.emailAlt,
-                ),
-                DataListTile(
-                  prefix: 'E-mail Instituicional',
-                  text: profile.email,
-                ),
-              ],
-            ),
-          ),
-
-          Text(
-            'Moradas',
-            style: Theme.of(context).textTheme.headlineLarge,
-          ),
-          GenericCard(
-            tooltip: S.of(context).user_informations,
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            child: Column(
-              children: profile.addressesInClassesTime
-                  .map((value) => DataListTile(
-                    prefix: 'Residência em tempo de aulas',
-                    text: value,
+              children: (profile.profileInfo?.nationalities ?? [])
+                  .asMap()
+                  .entries
+                  .map((entry) => DataListTile(
+                    prefix: entry.value[0],
+                    text: entry.value[1].capitalize(),
                   ))
-                  .toList()
-                  +
-                  profile.officialAddresses
-                  .map((value) => DataListTile(
-                    prefix: 'Residência Oficial',
-                    text: value,
+                  .toList(),
+            ),
+          ),
+
+          Text(
+            S.of(context).identification_documents,
+            style: Theme.of(context).textTheme.headlineLarge,
+          ),
+          GenericCard(
+            tooltip: S.of(context).user_informations,
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            child: Column(
+              children: (profile.profileInfo?.identification ?? [])
+                  .asMap()
+                  .entries
+                  .map((entry) => DataListTile(
+                    prefix: entry.value[0],
+                    text: entry.value[1],
+                  ))
+                  .toList(),
+            ),
+          ),
+
+          Text(
+            S.of(context).contacts,
+            style: Theme.of(context).textTheme.headlineLarge,
+          ),
+          GenericCard(
+            tooltip: S.of(context).user_informations,
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            child: Column(
+              children: (profile.profileInfo?.contacts ?? [])
+                  .asMap()
+                  .entries
+                  .map((entry) => DataListTile(
+                    prefix: entry.value[0],
+                    text: entry.value[1],
+                  ))
+                  .toList(),
+            ),
+          ),
+
+          Text(
+            S.of(context).addresses,
+            style: Theme.of(context).textTheme.headlineLarge,
+          ),
+          GenericCard(
+            tooltip: S.of(context).user_informations,
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            child: Column(
+              children: (profile.profileInfo?.addresses ?? [])
+                  .asMap()
+                  .entries
+                  .map((entry) => DataListTile(
+                    prefix: entry.value[0],
+                    text: entry.value[1],
                   ))
                   .toList(),
             ),

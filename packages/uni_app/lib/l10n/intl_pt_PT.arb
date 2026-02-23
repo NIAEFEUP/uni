@@ -459,5 +459,13 @@
   "services": "Serviços",
   "@services": {},
   "goi": "Gabinete de Orientação e Integração",
-  "@goi": {}
+  "@goi": {},
+  "nationalities": "Nacionalidades",
+  "@nationalities": {},
+  "identification_documents": "Documentos de Identificação",
+  "@identification_documents": {},
+  "contacts": "Contactos Gerais",
+  "@contacts": {},
+  "addresses": "Moradas",
+  "@addresses": {}
 }

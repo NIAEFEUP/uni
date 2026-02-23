@@ -2,12 +2,24 @@ import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
 
 
-List<List<String>> parseProfileDetails(http.Response response) {
+List<List<List<String>>> parseProfileDetails(http.Response response) {
   final document = parse(response.body);
-  final tables = document.querySelectorAll('td');
-  final cellTexts = tables.map((cell) => cell.text.trim()).toList();
-  final utilInfo = cellTexts.where((i) => i.isNotEmpty && !i.contains(':')).toList();
-  final prefixes = cellTexts.where((i) => i.isNotEmpty && i.contains(':')).map((i) => i.replaceAll(':', '')).toList();
+  final tables = document.querySelectorAll('table');
+  final List<List<List<String>>> eachTable = [];
   
-  return [utilInfo, prefixes];
+  for (final tableRaw in tables) {
+    final table = tableRaw
+      .querySelectorAll('td')
+      .map((cell) => cell.text.trim().replaceAll(':', ''))
+      .where((cell) => cell.isNotEmpty)
+      .toList();
+    final List<List<String>> tableWithPairs = [];
+    for (var i = 0; i < table.length; i += 2) {
+      tableWithPairs.add(table.sublist(i, i + 2));
+    }
+
+    eachTable.add(tableWithPairs);
+  }
+
+  return eachTable;
 }

@@ -459,5 +459,11 @@
   "services": "Services",
   "@services": {},
   "goi": "Orientation and Integration Office",
-  "@goi": {}
+  "@goi": {},
+  "nationalities": "Nationalities",
+  "@nationalities": {},
+  "identification_documents": "Identification Documents",
+  "@identification_documents": {},
+  "addresses": "Addresses",
+  "@addresses": {}
 }

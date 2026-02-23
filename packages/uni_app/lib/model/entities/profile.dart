@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
+import 'package:uni/model/entities/profile_info.dart';
 
 /// Stores information about the user's profile.
 @Entity()
@@ -11,28 +13,14 @@ class Profile {
   Profile({
     this.name = '',
     this.email = '',
-    this.emailAlt = '',
-    this.phoneNumber = '',
-    this.birthDate = '',
     List<Course>? courses,
-    this.sex = '',
-    this.maritalStatus = '',
-    this.fatherName = '',
-    this.motherName = '',
-    List<String>? nationalities,
-    this.taxNumber = '',
-    this.citizensCard = '',
-    this.socialSecurity = '',
-    List<String>? officialAddresses,
-    List<String>? addressesInClassesTime,
     this.printBalance = '',
     this.feesBalance = '',
     this.feesLimit,
+    ProfileInfo? profileInfo,
   }) : courses = courses ?? [],
-       nationalities = nationalities ?? [],
-       officialAddresses = officialAddresses ?? [],
-       addressesInClassesTime = addressesInClassesTime ?? [],
-       courseUnits = [];
+       courseUnits = [],
+       profileInfo = profileInfo ?? ProfileInfo();
 
   /// Creates a new instance from a JSON object.
   factory Profile.fromResponse(Response response) {
@@ -46,8 +34,6 @@ class Profile {
     return Profile(
       name: responseBody['nome'] as String? ?? '',
       email: responseBody['email'] as String? ?? '',
-      emailAlt: responseBody['email_alt'] as String? ?? '',
-      phoneNumber: responseBody['telemovel'] as String? ?? '',
       courses: courses,
     );
   }
@@ -56,22 +42,10 @@ class Profile {
   int? id;
   final String name;
   final String email;
-  final String emailAlt;
-  final String phoneNumber;
-  String sex;
-  String birthDate;
-  String maritalStatus;
-  String fatherName;
-  String motherName;
-  List<String> nationalities;
-  String taxNumber;
-  String citizensCard;
-  String socialSecurity;
-  List<String> officialAddresses;
-  List<String> addressesInClassesTime;
   String printBalance;
   String feesBalance;
   DateTime? feesLimit;
+  ProfileInfo? profileInfo;
   @Transient()
   List<Course> courses;
   @Transient()
@@ -83,16 +57,6 @@ class Profile {
     return [
       ('name', name),
       ('email', email),
-      ('emailAlt', emailAlt),
-      ('phoneNumber', phoneNumber),
-      ('sex', sex),
-      ('birthDate', birthDate),
-      ('maritalStatus', maritalStatus),
-      ('fatherName', fatherName),
-      ('motherName', motherName),
-      ('taxNumber', taxNumber),
-      ('citizensCard', citizensCard),
-      ('socialSecurity', socialSecurity),
       ('printBalance', printBalance),
       ('feesBalance', feesBalance),
       ('feesLimit', feesLimit != null ? feesLimit!.toIso8601String() : ''),
