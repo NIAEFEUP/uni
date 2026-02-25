@@ -17,21 +17,23 @@ class ProfilePageView extends ConsumerStatefulWidget {
 
 /// Manages the 'Personal user page' section.
 class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
-  @override
-  Widget getBody(BuildContext context) {
-    return DefaultConsumer<Profile>(
-      provider: profileProvider,
-      builder: (context, ref, profile) => ListView(
-        children: [
-          ProfileOverview(profile: profile),
-          const ProfileInfo(),
-          const Settings(),
-        ],
+@override
+Widget getBody(BuildContext context) {
+  return ListView(
+    children: [
+      DefaultConsumer<Profile>(
+        provider: profileProvider,
+        builder: (context, ref, profile) =>
+            ProfileOverview(profile: profile),
+        hasContent: (profile) => profile.courses.isNotEmpty,
+        nullContentWidget: Container(),
       ),
-      hasContent: (profile) => profile.courses.isNotEmpty,
-      nullContentWidget: Container(),
-    );
-  }
+
+      const ProfileInfo(),
+      const Settings(),
+    ],
+  );
+}
 
   @override
   Future<void> onRefresh() async {
