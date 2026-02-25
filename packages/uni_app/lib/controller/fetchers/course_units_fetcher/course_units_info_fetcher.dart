@@ -3,9 +3,11 @@ import 'package:http/http.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_course_unit_info.dart';
+import 'package:uni/controller/parsers/schedule/new_api/parser.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
+import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/session/flows/base/session.dart';
 
 class CourseUnitsInfoFetcher implements SessionDependantFetcher {
@@ -50,6 +52,39 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
             frequency: '',
             books: [],
           );
+  }
+
+  Future<List<Lecture>> fetchCourseUnitLectures(
+    Session session,
+    int occurId,
+  ) async {
+    final now = DateTime.now();
+    final academicYear = now.month >= 8 ? now.year : now.year - 1;
+
+    final url =
+        'https://sigarra.up.pt/calendarios-api/api/v1/events/feup/uc/$occurId/'
+        '?academic_year=$academicYear&period=1&period=2&period=3&period=4&period=5&period=6&period=7&period=8&lang=pt';
+
+    try {
+      final response = await NetworkRouter.getWithCookies(url, {}, session);
+
+      if (response.statusCode == 200) {
+        List<Lecture> lectures = getLecturesFromApiResponse(response);
+
+        lectures = lectures
+            .where(
+              (lecture) =>
+                  lecture.startTime.isAfter(now) &&
+                  lecture.startTime.isBefore(now.add(const Duration(days: 14))),
+            )
+            .toList();
+        return lectures;
+      }
+    } catch (err) {
+      return [];
+    }
+
+    return [];
   }
 
   Future<List<CourseUnitFileDirectory>> fetchCourseUnitFiles(
