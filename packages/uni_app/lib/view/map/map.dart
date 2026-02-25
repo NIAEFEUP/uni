@@ -1,4 +1,5 @@
 import 'package:diacritic/diacritic.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -51,11 +52,11 @@ class MapPageStateView extends ConsumerState<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    final indoorPlansAsync = ref.watch(indoorFloorPlansProvider);
-
     return DefaultConsumer<List<LocationGroup>>(
       provider: locationsProvider,
       builder: (context, ref, locations) {
+        // Watch indoor plans inside the builder to ensure proper rebuilds
+        final indoorPlansAsync = ref.watch(indoorFloorPlansProvider);
         final indoorPlans = indoorPlansAsync.when(
           data: (plans) => plans ?? [],
           loading: () => <IndoorFloorPlan>[],
@@ -94,7 +95,6 @@ class MapPageStateView extends ConsumerState<MapPage> {
         final allFloors =
             {...locationFloors, ...indoorFloors}.toList()
               ..sort((a, b) => b.compareTo(a));
-
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: AppSystemOverlayStyles.base.copyWith(
             statusBarIconBrightness: Brightness.dark,
