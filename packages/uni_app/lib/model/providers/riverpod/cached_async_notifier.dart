@@ -38,13 +38,8 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
       return;
     }
 
-    if (newState == null) {
-      state = const AsyncData(null);
-      return;
-    }
-
     state = AsyncData(newState);
-    if (updateTimestamp) {
+    if (newState != null && updateTimestamp) {
       _lastUpdateTime = DateTime.now();
       PreferencesController.setLastDataClassUpdateTime(
         runtimeType.toString(),
@@ -104,27 +99,7 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
       if (!_isCacheValid) {
         Logger().d('$runtimeType cache is invalid');
       }
-      Logger().d('Loading $runtimeType from remote...');
-      try {
-        final remoteData = await loadFromRemote();
-        if (remoteData != null) {
-          _updateState(remoteData);
-          Logger().d('✅ Loaded $runtimeType from remote!');
-          return remoteData;
-        }
-      } catch (e, st) {
-        Logger().e(
-          'Failed to load $runtimeType from remote: $e',
-          error: e,
-          stackTrace: st,
-        );
-        if (localData != null && !_invalidLocalData(localData)) {
-          Logger().w('Falling back to local data for $runtimeType');
-          return localData;
-        }
-        _updateError(e, st);
-        rethrow;
-      }
+      return refreshRemote();
     }
 
     return localData;
@@ -143,17 +118,27 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
       if (result != null) {
         _updateState(result);
         Logger().d('✅ Refreshed $runtimeType from remote!');
+        return result;
       }
-      return result;
-    } catch (e, st) {
-      Logger().e(
-        'Failed to refresh $runtimeType: $e',
-        error: e,
-        stackTrace: st,
+
+      return _handleRemoteFailure(
+        'Failed to refresh $runtimeType: No valid cache and remote fetch failed',
       );
-      _updateError(e, st);
-      return state.value;
+    } catch (err, st) {
+      return _handleRemoteFailure(err, st);
     }
+  }
+
+  T? _handleRemoteFailure(Object error, [StackTrace? stackTrace]) {
+    final cachedValue = state.value;
+    if (cachedValue != null && !_invalidLocalData(cachedValue)) {
+      Logger().w('Falling back to cached data for $runtimeType due to: $error');
+      _updateState(cachedValue, updateTimestamp: false);
+      return cachedValue;
+    }
+
+    _updateError(error, stackTrace);
+    return null;
   }
 
   void updateState(T newState) {
