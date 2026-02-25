@@ -14,6 +14,8 @@ class ProfileOverview extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final session = ref.read(sessionProvider.select((value) => value.value!));
 
+    final name = profile.name.split(' ');
+
     return FutureBuilder(
       future: ProfileNotifier.fetchOrGetCachedProfilePicture(session),
       builder: (context, profilePic) => Column(
@@ -22,7 +24,7 @@ class ProfileOverview extends ConsumerWidget {
           const ProfileImage(radius: 75),
           const Padding(padding: EdgeInsets.all(8)),
           Text(
-            profile.name,
+            '${name.first} ${name.length > 1 ? name.last : ''}',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headlineLarge,
           ),

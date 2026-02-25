@@ -25,6 +25,7 @@ class ProfileInfoPageViewState
       builder: (context, ref, profile) => ListView(
         children: [
           ProfileOverview(profile: profile),
+          const SizedBox(height: 16),
           ProfileData(profile: profile),
         ],
       ),

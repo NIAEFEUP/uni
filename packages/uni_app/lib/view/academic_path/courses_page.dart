@@ -20,23 +20,6 @@ class CoursesPage extends ConsumerStatefulWidget {
 }
 
 class CoursesPageState extends ConsumerState<CoursesPage> {
-  static Locale? _lastLocale;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final locale = Localizations.localeOf(context);
-    if (_lastLocale != locale) {
-      _lastLocale = locale;
-      Future.microtask(() {
-        ref.read(profileProvider.notifier).refreshRemote();
-        if (mounted) {
-          setState(() {});
-        }
-      });
-    }
-  }
-
   var _courseUnitIndex = 0;
 
   void _onCourseUnitSelected(int index) {

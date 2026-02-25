@@ -464,6 +464,8 @@
   "@goi": {},
   "nationalities": "Nacionalidades",
   "@nationalities": {},
+  "nationality": "Nacionalidade",
+  "@nationality": {},
   "identification_documents": "Documentos de Identificação",
   "@identification_documents": {},
   "contacts": "Contactos Gerais",

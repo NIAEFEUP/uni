@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uni_ui/icons.dart';
 
 class DataListTile extends StatelessWidget {
   const DataListTile({
@@ -9,10 +8,12 @@ class DataListTile extends StatelessWidget {
     this.subtitle,
     this.trailing,
     this.onTap,
+    this.alignPrefix = TextAlign.left,
   });
 
   final String prefix;
   final String text;
+  final TextAlign? alignPrefix;
   final String? subtitle;
   final VoidCallback? onTap;
   final Widget? trailing;
@@ -26,15 +27,15 @@ class DataListTile extends StatelessWidget {
           overflow: TextOverflow.visible,
           softWrap: true,
           style: Theme.of(context).textTheme.headlineSmall,
-          textAlign: TextAlign.right,
+          textAlign: alignPrefix,
         ),
-        width: 90,
+        width: 100,
       ),
       title: Text(
         text,
         overflow: TextOverflow.visible,
         softWrap: true,
-        style: Theme.of(context).textTheme.headlineSmall,
+        style: Theme.of(context).textTheme.titleMedium,
         textAlign: TextAlign.left,
       ),
       subtitle: subtitle != null ? Text(subtitle!) : null,
