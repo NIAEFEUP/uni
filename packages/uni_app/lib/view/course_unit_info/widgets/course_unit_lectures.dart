@@ -17,25 +17,8 @@ class CourseUnitLecturesView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final now = DateTime.now();
 
-    final sorted = List<Lecture>.from(lectures)
-      ..sort((a, b) => a.startTime.compareTo(b.startTime));
-
-    final unique = sorted.fold<List<Lecture>>([], (result, lecture) {
-      final isDuplicate = result.any(
-        (existing) =>
-            existing.teacher == lecture.teacher &&
-            existing.subject == lecture.subject &&
-            existing.startTime == lecture.startTime &&
-            existing.endTime == lecture.endTime,
-      );
-      if (!isDuplicate) {
-        result.add(lecture);
-      }
-      return result;
-    });
-
     final groupedByDay = groupBy<Lecture, DateTime>(
-      unique,
+      lectures,
       (lecture) => DateTime(
         lecture.startTime.year,
         lecture.startTime.month,

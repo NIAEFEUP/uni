@@ -69,15 +69,17 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
       final response = await NetworkRouter.getWithCookies(url, {}, session);
 
       if (response.statusCode == 200) {
-        List<Lecture> lectures = getLecturesFromApiResponse(response);
-
-        lectures = lectures
-            .where(
-              (lecture) =>
-                  lecture.startTime.isAfter(now) &&
-                  lecture.startTime.isBefore(now.add(const Duration(days: 14))),
-            )
-            .toList();
+        final lectures =
+            getUniqueLecturesFromApiResponse(response)
+                .where(
+                  (lecture) =>
+                      lecture.startTime.isAfter(now) &&
+                      lecture.startTime.isBefore(
+                        now.add(const Duration(days: 14)),
+                      ),
+                )
+                .toList()
+              ..sort((a, b) => a.startTime.compareTo(b.startTime));
         return lectures;
       }
     } catch (err) {
