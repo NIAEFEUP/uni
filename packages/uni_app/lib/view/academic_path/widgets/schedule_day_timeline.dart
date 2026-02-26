@@ -1,13 +1,11 @@
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
-import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
 
@@ -17,11 +15,13 @@ class ScheduleDayTimeline extends ConsumerWidget {
     required this.now,
     required this.day,
     required this.lectures,
+    this.onLectureTap,
   });
 
   final DateTime now;
   final DateTime day;
   final List<Lecture> lectures;
+  final void Function(Lecture lecture)? onLectureTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -75,26 +75,7 @@ class ScheduleDayTimeline extends ConsumerWidget {
               teacherPhoto: snapshot.hasData && snapshot.data != null
                   ? Image(image: FileImage(snapshot.data!))
                   : Image.asset('assets/images/profile_placeholder.png'),
-              onTap: () {
-                final profile = ref.watch(
-                  profileProvider.select((value) => value.value),
-                );
-
-                if (profile != null) {
-                  final courseUnit = profile.courseUnits.firstWhereOrNull(
-                    (unit) => unit.abbreviation == lecture.acronym,
-                  );
-                  if (courseUnit != null && courseUnit.occurrId != null) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<CourseUnitDetailPageView>(
-                        builder: (context) =>
-                            CourseUnitDetailPageView(courseUnit),
-                      ),
-                    );
-                  }
-                }
-              },
+              onTap: onLectureTap != null ? () => onLectureTap!(lecture) : null,
             );
           },
         ),
