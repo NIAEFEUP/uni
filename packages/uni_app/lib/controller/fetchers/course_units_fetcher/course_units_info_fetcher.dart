@@ -59,18 +59,32 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     int occurId,
   ) async {
     final now = DateTime.now();
-    final academicYear = now.month >= 8 ? now.year : now.year - 1;
+    final lectiveYear = now.month >= 8 ? now.year : now.year - 1;
 
-    final url =
-        'https://sigarra.up.pt/calendarios-api/api/v1/events/feup/uc/$occurId/'
-        '?academic_year=$academicYear&period=1&period=2&period=3&period=4&period=5&period=6&period=7&period=8&lang=pt';
+    final baseUrls = NetworkRouter.getBaseUrlsFromSession(session);
+    final url = '${baseUrls[0]}hor_geral.ucurr_view';
 
     try {
-      final response = await NetworkRouter.getWithCookies(url, {}, session);
+      final htmlResponse = await NetworkRouter.getWithCookies(url, {
+        'pv_ocorrencia_id': occurId.toString(),
+        'pv_ano_lectivo': lectiveYear.toString(),
+        'pv_periodos': '1',
+      }, session);
 
-      if (response.statusCode == 200) {
+      final apiUrl = getScheduleApiUrlFromHtml(htmlResponse);
+      if (apiUrl == null) {
+        return [];
+      }
+
+      final apiResponse = await NetworkRouter.getWithCookies(
+        apiUrl,
+        {},
+        session,
+      );
+
+      if (apiResponse.statusCode == 200) {
         final lectures =
-            getUniqueLecturesFromApiResponse(response)
+            getUniqueLecturesFromApiResponse(apiResponse)
                 .where(
                   (lecture) =>
                       lecture.startTime.isAfter(now) &&
