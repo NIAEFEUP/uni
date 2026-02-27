@@ -231,6 +231,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "goi": MessageLookupByLibrary.simpleMessage(
       "Gabinete de Orientação e Integração",
     ),
+    "list_view": MessageLookupByLibrary.simpleMessage("Lista"),
+    "calendar_view": MessageLookupByLibrary.simpleMessage("Calendário"),
     "improvement_registration": MessageLookupByLibrary.simpleMessage(
       "Inscrição para Melhoria",
     ),
