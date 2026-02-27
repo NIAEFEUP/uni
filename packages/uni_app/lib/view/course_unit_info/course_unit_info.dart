@@ -112,6 +112,7 @@ class CourseUnitDetailPageViewState
       controller: tabController,
       dividerHeight: 1,
       isScrollable: true,
+      tabAlignment: TabAlignment.start,
       tabs: [
         TabIcon(icon: UniIcons.notebook, text: S.of(context).course_info),
         TabIcon(icon: UniIcons.classes, text: S.of(context).course_class),
