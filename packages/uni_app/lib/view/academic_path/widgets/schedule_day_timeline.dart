@@ -15,6 +15,7 @@ class ScheduleDayTimeline extends ConsumerWidget {
     required this.now,
     required this.day,
     required this.lectures,
+    this.showClassNumber = false,
     this.onLectureTap,
   });
 
@@ -22,6 +23,7 @@ class ScheduleDayTimeline extends ConsumerWidget {
   final DateTime day;
   final List<Lecture> lectures;
   final void Function(Lecture lecture)? onLectureTap;
+  final bool showClassNumber;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -71,6 +73,7 @@ class ScheduleDayTimeline extends ConsumerWidget {
               acronym: lecture.acronym,
               room: lecture.room,
               type: lecture.typeClass,
+              classNumber: showClassNumber ? lecture.classNumber : null,
               teacherName: lecture.teacherName,
               teacherPhoto: snapshot.hasData && snapshot.data != null
                   ? Image(image: FileImage(snapshot.data!))

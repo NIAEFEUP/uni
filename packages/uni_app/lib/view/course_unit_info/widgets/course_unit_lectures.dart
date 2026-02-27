@@ -92,6 +92,7 @@ class CourseUnitLecturesView extends ConsumerWidget {
                 now: now,
                 day: date,
                 lectures: groupedByDay[date]!,
+                showClassNumber: true,
               ),
             )
             .toList(),
