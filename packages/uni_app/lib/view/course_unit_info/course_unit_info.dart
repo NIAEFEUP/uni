@@ -5,6 +5,7 @@ import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/riverpod/course_units_info_provider.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
+import 'package:uni/view/academic_path/widgets/no_classes_widget.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_lectures.dart';
@@ -231,9 +232,7 @@ class CourseUnitDetailPageViewState
         }
 
         if (lectures.isEmpty) {
-          return Center(
-            child: Text(S.of(context).no_info, textAlign: TextAlign.center),
-          );
+          return const Center(child: NoClassesWidget(showSublabel: false));
         }
 
         return CourseUnitLecturesView(lectures, widget.courseUnit);
