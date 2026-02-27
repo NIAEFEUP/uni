@@ -43,7 +43,7 @@ class CourseUnitDetailPageViewState
   void _onTabChanged() {
     if (tabController.index == 1) {
       loadClasses(force: false);
-    } else if (tabController.index == 3) {
+    } else if (tabController.index == 2) {
       loadLectures(force: false);
     }
   }
@@ -95,7 +95,7 @@ class CourseUnitDetailPageViewState
     await loadInfo(force: true);
     if (tabController.index == 1) {
       await loadClasses(force: true);
-    } else if (tabController.index == 3) {
+    } else if (tabController.index == 2) {
       await loadLectures(force: true);
     }
   }
@@ -110,11 +110,12 @@ class CourseUnitDetailPageViewState
     return TabBar(
       controller: tabController,
       dividerHeight: 1,
+      isScrollable: true,
       tabs: [
         TabIcon(icon: UniIcons.notebook, text: S.of(context).course_info),
         TabIcon(icon: UniIcons.classes, text: S.of(context).course_class),
-        TabIcon(icon: UniIcons.files, text: S.of(context).files),
         TabIcon(icon: UniIcons.lecture, text: S.of(context).lectures),
+        TabIcon(icon: UniIcons.files, text: S.of(context).files),
       ],
     );
   }
@@ -126,8 +127,8 @@ class CourseUnitDetailPageViewState
       children: [
         _courseUnitSheetView(context),
         _courseUnitClassesView(context),
-        _courseUnitFilesView(context),
         _courseUnitLecturesView(context),
+        _courseUnitFilesView(context),
       ],
     );
   }
