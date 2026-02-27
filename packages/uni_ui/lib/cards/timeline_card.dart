@@ -40,9 +40,9 @@ class TimelineItem extends StatelessWidget {
               height: 20,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isActive ? Theme.of(context).primaryColor : Colors.white,
+                color: isActive ? Theme.of(context).iconTheme.color : Colors.transparent,
                 border: Border.all(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).iconTheme.color!,
                   width: 4.0,
                 ),
               ),
@@ -65,7 +65,7 @@ class TimelineItem extends StatelessWidget {
               width: 3,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).iconTheme.color,
               ),
             ),
           ],

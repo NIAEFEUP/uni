@@ -55,7 +55,6 @@ class ServiceCard extends StatelessWidget {
                       children: [
                         UniIcon(
                           UniIcons.clock,
-                          color: Theme.of(context).shadowColor,
                         ),
                         const SizedBox(width: 5),
                         Expanded(

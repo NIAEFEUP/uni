@@ -20,8 +20,8 @@ class DayOfWeekTab extends StatelessWidget {
       height: 50,
       decoration: BoxDecoration(
         color: isSelected
-            ? Theme.of(context).focusColor
-            : Theme.of(context).scaffoldBackgroundColor,
+            ? Theme.of(context).colorScheme.inversePrimary
+            : Colors.transparent,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(

@@ -19,7 +19,6 @@ class CourseGradeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return GenericCard(
       shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
       blurRadius: 2,
@@ -28,10 +27,10 @@ class CourseGradeCard extends StatelessWidget {
       onClick: onTap,
       margin: EdgeInsets.zero,
       color: grade == ''
-          ? theme.colorScheme.surfaceContainer
+          ? null
           : ((double.tryParse(grade!) ?? 0) >= 10
-                ? theme.colorScheme.surfaceContainer
-                : const Color.fromARGB(255, 249, 247, 247)),
+                ? null
+                : Theme.of(context).disabledColor),
       child: SizedBox(
         height: 75,
         child: Column(
@@ -40,7 +39,7 @@ class CourseGradeCard extends StatelessWidget {
           children: [
             Text(
               courseName,
-              style: theme.textTheme.bodySmall,
+              style: Theme.of(context).textTheme.bodySmall,
               overflow: TextOverflow.ellipsis,
             ),
             Row(
@@ -48,9 +47,9 @@ class CourseGradeCard extends StatelessWidget {
               children: [
                 Text(
                   '${ects == ects.toInt() ? ects.toInt() : ects} ECTS',
-                  style: theme.textTheme.bodySmall,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
-                Text('${grade ?? ""}', style: theme.textTheme.bodySmall),
+                Text('${grade ?? ""}', style: Theme.of(context).textTheme.bodySmall),
               ],
             ),
           ],

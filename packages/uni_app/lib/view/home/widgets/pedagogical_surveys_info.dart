@@ -24,9 +24,9 @@ class PedagogicalSurveysInfo extends StatelessWidget {
         onTap: () {
           PedagogicalSurveysDialog.forceBuild(context);
         },
-        child: UniIcon(
+        child: const UniIcon(
           UniIcons.chartBar,
-          color: Theme.of(context).colorScheme.secondary,
+          color: Color(0xFFE5C8C7),
         ),
       ),
     );

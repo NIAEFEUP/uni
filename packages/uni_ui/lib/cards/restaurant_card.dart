@@ -73,11 +73,6 @@ class RestaurantCardHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: Theme.of(context).dividerColor, width: 1.0),
-        ),
-      ),
       child: Row(
         children: [
           Expanded(flex: 1, child: icon),

@@ -136,11 +136,6 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-      ),
       onPressed: () => _showFilterDialog(context),
       child: Row(
         mainAxisSize: MainAxisSize.min,

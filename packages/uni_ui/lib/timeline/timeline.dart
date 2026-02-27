@@ -190,7 +190,7 @@ class _TimelineState extends State<Timeline> {
                             color: isSelected
                                 ? Theme.of(
                                     context,
-                                  ).colorScheme.tertiary.withValues(alpha: 0.25)
+                                  ).colorScheme.inversePrimary
                                 : Colors.transparent,
                             child: DefaultTextStyle(
                               style: textStyle.copyWith(

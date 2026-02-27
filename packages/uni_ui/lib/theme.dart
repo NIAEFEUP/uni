@@ -90,6 +90,84 @@ const _lightTextTheme = TextTheme(
   ),
 );
 
+const _darkTextTheme = TextTheme(
+  displayLarge: TextStyle(
+    fontSize: 40,
+    fontWeight: FontWeight.w400,
+    color: Color(0xFFE5C8C7),
+  ),
+  displayMedium: TextStyle(
+    fontSize: 40,
+    fontWeight: FontWeight.w400,
+    color: Color(0xFFE5C8C7),
+  ),
+  displaySmall: TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.w500,
+    color: Color(0xFFE5C8C7),
+  ),
+  headlineLarge: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    color: Color(0xFFE5C8C7),
+  ),
+  headlineMedium: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    color: Color(0xFFE5C8C7),
+  ),
+  headlineSmall: TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: Color(0xFFE5C8C7),
+  ),
+  titleLarge: TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: Color(0xFFE5C8C7),
+  ),
+  titleMedium: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: Color(0xFFE5C8C7),
+  ),
+  titleSmall: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: Color(0xFFE5C8C7),
+  ),
+  bodyLarge: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: Color(0xFFE5C8C7),
+  ),
+  bodyMedium: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: Color(0xFFE5C8C7),
+  ),
+  bodySmall: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: Color(0xFFE5C8C7),
+  ),
+  labelLarge: TextStyle(
+    fontSize: 9,
+    fontWeight: FontWeight.w400,
+    color: Color(0xFFE5C8C7),
+  ),
+  labelMedium: TextStyle(
+    fontSize: 9,
+    fontWeight: FontWeight.w400,
+    color: Color(0xFFE5C8C7),
+  ),
+  labelSmall: TextStyle(
+    fontSize: 9,
+    fontWeight: FontWeight.w400,
+    color: Color(0xFFE5C8C7),
+  ),
+);
+
 /*
 var _lightTextTheme = TextTheme(
   displayLarge: _textTheme.displayLarge!,
@@ -110,26 +188,55 @@ var _lightTextTheme = TextTheme(
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   textTheme: _lightTextTheme,
-  colorScheme: ColorScheme.fromSeed(
-    seedColor: primaryVibrant,
-    surface: background,
-    surfaceContainer: secondary,
-    primary: primaryVibrant,
-    onPrimary: background,
-    secondary: secondary,
-    onSecondary: background,
-    tertiary: details,
-    onTertiary: background,
+  colorScheme: ColorScheme.light(
+    primary: Color(0xFF660910),
+    inversePrimary: Color.fromARGB(40, 177, 77, 84),
+    surface: Color(0xFFFFFFFF),
+    onSurface: Color(0xFF313131),
+    secondary: Color(0xFFFFF5F3),
+    onSecondaryContainer: Color(0xFF660910),
   ),
-  primaryColor: primaryVibrant,
-  cardTheme: CardThemeData(margin: EdgeInsets.all(4), color: secondary),
-  dividerColor: divider,
-  hintColor: details,
-  tabBarTheme: TabBarThemeData(indicatorColor: details),
-  secondaryHeaderColor: secondary,
-  focusColor: focused,
-  shadowColor: grayMiddle,
-  iconTheme: const IconThemeData(color: primaryVibrant),
+  cardTheme: CardThemeData(
+    color: Color(0xFFFFF5F3),
+    shadowColor: Color(0xFF000000).withValues(alpha: 0.03),
+    margin: const EdgeInsets.all(4),
+  ),
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(
+      backgroundColor: Color(0xFFFFF5F3),
+    ),
+  ),
+  iconTheme: IconThemeData(
+    color: Color(0xFF660910),
+  ),
+  disabledColor: Color(0xFFF9F7F7),
+);
+
+ThemeData darkTheme = ThemeData(
+  useMaterial3: true,
+  textTheme: _darkTextTheme,
+  colorScheme: ColorScheme.dark(
+    primary: Color(0xFF2F0A0C),
+    inversePrimary: Color(0xFF3F100F),
+    surface: Color(0xFF1C0F10),
+    onSurface: Color(0xFFFFF5F3),
+    secondary: Color(0xFF56272B),
+    onSecondaryContainer: Color(0xFFE5C8C7),
+  ),
+  cardTheme: CardThemeData(
+    color: Color(0xFF56272B),
+    shadowColor: Color(0xFF000000).withValues(alpha: 0.03),
+    margin: const EdgeInsets.all(4),
+  ),
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(
+      backgroundColor: Color(0xFF56272B),
+    ),
+  ),
+  iconTheme: IconThemeData(
+    color: Color(0xFFE5C8C7),
+  ),
+  disabledColor: Color(0xFF614D4F),
 );
 
 class BadgeColors {

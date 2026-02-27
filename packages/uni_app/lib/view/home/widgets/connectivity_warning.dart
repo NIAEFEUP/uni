@@ -19,9 +19,9 @@ class ConnectivityWarning extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       textStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
-      child: UniIcon(
+      child: const UniIcon(
         UniIcons.noWifi,
-        color: Theme.of(context).colorScheme.secondary,
+        color: Color(0xFFE5C8C7),
       ),
     );
   }

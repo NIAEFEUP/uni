@@ -5,7 +5,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/profile/widgets/locale_switch_button.dart';
 import 'package:uni/view/profile/widgets/notifications_dialog.dart';
-// import 'package:uni/view/profile/widgets/theme_switch_button.dart';
+import 'package:uni/view/profile/widgets/theme_switch_button.dart';
 import 'package:uni/view/profile/widgets/usage_stats_switch.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/cards/profile_list_tile.dart';
@@ -30,13 +30,11 @@ class Settings extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 8),
             child: Column(
               children: [
-                /*
                 ProfileListTile(
                   icon: UniIcons.pallete,
                   title: S.of(context).theme,
                   trailing: const ThemeSwitchButton(),
                 ),
-                */
                 ProfileListTile(
                   icon: UniIcons.globeHemisphereWest,
                   title: S.of(context).language,

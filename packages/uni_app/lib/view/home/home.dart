@@ -116,8 +116,8 @@ class HomePageViewState extends ConsumerState<HomePageView> {
         extendBody: true,
         floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Theme.of(context).primaryColor,
-          foregroundColor: Colors.white,
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: const Color(0xFFE5C8C7),
           shape: const CircleBorder(),
           onPressed: () => {
             Navigator.pushNamed(
@@ -160,12 +160,17 @@ class HomePageViewState extends ConsumerState<HomePageView> {
     return PreferredSize(
       preferredSize: Size.fromHeight(appBarSize),
       child: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: RadialGradient(
-            colors: [Color(0xFF280709), Color(0xFF511515)],
-            center: Alignment.topLeft,
+            colors: Theme.of(context).brightness == Brightness.light
+                ? const [Color(0xFF280709), Color(0xFF511515)]
+                : const [
+                    Color(0x99861D25),
+                    Color(0xBF2F0A0C),
+                  ],
+            center: Alignment.topCenter,
             radius: 1.5,
-            stops: [0, 1],
+            stops: const [0, 1],
           ),
         ),
         child: Padding(
