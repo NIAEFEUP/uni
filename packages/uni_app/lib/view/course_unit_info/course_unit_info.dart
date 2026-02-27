@@ -265,4 +265,12 @@ class CourseUnitDetailPageViewState
       },
     );
   }
+
+  @override
+  void dispose() {
+    tabController
+      ..removeListener(_onTabChanged)
+      ..dispose();
+    super.dispose();
+  }
 }
