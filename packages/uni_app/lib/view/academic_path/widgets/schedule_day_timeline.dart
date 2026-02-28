@@ -89,11 +89,6 @@ class ScheduleDayTimeline extends ConsumerWidget {
                       .toList();
                   if (ocorrenciasUnits.isNotEmpty) {
                     final correctUnit = ocorrenciasUnits.first;
-                    debugPrint(
-                      'Selected CU: ${correctUnit.abbreviation} | '
-                      'Year: ${correctUnit.schoolYear} | '
-                      'OccurrId: ${correctUnit.occurrId}',
-                    );
                     Navigator.push(
                       context,
                       MaterialPageRoute<CourseUnitDetailPageView>(
