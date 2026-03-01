@@ -21,20 +21,30 @@ import 'package:uni_ui/cards/remaining_instructors_card.dart';
 const double _horizontalSpacing = 8;
 const double _verticalSpacing = 8;
 
-class CourseUnitSheetView extends ConsumerWidget {
+class CourseUnitSheetView extends ConsumerStatefulWidget {
   const CourseUnitSheetView(this.courseUnitSheet, this.exams, {super.key});
 
   final Sheet courseUnitSheet;
   final List<Exam> exams;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CourseUnitSheetView> createState() => _CourseUnitSheetViewState();
+}
+
+class _CourseUnitSheetViewState extends ConsumerState<CourseUnitSheetView>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
     return ListView(
       children: [
         _buildSection(
           title: S.of(context).instructors,
           titlePadding: 20,
-          content: courseUnitSheet.professors.isEmpty
+          content: widget.courseUnitSheet.professors.isEmpty
               ? Padding(
                   padding: const EdgeInsets.only(top: 8, left: 20),
                   child: Text(
@@ -42,7 +52,7 @@ class CourseUnitSheetView extends ConsumerWidget {
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 )
-              : courseUnitSheet.professors.length <= 4
+              : widget.courseUnitSheet.professors.length <= 4
               ? Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
@@ -51,7 +61,7 @@ class CourseUnitSheetView extends ConsumerWidget {
                   child: Wrap(
                     spacing: _horizontalSpacing,
                     runSpacing: _verticalSpacing,
-                    children: courseUnitSheet.professors
+                    children: widget.courseUnitSheet.professors
                         .map(
                           (instructor) =>
                               _InstructorCard(instructor: instructor),
@@ -66,7 +76,7 @@ class CourseUnitSheetView extends ConsumerWidget {
                       vertical: 2,
                     ),
                     child: _LimitedInstructorsRow(
-                      instructors: courseUnitSheet.professors,
+                      instructors: widget.courseUnitSheet.professors,
                     ),
                   ),
                   secondChild: Padding(
@@ -77,7 +87,7 @@ class CourseUnitSheetView extends ConsumerWidget {
                     child: Wrap(
                       spacing: _horizontalSpacing,
                       runSpacing: _verticalSpacing,
-                      children: courseUnitSheet.professors
+                      children: widget.courseUnitSheet.professors
                           .map(
                             (instructor) =>
                                 _InstructorCard(instructor: instructor),
@@ -91,7 +101,7 @@ class CourseUnitSheetView extends ConsumerWidget {
         _buildSection(
           title: S.of(context).assessments,
           titlePadding: 20,
-          content: exams.isEmpty
+          content: widget.exams.isEmpty
               ? Padding(
                   padding: const EdgeInsets.only(top: 8, left: 20),
                   child: Text(
@@ -103,23 +113,23 @@ class CourseUnitSheetView extends ConsumerWidget {
                   height: 100,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    itemCount: exams.length + 2,
+                    itemCount: widget.exams.length + 2,
                     separatorBuilder: (context, index) =>
                         const SizedBox(width: _horizontalSpacing),
                     itemBuilder: (context, index) {
-                      if (index == 0 || index == exams.length + 1) {
+                      if (index == 0 || index == widget.exams.length + 1) {
                         return const SizedBox(width: 10);
                       }
                       return SizedBox(
                         width: 240,
                         child: ExamCard(
-                          name: exams[index - 1].subject,
-                          acronym: exams[index - 1].subjectAcronym,
-                          rooms: exams[index - 1].rooms,
-                          type: exams[index - 1].examType,
-                          startTime: exams[index - 1].startTime,
-                          examDay: exams[index - 1].start.day.toString(),
-                          examMonth: exams[index - 1].monthAcronym(
+                          name: widget.exams[index - 1].subject,
+                          acronym: widget.exams[index - 1].subjectAcronym,
+                          rooms: widget.exams[index - 1].rooms,
+                          type: widget.exams[index - 1].examType,
+                          startTime: widget.exams[index - 1].startTime,
+                          examDay: widget.exams[index - 1].start.day.toString(),
+                          examMonth: widget.exams[index - 1].monthAcronym(
                             PreferencesController.getLocale(),
                           ),
                           showIcon: false,
@@ -135,8 +145,8 @@ class CourseUnitSheetView extends ConsumerWidget {
           child: _buildSection(
             title: S.of(context).program,
             content: HtmlWidget(
-              courseUnitSheet.content != 'null'
-                  ? courseUnitSheet.content
+              widget.courseUnitSheet.content != 'null'
+                  ? widget.courseUnitSheet.content
                   : S.of(context).no_info,
               textStyle: Theme.of(context).textTheme.bodyLarge,
             ),
@@ -148,8 +158,8 @@ class CourseUnitSheetView extends ConsumerWidget {
           child: _buildSection(
             title: S.of(context).evaluation,
             content: HtmlWidget(
-              courseUnitSheet.evaluation != 'null'
-                  ? courseUnitSheet.evaluation
+              widget.courseUnitSheet.evaluation != 'null'
+                  ? widget.courseUnitSheet.evaluation
                   : S.of(context).no_info,
               textStyle: Theme.of(context).textTheme.bodyLarge,
             ),
@@ -161,15 +171,15 @@ class CourseUnitSheetView extends ConsumerWidget {
           child: _buildSection(
             title: S.of(context).frequency,
             content: HtmlWidget(
-              courseUnitSheet.frequency != 'null'
-                  ? courseUnitSheet.frequency
+              widget.courseUnitSheet.frequency != 'null'
+                  ? widget.courseUnitSheet.frequency
                   : S.of(context).no_info,
               textStyle: Theme.of(context).textTheme.bodyLarge,
             ),
             context: context,
           ),
         ),
-        if (courseUnitSheet.books.isNotEmpty)
+        if (widget.courseUnitSheet.books.isNotEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: _buildSection(
@@ -178,7 +188,7 @@ class CourseUnitSheetView extends ConsumerWidget {
                 width: double.infinity,
                 child: Wrap(
                   alignment: WrapAlignment.spaceBetween,
-                  children: courseUnitSheet.books.map((book) {
+                  children: widget.courseUnitSheet.books.map((book) {
                     return book.isbn.isNotEmpty
                         ? FutureBuilder<String?>(
                             future: BookThumbFetcher().fetchBookThumb(

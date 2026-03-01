@@ -61,6 +61,16 @@ class CourseUnitsInfoNotifier
   }
 
   @override
+  Future<CourseUnitsInfoState?> build() async {
+    return (
+      <CourseUnit, Sheet>{},
+      <CourseUnit, List<CourseUnitClass>>{},
+      <CourseUnit, List<CourseUnitFileDirectory>>{},
+      <CourseUnit, Map<String, List<Professor>>>{},
+    );
+  }
+
+  @override
   Future<CourseUnitsInfoState?> loadFromStorage() async {
     return (
       <CourseUnit, Sheet>{},

@@ -33,7 +33,8 @@ class CourseUnitClassesView extends ConsumerStatefulWidget {
       _CourseUnitClassesViewState();
 }
 
-class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
+class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView>
+    with AutomaticKeepAliveClientMixin {
   static const double _itemWidth = 140;
   static const double _edgeSpacing = 14;
   static const _scrollDuration = Duration(milliseconds: 300);
@@ -42,6 +43,9 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
 
   int? selectedIndex;
   late int studentNumber;
+
+  @override
+  bool get wantKeepAlive => true;
 
   void _scrollToSelectedClass() {
     if (selectedIndex == null || widget.classes.isEmpty) {
@@ -85,13 +89,17 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final sessionAsync = ref.read(sessionProvider);
 
     return sessionAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(child: Text('Error: $e')),
       data: (session) {
-        final studentNumber = getStudentNumber(session!);
+        if (session == null) {
+          return const Center(child: Text('No session available.'));
+        }
+        final studentNumber = getStudentNumber(session);
 
         if (selectedIndex == null) {
           selectedIndex = widget.classes.indexWhere(

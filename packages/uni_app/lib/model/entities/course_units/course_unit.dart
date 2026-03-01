@@ -64,6 +64,21 @@ class CourseUnit {
 
   Map<String, dynamic> toJson() => _$CourseUnitToJson(this);
 
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is CourseUnit &&
+        other.occurrId == occurrId &&
+        other.name == name &&
+        other.schoolYear == schoolYear;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(occurrId, name, schoolYear);
+  }
+
   bool enrollmentIsValid() {
     return status == 'V' || status == 'C';
   }

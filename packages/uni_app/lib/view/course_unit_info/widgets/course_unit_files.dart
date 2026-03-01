@@ -13,12 +13,22 @@ import 'package:uni_ui/cards/folder_card.dart';
 
 import 'course_unit_no_files.dart';
 
-class CourseUnitFilesView extends ConsumerWidget {
+class CourseUnitFilesView extends ConsumerStatefulWidget {
   const CourseUnitFilesView(this.files, {super.key});
   final List<CourseUnitFileDirectory> files;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CourseUnitFilesView> createState() => _CourseUnitFilesViewState();
+}
+
+class _CourseUnitFilesViewState extends ConsumerState<CourseUnitFilesView>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
     final sessionAsync = ref.read(sessionProvider);
 
     return sessionAsync.when(
@@ -29,7 +39,7 @@ class CourseUnitFilesView extends ConsumerWidget {
           return const Center(child: Text('No session available.'));
         }
 
-        final cards = files
+        final cards = widget.files
             .where((element) => element.files.isNotEmpty)
             .map(
               (e) => _buildCard(context, e.folderName, e.files, session),
