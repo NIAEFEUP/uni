@@ -74,7 +74,8 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     final endpoints = getEndpoints(session);
     final allCourseChoices = await Future.wait(
       endpoints.map((endpoint) {
-        final url = '$endpoint'
+        final url =
+            '$endpoint'
             'it_listagem.lista_cursos_disciplina?pv_ocorrencia_id=$occurrId';
         return NetworkRouter.getWithCookies(url, {}, session)
             .then((res) => (endpoint, res))
@@ -87,11 +88,18 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
       if (response.statusCode != 200) {
         continue;
       }
-      
+
       final document = parse(response.body);
-      final links = document.querySelectorAll('a').where((e) =>
-          e.attributes['href']?.contains('it_listagem.lista_turma_disciplina') ?? false);
-      
+      final links = document
+          .querySelectorAll('a')
+          .where(
+            (e) =>
+                e.attributes['href']?.contains(
+                  'it_listagem.lista_turma_disciplina',
+                ) ??
+                false,
+          );
+
       for (final link in links) {
         var url = link.attributes['href']!;
         if (!url.contains('sigarra.up.pt')) {
@@ -102,11 +110,11 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     }
 
     final classResponses = await Future.wait(
-      classUrls.map((item) => 
-        NetworkRouter.getWithCookies(item.$2, {}, session)
+      classUrls.map(
+        (item) => NetworkRouter.getWithCookies(item.$2, {}, session)
             .then((res) => (item.$1, res))
-            .catchError((_) => (item.$1, Response('', 500)))
-      )
+            .catchError((_) => (item.$1, Response('', 500))),
+      ),
     );
 
     final Map<String, CourseUnitClass> classesByName = {};

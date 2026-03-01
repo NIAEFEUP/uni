@@ -80,7 +80,6 @@ abstract class GeneralPageViewState<T extends ConsumerStatefulWidget>
 
   @override
   Widget build(BuildContext context) {
-
     // TODO:(thePeras): Is this stills a thing?
     if (!_connected) {
       return getScaffold(

@@ -82,9 +82,6 @@ class CardTimeline extends StatelessWidget {
   final List<TimelineItem> items;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: items,
-    );
+    return Column(mainAxisSize: MainAxisSize.min, children: items);
   }
 }

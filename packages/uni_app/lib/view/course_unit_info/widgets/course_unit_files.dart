@@ -18,7 +18,8 @@ class CourseUnitFilesView extends ConsumerStatefulWidget {
   final List<CourseUnitFileDirectory> files;
 
   @override
-  ConsumerState<CourseUnitFilesView> createState() => _CourseUnitFilesViewState();
+  ConsumerState<CourseUnitFilesView> createState() =>
+      _CourseUnitFilesViewState();
 }
 
 class _CourseUnitFilesViewState extends ConsumerState<CourseUnitFilesView>

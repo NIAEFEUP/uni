@@ -143,7 +143,7 @@ List<CourseUnitClass> parseCourseUnitClasses(
   final classes = <CourseUnitClass>[];
   final document = parse(response.body);
   final titles = document.querySelectorAll('#conteudoinner h3');
-  
+
   if (titles.isEmpty) {
     return [];
   }
@@ -169,7 +169,7 @@ List<CourseUnitClass> parseCourseUnitClasses(
     if (allRows.length < 2) {
       continue;
     }
-    
+
     final studentRows = allRows.sublist(1);
     final students = <CourseUnitStudent>[];
 
@@ -178,9 +178,11 @@ List<CourseUnitClass> parseCourseUnitClasses(
       if (columns.length < 3) {
         continue;
       }
-      
+
       final nameLink = columns[0].querySelector('a');
-      final studentName = nameLink != null ? nameLink.text.trim() : columns[0].text.trim();
+      final studentName = nameLink != null
+          ? nameLink.text.trim()
+          : columns[0].text.trim();
       final studentNumber = int.tryParse(columns[1].text.trim()) ?? 0;
       final studentMail = columns[2].text.trim();
 

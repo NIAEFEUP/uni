@@ -63,10 +63,7 @@ class AcademicPathPageViewState
 
   @override
   Widget getBody(BuildContext context) {
-    return TabBarView(
-      controller: tabController,
-      children: _tabs,
-    );
+    return TabBarView(controller: tabController, children: _tabs);
   }
 
   @override

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:uni_ui/common/generic_squircle.dart';
 
-typedef TimelineContentBuilder = Widget Function(BuildContext context, int index);
+typedef TimelineContentBuilder =
+    Widget Function(BuildContext context, int index);
 
 class Timeline extends StatefulWidget {
   const Timeline({
@@ -70,7 +71,7 @@ class _TimelineState extends State<Timeline> {
     final visiblePositions = positions.where(
       (ItemPosition position) => position.itemLeadingEdge >= -0.1,
     );
-    
+
     if (visiblePositions.isNotEmpty) {
       final firstVisibleIndex = visiblePositions
           .reduce(
@@ -98,7 +99,7 @@ class _TimelineState extends State<Timeline> {
     if (!widget.tabEnabled[index] || _currentIndexNotifier.value == index) {
       return;
     }
-    
+
     _isManualScrolling = true;
     _currentIndexNotifier.value = index;
     _scrollToCenterTab(index);
@@ -108,13 +109,13 @@ class _TimelineState extends State<Timeline> {
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
-    
+
     _isManualScrolling = false;
   }
 
   void _scrollToCenterTab(int index) {
     if (!mounted || index < 0 || index >= _tabKeys.length) return;
-    
+
     final tabCtx = _tabKeys[index].currentContext;
     final viewportCtx = _tabsViewportKey.currentContext;
 
@@ -132,10 +133,11 @@ class _TimelineState extends State<Timeline> {
 
     if (_tabScrollController.hasClients) {
       final currentOffset = _tabScrollController.offset;
-      final targetOffset = (currentOffset + (tabRelativePos + tabWidth / 2) - (viewportWidth / 2)).clamp(
-        0.0,
-        _tabScrollController.position.maxScrollExtent,
-      );
+      final targetOffset =
+          (currentOffset +
+                  (tabRelativePos + tabWidth / 2) -
+                  (viewportWidth / 2))
+              .clamp(0.0, _tabScrollController.position.maxScrollExtent);
 
       _tabScrollController.animateTo(
         targetOffset,
@@ -165,8 +167,10 @@ class _TimelineState extends State<Timeline> {
                       child: Row(
                         children: List.generate(widget.tabs.length, (index) {
                           final isSelected = currentIndex == index;
-                          final textStyle = Theme.of(context).textTheme.bodySmall!;
-                          
+                          final textStyle = Theme.of(
+                            context,
+                          ).textTheme.bodySmall!;
+
                           return GestureDetector(
                             onTap: () => _onTabTapped(index),
                             child: Padding(
@@ -183,17 +187,17 @@ class _TimelineState extends State<Timeline> {
                                     horizontal: 8.0,
                                   ),
                                   color: isSelected
-                                      ? Theme.of(context)
-                                          .colorScheme
-                                          .tertiary
-                                          .withValues(alpha: 0.25)
+                                      ? Theme.of(context).colorScheme.tertiary
+                                            .withValues(alpha: 0.25)
                                       : Colors.transparent,
                                   child: DefaultTextStyle(
                                     style: textStyle.copyWith(
                                       color: widget.tabEnabled[index]
                                           ? (isSelected
-                                              ? Theme.of(context).colorScheme.primary
-                                              : Colors.black)
+                                                ? Theme.of(
+                                                    context,
+                                                  ).colorScheme.primary
+                                                : Colors.black)
                                           : Colors.grey,
                                     ),
                                     child: widget.tabs[index],

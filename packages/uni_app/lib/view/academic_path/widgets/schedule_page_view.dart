@@ -52,7 +52,11 @@ class SchedulePageView extends ConsumerWidget {
     }
 
     List<Lecture> getLectures(DateTime date) {
-      final key = DateTime(date.year, date.month, date.day).millisecondsSinceEpoch;
+      final key = DateTime(
+        date.year,
+        date.month,
+        date.day,
+      ).millisecondsSinceEpoch;
       return lecturesByDay[key] ?? [];
     }
 
@@ -99,19 +103,20 @@ class SchedulePageView extends ConsumerWidget {
         contentBuilder: (context, index) {
           final date = reorderedDates[index];
           return ScheduleDayTimeline(
-            key: ValueKey('schedule-page-day-view-${date.millisecondsSinceEpoch}'),
+            key: ValueKey(
+              'schedule-page-day-view-${date.millisecondsSinceEpoch}',
+            ),
             now: now,
             day: date,
             lectures: getLectures(date),
           );
         },
         initialTab:
-            (todayIndex != -1 && getLectures(reorderedDates[todayIndex]).isNotEmpty)
+            (todayIndex != -1 &&
+                getLectures(reorderedDates[todayIndex]).isNotEmpty)
             ? todayIndex
             : reorderedDates.indexWhere(
-                (date) =>
-                    date.isAfter(now) &&
-                    getLectures(date).isNotEmpty,
+                (date) => date.isAfter(now) && getLectures(date).isNotEmpty,
               ),
         tabEnabled: tabEnabled,
       ),

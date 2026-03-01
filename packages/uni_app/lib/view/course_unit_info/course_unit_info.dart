@@ -53,7 +53,7 @@ class CourseUnitDetailPageViewState
   Future<void> loadInfo({required bool force}) async {
     final notifier = ref.read(courseUnitsInfoProvider.notifier);
     final stateValue = ref.read(courseUnitsInfoProvider).value;
-    
+
     final futures = <Future<void>>[];
     final sheets = stateValue?.$1;
     if (sheets == null || !sheets.containsKey(widget.courseUnit) || force) {
@@ -64,7 +64,7 @@ class CourseUnitDetailPageViewState
     if (files == null || !files.containsKey(widget.courseUnit) || force) {
       futures.add(notifier.fetchCourseUnitFiles(widget.courseUnit));
     }
-    
+
     if (futures.isNotEmpty) {
       await Future.wait(futures);
     }
@@ -73,7 +73,7 @@ class CourseUnitDetailPageViewState
   Future<void> loadClasses({required bool force}) async {
     final notifier = ref.read(courseUnitsInfoProvider.notifier);
     final stateValue = ref.read(courseUnitsInfoProvider).value;
-    
+
     final futures = <Future<void>>[];
     final classes = stateValue?.$2;
     if (classes == null || !classes.containsKey(widget.courseUnit) || force) {
@@ -81,7 +81,9 @@ class CourseUnitDetailPageViewState
     }
 
     final classProfessors = stateValue?.$4;
-    if (classProfessors == null || !classProfessors.containsKey(widget.courseUnit) || force) {
+    if (classProfessors == null ||
+        !classProfessors.containsKey(widget.courseUnit) ||
+        force) {
       futures.add(notifier.fetchClassProfessors(widget.courseUnit));
     }
 
@@ -92,18 +94,12 @@ class CourseUnitDetailPageViewState
 
   @override
   Future<void> onRefresh() async {
-    await Future.wait([
-      loadInfo(force: true),
-      loadClasses(force: true),
-    ]);
+    await Future.wait([loadInfo(force: true), loadClasses(force: true)]);
   }
 
   @override
   Future<void> onLoad(BuildContext context) async {
-    unawaited(Future.wait([
-      loadInfo(force: false),
-      loadClasses(force: false),
-    ]));
+    unawaited(Future.wait([loadInfo(force: false), loadClasses(force: false)]));
   }
 
   @override
@@ -121,27 +117,27 @@ class CourseUnitDetailPageViewState
 
   @override
   Widget getBody(BuildContext context) {
-    return TabBarView(
-      controller: tabController,
-      children: _tabs,
-    );
+    return TabBarView(controller: tabController, children: _tabs);
   }
 
   Widget _courseUnitSheetView(BuildContext context) {
     return Consumer(
       builder: (context, ref, _) {
-        final sheet = ref.watch(courseUnitsInfoProvider.select(
-          (s) => s.value?.$1[widget.courseUnit],
-        ));
+        final sheet = ref.watch(
+          courseUnitsInfoProvider.select((s) => s.value?.$1[widget.courseUnit]),
+        );
 
         final exams = ref.watch(examProvider);
 
         final courseExams = exams.maybeWhen(
-          data: (list) => list
-              ?.where(
-                (exam) => exam.subjectAcronym == widget.courseUnit.abbreviation,
-              )
-              .toList() ?? [],
+          data: (list) =>
+              list
+                  ?.where(
+                    (exam) =>
+                        exam.subjectAcronym == widget.courseUnit.abbreviation,
+                  )
+                  .toList() ??
+              [],
           orElse: () => <Exam>[],
         );
 
@@ -157,9 +153,9 @@ class CourseUnitDetailPageViewState
   Widget _courseUnitFilesView(BuildContext context) {
     return Consumer(
       builder: (context, ref, _) {
-        final files = ref.watch(courseUnitsInfoProvider.select(
-          (s) => s.value?.$3[widget.courseUnit],
-        ));
+        final files = ref.watch(
+          courseUnitsInfoProvider.select((s) => s.value?.$3[widget.courseUnit]),
+        );
 
         if (files == null) {
           return const Center(child: CircularProgressIndicator());
@@ -173,15 +169,15 @@ class CourseUnitDetailPageViewState
   Widget _courseUnitClassesView(BuildContext context) {
     return Consumer(
       builder: (context, ref, _) {
-        final classes = ref.watch(courseUnitsInfoProvider.select(
-          (s) => s.value?.$2[widget.courseUnit],
-        ));
-        final sheet = ref.watch(courseUnitsInfoProvider.select(
-          (s) => s.value?.$1[widget.courseUnit],
-        ));
-        final classProfessors = ref.watch(courseUnitsInfoProvider.select(
-          (s) => s.value?.$4[widget.courseUnit],
-        ));
+        final classes = ref.watch(
+          courseUnitsInfoProvider.select((s) => s.value?.$2[widget.courseUnit]),
+        );
+        final sheet = ref.watch(
+          courseUnitsInfoProvider.select((s) => s.value?.$1[widget.courseUnit]),
+        );
+        final classProfessors = ref.watch(
+          courseUnitsInfoProvider.select((s) => s.value?.$4[widget.courseUnit]),
+        );
 
         if (classes == null) {
           return const Center(child: CircularProgressIndicator());

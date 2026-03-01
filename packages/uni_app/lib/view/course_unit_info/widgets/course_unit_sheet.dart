@@ -28,7 +28,8 @@ class CourseUnitSheetView extends ConsumerStatefulWidget {
   final List<Exam> exams;
 
   @override
-  ConsumerState<CourseUnitSheetView> createState() => _CourseUnitSheetViewState();
+  ConsumerState<CourseUnitSheetView> createState() =>
+      _CourseUnitSheetViewState();
 }
 
 class _CourseUnitSheetViewState extends ConsumerState<CourseUnitSheetView>

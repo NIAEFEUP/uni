@@ -42,9 +42,11 @@ class _RefreshStateState extends ConsumerState<RefreshState> {
                   onRefresh: () async {
                     unawaited(widget.onRefresh());
                     if (context.mounted) {
-                      unawaited(ProfileNotifier.fetchOrGetCachedProfilePicture(
-                        ref.read(sessionProvider).value!,
-                      ));
+                      unawaited(
+                        ProfileNotifier.fetchOrGetCachedProfilePicture(
+                          ref.read(sessionProvider).value!,
+                        ),
+                      );
                     }
                     return;
                   },
