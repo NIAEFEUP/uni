@@ -18,7 +18,7 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
   }
 
   Future<Sheet> fetchSheet(Session session, int occurId) async {
-    //TODO: Through this link we can't retrieve the sheet of a course unit in english
+    // TODO: Through this link we can't retrieve the sheet of a course unit in english
     final responses = await Future.wait(
       getEndpoints(session)
           .map(
@@ -71,47 +71,55 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     Session session,
     int occurrId,
   ) async {
-    var courseUnitClasses = <CourseUnitClass>[];
+    final endpoints = getEndpoints(session);
+    final allCourseChoices = await Future.wait(
+      endpoints.map((endpoint) {
+        final url = '$endpoint'
+            'it_listagem.lista_cursos_disciplina?pv_ocorrencia_id=$occurrId';
+        return NetworkRouter.getWithCookies(url, {}, session)
+            .then((res) => (endpoint, res))
+            .catchError((_) => (endpoint, Response('', 500)));
+      }),
+    );
 
-    for (final endpoint in getEndpoints(session)) {
-      // Crawl classes from all courses that the course unit is offered in
-      final courseChoiceUrl =
-          '$endpoint'
-          'it_listagem.lista_cursos_disciplina?pv_ocorrencia_id=$occurrId';
-      final courseChoiceResponse = await NetworkRouter.getWithCookies(
-        courseChoiceUrl,
-        {},
-        session,
-      );
-      final courseChoiceDocument = parse(courseChoiceResponse.body);
-      final urls = courseChoiceDocument
-          .querySelectorAll('a')
-          .where(
-            (element) =>
-                element.attributes['href'] != null &&
-                element.attributes['href']!.contains(
-                  'it_listagem.lista_turma_disciplina',
-                ),
-          )
-          .map((e) {
-            var url = e.attributes['href']!;
-            if (!url.contains('sigarra.up.pt')) {
-              url = endpoint + url;
-            }
-            return url;
-          })
-          .toList();
-
-      for (final url in urls) {
-        try {
-          final response = await NetworkRouter.getWithCookies(url, {}, session);
-          courseUnitClasses += parseCourseUnitClasses(response, endpoint);
-        } catch (_) {
-          continue;
+    final classUrls = <(String, String)>{};
+    for (final (endpoint, response) in allCourseChoices) {
+      if (response.statusCode != 200) {
+        continue;
+      }
+      
+      final document = parse(response.body);
+      final links = document.querySelectorAll('a').where((e) =>
+          e.attributes['href']?.contains('it_listagem.lista_turma_disciplina') ?? false);
+      
+      for (final link in links) {
+        var url = link.attributes['href']!;
+        if (!url.contains('sigarra.up.pt')) {
+          url = endpoint + url;
         }
+        classUrls.add((endpoint, url));
       }
     }
 
-    return courseUnitClasses;
+    final classResponses = await Future.wait(
+      classUrls.map((item) => 
+        NetworkRouter.getWithCookies(item.$2, {}, session)
+            .then((res) => (item.$1, res))
+            .catchError((_) => (item.$1, Response('', 500)))
+      )
+    );
+
+    final Map<String, CourseUnitClass> classesByName = {};
+    for (final (endpoint, response) in classResponses) {
+      if (response.statusCode != 200) {
+        continue;
+      }
+      final parsedClasses = parseCourseUnitClasses(response, endpoint);
+      for (final c in parsedClasses) {
+        classesByName[c.className] = c;
+      }
+    }
+
+    return classesByName.values.toList();
   }
 }

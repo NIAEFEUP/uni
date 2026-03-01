@@ -142,28 +142,51 @@ List<CourseUnitClass> parseCourseUnitClasses(
 ) {
   final classes = <CourseUnitClass>[];
   final document = parse(response.body);
-  final titles = document.querySelectorAll('#conteudoinner h3').sublist(1);
+  final titles = document.querySelectorAll('#conteudoinner h3');
+  
+  if (titles.isEmpty) {
+    return [];
+  }
 
   for (final title in titles) {
-    final table = title.nextElementSibling;
-    final className = title.innerHtml.substring(
-      title.innerHtml.indexOf(' ') + 1,
-      title.innerHtml.indexOf('&'),
-    );
-
-    final rows = table?.querySelectorAll('tr');
-    if (rows == null || rows.length < 2) {
+    final titleText = title.text.trim();
+    if (!titleText.contains('Turma') && !titleText.contains('Class')) {
       continue;
     }
 
-    final studentRows = rows.sublist(1);
+    final parts = titleText.split(RegExp(r'\s+'));
+    if (parts.length < 2) {
+      continue;
+    }
+    final className = parts[1].replaceAll('&nbsp;', '').trim();
+
+    final table = title.nextElementSibling;
+    if (table == null || table.localName != 'table') {
+      continue;
+    }
+
+    final allRows = table.querySelectorAll('tr');
+    if (allRows.length < 2) {
+      continue;
+    }
+    
+    final studentRows = allRows.sublist(1);
     final students = <CourseUnitStudent>[];
 
     for (final row in studentRows) {
-      final columns = row.querySelectorAll('td.k.t');
-      final studentName = columns[0].children[0].innerHtml;
-      final studentNumber = int.tryParse(columns[1].innerHtml.trim()) ?? 0;
-      final studentMail = columns[2].innerHtml;
+      final columns = row.querySelectorAll('td');
+      if (columns.length < 3) {
+        continue;
+      }
+      
+      final nameLink = columns[0].querySelector('a');
+      final studentName = nameLink != null ? nameLink.text.trim() : columns[0].text.trim();
+      final studentNumber = int.tryParse(columns[1].text.trim()) ?? 0;
+      final studentMail = columns[2].text.trim();
+
+      if (studentNumber == 0) {
+        continue;
+      }
 
       final studentPhoto = Uri.parse(
         '${baseUrl}fotografias_service.foto?pct_cod=$studentNumber',
@@ -182,7 +205,9 @@ List<CourseUnitClass> parseCourseUnitClasses(
       );
     }
 
-    classes.add(CourseUnitClass(className, students));
+    if (students.isNotEmpty) {
+      classes.add(CourseUnitClass(className, students));
+    }
   }
 
   return classes;

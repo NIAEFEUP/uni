@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
@@ -50,17 +52,21 @@ class CourseUnitDetailPageViewState
 
   Future<void> loadInfo({required bool force}) async {
     final notifier = ref.read(courseUnitsInfoProvider.notifier);
-    
     final stateValue = ref.read(courseUnitsInfoProvider).value;
+    
+    final futures = <Future<void>>[];
     final sheets = stateValue?.$1;
-    final files = stateValue?.$3;
-
     if (sheets == null || !sheets.containsKey(widget.courseUnit) || force) {
-      await notifier.fetchCourseUnitSheet(widget.courseUnit);
+      futures.add(notifier.fetchCourseUnitSheet(widget.courseUnit));
     }
 
+    final files = stateValue?.$3;
     if (files == null || !files.containsKey(widget.courseUnit) || force) {
-      await notifier.fetchCourseUnitFiles(widget.courseUnit);
+      futures.add(notifier.fetchCourseUnitFiles(widget.courseUnit));
+    }
+    
+    if (futures.isNotEmpty) {
+      await Future.wait(futures);
     }
   }
 
@@ -68,29 +74,36 @@ class CourseUnitDetailPageViewState
     final notifier = ref.read(courseUnitsInfoProvider.notifier);
     final stateValue = ref.read(courseUnitsInfoProvider).value;
     
+    final futures = <Future<void>>[];
     final classes = stateValue?.$2;
-    final classProfessors = stateValue?.$4;
-
     if (classes == null || !classes.containsKey(widget.courseUnit) || force) {
-      await notifier.fetchCourseUnitClasses(widget.courseUnit);
+      futures.add(notifier.fetchCourseUnitClasses(widget.courseUnit));
     }
 
+    final classProfessors = stateValue?.$4;
     if (classProfessors == null || !classProfessors.containsKey(widget.courseUnit) || force) {
-      await notifier.fetchClassProfessors(widget.courseUnit);
+      futures.add(notifier.fetchClassProfessors(widget.courseUnit));
+    }
+
+    if (futures.isNotEmpty) {
+      await Future.wait(futures);
     }
   }
 
   @override
   Future<void> onRefresh() async {
-    await loadInfo(force: true);
-    if (tabController.index == 1) {
-      await loadClasses(force: true);
-    }
+    await Future.wait([
+      loadInfo(force: true),
+      loadClasses(force: true),
+    ]);
   }
 
   @override
   Future<void> onLoad(BuildContext context) async {
-    await loadInfo(force: false);
+    unawaited(Future.wait([
+      loadInfo(force: false),
+      loadClasses(force: false),
+    ]));
   }
 
   @override
