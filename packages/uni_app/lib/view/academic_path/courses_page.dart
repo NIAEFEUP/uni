@@ -19,8 +19,12 @@ class CoursesPage extends ConsumerStatefulWidget {
   ConsumerState<CoursesPage> createState() => CoursesPageState();
 }
 
-class CoursesPageState extends ConsumerState<CoursesPage> {
+class CoursesPageState extends ConsumerState<CoursesPage>
+    with AutomaticKeepAliveClientMixin {
   static Locale? _lastLocale;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void didChangeDependencies() {
@@ -123,8 +127,8 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
       return '???';
     }
 
-    //TODO: This fix(finished courses the abbreviation is null) works when the
-    //app is in portuguese, but not in english. Where instead of LEIC it will be BICE.
+    // TODO: This fix(finished courses the abbreviation is null) works when the
+    // app is in portuguese, but not in english. Where instead of LEIC it will be BICE.
     return course.name!
         .replaceAll('Licenciatura', 'Licenciatura.')
         .replaceAll('Mestrado', 'Mestrado.')
@@ -134,6 +138,7 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return DefaultConsumer<Profile>(
       provider: profileProvider,
       builder: (context, ref, profile) {

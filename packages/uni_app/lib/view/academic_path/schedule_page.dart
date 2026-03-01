@@ -7,22 +7,36 @@ import 'package:uni/view/academic_path/widgets/no_classes_widget.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_shimmer.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_view.dart';
 
-class SchedulePage extends ConsumerWidget {
+class SchedulePage extends ConsumerStatefulWidget {
   SchedulePage({super.key, DateTime? now}) : now = now ?? DateTime.now();
 
   final DateTime now;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SchedulePage> createState() => _SchedulePageState();
+}
+
+class _SchedulePageState extends ConsumerState<SchedulePage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
     return MediaQuery.removePadding(
       context: context,
       removeBottom: true,
       child: DefaultConsumer<List<Lecture>>(
         provider: lectureProvider,
         builder: (context, ref, lectures) {
-          final startOfWeek = _getStartOfWeek(now, lectures);
+          final startOfWeek = _getStartOfWeek(widget.now, lectures);
 
-          return SchedulePageView(lectures, startOfWeek: startOfWeek, now: now);
+          return SchedulePageView(
+            lectures,
+            startOfWeek: startOfWeek,
+            now: widget.now,
+          );
         },
         nullContentWidget: LayoutBuilder(
           builder: (context, constraints) => SingleChildScrollView(
@@ -36,7 +50,7 @@ class SchedulePage extends ConsumerWidget {
         ),
         hasContent: (lectures) => lectures.isNotEmpty,
         mapper: (lectures) {
-          final startOfWeek = _getStartOfWeek(now, lectures);
+          final startOfWeek = _getStartOfWeek(widget.now, lectures);
           final endOfNextWeek = startOfWeek.add(const Duration(days: 14));
 
           return lectures

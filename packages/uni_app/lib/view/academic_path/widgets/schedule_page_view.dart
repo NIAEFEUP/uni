@@ -26,7 +26,7 @@ class SchedulePageView extends ConsumerWidget {
     );
 
     final daysOfTheWeek = ref
-        .read(localeProvider.notifier)
+        .watch(localeProvider.notifier)
         .getWeekdaysWithLocale();
 
     final reorderedDaysOfTheWeek = [
@@ -40,6 +40,25 @@ class SchedulePageView extends ConsumerWidget {
           date.month == now.month &&
           date.day == now.day,
     );
+
+    final lecturesByDay = <int, List<Lecture>>{};
+    for (final lecture in lectures) {
+      final key = DateTime(
+        lecture.startTime.year,
+        lecture.startTime.month,
+        lecture.startTime.day,
+      ).millisecondsSinceEpoch;
+      lecturesByDay.putIfAbsent(key, () => []).add(lecture);
+    }
+
+    List<Lecture> getLectures(DateTime date) {
+      final key = DateTime(date.year, date.month, date.day).millisecondsSinceEpoch;
+      return lecturesByDay[key] ?? [];
+    }
+
+    final tabEnabled = reorderedDates
+        .map((date) => getLectures(date).isNotEmpty)
+        .toList();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -76,38 +95,26 @@ class SchedulePageView extends ConsumerWidget {
               ),
             )
             .toList(),
-        content: reorderedDates
-            .map(
-              (date) => ScheduleDayTimeline(
-                key: Key('schedule-page-day-view-${date.weekday}'),
-                now: now,
-                day: date,
-                lectures: _lecturesOfDay(lectures, date),
-              ),
-            )
-            .toList(),
+        content: null,
+        contentBuilder: (context, index) {
+          final date = reorderedDates[index];
+          return ScheduleDayTimeline(
+            key: ValueKey('schedule-page-day-view-${date.millisecondsSinceEpoch}'),
+            now: now,
+            day: date,
+            lectures: getLectures(date),
+          );
+        },
         initialTab:
-            (todayIndex != -1 &&
-                _lecturesOfDay(lectures, reorderedDates[todayIndex]).isNotEmpty)
+            (todayIndex != -1 && getLectures(reorderedDates[todayIndex]).isNotEmpty)
             ? todayIndex
             : reorderedDates.indexWhere(
                 (date) =>
                     date.isAfter(now) &&
-                    _lecturesOfDay(lectures, date).isNotEmpty,
+                    getLectures(date).isNotEmpty,
               ),
-        tabEnabled: reorderedDates
-            .map((date) => _lecturesOfDay(lectures, date).isNotEmpty)
-            .toList(),
+        tabEnabled: tabEnabled,
       ),
     );
-  }
-
-  List<Lecture> _lecturesOfDay(List<Lecture> lectures, DateTime date) {
-    return lectures.where((lecture) {
-      final startTime = lecture.startTime;
-      return startTime.year == date.year &&
-          startTime.month == date.month &&
-          startTime.day == date.day;
-    }).toList();
   }
 }

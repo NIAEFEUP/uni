@@ -15,13 +15,18 @@ class ExamsPage extends ConsumerStatefulWidget {
   ConsumerState<ExamsPage> createState() => _ExamsPageState();
 }
 
-class _ExamsPageState extends ConsumerState<ExamsPage> {
+class _ExamsPageState extends ConsumerState<ExamsPage>
+    with AutomaticKeepAliveClientMixin {
   List<String> hiddenExams = PreferencesController.getHiddenExams();
   Map<String, bool> filteredExamTypes =
       PreferencesController.getFilteredExams();
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     /*
       If we want to filters exams again
         filteredExamTypes[Exam.getExamTypeLong(exam.examType)] ??

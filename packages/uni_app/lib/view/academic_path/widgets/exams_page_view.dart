@@ -35,45 +35,9 @@ class ExamsPageView extends ConsumerWidget {
         .expand((y) => List.generate(12, (index) => DateTime(y, index + 1)))
         .toList();
 
-    final tabs = monthsDates.map((date) {
-      return SizedBox(
-        width: 30,
-        height: 34,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Text(
-                date.shortMonth(locale),
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                '${date.month}',
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-              ),
-            ),
-          ],
-        ),
-      );
-    }).toList();
-
-    final content = monthsDates.map((date) {
-      final monthKey = '${date.year}-${date.month}';
-      final examsForMonth = examsByMonth[monthKey] ?? [];
-      return ExamMonthTimeline(
-        now: now,
-        monthDate: date,
-        exams: examsForMonth,
-        hiddenExams: hiddenExams,
-        onToggleHidden: onToggleHidden,
-      );
-    }).toList();
+    final tabEnabled = monthsDates
+        .map((date) => examsByMonth.containsKey('${date.year}-${date.month}'))
+        .toList();
 
     final initialTabIndex = monthsDates.indexWhere((date) {
       final monthKey = '${date.year}-${date.month}';
@@ -83,14 +47,49 @@ class ExamsPageView extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Timeline(
-        tabs: tabs,
-        content: content,
+        tabs: monthsDates.map((date) {
+          return SizedBox(
+            width: 30,
+            height: 34,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(
+                    date.shortMonth(locale),
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    '${date.month}',
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }).toList(),
+        content: null,
+        contentBuilder: (context, index) {
+          final date = monthsDates[index];
+          final monthKey = '${date.year}-${date.month}';
+          final examsForMonth = examsByMonth[monthKey] ?? [];
+          return ExamMonthTimeline(
+            key: ValueKey('exams-month-$monthKey'),
+            now: now,
+            monthDate: date,
+            exams: examsForMonth,
+            hiddenExams: hiddenExams,
+            onToggleHidden: onToggleHidden,
+          );
+        },
         initialTab: initialTabIndex == -1 ? 0 : initialTabIndex,
-        tabEnabled: monthsDates
-            .map(
-              (date) => examsByMonth.containsKey('${date.year}-${date.month}'),
-            )
-            .toList(),
+        tabEnabled: tabEnabled,
       ),
     );
   }

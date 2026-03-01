@@ -29,6 +29,7 @@ class AcademicPathPageViewState
       S.of(context).nav_title(NavigationItem.navAcademicPath.route);
 
   late TabController tabController;
+  late final List<Widget> _tabs;
 
   @override
   void initState() {
@@ -38,6 +39,7 @@ class AcademicPathPageViewState
       length: 3,
       initialIndex: widget.initialTabIndex,
     );
+    _tabs = [const CoursesPage(), SchedulePage(), const ExamsPage()];
   }
 
   @override
@@ -63,7 +65,7 @@ class AcademicPathPageViewState
   Widget getBody(BuildContext context) {
     return TabBarView(
       controller: tabController,
-      children: [const CoursesPage(), SchedulePage(), const ExamsPage()],
+      children: _tabs,
     );
   }
 
