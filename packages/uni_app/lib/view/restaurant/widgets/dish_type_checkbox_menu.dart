@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 
@@ -90,6 +91,7 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                       S.of(context).dish_type(keyLabel),
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
+                    secondary: RestaurantUtils.getIcon(RestaurantUtils.getMealName(keyLabel)),
                     value: dialogSelected.contains(keyLabel),
                     onChanged: (isChecked) => toggleDish(keyLabel, isChecked),
                     controlAffinity: ListTileControlAffinity.leading,
