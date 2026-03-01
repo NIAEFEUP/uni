@@ -16,7 +16,7 @@ class NoFilesWidget extends StatelessWidget {
         color: Theme.of(context).colorScheme.primary,
       ),
       sublabel: S.of(context).no_files,
-      sublabelTextStyle: const TextStyle(fontSize: 15),
+      sublabelTextStyle: Theme.of(context).textTheme.bodyLarge,
     );
   }
 }

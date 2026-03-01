@@ -74,7 +74,7 @@ class ShimmerCourseClasses extends StatelessWidget {
           crossAxisCount: 3,
           crossAxisSpacing: 10,
           mainAxisSpacing: 40,
-          padding: const EdgeInsets.only(right: 20, left: 20), // aqui!
+          padding: const EdgeInsets.only(right: 20, left: 20),
           children: List.generate(
             15,
             (index) => Shimmer.fromColors(

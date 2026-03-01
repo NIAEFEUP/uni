@@ -150,7 +150,16 @@ class CourseUnitDetailPageViewState
             sheet.books.isEmpty;
 
         if (hasNoInfo) {
-          return const Center(child: NoInfoWidget());
+          return LayoutBuilder(
+            builder: (context, constraints) => SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Container(
+                height: constraints.maxHeight,
+                padding: const EdgeInsets.only(bottom: 120),
+                child: const Center(child: NoInfoWidget()),
+              ),
+            ),
+          );
         }
 
         return CourseUnitSheetView(sheet, courseExams);
@@ -209,7 +218,7 @@ class CourseUnitDetailPageViewState
               child: Container(
                 height: constraints.maxHeight,
                 padding: const EdgeInsets.only(bottom: 120),
-                child: const Center(child: NoClassWidget()),
+                child: const Center(child: NoClassGroupsWidget()),
               ),
             ),
           );
