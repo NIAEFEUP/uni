@@ -91,7 +91,9 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                       S.of(context).dish_type(keyLabel),
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    secondary: RestaurantUtils.getIcon(RestaurantUtils.getMealName(keyLabel)),
+                    secondary: RestaurantUtils.getIcon(
+                      RestaurantUtils.getMealName(keyLabel),
+                    ),
                     value: dialogSelected.contains(keyLabel),
                     onChanged: (isChecked) => toggleDish(keyLabel, isChecked),
                     controlAffinity: ListTileControlAffinity.leading,
