@@ -75,28 +75,50 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                 CheckboxListTile(
                   title: Text(
                     S.of(context).select_all,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   value: isAllSelected,
                   onChanged: toggleSelectAll,
-                  contentPadding: EdgeInsets.zero,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                   controlAffinity: ListTileControlAffinity.leading,
                 ),
                 const Divider(height: 1),
                 const SizedBox(height: 8),
                 ...widget.items.map((keyLabel) {
-                  return CheckboxListTile(
-                    dense: true,
-                    title: Text(
-                      S.of(context).dish_type(keyLabel),
-                      style: Theme.of(context).textTheme.bodyMedium,
+                  final isSelected = dialogSelected.contains(keyLabel);
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 1),
+                    child: CheckboxListTile(
+                      dense: true,
+                      visualDensity: const VisualDensity(vertical: -2),
+                      selected: isSelected,
+                      selectedTileColor: Theme.of(
+                        context,
+                      ).colorScheme.primary.withAlpha(20),
+                      activeColor: Theme.of(context).colorScheme.primary,
+                      title: Text(
+                        S.of(context).dish_type(keyLabel),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: isSelected
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                        ),
+                      ),
+                      secondary: Opacity(
+                        opacity: isSelected ? 1.0 : 0.7,
+                        child: RestaurantUtils.getIcon(
+                          RestaurantUtils.getMealName(keyLabel),
+                        ),
+                      ),
+                      value: isSelected,
+                      onChanged: (isChecked) => toggleDish(keyLabel, isChecked),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                      ),
                     ),
-                    secondary: RestaurantUtils.getIcon(
-                      RestaurantUtils.getMealName(keyLabel),
-                    ),
-                    value: dialogSelected.contains(keyLabel),
-                    onChanged: (isChecked) => toggleDish(keyLabel, isChecked),
-                    controlAffinity: ListTileControlAffinity.leading,
                   );
                 }),
                 const SizedBox(height: 16),
