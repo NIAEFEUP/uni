@@ -28,11 +28,6 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
     loadBugClassList();
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   final bugDescriptions = <int, String>{
     0: 'bug_description_visual_detail',
     1: 'bug_description_error',
