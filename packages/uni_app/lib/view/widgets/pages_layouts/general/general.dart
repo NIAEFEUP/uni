@@ -14,7 +14,6 @@ import 'package:uni/view/widgets/pages_layouts/general/widgets/top_navigation_ba
 abstract class GeneralPageViewState<T extends ConsumerStatefulWidget>
     extends ConsumerState<T> {
   var _loadedOnce = false;
-  var _loading = true;
   var _connected = true;
 
   // Function called when the user pulls down the screen to refresh
@@ -51,38 +50,36 @@ abstract class GeneralPageViewState<T extends ConsumerStatefulWidget>
   bool getResizeToAvoidBottomInset() => true;
 
   @override
-  Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (_loadedOnce || !mounted) {
+  void initState() {
+    super.initState();
+    _initLoad();
+  }
+
+  Future<void> _initLoad() async {
+    if (_loadedOnce || !mounted) {
+      return;
+    }
+    _loadedOnce = true;
+
+    try {
+      await onLoad(context);
+    } catch (err, st) {
+      if (!mounted) {
         return;
       }
-      _loadedOnce = true;
-      setState(() {
-        _loading = true;
-      });
-
-      try {
-        await onLoad(context);
-      } catch (err, st) {
-        if (!mounted) {
-          return;
-        }
-        if (err is SocketException) {
-          setState(() {
-            _connected = false;
-          });
-        } else {
-          Logger().e('Failed to load page info: $err\n$st');
-          await Sentry.captureException(err, stackTrace: st);
-        }
-      }
-
-      if (mounted) {
+      if (err is SocketException) {
         setState(() {
-          _loading = false;
+          _connected = false;
         });
+      } else {
+        Logger().e('Failed to load page info: $err\n$st');
+        await Sentry.captureException(err, stackTrace: st);
       }
-    });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     // TODO:(thePeras): Is this stills a thing?
     if (!_connected) {
@@ -106,12 +103,7 @@ abstract class GeneralPageViewState<T extends ConsumerStatefulWidget>
       );
     }
 
-    return getScaffold(
-      context,
-      _loading
-          ? const Center(child: CircularProgressIndicator())
-          : getBody(context),
-    );
+    return getScaffold(context, getBody(context));
   }
 
   Widget getScaffold(BuildContext context, Widget body) {

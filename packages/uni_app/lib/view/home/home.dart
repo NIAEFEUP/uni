@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -131,7 +133,10 @@ class HomePageViewState extends ConsumerState<HomePageView> {
         appBar: homeAppBar(context),
         bottomNavigationBar: const AppBottomNavbar(),
         body: RefreshIndicator(
-          onRefresh: () => refreshPage(context),
+          onRefresh: () async {
+            unawaited(refreshPage(context));
+            return;
+          },
           child: ListView.separated(
             itemCount: favoriteCards.length + 1,
             separatorBuilder: (_, _) => const SizedBox(height: 10),
