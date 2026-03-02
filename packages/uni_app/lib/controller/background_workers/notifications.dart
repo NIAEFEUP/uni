@@ -77,7 +77,7 @@ class NotificationManager {
 
   static Future<void> _initFlutterNotificationsPlugin() async {
     const initializationSettingsAndroid = AndroidInitializationSettings(
-      '@mipmap/ic_launcher',
+      '@mipmap/launcher_icon',
     );
 
     // request for notifications immediatly on iOS
@@ -164,10 +164,18 @@ class NotificationManager {
         notification.uniqueID,
       );
       if (lastRan.add(notification.timeout).isBefore(DateTime.now())) {
-        await notification.displayNotificationIfPossible(
-          session,
-          _localNotificationsPlugin,
-        );
+        try {
+          await notification.displayNotificationIfPossible(
+            session,
+            _localNotificationsPlugin,
+          );
+        } catch (e, stackTrace) {
+          Logger().e(
+            'Error while checking notification ${notification.uniqueID}',
+            error: e,
+            stackTrace: stackTrace,
+          );
+        }
         await notificationStorage.addLastTimeNotificationExecuted(
           notification.uniqueID,
           DateTime.now(),

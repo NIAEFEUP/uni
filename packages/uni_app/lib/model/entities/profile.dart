@@ -17,6 +17,7 @@ class Profile {
     this.feesBalance = '',
     this.feesLimit,
     ProfileInfo? profileInfo,
+    this.answeredPedagogicalSurveys = false,
   }) : courses = courses ?? [],
        courseUnits = [],
        profileInfo = profileInfo ?? ProfileInfo();
@@ -45,6 +46,7 @@ class Profile {
   String feesBalance;
   DateTime? feesLimit;
   ProfileInfo? profileInfo;
+  bool answeredPedagogicalSurveys;
   @Transient()
   List<Course> courses;
   @Transient()

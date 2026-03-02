@@ -4,25 +4,29 @@ import 'package:uni/controller/parsers/schedule/new_api/parser.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/session/flows/base/session.dart';
 
-/// Class for fetching the user's lectures from the schedule's HTML page.
-class ScheduleFetcherNewApi extends ScheduleFetcher {
+/// Abstract base class for fetching lectures from the schedule's HTML page.
+abstract class ScheduleFetcherNewApiBase extends ScheduleFetcher {
+  String getEndpointView();
+
+  Map<String, String> getQueryParams(Session session);
+
   @override
   List<String> getEndpoints(Session session) {
     final urls = NetworkRouter.getBaseUrlsFromSession(
       session,
-    ).map((url) => '${url}hor_geral.estudantes_view').toList();
+    ).map((url) => '${url}hor_geral.${getEndpointView()}').toList();
     return urls;
   }
 
   /// Fetches the user's lectures from the schedule's HTML page.
   @override
-  Future<List<Lecture>> getLectures(Session session) async {
+  Future<List<Lecture>> getLectures(Session session, {int? lectiveYear}) async {
     final url = getEndpoints(session)[0];
-    final lectiveYear = getLectiveYear(DateTime.now());
+    final year = lectiveYear ?? getLectiveYear(DateTime.now());
 
     final scheduleResponse = await NetworkRouter.getWithCookies(url, {
-      'pv_num_unico': session.username,
-      'pv_ano_lectivo': lectiveYear.toString(),
+      ...getQueryParams(session),
+      'pv_ano_lectivo': year.toString(),
       'pv_periodos': '1',
     }, session);
 
@@ -45,4 +49,29 @@ class ScheduleFetcherNewApi extends ScheduleFetcher {
 
     return lectures;
   }
+}
+
+/// Class for fetching student lectures from the schedule's HTML page.
+class ScheduleFetcherNewApi extends ScheduleFetcherNewApiBase {
+  @override
+  String getEndpointView() => 'estudantes_view';
+
+  @override
+  Map<String, String> getQueryParams(Session session) => {
+    'pv_num_unico': session.username,
+  };
+}
+
+/// Class for fetching professor lectures from the schedule's HTML page.
+class ScheduleFetcherNewApiProfessor extends ScheduleFetcherNewApiBase {
+  ScheduleFetcherNewApiProfessor({required this.professorCode});
+  final String professorCode;
+
+  @override
+  String getEndpointView() => 'docentes_view';
+
+  @override
+  Map<String, String> getQueryParams(Session session) => {
+    'pv_doc_codigo': professorCode,
+  };
 }

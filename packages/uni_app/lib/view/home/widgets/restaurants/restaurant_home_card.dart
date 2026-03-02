@@ -22,7 +22,7 @@ class RestaurantHomeCard extends GenericHomecard {
   const RestaurantHomeCard({super.key})
     : super(
         titlePadding: const EdgeInsets.symmetric(horizontal: 20),
-        bodyPadding: const EdgeInsets.symmetric(horizontal: 20),
+        bodyPadding: EdgeInsets.zero,
       );
 
   @override
@@ -72,6 +72,7 @@ class RestaurantSliderState extends ConsumerState<RestaurantSlider> {
         return Column(
           children: [
             ExpandablePageView(
+              controller: PageController(viewportFraction: 0.9),
               children: dailyRestaurants,
               onPageChanged: (value) => setState(() {
                 _currentIndex = value;
@@ -119,12 +120,49 @@ List<RestaurantCard> getRestaurantInformation(
 ) {
   final locale = ref.watch(localeProvider);
 
-  final today = parseDateTime(DateTime.now());
+  final now = DateTime.now();
+  final currentDayOfWeek = parseDateTime(now);
 
   final restaurantsWidgets = favoriteRestaurants
-      .where((element) => element.getMealsOfDay(today).isNotEmpty)
+      .where((element) => element.getMealsOfDay(currentDayOfWeek).isNotEmpty)
       .map((restaurant) {
-        final menuItems = getMainMenus(today, restaurant, locale);
+        var displayedDay = currentDayOfWeek;
+
+        var showTomorrow = RestaurantUtils.shouldShowTomorrowMenu(
+          now,
+          period: restaurant.period,
+        );
+        var showNoMenuTomorrow = false;
+
+        if (showTomorrow) {
+          final tomorrowIndex =
+              (displayedDay.index + 1) % DayOfWeek.values.length;
+          final tomorrow = DayOfWeek.values[tomorrowIndex];
+
+          if (restaurant.getMealsOfDay(tomorrow).isNotEmpty) {
+            displayedDay = tomorrow;
+          } else {
+            showTomorrow = false;
+            showNoMenuTomorrow = true;
+          }
+        } else if (now.weekday == DateTime.sunday) {
+          final switchHour = restaurant.period == 'lunch'
+              ? RestaurantUtils.lunchSwitchHour
+              : RestaurantUtils.dinnerSwitchHour;
+          if (now.hour >= switchHour) {
+            showNoMenuTomorrow = true;
+          }
+        }
+
+        final menuItems = getMainMenus(displayedDay, restaurant, locale);
+
+        String? subtitle;
+        if (showTomorrow) {
+          subtitle = S.of(context).tomorrows_meals;
+        } else if (showNoMenuTomorrow) {
+          subtitle = S.of(context).no_menu_tomorrow;
+        }
+
         return RestaurantCard(
           name: RestaurantUtils.getRestaurantName(
             context,
@@ -140,6 +178,7 @@ List<RestaurantCard> getRestaurantInformation(
           onFavoriteToggle: () => {},
           menuItems: menuItems,
           showFavoriteButton: false,
+          subtitle: subtitle,
         );
       })
       .toList();

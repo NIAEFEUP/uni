@@ -77,14 +77,22 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
   final labels = documentAcademicPath.querySelectorAll(
     '.caixa .formulario-legenda',
   );
-  if (labels.length >= 2) {
-    course.currentAverage ??= double.tryParse(
-      labels[0].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0',
-    );
-    course.finishedEcts ??= double.tryParse(
-      labels[1].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0',
-    );
-  }
+
+  course.currentAverage ??= double.tryParse(
+    (labels.isNotEmpty ? labels[0].nextElementSibling?.innerHtml : null)
+            ?.replaceFirst(',', '.') ??
+        '0',
+  );
+
+  String? finishedEctsText;
+  final totalsRow = table
+      .querySelectorAll('tr')
+      .lastWhereOrNull((r) => r.classes.isEmpty);
+  finishedEctsText = totalsRow?.querySelector('td.totais.n')?.innerHtml;
+
+  course.finishedEcts ??= double.tryParse(
+    finishedEctsText?.replaceFirst(',', '.') ?? '0',
+  );
 
   final firstSchoolYearData = table
       .querySelector('tr')

@@ -6,7 +6,7 @@ import 'package:uni/session/flows/base/session.dart';
 /// Class for fetching the user's schedule.
 abstract class ScheduleFetcher extends SessionDependantFetcher {
   // Returns the user's lectures.
-  Future<List<Lecture>> getLectures(Session session);
+  Future<List<Lecture>> getLectures(Session session, {int? lectiveYear});
 
   List<Week> getWeeks(DateTime now) {
     final week = Week(start: now);

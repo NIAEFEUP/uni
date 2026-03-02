@@ -3,6 +3,7 @@ import 'package:uni/controller/fetchers/profile_info_fetcher.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_courses.dart';
+import 'package:uni/controller/parsers/parser_pedagogical_surveys.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/session/flows/base/session.dart';
 
@@ -46,7 +47,9 @@ class ProfileFetcher implements SessionDependantFetcher {
       profile.courses.add(course);
     }
 
-    profile.profileInfo = await ProfileInfoFetcher.fetchProfileInfo(session);
+    profile
+      ..profileInfo = await ProfileInfoFetcher.fetchProfileInfo(session)
+      ..answeredPedagogicalSurveys = parsePedagogicalSurveys(coursesResponses);
 
     return profile;
   }

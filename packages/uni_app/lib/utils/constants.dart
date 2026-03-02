@@ -13,6 +13,7 @@ const faculties = [
   'fmdup',
   'fpceup',
   'icbas',
+  'esep',
 ];
 
 const realm = 'https://open-id.up.pt/realms/sigarra';

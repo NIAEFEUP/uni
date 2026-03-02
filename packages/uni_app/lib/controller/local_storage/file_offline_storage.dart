@@ -26,7 +26,11 @@ Future<File?> loadFileFromStorageOrRetrieveNew(
   bool forceRetrieval = false,
 }) async {
   final path = await _localPath;
-  final targetPath = '$path/$localFileName';
+  final sanitizedLocalFileName = localFileName.replaceAll(
+    RegExp(r'[/\\]'),
+    '_',
+  );
+  final targetPath = '$path/$sanitizedLocalFileName';
   final file = File(targetPath);
 
   final fileExists = file.existsSync();

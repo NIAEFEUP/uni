@@ -25,13 +25,51 @@ class FederatedSessionUserInfo {
   }
 
   static List<String> _extractFaculties(UserInfo userInfo) {
-    final faculties = userInfo
-        .getTyped<List<dynamic>>('ous')!
-        .cast<String>()
-        .map((element) => element.toLowerCase())
-        .toList();
+    final rawOus = userInfo.getTyped<List<dynamic>>('ous');
 
-    return faculties;
+    final faculties = _tryExtractFacultiesFromOus(rawOus);
+
+    if (faculties.isNotEmpty) {
+      return faculties;
+    }
+
+    final email = userInfo.getTyped<String>('email');
+
+    if (email != null) {
+      final emailFaculties = _extractFacultiesFromEmail(email);
+      if (emailFaculties.isNotEmpty) {
+        return emailFaculties;
+      }
+    }
+
+    return [];
+  }
+
+  static List<String> _tryExtractFacultiesFromOus(List<dynamic>? rawOus) {
+    if (rawOus == null || rawOus.isEmpty) {
+      return [];
+    }
+
+    if (rawOus.every((item) => item is String)) {
+      return rawOus
+          .cast<String>()
+          .map((element) => element.toLowerCase())
+          .toList();
+    }
+
+    return [];
+  }
+
+  static List<String> _extractFacultiesFromEmail(String email) {
+    final domain = email.split('@').last.toLowerCase();
+
+    final eduPattern = RegExp(r'^edu\.([a-z]+)\.up\.pt$');
+    final eduMatch = eduPattern.firstMatch(domain);
+    if (eduMatch != null) {
+      return [eduMatch.group(1)!];
+    }
+
+    return [];
   }
 }
 
