@@ -59,7 +59,8 @@ class ProfileData extends StatelessWidget {
                       .entries
                       .map(
                         (entry) => DataListTile(
-                          prefix: '${S.of(context).nationality} ${entry.value[0]}',
+                          prefix:
+                              '${S.of(context).nationality} ${entry.value[0]}',
                           text: entry.value[1].capitalize(),
                         ),
                       )
