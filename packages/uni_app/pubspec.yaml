@@ -5,7 +5,7 @@ description: A UP no teu bolso.
 # To change it manually, override the value in app_version.txt.
 # The app version code is automatically also bumped by CI.
 # Do not change it manually.
-version: 2.3.0-beta.1+463
+version: 2.3.0-beta.3+465
 
 publish_to: "none" # We do not publish to pub.dev
 resolution: workspace
@@ -74,7 +74,6 @@ dependencies:
   shared_preferences: ^2.5.3
   shimmer: ^3.0.0
   smooth_page_indicator: ^2.0.1
-  sqflite: ^2.4.2
   synchronized: ^3.4.0
   timelines: ^0.1.0
   ua_client_hints: ^1.4.1
@@ -97,7 +96,6 @@ dev_dependencies:
   leancode_lint: ^19.0.1
   mockito: ^5.5.0
   objectbox_generator: any
-  sqflite_common_ffi: ^2.3.6
   very_good_analysis: ^10.0.0
 
 flutter:
