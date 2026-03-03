@@ -87,20 +87,25 @@ class SchedulePageView extends ConsumerWidget {
                 day: date,
                 lectures: _lecturesOfDay(lectures, date),
                 onLectureTap: (lecture) {
-                  final profile = ref.read(
+                  final profile = ref.watch(
                     profileProvider.select((value) => value.value),
                   );
 
                   if (profile != null) {
-                    final courseUnit = profile.courseUnits.firstWhereOrNull(
-                      (unit) => unit.abbreviation == lecture.acronym,
-                    );
-                    if (courseUnit != null && courseUnit.occurrId != null) {
+                    final ocorrenciasUnits = profile.courseUnits
+                        .where(
+                          (unit) =>
+                              unit.occurrId != null &&
+                              unit.occurrId == lecture.occurrId,
+                        )
+                        .toList();
+                    if (ocorrenciasUnits.isNotEmpty) {
+                      final correctUnit = ocorrenciasUnits.first;
                       Navigator.push(
                         context,
                         MaterialPageRoute<CourseUnitDetailPageView>(
                           builder: (context) =>
-                              CourseUnitDetailPageView(courseUnit),
+                              CourseUnitDetailPageView(correctUnit),
                         ),
                       );
                     }
