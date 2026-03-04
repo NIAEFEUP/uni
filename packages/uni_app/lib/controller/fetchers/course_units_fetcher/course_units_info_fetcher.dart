@@ -87,7 +87,7 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
             getUniqueLecturesFromApiResponse(apiResponse)
                 .where(
                   (lecture) =>
-                      lecture.startTime.isAfter(now) &&
+                      lecture.endTime.isAfter(now) &&
                       lecture.startTime.isBefore(
                         now.add(const Duration(days: 14)),
                       ),
