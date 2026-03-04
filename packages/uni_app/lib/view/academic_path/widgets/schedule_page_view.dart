@@ -47,10 +47,9 @@ class _SchedulePageViewState extends ConsumerState<SchedulePageView> {
           ),
         ),
         Expanded(
-          child:
-              _selectedView == 0
-                  ? _buildListView(context)
-                  : _buildCalendarView(),
+          child: _selectedView == 0
+              ? _buildListView(context)
+              : _buildCalendarView(),
         ),
       ],
     );
@@ -63,20 +62,20 @@ class _SchedulePageViewState extends ConsumerState<SchedulePageView> {
     );
 
     // Filter out Saturday (6) and Sunday (0/7) unless there are lectures
-    final reorderedDates =
-        allDates.where((date) {
-          final weekday = date.weekday;
-          final isSaturday = weekday == DateTime.saturday;
-          final isSunday = weekday == DateTime.sunday;
+    final reorderedDates = allDates.where((date) {
+      final weekday = date.weekday;
+      final isSaturday = weekday == DateTime.saturday;
+      final isSunday = weekday == DateTime.sunday;
 
-          if (isSaturday || isSunday) {
-            return _lecturesOfDay(widget.lectures, date).isNotEmpty;
-          }
-          return true;
-        }).toList();
+      if (isSaturday || isSunday) {
+        return _lecturesOfDay(widget.lectures, date).isNotEmpty;
+      }
+      return true;
+    }).toList();
 
-    final daysOfTheWeek =
-        ref.read(localeProvider.notifier).getWeekdaysWithLocale();
+    final daysOfTheWeek = ref
+        .read(localeProvider.notifier)
+        .getWeekdaysWithLocale();
 
     final reorderedDaysOfTheWeek = [
       daysOfTheWeek[6],
@@ -93,64 +92,63 @@ class _SchedulePageViewState extends ConsumerState<SchedulePageView> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Timeline(
-        tabs:
-            reorderedDates
-                .map(
-                  (date) => SizedBox(
-                    width: 30,
-                    height: 34,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            reorderedDaysOfTheWeek[(date.weekday) % 7]
-                                .substring(0, 3),
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                          ),
+        tabs: reorderedDates
+            .map(
+              (date) => SizedBox(
+                width: 30,
+                height: 34,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        reorderedDaysOfTheWeek[(date.weekday) % 7].substring(
+                          0,
+                          3,
                         ),
-                        Expanded(
-                          child: Text(
-                            '${date.day}',
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                          ),
-                        ),
-                      ],
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                      ),
                     ),
-                  ),
-                )
-                .toList(),
-        content:
-            reorderedDates
-                .map(
-                  (date) => ScheduleDayTimeline(
-                    key: Key('schedule-page-day-view-${date.weekday}'),
-                    now: widget.now,
-                    day: date,
-                    lectures: _lecturesOfDay(widget.lectures, date),
-                  ),
-                )
-                .toList(),
+                    Expanded(
+                      child: Text(
+                        '${date.day}',
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+            .toList(),
+        content: reorderedDates
+            .map(
+              (date) => ScheduleDayTimeline(
+                key: Key('schedule-page-day-view-${date.weekday}'),
+                now: widget.now,
+                day: date,
+                lectures: _lecturesOfDay(widget.lectures, date),
+              ),
+            )
+            .toList(),
         initialTab:
             (todayIndex != -1 &&
-                    _lecturesOfDay(
-                      widget.lectures,
-                      reorderedDates[todayIndex],
-                    ).isNotEmpty)
-                ? todayIndex
-                : reorderedDates.indexWhere(
-                  (date) =>
-                      date.isAfter(widget.now) &&
-                      _lecturesOfDay(widget.lectures, date).isNotEmpty,
-                ),
-        tabEnabled:
-            reorderedDates
-                .map((date) => _lecturesOfDay(widget.lectures, date).isNotEmpty)
-                .toList(),
+                _lecturesOfDay(
+                  widget.lectures,
+                  reorderedDates[todayIndex],
+                ).isNotEmpty)
+            ? todayIndex
+            : reorderedDates.indexWhere(
+                (date) =>
+                    date.isAfter(widget.now) &&
+                    _lecturesOfDay(widget.lectures, date).isNotEmpty,
+              ),
+        tabEnabled: reorderedDates
+            .map((date) => _lecturesOfDay(widget.lectures, date).isNotEmpty)
+            .toList(),
       ),
     );
   }

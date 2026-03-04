@@ -95,11 +95,9 @@ class ScheduleCalendarView extends ConsumerWidget {
           return Container();
         },
         onEventTap: (events, date) {
-          if (events.isEmpty)
-            return;
+          if (events.isEmpty) return;
           final lecture = events.first.event;
-          if (lecture == null)
-            return;
+          if (lecture == null) return;
 
           final profile = ref.read(profileProvider).value;
 
@@ -135,9 +133,7 @@ class ScheduleCalendarView extends ConsumerWidget {
               // strutStyle: const StrutStyle(leading: 0, forceStrutHeight: true, height: 0.6),
               style: TextStyle(
                 fontSize: 12,
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withOpacity(0.6),
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               ),
             ),
           );
@@ -156,8 +152,7 @@ class ScheduleCalendarView extends ConsumerWidget {
 
           // Check if this is the current class
           final isCurrentClass =
-              now.isAfter(lecture.startTime) &&
-              now.isBefore(lecture.endTime);
+              now.isAfter(lecture.startTime) && now.isBefore(lecture.endTime);
 
           // Color is chosen basen on if a student has a class at the moment
           final tileColor = isCurrentClass
@@ -165,10 +160,7 @@ class ScheduleCalendarView extends ConsumerWidget {
               : Theme.of(context).colorScheme.primaryContainer;
 
           return Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 2,
-              vertical: 1,
-            ),
+            margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
             decoration: BoxDecoration(
               color: tileColor,
               borderRadius: BorderRadius.circular(4),
@@ -177,10 +169,7 @@ class ScheduleCalendarView extends ConsumerWidget {
                   : null,
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 4,
-                vertical: 6,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -190,9 +179,7 @@ class ScheduleCalendarView extends ConsumerWidget {
                       Text(
                         lecture.acronym,
                         style: TextStyle(
-                          color: isCurrentClass
-                              ? secondary
-                              : primaryVibrant,
+                          color: isCurrentClass ? secondary : primaryVibrant,
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
                         ),
@@ -203,17 +190,13 @@ class ScheduleCalendarView extends ConsumerWidget {
                       const SizedBox(height: 1),
                       Badge(
                         label: Text(lecture.typeClass),
-                        backgroundColor: _getTypeClassColor(
-                          lecture.typeClass,
-                        ),
+                        backgroundColor: _getTypeClassColor(lecture.typeClass),
                         textColor: Colors.white,
                       ),
                       Text(
                         '${_formatTime(lecture.startTime)} - ${_formatTime(lecture.endTime)}',
                         style: TextStyle(
-                          color: isCurrentClass
-                              ? secondary
-                              : primaryVibrant,
+                          color: isCurrentClass ? secondary : primaryVibrant,
                           fontSize: 9,
                         ),
                         textAlign: TextAlign.center,
@@ -223,9 +206,7 @@ class ScheduleCalendarView extends ConsumerWidget {
                       Text(
                         lecture.teacher,
                         style: TextStyle(
-                          color: isCurrentClass
-                              ? secondary
-                              : primaryVibrant,
+                          color: isCurrentClass ? secondary : primaryVibrant,
                           fontSize: 9,
                         ),
                         textAlign: TextAlign.center,
@@ -277,7 +258,7 @@ class ScheduleCalendarView extends ConsumerWidget {
                   ),
                 ],
               ),
-            )
+            ),
           );
         },
         headerStyle: HeaderStyle(
@@ -293,9 +274,7 @@ class ScheduleCalendarView extends ConsumerWidget {
 
         weekDayStringBuilder: (weekDay) {
           final locale = Localizations.localeOf(context);
-          final dateSymbols = DateFormat.EEEE(
-            locale.toString(),
-          ).dateSymbols;
+          final dateSymbols = DateFormat.EEEE(locale.toString()).dateSymbols;
           final shortWeekdays = dateSymbols.NARROWWEEKDAYS;
 
           return shortWeekdays[weekDay + 1];
