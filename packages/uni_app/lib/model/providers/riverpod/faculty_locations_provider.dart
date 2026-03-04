@@ -1,36 +1,42 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:uni/controller/fetchers/location_fetcher/location_fetcher_asset.dart';
 import 'package:uni/controller/fetchers/location_fetcher/location_fetcher_osm.dart';
+import 'package:uni/model/entities/faculty_config.dart';
 import 'package:uni/model/entities/indoor_floor_plan.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
 
-// Provider for location groups (map markers)
 final locationsProvider =
 AsyncNotifierProvider<FacultyLocationsNotifier, List<LocationGroup>?>(
   FacultyLocationsNotifier.new,
 );
 
-// Provider for indoor floor plans (building layouts)
 final indoorFloorPlansProvider =
 AsyncNotifierProvider<IndoorFloorPlansNotifier, List<IndoorFloorPlan>?>(
   IndoorFloorPlansNotifier.new,
 );
 
-class FacultyLocationsNotifier
-    extends CachedAsyncNotifier<List<LocationGroup>> {
+final selectedFacultyProvider = StateProvider<FacultyConfig>(
+  (_) => FacultyConfig.feup,
+);
+
+class FacultyLocationsNotifier extends CachedAsyncNotifier<List<LocationGroup>> {
   @override
   Duration? get cacheDuration => const Duration(days: 30);
 
+  FacultyConfig get _faculty => ref.read(selectedFacultyProvider);
+
   @override
   Future<List<LocationGroup>> loadFromStorage() {
-    return LocationFetcherAsset().getLocations();
+    return LocationFetcherAsset(_faculty).getLocations();
   }
 
   @override
   Future<List<LocationGroup>> loadFromRemote() async {
     try {
-      final osmData = await LocationFetcherOSM().getLocations();
+      final osmData = await LocationFetcherOSM(_faculty).getLocations();
 
       if (osmData.isNotEmpty) {
         return osmData;
@@ -38,27 +44,38 @@ class FacultyLocationsNotifier
 
       return await loadFromStorage();
     } catch (err) {
-      return loadFromStorage();
+      debugPrint('OSM fetch failed for ${_faculty.name}: $err');
+      try {
+        return await loadFromStorage();
+      } catch (assetErr) {
+        debugPrint('Asset fallback also failed: $assetErr');
+        rethrow;
+      }
     }
   }
 }
 
-class IndoorFloorPlansNotifier
-    extends CachedAsyncNotifier<List<IndoorFloorPlan>> {
+class IndoorFloorPlansNotifier extends CachedAsyncNotifier<List<IndoorFloorPlan>> {
   @override
   Duration? get cacheDuration => const Duration(days: 30);
 
+  FacultyConfig get _faculty => ref.read(selectedFacultyProvider);
+
   @override
   Future<List<IndoorFloorPlan>> loadFromStorage() async {
-    // TODO: Load from asset JSON as fallback
-    return [];
+    try {
+      return await LocationFetcherAsset(_faculty).getIndoorFloorPlans();
+    } catch (err) {
+      return [];
+    }
   }
 
   @override
   Future<List<IndoorFloorPlan>> loadFromRemote() async {
     try {
-      return await LocationFetcherOSM().getIndoorFloorPlans();
+      return await LocationFetcherOSM(_faculty).getIndoorFloorPlans();
     } catch (err) {
+      debugPrint('[Locations] Failed to load indoor plans for ${_faculty.name}: $err');
       return loadFromStorage();
     }
   }

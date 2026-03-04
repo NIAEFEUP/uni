@@ -1,11 +1,18 @@
 import 'dart:convert';
 
 import 'package:latlong2/latlong.dart';
+import 'package:uni/model/entities/faculty_config.dart';
+import 'package:uni/model/entities/indoor_floor_plan.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
 
 abstract class LocationFetcher {
+  LocationFetcher(this.facultyConfig);
+
+  final FacultyConfig facultyConfig;
+  
   Future<List<LocationGroup>> getLocations();
+  Future<List<IndoorFloorPlan>> getIndoorFloorPlans();
 
   Future<List<LocationGroup>> getFromJSON(String jsonStr) async {
     final json = jsonDecode(jsonStr) as Map<String, dynamic>;

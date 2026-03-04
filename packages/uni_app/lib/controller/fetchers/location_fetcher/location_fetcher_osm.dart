@@ -16,55 +16,52 @@ import 'package:uni/model/entities/locations/vending_machine.dart';
 import 'package:uni/model/entities/locations/wc_location.dart';
 
 class LocationFetcherOSM extends LocationFetcher {
-  static const double minLat = 41.176;
-  static const double maxLat = 41.179;
-  static const double minLon = -8.598;
-  static const double maxLon = -8.594;
+  LocationFetcherOSM(super.facultyConfig);
 
   @override
   Future<List<LocationGroup>> getLocations() async {
     try {
-      final response = await getData();
+      final response = await _getData();
       return _parseOSMResponse(response);
     } catch (err) {
-      throw Exception('Failed to fetch from OSM: $err');
+      throw Exception('[OSM] Failed to fetch locations: $err');
     }
   }
 
+  @override
   Future<List<IndoorFloorPlan>> getIndoorFloorPlans() async {
     try {
-      final response = await getData();
+      final response = await _getData();
       return _parseIndoorData(response);
     } catch (err) {
-      throw Exception('Failed to fetch indoor data: $err');
+      throw Exception('[OSM] Failed to fetch indoor data: $err');
     }
   }
 
-  Future<http.Response> getData() async {
-    debugPrint('⬇️  Fetching OSM data from Overpass API...');
+  Future<http.Response> _getData() async {
+    debugPrint('[OSM] Fetching data from Overpass API for ${facultyConfig.name}...');
     final response = await _queryOverpass();
-    debugPrint(
-      '✓ OSM data fetched successfully (${response.body.length} bytes)',
-    );
+    debugPrint('[OSM] Fetch complete (${response.body.length} bytes)');
     return response;
   }
 
   Future<http.Response> _queryOverpass() async {
     const overpassUrl = 'https://overpass-api.de/api/interpreter';
 
-    const query = '''
+    final bounds = facultyConfig.bounds;
+    final query = '''
       [out:json][timeout:25];
       (
-        // Get FEUP buildings
-        way["building"]["name"~"FEUP|Faculdade de Engenharia"]($minLat,$minLon,$maxLat,$maxLon);
+        // Get ${facultyConfig.name} buildings
+        way["building"]["name"~"${facultyConfig.name}|Faculdade"](${bounds.minLat},${bounds.minLon},${bounds.maxLat},${bounds.maxLon});
         
-        // Get indoor features (rooms, corridors, areas)
-        node["indoor"]($minLat,$minLon,$maxLat,$maxLon);
-        way["indoor"]($minLat,$minLon,$maxLat,$maxLon);
+        // Get indoor features
+        node["indoor"](${bounds.minLat},${bounds.minLon},${bounds.maxLat},${bounds.maxLon});
+        way["indoor"](${bounds.minLat},${bounds.minLon},${bounds.maxLat},${bounds.maxLon});
         
         // Get amenities
-        node["amenity"]($minLat,$minLon,$maxLat,$maxLon);
-        way["amenity"]($minLat,$minLon,$maxLat,$maxLon);
+        node["amenity"](${bounds.minLat},${bounds.minLon},${bounds.maxLat},${bounds.maxLon});
+        way["amenity"](${bounds.minLat},${bounds.minLon},${bounds.maxLat},${bounds.maxLon});
       );
       out body;
       >;
@@ -78,10 +75,9 @@ class LocationFetcherOSM extends LocationFetcher {
     );
 
     if (response.statusCode != 200) {
-      throw Exception('Overpass API returned ${response.statusCode}');
+      throw Exception('[OSM] Overpass API returned ${response.statusCode}');
     }
 
-    debugPrint('OSM query returned ${response.body.length} bytes');
     return response;
   }
 
@@ -90,10 +86,10 @@ class LocationFetcherOSM extends LocationFetcher {
     final elements = json['elements'] as List<dynamic>;
 
     debugPrint(
-      '📍 Parsing indoor data for ALL buildings from ${elements.length} elements',
+      '[OSM] Parsing indoor data for ${facultyConfig.name} from ${elements.length} elements',
     );
 
-    // Build node map ONCE for all buildings
+    // Build node map ONCE so polygon construction is O(1) per node
     final nodeMap = <int, LatLng>{};
     for (final elem in elements) {
       final element = elem as Map<String, dynamic>;
@@ -106,7 +102,7 @@ class LocationFetcherOSM extends LocationFetcher {
         }
       }
     }
-    debugPrint('   Built node map with ${nodeMap.length} nodes');
+    debugPrint('[OSM] Built node map with ${nodeMap.length} nodes');
 
     // Map: BuildingCode -> Floor -> FloorData
     final buildingFloorMap = <String, Map<int, _FloorData>>{};
@@ -114,8 +110,7 @@ class LocationFetcherOSM extends LocationFetcher {
     for (final elem in elements) {
       final element = _OSMElement.fromJson(elem as Map<String, dynamic>);
 
-      final isAmenity =
-          element.tags['amenity'] != null &&
+      final isAmenity = element.tags['amenity'] != null &&
           (element.lat != null && element.lon != null ||
               element.nodes != null && element.nodes!.isNotEmpty);
 
@@ -127,19 +122,20 @@ class LocationFetcherOSM extends LocationFetcher {
         if (element.lat != null && element.lon != null) {
           position = LatLng(element.lat!, element.lon!);
         } else if (element.nodes != null && element.nodes!.isNotEmpty) {
-          // Calculate centroid from nodeMap
-          final nodePositions =
-              element.nodes!
-                  .map((id) => nodeMap[id])
-                  .where((pos) => pos != null)
-                  .cast<LatLng>()
-                  .toList();
+          // Calculate centroid from node positions
+          final nodePositions = element.nodes!
+              .map((id) => nodeMap[id])
+              .where((pos) => pos != null)
+              .cast<LatLng>()
+              .toList();
           if (nodePositions.isNotEmpty) {
-            final avgLat =
-                nodePositions.map((p) => p.latitude).reduce((a, b) => a + b) /
+            final avgLat = nodePositions
+                    .map((p) => p.latitude)
+                    .reduce((a, b) => a + b) /
                 nodePositions.length;
-            final avgLon =
-                nodePositions.map((p) => p.longitude).reduce((a, b) => a + b) /
+            final avgLon = nodePositions
+                    .map((p) => p.longitude)
+                    .reduce((a, b) => a + b) /
                 nodePositions.length;
             position = LatLng(avgLat, avgLon);
           }
@@ -162,7 +158,7 @@ class LocationFetcherOSM extends LocationFetcher {
         }
         continue;
       }
-
+      
       // Extract building code from ref
       final ref = element.tags['ref'] ?? '';
       if (ref.isEmpty) {
@@ -233,7 +229,7 @@ class LocationFetcherOSM extends LocationFetcher {
     for (final buildingEntry in buildingFloorMap.entries) {
       final buildingCode = buildingEntry.key;
       debugPrint(
-        'Building $buildingCode has ${buildingEntry.value.length} floors',
+        '[OSM] Building $buildingCode: ${buildingEntry.value.length} floor(s)',
       );
 
       for (final floorEntry in buildingEntry.value.entries) {
@@ -241,8 +237,10 @@ class LocationFetcherOSM extends LocationFetcher {
         final data = floorEntry.value;
 
         debugPrint(
-          '  Floor $floor: ${data.rooms.length} rooms, '
-          '${data.corridors.length} corridors, ${data.amenities.length} amenities',
+          '[OSM]   Floor $floor — '
+          '${data.rooms.length} rooms, '
+          '${data.corridors.length} corridors, '
+          '${data.amenities.length} amenities',
         );
 
         allPlans.add(
@@ -259,7 +257,8 @@ class LocationFetcherOSM extends LocationFetcher {
     }
 
     debugPrint(
-      '✅ Total: ${allPlans.length} floor plans from ${buildingFloorMap.length} buildings',
+      '[OSM] Indoor parse complete: '
+      '${allPlans.length} floor plans from ${buildingFloorMap.length} buildings',
     );
     return allPlans;
   }
@@ -281,13 +280,13 @@ class LocationFetcherOSM extends LocationFetcher {
     return polygon;
   }
 
-  Future<List<LocationGroup>> _parseOSMResponse(http.Response response) async {
+  List<LocationGroup> _parseOSMResponse(http.Response response) {
     final json = jsonDecode(response.body) as Map<String, dynamic>;
     final elements = json['elements'] as List<dynamic>;
 
-    debugPrint('Parsing ${elements.length} OSM elements for location groups');
+    debugPrint('[OSM] Parsing ${elements.length} elements for ${facultyConfig.name} location groups');
 
-    final Map<String, List<_OSMElement>> buildingGroups = {};
+    final buildingGroups = <String, List<_OSMElement>>{};
 
     for (final elem in elements) {
       final element = _OSMElement.fromJson(elem as Map<String, dynamic>);
@@ -319,7 +318,7 @@ class LocationFetcherOSM extends LocationFetcher {
       }
     }
 
-    debugPrint('Created ${locationGroups.length} location groups');
+    debugPrint('[OSM] Created ${locationGroups.length} location groups for ${facultyConfig.name}');
     return locationGroups;
   }
 
@@ -330,7 +329,7 @@ class LocationFetcherOSM extends LocationFetcher {
         element.tags['name'];
 
     if (ref != null) {
-      final match = RegExp('^([A-Z])').firstMatch(ref);
+      final match = facultyConfig.buildingCodePattern.firstMatch(ref);
       if (match != null) {
         return match.group(1);
       }
@@ -353,7 +352,9 @@ class LocationFetcherOSM extends LocationFetcher {
     }
 
     if (count == 0) {
-      return const LatLng(41.1775, -8.596);
+      // Fall back to the centre of the configured faculty bounds
+      final b = facultyConfig.bounds;
+      return LatLng((b.minLat + b.maxLat) / 2, (b.minLon + b.maxLon) / 2);
     }
 
     return LatLng(sumLat / count, sumLon / count);

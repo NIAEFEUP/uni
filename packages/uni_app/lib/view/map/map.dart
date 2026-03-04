@@ -1,5 +1,4 @@
 import 'package:diacritic/diacritic.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -58,9 +57,9 @@ class MapPageStateView extends ConsumerState<MapPage> {
         // Watch indoor plans inside the builder to ensure proper rebuilds
         final indoorPlansAsync = ref.watch(indoorFloorPlansProvider);
         final indoorPlans = indoorPlansAsync.when(
-          data: (plans) => plans ?? [],
+          data: (plans) => plans ?? <IndoorFloorPlan>[],
           loading: () => <IndoorFloorPlan>[],
-          error: (_, _) => <IndoorFloorPlan>[],
+          error: (_, s) => <IndoorFloorPlan>[],
         );
         final isIndoorPlansLoaded = indoorPlansAsync.hasValue;
         var bounds = _bounds;
