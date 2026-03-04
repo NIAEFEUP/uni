@@ -35,7 +35,7 @@ class _SchedulePageViewState extends ConsumerState<SchedulePageView> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
           child: ViewToggleButton(
             options: [locale.list_view, locale.calendar_view],
             selected: _selectedView,
