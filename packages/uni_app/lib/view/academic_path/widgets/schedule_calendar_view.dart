@@ -1,10 +1,14 @@
 import 'package:calendar_view/calendar_view.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
+import 'package:uni/utils/date_time_formatter.dart';
+import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/theme.dart';
@@ -39,6 +43,9 @@ class ScheduleCalendarView extends ConsumerWidget {
         ),
       );
     }
+    // determine earliest class
+    final earliestClass = lectures.sorted((a, b) => a.startTime.compareTo(b.startTime)).first.startTime;
+    final latestClass = lectures.sorted((a, b) => a.startTime.compareTo(b.startTime)).last.endTime;
 
     // Determine which days to show (exclude Saturday and Sunday without lectures)
     final hasLecturesOnWeekday = <int, bool>{};
@@ -81,22 +88,29 @@ class ScheduleCalendarView extends ConsumerWidget {
       controller: controller,
       child: WeekView(
         controller: controller,
-        initialDay: now,
-        heightPerMinute: 1.2,
+        initialDay: earliestClass,
         weekDays: weekDaysList,
         showLiveTimeLineInAllDays: true,
+        weekNumberBuilder: (weekNum) {return Container();},
+        weekPageHeaderBuilder: WeekHeader.hidden,
+        minDay: earliestClass,
+        maxDay: latestClass,
+        startHour: 8,
+        endHour: 20,
         timeLineBuilder: (date) {
           final hour = date.hour;
           return Container(
-            alignment: Alignment.topRight,
-            padding: const EdgeInsets.only(right: 8),
+            alignment: Alignment.topCenter,
+            //padding: const EdgeInsets.only(right: 8),
+            decoration: const BoxDecoration(border: Border(top: BorderSide(color: Colors.grey))),
             child: Text(
               '${hour.toString().padLeft(2, '0')}:00',
+              // strutStyle: const StrutStyle(leading: 0, forceStrutHeight: true, height: 0.6),
               style: TextStyle(
                 fontSize: 12,
                 color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               ),
-            ),
+            )
           );
         },
         eventTileBuilder: (date, events, boundary, startDuration, endDuration) {
@@ -115,94 +129,136 @@ class ScheduleCalendarView extends ConsumerWidget {
           final isCurrentClass =
               now.isAfter(lecture.startTime) && now.isBefore(lecture.endTime);
 
+          // Color is chosen basen on if a student has a class at the moment
           final tileColor =
               isCurrentClass
-                  ? primaryVibrant // Uni red for current class
+                  ? primaryVibrant
                   : Theme.of(
                     context,
-                  ).colorScheme.surfaceContainer; // Uni white for other classes
+                  ).colorScheme.primaryContainer;
 
-          return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
-            decoration: BoxDecoration(
-              color: tileColor,
-              borderRadius: BorderRadius.circular(4),
-              border:
-                  isCurrentClass
-                      ? Border.all(color: primaryVibrant, width: 2)
-                      : null,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Top section: acronym and type badge
-                  Column(
-                    children: [
-                      Text(
-                        lecture.acronym,
-                        style: TextStyle(
-                          color: isCurrentClass ? secondary : primaryVibrant,
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
+          return GestureDetector(
+            onTap: () {
+              final profile = ref.watch(
+                profileProvider.select((value) => value.value),
+              );
+
+              if (profile != null) {
+                final courseUnit = profile.courseUnits.firstWhereOrNull(
+                  (unit) => unit.abbreviation == lecture.acronym,
+                );
+                if (courseUnit != null && courseUnit.occurrId != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<CourseUnitDetailPageView>(
+                      builder: (context) =>
+                          CourseUnitDetailPageView(courseUnit),
+                    ),
+                  );
+                }
+              }
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
+              decoration: BoxDecoration(
+                color: tileColor,
+                borderRadius: BorderRadius.circular(4),
+                border:
+                    isCurrentClass
+                        ? Border.all(color: primaryVibrant, width: 2)
+                        : null,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Top section: acronym and type badge
+                    Column(
+                      children: [
+                        Text(
+                          lecture.acronym,
+                          style: TextStyle(
+                            color: isCurrentClass ? secondary : primaryVibrant,
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 1),
-                      Badge(
-                        label: Text(lecture.typeClass),
-                        backgroundColor: _getTypeClassColor(lecture.typeClass),
-                        textColor: Colors.white,
-                      ),
-                    ],
-                  ),
+                        const SizedBox(height: 1),
+                        Badge(
+                          label: Text(lecture.typeClass),
+                          backgroundColor: _getTypeClassColor(lecture.typeClass),
+                          textColor: Colors.white,
+                        ),
+                        Text(
+                          '${_formatTime(lecture.startTime)} - ${_formatTime(lecture.endTime)}',
+                          style: TextStyle(
+                            color: isCurrentClass ? secondary : primaryVibrant,
+                            fontSize: 9,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          lecture.teacher,
+                          style: TextStyle(
+                            color: isCurrentClass ? secondary : primaryVibrant,
+                            fontSize: 9,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        )
+                      ],
+                    ),
 
-                  // Bottom section: divider and location
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        height: 1,
-                        margin: const EdgeInsets.symmetric(vertical: 4),
-                        color:
-                            isCurrentClass
-                                ? secondary
-                                : primaryVibrant.withOpacity(0.72),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          UniIcon(
-                            UniIcons.mapPin,
-                            color:
-                                isCurrentClass
-                                    ? secondary.withOpacity(0.2)
-                                    : primaryVibrant.withOpacity(0.2),
-                            size: 12,
-                          ),
-                          const SizedBox(width: 3),
-                          Flexible(
-                            child: Text(
-                              lecture.room,
-                              style: TextStyle(
-                                color:
-                                    isCurrentClass ? secondary : primaryVibrant,
-                                fontSize: 10,
-                              ),
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          height: 1,
+                          margin: const EdgeInsets.symmetric(vertical: 4),
+                          color:
+                              isCurrentClass
+                                  ? secondary
+                                  : primaryVibrant.withOpacity(0.72),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            UniIcon(
+                              UniIcons.mapPin,
+                              color:
+                                  isCurrentClass
+                                      ? secondary.withOpacity(0.8)
+                                      : primaryVibrant.withOpacity(0.8),
+                              size: 12,
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+                            const SizedBox(width: 3),
+                            Flexible(
+                              child: Text(
+                                lecture.room,
+                                style: TextStyle(
+                                  color:
+                                      isCurrentClass ? secondary : primaryVibrant,
+                                  fontSize: 10,
+                                ),
+                                textAlign: TextAlign.center,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           );
@@ -217,33 +273,14 @@ class ScheduleCalendarView extends ConsumerWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        // weekDayStringBuilder: (weekDay) {
-        //   // Get weekday abbreviations from locale using SHORTWEEKDAYS
-        //   final locale = Localizations.localeOf(context);
-        //   final dateSymbols = DateFormat.EEEE(locale.toString()).dateSymbols;
-        //   final shortWeekdays = dateSymbols.SHORTWEEKDAYS;
+        weekDayStringBuilder: (weekDay) {
+          final locale = Localizations.localeOf(context);
+          final dateSymbols = DateFormat.EEEE(locale.toString()).dateSymbols;
+          final shortWeekdays = dateSymbols.NARROWWEEKDAYS;
 
-        //   // Map WeekDays enum to SHORTWEEKDAYS array indices
-        //   // SHORTWEEKDAYS array: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
-        //   final weekdayMap = {
-        //     WeekDays.sunday: 0,
-        //     WeekDays.monday: 1,
-        //     WeekDays.tuesday: 2,
-        //     WeekDays.wednesday: 3,
-        //     WeekDays.thursday: 4,
-        //     WeekDays.friday: 5,
-        //     WeekDays.saturday: 6,
-        //   };
-
-        //   final index = weekdayMap[weekDay] ?? 1;
-        //   return shortWeekdays[index];
-        // },
-        hourIndicatorSettings: const HourIndicatorSettings(color: Colors.black),
-        weekPageHeaderBuilder: WeekHeader.hidden,
-        minDay: weekToShow,
-        maxDay: weekEndDate,
-        startHour: 8,
-        endHour: 20,
+          return shortWeekdays[weekDay+1];
+        },
+        // hourIndicatorSettings: const HourIndicatorSettings(),
         liveTimeIndicatorSettings: const LiveTimeIndicatorSettings(
           color: primaryVibrant,
         ),
@@ -252,7 +289,10 @@ class ScheduleCalendarView extends ConsumerWidget {
   }
 
   String _formatDate(DateTime date) {
-    return '${date.day}/${date.month}';
+    return DateFormat.Md().format(date);
+  }
+  String _formatTime(DateTime date) {
+    return DateFormat.Hm().format(date);
   }
 
   Color _getColorForSubject(String subject) {
