@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
+import 'package:uni/view/profile_info/widgets/no_profile_data.dart';
 import 'package:uni/view/profile_info/widgets/profile_data.dart';
+import 'package:uni/view/profile_info/widgets/profile_info_shimmer.dart';
 import 'package:uni/view/profile_info/widgets/profile_overview.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 
@@ -29,13 +31,26 @@ class ProfileInfoPageViewState
           ProfileData(profile: profile),
         ],
       ),
-      hasContent: (profile) => profile.courses.isNotEmpty,
-      nullContentWidget: Container(),
+      hasContent: (profile) => profile.profileInfo != null,
+      nullContentWidget: LayoutBuilder(
+        // Band-aid for allowing refresh on null content
+        builder: (context, constraints) => SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Container(
+            height: constraints.maxHeight,
+            padding: const EdgeInsets.only(bottom: 120),
+            child: const Center(child: NoProfileDataWidget()),
+          ),
+        ),
+      ),
+      loadingWidget: const ShimmerProfileInfoPage(),
     );
   }
 
   @override
-  Future<void> onRefresh() async {}
+  Future<void> onRefresh() async {
+    await ref.read(profileProvider.notifier).refreshRemote();
+  }
 
   @override
   String? getTitle() {
