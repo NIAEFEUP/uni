@@ -161,15 +161,12 @@ class HomePageViewState extends ConsumerState<HomePageView> {
       preferredSize: Size.fromHeight(appBarSize),
       child: Container(
         decoration: BoxDecoration(
-          gradient: RadialGradient(
+          gradient: LinearGradient(
             colors: Theme.of(context).brightness == Brightness.light
                 ? const [Color(0xFF280709), Color(0xFF511515)]
-                : const [
-                    Color(0x99861D25),
-                    Color(0xBF2F0A0C),
-                  ],
-            center: Alignment.topCenter,
-            radius: 1.5,
+                : const [Color(0x99861D25), Color(0xFF1C0F10)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
             stops: const [0, 1],
           ),
         ),

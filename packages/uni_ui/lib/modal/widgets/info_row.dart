@@ -22,13 +22,13 @@ class ModalInfoRow extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(color: Theme.of(context).dividerColor, width: 1),
+          top: BorderSide(color: Theme.of(context).colorScheme.inversePrimary, width: 1),
         ),
       ),
       child: ListTile(
         dense: true,
         // visualDensity: VisualDensity(vertical: -4),
-        leading: UniIcon(icon, color: Theme.of(context).colorScheme.primary),
+        leading: UniIcon(icon, color: Theme.of(context).iconTheme.color),
         title: Text(
           title,
           overflow: TextOverflow.ellipsis,

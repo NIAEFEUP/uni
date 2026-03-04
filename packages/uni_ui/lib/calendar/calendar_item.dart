@@ -19,13 +19,7 @@ class _CalendarItemDate extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          Text(
-            endYear ?? '',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.outline,
-              fontSize: 11,
-            ),
-          ),
+          Text(endYear ?? '', style: Theme.of(context).textTheme.bodySmall),
         ],
       );
     } else {
@@ -105,7 +99,9 @@ class CalendarItem extends StatelessWidget {
               height: 20,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isToday ? Theme.of(context).primaryColor : Colors.transparent,
+                color: isToday
+                    ? Theme.of(context).primaryColor
+                    : Colors.transparent,
                 border: Border.all(
                   color: Theme.of(context).iconTheme.color!,
                   width: 4.0,
@@ -171,7 +167,7 @@ class CalendarItem extends StatelessWidget {
               style: TextStyle(
                 color: isToday
                     ? Theme.of(context).colorScheme.secondary
-                    : Theme.of(context).colorScheme.primary,
+                    : Theme.of(context).colorScheme.onSecondaryContainer,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 height: 1,

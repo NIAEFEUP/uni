@@ -202,13 +202,9 @@ ThemeData lightTheme = ThemeData(
     margin: const EdgeInsets.all(4),
   ),
   textButtonTheme: TextButtonThemeData(
-    style: TextButton.styleFrom(
-      backgroundColor: Color(0xFFFFF5F3),
-    ),
+    style: TextButton.styleFrom(backgroundColor: Color(0xFFFFF5F3)),
   ),
-  iconTheme: IconThemeData(
-    color: Color(0xFF660910),
-  ),
+  iconTheme: IconThemeData(color: Color(0xFF660910)),
   disabledColor: Color(0xFFF9F7F7),
 );
 
@@ -229,12 +225,19 @@ ThemeData darkTheme = ThemeData(
     margin: const EdgeInsets.all(4),
   ),
   textButtonTheme: TextButtonThemeData(
-    style: TextButton.styleFrom(
-      backgroundColor: Color(0xFF56272B),
-    ),
+    style: TextButton.styleFrom(backgroundColor: Color(0xFF56272B)),
   ),
-  iconTheme: IconThemeData(
-    color: Color(0xFFE5C8C7),
+  iconTheme: IconThemeData(color: Color(0xFFE5C8C7)),
+  tabBarTheme: TabBarThemeData(indicatorColor: Color(0xFFE5C8C7)),
+  dialogTheme: DialogThemeData(backgroundColor: Color(0xFF56272B)),
+  checkboxTheme: CheckboxThemeData(
+    fillColor: WidgetStateProperty.all(Color(0xFFE5C8C7)),
+    checkColor: WidgetStateProperty.all(Color(0xFF56272B)),
+  ),
+  switchTheme: SwitchThemeData(
+    trackColor: WidgetStateProperty.all(Color(0xFF3F100F)),
+    trackOutlineColor: WidgetStateProperty.all(Color(0xFF2F0A0C)),
+    thumbColor: WidgetStateProperty.all(Color(0xFFE5C8C7)),
   ),
   disabledColor: Color(0xFF614D4F),
 );

@@ -14,17 +14,17 @@ class ThemeSwitchButton extends ConsumerWidget {
       ThemeMode.light => Icon(
         Icons.wb_sunny,
         size: 24,
-        color: Theme.of(context).colorScheme.onPrimary,
+        color: Theme.of(context).colorScheme.onSecondaryContainer,
       ),
       ThemeMode.dark => Icon(
         Icons.nightlight_round,
         size: 24,
-        color: Theme.of(context).colorScheme.onPrimary,
+        color: Theme.of(context).colorScheme.onSecondaryContainer,
       ),
       ThemeMode.system => Icon(
         Icons.brightness_6,
         size: 24,
-        color: Theme.of(context).colorScheme.onPrimary,
+        color: Theme.of(context).colorScheme.onSecondaryContainer,
       ),
     };
     return Padding(

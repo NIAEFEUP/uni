@@ -145,7 +145,10 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           const SizedBox(width: 8),
-          const UniIcon(UniIcons.caretDownRegular),
+          UniIcon(
+            UniIcons.caretDownRegular,
+            color: Theme.of(context).iconTheme.color,
+          ),
         ],
       ),
     );

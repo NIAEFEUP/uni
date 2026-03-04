@@ -188,9 +188,7 @@ class _TimelineState extends State<Timeline> {
                               horizontal: 8.0,
                             ),
                             color: isSelected
-                                ? Theme.of(
-                                    context,
-                                  ).colorScheme.inversePrimary
+                                ? Theme.of(context).colorScheme.secondary
                                 : Colors.transparent,
                             child: DefaultTextStyle(
                               style: textStyle.copyWith(
@@ -198,9 +196,11 @@ class _TimelineState extends State<Timeline> {
                                     ? (isSelected
                                           ? Theme.of(
                                               context,
-                                            ).colorScheme.primary
-                                          : Colors.black)
-                                    : Colors.grey,
+                                            ).colorScheme.onSecondaryContainer
+                                          : Theme.of(
+                                              context,
+                                            ).colorScheme.onSecondaryContainer)
+                                    : Theme.of(context).disabledColor,
                               ),
                               child: tab,
                             ),

@@ -41,7 +41,10 @@ class ScheduleCard extends StatelessWidget {
       blurRadius: 2,
       gradient: isActive
           ? RadialGradient(
-              colors: [Color(0xFF280709), Color(0xFF511515)],
+              colors: [
+                Theme.of(context).colorScheme.inversePrimary,
+                Theme.of(context).colorScheme.primary,
+              ],
               center: Alignment.topLeft,
               radius: 1.5,
               stops: [0, 1],
@@ -62,7 +65,7 @@ class ScheduleCard extends StatelessWidget {
                     if (isActive) ...[
                       PhosphorIcon(
                         PhosphorIcons.clock(PhosphorIconsStyle.duotone),
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).colorScheme.onSecondaryContainer,
                         size: 20,
                       ),
                       SizedBox(width: 5),
@@ -105,8 +108,10 @@ class ScheduleCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: isActive
-                                ? Theme.of(context).colorScheme.secondary
-                                : Theme.of(context).colorScheme.primary,
+                                ? Theme.of(context).colorScheme.onSecondaryContainer
+                                : Theme.of(
+                                    context,
+                                  ).colorScheme.onSecondaryContainer,
                           ),
                         ),
                       ),
@@ -120,7 +125,7 @@ class ScheduleCard extends StatelessWidget {
               PhosphorIcon(
                 PhosphorIcons.mapPin(PhosphorIconsStyle.duotone),
                 color: isActive
-                    ? Theme.of(context).colorScheme.secondary
+                    ? Theme.of(context).iconTheme.color
                     : Theme.of(context).iconTheme.color,
                 size: 35,
               ),
@@ -129,8 +134,8 @@ class ScheduleCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: isActive
-                      ? Theme.of(context).colorScheme.secondary
-                      : Theme.of(context).colorScheme.primary,
+                      ? Theme.of(context).colorScheme.onSecondaryContainer
+                      : Theme.of(context).colorScheme.onSecondaryContainer,
                 ),
               ),
             ],

@@ -322,7 +322,10 @@ class _RestaurantPageViewState
                               'mailto:${restaurant.email}',
                             ),
                             icon: UniIcons.email,
-                            trailing: const UniIcon(UniIcons.caretRight),
+                            trailing: UniIcon(
+                              UniIcons.caretRight,
+                              color: Theme.of(context).iconTheme.color,
+                            ),
                           ),
                       ],
                     );

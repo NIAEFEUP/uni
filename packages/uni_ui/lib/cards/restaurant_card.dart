@@ -97,17 +97,12 @@ class RestaurantCardHeader extends StatelessWidget {
                         vertical: 2,
                       ),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor.withAlpha(0x20),
+                        color: Theme.of(context).colorScheme.inversePrimary,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
                         subtitle!,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onPrimaryContainer,
-                        ),
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ),
                 ],
