@@ -20,7 +20,7 @@ class NewsNotifier extends CachedAsyncNotifier<List<News>?> {
   @override
   Future<List<News>> loadFromRemote() async {
     final news = await fetchNews();
-      Database().saveNews(news);
+    Database().saveNews(news);
     return news;
   }
 }
