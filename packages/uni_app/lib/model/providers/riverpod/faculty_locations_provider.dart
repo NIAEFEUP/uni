@@ -28,34 +28,27 @@ final selectedFacultyProvider = StateProvider<FacultyConfig>(
 
 class FacultyLocationsNotifier extends CachedAsyncNotifier<List<LocationGroup>> {
   @override
-  Duration? get cacheDuration => const Duration(days: 30);
+  Duration? get cacheDuration => null;
 
   FacultyConfig get _faculty => ref.read(selectedFacultyProvider);
 
   @override
-  Future<List<LocationGroup>> loadFromStorage() {
-    return LocationFetcherAsset(_faculty).getLocations();
+  Future<List<LocationGroup>> loadFromStorage() async {
+    return [];
   }
 
   @override
   Future<List<LocationGroup>> loadFromRemote() async {
     try {
       final osmData = await ref.read(_osmFetcherProvider).getLocations();
-
       if (osmData.isNotEmpty) {
         return osmData;
       }
-
-      return await loadFromStorage();
+      debugPrint('[Locations] OSM returned empty for ${_faculty.name}, using asset fallback');
     } catch (err) {
-      debugPrint('OSM fetch failed for ${_faculty.name}: $err');
-      try {
-        return await loadFromStorage();
-      } catch (err){
-        debugPrint('Asset fallback also failed: $err');
-        rethrow;
-      }
+      debugPrint('[Locations] OSM fetch failed for ${_faculty.name}: $err');
     }
+    return LocationFetcherAsset(_faculty).getLocations();
   }
 }
 
