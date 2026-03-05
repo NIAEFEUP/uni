@@ -8,6 +8,10 @@ import 'package:uni/model/entities/indoor_floor_plan.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
 
+final _osmFetcherProvider = Provider<LocationFetcherOSM>((ref) {
+  return LocationFetcherOSM(ref.read(selectedFacultyProvider));
+});
+
 final locationsProvider =
 AsyncNotifierProvider<FacultyLocationsNotifier, List<LocationGroup>?>(
   FacultyLocationsNotifier.new,
@@ -36,7 +40,7 @@ class FacultyLocationsNotifier extends CachedAsyncNotifier<List<LocationGroup>> 
   @override
   Future<List<LocationGroup>> loadFromRemote() async {
     try {
-      final osmData = await LocationFetcherOSM(_faculty).getLocations();
+      final osmData = await ref.read(_osmFetcherProvider).getLocations();
 
       if (osmData.isNotEmpty) {
         return osmData;
@@ -47,8 +51,8 @@ class FacultyLocationsNotifier extends CachedAsyncNotifier<List<LocationGroup>> 
       debugPrint('OSM fetch failed for ${_faculty.name}: $err');
       try {
         return await loadFromStorage();
-      } catch (assetErr) {
-        debugPrint('Asset fallback also failed: $assetErr');
+      } catch (err){
+        debugPrint('Asset fallback also failed: $err');
         rethrow;
       }
     }
@@ -73,7 +77,7 @@ class IndoorFloorPlansNotifier extends CachedAsyncNotifier<List<IndoorFloorPlan>
   @override
   Future<List<IndoorFloorPlan>> loadFromRemote() async {
     try {
-      return await LocationFetcherOSM(_faculty).getIndoorFloorPlans();
+      return await ref.read(_osmFetcherProvider).getIndoorFloorPlans(); 
     } catch (err) {
       debugPrint('[Locations] Failed to load indoor plans for ${_faculty.name}: $err');
       return loadFromStorage();

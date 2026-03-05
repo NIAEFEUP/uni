@@ -18,12 +18,15 @@ import 'package:uni/model/entities/locations/wc_location.dart';
 class LocationFetcherOSM extends LocationFetcher {
   LocationFetcherOSM(super.facultyConfig);
 
+  Future<http.Response>? _response; 
+
   @override
   Future<List<LocationGroup>> getLocations() async {
     try {
-      final response = await _getData();
-      return _parseOSMResponse(response);
+      final response = await (_response ??= _queryOverpass());
+      return _parseLocations(response);
     } catch (err) {
+      _response = null;
       throw Exception('[OSM] Failed to fetch locations: $err');
     }
   }
@@ -31,22 +34,18 @@ class LocationFetcherOSM extends LocationFetcher {
   @override
   Future<List<IndoorFloorPlan>> getIndoorFloorPlans() async {
     try {
-      final response = await _getData();
+      final response = await (_response ??= _queryOverpass());
       return _parseIndoorData(response);
     } catch (err) {
+      _response = null;
       throw Exception('[OSM] Failed to fetch indoor data: $err');
     }
   }
 
-  Future<http.Response> _getData() async {
-    debugPrint('[OSM] Fetching data from Overpass API for ${facultyConfig.name}...');
-    final response = await _queryOverpass();
-    debugPrint('[OSM] Fetch complete (${response.body.length} bytes)');
-    return response;
-  }
 
   Future<http.Response> _queryOverpass() async {
     const overpassUrl = 'https://overpass-api.de/api/interpreter';
+    const maxRetries = 10;
 
     final bounds = facultyConfig.bounds;
     final query = '''
@@ -67,6 +66,35 @@ class LocationFetcherOSM extends LocationFetcher {
       >;
       out skel qt;
     ''';
+
+    for (var attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        debugPrint('[OSM] Querying Overpass API (attempt ${attempt + 1}/$maxRetries)...');
+
+        final response = await http.post(
+          Uri.parse(overpassUrl),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          body: 'data=$query',
+        ).timeout(const Duration(seconds: 90));
+
+        if (response.statusCode == 200) {
+          return response;
+        }
+
+        if (response.statusCode == 504 && attempt < maxRetries - 1) {
+          debugPrint('[OSM] Got 504, retrying in ... ');
+          continue;
+        }
+
+        throw Exception('[OSM] Overpass API returned ${response.statusCode}');
+      } on Exception catch (e) {
+        if (attempt < maxRetries - 1) {
+          debugPrint('[OSM] Request failed ($e), retrying...');
+        } else {
+          rethrow;
+        }
+      }
+    }
 
     final response = await http.post(
       Uri.parse(overpassUrl),
@@ -280,12 +308,11 @@ class LocationFetcherOSM extends LocationFetcher {
     return polygon;
   }
 
-  List<LocationGroup> _parseOSMResponse(http.Response response) {
+  List<LocationGroup> _parseLocations(http.Response response) {
     final json = jsonDecode(response.body) as Map<String, dynamic>;
     final elements = json['elements'] as List<dynamic>;
 
     debugPrint('[OSM] Parsing ${elements.length} elements for ${facultyConfig.name} location groups');
-
     final buildingGroups = <String, List<_OSMElement>>{};
 
     for (final elem in elements) {
