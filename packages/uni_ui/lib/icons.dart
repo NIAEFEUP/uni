@@ -87,6 +87,7 @@ class UniIcons {
   static const beer = PhosphorIconsDuotone.beerStein;
 
   static const phone = PhosphorIconsDuotone.phone;
+  static const noWifi = PhosphorIconsDuotone.wifiSlash;
 
   static const news = PhosphorIconsDuotone.newspaper;
 
