@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
@@ -17,20 +16,16 @@ class CourseUnitLecturesView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final now = DateTime.now();
 
-    final groupedByDay = groupBy<Lecture, DateTime>(
-      lectures,
-      (lecture) => DateTime(
-        lecture.startTime.year,
-        lecture.startTime.month,
-        lecture.startTime.day,
-      ),
+    final firstDate = lectures.first.startTime;
+    final lastDate = lectures.last.startTime;
+    final start = DateTime(firstDate.year, firstDate.month, firstDate.day);
+    final end = DateTime(lastDate.year, lastDate.month, lastDate.day);
+    final dayCount = end.difference(start).inDays + 1;
+
+    final days = List.generate(
+      dayCount,
+      (index) => start.add(Duration(days: index)),
     );
-
-    final days = groupedByDay.keys.toList();
-
-    if (days.isEmpty) {
-      return const SizedBox.shrink();
-    }
 
     final daysOfTheWeek = ref
         .read(localeProvider.notifier)
@@ -48,7 +43,16 @@ class CourseUnitLecturesView extends ConsumerWidget {
           date.day == now.day,
     );
 
-    final firstFutureIndex = days.indexWhere((date) => date.isAfter(now));
+    final firstFutureWithLectures = days.indexWhere(
+      (date) => date.isAfter(now) && _lecturesOfDay(date).isNotEmpty,
+    );
+
+    final initialTab =
+        (todayIndex != -1 && _lecturesOfDay(days[todayIndex]).isNotEmpty)
+        ? todayIndex
+        : firstFutureWithLectures != -1
+        ? firstFutureWithLectures
+        : 0;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -91,18 +95,25 @@ class CourseUnitLecturesView extends ConsumerWidget {
                 key: Key('course-unit-day-view-${date.toIso8601String()}'),
                 now: now,
                 day: date,
-                lectures: groupedByDay[date]!,
+                lectures: _lecturesOfDay(date),
                 showClassNumber: true,
               ),
             )
             .toList(),
-        initialTab: todayIndex != -1
-            ? todayIndex
-            : firstFutureIndex != -1
-            ? firstFutureIndex
-            : 0,
-        tabEnabled: days.map((_) => true).toList(),
+        initialTab: initialTab,
+        tabEnabled: days
+            .map((date) => _lecturesOfDay(date).isNotEmpty)
+            .toList(),
       ),
     );
+  }
+
+  List<Lecture> _lecturesOfDay(DateTime date) {
+    return lectures.where((lecture) {
+      final startTime = lecture.startTime;
+      return startTime.year == date.year &&
+          startTime.month == date.month &&
+          startTime.day == date.day;
+    }).toList();
   }
 }
