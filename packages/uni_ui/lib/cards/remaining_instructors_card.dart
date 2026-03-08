@@ -62,7 +62,7 @@ class RemainingInstructorsCard extends StatelessWidget {
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                  color: Color(0x3F000000),
+                                  color: Color(0x25000000),
                                   blurRadius: 1,
                                   offset: Offset(0, 2),
                                   spreadRadius: 0,
@@ -78,8 +78,9 @@ class RemainingInstructorsCard extends StatelessWidget {
                                   padding: const EdgeInsets.all(4.0),
                                   child: Text(
                                     '+$remainingCount',
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.titleMedium,
                                   ),
                                 ),
                               ),

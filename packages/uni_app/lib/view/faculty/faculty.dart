@@ -24,9 +24,15 @@ class FacultyPageViewState extends GeneralPageViewState<FacultyPageView> {
   Widget getBody(BuildContext context) {
     return ListView(
       children: const [
-        Padding(padding: EdgeInsets.only(top: 16), child: LibraryHomeCard()),
-        Padding(padding: EdgeInsets.only(top: 16), child: CalendarHomeCard()),
-        AllServiceCards(),
+        LibraryHomeCard(),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: CalendarHomeCard(),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: AllServiceCards(),
+        ),
       ],
     );
   }

@@ -13,19 +13,16 @@ class LocationMarker extends Marker {
         width: 20,
         point: latlng,
         child: Builder(
-          builder:
-              (context) => DecoratedBox(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface,
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  borderRadius: const BorderRadius.all(Radius.circular(20)),
-                ),
-                child: MarkerIcon(
-                  location: locationGroup.getLocationWithMostWeight(),
-                ),
-              ),
+          builder: (context) => DecoratedBox(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+              border: Border.all(color: Theme.of(context).colorScheme.primary),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+            ),
+            child: MarkerIcon(
+              location: locationGroup.getLocationWithMostWeight(),
+            ),
+          ),
         ),
       );
   final LocationGroup locationGroup;

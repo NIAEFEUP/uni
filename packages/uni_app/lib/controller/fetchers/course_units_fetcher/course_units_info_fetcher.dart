@@ -11,10 +11,14 @@ import 'package:uni/session/flows/base/session.dart';
 class CourseUnitsInfoFetcher implements SessionDependantFetcher {
   @override
   List<String> getEndpoints(Session session) {
-    return NetworkRouter.getBaseUrlsFromSession(session).toList();
+    return NetworkRouter.getBaseUrlsFromSession(
+      session,
+      languageSensitive: true,
+    ).toList();
   }
 
   Future<Sheet> fetchSheet(Session session, int occurId) async {
+    //TODO: Through this link we can't retrieve the sheet of a course unit in english
     final responses = await Future.wait(
       getEndpoints(session)
           .map(
@@ -40,12 +44,12 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     return bestResponse != null
         ? parseSheet(bestResponse)
         : Sheet(
-          professors: [],
-          content: '',
-          evaluation: '',
-          frequency: '',
-          books: [],
-        );
+            professors: [],
+            content: '',
+            evaluation: '',
+            frequency: '',
+            books: [],
+          );
   }
 
   Future<List<CourseUnitFileDirectory>> fetchCourseUnitFiles(
@@ -80,24 +84,23 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
         session,
       );
       final courseChoiceDocument = parse(courseChoiceResponse.body);
-      final urls =
-          courseChoiceDocument
-              .querySelectorAll('a')
-              .where(
-                (element) =>
-                    element.attributes['href'] != null &&
-                    element.attributes['href']!.contains(
-                      'it_listagem.lista_turma_disciplina',
-                    ),
-              )
-              .map((e) {
-                var url = e.attributes['href']!;
-                if (!url.contains('sigarra.up.pt')) {
-                  url = endpoint + url;
-                }
-                return url;
-              })
-              .toList();
+      final urls = courseChoiceDocument
+          .querySelectorAll('a')
+          .where(
+            (element) =>
+                element.attributes['href'] != null &&
+                element.attributes['href']!.contains(
+                  'it_listagem.lista_turma_disciplina',
+                ),
+          )
+          .map((e) {
+            var url = e.attributes['href']!;
+            if (!url.contains('sigarra.up.pt')) {
+              url = endpoint + url;
+            }
+            return url;
+          })
+          .toList();
 
       for (final url in urls) {
         try {

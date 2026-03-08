@@ -64,6 +64,9 @@ abstract class GeneralPageViewState<T extends ConsumerStatefulWidget>
       try {
         await onLoad(context);
       } catch (err, st) {
+        if (!mounted) {
+          return;
+        }
         if (err is SocketException) {
           setState(() {
             _connected = false;
@@ -107,10 +110,7 @@ abstract class GeneralPageViewState<T extends ConsumerStatefulWidget>
       context,
       _loading
           ? const Center(child: CircularProgressIndicator())
-          : Padding(
-            padding: const EdgeInsets.only(right: 20, left: 20, bottom: 10),
-            child: getBody(context),
-          ),
+          : getBody(context),
     );
   }
 

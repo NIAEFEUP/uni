@@ -35,10 +35,9 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
                 child: leftButton,
               ),
             Expanded(
-              child:
-                  centerTitle
-                      ? Center(child: _buildTitleColumn(context))
-                      : _buildTitleColumn(context),
+              child: centerTitle
+                  ? Center(child: _buildTitleColumn(context))
+                  : _buildTitleColumn(context),
             ),
             if (rightButton == null && centerTitle) const SizedBox(width: 45),
             if (rightButton != null)
@@ -53,10 +52,9 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _buildTitleColumn(BuildContext context) {
-    final TextStyle? titleStyle =
-        centerTitle
-            ? Theme.of(context).textTheme.headlineLarge
-            : Theme.of(context).textTheme.displaySmall;
+    final TextStyle? titleStyle = centerTitle
+        ? Theme.of(context).textTheme.headlineLarge
+        : Theme.of(context).textTheme.displaySmall;
 
     final titleWidget = Text(
       title ?? '',
@@ -78,8 +76,9 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
 
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment:
-          centerTitle ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+      crossAxisAlignment: centerTitle
+          ? CrossAxisAlignment.center
+          : CrossAxisAlignment.start,
       children: [titleWidget, subtitleWidget],
     );
   }

@@ -25,10 +25,9 @@ class ProfileImage extends ConsumerWidget {
   ///
   /// If the image is not found / doesn't exist returns null.
   DecorationImage? getProfileDecorationImage(File? profilePicture) {
-    final image =
-        profilePicture != null
-            ? FileImage(profilePicture) as ImageProvider<Object>
-            : const AssetImage('assets/images/profile_placeholder.png');
+    final image = profilePicture != null
+        ? FileImage(profilePicture) as ImageProvider<Object>
+        : const AssetImage('assets/images/profile_placeholder.png');
 
     return DecorationImage(fit: BoxFit.cover, image: image);
   }

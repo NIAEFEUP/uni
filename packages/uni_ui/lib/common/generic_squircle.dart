@@ -1,4 +1,3 @@
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 
 class GenericSquircle extends StatelessWidget {
@@ -9,11 +8,8 @@ class GenericSquircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipSmoothRect(
-      radius: SmoothBorderRadius(
-        cornerRadius: borderRadius ?? 20,
-        cornerSmoothing: 1,
-      ),
+    return ClipRSuperellipse(
+      borderRadius: BorderRadius.circular(borderRadius ?? 20),
       child: child,
     );
   }

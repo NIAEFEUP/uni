@@ -29,13 +29,12 @@ class ModalServiceInfo extends StatelessWidget {
               ),
               Padding(padding: EdgeInsets.all(2)),
               Column(
-                children:
-                    durations.map((duration) {
-                      return Text(
-                        duration,
-                        style: Theme.of(context).textTheme.bodyMedium!,
-                      );
-                    }).toList(),
+                children: durations.map((duration) {
+                  return Text(
+                    duration,
+                    style: Theme.of(context).textTheme.bodyMedium!,
+                  );
+                }).toList(),
               ),
             ],
           ),

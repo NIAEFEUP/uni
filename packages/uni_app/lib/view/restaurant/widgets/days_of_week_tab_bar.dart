@@ -49,10 +49,9 @@ class DaysOfWeekTabBar extends ConsumerWidget {
     final match = RegExp(r'^\p{L}+', unicode: true).firstMatch(dayOfTheWeek);
     if (match != null) {
       final matchedString = match.group(0)!;
-      final shortened =
-          matchedString.length >= 3
-              ? matchedString.substring(0, 3)
-              : matchedString;
+      final shortened = matchedString.length >= 3
+          ? matchedString.substring(0, 3)
+          : matchedString;
       return shortened[0].toUpperCase() + shortened.substring(1).toLowerCase();
     }
     return 'Blank';

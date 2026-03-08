@@ -36,10 +36,9 @@ class CourseCard extends StatelessWidget {
     return GenericCard(
       key: key,
       onClick: onTap,
-      color:
-          selected
-              ? Theme.of(context).colorScheme.surfaceContainerLow
-              : grayLight,
+      color: selected
+          ? Theme.of(context).colorScheme.surfaceContainerLow
+          : grayLight,
       tooltip: '',
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -51,39 +50,39 @@ class CourseCard extends StatelessWidget {
               UniIcon(
                 _getIconData(courseInfo.abbreviation, selected),
                 size: 32,
-                color:
-                    selected
-                        ? Theme.of(context).colorScheme.primary
-                        : grayMiddle,
+                color: selected
+                    ? Theme.of(context).colorScheme.primary
+                    : grayMiddle,
               ),
               Text(
                 courseInfo.abbreviation,
                 style: Theme.of(context).textTheme.titleLarge?.apply(
-                  color:
-                      selected
-                          ? Theme.of(context).colorScheme.primary
-                          : grayMiddle,
+                  color: selected
+                      ? Theme.of(context).colorScheme.primary
+                      : grayMiddle,
                 ),
               ),
               Text(
                 _getYearText(),
                 style: Theme.of(context).textTheme.bodySmall?.apply(
-                  color:
-                      selected
-                          ? Theme.of(context).colorScheme.primary
-                          : grayMiddle,
+                  color: selected
+                      ? Theme.of(context).colorScheme.primary
+                      : grayMiddle,
                 ),
               ),
             ],
           ),
         ),
       ),
+      shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
+      blurRadius: 2,
     );
   }
 
   static PhosphorIconData _getIconData(String abbreviation, bool selected) {
-    final iconStyle =
-        selected ? PhosphorIconsStyle.duotone : PhosphorIconsStyle.regular;
+    final iconStyle = selected
+        ? PhosphorIconsStyle.duotone
+        : PhosphorIconsStyle.regular;
 
     switch (abbreviation[0]) {
       case 'L':

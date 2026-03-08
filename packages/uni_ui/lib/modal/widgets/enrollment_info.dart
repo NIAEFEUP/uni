@@ -22,30 +22,26 @@ class ModalEnrollementInfo extends StatelessWidget {
           Wrap(
             spacing: 1,
             direction: Axis.horizontal,
-            children:
-                enrollements.entries.map((entry) {
-                  return Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        entry.key,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(4.0),
-                        margin: const EdgeInsets.all(3.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        child: Text(
-                          entry.value,
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                      ),
-                    ],
-                  );
-                }).toList(),
+            children: enrollements.entries.map((entry) {
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(entry.key, style: Theme.of(context).textTheme.bodyLarge),
+                  Container(
+                    padding: const EdgeInsets.all(4.0),
+                    margin: const EdgeInsets.all(3.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    child: Text(
+                      entry.value,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  ),
+                ],
+              );
+            }).toList(),
           ),
         ],
       ),

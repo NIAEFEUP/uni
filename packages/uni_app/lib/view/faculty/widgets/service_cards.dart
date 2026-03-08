@@ -114,30 +114,29 @@ class AllServiceCardsState extends State<AllServiceCards> {
               return Wrap(
                 spacing: spacing,
                 runSpacing: spacing,
-                children:
-                    services.asMap().entries.map((entry) {
-                      final idx = entry.key;
-                      final service = entry.value;
-                      final width =
-                          idx == 0 ? (itemWidth * 2 + spacing) : itemWidth;
-                      return SizedBox(width: width, child: service);
-                    }).toList(),
+                children: services.asMap().entries.map((entry) {
+                  final idx = entry.key;
+                  final service = entry.value;
+                  final width = idx == 0
+                      ? (itemWidth * 2 + spacing)
+                      : itemWidth;
+                  return SizedBox(width: width, child: service);
+                }).toList(),
               );
             } else {
               return Column(
-                children:
-                    services
-                        .map(
-                          (service) => Padding(
-                            padding: const EdgeInsetsDirectional.only(
-                              start: 7,
-                              end: 7,
-                              bottom: 7,
-                            ),
-                            child: service,
-                          ),
-                        )
-                        .toList(),
+                children: services
+                    .map(
+                      (service) => Padding(
+                        padding: const EdgeInsetsDirectional.only(
+                          start: 7,
+                          end: 7,
+                          bottom: 7,
+                        ),
+                        child: service,
+                      ),
+                    )
+                    .toList(),
               );
             }
           },

@@ -15,7 +15,7 @@ class CalendarLine extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 60,
+            width: 80,
             height: 4,
             margin: const EdgeInsets.only(right: 15),
             decoration: BoxDecoration(
@@ -39,7 +39,7 @@ class CalendarLine extends StatelessWidget {
             ),
           ),
           Container(
-            width: 60,
+            width: 80,
             height: 4,
             margin: const EdgeInsets.only(left: 15),
             decoration: BoxDecoration(
@@ -94,9 +94,12 @@ class _CalendarState extends State<Calendar> {
       controller: _scrollController,
       child: Stack(
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: widget.items,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: widget.items,
+            ),
           ),
           CalendarLine(calendarItemsCount: widget.items.length),
         ],

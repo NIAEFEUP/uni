@@ -4,13 +4,15 @@ import 'package:uni/model/entities/localized_events.dart';
 import 'package:uni/model/providers/riverpod/calendar_provider.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/calendar/widgets/calendar_shimmer.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/calendar/calendar.dart';
 import 'package:uni_ui/calendar/calendar_item.dart';
 
 class CalendarHomeCard extends GenericHomecard {
-  const CalendarHomeCard({super.key});
+  const CalendarHomeCard({super.key})
+    : super(titlePadding: const EdgeInsets.symmetric(horizontal: 20));
 
   @override
   String getTitle(BuildContext context) {
@@ -30,25 +32,24 @@ class CalendarHomeCard extends GenericHomecard {
         final events = localizedEvents.getEvents(locale);
         final today = DateTime.now();
 
-        final calendarItems =
-            events.map((event) {
-              final start = event.startDate;
-              final end = event.endDate ?? event.startDate;
-              final isToday =
-                  start != null &&
-                      today.year == start.year &&
-                      today.month == start.month &&
-                      today.day == start.day ||
-                  (end != null &&
-                      today.isAfter(start ?? end) &&
-                      today.isBefore(end.add(const Duration(days: 1))));
-              return CalendarItem(
-                eventPeriod: event.formattedPeriod[0],
-                endYear: event.formattedPeriod[1],
-                eventName: event.name,
-                isToday: isToday,
-              );
-            }).toList();
+        final calendarItems = events.map((event) {
+          final start = event.startDate;
+          final end = event.endDate ?? event.startDate;
+          final isToday =
+              start != null &&
+                  today.year == start.year &&
+                  today.month == start.month &&
+                  today.day == start.day ||
+              (end != null &&
+                  today.isAfter(start ?? end) &&
+                  today.isBefore(end.add(const Duration(days: 1))));
+          return CalendarItem(
+            eventPeriod: event.formattedPeriod[0],
+            endYear: event.formattedPeriod[1],
+            eventName: event.name,
+            isToday: isToday,
+          );
+        }).toList();
 
         // current event or next if no current
         final currentIndex = events.indexWhere((event) {
@@ -67,6 +68,7 @@ class CalendarHomeCard extends GenericHomecard {
           style: Theme.of(context).textTheme.headlineLarge,
         ),
       ),
+      loadingWidget: const ShimmerCalendarItem(),
       hasContent: (localizedEvents) => localizedEvents.hasAnyEvents,
     );
   }

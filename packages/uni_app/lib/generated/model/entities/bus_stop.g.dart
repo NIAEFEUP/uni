@@ -7,10 +7,9 @@ part of '../../../model/entities/bus_stop.dart';
 // **************************************************************************
 
 BusStopData _$BusStopDataFromJson(Map<String, dynamic> json) => BusStopData(
-  configuredBuses:
-      (json['configuredBuses'] as List<dynamic>)
-          .map((e) => e as String)
-          .toSet(),
+  configuredBuses: (json['configuredBuses'] as List<dynamic>)
+      .map((e) => e as String)
+      .toSet(),
   favorited: json['favorited'] as bool? ?? false,
   trips:
       (json['trips'] as List<dynamic>?)

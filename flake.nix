@@ -2,7 +2,7 @@
   description = "A basic flake for Flutter development with Nix and NixOS";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/pull/450619/merge";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     utils.url = "github:limwa/nix-flake-utils";
 
     # For hardware-accelerated Android emulator on NixOS
@@ -45,10 +45,10 @@
           buildToolsVersions = ["35.0.0"];
           cmakeVersions = ["3.22.1"];
           platformVersions = ["36" "35" "34"];
-          ndkVersions = ["27.0.12077973"];
+          ndkVersions = ["28.2.13676358"];
         };
 
-        flutter = pkgs.flutter335;
+        flutter = pkgs.flutter338;
         jdks = with pkgs; [jdk21 jdk17];
       };
     } {

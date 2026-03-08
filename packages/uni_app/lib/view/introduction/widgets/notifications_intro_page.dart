@@ -122,126 +122,123 @@ class _NotificationsIntroPageState extends State<NotificationsIntroPage> {
         ),
         Align(
           alignment: const Alignment(0, 0.95),
-          child:
-              notificationPermission
-                  ? GestureDetector(
-                    onTap: () {
-                      widget.pageController.nextPage(
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut,
-                      );
-                    },
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: ShapeDecoration(
-                        gradient: const LinearGradient(
-                          begin: Alignment.bottomRight,
-                          end: Alignment(-0.24, -0.31),
-                          colors: [Color(0xFF280709), Color(0xFF461014)],
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        shadows: const [
-                          BoxShadow(
-                            color: Color(0xBF996B6E),
-                            blurRadius: 22,
-                            offset: Offset(0, 7),
-                          ),
-                        ],
+          child: notificationPermission
+              ? GestureDetector(
+                  onTap: () {
+                    widget.pageController.nextPage(
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeInOut,
+                    );
+                  },
+                  child: Container(
+                    width: 60,
+                    height: 60,
+                    decoration: ShapeDecoration(
+                      gradient: const LinearGradient(
+                        begin: Alignment.bottomRight,
+                        end: Alignment(-0.24, -0.31),
+                        colors: [Color(0xFF280709), Color(0xFF461014)],
                       ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: Color(0xFFFFF5F3),
-                          size: 24,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      shadows: const [
+                        BoxShadow(
+                          color: Color(0xBF996B6E),
+                          blurRadius: 22,
+                          offset: Offset(0, 7),
+                        ),
+                      ],
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Color(0xFFFFF5F3),
+                        size: 24,
+                      ),
+                    ),
+                  ),
+                )
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: 32,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        widget.pageController.nextPage(
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                      child: Container(
+                        height: 60,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: 24,
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'Skip',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              color: Color(0xFFFFF5F3),
+                              fontSize: 16,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  )
-                  : Row(
-                    mainAxisSize: MainAxisSize.min,
-                    spacing: 32,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          widget.pageController.nextPage(
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.easeInOut,
-                          );
-                        },
-                        child: Container(
-                          height: 60,
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 12,
-                            horizontal: 24,
+                    GestureDetector(
+                      onTap: () async {
+                        try {
+                          await NotificationManager().initializeNotifications();
+                          final granted = await _notificationManager
+                              .hasNotificationPermission();
+                          if (!mounted) {
+                            return;
+                          }
+                          setState(() {
+                            notificationPermission = granted;
+                          });
+                        } catch (_) {}
+                      },
+                      child: Container(
+                        height: 48,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: 24,
+                        ),
+                        decoration: ShapeDecoration(
+                          gradient: const LinearGradient(
+                            begin: Alignment.bottomRight,
+                            end: Alignment(-0.24, -0.31),
+                            colors: [Color(0xFF280709), Color(0xFF461014)],
                           ),
-                          child: const Center(
-                            child: Text(
-                              'Skip',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Color(0xFFFFF5F3),
-                                fontSize: 16,
-                              ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          shadows: const [
+                            BoxShadow(
+                              color: Color(0xBF996B6E),
+                              blurRadius: 22,
+                              offset: Offset(0, 7),
+                            ),
+                          ],
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'Allow',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              color: Color(0xFFFFF5F3),
+                              fontSize: 16,
                             ),
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () async {
-                          try {
-                            await NotificationManager()
-                                .initializeNotifications();
-                            final granted =
-                                await _notificationManager
-                                    .hasNotificationPermission();
-                            if (!mounted) {
-                              return;
-                            }
-                            setState(() {
-                              notificationPermission = granted;
-                            });
-                          } catch (_) {}
-                        },
-                        child: Container(
-                          height: 48,
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 12,
-                            horizontal: 24,
-                          ),
-                          decoration: ShapeDecoration(
-                            gradient: const LinearGradient(
-                              begin: Alignment.bottomRight,
-                              end: Alignment(-0.24, -0.31),
-                              colors: [Color(0xFF280709), Color(0xFF461014)],
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            shadows: const [
-                              BoxShadow(
-                                color: Color(0xBF996B6E),
-                                blurRadius: 22,
-                                offset: Offset(0, 7),
-                              ),
-                            ],
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'Allow',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Color(0xFFFFF5F3),
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
+                ),
         ),
       ],
     );

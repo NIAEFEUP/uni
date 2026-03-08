@@ -19,10 +19,7 @@ abstract class SecondaryPageViewState<T extends ConsumerStatefulWidget>
         body: RefreshState(
           onRefresh: onRefresh,
           header: getHeader(context),
-          body: Padding(
-            padding: const EdgeInsets.only(right: 20, left: 20, bottom: 10),
-            child: getBody(context),
-          ),
+          body: getBody(context),
         ),
       ),
     );

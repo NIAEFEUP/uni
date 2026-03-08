@@ -52,9 +52,8 @@ Widget createPasswordInput(
       toggleObscurePasswordInput,
       obscurePasswordInput: obscurePasswordInput,
     ),
-    validator:
-        (value) =>
-            value != null && value.isEmpty ? S.of(context).empty_text : null,
+    validator: (value) =>
+        value != null && value.isEmpty ? S.of(context).empty_text : null,
   );
 }
 

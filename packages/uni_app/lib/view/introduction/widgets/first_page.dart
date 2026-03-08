@@ -61,34 +61,28 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
       CurvedAnimation(parent: _image1Controller, curve: Curves.easeOut),
     );
 
-    _image1SlideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.1),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(parent: _image1Controller, curve: Curves.easeOut),
-    );
+    _image1SlideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero).animate(
+          CurvedAnimation(parent: _image1Controller, curve: Curves.easeOut),
+        );
 
     _image2FadeAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(parent: _image2Controller, curve: Curves.easeOut),
     );
 
-    _image2SlideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.1),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(parent: _image2Controller, curve: Curves.easeOut),
-    );
+    _image2SlideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero).animate(
+          CurvedAnimation(parent: _image2Controller, curve: Curves.easeOut),
+        );
 
     _buttonFadeAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(parent: _buttonController, curve: Curves.easeOut),
     );
 
-    _buttonSlideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.1),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(parent: _buttonController, curve: Curves.easeOut),
-    );
+    _buttonSlideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero).animate(
+          CurvedAnimation(parent: _buttonController, curve: Curves.easeOut),
+        );
 
     _startAnimations();
   }

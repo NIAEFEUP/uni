@@ -72,10 +72,13 @@ class AcademicPathPageViewState
     switch (tabController.index) {
       case 0:
         await ref.read(profileProvider.notifier).refreshRemote();
+        return;
       case 1:
         await ref.read(lectureProvider.notifier).refreshRemote();
+        return;
       case 2:
         await ref.read(examProvider.notifier).refreshRemote();
+        return;
     }
   }
 }

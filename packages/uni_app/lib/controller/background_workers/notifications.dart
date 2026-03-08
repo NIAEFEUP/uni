@@ -90,19 +90,17 @@ class NotificationManager {
           return false;
         }
 
-        final androidPlugin =
-            _localNotificationsPlugin
-                .resolvePlatformSpecificImplementation<
-                  AndroidFlutterLocalNotificationsPlugin
-                >();
+        final androidPlugin = _localNotificationsPlugin
+            .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin
+            >();
         final bool? enabled = await androidPlugin?.areNotificationsEnabled();
         return enabled ?? true;
       } catch (_) {
-        final androidPlugin =
-            _localNotificationsPlugin
-                .resolvePlatformSpecificImplementation<
-                  AndroidFlutterLocalNotificationsPlugin
-                >();
+        final androidPlugin = _localNotificationsPlugin
+            .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin
+            >();
         try {
           final bool? enabled = await androidPlugin?.areNotificationsEnabled();
           return enabled ?? true;
@@ -124,7 +122,7 @@ class NotificationManager {
 
   static Future<void> _initFlutterNotificationsPlugin() async {
     const initializationSettingsAndroid = AndroidInitializationSettings(
-      '@mipmap/ic_launcher',
+      '@mipmap/launcher_icon',
     );
 
     // request for notifications immediatly on iOS
@@ -138,19 +136,20 @@ class NotificationManager {
       macOS: darwinInitializationSettings,
     );
 
-    await _localNotificationsPlugin.initialize(initializationSettings);
+    await _localNotificationsPlugin.initialize(
+      settings: initializationSettings,
+    );
 
     // specific to android 13+, 12 or lower permission is requested when
     // the first notification channel opens
     if (Platform.isAndroid) {
-      final androidPlugin =
-          _localNotificationsPlugin
-              .resolvePlatformSpecificImplementation<
-                AndroidFlutterLocalNotificationsPlugin
-              >()!;
+      final androidPlugin = _localNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >()!;
       try {
-        final permissionGranted =
-            await androidPlugin.requestNotificationsPermission();
+        final permissionGranted = await androidPlugin
+            .requestNotificationsPermission();
         if (permissionGranted != true) {
           return;
         }
@@ -210,10 +209,18 @@ class NotificationManager {
         notification.uniqueID,
       );
       if (lastRan.add(notification.timeout).isBefore(DateTime.now())) {
-        await notification.displayNotificationIfPossible(
-          session,
-          _localNotificationsPlugin,
-        );
+        try {
+          await notification.displayNotificationIfPossible(
+            session,
+            _localNotificationsPlugin,
+          );
+        } catch (e, stackTrace) {
+          Logger().e(
+            'Error while checking notification ${notification.uniqueID}',
+            error: e,
+            stackTrace: stackTrace,
+          );
+        }
         await notificationStorage.addLastTimeNotificationExecuted(
           notification.uniqueID,
           DateTime.now(),

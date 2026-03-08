@@ -21,14 +21,13 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
   Widget getBody(BuildContext context) {
     return DefaultConsumer<Profile>(
       provider: profileProvider,
-      builder:
-          (context, ref, profile) => ListView(
-            children: [
-              ProfileOverview(profile: profile),
-              const ProfileInfo(),
-              const Settings(),
-            ],
-          ),
+      builder: (context, ref, profile) => ListView(
+        children: [
+          ProfileOverview(profile: profile),
+          const ProfileInfo(),
+          const Settings(),
+        ],
+      ),
       hasContent: (profile) => profile.courses.isNotEmpty,
       nullContentWidget: Container(),
     );

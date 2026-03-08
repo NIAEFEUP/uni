@@ -18,7 +18,7 @@ class CookieClient extends http.BaseClient {
 
     final initialCookies = request.headers[HttpHeaders.cookieHeader];
     final allCookies = [
-      if (initialCookies != null) initialCookies,
+      ?initialCookies,
       ...cookies.map((cookie) => cookie.toString()),
     ].join('; ');
 

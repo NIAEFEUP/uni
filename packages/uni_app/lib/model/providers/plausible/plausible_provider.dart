@@ -123,8 +123,9 @@ class _PlausibleProviderState extends ConsumerState<PlausibleProvider> {
 
   @override
   Widget build(BuildContext context) {
-    widget.plausible?.screenWidth =
-        MediaQuery.of(context).size.width.toString();
+    widget.plausible?.screenWidth = MediaQuery.of(
+      context,
+    ).size.width.toString();
 
     return ProviderScope(
       overrides: [plausibleProvider.overrideWithValue(widget.plausible)],
