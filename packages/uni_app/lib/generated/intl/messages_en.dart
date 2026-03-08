@@ -467,6 +467,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "uc_info": MessageLookupByLibrary.simpleMessage("Open UC page"),
     "ucs": MessageLookupByLibrary.simpleMessage("UCS"),
+    "unable_to_load_data": MessageLookupByLibrary.simpleMessage(
+      "Unable to load data",
+    ),
     "unavailable": MessageLookupByLibrary.simpleMessage("Unavailable"),
     "until": MessageLookupByLibrary.simpleMessage("Until"),
     "valid_email": MessageLookupByLibrary.simpleMessage(
