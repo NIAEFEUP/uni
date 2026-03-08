@@ -82,7 +82,7 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                   value: isAllSelected,
                   onChanged: toggleSelectAll,
                   contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-                  controlAffinity: ListTileControlAffinity.leading,
+                  controlAffinity: ListTileControlAffinity.trailing,
                 ),
                 const Divider(height: 1),
                 const SizedBox(height: 8),
@@ -114,7 +114,7 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                       ),
                       value: isSelected,
                       onChanged: (isChecked) => toggleDish(keyLabel, isChecked),
-                      controlAffinity: ListTileControlAffinity.leading,
+                      controlAffinity: ListTileControlAffinity.trailing,
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 12,
                       ),
