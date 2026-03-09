@@ -10,6 +10,7 @@ import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/session/flows/base/session.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
@@ -176,9 +177,6 @@ class ProfessorInfoModal extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final session = ref.watch(sessionProvider).value!;
     final baseUrls = NetworkRouter.getBaseUrlsFromSession(session);
-    final scheduleUrl = baseUrls.isNotEmpty
-        ? '${baseUrls[0]}hor_geral.docentes_view?pv_doc_codigo=${professor.code}'
-        : null;
 
     return ModalDialog(
       children: [
@@ -250,7 +248,7 @@ class ProfessorInfoModal extends ConsumerWidget {
             );
           },
         ),
-        if (scheduleUrl != null)
+        if (baseUrls.isNotEmpty)
           ModalInfoRow(
             title: S.of(context).schedule,
             icon: UniIcons.lecture,
@@ -258,7 +256,11 @@ class ProfessorInfoModal extends ConsumerWidget {
               UniIcons.caretRight,
               color: Theme.of(context).colorScheme.primary,
             ),
-            onPressed: () => launchUrlWithToast(context, scheduleUrl),
+            onPressed: () => Navigator.pushNamed(
+              context,
+              '/${NavigationItem.navProfessorSchedule.route}',
+              arguments: professor,
+            ),
           ),
       ],
     );
