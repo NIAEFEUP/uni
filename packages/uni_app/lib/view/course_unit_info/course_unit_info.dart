@@ -148,7 +148,7 @@ class CourseUnitDetailPageViewState
             sheet.evaluation == 'null' &&
             sheet.frequency == 'null' &&
             sheet.books.isEmpty;
-
+      
         if (hasNoInfo) {
           return LayoutBuilder(
             builder: (context, constraints) => SingleChildScrollView(

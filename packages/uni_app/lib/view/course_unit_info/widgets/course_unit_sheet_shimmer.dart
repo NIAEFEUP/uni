@@ -92,12 +92,12 @@ class ShimmerCourseSheet extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+          padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 40),
           child: Center(
             child: FractionallySizedBox(
               widthFactor: 1,
               child: AspectRatio(
-                aspectRatio: 2,
+                aspectRatio: 1.8,
                 child: Shimmer.fromColors(
                   baseColor: Colors.grey[300]!,
                   highlightColor: Colors.grey[100]!,
