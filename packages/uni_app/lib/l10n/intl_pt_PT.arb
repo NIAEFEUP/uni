@@ -470,6 +470,8 @@
   "@no_course_unit_classes": {},
   "no_course_unit_info": "Esta unidade curricular ainda não tem informação disponível",
   "@no_course_unit_info": {},
+  "unable_to_load_data": "Não foi possível carregar dados",
+  "@unable_to_load_data": {},
   "pedagogical_surveys": "Inquéritos Pedagógicos",
   "@pedagogical_surveys": {},
   "pedagogical_surveys_description": "Já preencheste os inquéritos pedagógicos? Se ainda não, por favor tira um momento para os preencher. O teu feedback é valioso e ajuda a melhorar a qualidade do ensino do teu curso.",
