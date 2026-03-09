@@ -81,11 +81,9 @@ class ProfessorInfoModal extends ConsumerWidget {
 
         var parsedEmail = email;
 
-        // 1. mailto: links (case-insensitive href check)
         for (final link in document.querySelectorAll('a[href]')) {
           final href = link.attributes['href'] ?? '';
           if (!href.toLowerCase().startsWith('mailto:')) continue;
-
           final value = href
               .substring('mailto:'.length)
               .split('?')
@@ -97,47 +95,18 @@ class ProfessorInfoModal extends ConsumerWidget {
           }
         }
 
-        // 2. Table row with an email label (e.g. "E-mail" / "Email")
-        if (parsedEmail == null) {
-          final emailLabelRegex = RegExp(r'E-?mail', caseSensitive: false);
-          for (final row in document.querySelectorAll('tr')) {
-            final cells = row.querySelectorAll('th,td');
-            if (cells.length < 2) continue;
-            if (!emailLabelRegex.hasMatch(cells.first.text)) continue;
-
-            final value = cells[1].text.trim();
-            if (value.contains('@')) {
-              parsedEmail = value;
-              break;
-            }
-          }
-        }
-
-        // 3. Obfuscated email: SIGARRA anti-spam onclick pattern
-        //    onclick="…'lto'+':local'+secure+'domain'…"
-        //    Read via DOM so HTML entities (&#39; etc.) are decoded first.
+        // SIGARRA obfuscates @ as an HTML entity; read onclick via DOM so
+        // entities are decoded, then extract local+domain from the JS pattern.
         if (parsedEmail == null) {
           for (final link in document.querySelectorAll('a[onclick]')) {
             final onclick = link.attributes['onclick'] ?? '';
-            final onclickMatch = RegExp(
+            final m = RegExp(
               r"lto'\+':([A-Za-z0-9._%+\-]+)'\+secure\+'([A-Za-z0-9.\-]+\.[A-Za-z]{2,})'",
             ).firstMatch(onclick);
-            if (onclickMatch != null) {
-              parsedEmail = '${onclickMatch.group(1)}@${onclickMatch.group(2)}';
+            if (m != null) {
+              parsedEmail = '${m.group(1)}@${m.group(2)}';
               break;
             }
-          }
-        }
-
-        // 4. Full body text regex fallback
-        if (parsedEmail == null) {
-          final bodyText = document.body?.text ?? '';
-          final emailMatch = RegExp(
-            r'([A-Za-z0-9._%+-]+)@([A-Za-z0-9.-]+\.[A-Za-z]{2,})',
-          ).firstMatch(bodyText);
-          if (emailMatch != null) {
-            parsedEmail =
-                '${emailMatch.group(1)?.trim()}@${emailMatch.group(2)?.trim()}';
           }
         }
 
