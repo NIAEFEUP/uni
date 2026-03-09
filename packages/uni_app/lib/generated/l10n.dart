@@ -1995,6 +1995,16 @@ class S {
     return Intl.message('Addresses', name: 'addresses', desc: '', args: []);
   }
 
+  /// `Unable to load data`
+  String get unable_to_load_data {
+    return Intl.message(
+      'Unable to load data',
+      name: 'unable_to_load_data',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Pedagogical Surveys`
   String get pedagogical_surveys {
     return Intl.message(

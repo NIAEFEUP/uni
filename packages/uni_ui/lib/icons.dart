@@ -94,6 +94,7 @@ class UniIcons {
   static const courseUnit = PhosphorIconsDuotone.chalkboardTeacher;
 
   static const userIcon = PhosphorIconsDuotone.userCircle;
+  static const warning = PhosphorIconsDuotone.warningOctagon;
 }
 
 // The same as default Icon class from material.dart but allowing to use PhosphorIcons duotone icons
