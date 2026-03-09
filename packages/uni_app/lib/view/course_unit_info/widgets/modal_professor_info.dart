@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:html/parser.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
@@ -83,7 +84,9 @@ class ProfessorInfoModal extends ConsumerWidget {
 
         for (final link in document.querySelectorAll('a[href]')) {
           final href = link.attributes['href'] ?? '';
-          if (!href.toLowerCase().startsWith('mailto:')) continue;
+          if (!href.toLowerCase().startsWith('mailto:')) {
+            continue;
+          }
           final value = href
               .substring('mailto:'.length)
               .split('?')
@@ -110,7 +113,9 @@ class ProfessorInfoModal extends ConsumerWidget {
           }
         }
 
-        if (parsedEmail == null) continue;
+        if (parsedEmail == null) {
+          continue;
+        }
 
         for (final roomLink in document.querySelectorAll(
           'a[href*="instal_geral.espaco_view"]',
@@ -199,41 +204,50 @@ class ProfessorInfoModal extends ConsumerWidget {
                   ),
                 ),
           builder: (context, snapshot) {
-            final info =
-                snapshot.data ??
-                _ProfessorExtraInfo(
-                  email: professor.institutionalEmail,
-                  rooms: professor.rooms,
-                );
-            final rows = <Widget>[];
+            if (!snapshot.hasData) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _ShimmerInfoRow(
+                    title: S.of(context).email,
+                    icon: UniIcons.email,
+                  ),
+                  _ShimmerInfoRow(
+                    title: S.of(context).room,
+                    icon: UniIcons.location,
+                  ),
+                ],
+              );
+            }
 
-            if (info.email != null) {
-              rows.add(
+            final info = snapshot.data!;
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
                 ModalInfoRow(
                   title: S.of(context).email,
-                  description: info.email,
+                  description: info.email ?? '—',
                   icon: UniIcons.email,
-                  trailing: UniIcon(
-                    UniIcons.caretRight,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  onPressed: () =>
-                      launchUrlWithToast(context, 'mailto:${info.email}'),
+                  trailing: info.email != null
+                      ? UniIcon(
+                          UniIcons.caretRight,
+                          color: Theme.of(context).colorScheme.primary,
+                        )
+                      : const SizedBox(),
+                  onPressed: info.email != null
+                      ? () =>
+                            launchUrlWithToast(context, 'mailto:${info.email}')
+                      : null,
                 ),
-              );
-            }
-
-            if (info.rooms.isNotEmpty) {
-              rows.add(
                 ModalInfoRow(
                   title: S.of(context).room,
-                  description: info.rooms.join(', '),
+                  description: info.rooms.isNotEmpty
+                      ? info.rooms.join(', ')
+                      : '—',
                   icon: UniIcons.location,
                 ),
-              );
-            }
-
-            return Column(mainAxisSize: MainAxisSize.min, children: rows);
+              ],
+            );
           },
         ),
         if (scheduleUrl != null)
@@ -247,6 +261,32 @@ class ProfessorInfoModal extends ConsumerWidget {
             onPressed: () => launchUrlWithToast(context, scheduleUrl),
           ),
       ],
+    );
+  }
+}
+
+class _ShimmerInfoRow extends StatelessWidget {
+  const _ShimmerInfoRow({required this.title, required this.icon});
+
+  final String title;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: Theme.of(context).dividerColor)),
+      ),
+      child: ListTile(
+        dense: true,
+        leading: UniIcon(icon, color: Theme.of(context).colorScheme.primary),
+        title: Text(title, style: Theme.of(context).textTheme.headlineSmall),
+        subtitle: Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          child: Container(height: 10, width: 140, color: Colors.white),
+        ),
+      ),
     );
   }
 }
