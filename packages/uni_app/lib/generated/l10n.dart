@@ -1965,6 +1965,11 @@ class S {
     return Intl.message(
       'This course unit has no information available yet',
       name: 'no_course_unit_info',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Unable to load data`
   String get unable_to_load_data {
     return Intl.message(

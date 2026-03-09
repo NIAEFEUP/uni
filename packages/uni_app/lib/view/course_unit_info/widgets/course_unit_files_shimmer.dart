@@ -10,7 +10,12 @@ class ShimmerCourseFiles extends StatelessWidget {
     return ListView(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
+          padding: const EdgeInsets.only(
+            top: 20,
+            left: 10,
+            right: 10,
+            bottom: 10,
+          ),
           child: SizedBox(
             height: 80,
             child: Shimmer.fromColors(
@@ -23,7 +28,12 @@ class ShimmerCourseFiles extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
+          padding: const EdgeInsets.only(
+            top: 20,
+            left: 10,
+            right: 10,
+            bottom: 10,
+          ),
           child: SizedBox(
             height: 80,
             child: Shimmer.fromColors(
@@ -36,7 +46,12 @@ class ShimmerCourseFiles extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
+          padding: const EdgeInsets.only(
+            top: 20,
+            left: 10,
+            right: 10,
+            bottom: 10,
+          ),
           child: SizedBox(
             height: 80,
             child: Shimmer.fromColors(
@@ -49,7 +64,12 @@ class ShimmerCourseFiles extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
+          padding: const EdgeInsets.only(
+            top: 20,
+            left: 10,
+            right: 10,
+            bottom: 10,
+          ),
           child: SizedBox(
             height: 80,
             child: Shimmer.fromColors(
@@ -62,7 +82,12 @@ class ShimmerCourseFiles extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
+          padding: const EdgeInsets.only(
+            top: 20,
+            left: 10,
+            right: 10,
+            bottom: 10,
+          ),
           child: SizedBox(
             height: 80,
             child: Shimmer.fromColors(
@@ -75,7 +100,12 @@ class ShimmerCourseFiles extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
+          padding: const EdgeInsets.only(
+            top: 20,
+            left: 10,
+            right: 10,
+            bottom: 10,
+          ),
           child: SizedBox(
             height: 80,
             child: Shimmer.fromColors(
