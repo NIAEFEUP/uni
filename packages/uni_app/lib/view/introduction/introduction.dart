@@ -67,9 +67,9 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView>
   }
 
   void _finishIntro() {
-    Navigator.of(context).pushReplacementNamed(
-      '/${NavigationItem.navPersonalArea.route}',
-    );
+    Navigator.of(
+      context,
+    ).pushReplacementNamed('/${NavigationItem.navPersonalArea.route}');
   }
 
   @override
@@ -160,8 +160,8 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView>
             onTap: () async {
               try {
                 await _notificationManager.initializeNotifications();
-                final granted =
-                    await _notificationManager.hasNotificationPermission();
+                final granted = await _notificationManager
+                    .hasNotificationPermission();
                 if (mounted) {
                   setState(() {
                     _notificationPermission = granted;
