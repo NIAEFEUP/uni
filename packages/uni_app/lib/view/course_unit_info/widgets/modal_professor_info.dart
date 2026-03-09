@@ -59,7 +59,7 @@ class ProfessorInfoModal extends ConsumerWidget {
 
   Future<_ProfessorExtraInfo> _fetchProfessorExtraInfo(
     Session session,
-    String professorProfileUrl,
+    List<String> baseUrls,
   ) async {
     final email = professor.institutionalEmail;
     final rooms = {...professor.rooms};
@@ -68,90 +68,134 @@ class ProfessorInfoModal extends ConsumerWidget {
       return _ProfessorExtraInfo(email: email, rooms: rooms.toList());
     }
 
-    try {
-      final response = await NetworkRouter.getWithCookies(
-        professorProfileUrl,
-        {},
-        session,
-      );
-      final document = parse(response.body);
+    for (final baseUrl in baseUrls) {
+      final profileUrl =
+          '${baseUrl}func_geral.formview?p_codigo=${professor.code}';
+      try {
+        final response = await NetworkRouter.getWithCookies(
+          profileUrl,
+          {},
+          session,
+        );
+        final document = parse(response.body);
 
-      final mailToLinks = document.querySelectorAll('a[href^="mailto:"]');
-      var parsedEmail = email;
-      for (final link in mailToLinks) {
-        final href = link.attributes['href'];
-        if (href == null) {
-          continue;
+        var parsedEmail = email;
+
+        // 1. mailto: links (case-insensitive href check)
+        for (final link in document.querySelectorAll('a[href]')) {
+          final href = link.attributes['href'] ?? '';
+          if (!href.toLowerCase().startsWith('mailto:')) continue;
+
+          final value = href
+              .substring('mailto:'.length)
+              .split('?')
+              .first
+              .trim();
+          if (value.contains('@')) {
+            parsedEmail = value;
+            break;
+          }
         }
 
-        final value = href.replaceFirst('mailto:', '').trim();
-        if (value.contains('@')) {
-          parsedEmail = value;
-          break;
-        }
-      }
+        // 2. Table row with an email label (e.g. "E-mail" / "Email")
+        if (parsedEmail == null) {
+          final emailLabelRegex = RegExp(r'E-?mail', caseSensitive: false);
+          for (final row in document.querySelectorAll('tr')) {
+            final cells = row.querySelectorAll('th,td');
+            if (cells.length < 2) continue;
+            if (!emailLabelRegex.hasMatch(cells.first.text)) continue;
 
-      if (parsedEmail == null) {
-        final bodyText = document.body?.text ?? '';
-        final emailMatch = RegExp(
-          r'([A-Za-z0-9._%+-]+)\s*@\s*([A-Za-z0-9.-]+\.[A-Za-z]{2,})',
-        ).firstMatch(bodyText);
-        if (emailMatch != null) {
-          parsedEmail =
-              '${emailMatch.group(1)?.trim()}@${emailMatch.group(2)?.trim()}';
-        }
-      }
-
-      for (final roomLink in document.querySelectorAll(
-        'a[href*="instal_geral.espaco_view"]',
-      )) {
-        final room = roomLink.text.trim();
-        if (room.isNotEmpty) {
-          rooms.add(room);
-        }
-      }
-
-      final roomLabelRegex = RegExp(
-        r'(Sala|Salas|Gabinete|Gabinetes|Room|Rooms)\s*:?\s*(.+)',
-        caseSensitive: false,
-      );
-
-      for (final row in document.querySelectorAll('tr')) {
-        final cells = row.querySelectorAll('th,td');
-        if (cells.length < 2) {
-          continue;
+            final value = cells[1].text.trim();
+            if (value.contains('@')) {
+              parsedEmail = value;
+              break;
+            }
+          }
         }
 
-        final label = cells.first.text.trim();
-        if (!RegExp(
-          '(Sala|Gabinete|Room)',
+        // 3. Obfuscated email: SIGARRA anti-spam onclick pattern
+        //    onclick="…'lto'+':local'+secure+'domain'…"
+        //    Read via DOM so HTML entities (&#39; etc.) are decoded first.
+        if (parsedEmail == null) {
+          for (final link in document.querySelectorAll('a[onclick]')) {
+            final onclick = link.attributes['onclick'] ?? '';
+            final onclickMatch = RegExp(
+              r"lto'\+':([A-Za-z0-9._%+\-]+)'\+secure\+'([A-Za-z0-9.\-]+\.[A-Za-z]{2,})'",
+            ).firstMatch(onclick);
+            if (onclickMatch != null) {
+              parsedEmail = '${onclickMatch.group(1)}@${onclickMatch.group(2)}';
+              break;
+            }
+          }
+        }
+
+        // 4. Full body text regex fallback
+        if (parsedEmail == null) {
+          final bodyText = document.body?.text ?? '';
+          final emailMatch = RegExp(
+            r'([A-Za-z0-9._%+-]+)@([A-Za-z0-9.-]+\.[A-Za-z]{2,})',
+          ).firstMatch(bodyText);
+          if (emailMatch != null) {
+            parsedEmail =
+                '${emailMatch.group(1)?.trim()}@${emailMatch.group(2)?.trim()}';
+          }
+        }
+
+        if (parsedEmail == null) continue;
+
+        for (final roomLink in document.querySelectorAll(
+          'a[href*="instal_geral.espaco_view"]',
+        )) {
+          final room = roomLink.text.trim();
+          if (room.isNotEmpty) {
+            rooms.add(room);
+          }
+        }
+
+        final roomLabelRegex = RegExp(
+          r'(Sala|Salas|Gabinete|Gabinetes|Room|Rooms)\s*:?\s*(.+)',
           caseSensitive: false,
-        ).hasMatch(label)) {
-          continue;
+        );
+
+        for (final row in document.querySelectorAll('tr')) {
+          final cells = row.querySelectorAll('th,td');
+          if (cells.length < 2) {
+            continue;
+          }
+
+          final label = cells.first.text.trim();
+          if (!RegExp(
+            '(Sala|Gabinete|Room)',
+            caseSensitive: false,
+          ).hasMatch(label)) {
+            continue;
+          }
+
+          final value = cells[1].text.trim();
+          if (value.isNotEmpty) {
+            rooms.add(value);
+          }
         }
 
-        final value = cells[1].text.trim();
-        if (value.isNotEmpty) {
-          rooms.add(value);
+        for (final element in document.querySelectorAll('p,li,span,div')) {
+          final text = element.text.trim().replaceAll('\n', ' ');
+          final match = roomLabelRegex.firstMatch(text);
+          final value = match?.group(2)?.trim();
+          if (value != null && value.isNotEmpty && value.length <= 64) {
+            rooms.add(value);
+          }
         }
+
+        return _ProfessorExtraInfo(
+          email: parsedEmail,
+          rooms: _dedupeRooms(rooms),
+        );
+      } catch (_) {
+        continue;
       }
-
-      for (final element in document.querySelectorAll('p,li,span,div')) {
-        final text = element.text.trim().replaceAll('\n', ' ');
-        final match = roomLabelRegex.firstMatch(text);
-        final value = match?.group(2)?.trim();
-        if (value != null && value.isNotEmpty && value.length <= 64) {
-          rooms.add(value);
-        }
-      }
-
-      return _ProfessorExtraInfo(
-        email: parsedEmail,
-        rooms: _dedupeRooms(rooms),
-      );
-    } catch (_) {
-      return _ProfessorExtraInfo(email: email, rooms: _dedupeRooms(rooms));
     }
+
+    return _ProfessorExtraInfo(email: email, rooms: _dedupeRooms(rooms));
   }
 
   @override
@@ -160,9 +204,6 @@ class ProfessorInfoModal extends ConsumerWidget {
     final baseUrls = NetworkRouter.getBaseUrlsFromSession(session);
     final scheduleUrl = baseUrls.isNotEmpty
         ? '${baseUrls[0]}hor_geral.docentes_view?pv_doc_codigo=${professor.code}'
-        : null;
-    final professorProfileUrl = baseUrls.isNotEmpty
-        ? '${baseUrls[0]}func_geral.formview?p_codigo=${professor.code}'
         : null;
 
     return ModalDialog(
@@ -180,8 +221,8 @@ class ProfessorInfoModal extends ConsumerWidget {
           ),
         ),
         FutureBuilder<_ProfessorExtraInfo>(
-          future: professorProfileUrl != null
-              ? _fetchProfessorExtraInfo(session, professorProfileUrl)
+          future: baseUrls.isNotEmpty
+              ? _fetchProfessorExtraInfo(session, baseUrls)
               : Future.value(
                   _ProfessorExtraInfo(
                     email: professor.institutionalEmail,
