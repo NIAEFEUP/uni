@@ -1,28 +1,168 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:html/parser.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
+import 'package:uni/session/flows/base/session.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
 import 'package:uni_ui/modal/widgets/person_info.dart';
 
+class _ProfessorExtraInfo {
+  const _ProfessorExtraInfo({this.email, this.rooms = const []});
+
+  final String? email;
+  final List<String> rooms;
+}
+
 class ProfessorInfoModal extends ConsumerWidget {
   const ProfessorInfoModal(this.professor, {super.key});
   final Professor professor;
 
+  Iterable<String> _splitAndCleanRooms(String raw) sync* {
+    for (final token in raw.split(RegExp(r'\s*,\s*|\s*;\s*'))) {
+      final value = token
+          .trim()
+          .replaceAll(
+            RegExp(
+              r'^(Salas?|Gabinetes?|Rooms?)\s*:?\s*',
+              caseSensitive: false,
+            ),
+            '',
+          )
+          .replaceAll(RegExp(r'^[sS]\s*:\s*'), '')
+          .trim();
+      if (value.isNotEmpty) {
+        yield value;
+      }
+    }
+  }
+
+  List<String> _dedupeRooms(Iterable<String> roomValues) {
+    final normalizedToDisplay = <String, String>{};
+
+    for (final raw in roomValues) {
+      for (final room in _splitAndCleanRooms(raw)) {
+        final key = room.replaceAll(RegExp(r'\s+'), '').toUpperCase();
+        normalizedToDisplay.putIfAbsent(key, () => room);
+      }
+    }
+
+    return normalizedToDisplay.values.toList();
+  }
+
+  Future<_ProfessorExtraInfo> _fetchProfessorExtraInfo(
+    Session session,
+    String professorProfileUrl,
+  ) async {
+    final email = professor.institutionalEmail;
+    final rooms = {...professor.rooms};
+
+    if (email != null && rooms.isNotEmpty) {
+      return _ProfessorExtraInfo(email: email, rooms: rooms.toList());
+    }
+
+    try {
+      final response = await NetworkRouter.getWithCookies(
+        professorProfileUrl,
+        {},
+        session,
+      );
+      final document = parse(response.body);
+
+      final mailToLinks = document.querySelectorAll('a[href^="mailto:"]');
+      var parsedEmail = email;
+      for (final link in mailToLinks) {
+        final href = link.attributes['href'];
+        if (href == null) {
+          continue;
+        }
+
+        final value = href.replaceFirst('mailto:', '').trim();
+        if (value.contains('@')) {
+          parsedEmail = value;
+          break;
+        }
+      }
+
+      if (parsedEmail == null) {
+        final bodyText = document.body?.text ?? '';
+        final emailMatch = RegExp(
+          r'([A-Za-z0-9._%+-]+)\s*@\s*([A-Za-z0-9.-]+\.[A-Za-z]{2,})',
+        ).firstMatch(bodyText);
+        if (emailMatch != null) {
+          parsedEmail =
+              '${emailMatch.group(1)?.trim()}@${emailMatch.group(2)?.trim()}';
+        }
+      }
+
+      for (final roomLink in document.querySelectorAll(
+        'a[href*="instal_geral.espaco_view"]',
+      )) {
+        final room = roomLink.text.trim();
+        if (room.isNotEmpty) {
+          rooms.add(room);
+        }
+      }
+
+      final roomLabelRegex = RegExp(
+        r'(Sala|Salas|Gabinete|Gabinetes|Room|Rooms)\s*:?\s*(.+)',
+        caseSensitive: false,
+      );
+
+      for (final row in document.querySelectorAll('tr')) {
+        final cells = row.querySelectorAll('th,td');
+        if (cells.length < 2) {
+          continue;
+        }
+
+        final label = cells.first.text.trim();
+        if (!RegExp(
+          '(Sala|Gabinete|Room)',
+          caseSensitive: false,
+        ).hasMatch(label)) {
+          continue;
+        }
+
+        final value = cells[1].text.trim();
+        if (value.isNotEmpty) {
+          rooms.add(value);
+        }
+      }
+
+      for (final element in document.querySelectorAll('p,li,span,div')) {
+        final text = element.text.trim().replaceAll('\n', ' ');
+        final match = roomLabelRegex.firstMatch(text);
+        final value = match?.group(2)?.trim();
+        if (value != null && value.isNotEmpty && value.length <= 64) {
+          rooms.add(value);
+        }
+      }
+
+      return _ProfessorExtraInfo(
+        email: parsedEmail,
+        rooms: _dedupeRooms(rooms),
+      );
+    } catch (_) {
+      return _ProfessorExtraInfo(email: email, rooms: _dedupeRooms(rooms));
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final session = ref.watch(sessionProvider).value!;
-    final rooms = professor.rooms.join(', ');
     final baseUrls = NetworkRouter.getBaseUrlsFromSession(session);
     final scheduleUrl = baseUrls.isNotEmpty
         ? '${baseUrls[0]}hor_geral.docentes_view?pv_doc_codigo=${professor.code}'
+        : null;
+    final professorProfileUrl = baseUrls.isNotEmpty
+        ? '${baseUrls[0]}func_geral.formview?p_codigo=${professor.code}'
         : null;
 
     return ModalDialog(
@@ -39,26 +179,53 @@ class ProfessorInfoModal extends ConsumerWidget {
             studentNumber: int.parse(professor.code),
           ),
         ),
-        if (professor.institutionalEmail != null)
-          ModalInfoRow(
-            title: S.of(context).email,
-            description: professor.institutionalEmail,
-            icon: UniIcons.email,
-            trailing: UniIcon(
-              UniIcons.caretRight,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            onPressed: () => launchUrlWithToast(
-              context,
-              'mailto:${professor.institutionalEmail}',
-            ),
-          ),
-        if (rooms.isNotEmpty)
-          ModalInfoRow(
-            title: S.of(context).room,
-            description: rooms,
-            icon: UniIcons.location,
-          ),
+        FutureBuilder<_ProfessorExtraInfo>(
+          future: professorProfileUrl != null
+              ? _fetchProfessorExtraInfo(session, professorProfileUrl)
+              : Future.value(
+                  _ProfessorExtraInfo(
+                    email: professor.institutionalEmail,
+                    rooms: professor.rooms,
+                  ),
+                ),
+          builder: (context, snapshot) {
+            final info =
+                snapshot.data ??
+                _ProfessorExtraInfo(
+                  email: professor.institutionalEmail,
+                  rooms: professor.rooms,
+                );
+            final rows = <Widget>[];
+
+            if (info.email != null) {
+              rows.add(
+                ModalInfoRow(
+                  title: S.of(context).email,
+                  description: info.email,
+                  icon: UniIcons.email,
+                  trailing: UniIcon(
+                    UniIcons.caretRight,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  onPressed: () =>
+                      launchUrlWithToast(context, 'mailto:${info.email}'),
+                ),
+              );
+            }
+
+            if (info.rooms.isNotEmpty) {
+              rows.add(
+                ModalInfoRow(
+                  title: S.of(context).room,
+                  description: info.rooms.join(', '),
+                  icon: UniIcons.location,
+                ),
+              );
+            }
+
+            return Column(mainAxisSize: MainAxisSize.min, children: rows);
+          },
+        ),
         if (scheduleUrl != null)
           ModalInfoRow(
             title: S.of(context).schedule,
