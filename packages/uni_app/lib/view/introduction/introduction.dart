@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:uni/controller/background_workers/notifications.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/introduction/widgets/exams_intro_page.dart';
 import 'package:uni/view/introduction/widgets/first_page.dart';
 import 'package:uni/view/introduction/widgets/map_intro_page.dart';
@@ -18,12 +20,32 @@ class IntroductionScreenView extends StatefulWidget {
 class _IntroductionScreenViewState extends State<IntroductionScreenView>
     with TickerProviderStateMixin {
   late PageController _pageController;
+  int _currentPage = 0;
+  bool _notificationPermission = false;
+  final NotificationManager _notificationManager = NotificationManager();
 
   @override
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     _pageController = PageController();
+    _pageController.addListener(() {
+      if (_pageController.page?.round() != _currentPage) {
+        setState(() {
+          _currentPage = _pageController.page?.round() ?? 0;
+        });
+      }
+    });
+    _checkNotificationPermission();
+  }
+
+  Future<void> _checkNotificationPermission() async {
+    final granted = await _notificationManager.hasNotificationPermission();
+    if (mounted) {
+      setState(() {
+        _notificationPermission = granted;
+      });
+    }
   }
 
   @override
@@ -31,6 +53,23 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView>
     _pageController.dispose();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     super.dispose();
+  }
+
+  void _nextPage() {
+    if (_currentPage < 6) {
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      _finishIntro();
+    }
+  }
+
+  void _finishIntro() {
+    Navigator.of(context).pushReplacementNamed(
+      '/${NavigationItem.navPersonalArea.route}',
+    );
   }
 
   @override
@@ -77,10 +116,124 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView>
               RestaurantsIntroPage(pageController: _pageController),
               ServicesIntroPage(pageController: _pageController),
               MapIntroPage(pageController: _pageController),
-              NotificationsIntroPage(pageController: _pageController),
+              NotificationsIntroPage(
+                pageController: _pageController,
+                notificationPermission: _notificationPermission,
+                onPermissionChanged: (granted) {
+                  setState(() {
+                    _notificationPermission = granted;
+                  });
+                },
+              ),
             ],
           ),
+          Align(alignment: const Alignment(0, 0.95), child: _buildBottomArea()),
         ],
+      ),
+    );
+  }
+
+  Widget _buildBottomArea() {
+    if (_currentPage == 6 && !_notificationPermission) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        spacing: 32,
+        children: [
+          GestureDetector(
+            onTap: _finishIntro,
+            child: Container(
+              height: 60,
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+              child: const Center(
+                child: Text(
+                  'Skip',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Color(0xFFFFF5F3),
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () async {
+              try {
+                await _notificationManager.initializeNotifications();
+                final granted =
+                    await _notificationManager.hasNotificationPermission();
+                if (mounted) {
+                  setState(() {
+                    _notificationPermission = granted;
+                  });
+                }
+              } catch (_) {}
+            },
+            child: Container(
+              height: 48,
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+              decoration: ShapeDecoration(
+                gradient: const LinearGradient(
+                  begin: Alignment.bottomRight,
+                  end: Alignment(-0.24, -0.31),
+                  colors: [Color(0xFF280709), Color(0xFF461014)],
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                shadows: const [
+                  BoxShadow(
+                    color: Color(0xBF996B6E),
+                    blurRadius: 22,
+                    offset: Offset(0, 7),
+                  ),
+                ],
+              ),
+              child: const Center(
+                child: Text(
+                  'Allow',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Color(0xFFFFF5F3),
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
+    return GestureDetector(
+      onTap: _nextPage,
+      child: Container(
+        width: 60,
+        height: 60,
+        decoration: ShapeDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.bottomRight,
+            end: Alignment(-0.24, -0.31),
+            colors: [Color(0xFF280709), Color(0xFF461014)],
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(100),
+          ),
+          shadows: const [
+            BoxShadow(
+              color: Color(0xBF996B6E),
+              blurRadius: 22,
+              offset: Offset(0, 7),
+            ),
+          ],
+        ),
+        child: const Center(
+          child: Icon(
+            Icons.arrow_forward_ios_rounded,
+            color: Color(0xFFFFF5F3),
+            size: 24,
+          ),
+        ),
       ),
     );
   }
