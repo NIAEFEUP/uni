@@ -19,11 +19,13 @@ import 'package:uni/controller/local_storage/migrations/migration_controller.dar
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
+import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/providers/plausible/plausible_provider.dart';
 import 'package:uni/model/providers/riverpod/theme_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/about/about.dart';
 import 'package:uni/view/academic_path/academic_path.dart';
+import 'package:uni/view/academic_path/schedule_page.dart';
 import 'package:uni/view/bug_report/bug_report.dart';
 import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
@@ -181,6 +183,7 @@ class ApplicationState extends ConsumerState<Application> {
             onGenerateRoute: (settings) {
               final args = settings.arguments;
               final courseUnit = args is CourseUnit ? args : null;
+              final professor = args is Professor ? args : null;
               final transitionFunctions = <String, Route<dynamic> Function()>{
                 '/${NavigationItem.navSplash.route}': () =>
                     PageTransition.splashTransitionRoute(
@@ -248,6 +251,11 @@ class ApplicationState extends ConsumerState<Application> {
                 '/${NavigationItem.navCourseUnit.route}': () =>
                     PageTransition.makePageTransition(
                       page: CourseUnitDetailPageView(courseUnit!),
+                      settings: settings,
+                    ),
+                '/${NavigationItem.navProfessorSchedule.route}': () =>
+                    PageTransition.makePageTransition(
+                      page: ProfessorSchedulePageView(professor!),
                       settings: settings,
                     ),
               };
