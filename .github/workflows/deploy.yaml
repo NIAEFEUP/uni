@@ -111,7 +111,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version-file: packages/uni_app/pubspec.yaml
+          flutter-version-file: .fvmrc
           cache: true
 
       - name: Download Android keystore
