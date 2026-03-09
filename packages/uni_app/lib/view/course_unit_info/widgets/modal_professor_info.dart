@@ -1,12 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/controller/networking/url_launcher.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
-// import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
-// import 'package:uni_ui/modal/widgets/info_row.dart';
+import 'package:uni_ui/modal/widgets/info_row.dart';
 import 'package:uni_ui/modal/widgets/person_info.dart';
 
 class ProfessorInfoModal extends ConsumerWidget {
@@ -16,6 +19,12 @@ class ProfessorInfoModal extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final session = ref.watch(sessionProvider).value!;
+    final rooms = professor.rooms.join(', ');
+    final baseUrls = NetworkRouter.getBaseUrlsFromSession(session);
+    final scheduleUrl = baseUrls.isNotEmpty
+        ? '${baseUrls[0]}hor_geral.docentes_view?pv_doc_codigo=${professor.code}'
+        : null;
+
     return ModalDialog(
       children: [
         FutureBuilder<File?>(
@@ -30,23 +39,36 @@ class ProfessorInfoModal extends ConsumerWidget {
             studentNumber: int.parse(professor.code),
           ),
         ),
-        // Professor model hasn't the necessary fields
-        /*
-        ModalInfoRow(
-          title: 'Email',
-          description: '[email-professor@up.pt]',
-          icon: UniIcons.email,
-          trailing: UniIcon(
-            UniIcons.caretRight,
-            color: Theme.of(context).colorScheme.primary,
+        if (professor.institutionalEmail != null)
+          ModalInfoRow(
+            title: S.of(context).email,
+            description: professor.institutionalEmail,
+            icon: UniIcons.email,
+            trailing: UniIcon(
+              UniIcons.caretRight,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            onPressed: () => launchUrlWithToast(
+              context,
+              'mailto:${professor.institutionalEmail}',
+            ),
           ),
-        ),
-        const ModalInfoRow(
-          title: 'Sala',
-          description: '[sala]',
-          icon: UniIcons.location,
-        ),
-        */
+        if (rooms.isNotEmpty)
+          ModalInfoRow(
+            title: S.of(context).room,
+            description: rooms,
+            icon: UniIcons.location,
+          ),
+        if (scheduleUrl != null)
+          ModalInfoRow(
+            title: S.of(context).schedule,
+            icon: UniIcons.lecture,
+            trailing: UniIcon(
+              UniIcons.caretRight,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            onPressed: () => launchUrlWithToast(context, scheduleUrl),
+          ),
       ],
     );
   }
