@@ -117,7 +117,6 @@ class LocationFetcherOSM extends LocationFetcher {
       '[OSM] Parsing indoor data for ${facultyConfig.name} from ${elements.length} elements',
     );
 
-    // Build node map ONCE so polygon construction is O(1) per node
     final nodeMap = <int, LatLng>{};
     for (final elem in elements) {
       final element = elem as Map<String, dynamic>;
@@ -312,41 +311,85 @@ class LocationFetcherOSM extends LocationFetcher {
     final json = jsonDecode(response.body) as Map<String, dynamic>;
     final elements = json['elements'] as List<dynamic>;
 
-    debugPrint('[OSM] Parsing ${elements.length} elements for ${facultyConfig.name} location groups');
-    final buildingGroups = <String, List<_OSMElement>>{};
+    debugPrint(
+      '[OSM] Parsing ${elements.length} elements for '
+      '${facultyConfig.name} location groups',
+    );
 
+    // Build node map so way centroids can be computed.
+    final nodeMap = <int, LatLng>{};
+    final allElements = <_OSMElement>[];
     for (final elem in elements) {
       final element = _OSMElement.fromJson(elem as Map<String, dynamic>);
-      final buildingCode = _extractBuildingCode(element);
-
-      if (buildingCode != null) {
-        buildingGroups.putIfAbsent(buildingCode, () => []);
-        buildingGroups[buildingCode]!.add(element);
+      allElements.add(element);
+      if (element.type == 'node' &&
+          element.lat != null &&
+          element.lon != null) {
+        nodeMap[element.id] = LatLng(element.lat!, element.lon!);
       }
     }
 
     final locationGroups = <LocationGroup>[];
-    var groupId = 0;
 
-    for (final entry in buildingGroups.entries) {
-      final elements = entry.value;
-      final center = _calculateCenter(elements);
-      final locations = _convertToLocations(elements);
-
-      if (locations.isNotEmpty) {
-        locationGroups.add(
-          LocationGroup(
-            center,
-            locations: locations,
-            isFloorless: !_hasFloorData(elements),
-            id: groupId++,
-          ),
-        );
+    for (final element in allElements) {
+      final amenityType = element.tags['amenity'];
+      if (amenityType == null) {
+        continue; // rooms / buildings handled by indoor layer
       }
-    }
 
-    debugPrint('[OSM] Created ${locationGroups.length} location groups for ${facultyConfig.name}');
+      final position = _resolvePosition(element, nodeMap);
+      if (position == null) {
+        continue;
+      }
+
+      final floor = _extractFloor(element);
+      final location = _createLocation(element, floor);
+      if (location == null) {
+        continue;
+      }
+
+      final isFloorless =
+          element.tags['level'] == null && element.tags['floor'] == null;
+
+      locationGroups.add(
+        LocationGroup(
+          position,
+          locations: [location],
+          isFloorless: isFloorless,
+          id: locationGroups.length,
+        ),
+      );
+      
+    }
     return locationGroups;
+  }
+
+  // For nodes: the direct lat/lon.  For ways: the centroid of their nodes.
+  LatLng? _resolvePosition(_OSMElement element, Map<int, LatLng> nodeMap) {
+    if (element.lat != null && element.lon != null) {
+      return LatLng(element.lat!, element.lon!);
+    }
+    if (element.nodes != null && element.nodes!.isNotEmpty) {
+      final pts = element.nodes!
+          .map((id) => nodeMap[id])
+          .whereType<LatLng>()
+          .toList();
+      if (pts.isEmpty) {
+        return null;
+      }
+      return _centroidOf(pts);
+    }
+    return null;
+  }
+
+  LatLng _centroidOf(List<LatLng> positions) {
+    final avgLat =
+        positions.map((p) => p.latitude).reduce((a, b) => a + b) /
+        positions.length;
+    final avgLon =
+        positions.map((p) => p.longitude).reduce((a, b) => a + b) /
+        positions.length;
+    return LatLng(avgLat, avgLon);
   }
 
   String? _extractBuildingCode(_OSMElement element) {
@@ -363,43 +406,6 @@ class LocationFetcherOSM extends LocationFetcher {
     }
 
     return null;
-  }
-
-  LatLng _calculateCenter(List<_OSMElement> elements) {
-    var sumLat = 0.0;
-    var sumLon = 0.0;
-    var count = 0;
-
-    for (final element in elements) {
-      if (element.lat != null && element.lon != null) {
-        sumLat += element.lat!;
-        sumLon += element.lon!;
-        count++;
-      }
-    }
-
-    if (count == 0) {
-      // Fall back to the centre of the configured faculty bounds
-      final b = facultyConfig.bounds;
-      return LatLng((b.minLat + b.maxLat) / 2, (b.minLon + b.maxLon) / 2);
-    }
-
-    return LatLng(sumLat / count, sumLon / count);
-  }
-
-  List<Location> _convertToLocations(List<_OSMElement> elements) {
-    final locations = <Location>[];
-
-    for (final element in elements) {
-      final floor = _extractFloor(element);
-      final location = _createLocation(element, floor);
-
-      if (location != null) {
-        locations.add(location);
-      }
-    }
-
-    return locations;
   }
 
   int _extractFloor(_OSMElement element) {
@@ -438,7 +444,11 @@ class LocationFetcherOSM extends LocationFetcher {
       return VendingMachine(floor);
     }
 
-    if (tags['amenity'] == 'cafe' || tags['amenity'] == 'restaurant') {
+    if (tags['amenity'] == 'cafe' 
+    || tags['amenity'] == 'restaurant' 
+    || tags['amenity'] == 'canteen' 
+    || tags['amenity'] == 'fast_food' 
+    ) {
       final name = tags['name'] ?? 'Café';
       return RestaurantLocation(floor, name);
     }
@@ -469,15 +479,6 @@ class LocationFetcherOSM extends LocationFetcher {
     }
 
     return null;
-  }
-
-  bool _hasFloorData(List<_OSMElement> elements) {
-    return elements.any(
-      (e) =>
-          e.tags['level'] != null ||
-          e.tags['floor'] != null ||
-          e.tags['building:levels'] != null,
-    );
   }
 }
 

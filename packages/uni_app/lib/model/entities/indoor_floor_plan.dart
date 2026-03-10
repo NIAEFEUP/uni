@@ -1,6 +1,5 @@
 import 'package:latlong2/latlong.dart';
 
-/// Represents an indoor floor plan with its geometry and features
 class IndoorFloorPlan {
   IndoorFloorPlan({
     required this.buildingId,
@@ -13,7 +12,7 @@ class IndoorFloorPlan {
 
   final String buildingId;
   final int floor;
-  final List<LatLng> outline; // Building outline for this floor
+  final List<LatLng> outline;
   final List<IndoorRoom> rooms;
   final List<IndoorCorridor> corridors;
   final List<IndoorAmenity> amenities;
@@ -22,10 +21,10 @@ class IndoorFloorPlan {
 class IndoorRoom {
   IndoorRoom({required this.ref, required this.polygon, this.name, this.type});
 
-  final String ref; // Room number (e.g., "B101")
-  final List<LatLng> polygon; // Room outline
+  final String ref; 
+  final List<LatLng> polygon; 
   final String? name;
-  final String? type; // office, classroom, lab, etc.
+  final String? type; 
 }
 
 class IndoorCorridor {
@@ -38,6 +37,6 @@ class IndoorAmenity {
   IndoorAmenity({required this.position, required this.type, this.name});
 
   final LatLng position;
-  final String type; // toilets, vending_machine, etc.
+  final String type; 
   final String? name;
 }

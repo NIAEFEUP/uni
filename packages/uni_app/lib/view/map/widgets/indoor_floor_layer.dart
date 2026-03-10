@@ -66,61 +66,7 @@ class IndoorFloorLayer extends StatelessWidget {
                   )
                   .toList(),
         ),
-        // Amenities markers
-        MarkerLayer(
-          markers:
-              currentFloorPlans
-                  .expand(
-                    (plan) => plan.amenities.map(
-                      (amenity) => Marker(
-                        point: amenity.position,
-                        child: Icon(
-                          _getAmenityIcon(amenity.type),
-                          color: _getAmenityColor(amenity.type),
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  )
-                  .toList(),
-        ),
       ],
     );
-  }
-
-  IconData _getAmenityIcon(String type) {
-    switch (type) {
-      case 'toilets':
-        return Icons.wc;
-      case 'vending_machine':
-        return Icons.local_drink;
-      case 'atm':
-        return Icons.atm;
-      case 'printer':
-        return Icons.print;
-      case 'cafe':
-      case 'restaurant':
-        return Icons.restaurant;
-      default:
-        return Icons.place;
-    }
-  }
-
-  Color _getAmenityColor(String type) {
-    switch (type) {
-      case 'toilets':
-        return Colors.purple;
-      case 'vending_machine':
-        return Colors.orange;
-      case 'atm':
-        return Colors.green;
-      case 'printer':
-        return Colors.blue;
-      case 'cafe':
-      case 'restaurant':
-        return Colors.brown;
-      default:
-        return Colors.grey;
-    }
   }
 }
