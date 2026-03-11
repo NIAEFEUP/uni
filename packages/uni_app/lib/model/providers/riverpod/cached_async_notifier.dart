@@ -62,12 +62,14 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
   }
 
   Future<T?> _safeExecute(
-    Future<T?> Function() operation, {
-    bool updateTimestamp = true,
-  }) async {
+      Future<T?> Function() operation, {
+        bool updateTimestamp = true,
+      }) async {
     try {
       final result = await operation();
-      if (result != null && ref.mounted) {
+      // Guard against both a disposed notifier (HEAD) and empty/null results
+      // (develop) — both checks are necessary and independent.
+      if (result != null && ref.mounted && !_invalidLocalData(result)) {
         _updateState(result, updateTimestamp: updateTimestamp);
       }
       return result;
