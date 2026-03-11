@@ -11,6 +11,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/indoor_floor_plan.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/riverpod/faculty_locations_provider.dart';
+import 'package:uni/view/map/widgets/amenity_filter_bar.dart';
 import 'package:uni/view/map/widgets/floor_selector_button.dart';
 import 'package:uni/view/map/widgets/floorless_marker_popup.dart';
 import 'package:uni/view/map/widgets/indoor_floor_layer.dart';
@@ -34,6 +35,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
   LatLngBounds? _bounds;
   int? _selectedFloor;
   bool _showIndoorLayer = false;
+  AmenityFilter? _selectedAmenity;
 
   @override
   void initState() {
@@ -41,6 +43,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
     _searchTerms = '';
     _popupLayerController = PopupController();
     _selectedFloor = null;
+    _selectedAmenity = null;
   }
 
   @override
@@ -69,7 +72,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
 
     final isMapLoading = isLocationsLoading || !isIndoorPlansLoaded;
 
-    // From develop: fall back to faculty bounds while locations are loading
+    // Fall back to faculty bounds while locations are loading
     final faculty = ref.watch(selectedFacultyProvider);
     final fallbackBounds = LatLngBounds(
       LatLng(faculty.bounds.minLat, faculty.bounds.minLon),
@@ -97,6 +100,12 @@ class MapPageStateView extends ConsumerState<MapPage> {
     if (_selectedFloor != null) {
       filteredLocations.retainWhere((location) {
         return location.floors.containsKey(_selectedFloor);
+      });
+    }
+    if (_selectedAmenity != null) {
+      filteredLocations.retainWhere((locationGroup) {
+        final allLocations = locationGroup.floors.values.expand((x) => x);
+        return allLocations.any((loc) => _selectedAmenity!.matches(loc));
       });
     }
 
@@ -153,8 +162,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
               ),
             PopupMarkerLayer(
               options: PopupMarkerLayerOptions(
-                markers:
-                filteredLocations.map((location) {
+                markers: filteredLocations.map((location) {
                   return LocationMarker(location.latlng, location);
                 }).toList(),
                 popupController: _popupLayerController,
@@ -217,45 +225,61 @@ class MapPageStateView extends ConsumerState<MapPage> {
                   right: 10,
                   top: 12,
                 ),
-                child: PhysicalModel(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Theme.of(context).colorScheme.secondary,
-                  elevation: 4,
-                  child: TextFormField(
-                    key: searchFormKey,
-                    onChanged: (text) {
-                      setState(() {
-                        _searchTerms = removeDiacritics(
-                          text.trim().toLowerCase(),
-                        );
-                      });
-                    },
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Theme.of(context).colorScheme.secondary,
-                      prefixIcon: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: SvgPicture.asset(
-                          'assets/images/logo_dark.svg',
-                          semanticsLabel: 'search',
-                          width: 44,
-                          height: 25,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    PhysicalModel(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Theme.of(context).colorScheme.secondary,
+                      elevation: 4,
+                      child: TextFormField(
+                        key: searchFormKey,
+                        onChanged: (text) {
+                          setState(() {
+                            _searchTerms = removeDiacritics(
+                              text.trim().toLowerCase(),
+                            );
+                          });
+                        },
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Theme.of(context).colorScheme.secondary,
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: SvgPicture.asset(
+                              'assets/images/logo_dark.svg',
+                              semanticsLabel: 'search',
+                              width: 44,
+                              height: 25,
+                            ),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.all(10),
+                          hintText: S.of(context).search_here,
+                          hintStyle: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 9,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).shadowColor,
+                          ),
                         ),
                       ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                      contentPadding: const EdgeInsets.all(10),
-                      hintText: S.of(context).search_here,
-                      hintStyle: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 9,
-                        fontWeight: FontWeight.w400,
-                        color: Theme.of(context).shadowColor,
-                      ),
                     ),
-                  ),
+                    const SizedBox(height: 10),
+                    AmenityFilterBar(
+                      selectedAmenity: _selectedAmenity,
+                      onAmenitySelected: (amenity) {
+                        setState(() {
+                          _selectedAmenity = amenity;
+                          _popupLayerController.hideAllPopups();
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),

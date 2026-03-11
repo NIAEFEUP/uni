@@ -47,6 +47,7 @@ class UniIcons {
   // Locations pins icons
   static const money = PhosphorIconsDuotone.money;
   static const coffee = PhosphorIconsDuotone.coffee;
+  static const cookie = PhosphorIconsDuotone.cookie;
   static const printer = PhosphorIconsDuotone.printer;
   static const lockers = PhosphorIconsDuotone.lockers;
   static const bookOpen = PhosphorIconsDuotone.bookOpen;
