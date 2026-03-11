@@ -22,12 +22,24 @@ class FeesFetcher implements SessionDependantFetcher {
     return NetworkRouter.getWithCookies(url, query, session);
   }
 
-  Future<(List<Unpaid>, List<Transaction>, List<AccountStatement>)>
+  Future<
+    (
+      List<Unpaid>,
+      List<Transaction>,
+      List<Transaction>,
+      List<Transaction>,
+      List<Transaction>,
+      List<AccountStatement>,
+    )
+  >
   extractCurrentAccount(Session session, CurrentAccountParser parser) async {
     final response = await getUserFeesResponse(session);
     return (
       parser.parseUnpaid(response),
-      parser.parseTransaction(response),
+      parser.parseCertificate(response),
+      parser.parseLatePaymentInterest(response),
+      parser.parseTuitionFees(response),
+      parser.parseSchoolInsurance(response),
       parser.parseAccountStatement(response),
     );
   }
