@@ -82,8 +82,8 @@ class _FloorSelectorButtonState extends State<FloorSelectorButton> {
       child: GestureDetector(
         onTap: _toggle,
         child: Container(
-          width: 50,
-          height: 50,
+          width: 42,
+          height: 42,
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.secondary,
             borderRadius: BorderRadius.circular(8),
@@ -94,7 +94,7 @@ class _FloorSelectorButtonState extends State<FloorSelectorButton> {
           alignment: Alignment.center,
           child: Text(
             widget.selectedFloor?.toString() ?? '-',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ),
         ),
       ),

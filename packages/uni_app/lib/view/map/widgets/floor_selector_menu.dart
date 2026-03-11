@@ -29,10 +29,10 @@ class FloorSelectorMenu extends StatelessWidget {
               return InkWell(
                 onTap: () => onFloorSelected(isSelected ? null : floor),
                 child: Container(
-                  width: 50,
-                  height: 50,
+                  width: 42,
+                  height: 42,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(6),
                     color:
                         isSelected
                             ? Theme.of(context).focusColor
@@ -42,7 +42,7 @@ class FloorSelectorMenu extends StatelessWidget {
                     child: Text(
                       floor.toString(),
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: isSelected ? primaryVibrant : grayText,
                       ),
