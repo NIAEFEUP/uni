@@ -1,0 +1,33 @@
+default_platform(:android)
+
+platform :android do
+  
+  desc "Beta Deployment (Internal Track)"
+  lane :beta do
+    Dir.chdir("..") do
+      sh "flutter build appbundle --release"
+    end
+    
+    upload_to_play_store(
+      track: 'internal',
+      release_status: 'draft',
+      aab: '../build/app/outputs/bundle/release/app-release.aab',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+
+  desc "Production Deployment"
+  lane :production do
+    Dir.chdir("..") do
+      sh "flutter build appbundle --release"
+    end
+    
+    upload_to_play_store(
+      track: 'production',
+      release_status: 'draft',
+      aab: '../build/app/outputs/bundle/release/app-release.aab'
+    )
+  end
+end
