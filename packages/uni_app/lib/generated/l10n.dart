@@ -489,6 +489,16 @@ class S {
     );
   }
 
+  /// `Don't show again`
+  String get dont_show_again {
+    return Intl.message(
+      'Don\'t show again',
+      name: 'dont_show_again',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `ECTS performed: `
   String get ects {
     return Intl.message('ECTS performed: ', name: 'ects', desc: '', args: []);
@@ -952,10 +962,10 @@ class S {
     );
   }
 
-  /// `There's no files attached`
+  /// `There are no files attached`
   String get no_files {
     return Intl.message(
-      'There\'s no files attached',
+      'There are no files attached',
       name: 'no_files',
       desc: '',
       args: [],
@@ -1542,7 +1552,7 @@ class S {
     );
   }
 
-  /// `Having trouble signing in?`
+  /// `Something not right?`
   String get spotted_an_error {
     return Intl.message(
       'Something not right?',
@@ -1552,7 +1562,7 @@ class S {
     );
   }
 
-  /// `Login with credentials`
+  /// `Report a bug`
   String get report_bug {
     return Intl.message('Report a bug', name: 'report_bug', desc: '', args: []);
   }
@@ -1935,6 +1945,86 @@ class S {
     return Intl.message(
       'Orientation and Integration Office',
       name: 'goi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No classes have been assigned to this course unit yet`
+  String get no_course_unit_classes {
+    return Intl.message(
+      'No classes have been assigned to this course unit yet',
+      name: 'no_course_unit_classes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This course unit has no information available yet`
+  String get no_course_unit_info {
+    return Intl.message(
+      'This course unit has no information available yet',
+      name: 'no_course_unit_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unable to load data`
+  String get unable_to_load_data {
+    return Intl.message(
+      'Unable to load data',
+      name: 'unable_to_load_data',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pedagogical Surveys`
+  String get pedagogical_surveys {
+    return Intl.message(
+      'Pedagogical Surveys',
+      name: 'pedagogical_surveys',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Have you already filled out the pedagogical surveys? If not, please take a moment to fill them out. Your feedback is valuable and helps us improve the quality of education at your course.`
+  String get pedagogical_surveys_description {
+    return Intl.message(
+      'Have you already filled out the pedagogical surveys? If not, please take a moment to fill them out. Your feedback is valuable and helps us improve the quality of education at your course.',
+      name: 'pedagogical_surveys_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Answer`
+  String get answer {
+    return Intl.message('Answer', name: 'answer', desc: '', args: []);
+  }
+
+  /// `Close`
+  String get close {
+    return Intl.message('Close', name: 'close', desc: '', args: []);
+  }
+
+  /// `There are no restaurants to display`
+  String get no_restaurants_available {
+    return Intl.message(
+      'There are no restaurants to display',
+      name: 'no_restaurants_available',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bring your lunchbox from home.`
+  String get no_restaurants_available_sublabel {
+    return Intl.message(
+      'Bring your lunchbox from home.',
+      name: 'no_restaurants_available_sublabel',
       desc: '',
       args: [],
     );

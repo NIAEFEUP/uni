@@ -57,6 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "all_widgets_added": MessageLookupByLibrary.simpleMessage(
       "All available widgets have already been added to your personal area!",
     ),
+    "answer": MessageLookupByLibrary.simpleMessage("Answer"),
     "apply": MessageLookupByLibrary.simpleMessage("Apply"),
     "assessments": MessageLookupByLibrary.simpleMessage("Assessments"),
     "at_least_one_college": MessageLookupByLibrary.simpleMessage(
@@ -117,6 +118,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "class_registration": MessageLookupByLibrary.simpleMessage(
       "Class Registration",
     ),
+    "close": MessageLookupByLibrary.simpleMessage("Close"),
     "collect_usage_stats": MessageLookupByLibrary.simpleMessage(
       "Collect usage statistics",
     ),
@@ -161,6 +163,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "dona_bia_building": MessageLookupByLibrary.simpleMessage(
       "Floor -1 of building B (B-142)",
+    ),
+    "dont_show_again": MessageLookupByLibrary.simpleMessage(
+      "Don\'t show again",
     ),
     "download_error": MessageLookupByLibrary.simpleMessage(
       "Error downloading the file",
@@ -284,6 +289,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "You have no classes this week",
     ),
     "no_college": MessageLookupByLibrary.simpleMessage("no college"),
+    "no_course_unit_classes": MessageLookupByLibrary.simpleMessage(
+      "No classes have been assigned to this course unit yet",
+    ),
+    "no_course_unit_info": MessageLookupByLibrary.simpleMessage(
+      "This course unit has no information available yet",
+    ),
     "no_course_units": MessageLookupByLibrary.simpleMessage(
       "No course units in the selected period",
     ),
@@ -308,7 +319,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "No favorite restaurants open",
     ),
     "no_files": MessageLookupByLibrary.simpleMessage(
-      "There\'s no files attached",
+      "There are no files attached",
     ),
     "no_files_found": MessageLookupByLibrary.simpleMessage("No files found"),
     "no_files_label": MessageLookupByLibrary.simpleMessage(
@@ -329,6 +340,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_menu_info": MessageLookupByLibrary.simpleMessage(
       "There is no information available about meals",
     ),
+    "no_menu_tomorrow": MessageLookupByLibrary.simpleMessage(
+      "Tomorrow\'s Menu Unavailable",
+    ),
     "no_menus": MessageLookupByLibrary.simpleMessage(
       "There are no meals available",
     ),
@@ -342,6 +356,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "no_references": MessageLookupByLibrary.simpleMessage(
       "There are no references to pay",
+    ),
+    "no_restaurants_available": MessageLookupByLibrary.simpleMessage(
+      "There are no restaurants to display",
+    ),
+    "no_restaurants_available_sublabel": MessageLookupByLibrary.simpleMessage(
+      "Bring your lunchbox from home.",
     ),
     "no_results": MessageLookupByLibrary.simpleMessage("No match"),
     "no_selected_courses": MessageLookupByLibrary.simpleMessage(
@@ -367,6 +387,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "For security reasons, passwords must be changed periodically.",
     ),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
+    "pedagogical_surveys": MessageLookupByLibrary.simpleMessage(
+      "Pedagogical Surveys",
+    ),
+    "pedagogical_surveys_description": MessageLookupByLibrary.simpleMessage(
+      "Have you already filled out the pedagogical surveys? If not, please take a moment to fill them out. Your feedback is valuable and helps us improve the quality of education at your course.",
+    ),
     "pendent_references": MessageLookupByLibrary.simpleMessage(
       "Pending references",
     ),
@@ -395,16 +421,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "Remaining Instructors",
     ),
     "remove": MessageLookupByLibrary.simpleMessage("Delete"),
+    "report_bug": MessageLookupByLibrary.simpleMessage("Report a bug"),
     "report_error": MessageLookupByLibrary.simpleMessage("Report error"),
     "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
       "Do you want to see your favorite restaurants in the main page?",
     ),
     "restaurant_period": m4,
     "restaurants": MessageLookupByLibrary.simpleMessage("Restaurants"),
-    "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Tomorrow's Menu"),
-    "no_menu_tomorrow": MessageLookupByLibrary.simpleMessage(
-      "Tomorrow's Menu Unavailable",
-    ),
     "room": MessageLookupByLibrary.simpleMessage("Room"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
     "schedule": MessageLookupByLibrary.simpleMessage("Schedule"),
@@ -421,6 +444,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
     "some_error": MessageLookupByLibrary.simpleMessage("Some error!"),
+    "spotted_an_error": MessageLookupByLibrary.simpleMessage(
+      "Something not right?",
+    ),
     "stcp_stops": MessageLookupByLibrary.simpleMessage("STCP - Upcoming Trips"),
     "student_number": MessageLookupByLibrary.simpleMessage("Student Number"),
     "success": MessageLookupByLibrary.simpleMessage("Sent with success"),
@@ -440,12 +466,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "title": MessageLookupByLibrary.simpleMessage("Title"),
+    "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Tomorrow\'s Menu"),
     "try_again": MessageLookupByLibrary.simpleMessage("Try again"),
     "try_different_login": MessageLookupByLibrary.simpleMessage(
       "Having trouble signing in?",
     ),
     "uc_info": MessageLookupByLibrary.simpleMessage("Open UC page"),
     "ucs": MessageLookupByLibrary.simpleMessage("UCS"),
+    "unable_to_load_data": MessageLookupByLibrary.simpleMessage(
+      "Unable to load data",
+    ),
     "unavailable": MessageLookupByLibrary.simpleMessage("Unavailable"),
     "until": MessageLookupByLibrary.simpleMessage("Until"),
     "valid_email": MessageLookupByLibrary.simpleMessage(

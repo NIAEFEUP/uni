@@ -5,11 +5,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
+import 'package:uni/model/providers/riverpod/connectivity_provider.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
 import 'package:uni/model/providers/riverpod/lecture_provider.dart';
 import 'package:uni/model/providers/riverpod/library_occupation_provider.dart';
 import 'package:uni/model/providers/riverpod/news_provider.dart';
+import 'package:uni/model/providers/riverpod/pedagogical_surveys_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/restaurant_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
@@ -21,10 +23,12 @@ import 'package:uni/view/home/widgets/connectivity_warning.dart';
 import 'package:uni/view/home/widgets/exams/exam_home_card.dart';
 import 'package:uni/view/home/widgets/library/library_home_card.dart';
 import 'package:uni/view/home/widgets/news/news_home_card.dart';
+import 'package:uni/view/home/widgets/pedagogical_surveys_info.dart';
 import 'package:uni/view/home/widgets/restaurants/restaurant_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/schedule_home_card.dart';
 import 'package:uni/view/home/widgets/tracking_banner.dart';
 import 'package:uni/view/home/widgets/uni_logo.dart';
+import 'package:uni/view/widgets/general_error_view.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
@@ -149,10 +153,22 @@ class HomePageViewState extends ConsumerState<HomePageView> {
   }
 
   PreferredSize homeAppBar(BuildContext context) {
+    final bool isOffline = ref.watch(connectivityProvider).value ?? false;
+    final bool showSurveys = ref.watch(pedagogicalSurveysProvider);
+
     final now = DateTime.now();
     final week = Week(start: now);
+    final lectureState = ref.watch(lectureProvider);
+
+    final double appBarHeight = lectureState.when(
+      data: (lectures) =>
+          (lectures != null && lectures.isNotEmpty) ? 200.0 : 150.0,
+      error: (_, _) => 200.0,
+      loading: () => 150.0,
+    );
+
     return PreferredSize(
-      preferredSize: Size.fromHeight(appBarSize),
+      preferredSize: Size.fromHeight(appBarHeight),
       child: Container(
         decoration: const BoxDecoration(
           gradient: RadialGradient(
@@ -167,35 +183,32 @@ class HomePageViewState extends ConsumerState<HomePageView> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const SafeArea(
+                SafeArea(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      UniLogo(iconColor: Colors.white),
+                      const UniLogo(iconColor: Colors.white),
                       Row(
+                        spacing: 16,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          ConnectivityWarning(),
-                          SizedBox(width: 10),
-                          ProfileButton(),
+                          if (isOffline) const ConnectivityWarning(),
+                          if (showSurveys) const PedagogicalSurveysInfo(),
+                          const ProfileButton(),
                         ],
                       ),
                     ],
                   ),
                 ),
-                DefaultConsumer<List<Lecture>>(
-                  provider: lectureProvider,
-                  builder: (context, ref, lectures) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      if (lectures.isNotEmpty && appBarSize != 200) {
-                        setState(() {
-                          appBarSize = 200;
-                        });
-                      }
-                    });
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 25),
-                      child: ScheduleCard(
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 25),
+                  child: DefaultConsumer<List<Lecture>>(
+                    provider: lectureProvider,
+                    errorWidget: const GeneralErrorView(
+                      textColor: Colors.white,
+                    ),
+                    builder: (context, ref, lectures) {
+                      return ScheduleCard(
                         name: lectures[0].subject,
                         acronym: lectures[0].acronym,
                         room: lectures[0].room,
@@ -218,19 +231,19 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                             );
                           }
                         },
-                      ),
-                    );
-                  },
-                  hasContent: (lectures) => lectures
-                      .where((lecture) => week.contains(lecture.startTime))
-                      .isNotEmpty,
-                  nullContentWidget: const SizedBox.shrink(),
-                  mapper: (lectures) => lectures
-                      .where(
-                        (lecture) => lecture.endTime.isAfter(DateTime.now()),
-                      )
-                      .toList(),
-                  loadingWidget: Container(),
+                      );
+                    },
+                    hasContent: (lectures) => lectures
+                        .where((lecture) => week.contains(lecture.startTime))
+                        .isNotEmpty,
+                    nullContentWidget: const SizedBox.shrink(),
+                    mapper: (lectures) => lectures
+                        .where(
+                          (lecture) => lecture.endTime.isAfter(DateTime.now()),
+                        )
+                        .toList(),
+                    loadingWidget: Container(),
+                  ),
                 ),
               ],
             ),
