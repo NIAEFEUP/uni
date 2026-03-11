@@ -21,10 +21,10 @@ class IndoorFloorPlan {
 class IndoorRoom {
   IndoorRoom({required this.ref, required this.polygon, this.name, this.type});
 
-  final String ref; 
-  final List<LatLng> polygon; 
+  final String ref;
+  final List<LatLng> polygon;
   final String? name;
-  final String? type; 
+  final String? type;
 }
 
 class IndoorCorridor {
@@ -37,6 +37,6 @@ class IndoorAmenity {
   IndoorAmenity({required this.position, required this.type, this.name});
 
   final LatLng position;
-  final String type; 
+  final String type;
   final String? name;
 }

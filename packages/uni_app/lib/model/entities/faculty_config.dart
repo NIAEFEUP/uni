@@ -7,8 +7,8 @@ class FacultyConfig {
     this.assetPath,
   });
 
-  final String id; 
-  final String name; 
+  final String id;
+  final String name;
   final FacultyBounds bounds;
   final RegExp buildingCodePattern;
   final String? assetPath; // Optional fallback JSON
@@ -39,7 +39,6 @@ class FacultyConfig {
     // No fallback yet
   );
 
-  
   static final all = [feup, fep];
 }
 

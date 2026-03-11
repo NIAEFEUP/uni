@@ -111,7 +111,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
 
     // Combine floors from location groups AND indoor floor plans
     final locationFloors =
-    locations.expand((group) => group.floors.keys).toSet();
+    locations.expand((group) => group.floors.keys).toSet(); // conflict 1: develop's indentation
     final indoorFloors = indoorPlans.map((plan) => plan.floor).toSet();
     final List<int> allFloors =
     <int>{...locationFloors, ...indoorFloors}.toList()
@@ -133,9 +133,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
             maxZoom: 19,
             initialCenter: bounds.center,
             initialZoom: 17,
-            cameraConstraint: CameraConstraint.containCenter(
-              bounds: bounds,
-            ),
+            cameraConstraint: CameraConstraint.containCenter(bounds: bounds),
             onTap: (tapPosition, latlng) {
               _popupLayerController.hideAllPopups();
               FocusScope.of(context).unfocus();
@@ -162,8 +160,14 @@ class MapPageStateView extends ConsumerState<MapPage> {
               ),
             PopupMarkerLayer(
               options: PopupMarkerLayerOptions(
-                markers: filteredLocations.map((location) {
-                  return LocationMarker(location.latlng, location);
+                // conflict 2: develop adds selectedFloor to LocationMarker
+                markers:
+                filteredLocations.map((location) {
+                  return LocationMarker(
+                    location.latlng,
+                    location,
+                    selectedFloor: _selectedFloor,
+                  );
                 }).toList(),
                 popupController: _popupLayerController,
                 popupDisplayOptions: PopupDisplayOptions(
@@ -173,9 +177,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                   builder: (_, marker) {
                     if (marker is LocationMarker) {
                       return marker.locationGroup.isFloorless
-                          ? FloorlessLocationMarkerPopup(
-                        marker.locationGroup,
-                      )
+                          ? FloorlessLocationMarkerPopup(marker.locationGroup) // conflict 3: develop's one-liner
                           : LocationMarkerPopup(marker.locationGroup);
                     }
                     return const Card(child: Text(''));
@@ -220,11 +222,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
               ),
             SafeArea(
               child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 10,
-                  right: 10,
-                  top: 12,
-                ),
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 12),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,

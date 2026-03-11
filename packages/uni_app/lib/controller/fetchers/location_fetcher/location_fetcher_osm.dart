@@ -18,7 +18,7 @@ import 'package:uni/model/entities/locations/wc_location.dart';
 class LocationFetcherOSM extends LocationFetcher {
   LocationFetcherOSM(super.facultyConfig);
 
-  Future<http.Response>? _response; 
+  Future<http.Response>? _response;
 
   @override
   Future<List<LocationGroup>> getLocations() async {
@@ -41,7 +41,6 @@ class LocationFetcherOSM extends LocationFetcher {
       throw Exception('[OSM] Failed to fetch indoor data: $err');
     }
   }
-
 
   Future<http.Response> _queryOverpass() async {
     const overpassUrl = 'https://overpass-api.de/api/interpreter';
@@ -69,13 +68,17 @@ class LocationFetcherOSM extends LocationFetcher {
 
     for (var attempt = 0; attempt < maxRetries; attempt++) {
       try {
-        debugPrint('[OSM] Querying Overpass API (attempt ${attempt + 1}/$maxRetries)...');
+        debugPrint(
+          '[OSM] Querying Overpass API (attempt ${attempt + 1}/$maxRetries)...',
+        );
 
-        final response = await http.post(
-          Uri.parse(overpassUrl),
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-          body: 'data=$query',
-        ).timeout(const Duration(seconds: 90));
+        final response = await http
+            .post(
+              Uri.parse(overpassUrl),
+              headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+              body: 'data=$query',
+            )
+            .timeout(const Duration(seconds: 90));
 
         if (response.statusCode == 200) {
           return response;
@@ -137,7 +140,8 @@ class LocationFetcherOSM extends LocationFetcher {
     for (final elem in elements) {
       final element = _OSMElement.fromJson(elem as Map<String, dynamic>);
 
-      final isAmenity = element.tags['amenity'] != null &&
+      final isAmenity =
+          element.tags['amenity'] != null &&
           (element.lat != null && element.lon != null ||
               element.nodes != null && element.nodes!.isNotEmpty);
 
@@ -150,19 +154,18 @@ class LocationFetcherOSM extends LocationFetcher {
           position = LatLng(element.lat!, element.lon!);
         } else if (element.nodes != null && element.nodes!.isNotEmpty) {
           // Calculate centroid from node positions
-          final nodePositions = element.nodes!
-              .map((id) => nodeMap[id])
-              .where((pos) => pos != null)
-              .cast<LatLng>()
-              .toList();
+          final nodePositions =
+              element.nodes!
+                  .map((id) => nodeMap[id])
+                  .where((pos) => pos != null)
+                  .cast<LatLng>()
+                  .toList();
           if (nodePositions.isNotEmpty) {
-            final avgLat = nodePositions
-                    .map((p) => p.latitude)
-                    .reduce((a, b) => a + b) /
+            final avgLat =
+                nodePositions.map((p) => p.latitude).reduce((a, b) => a + b) /
                 nodePositions.length;
-            final avgLon = nodePositions
-                    .map((p) => p.longitude)
-                    .reduce((a, b) => a + b) /
+            final avgLon =
+                nodePositions.map((p) => p.longitude).reduce((a, b) => a + b) /
                 nodePositions.length;
             position = LatLng(avgLat, avgLon);
           }
@@ -185,7 +188,7 @@ class LocationFetcherOSM extends LocationFetcher {
         }
         continue;
       }
-      
+
       // Extract building code from ref
       final ref = element.tags['ref'] ?? '';
       if (ref.isEmpty) {
@@ -359,7 +362,6 @@ class LocationFetcherOSM extends LocationFetcher {
           id: locationGroups.length,
         ),
       );
-      
     }
     return locationGroups;
   }
@@ -370,10 +372,8 @@ class LocationFetcherOSM extends LocationFetcher {
       return LatLng(element.lat!, element.lon!);
     }
     if (element.nodes != null && element.nodes!.isNotEmpty) {
-      final pts = element.nodes!
-          .map((id) => nodeMap[id])
-          .whereType<LatLng>()
-          .toList();
+      final pts =
+          element.nodes!.map((id) => nodeMap[id]).whereType<LatLng>().toList();
       if (pts.isEmpty) {
         return null;
       }
@@ -444,11 +444,10 @@ class LocationFetcherOSM extends LocationFetcher {
       return VendingMachine(floor);
     }
 
-    if (tags['amenity'] == 'cafe' 
-    || tags['amenity'] == 'restaurant' 
-    || tags['amenity'] == 'canteen' 
-    || tags['amenity'] == 'fast_food' 
-    ) {
+    if (tags['amenity'] == 'cafe' ||
+        tags['amenity'] == 'restaurant' ||
+        tags['amenity'] == 'canteen' ||
+        tags['amenity'] == 'fast_food') {
       final name = tags['name'] ?? 'Café';
       return RestaurantLocation(floor, name);
     }

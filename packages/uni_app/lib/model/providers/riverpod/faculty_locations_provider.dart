@@ -26,7 +26,8 @@ final selectedFacultyProvider = StateProvider<FacultyConfig>(
   (_) => FacultyConfig.feup,
 );
 
-class FacultyLocationsNotifier extends CachedAsyncNotifier<List<LocationGroup>> {
+class FacultyLocationsNotifier
+    extends CachedAsyncNotifier<List<LocationGroup>> {
   @override
   Duration? get cacheDuration => null;
 
@@ -44,7 +45,9 @@ class FacultyLocationsNotifier extends CachedAsyncNotifier<List<LocationGroup>> 
       if (osmData.isNotEmpty) {
         return osmData;
       }
-      debugPrint('[Locations] OSM returned empty for ${_faculty.name}, using asset fallback');
+      debugPrint(
+        '[Locations] OSM returned empty for ${_faculty.name}, using asset fallback',
+      );
     } catch (err) {
       debugPrint('[Locations] OSM fetch failed for ${_faculty.name}: $err');
     }
@@ -52,7 +55,8 @@ class FacultyLocationsNotifier extends CachedAsyncNotifier<List<LocationGroup>> 
   }
 }
 
-class IndoorFloorPlansNotifier extends CachedAsyncNotifier<List<IndoorFloorPlan>> {
+class IndoorFloorPlansNotifier
+    extends CachedAsyncNotifier<List<IndoorFloorPlan>> {
   @override
   Duration? get cacheDuration => const Duration(days: 30);
 
@@ -70,9 +74,11 @@ class IndoorFloorPlansNotifier extends CachedAsyncNotifier<List<IndoorFloorPlan>
   @override
   Future<List<IndoorFloorPlan>> loadFromRemote() async {
     try {
-      return await ref.read(_osmFetcherProvider).getIndoorFloorPlans(); 
+      return await ref.read(_osmFetcherProvider).getIndoorFloorPlans();
     } catch (err) {
-      debugPrint('[Locations] Failed to load indoor plans for ${_faculty.name}: $err');
+      debugPrint(
+        '[Locations] Failed to load indoor plans for ${_faculty.name}: $err',
+      );
       return loadFromStorage();
     }
   }

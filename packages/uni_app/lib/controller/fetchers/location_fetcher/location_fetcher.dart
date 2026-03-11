@@ -10,7 +10,7 @@ abstract class LocationFetcher {
   LocationFetcher(this.facultyConfig);
 
   final FacultyConfig facultyConfig;
-  
+
   Future<List<LocationGroup>> getLocations();
   Future<List<IndoorFloorPlan>> getIndoorFloorPlans();
 

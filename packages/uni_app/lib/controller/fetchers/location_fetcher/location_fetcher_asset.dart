@@ -5,7 +5,7 @@ import 'package:uni/model/entities/location_group.dart';
 
 class LocationFetcherAsset extends LocationFetcher {
   LocationFetcherAsset(super.facultyConfig);
-  
+
   @override
   Future<List<LocationGroup>> getLocations() async {
     if (facultyConfig.assetPath == null) {

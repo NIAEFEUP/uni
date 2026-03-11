@@ -53,19 +53,20 @@ class AmenityFilterBar extends StatelessWidget {
       clipBehavior: Clip.none,
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        children: AmenityFilter.values.indexed.map((entry) {
-          final (index, amenity) = entry;
-          final isLast = index == AmenityFilter.values.length - 1;
-          final isSelected = selectedAmenity == amenity;
-          return Padding(
-            padding: EdgeInsets.only(right: isLast ? 0 : 8, bottom: 8),
-            child: _AmenityChip(
-              amenity: amenity,
-              isSelected: isSelected,
-              onTap: () => onAmenitySelected(isSelected ? null : amenity),
-            ),
-          );
-        }).toList(),
+        children:
+            AmenityFilter.values.indexed.map((entry) {
+              final (index, amenity) = entry;
+              final isLast = index == AmenityFilter.values.length - 1;
+              final isSelected = selectedAmenity == amenity;
+              return Padding(
+                padding: EdgeInsets.only(right: isLast ? 0 : 8, bottom: 8),
+                child: _AmenityChip(
+                  amenity: amenity,
+                  isSelected: isSelected,
+                  onTap: () => onAmenitySelected(isSelected ? null : amenity),
+                ),
+              );
+            }).toList(),
       ),
     );
   }
@@ -102,31 +103,31 @@ class _AmenityChip extends StatelessWidget {
       child: Material(
         color: isSelected ? primaryColor : secondaryColor,
         borderRadius: BorderRadius.circular(12),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                amenity.icon,
-                size: 18,
-                color: isSelected ? secondaryColor : primaryColor,
-              ),
-              const SizedBox(width: 6),
-              Text(
-                amenity.label,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(12),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  amenity.icon,
+                  size: 18,
                   color: isSelected ? secondaryColor : primaryColor,
-                  fontWeight: FontWeight.w500,
                 ),
-              ),
-            ],
+                const SizedBox(width: 6),
+                Text(
+                  amenity.label,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: isSelected ? secondaryColor : primaryColor,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
       ),
     );
   }
