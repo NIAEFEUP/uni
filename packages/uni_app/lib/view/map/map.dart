@@ -111,10 +111,10 @@ class MapPageStateView extends ConsumerState<MapPage> {
 
     // Combine floors from location groups AND indoor floor plans
     final locationFloors =
-    locations.expand((group) => group.floors.keys).toSet(); // conflict 1: develop's indentation
+    locations.expand((group) => group.floors.keys).toSet();
     final indoorFloors = indoorPlans.map((plan) => plan.floor).toSet();
     final List<int> allFloors =
-    <int>{...locationFloors, ...indoorFloors}.toList()
+    <int>{...locationFloors, ...indoorFloors}.where((f) => f != 7).toList()
       ..sort((a, b) => b.compareTo(a));
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -160,7 +160,6 @@ class MapPageStateView extends ConsumerState<MapPage> {
               ),
             PopupMarkerLayer(
               options: PopupMarkerLayerOptions(
-                // conflict 2: develop adds selectedFloor to LocationMarker
                 markers:
                 filteredLocations.map((location) {
                   return LocationMarker(
@@ -177,7 +176,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                   builder: (_, marker) {
                     if (marker is LocationMarker) {
                       return marker.locationGroup.isFloorless
-                          ? FloorlessLocationMarkerPopup(marker.locationGroup) // conflict 3: develop's one-liner
+                          ? FloorlessLocationMarkerPopup(marker.locationGroup)
                           : LocationMarkerPopup(marker.locationGroup);
                     }
                     return const Card(child: Text(''));
@@ -186,37 +185,41 @@ class MapPageStateView extends ConsumerState<MapPage> {
               ),
             ),
             if (isIndoorPlansLoaded)
-              Positioned(
-                right: 10,
-                bottom: 650,
+              Align(
+                alignment: Alignment.bottomRight,
                 child: SafeArea(
-                  child: FloatingActionButton(
-                    mini: true,
-                    onPressed: () {
-                      setState(() {
-                        _showIndoorLayer = !_showIndoorLayer;
-                      });
-                    },
-                    child: Icon(
-                      _showIndoorLayer ? Icons.layers_clear : Icons.layers,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 10, bottom: 68),
+                    child: FloatingActionButton(
+                      mini: true,
+                      onPressed: () {
+                        setState(() {
+                          _showIndoorLayer = !_showIndoorLayer;
+                        });
+                      },
+                      child: Icon(
+                        _showIndoorLayer ? Icons.layers_clear : Icons.layers,
+                      ),
                     ),
                   ),
                 ),
               ),
             if (isIndoorPlansLoaded)
-              Positioned(
-                right: 10,
-                top: 700,
+              Align(
+                alignment: Alignment.bottomRight,
                 child: SafeArea(
-                  child: FloorSelectorButton(
-                    floors: allFloors,
-                    selectedFloor: _selectedFloor,
-                    onFloorSelected: (floor) {
-                      setState(() {
-                        _selectedFloor = floor;
-                        _popupLayerController.hideAllPopups();
-                      });
-                    },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 10, bottom: 10),
+                    child: FloorSelectorButton(
+                      floors: allFloors,
+                      selectedFloor: _selectedFloor,
+                      onFloorSelected: (floor) {
+                        setState(() {
+                          _selectedFloor = floor;
+                          _popupLayerController.hideAllPopups();
+                        });
+                      },
+                    ),
                   ),
                 ),
               ),
