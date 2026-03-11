@@ -10,8 +10,6 @@ import 'package:uni/model/entities/locations/atm.dart';
 import 'package:uni/model/entities/locations/coffee_machine.dart';
 import 'package:uni/model/entities/locations/printer.dart';
 import 'package:uni/model/entities/locations/restaurant_location.dart';
-import 'package:uni/model/entities/locations/room_location.dart';
-import 'package:uni/model/entities/locations/special_room_location.dart';
 import 'package:uni/model/entities/locations/vending_machine.dart';
 import 'package:uni/model/entities/locations/wc_location.dart';
 
@@ -462,19 +460,6 @@ class LocationFetcherOSM extends LocationFetcher {
 
     if (tags['amenity'] == 'printer') {
       return Printer(floor);
-    }
-
-    if (tags['indoor'] == 'room') {
-      final ref = tags['ref'] ?? tags['name'];
-      if (ref != null) {
-        final description = tags['description'] ?? tags['office'];
-
-        if (description != null && description.isNotEmpty) {
-          return SpecialRoomLocation(floor, ref, description);
-        }
-
-        return RoomLocation(floor, ref);
-      }
     }
 
     return null;
