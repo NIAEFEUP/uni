@@ -6,11 +6,12 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/riverpod/course_units_info_provider.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
 import 'package:uni/view/academic_path/widgets/no_classes_widget.dart';
+import 'package:uni/view/academic_path/widgets/schedule_page_shimmer.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes_shimmer.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files.dart';
-import 'package:uni/view/course_unit_info/widgets/course_unit_lectures.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files_shimmer.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_lectures.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_no_classes.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_no_files.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_no_info.dart';
@@ -263,7 +264,7 @@ class CourseUnitDetailPageViewState
         final lectures = provider.courseUnitsLectures[widget.courseUnit];
 
         if (lectures == null) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: ShimmerSchedulePage());
         }
 
         if (lectures.isEmpty) {
