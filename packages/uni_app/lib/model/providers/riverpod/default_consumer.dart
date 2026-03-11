@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
+import 'package:uni/view/widgets/general_error_view.dart';
 
 typedef DefaultConsumerBuilder<T> =
     Widget Function(BuildContext context, WidgetRef ref, T value);
@@ -32,7 +33,7 @@ class DefaultConsumer<T> extends ConsumerWidget {
     return asyncValue.when(
       loading: () =>
           loadingWidget ?? const Center(child: CircularProgressIndicator()),
-      error: (err, _) => errorWidget ?? Center(child: Text('Error: $err')),
+      error: (err, _) => errorWidget ?? const GeneralErrorView(),
       data: (data) {
         if (data == null) {
           return nullContentWidget;
