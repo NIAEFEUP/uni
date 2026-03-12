@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/entities/profile.dart';
+import 'package:uni/model/entities/profile_info.dart';
 import 'package:uni_ui/cards/data_list_tile.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 
 class ProfileData extends StatelessWidget {
-  const ProfileData({required this.profile, super.key});
+  const ProfileData({required this.profileInfo, super.key});
 
-  final Profile profile;
+  final ProfileInfo profileInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -28,16 +28,12 @@ class ProfileData extends StatelessWidget {
                 tooltip: S.of(context).user_informations,
                 margin: const EdgeInsets.symmetric(vertical: 8),
                 child: Column(
-                  children:
-                      (profile.profileInfo?.profileInfo ?? <String, String>{})
-                          .entries
-                          .map(
-                            (entry) => DataListTile(
-                              prefix: entry.key,
-                              text: entry.value,
-                            ),
-                          )
-                          .toList(),
+                  children: profileInfo.profileInfo.entries
+                      .map(
+                        (entry) =>
+                            DataListTile(prefix: entry.key, text: entry.value),
+                      )
+                      .toList(),
                 ),
               ),
             ],
@@ -53,17 +49,14 @@ class ProfileData extends StatelessWidget {
                 tooltip: S.of(context).user_informations,
                 margin: const EdgeInsets.symmetric(vertical: 8),
                 child: Column(
-                  children:
-                      (profile.profileInfo?.nationalities ?? <String, String>{})
-                          .entries
-                          .map(
-                            (entry) => DataListTile(
-                              prefix:
-                                  '${S.of(context).nationality} ${entry.key}',
-                              text: entry.value,
-                            ),
-                          )
-                          .toList(),
+                  children: profileInfo.nationalities.entries
+                      .map(
+                        (entry) => DataListTile(
+                          prefix: '${S.of(context).nationality} ${entry.key}',
+                          text: entry.value,
+                        ),
+                      )
+                      .toList(),
                 ),
               ),
             ],
@@ -79,17 +72,12 @@ class ProfileData extends StatelessWidget {
                 tooltip: S.of(context).user_informations,
                 margin: const EdgeInsets.symmetric(vertical: 8),
                 child: Column(
-                  children:
-                      (profile.profileInfo?.identification ??
-                              <String, String>{})
-                          .entries
-                          .map(
-                            (entry) => DataListTile(
-                              prefix: entry.key,
-                              text: entry.value,
-                            ),
-                          )
-                          .toList(),
+                  children: profileInfo.identification.entries
+                      .map(
+                        (entry) =>
+                            DataListTile(prefix: entry.key, text: entry.value),
+                      )
+                      .toList(),
                 ),
               ),
             ],
@@ -105,16 +93,12 @@ class ProfileData extends StatelessWidget {
                 tooltip: S.of(context).user_informations,
                 margin: const EdgeInsets.symmetric(vertical: 8),
                 child: Column(
-                  children:
-                      (profile.profileInfo?.contacts ?? <String, String>{})
-                          .entries
-                          .map(
-                            (entry) => DataListTile(
-                              prefix: entry.key,
-                              text: entry.value,
-                            ),
-                          )
-                          .toList(),
+                  children: profileInfo.contacts.entries
+                      .map(
+                        (entry) =>
+                            DataListTile(prefix: entry.key, text: entry.value),
+                      )
+                      .toList(),
                 ),
               ),
             ],
@@ -130,16 +114,12 @@ class ProfileData extends StatelessWidget {
                 tooltip: S.of(context).user_informations,
                 margin: const EdgeInsets.symmetric(vertical: 8),
                 child: Column(
-                  children:
-                      (profile.profileInfo?.addresses ?? <String, String>{})
-                          .entries
-                          .map(
-                            (entry) => DataListTile(
-                              prefix: entry.key,
-                              text: entry.value,
-                            ),
-                          )
-                          .toList(),
+                  children: profileInfo.addresses.entries
+                      .map(
+                        (entry) =>
+                            DataListTile(prefix: entry.key, text: entry.value),
+                      )
+                      .toList(),
                 ),
               ),
             ],

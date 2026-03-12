@@ -42,7 +42,7 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
       return null;
     }
 
-    //try to fetch all data from internet
+    // try to fetch all data from internet
     final profile = await _fetchUserInfo(session);
     if (profile == null) {
       return null;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/profile.dart';
+import 'package:uni/model/entities/profile_info.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/view/profile_info/widgets/no_profile_data.dart';
@@ -28,7 +29,16 @@ class ProfileInfoPageViewState
         children: [
           ProfileOverview(profile: profile),
           const SizedBox(height: 16),
-          ProfileData(profile: profile),
+          ProfileData(
+            profileInfo:
+                profile.profileInfo ??
+                ProfileInfo.fromList([
+                  {'': ''},
+                  {'': ''},
+                  {'': ''},
+                  {'': ''},
+                ]),
+          ),
         ],
       ),
       hasContent: (profile) => profile.profileInfo != null,

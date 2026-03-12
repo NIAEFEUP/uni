@@ -10,6 +10,7 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/news.dart';
 import 'package:uni/model/entities/profile.dart';
+import 'package:uni/model/entities/profile_info.dart';
 import 'package:uni/model/entities/reference.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/objectbox.g.dart';
@@ -35,6 +36,7 @@ class Database {
   late final Box<Meal> _mealBox;
   late final Box<News> _newsBox;
   late final Box<Profile> _profileBox;
+  late final Box<ProfileInfo> _profileInfoBox;
 
   List<Exam> get exams => _examBox.getAll();
   void saveExams(List<Exam> exams) => saveEntities(_examBox, exams);
@@ -72,6 +74,10 @@ class Database {
 
   Profile? get profile => _profileBox.getAll().firstOrNull;
   void saveProfile(Profile profile) => saveEntity(_profileBox, profile);
+
+  ProfileInfo? get profileInfo => _profileInfoBox.getAll().firstOrNull;
+  void saveProfileInfo(ProfileInfo profileInfo) =>
+      saveEntity(_profileInfoBox, profileInfo);
 
   /// Whether the session is persistent or not.
   bool? _persistentSession;
@@ -119,6 +125,7 @@ class Database {
 
   void _boxesInitialization() {
     _profileBox = _store.box<Profile>();
+    _profileInfoBox = _store.box<ProfileInfo>();
     _examBox = _store.box<Exam>();
     _lectureBox = _store.box<Lecture>();
     _calendarBox = _store.box<CalendarEvent>();
@@ -133,6 +140,7 @@ class Database {
 
   void clear() {
     _profileBox.removeAll();
+    _profileInfoBox.removeAll();
     _examBox.removeAll();
     _lectureBox.removeAll();
     _calendarBox.removeAll();

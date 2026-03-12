@@ -25,10 +25,10 @@ final class LibraryOccupationNotifier
 
   @override
   Future<LibraryOccupation> loadFromRemote() async {
-    //try to fetch from internet
+    // try to fetch from internet
     final occupation = await LibraryOccupationFetcher().getLibraryOccupation();
 
-    //if success save to database
+    // if success save to database
     Database().saveLibraryOccupations(occupation.floors);
 
     return occupation;

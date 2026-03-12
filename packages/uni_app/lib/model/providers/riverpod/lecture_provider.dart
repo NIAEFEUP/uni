@@ -32,10 +32,10 @@ class LectureNotifier extends CachedAsyncNotifier<List<Lecture>> {
 
     try {
       Database().saveLectures(lectures);
-    } catch (e, st) {
+    } catch (err, st) {
       Logger().e(
         'Failed to save lectures to local database',
-        error: e,
+        error: err,
         stackTrace: st,
       );
     }
