@@ -4,19 +4,19 @@ import 'package:objectbox/objectbox.dart';
 @Entity()
 class ProfileInfo {
   ProfileInfo({
-    List<List<String>>? profileInfo,
-    List<List<String>>? nationalities,
-    List<List<String>>? identification,
-    List<List<String>>? contacts,
-    List<List<String>>? addresses,
-  }) : profileInfo = profileInfo ?? [],
-       nationalities = nationalities ?? [],
-       identification = identification ?? [],
-       contacts = contacts ?? [],
-       addresses = addresses ?? [];
+    Map<String, String>? profileInfo,
+    Map<String, String>? nationalities,
+    Map<String, String>? identification,
+    Map<String, String>? contacts,
+    Map<String, String>? addresses,
+  }) : profileInfo = profileInfo ?? <String, String>{},
+       nationalities = nationalities ?? <String, String>{},
+       identification = identification ?? <String, String>{},
+       contacts = contacts ?? <String, String>{},
+       addresses = addresses ?? <String, String>{};
 
   /// Creates a new instance from a JSON object.
-  factory ProfileInfo.fromList(List<List<List<String>>> list) {
+  factory ProfileInfo.fromList(List<Map<String, String>> list) {
     return ProfileInfo(
       profileInfo: list[0],
       nationalities: list[1],
@@ -28,15 +28,15 @@ class ProfileInfo {
 
   @Id()
   int? id;
-  List<List<String>> profileInfo;
-  List<List<String>> nationalities;
-  List<List<String>> identification;
-  List<List<String>> contacts;
-  List<List<String>> addresses;
+  Map<String, String> profileInfo;
+  Map<String, String> nationalities;
+  Map<String, String> identification;
+  Map<String, String> contacts;
+  Map<String, String> addresses;
 
   /// Returns a list with two tuples: the first tuple contains the user's name
   /// and the other one contains the user's email.
-  List<(String, List<List<String>>)> keymapValues() {
+  List<(String, Map<String, String>)> keymapValues() {
     return [
       ('profileInfo', profileInfo),
       ('nationalities', nationalities),
