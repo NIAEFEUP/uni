@@ -59,7 +59,7 @@ class AllServiceCardsState extends State<AllServiceCards> {
       ),
       ServicesCard(
         name: S.of(context).dona_bia,
-        openingHours: const ['8:30h - 12:00h', '13:30h - 19:00h'],
+        openingHours: const ['9:00h - 12:00h', '14:00h - 18:00h'],
         location: S.of(context).dona_bia_building,
         telephone: '+351 225 081 416',
         email: 'papelaria.fe.up@gmail.com',
