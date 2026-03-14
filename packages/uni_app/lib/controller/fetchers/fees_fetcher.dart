@@ -34,13 +34,26 @@ class FeesFetcher implements SessionDependantFetcher {
   >
   extractCurrentAccount(Session session, CurrentAccountParser parser) async {
     final response = await getUserFeesResponse(session);
+
+    final unpaid = parser.parseUnpaid(response);
+
+    final accountStatement = parser.parseAccountStatement(response);
+
+    final certificate = parser.parseCertificate(response);
+
+    final latePaymentInterest = parser.parseLatePaymentInterest(response);
+
+    final tuitionFees = parser.parseTuitionFees(response);
+
+    final schoolInsurance = parser.parseSchoolInsurance(response);
+
     return (
-      parser.parseUnpaid(response),
-      parser.parseCertificate(response),
-      parser.parseLatePaymentInterest(response),
-      parser.parseTuitionFees(response),
-      parser.parseSchoolInsurance(response),
-      parser.parseAccountStatement(response),
+      unpaid,
+      certificate,
+      latePaymentInterest,
+      tuitionFees,
+      schoolInsurance,
+      accountStatement,
     );
   }
 }

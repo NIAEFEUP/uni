@@ -16,8 +16,12 @@ class CurrentAccountParser {
       final status = parseStatus(cells[0]);
       final acronym = cells[1].querySelector('abbr')?.text.trim() ?? '';
       final description = cells[2].text.trim();
+
       final date = DateTime.parse(cells[3].text.trim());
-      final deadline = DateTime.parse(cells[4].text.trim());
+
+      final deadline = cells[4].text.trim().isEmpty
+          ? null
+          : DateTime.parse(cells[4].text.trim());
       final value = parseAmount(cells[5].text.trim()) ?? 0;
       final amountPaid = parseAmount(cells[6].text.trim());
       final amountDue = parseAmount(cells[7].text.trim()) ?? 0;
@@ -45,15 +49,18 @@ class CurrentAccountParser {
     final List<Transaction> data = [];
 
     final tab = document.querySelector(tableId);
+
     final rows = tab?.querySelectorAll('tr').skip(1) ?? [];
 
     for (final row in rows) {
       final cells = row.querySelectorAll('td');
-      final isCredit = cells[0].attributes['colspan'] == '3';
+      final isCredit = cells[0].classes.contains('credito');
 
       if (isCredit) {
         final description = cells[0].text.trim();
+
         final date = DateTime.parse(cells[1].text.trim());
+
         final deadline = cells[2].text.trim().isEmpty
             ? null
             : DateTime.parse(cells[2].text.trim());
@@ -81,7 +88,9 @@ class CurrentAccountParser {
         final process = parseStatus(cells[0]);
         final acronym = cells[1].querySelector('abbr')?.text.trim() ?? '';
         final description = cells[2].text.trim();
+
         final date = DateTime.parse(cells[3].text.trim());
+
         final deadline = cells[4].text.trim().isEmpty
             ? null
             : DateTime.parse(cells[4].text.trim());
@@ -137,11 +146,12 @@ class CurrentAccountParser {
     final List<AccountStatement> data = [];
 
     final tab = document.querySelector('#tab5');
-    final rows = tab?.querySelectorAll('tr').skip(1) ?? [];
+    final rows = tab?.querySelectorAll('tbody tr') ?? [];
 
     for (final row in rows) {
       final cells = row.querySelectorAll('td');
       final description = cells[0].text.trim();
+
       final date = DateTime.parse(cells[1].text.trim());
       final debit = parseAmount(cells[2].text.trim());
       final credit = parseAmount(cells[3].text.trim());

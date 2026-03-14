@@ -4,7 +4,7 @@ class Unpaid {
     required this.acronym,
     required this.description,
     required this.date,
-    required this.deadline,
+    this.deadline,
     required this.value,
     this.amountPaid,
     required this.amountDue,
@@ -15,11 +15,16 @@ class Unpaid {
   final String acronym;
   final String description;
   final DateTime date;
-  final DateTime deadline;
+  final DateTime? deadline;
   final int value;
   final int? amountPaid;
   final int amountDue;
   final int? interestOnLatePayment;
+
+  @override
+  String toString() {
+    return 'Unpaid(status: $status, acronym: $acronym, description: $description, date: $date, deadline: $deadline, value: $value, amountPaid: $amountPaid, amountDue: $amountDue, interestOnLatePayment: $interestOnLatePayment)';
+  }
 }
 
 class Transaction {
@@ -48,6 +53,11 @@ class Transaction {
   final int? interestOnLatePayment;
   final String status;
   final String document;
+
+  @override
+  String toString() {
+    return 'Transaction(process: $process, acronym: $acronym, description: $description, date: $date, deadline: $deadline, debit: $debit,credit: $credit, missingDebit: $missingDebit, terestOnLatePayment: $interestOnLatePayment, status: $status, document: $document)';
+  }
 }
 
 class AccountStatement {
@@ -62,4 +72,9 @@ class AccountStatement {
   final DateTime date;
   final int? debit;
   final int? credit;
+
+  @override
+  String toString() {
+    return 'AccountStatement(description: $description, date: $date, debit: $debit, credit:$credit)';
+  }
 }

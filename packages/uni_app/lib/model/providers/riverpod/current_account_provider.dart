@@ -7,5 +7,6 @@ final currentAccountProvider = FutureProvider.autoDispose((ref) async {
   final session = await ref.watch(sessionProvider.future);
   final fetcher = FeesFetcher();
   final parser = CurrentAccountParser();
-  return fetcher.extractCurrentAccount(session!, parser);
+  final result = await fetcher.extractCurrentAccount(session!, parser);
+  return result;
 });

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -34,11 +33,23 @@ class _CurrentAccountInfo extends ConsumerState<CurrentAccountInfo> {
 
         return Column(
           children: [
-            _FilterBar(
-              selected: _selectedTab,
-              onSelected: (index) => setState(() {
-                _selectedTab = index;
-              }),
+            Padding(
+              padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+              child: Center(
+                child: Container(
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: const Color.fromARGB(255, 246, 220, 220),
+                  ),
+                  child: _FilterBar(
+                    selected: _selectedTab,
+                    onSelected: (index) => setState(() {
+                      _selectedTab = index;
+                    }),
+                  ),
+                ),
+              ),
             ),
             if (_selectedTab == 0) UnpaidTable(data: unpaid),
             if (_selectedTab == 1) TransactionsTable(data: certificate),
@@ -63,6 +74,9 @@ class _FilterBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<int>(
+      dropdownColor: const Color.fromARGB(255, 255, 210, 210),
+      style: const TextStyle(color: Colors.black),
+      decoration: const InputDecoration(border: InputBorder.none),
       initialValue: selected,
       items: const [
         DropdownMenuItem(value: 0, child: Text('Unpaid expenses')),
@@ -86,52 +100,95 @@ class UnpaidTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
-        decoration: BoxDecoration(color: Colors.white, border: Border.all()),
-        columns: const [
-          DataColumn(label: Text('Status')),
-          DataColumn(label: Text('Acronym')),
-          DataColumn(label: Text('Description')),
-          DataColumn(label: Text('Date')),
-          DataColumn(label: Text('Deadline')),
-          DataColumn(label: Text('Value')),
-          DataColumn(label: Text('Amount Paid')),
-          DataColumn(label: Text('Amount Due')),
-          DataColumn(label: Text('Interest on late payments')),
-        ],
-        rows: data
-            .whereType<Unpaid>()
-            .map(
-              (item) => DataRow(
-                cells: [
-                  DataCell(Text(item.status)),
-                  DataCell(Text(item.acronym)),
-                  DataCell(Text(item.description)),
-                  DataCell(Text(DateFormat('dd-MM-yyyy').format(item.date))),
-                  DataCell(
-                    Text(DateFormat('dd-MM-yyyy').format(item.deadline)),
-                  ),
-                  DataCell(Text('${item.value} €')),
-                  DataCell(
-                    Text(
-                      item.amountPaid != null ? '${item.amountPaid} €' : '-',
-                    ),
-                  ),
-                  DataCell(Text('${item.amountDue} €')),
-                  DataCell(
-                    Text(
-                      item.interestOnLatePayment != null
-                          ? '${item.interestOnLatePayment} €'
-                          : '-',
-                    ),
-                  ),
-                ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: const Color.fromARGB(255, 239, 131, 124),
               ),
-            )
-            .toList(),
-      ),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: SizedBox(
+                width: constraints.maxWidth - 40,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    headingRowColor: WidgetStateProperty.all(
+                      const Color.fromARGB(255, 255, 210, 210),
+                    ),
+                    headingTextStyle: const TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 246, 220, 220),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    columns: const [
+                      DataColumn(label: Text('Status')),
+                      DataColumn(label: Text('Acronym')),
+                      DataColumn(label: Text('Description')),
+                      DataColumn(label: Text('Date')),
+                      DataColumn(label: Text('Deadline')),
+                      DataColumn(label: Text('Value')),
+                      DataColumn(label: Text('Amount Paid')),
+                      DataColumn(label: Text('Amount Due')),
+                      DataColumn(label: Text('Interest on late payments')),
+                    ],
+                    rows: data
+                        .whereType<Unpaid>()
+                        .map(
+                          (item) => DataRow(
+                            cells: [
+                              DataCell(Text(item.status)),
+                              DataCell(Text(item.acronym)),
+                              DataCell(Text(item.description)),
+                              DataCell(
+                                Text(
+                                  DateFormat('dd-MM-yyyy').format(item.date),
+                                ),
+                              ),
+                              DataCell(
+                                Text(
+                                  item.deadline != null
+                                      ? DateFormat(
+                                          'dd-MM-yyyy',
+                                        ).format(item.deadline!)
+                                      : '-',
+                                ),
+                              ),
+                              DataCell(Text('${item.value / 100} €')),
+                              DataCell(
+                                Text(
+                                  item.amountPaid != null
+                                      ? '${item.amountPaid! / 100} €'
+                                      : '-',
+                                ),
+                              ),
+                              DataCell(Text('${item.amountDue / 100} €')),
+                              DataCell(
+                                Text(
+                                  item.interestOnLatePayment != null
+                                      ? '${item.interestOnLatePayment! / 100} €'
+                                      : '-',
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -143,63 +200,111 @@ class TransactionsTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
-        columns: const [
-          DataColumn(label: Text('Process')),
-          DataColumn(label: Text('Acronym')),
-          DataColumn(label: Text('Description')),
-          DataColumn(label: Text('Date')),
-          DataColumn(label: Text('Deadline')),
-          DataColumn(label: Text('Debit')),
-          DataColumn(label: Text('Credit')),
-          DataColumn(label: Text('Missing debit')),
-          DataColumn(label: Text('Interest on late payments')),
-          DataColumn(label: Text('Status')),
-          DataColumn(label: Text('Document')),
-        ],
-        rows: data
-            .whereType<Transaction>()
-            .map(
-              (item) => DataRow(
-                cells: [
-                  DataCell(Text(item.process ?? '-')),
-                  DataCell(Text(item.acronym ?? '-')),
-                  DataCell(Text(item.description)),
-                  DataCell(Text(DateFormat('dd-MM-yyyy').format(item.date))),
-                  DataCell(
-                    Text(
-                      item.deadline != null
-                          ? DateFormat('dd-MM-yyyy').format(item.deadline!)
-                          : '-',
-                    ),
-                  ),
-                  DataCell(Text(item.debit != null ? '${item.debit} €' : '-')),
-                  DataCell(
-                    Text(item.credit != null ? '${item.credit} €' : '-'),
-                  ),
-                  DataCell(
-                    Text(
-                      item.missingDebit != null
-                          ? '${item.missingDebit} €'
-                          : '-',
-                    ),
-                  ),
-                  DataCell(
-                    Text(
-                      item.interestOnLatePayment != null
-                          ? '${item.interestOnLatePayment} €'
-                          : '-',
-                    ),
-                  ),
-                  DataCell(Text(item.status)),
-                  DataCell(Text(item.document)),
-                ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: const Color.fromARGB(255, 239, 131, 124),
               ),
-            )
-            .toList(),
-      ),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: SizedBox(
+                width: constraints.maxWidth - 40,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    headingRowColor: WidgetStateProperty.all(
+                      const Color.fromARGB(255, 255, 210, 210),
+                    ),
+                    headingTextStyle: const TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 246, 220, 220),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    columns: const [
+                      DataColumn(label: Text('Process')),
+                      DataColumn(label: Text('Acronym')),
+                      DataColumn(label: Text('Description')),
+                      DataColumn(label: Text('Date')),
+                      DataColumn(label: Text('Deadline')),
+                      DataColumn(label: Text('Debit')),
+                      DataColumn(label: Text('Credit')),
+                      DataColumn(label: Text('Missing debit')),
+                      DataColumn(label: Text('Interest on late payments')),
+                      DataColumn(label: Text('Status')),
+                      DataColumn(label: Text('Document')),
+                    ],
+                    rows: data
+                        .whereType<Transaction>()
+                        .map(
+                          (item) => DataRow(
+                            cells: [
+                              DataCell(Text(item.process ?? '-')),
+                              DataCell(Text(item.acronym ?? '-')),
+                              DataCell(Text(item.description)),
+                              DataCell(
+                                Text(
+                                  DateFormat('dd-MM-yyyy').format(item.date),
+                                ),
+                              ),
+                              DataCell(
+                                Text(
+                                  item.deadline != null
+                                      ? DateFormat(
+                                          'dd-MM-yyyy',
+                                        ).format(item.deadline!)
+                                      : '-',
+                                ),
+                              ),
+                              DataCell(
+                                Text(
+                                  item.debit != null
+                                      ? '${item.debit! / 100} €'
+                                      : '-',
+                                ),
+                              ),
+                              DataCell(
+                                Text(
+                                  item.credit != null
+                                      ? '${item.credit! / 100} €'
+                                      : '-',
+                                ),
+                              ),
+                              DataCell(
+                                Text(
+                                  item.missingDebit != null
+                                      ? '${item.missingDebit! / 100} €'
+                                      : '-',
+                                ),
+                              ),
+                              DataCell(
+                                Text(
+                                  item.interestOnLatePayment != null
+                                      ? '${item.interestOnLatePayment! / 100} €'
+                                      : '-',
+                                ),
+                              ),
+                              DataCell(Text(item.status)),
+                              DataCell(Text(item.document)),
+                            ],
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -211,31 +316,77 @@ class AccountStatementTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
-        columns: const [
-          DataColumn(label: Text('Description')),
-          DataColumn(label: Text('Date')),
-          DataColumn(label: Text('Debit')),
-          DataColumn(label: Text('Credit')),
-        ],
-        rows: data
-            .whereType<AccountStatement>()
-            .map(
-              (item) => DataRow(
-                cells: [
-                  DataCell(Text(item.description)),
-                  DataCell(Text(DateFormat('dd-MM-yyyy').format(item.date))),
-                  DataCell(Text(item.debit != null ? '${item.debit} €' : '-')),
-                  DataCell(
-                    Text(item.credit != null ? '${item.credit} €' : '-'),
-                  ),
-                ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: const Color.fromARGB(255, 239, 131, 124),
               ),
-            )
-            .toList(),
-      ),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: SizedBox(
+                width: constraints.maxWidth - 40,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    headingRowColor: WidgetStateProperty.all(
+                      const Color.fromARGB(255, 255, 210, 210),
+                    ),
+                    headingTextStyle: const TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 246, 220, 220),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    columns: const [
+                      DataColumn(label: Text('Description')),
+                      DataColumn(label: Text('Date')),
+                      DataColumn(label: Text('Debit')),
+                      DataColumn(label: Text('Credit')),
+                    ],
+                    rows: data
+                        .whereType<AccountStatement>()
+                        .map(
+                          (item) => DataRow(
+                            cells: [
+                              DataCell(Text(item.description)),
+                              DataCell(
+                                Text(
+                                  DateFormat('dd-MM-yyyy').format(item.date),
+                                ),
+                              ),
+                              DataCell(
+                                Text(
+                                  item.debit != null
+                                      ? '${item.debit! / 100} €'
+                                      : '-',
+                                ),
+                              ),
+                              DataCell(
+                                Text(
+                                  item.credit != null
+                                      ? '${item.credit! / 100} €'
+                                      : '-',
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
