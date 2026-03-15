@@ -82,7 +82,7 @@ class ScheduleCard extends StatelessWidget {
                       backgroundColor: scheduleTypeColors[type],
                       textColor: Theme.of(context).colorScheme.surface,
                     ),
-                    if (classNumber != null && type == 'TP') ...[
+                    if (classNumber != null && type != 'T') ...[
                       const SizedBox(width: 8),
                       Badge(
                         label: Text(classNumber!),
@@ -114,13 +114,15 @@ class ScheduleCard extends StatelessWidget {
                       const SizedBox(width: 8), //TODO: create gap()?
                       SizedBox(
                         width: 140,
-                        child: Text(
-                          teacherName!,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: isActive
-                                ? Theme.of(context).colorScheme.secondary
-                                : Theme.of(context).colorScheme.primary,
+                        child: Expanded(
+                          child: Text(
+                            teacherName!,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: isActive
+                                  ? Theme.of(context).colorScheme.secondary
+                                  : Theme.of(context).colorScheme.primary,
+                            ),
                           ),
                         ),
                       ),
