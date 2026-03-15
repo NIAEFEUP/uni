@@ -3,8 +3,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:uni_ui/icons.dart';
 
 class ShimmerInfoRow extends StatelessWidget {
-  const ShimmerInfoRow({required this.title, required this.icon, Key? key})
-    : super(key: key);
+  const ShimmerInfoRow({required this.title, required this.icon, super.key});
 
   final String title;
   final IconData icon;

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_new_api.dart';
+import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/view/academic_path/widgets/no_classes_widget.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_shimmer.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_view.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
-import 'package:uni/model/entities/course_units/sheet.dart';
 
 final professorLecturesProvider = FutureProvider.autoDispose
     .family<List<Lecture>, String>((ref, professorCode) async {
@@ -21,7 +21,7 @@ final professorLecturesProvider = FutureProvider.autoDispose
     });
 
 class ProfessorSchedulePage extends ConsumerWidget {
-  ProfessorSchedulePage({super.key, required this.professor});
+  const ProfessorSchedulePage({super.key, required this.professor});
 
   final Professor professor;
 
