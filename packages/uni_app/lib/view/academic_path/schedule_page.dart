@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_new_api.dart';
-import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/lecture_provider.dart';
-import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/view/academic_path/widgets/no_classes_widget.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_shimmer.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_view.dart';
-import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 
 class SchedulePage extends ConsumerWidget {
   SchedulePage({super.key, DateTime? now}) : now = now ?? DateTime.now();
@@ -21,42 +17,38 @@ class SchedulePage extends ConsumerWidget {
     return MediaQuery.removePadding(
       context: context,
       removeBottom: true,
-      child: _buildStudentSchedule(context, ref),
-    );
-  }
+      child: DefaultConsumer<List<Lecture>>(
+        provider: lectureProvider,
+        builder: (context, ref, lectures) {
+          final startOfWeek = _getStartOfWeek(now, lectures);
 
-  Widget _buildStudentSchedule(BuildContext context, WidgetRef ref) {
-    return DefaultConsumer<List<Lecture>>(
-      provider: lectureProvider,
-      builder: (context, ref, lectures) {
-        final startOfWeek = _getStartOfWeek(now, lectures);
-
-        return SchedulePageView(lectures, startOfWeek: startOfWeek, now: now);
-      },
-      nullContentWidget: LayoutBuilder(
-        builder: (context, constraints) => SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Container(
-            height: constraints.maxHeight,
-            padding: const EdgeInsets.only(bottom: 120),
-            child: const Center(child: NoClassesWidget()),
+          return SchedulePageView(lectures, startOfWeek: startOfWeek, now: now);
+        },
+        nullContentWidget: LayoutBuilder(
+          builder: (context, constraints) => SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Container(
+              height: constraints.maxHeight,
+              padding: const EdgeInsets.only(bottom: 120),
+              child: const Center(child: NoClassesWidget()),
+            ),
           ),
         ),
-      ),
-      hasContent: (lectures) => lectures.isNotEmpty,
-      mapper: (lectures) {
-        final startOfWeek = _getStartOfWeek(now, lectures);
-        final endOfNextWeek = startOfWeek.add(const Duration(days: 14));
+        hasContent: (lectures) => lectures.isNotEmpty,
+        mapper: (lectures) {
+          final startOfWeek = _getStartOfWeek(now, lectures);
+          final endOfNextWeek = startOfWeek.add(const Duration(days: 14));
 
-        return lectures
-            .where(
-              (lecture) =>
-                  lecture.startTime.isAfter(startOfWeek) &&
-                  lecture.startTime.isBefore(endOfNextWeek),
-            )
-            .toList();
-      },
-      loadingWidget: const ShimmerSchedulePage(),
+          return lectures
+              .where(
+                (lecture) =>
+                    lecture.startTime.isAfter(startOfWeek) &&
+                    lecture.startTime.isBefore(endOfNextWeek),
+              )
+              .toList();
+        },
+        loadingWidget: const ShimmerSchedulePage(),
+      ),
     );
   }
 
