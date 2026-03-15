@@ -44,58 +44,8 @@ class Professor {
       code: (json['codigo'] ?? json['doc_codigo']).toString(),
       name: shortName(json['nome'].toString()),
       classes: classes,
-      institutionalEmail: _extractInstitutionalEmail(json),
-      rooms: _extractRooms(json),
       isRegent: isRegent,
     );
-  }
-
-  static String? _extractInstitutionalEmail(Map<String, dynamic> json) {
-    final candidates = [
-      json['email_institucional'],
-      json['email'],
-      json['mail'],
-      json['e_mail'],
-      json['contacto'],
-    ];
-
-    for (final candidate in candidates) {
-      final value = candidate?.toString().trim();
-      if (value != null && value.isNotEmpty && value.contains('@')) {
-        return value;
-      }
-    }
-
-    return null;
-  }
-
-  static List<String> _extractRooms(Map<String, dynamic> json) {
-    final candidates = [
-      json['salas'],
-      json['sala'],
-      json['gabinete'],
-      json['gabinetes'],
-    ];
-
-    final rooms = <String>{};
-
-    for (final candidate in candidates) {
-      if (candidate is List) {
-        for (final room in candidate) {
-          final value = room.toString().trim();
-          if (value.isNotEmpty) {
-            rooms.add(value);
-          }
-        }
-      } else {
-        final value = candidate?.toString().trim();
-        if (value != null && value.isNotEmpty) {
-          rooms.add(value);
-        }
-      }
-    }
-
-    return rooms.toList();
   }
 
   File? picture;
