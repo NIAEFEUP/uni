@@ -25,7 +25,7 @@ import 'package:uni/model/providers/riverpod/theme_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/about/about.dart';
 import 'package:uni/view/academic_path/academic_path.dart';
-import 'package:uni/view/academic_path/schedule_page.dart';
+import 'package:uni/view/professor/professor_schedule_page.dart';
 import 'package:uni/view/bug_report/bug_report.dart';
 import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';

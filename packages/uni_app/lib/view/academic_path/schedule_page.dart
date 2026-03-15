@@ -11,55 +11,17 @@ import 'package:uni/view/academic_path/widgets/schedule_page_shimmer.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_view.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 
-final professorLecturesProvider = FutureProvider.autoDispose
-    .family<List<Lecture>, String>((ref, professorCode) async {
-      final session = await ref.watch(sessionProvider.future);
-      if (session == null) {
-        return [];
-      }
-      return ScheduleFetcherNewApiProfessor(
-        professorCode: professorCode,
-      ).getLectures(session);
-    });
-
 class SchedulePage extends ConsumerWidget {
-  SchedulePage({super.key, DateTime? now, this.professorCode})
-    : now = now ?? DateTime.now();
+  SchedulePage({super.key, DateTime? now}) : now = now ?? DateTime.now();
 
   final DateTime now;
-  final String? professorCode;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MediaQuery.removePadding(
       context: context,
       removeBottom: true,
-      child: professorCode != null
-          ? _buildProfessorSchedule(context, ref)
-          : _buildStudentSchedule(context, ref),
-    );
-  }
-
-  Widget _buildProfessorSchedule(BuildContext context, WidgetRef ref) {
-    final asyncLectures = ref.watch(professorLecturesProvider(professorCode!));
-    return asyncLectures.when(
-      loading: () => const ShimmerSchedulePage(),
-      error: (_, _) => const Center(child: NoClassesWidget()),
-      data: (allLectures) {
-        final startOfWeek = _getStartOfWeek(now, allLectures);
-        final endOfNextWeek = startOfWeek.add(const Duration(days: 14));
-        final lectures = allLectures
-            .where(
-              (l) =>
-                  l.startTime.isAfter(startOfWeek) &&
-                  l.startTime.isBefore(endOfNextWeek),
-            )
-            .toList();
-        if (lectures.isEmpty) {
-          return const Center(child: NoClassesWidget());
-        }
-        return SchedulePageView(lectures, startOfWeek: startOfWeek, now: now);
-      },
+      child: _buildStudentSchedule(context, ref),
     );
   }
 
@@ -109,31 +71,5 @@ class SchedulePage extends ConsumerWidget {
     );
 
     return !hasLecturesThisWeek ? secondSunday : initialSunday;
-  }
-}
-
-class ProfessorSchedulePageView extends ConsumerStatefulWidget {
-  const ProfessorSchedulePageView(this.professor, {super.key});
-
-  final Professor professor;
-
-  @override
-  ConsumerState<ProfessorSchedulePageView> createState() =>
-      _ProfessorSchedulePageViewState();
-}
-
-class _ProfessorSchedulePageViewState
-    extends SecondaryPageViewState<ProfessorSchedulePageView> {
-  @override
-  Future<void> onRefresh() async {
-    ref.invalidate(professorLecturesProvider(widget.professor.code));
-  }
-
-  @override
-  String? getTitle() => widget.professor.name;
-
-  @override
-  Widget getBody(BuildContext context) {
-    return SchedulePage(professorCode: widget.professor.code);
   }
 }
