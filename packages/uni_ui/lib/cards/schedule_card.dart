@@ -112,17 +112,14 @@ class ScheduleCard extends StatelessWidget {
                         backgroundImage: teacherPhoto?.image,
                       ),
                       const SizedBox(width: 8), //TODO: create gap()?
-                      SizedBox(
-                        width: 140,
-                        child: Expanded(
-                          child: Text(
-                            teacherName!,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: isActive
-                                  ? Theme.of(context).colorScheme.secondary
-                                  : Theme.of(context).colorScheme.primary,
-                            ),
+                      Expanded(
+                        child: Text(
+                          teacherName!,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: isActive
+                                ? Theme.of(context).colorScheme.secondary
+                                : Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       ),
