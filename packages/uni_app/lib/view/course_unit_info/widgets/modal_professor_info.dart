@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/providers/riverpod/professor_info_provider.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
@@ -14,6 +13,7 @@ import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
 import 'package:uni_ui/modal/widgets/person_info.dart';
+import 'shimmer_info_row.dart';
 
 class ProfessorInfoModal extends ConsumerWidget {
   const ProfessorInfoModal(this.professor, {super.key});
@@ -74,11 +74,11 @@ class ProfessorInfoModal extends ConsumerWidget {
               loading: () => Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _ShimmerInfoRow(
+                  ShimmerInfoRow(
                     title: S.of(context).email,
                     icon: UniIcons.email,
                   ),
-                  _ShimmerInfoRow(
+                  ShimmerInfoRow(
                     title: S.of(context).room,
                     icon: UniIcons.location,
                   ),
@@ -117,32 +117,6 @@ class ProfessorInfoModal extends ConsumerWidget {
             ),
           ),
       ],
-    );
-  }
-}
-
-class _ShimmerInfoRow extends StatelessWidget {
-  const _ShimmerInfoRow({required this.title, required this.icon});
-
-  final String title;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(top: BorderSide(color: Theme.of(context).dividerColor)),
-      ),
-      child: ListTile(
-        dense: true,
-        leading: UniIcon(icon, color: Theme.of(context).colorScheme.primary),
-        title: Text(title, style: Theme.of(context).textTheme.headlineSmall),
-        subtitle: Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
-          child: Container(height: 10, width: 140, color: Colors.white),
-        ),
-      ),
     );
   }
 }
