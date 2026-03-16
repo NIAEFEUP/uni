@@ -16,6 +16,7 @@
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		A19789621A76D32B94690770 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A7FEFFF94135D00ABAE9B9 /* Pods_Runner.framework */; };
 		B0BA8183595B62BB34BA7067 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D20E49018C2538464D8BC7C /* Pods_RunnerTests.framework */; };
+		C14713CF2F68ABEF00644B7E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14713CE2F68ABEF00644B7E /* SceneDelegate.swift */; };
 		C183B2E32ED222610052FE14 /* uni.icon in Resources */ = {isa = PBXBuildFile; fileRef = C183B2E22ED222610052FE14 /* uni.icon */; };
 		C183B2E52ED222700052FE14 /* uni_dev.icon in Resources */ = {isa = PBXBuildFile; fileRef = C183B2E42ED222700052FE14 /* uni_dev.icon */; };
 /* End PBXBuildFile section */
@@ -67,6 +68,8 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C14713CE2F68ABEF00644B7E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		C14713D02F68AE1E00644B7E /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		C183B2E22ED222610052FE14 /* uni.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = uni.icon; sourceTree = "<group>"; };
 		C183B2E42ED222700052FE14 /* uni_dev.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = uni_dev.icon; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -147,6 +150,8 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				C14713D02F68AE1E00644B7E /* Runner.entitlements */,
+				C14713CE2F68ABEF00644B7E /* SceneDelegate.swift */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
@@ -386,6 +391,7 @@
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
+				C14713CF2F68ABEF00644B7E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,6 +484,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = uni;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -701,6 +708,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = uni_dev;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -724,6 +732,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = uni;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;

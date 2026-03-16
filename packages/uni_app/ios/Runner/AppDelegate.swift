@@ -4,13 +4,17 @@ import workmanager
 import flutter_local_notifications
 import app_links
 
+// Global Flutter engine for sharing between app and CarPlay
+let flutterEngine = FlutterEngine(name: "SharedEngine", project: nil, allowHeadlessExecution: true)
+
 @main
 @objc class AppDelegate: FlutterAppDelegate {
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    GeneratedPluginRegistrant.register(with: self)
+    flutterEngine.run()
+    GeneratedPluginRegistrant.register(with: flutterEngine)
       
     // Notifications
     WorkmanagerPlugin.registerTask(withIdentifier:"pt.up.fe.ni.uni.notificationworker")
