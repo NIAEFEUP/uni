@@ -337,6 +337,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_parking_info": MessageLookupByLibrary.simpleMessage(
       "No parking lot information available",
     ),
+    "parking_lot_free": MessageLookupByLibrary.simpleMessage("free"),
+    "parking_lot_non_permanent_staff": MessageLookupByLibrary.simpleMessage(
+      "Non-Permanent Staff",
+    ),
+    "parking_lot_permanent_staff": MessageLookupByLibrary.simpleMessage(
+      "Permanent Staff",
+    ),
+    "parking_lot_students": MessageLookupByLibrary.simpleMessage("Students"),
     "no_link": MessageLookupByLibrary.simpleMessage(
       "We couldn\'t open the link",
     ),

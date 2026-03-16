@@ -24,21 +24,21 @@ class ParkingLotFetcher {
     final lots = [
       ParkingLot(
         id: 'P1',
-        name: 'Pessoal Permanente',
+        type: ParkingLotType.permanentStaff,
         capacity: resposta['p1lotacao'] as int,
         occupied: resposta['p1ocupados'] as int,
         free: resposta['p1livres'] as int,
       ),
       ParkingLot(
         id: 'P3',
-        name: 'Estudantes',
+        type: ParkingLotType.students,
         capacity: resposta['p3lotacao'] as int,
         occupied: resposta['p3ocupados'] as int,
         free: resposta['p3livres'] as int,
       ),
       ParkingLot(
         id: 'P4',
-        name: 'Pessoal Não Permanente',
+        type: ParkingLotType.nonPermanentStaff,
         capacity: resposta['p4lotacao'] as int,
         occupied: resposta['p4ocupados'] as int,
         free: resposta['p4livres'] as int,

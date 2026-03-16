@@ -9,6 +9,15 @@ import 'package:uni/view/widgets/icon_label.dart';
 import 'package:uni_ui/cards/parking_lot_card.dart';
 import 'package:uni_ui/icons.dart';
 
+String _lotName(BuildContext context, ParkingLotType type) {
+  final s = S.of(context);
+  return switch (type) {
+    ParkingLotType.permanentStaff => s.parking_lot_permanent_staff,
+    ParkingLotType.students => s.parking_lot_students,
+    ParkingLotType.nonPermanentStaff => s.parking_lot_non_permanent_staff,
+  };
+}
+
 class ParkingLotHomeCard extends GenericHomecard {
   const ParkingLotHomeCard({super.key})
     : super(
@@ -33,9 +42,10 @@ class ParkingLotHomeCard extends GenericHomecard {
             .map(
               (lot) => ParkingLotRowWidget(
                 lotId: lot.id,
-                lotName: lot.name,
+                lotName: _lotName(context, lot.type),
                 free: lot.free,
                 capacity: lot.capacity,
+                freeLabel: S.of(context).parking_lot_free,
               ),
             )
             .toList(),

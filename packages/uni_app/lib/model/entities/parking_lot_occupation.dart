@@ -1,14 +1,16 @@
+enum ParkingLotType { permanentStaff, students, nonPermanentStaff }
+
 class ParkingLot {
   ParkingLot({
     required this.id,
-    required this.name,
+    required this.type,
     required this.capacity,
     required this.occupied,
     required this.free,
   });
 
   final String id;
-  final String name;
+  final ParkingLotType type;
   final int capacity;
   final int occupied;
   final int free;

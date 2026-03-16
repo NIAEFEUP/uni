@@ -747,6 +747,41 @@ class S {
     );
   }
 
+  /// `Permanent Staff`
+  String get parking_lot_permanent_staff {
+    return Intl.message(
+      'Permanent Staff',
+      name: 'parking_lot_permanent_staff',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Students`
+  String get parking_lot_students {
+    return Intl.message(
+      'Students',
+      name: 'parking_lot_students',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Non-Permanent Staff`
+  String get parking_lot_non_permanent_staff {
+    return Intl.message(
+      'Non-Permanent Staff',
+      name: 'parking_lot_non_permanent_staff',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `free`
+  String get parking_lot_free {
+    return Intl.message('free', name: 'parking_lot_free', desc: '', args: []);
+  }
+
   /// `Lunch`
   String get lunch {
     return Intl.message('Lunch', name: 'lunch', desc: '', args: []);

@@ -9,12 +9,14 @@ class ParkingLotRowWidget extends StatelessWidget {
     required this.lotName,
     required this.free,
     required this.capacity,
+    required this.freeLabel,
   });
 
   final String lotId;
   final String lotName;
   final int free;
   final int capacity;
+  final String freeLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,7 @@ class ParkingLotRowWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                '$free livre${free == 1 ? '' : 's'}',
+                '$free $freeLabel',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
             ],
@@ -69,7 +71,6 @@ class ParkingLotRowWidget extends StatelessWidget {
 class ParkingLotCard extends StatelessWidget {
   const ParkingLotCard({super.key, required this.lots});
 
-  /// Each entry: (lotId, lotName, free, capacity)
   final List<ParkingLotRowWidget> lots;
 
   @override

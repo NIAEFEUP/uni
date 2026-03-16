@@ -16,7 +16,6 @@ final class ParkingLotNotifier
 
   @override
   Future<ParkingLotOccupation?> loadFromStorage() async {
-    // No disk persistence — data is real-time occupancy
     return null;
   }
 
