@@ -53,7 +53,7 @@ class ParkingLotHomeCard extends GenericHomecard {
       hasContent: (occupation) => occupation.lots.isNotEmpty,
       nullContentWidget: Center(
         child: IconLabel(
-          icon: Icon(UniIcons.parking, size: 45),
+          icon: const Icon(UniIcons.parking, size: 45),
           label: S.of(context).no_parking_info,
           labelTextStyle: TextStyle(
             fontSize: 14,
