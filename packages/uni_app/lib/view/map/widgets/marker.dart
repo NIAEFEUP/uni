@@ -15,10 +15,7 @@ class LocationMarker extends Marker {
     child: Builder(
       builder: (context) => DecoratedBox(
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
-          border: Border.all(
-            color: Theme.of(context).colorScheme.primary,
-          ),
+          color: Theme.of(context).colorScheme.primary,
           borderRadius: const BorderRadius.all(Radius.circular(20)),
         ),
         child: MarkerIcon(
@@ -46,7 +43,7 @@ class MarkerIcon extends StatelessWidget {
     if (location?.icon is IconData) {
       return UniIcon(
         location?.icon as IconData,
-        color: fontColor,
+        color: Colors.white,
         size: 12,
         solid: true,
       );
