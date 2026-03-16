@@ -133,6 +133,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
             maxZoom: 19,
             initialCenter: bounds.center,
             initialZoom: 17,
+            initialCameraFit: CameraFit.insideBounds(bounds: bounds),
             cameraConstraint: CameraConstraint.containCenter(bounds: bounds),
             onTap: (tapPosition, latlng) {
               _popupLayerController.hideAllPopups();

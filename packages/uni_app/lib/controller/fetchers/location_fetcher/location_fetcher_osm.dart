@@ -344,6 +344,9 @@ class LocationFetcherOSM extends LocationFetcher {
       }
 
       final floor = _extractFloor(element);
+      if (_shouldSkipLocationMarker(element, floor)) {
+        continue;
+      }
       final location = _createLocation(element, floor);
       if (location == null) {
         continue;
@@ -362,6 +365,19 @@ class LocationFetcherOSM extends LocationFetcher {
       );
     }
     return locationGroups;
+  }
+
+  bool _shouldSkipLocationMarker(_OSMElement element, int floor) {
+    // Library only have toilets in -1
+    if (facultyConfig.id != 'feup' || element.tags['amenity'] != 'toilets') {
+      return false;
+    }
+
+    if (floor < 0 || floor > 6) {
+      return false;
+    }
+
+    return _extractBuildingCode(element) == 'C';
   }
 
   // For nodes: the direct lat/lon.  For ways: the centroid of their nodes.
