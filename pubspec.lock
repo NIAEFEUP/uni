@@ -567,6 +567,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.4.1"
+  flutter_carplay:
+    dependency: transitive
+    description:
+      name: flutter_carplay
+      sha256: "134d5448a648573122af9d5a9e86c326f711150309eb518333a8bfad284604af"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.11"
   flutter_dotenv:
     dependency: transitive
     description:

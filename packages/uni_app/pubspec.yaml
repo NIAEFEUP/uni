@@ -37,6 +37,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.4.1
+  flutter_carplay: ^1.2.0
   flutter_dotenv: ^6.0.0
   flutter_local_notifications: ^20.0.0
   flutter_localizations:

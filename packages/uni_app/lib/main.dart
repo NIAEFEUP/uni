@@ -13,6 +13,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
+import 'package:uni/controller/car_controller.dart';
 import 'package:uni/controller/cleanup.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/migrations/migration_controller.dart';
@@ -148,6 +149,8 @@ class ApplicationState extends ConsumerState<Application> {
     if (plausible != null) {
       navigatorObservers.add(PlausibleNavigatorObserver(plausible));
     }
+
+    ref.read(carControllerProvider).init();
   }
 
   @override
