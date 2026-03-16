@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/riverpod/library_occupation_provider.dart';
+import 'package:uni/model/providers/riverpod/parking_lot_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/faculty/widgets/service_cards.dart';
 import 'package:uni/view/home/widgets/calendar/calendar_home_card.dart';
 import 'package:uni/view/home/widgets/library/library_home_card.dart';
+import 'package:uni/view/home/widgets/parking/parking_home_card.dart';
 import 'package:uni/view/widgets/pages_layouts/general/general.dart';
 
 class FacultyPageView extends ConsumerStatefulWidget {
@@ -27,6 +29,10 @@ class FacultyPageViewState extends GeneralPageViewState<FacultyPageView> {
         LibraryHomeCard(),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 10),
+          child: ParkingLotHomeCard(),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
           child: CalendarHomeCard(),
         ),
         Padding(
@@ -39,6 +45,9 @@ class FacultyPageViewState extends GeneralPageViewState<FacultyPageView> {
 
   @override
   Future<void> onRefresh() async {
-    await ref.read(libraryProvider.notifier).refreshRemote();
+    await Future.wait([
+      ref.read(libraryProvider.notifier).refreshRemote(),
+      ref.read(parkingLotProvider.notifier).refreshRemote(),
+    ]);
   }
 }

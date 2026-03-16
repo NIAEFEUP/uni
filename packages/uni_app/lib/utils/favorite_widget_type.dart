@@ -5,4 +5,5 @@ enum FavoriteWidgetType {
   restaurants,
   calendar,
   news,
+  parking,
 }

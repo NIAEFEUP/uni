@@ -354,6 +354,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_library_info": MessageLookupByLibrary.simpleMessage(
       "Sem informação de ocupação",
     ),
+    "no_parking_info": MessageLookupByLibrary.simpleMessage(
+      "Sem informação de estacionamento disponível",
+    ),
     "no_link": MessageLookupByLibrary.simpleMessage(
       "Não conseguimos abrir o link",
     ),
@@ -405,6 +408,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Erro ao abrir o ficheiro",
     ),
     "other_links": MessageLookupByLibrary.simpleMessage("Outros links"),
+    "parking": MessageLookupByLibrary.simpleMessage("Estacionamento"),
+    "parking_lots": MessageLookupByLibrary.simpleMessage(
+      "Parques de Estacionamento",
+    ),
     "pass_change_request": MessageLookupByLibrary.simpleMessage(
       "Por razões de segurança, as palavras-passe têm de ser alteradas periodicamente.",
     ),

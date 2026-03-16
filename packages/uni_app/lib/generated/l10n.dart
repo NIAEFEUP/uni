@@ -722,6 +722,31 @@ class S {
     );
   }
 
+  /// `Parking Lots`
+  String get parking_lots {
+    return Intl.message(
+      'Parking Lots',
+      name: 'parking_lots',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Parking`
+  String get parking {
+    return Intl.message('Parking', name: 'parking', desc: '', args: []);
+  }
+
+  /// `No parking lot information available`
+  String get no_parking_info {
+    return Intl.message(
+      'No parking lot information available',
+      name: 'no_parking_info',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Lunch`
   String get lunch {
     return Intl.message('Lunch', name: 'lunch', desc: '', args: []);
