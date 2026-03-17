@@ -305,6 +305,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Não tens aulas esta semana",
     ),
     "no_college": MessageLookupByLibrary.simpleMessage("sem faculdade"),
+    "no_course_unit_classes": MessageLookupByLibrary.simpleMessage(
+      "Não foram atribuídas turmas a esta unidade curricular",
+    ),
+    "no_course_unit_info": MessageLookupByLibrary.simpleMessage(
+      "Esta unidade curricular ainda não tem informação disponível",
+    ),
     "no_course_units": MessageLookupByLibrary.simpleMessage(
       "Sem cadeiras no período selecionado",
     ),
@@ -495,6 +501,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "uc_info": MessageLookupByLibrary.simpleMessage("Abrir página da UC"),
     "ucs": MessageLookupByLibrary.simpleMessage("UCS"),
+    "unable_to_load_data": MessageLookupByLibrary.simpleMessage(
+      "Não foi possível carregar dados",
+    ),
     "unavailable": MessageLookupByLibrary.simpleMessage("Indisponível"),
     "until": MessageLookupByLibrary.simpleMessage("Até"),
     "valid_email": MessageLookupByLibrary.simpleMessage(
