@@ -37,7 +37,7 @@ class _CurrentAccountInfo extends ConsumerState<CurrentAccountInfo> {
               padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
               child: Center(
                 child: Container(
-                  padding: EdgeInsets.only(left: 20, right: 20),
+                  padding: const EdgeInsets.only(left: 20, right: 20),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     color: const Color.fromARGB(255, 246, 220, 220),
