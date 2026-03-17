@@ -4,12 +4,19 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 
-/// Returns the content of the Terms and Conditions remote file,
-/// or the local one if the remote file is not available.
-///
-/// If this operation is unsuccessful, an error message is returned.
-Future<String> fetchTermsAndConditions() {
-  return rootBundle.loadString('assets/text/TermsAndConditions.md');
+/// Returns the content of the Terms and Conditions file for the given
+/// [languageCode] ('en' or 'pt'). Falls back to English if not found.
+Future<String> fetchTermsAndConditions([String languageCode = 'en']) {
+  final suffix = languageCode == 'pt' ? 'PT' : 'EN';
+  return rootBundle.loadString('assets/text/TermsAndConditions$suffix.md');
+}
+
+/// Returns a combined string of all Terms and Conditions files (EN + PT),
+/// used for hashing to detect any change across languages.
+Future<String> _fetchAllTermsAndConditions() async {
+  final en = await rootBundle.loadString('assets/text/TermsAndConditionsEN.md');
+  final pt = await rootBundle.loadString('assets/text/TermsAndConditionsPT.md');
+  return en + pt;
 }
 
 /// Checks if the current Terms and Conditions have been accepted by the user,
@@ -20,7 +27,7 @@ Future<String> fetchTermsAndConditions() {
 /// Returns the updated value.
 Future<bool> updateTermsAndConditionsAcceptancePreference() async {
   final hash = PreferencesController.getTermsAndConditionHash();
-  final termsAndConditions = await fetchTermsAndConditions();
+  final termsAndConditions = await _fetchAllTermsAndConditions();
   final currentHash = md5.convert(utf8.encode(termsAndConditions)).toString();
 
   if (hash == null) {
@@ -47,7 +54,7 @@ Future<bool> updateTermsAndConditionsAcceptancePreference() async {
 
 /// Accepts the current Terms and Conditions.
 Future<void> acceptTermsAndConditions() async {
-  final termsAndConditions = await fetchTermsAndConditions();
+  final termsAndConditions = await _fetchAllTermsAndConditions();
   final currentHash = md5.convert(utf8.encode(termsAndConditions)).toString();
   await PreferencesController.setTermsAndConditionHash(currentHash);
   await PreferencesController.setTermsAndConditionsAcceptance(
