@@ -9,6 +9,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/indoor_floor_plan.dart';
+import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/riverpod/faculty_locations_provider.dart';
 import 'package:uni/view/map/widgets/amenity_filter_bar.dart';
@@ -28,6 +29,8 @@ class MapPage extends ConsumerStatefulWidget {
 }
 
 class MapPageStateView extends ConsumerState<MapPage> {
+  static const double _amenityCollapseDistanceMeters = 5;
+
   ScrollController? scrollViewController;
   final searchFormKey = GlobalKey<FormState>();
   var _searchTerms = '';
@@ -109,13 +112,17 @@ class MapPageStateView extends ConsumerState<MapPage> {
       });
     }
 
-    // Combine floors from location groups AND indoor floor plans
+    final collapsedMarkerGroups = _collapseNearbyAmenities(filteredLocations);
+
+    // Combine floors from location groups and indoor floor plans.
     final locationFloors =
-    locations.expand((group) => group.floors.keys).toSet();
+        locations.expand((group) => group.floors.keys).toSet();
     final indoorFloors = indoorPlans.map((plan) => plan.floor).toSet();
     final List<int> allFloors =
-    <int>{...locationFloors, ...indoorFloors}.where((f) => f != 7).toList()
-      ..sort((a, b) => b.compareTo(a));
+        <int>{...locationFloors, ...indoorFloors}
+            .where((f) => f != 7)
+            .toList()
+          ..sort((a, b) => b.compareTo(a));
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: AppSystemOverlayStyles.base.copyWith(
@@ -161,12 +168,12 @@ class MapPageStateView extends ConsumerState<MapPage> {
               ),
             PopupMarkerLayer(
               options: PopupMarkerLayerOptions(
-                markers:
-                filteredLocations.map((location) {
+                markers: collapsedMarkerGroups.map((cluster) {
                   return LocationMarker(
-                    location.latlng,
-                    location,
+                    cluster.locationGroup.latlng,
+                    cluster.locationGroup,
                     selectedFloor: _selectedFloor,
+                    additionalCount: cluster.additionalAmenities,
                   );
                 }).toList(),
                 popupController: _popupLayerController,
@@ -322,4 +329,105 @@ class MapPageStateView extends ConsumerState<MapPage> {
       ),
     );
   }
+
+  List<_CollapsedLocationCluster> _collapseNearbyAmenities(
+    List<LocationGroup> groups,
+  ) {
+    if (groups.isEmpty) {
+      return <_CollapsedLocationCluster>[];
+    }
+
+    final visited = List<bool>.filled(groups.length, false);
+    final clusters = <_CollapsedLocationCluster>[];
+    const distance = Distance();
+
+    for (var index = 0; index < groups.length; index++) {
+      if (visited[index]) {
+        continue;
+      }
+
+      final pending = <int>[index];
+      final clusterIndexes = <int>[];
+
+      while (pending.isNotEmpty) {
+        final currentIndex = pending.removeLast();
+        if (visited[currentIndex]) {
+          continue;
+        }
+
+        visited[currentIndex] = true;
+        clusterIndexes.add(currentIndex);
+
+        for (var otherIndex = 0; otherIndex < groups.length; otherIndex++) {
+          if (visited[otherIndex] || currentIndex == otherIndex) {
+            continue;
+          }
+
+          final meters = distance.as(
+            LengthUnit.Meter,
+            groups[currentIndex].latlng,
+            groups[otherIndex].latlng,
+          );
+
+          if (meters <= _amenityCollapseDistanceMeters) {
+            pending.add(otherIndex);
+          }
+        }
+      }
+
+      final clusterGroups =
+          clusterIndexes.map((clusterIndex) => groups[clusterIndex]).toList();
+      clusters.add(_CollapsedLocationCluster.fromGroups(clusterGroups));
+    }
+    return clusters;
+  }
+}
+
+class _CollapsedLocationCluster {
+  _CollapsedLocationCluster({
+    required this.locationGroup,
+    required this.additionalAmenities,
+  });
+
+  factory _CollapsedLocationCluster.fromGroups(List<LocationGroup> groups) {
+    final allLocations = <Location>[];
+    var allFloorless = true;
+    var latitudeSum = 0.0;
+    var longitudeSum = 0.0;
+
+    for (final group in groups) {
+      latitudeSum += group.latlng.latitude;
+      longitudeSum += group.latlng.longitude;
+      allFloorless = allFloorless && group.isFloorless;
+
+      group.floors.values.forEach(allLocations.addAll);
+    }
+
+    final locationTypes = <Type>{};
+    for (final location in allLocations) {
+      locationTypes.add(location.runtimeType);
+    }
+
+    final totalAmenities = allLocations.length;
+    final centroid = LatLng(
+      latitudeSum / groups.length,
+      longitudeSum / groups.length,
+    );
+
+    return _CollapsedLocationCluster(
+      locationGroup: LocationGroup(
+        centroid,
+        locations: allLocations,
+        isFloorless: allFloorless,
+        id: groups.first.id,
+      ),
+      additionalAmenities:
+          locationTypes.length > 1 && totalAmenities > 1
+              ? totalAmenities - 1
+              : 0,
+    );
+  }
+
+  final LocationGroup locationGroup;
+  final int additionalAmenities;
 }
