@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
-import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
 
@@ -16,11 +15,15 @@ class ScheduleDayTimeline extends ConsumerWidget {
     required this.now,
     required this.day,
     required this.lectures,
+    this.showClassNumber = false,
+    this.onLectureTap,
   });
 
   final DateTime now;
   final DateTime day;
   final List<Lecture> lectures;
+  final void Function(Lecture lecture)? onLectureTap;
+  final bool showClassNumber;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -70,35 +73,12 @@ class ScheduleDayTimeline extends ConsumerWidget {
               acronym: lecture.acronym,
               room: lecture.room,
               type: lecture.typeClass,
+              classNumber: showClassNumber ? lecture.classNumber : null,
               teacherName: lecture.teacherName,
               teacherPhoto: snapshot.hasData && snapshot.data != null
                   ? Image(image: FileImage(snapshot.data!))
                   : Image.asset('assets/images/profile_placeholder.png'),
-              onTap: () {
-                final profile = ref.watch(
-                  profileProvider.select((value) => value.value),
-                );
-
-                if (profile != null) {
-                  final ocorrenciasUnits = profile.courseUnits
-                      .where(
-                        (unit) =>
-                            unit.occurrId != null &&
-                            unit.occurrId == lecture.occurrId,
-                      )
-                      .toList();
-                  if (ocorrenciasUnits.isNotEmpty) {
-                    final correctUnit = ocorrenciasUnits.first;
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<CourseUnitDetailPageView>(
-                        builder: (context) =>
-                            CourseUnitDetailPageView(correctUnit),
-                      ),
-                    );
-                  }
-                }
-              },
+              onTap: onLectureTap != null ? () => onLectureTap!(lecture) : null,
             );
           },
         ),
