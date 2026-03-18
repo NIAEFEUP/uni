@@ -6,11 +6,13 @@ class IndoorFloorLayer extends StatelessWidget {
   const IndoorFloorLayer({
     required this.floorPlans,
     required this.selectedFloor,
+    this.roomFilter,
     super.key,
   });
 
   final List<IndoorFloorPlan> floorPlans;
   final int? selectedFloor;
+  final bool Function(IndoorRoom room)? roomFilter;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,10 @@ class IndoorFloorLayer extends StatelessWidget {
     final currentFloorPlans = floorPlans
         .where((plan) => plan.floor == selectedFloor)
         .toList();
+    final visibleRooms = currentFloorPlans
+        .expand((plan) => plan.rooms)
+        .where((room) => roomFilter?.call(room) ?? true)
+        .toList();
 
     if (currentFloorPlans.isEmpty) {
       return const SizedBox.shrink();
@@ -31,20 +37,18 @@ class IndoorFloorLayer extends StatelessWidget {
       children: [
         // Rooms layer
         PolygonLayer(
-          polygons: currentFloorPlans
-              .expand(
-                (plan) => plan.rooms.map(
-                  (room) => Polygon(
-                    points: room.polygon,
-                    color: Colors.blue.withValues(alpha: 0.2),
-                    borderColor: Colors.blue,
-                    borderStrokeWidth: 2,
-                    label: room.ref,
-                    labelStyle: const TextStyle(
-                      color: Colors.black87,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                    ),
+          polygons: visibleRooms
+              .map(
+                (room) => Polygon(
+                  points: room.polygon,
+                  color: Theme.of(context).colorScheme.secondary,
+                  borderColor: Theme.of(context).colorScheme.primary,
+                  borderStrokeWidth: 2,
+                  label: room.ref,
+                  labelStyle: const TextStyle(
+                    color: Colors.black87,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               )

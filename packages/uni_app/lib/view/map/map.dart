@@ -72,6 +72,35 @@ class MapPageStateView extends ConsumerState<MapPage> {
     final isIndoorPlansLoaded = indoorPlansAsync.hasValue;
 
     final isMapLoading = isLocationsLoading || !isIndoorPlansLoaded;
+    final normalizedSearchTerm = _searchTerms.trim();
+
+    final matchingRoomsByFloor = <int, List<IndoorRoom>>{};
+    if (normalizedSearchTerm.isNotEmpty) {
+      for (final plan in indoorPlans) {
+        final matchingRooms = plan.rooms
+            .where((room) => _matchesRoomSearch(room, normalizedSearchTerm))
+            .toList();
+        if (matchingRooms.isNotEmpty) {
+          matchingRoomsByFloor
+              .putIfAbsent(plan.floor, () => <IndoorRoom>[])
+              .addAll(matchingRooms);
+        }
+      }
+    }
+
+    final hasRoomSearchResults = matchingRoomsByFloor.isNotEmpty;
+    var effectiveFloor = _selectedFloor;
+    if (hasRoomSearchResults) {
+      if (_selectedFloor != null &&
+          matchingRoomsByFloor.containsKey(_selectedFloor)) {
+        effectiveFloor = _selectedFloor;
+      } else {
+        final candidateFloors = matchingRoomsByFloor.keys.toList()
+          ..sort((a, b) => b.compareTo(a));
+        effectiveFloor = candidateFloors.first;
+      }
+    }
+    final shouldShowIndoorLayer = _showIndoorLayer || hasRoomSearchResults;
 
     // Fall back to faculty bounds while locations are loading
     final faculty = ref.watch(selectedFacultyProvider);
@@ -88,13 +117,13 @@ class MapPageStateView extends ConsumerState<MapPage> {
     final bounds = _bounds ?? fallbackBounds;
 
     final filteredLocations = List<LocationGroup>.from(locations);
-    if (_searchTerms.trim().isNotEmpty) {
+    if (normalizedSearchTerm.isNotEmpty) {
       filteredLocations.retainWhere((location) {
         final allLocations = location.floors.values.expand((x) => x);
         return allLocations.any((loc) {
-          return removeDiacritics(
-            loc.description().toLowerCase().trim(),
-          ).contains(_searchTerms);
+          return _normalizeSearchText(
+            loc.description(),
+          ).contains(normalizedSearchTerm);
         });
       });
     }
@@ -160,10 +189,13 @@ class MapPageStateView extends ConsumerState<MapPage> {
               retinaMode: RetinaMode.isHighDensity(context),
               maxNativeZoom: 20,
             ),
-            if (_showIndoorLayer && _selectedFloor != null)
+            if (shouldShowIndoorLayer && effectiveFloor != null)
               IndoorFloorLayer(
                 floorPlans: indoorPlans,
-                selectedFloor: _selectedFloor,
+                selectedFloor: effectiveFloor,
+                roomFilter: hasRoomSearchResults
+                    ? (room) => _matchesRoomSearch(room, normalizedSearchTerm)
+                    : null,
               ),
             PopupMarkerLayer(
               options: PopupMarkerLayerOptions(
@@ -219,7 +251,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                     padding: const EdgeInsets.only(right: 10, bottom: 10),
                     child: FloorSelectorButton(
                       floors: allFloors,
-                      selectedFloor: _selectedFloor,
+                      selectedFloor: effectiveFloor,
                       onFloorSelected: (floor) {
                         setState(() {
                           _selectedFloor = floor;
@@ -245,9 +277,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                         key: searchFormKey,
                         onChanged: (text) {
                           setState(() {
-                            _searchTerms = removeDiacritics(
-                              text.trim().toLowerCase(),
-                            );
+                            _searchTerms = _normalizeSearchText(text);
                           });
                         },
                         decoration: InputDecoration(
@@ -327,5 +357,18 @@ class MapPageStateView extends ConsumerState<MapPage> {
         ),
       ),
     );
+  }
+
+  String _normalizeSearchText(String? text) {
+    return removeDiacritics((text ?? '').toLowerCase().trim());
+  }
+
+  bool _matchesRoomSearch(IndoorRoom room, String normalizedSearchTerm) {
+    if (normalizedSearchTerm.isEmpty) {
+      return false;
+    }
+
+    return _normalizeSearchText(room.name).contains(normalizedSearchTerm) ||
+        _normalizeSearchText(room.ref).contains(normalizedSearchTerm);
   }
 }
