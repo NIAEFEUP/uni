@@ -18,10 +18,8 @@ class CurrentAccountParser {
   };
 
   String? findTableId(Document document, List<String> names) {
-    final tabs = document.querySelectorAll('ul.ui-tabs-nav li a');
-    print('tabs found: ${tabs.length}');
+    final tabs = document.querySelectorAll('#GPAG_CCORRENTE_GERAL_CONTA_CORRENTE_VIEW ul li a');
     for (final tab in tabs) {
-      print('tab text: "${tab.text.trim()}"');
       if (names.contains(tab.text.trim())) {
         return tab.attributes['href'];
       }
@@ -79,9 +77,7 @@ class CurrentAccountParser {
   ) {
     final List<Transaction> data = [];
 
-    print('looking for tab with names: $names');
     final tableId = findTableId(document, names);
-    print('tableId found: $tableId');
 
     if (tableId != null) {
       final tab = document.querySelector(tableId);
