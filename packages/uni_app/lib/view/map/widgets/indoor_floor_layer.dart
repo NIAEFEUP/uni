@@ -57,7 +57,7 @@ class IndoorFloorLayer extends StatelessWidget {
                 (plan) => plan.corridors.map(
                   (corridor) => Polygon(
                     points: corridor.polygon,
-                    color: Colors.grey.withOpacity(0.1),
+                    color: Colors.grey.withValues(alpha: 0.1),
                     borderColor: Colors.grey,
                     borderStrokeWidth: 1,
                   ),
