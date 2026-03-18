@@ -42,7 +42,7 @@ class ServiceCard extends StatelessWidget {
                   style: openingHours.length == 0
                       ? Theme.of(context).textTheme.headlineMedium!
                       : Theme.of(context).textTheme.headlineSmall!,
-                      maxLines: openingHours.length < 2 ? 2 : 1,
+                  maxLines: openingHours.length < 2 ? 2 : 1,
                 ),
               ),
             ],
