@@ -29,8 +29,6 @@ class MapPage extends ConsumerStatefulWidget {
 }
 
 class MapPageStateView extends ConsumerState<MapPage> {
-  static const double _amenityCollapseDistanceMeters = 5;
-
   ScrollController? scrollViewController;
   final searchFormKey = GlobalKey<FormState>();
   var _searchTerms = '';
@@ -112,7 +110,8 @@ class MapPageStateView extends ConsumerState<MapPage> {
       });
     }
 
-    final collapsedMarkerGroups = _collapseNearbyAmenities(filteredLocations);
+    final collapsedMarkerGroups =
+        CollapsedLocationCluster.collapseNearbyAmenities(filteredLocations);
 
     // Combine floors from location groups and indoor floor plans.
     final locationFloors = locations
@@ -328,58 +327,5 @@ class MapPageStateView extends ConsumerState<MapPage> {
         ),
       ),
     );
-  }
-
-  List<CollapsedLocationCluster> _collapseNearbyAmenities(
-    List<LocationGroup> groups,
-  ) {
-    if (groups.isEmpty) {
-      return <CollapsedLocationCluster>[];
-    }
-
-    final visited = List<bool>.filled(groups.length, false);
-    final clusters = <CollapsedLocationCluster>[];
-    const distance = Distance();
-
-    for (var index = 0; index < groups.length; index++) {
-      if (visited[index]) {
-        continue;
-      }
-
-      final pending = <int>[index];
-      final clusterIndexes = <int>[];
-
-      while (pending.isNotEmpty) {
-        final currentIndex = pending.removeLast();
-        if (visited[currentIndex]) {
-          continue;
-        }
-
-        visited[currentIndex] = true;
-        clusterIndexes.add(currentIndex);
-
-        for (var otherIndex = 0; otherIndex < groups.length; otherIndex++) {
-          if (visited[otherIndex] || currentIndex == otherIndex) {
-            continue;
-          }
-
-          final meters = distance.as(
-            LengthUnit.Meter,
-            groups[currentIndex].latlng,
-            groups[otherIndex].latlng,
-          );
-
-          if (meters <= _amenityCollapseDistanceMeters) {
-            pending.add(otherIndex);
-          }
-        }
-      }
-
-      final clusterGroups = clusterIndexes
-          .map((clusterIndex) => groups[clusterIndex])
-          .toList();
-      clusters.add(CollapsedLocationCluster.fromGroups(clusterGroups));
-    }
-    return clusters;
   }
 }

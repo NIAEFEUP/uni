@@ -13,14 +13,14 @@ final _osmFetcherProvider = Provider<LocationFetcherOSM>((ref) {
 });
 
 final locationsProvider =
-AsyncNotifierProvider<FacultyLocationsNotifier, List<LocationGroup>?>(
-  FacultyLocationsNotifier.new,
-);
+    AsyncNotifierProvider<FacultyLocationsNotifier, List<LocationGroup>?>(
+      FacultyLocationsNotifier.new,
+    );
 
 final indoorFloorPlansProvider =
-AsyncNotifierProvider<IndoorFloorPlansNotifier, List<IndoorFloorPlan>?>(
-  IndoorFloorPlansNotifier.new,
-);
+    AsyncNotifierProvider<IndoorFloorPlansNotifier, List<IndoorFloorPlan>?>(
+      IndoorFloorPlansNotifier.new,
+    );
 
 final selectedFacultyProvider = StateProvider<FacultyConfig>(
   (_) => FacultyConfig.feup,

@@ -62,9 +62,9 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
   }
 
   Future<T?> _safeExecute(
-      Future<T?> Function() operation, {
-        bool updateTimestamp = true,
-      }) async {
+    Future<T?> Function() operation, {
+    bool updateTimestamp = true,
+  }) async {
     try {
       final result = await operation();
       // Guard against both a disposed notifier (HEAD) and empty/null results
