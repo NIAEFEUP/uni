@@ -1,24 +1,22 @@
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
-import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/current_account.dart';
 
 class CurrentAccountParser {
   static const tabNames = {
     'unpaid': ['Despesas não saldadas', 'Unpaid expenses'],
-    'certificate': ['Certidão', 'Certidão'], 
-    'latePayment': [
-      'Juros de mora Propinas',
-      'Juros de mora Propinas',
-    ], 
+    'certificate': ['Certidão', 'Certidão'],
+    'latePayment': ['Juros de mora Propinas', 'Juros de mora Propinas'],
     'tuitionFees': ['Propinas', 'Tuition fees'],
     'schoolInsurance': ['Seguro Escolar', 'Seguro Escolar'],
     'accountStatement': ['Extrato Geral', 'Account Statement'],
   };
 
   String? findTableId(Document document, List<String> names) {
-    final tabs = document.querySelectorAll('#GPAG_CCORRENTE_GERAL_CONTA_CORRENTE_VIEW ul li a');
+    final tabs = document.querySelectorAll(
+      '#GPAG_CCORRENTE_GERAL_CONTA_CORRENTE_VIEW ul li a',
+    );
     for (final tab in tabs) {
       if (names.contains(tab.text.trim())) {
         return tab.attributes['href'];

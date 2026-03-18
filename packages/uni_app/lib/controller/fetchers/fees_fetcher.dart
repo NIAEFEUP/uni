@@ -34,7 +34,7 @@ class FeesFetcher implements SessionDependantFetcher {
   >
   extractCurrentAccount(Session session, CurrentAccountParser parser) async {
     final response = await getUserFeesResponse(session);
-    
+
     final unpaid = parser.parseUnpaid(response);
 
     final accountStatement = parser.parseAccountStatement(response);
