@@ -45,7 +45,8 @@ class LocationFetcherOSM extends LocationFetcher {
     const maxRetries = 10;
 
     final bounds = facultyConfig.bounds;
-    final query = '''
+    final query =
+        '''
       [out:json][timeout:25];
       (
         // Get ${facultyConfig.name} buildings
@@ -152,12 +153,11 @@ class LocationFetcherOSM extends LocationFetcher {
           position = LatLng(element.lat!, element.lon!);
         } else if (element.nodes != null && element.nodes!.isNotEmpty) {
           // Calculate centroid from node positions
-          final nodePositions =
-              element.nodes!
-                  .map((id) => nodeMap[id])
-                  .where((pos) => pos != null)
-                  .cast<LatLng>()
-                  .toList();
+          final nodePositions = element.nodes!
+              .map((id) => nodeMap[id])
+              .where((pos) => pos != null)
+              .cast<LatLng>()
+              .toList();
           if (nodePositions.isNotEmpty) {
             final avgLat =
                 nodePositions.map((p) => p.latitude).reduce((a, b) => a + b) /
@@ -386,8 +386,10 @@ class LocationFetcherOSM extends LocationFetcher {
       return LatLng(element.lat!, element.lon!);
     }
     if (element.nodes != null && element.nodes!.isNotEmpty) {
-      final pts =
-          element.nodes!.map((id) => nodeMap[id]).whereType<LatLng>().toList();
+      final pts = element.nodes!
+          .map((id) => nodeMap[id])
+          .whereType<LatLng>()
+          .toList();
       if (pts.isEmpty) {
         return null;
       }

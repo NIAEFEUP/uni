@@ -23,34 +23,32 @@ class FloorSelectorMenu extends StatelessWidget {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children:
-            floors.map((floor) {
-              final isSelected = selectedFloor == floor;
-              return InkWell(
-                onTap: () => onFloorSelected(isSelected ? null : floor),
-                child: Container(
-                  width: 42,
-                  height: 42,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    color:
-                        isSelected
-                            ? Theme.of(context).focusColor
-                            : Colors.transparent,
-                  ),
-                  child: Center(
-                    child: Text(
-                      floor.toString(),
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isSelected ? primaryVibrant : grayText,
-                      ),
-                    ),
+        children: floors.map((floor) {
+          final isSelected = selectedFloor == floor;
+          return InkWell(
+            onTap: () => onFloorSelected(isSelected ? null : floor),
+            child: Container(
+              width: 42,
+              height: 42,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                color: isSelected
+                    ? Theme.of(context).focusColor
+                    : Colors.transparent,
+              ),
+              child: Center(
+                child: Text(
+                  floor.toString(),
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: isSelected ? primaryVibrant : grayText,
                   ),
                 ),
-              );
-            }).toList(),
+              ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }

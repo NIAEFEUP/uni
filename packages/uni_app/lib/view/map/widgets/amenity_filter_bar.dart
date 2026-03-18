@@ -53,20 +53,19 @@ class AmenityFilterBar extends StatelessWidget {
       clipBehavior: Clip.none,
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        children:
-            AmenityFilter.values.indexed.map((entry) {
-              final (index, amenity) = entry;
-              final isLast = index == AmenityFilter.values.length - 1;
-              final isSelected = selectedAmenity == amenity;
-              return Padding(
-                padding: EdgeInsets.only(right: isLast ? 0 : 8, bottom: 8),
-                child: _AmenityChip(
-                  amenity: amenity,
-                  isSelected: isSelected,
-                  onTap: () => onAmenitySelected(isSelected ? null : amenity),
-                ),
-              );
-            }).toList(),
+        children: AmenityFilter.values.indexed.map((entry) {
+          final (index, amenity) = entry;
+          final isLast = index == AmenityFilter.values.length - 1;
+          final isSelected = selectedAmenity == amenity;
+          return Padding(
+            padding: EdgeInsets.only(right: isLast ? 0 : 8, bottom: 8),
+            child: _AmenityChip(
+              amenity: amenity,
+              isSelected: isSelected,
+              onTap: () => onAmenitySelected(isSelected ? null : amenity),
+            ),
+          );
+        }).toList(),
       ),
     );
   }

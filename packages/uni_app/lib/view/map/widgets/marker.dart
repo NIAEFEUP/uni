@@ -11,26 +11,25 @@ class LocationMarker extends Marker {
     this.locationGroup, {
     this.selectedFloor,
     this.additionalCount = 0,
-  })
-      : super(
-          alignment: Alignment.center,
-          height: 20,
-          width: 20,
-          point: latlng,
-          child: Builder(
-            builder: (context) => Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-              ),
-              child: MarkerIcon(
-                location: locationGroup.getLocationForFloor(selectedFloor),
-                additionalCount: additionalCount,
-              ),
-            ),
-          ),
-        );
+  }) : super(
+         alignment: Alignment.center,
+         height: 20,
+         width: 20,
+         point: latlng,
+         child: Builder(
+           builder: (context) => Container(
+             alignment: Alignment.center,
+             decoration: BoxDecoration(
+               color: Theme.of(context).colorScheme.primary,
+               borderRadius: const BorderRadius.all(Radius.circular(20)),
+             ),
+             child: MarkerIcon(
+               location: locationGroup.getLocationForFloor(selectedFloor),
+               additionalCount: additionalCount,
+             ),
+           ),
+         ),
+       );
   final LocationGroup locationGroup;
   final LatLng latlng;
   final int? selectedFloor;

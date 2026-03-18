@@ -46,32 +46,31 @@ class _FloorSelectorButtonState extends State<FloorSelectorButton> {
 
   OverlayEntry _createOverlay() {
     return OverlayEntry(
-      builder:
-          (_) => GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: _close,
-            child: Stack(
-              children: [
-                CompositedTransformFollower(
-                  link: _layerLink,
-                  showWhenUnlinked: false,
-                  followerAnchor: Alignment.bottomLeft,
-                  offset: const Offset(0, -8),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: FloorSelectorMenu(
-                      floors: widget.floors,
-                      selectedFloor: widget.selectedFloor,
-                      onFloorSelected: (floor) {
-                        widget.onFloorSelected(floor);
-                        _close();
-                      },
-                    ),
-                  ),
+      builder: (_) => GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: _close,
+        child: Stack(
+          children: [
+            CompositedTransformFollower(
+              link: _layerLink,
+              showWhenUnlinked: false,
+              followerAnchor: Alignment.bottomLeft,
+              offset: const Offset(0, -8),
+              child: Material(
+                color: Colors.transparent,
+                child: FloorSelectorMenu(
+                  floors: widget.floors,
+                  selectedFloor: widget.selectedFloor,
+                  onFloorSelected: (floor) {
+                    widget.onFloorSelected(floor);
+                    _close();
+                  },
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
+        ),
+      ),
     );
   }
 

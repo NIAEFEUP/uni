@@ -9,9 +9,9 @@ import 'package:latlong2/latlong.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/indoor_floor_plan.dart';
-import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/riverpod/faculty_locations_provider.dart';
+import 'package:uni/view/map/collapsed_location_cluster.dart';
 import 'package:uni/view/map/widgets/amenity_filter_bar.dart';
 import 'package:uni/view/map/widgets/floor_selector_button.dart';
 import 'package:uni/view/map/widgets/floorless_marker_popup.dart';
@@ -115,14 +115,14 @@ class MapPageStateView extends ConsumerState<MapPage> {
     final collapsedMarkerGroups = _collapseNearbyAmenities(filteredLocations);
 
     // Combine floors from location groups and indoor floor plans.
-    final locationFloors =
-        locations.expand((group) => group.floors.keys).toSet();
+    final locationFloors = locations
+        .expand((group) => group.floors.keys)
+        .toSet();
     final indoorFloors = indoorPlans.map((plan) => plan.floor).toSet();
-    final List<int> allFloors =
-        <int>{...locationFloors, ...indoorFloors}
-            .where((f) => f != 7)
-            .toList()
-          ..sort((a, b) => b.compareTo(a));
+    final List<int> allFloors = <int>{
+      ...locationFloors,
+      ...indoorFloors,
+    }.where((f) => f != 7).toList()..sort((a, b) => b.compareTo(a));
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: AppSystemOverlayStyles.base.copyWith(
@@ -153,10 +153,10 @@ class MapPageStateView extends ConsumerState<MapPage> {
           children: <Widget>[
             TileLayer(
               urlTemplate:
-              'https://basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
+                  'https://basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
               tileProvider: NetworkTileProvider(
                 cachingProvider:
-                BuiltInMapCachingProvider.getOrCreateInstance(),
+                    BuiltInMapCachingProvider.getOrCreateInstance(),
               ),
               retinaMode: RetinaMode.isHighDensity(context),
               maxNativeZoom: 20,
@@ -330,15 +330,15 @@ class MapPageStateView extends ConsumerState<MapPage> {
     );
   }
 
-  List<_CollapsedLocationCluster> _collapseNearbyAmenities(
+  List<CollapsedLocationCluster> _collapseNearbyAmenities(
     List<LocationGroup> groups,
   ) {
     if (groups.isEmpty) {
-      return <_CollapsedLocationCluster>[];
+      return <CollapsedLocationCluster>[];
     }
 
     final visited = List<bool>.filled(groups.length, false);
-    final clusters = <_CollapsedLocationCluster>[];
+    final clusters = <CollapsedLocationCluster>[];
     const distance = Distance();
 
     for (var index = 0; index < groups.length; index++) {
@@ -375,59 +375,11 @@ class MapPageStateView extends ConsumerState<MapPage> {
         }
       }
 
-      final clusterGroups =
-          clusterIndexes.map((clusterIndex) => groups[clusterIndex]).toList();
-      clusters.add(_CollapsedLocationCluster.fromGroups(clusterGroups));
+      final clusterGroups = clusterIndexes
+          .map((clusterIndex) => groups[clusterIndex])
+          .toList();
+      clusters.add(CollapsedLocationCluster.fromGroups(clusterGroups));
     }
     return clusters;
   }
-}
-
-class _CollapsedLocationCluster {
-  _CollapsedLocationCluster({
-    required this.locationGroup,
-    required this.additionalAmenities,
-  });
-
-  factory _CollapsedLocationCluster.fromGroups(List<LocationGroup> groups) {
-    final allLocations = <Location>[];
-    var allFloorless = true;
-    var latitudeSum = 0.0;
-    var longitudeSum = 0.0;
-
-    for (final group in groups) {
-      latitudeSum += group.latlng.latitude;
-      longitudeSum += group.latlng.longitude;
-      allFloorless = allFloorless && group.isFloorless;
-
-      group.floors.values.forEach(allLocations.addAll);
-    }
-
-    final locationTypes = <Type>{};
-    for (final location in allLocations) {
-      locationTypes.add(location.runtimeType);
-    }
-
-    final totalAmenities = allLocations.length;
-    final centroid = LatLng(
-      latitudeSum / groups.length,
-      longitudeSum / groups.length,
-    );
-
-    return _CollapsedLocationCluster(
-      locationGroup: LocationGroup(
-        centroid,
-        locations: allLocations,
-        isFloorless: allFloorless,
-        id: groups.first.id,
-      ),
-      additionalAmenities:
-          locationTypes.length > 1 && totalAmenities > 1
-              ? totalAmenities - 1
-              : 0,
-    );
-  }
-
-  final LocationGroup locationGroup;
-  final int additionalAmenities;
 }
