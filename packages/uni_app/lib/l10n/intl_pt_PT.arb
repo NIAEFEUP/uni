@@ -442,6 +442,8 @@
   "@available_elements": {},
   "library": "Biblioteca",
   "@library": {},
+  "library_building": "Edifício da Biblioteca",
+  "@library_building": {},
   "restaurants": "Restaurantes",
   "@restaurants": {},
   "tomorrows_meals": "Menu de Amanhã",

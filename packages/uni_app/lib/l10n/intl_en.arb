@@ -440,6 +440,8 @@
   "@available_elements": {},
   "library": "Library",
   "@library": {},
+  "library_building": "Library Building",
+  "@library_building": {},
   "restaurants": "Restaurants",
   "@restaurants": {},
   "tomorrows_meals": "Tomorrow's Menu",

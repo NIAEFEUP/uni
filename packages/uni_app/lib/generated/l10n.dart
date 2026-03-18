@@ -1860,6 +1860,16 @@ class S {
     return Intl.message('Library', name: 'library', desc: '', args: []);
   }
 
+  /// `Library Building`
+  String get library_building {
+    return Intl.message(
+      'Library Building',
+      name: 'library_building',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Restaurants`
   String get restaurants {
     return Intl.message('Restaurants', name: 'restaurants', desc: '', args: []);
