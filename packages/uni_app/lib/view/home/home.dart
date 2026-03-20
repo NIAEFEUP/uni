@@ -35,7 +35,6 @@ import 'package:uni/view/widgets/pages_layouts/general/widgets/profile_button.da
 import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/theme.dart';
-import 'package:uni/generated/l10n.dart';
 
 class HomePageView extends ConsumerStatefulWidget {
   const HomePageView({super.key});
