@@ -8,6 +8,7 @@ import 'package:uni/view/profile/widgets/profile_info.dart';
 import 'package:uni/view/profile/widgets/profile_overview.dart';
 import 'package:uni/view/profile/widgets/settings.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
+
 class ProfilePageView extends ConsumerStatefulWidget {
   const ProfilePageView({super.key});
 
@@ -17,27 +18,28 @@ class ProfilePageView extends ConsumerStatefulWidget {
 
 /// Manages the 'Personal user page' section.
 class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
-@override
-Widget getBody(BuildContext context) {
-  return ListView(
-    children: [
-      DefaultConsumer<Profile>(
-        provider: profileProvider,
-        builder: (context, ref, profile) => Column(
-          children: [
-            ProfileOverview(profile: profile),
-            const ProfileInfo(),
-          ],
+  @override
+  Widget getBody(BuildContext context) {
+    return ListView(
+      children: [
+        DefaultConsumer<Profile>(
+          provider: profileProvider,
+          builder: (context, ref, profile) => Column(
+            children: [
+              ProfileOverview(profile: profile),
+              const ProfileInfo(),
+            ],
+          ),
+          hasContent: (profile) => profile.courses.isNotEmpty,
+          loadingWidget: const ProfileCardShimmer(),
+          nullContentWidget: Container(),
         ),
-        hasContent: (profile) => profile.courses.isNotEmpty,
-        loadingWidget: const ProfileCardShimmer(),
-        nullContentWidget: Container(),
-      ),
 
-      const Settings(),
-    ],
-  );
-}
+        const Settings(),
+      ],
+    );
+  }
+
   @override
   Future<void> onRefresh() async {
     await ref.read(profileProvider.notifier).refreshRemote();

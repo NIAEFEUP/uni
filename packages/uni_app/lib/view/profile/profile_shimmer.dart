@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:uni_ui/common/generic_squircle.dart';
+
 class ProfileCardShimmer extends StatelessWidget {
+const ProfileCardShimmer({super.key, this.name});
   final String? name;
-  const ProfileCardShimmer({super.key, this.name});
-
-
-  @override
+    @override
   Widget build(BuildContext context) {
     double width = (name?.length ?? 10) * 15.0;
-    width = width.clamp(80.0, 200.0);   
+    width = width.clamp(80.0, 200.0);
     return Shimmer.fromColors(
       baseColor: Colors.grey.shade300,
       highlightColor: Colors.grey.shade100,
@@ -25,19 +24,15 @@ class ProfileCardShimmer extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Container(
-          width: width,
-          height: 21,
-          decoration: const BoxDecoration(
-            color: Colors.white,
+            width: width,
+            height: 21,
+            decoration: const BoxDecoration(color: Colors.white),
           ),
-        ),
           const SizedBox(height: 5),
           Container(
             width: 85,
             height: 12,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
+            decoration: const BoxDecoration(color: Colors.white),
           ),
           const SizedBox(height: 13),
           Row(
