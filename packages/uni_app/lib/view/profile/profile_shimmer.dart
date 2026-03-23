@@ -3,9 +3,9 @@ import 'package:shimmer/shimmer.dart';
 import 'package:uni_ui/common/generic_squircle.dart';
 
 class ProfileCardShimmer extends StatelessWidget {
-const ProfileCardShimmer({super.key, this.name});
+  const ProfileCardShimmer({super.key, this.name});
   final String? name;
-    @override
+  @override
   Widget build(BuildContext context) {
     double width = (name?.length ?? 10) * 15.0;
     width = width.clamp(80.0, 200.0);
