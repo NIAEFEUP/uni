@@ -334,6 +334,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_library_info": MessageLookupByLibrary.simpleMessage(
       "No library occupation information available",
     ),
+    "no_parking_info": MessageLookupByLibrary.simpleMessage(
+      "No parking lot information available",
+    ),
+    "parking_lot_free": MessageLookupByLibrary.simpleMessage("free"),
+    "parking_lot_non_permanent_staff": MessageLookupByLibrary.simpleMessage(
+      "Non-Permanent Staff",
+    ),
+    "parking_lot_permanent_staff": MessageLookupByLibrary.simpleMessage(
+      "Permanent Staff",
+    ),
+    "parking_lot_students": MessageLookupByLibrary.simpleMessage("Students"),
     "no_link": MessageLookupByLibrary.simpleMessage(
       "We couldn\'t open the link",
     ),
@@ -383,6 +394,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Error opening the file",
     ),
     "other_links": MessageLookupByLibrary.simpleMessage("Other links"),
+    "parking": MessageLookupByLibrary.simpleMessage("Parking"),
+    "parking_lots": MessageLookupByLibrary.simpleMessage("Parking Lots"),
     "pass_change_request": MessageLookupByLibrary.simpleMessage(
       "For security reasons, passwords must be changed periodically.",
     ),

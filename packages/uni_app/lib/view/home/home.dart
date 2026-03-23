@@ -11,6 +11,7 @@ import 'package:uni/model/providers/riverpod/exam_provider.dart';
 import 'package:uni/model/providers/riverpod/lecture_provider.dart';
 import 'package:uni/model/providers/riverpod/library_occupation_provider.dart';
 import 'package:uni/model/providers/riverpod/news_provider.dart';
+import 'package:uni/model/providers/riverpod/parking_lot_provider.dart';
 import 'package:uni/model/providers/riverpod/pedagogical_surveys_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/restaurant_provider.dart';
@@ -23,6 +24,7 @@ import 'package:uni/view/home/widgets/connectivity_warning.dart';
 import 'package:uni/view/home/widgets/exams/exam_home_card.dart';
 import 'package:uni/view/home/widgets/library/library_home_card.dart';
 import 'package:uni/view/home/widgets/news/news_home_card.dart';
+import 'package:uni/view/home/widgets/parking/parking_home_card.dart';
 import 'package:uni/view/home/widgets/pedagogical_surveys_info.dart';
 import 'package:uni/view/home/widgets/restaurants/restaurant_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/schedule_home_card.dart';
@@ -60,6 +62,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
     FavoriteWidgetType.library: libraryProvider,
     FavoriteWidgetType.restaurants: restaurantProvider,
     FavoriteWidgetType.news: newsProvider,
+    FavoriteWidgetType.parking: parkingLotProvider,
   };
 
   @override
@@ -104,6 +107,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
       FavoriteWidgetType.restaurants: const RestaurantHomeCard(),
       FavoriteWidgetType.calendar: const CalendarHomeCard(),
       FavoriteWidgetType.news: const NewsHomeCard(),
+      FavoriteWidgetType.parking: const ParkingLotHomeCard(),
     };
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
