@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/model/providers/riverpod/profile_provider.dart';
-import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/view/academic_path/widgets/schedule_day_timeline.dart';
-import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/timeline/timeline.dart';
 
-class SchedulePageView extends ConsumerWidget {
-  SchedulePageView(
-    this.lectures, {
-    required this.now,
-    required DateTime startOfWeek,
-    super.key,
-  }) : currentWeek = Week(start: startOfWeek);
+class CourseUnitLecturesView extends ConsumerWidget {
+  const CourseUnitLecturesView(this.lectures, this.courseUnit, {super.key});
 
-  final DateTime now;
   final List<Lecture> lectures;
-  final Week currentWeek;
+  final CourseUnit courseUnit;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final reorderedDates = List.generate(
-      14,
-      (index) => currentWeek.start.add(Duration(days: index)),
+    final now = DateTime.now();
+
+    final firstDate = lectures.first.startTime;
+    final lastDate = lectures.last.startTime;
+    final start = DateTime(firstDate.year, firstDate.month, firstDate.day);
+    final end = DateTime(lastDate.year, lastDate.month, lastDate.day);
+    final dayCount = end.difference(start).inDays + 1;
+
+    final days = List.generate(
+      dayCount,
+      (index) => start.add(Duration(days: index)),
     );
 
     final daysOfTheWeek = ref
@@ -36,17 +36,28 @@ class SchedulePageView extends ConsumerWidget {
       ...daysOfTheWeek.sublist(0, 6),
     ];
 
-    final todayIndex = reorderedDates.indexWhere(
+    final todayIndex = days.indexWhere(
       (date) =>
           date.year == now.year &&
           date.month == now.month &&
           date.day == now.day,
     );
 
+    final firstFutureWithLectures = days.indexWhere(
+      (date) => date.isAfter(now) && _lecturesOfDay(date).isNotEmpty,
+    );
+
+    final initialTab =
+        (todayIndex != -1 && _lecturesOfDay(days[todayIndex]).isNotEmpty)
+        ? todayIndex
+        : firstFutureWithLectures != -1
+        ? firstFutureWithLectures
+        : 0;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Timeline(
-        tabs: reorderedDates
+        tabs: days
             .map(
               (date) => SizedBox(
                 width: 30,
@@ -78,58 +89,26 @@ class SchedulePageView extends ConsumerWidget {
               ),
             )
             .toList(),
-        content: reorderedDates
+        content: days
             .map(
               (date) => ScheduleDayTimeline(
-                key: Key('schedule-page-day-view-${date.weekday}'),
+                key: Key('course-unit-day-view-${date.toIso8601String()}'),
                 now: now,
                 day: date,
-                lectures: _lecturesOfDay(lectures, date),
-                onLectureTap: (lecture) {
-                  final profile = ref.watch(
-                    profileProvider.select((value) => value.value),
-                  );
-
-                  if (profile != null) {
-                    final ocorrenciasUnits = profile.courseUnits
-                        .where(
-                          (unit) =>
-                              unit.occurrId != null &&
-                              unit.occurrId == lecture.occurrId,
-                        )
-                        .toList();
-                    if (ocorrenciasUnits.isNotEmpty) {
-                      final correctUnit = ocorrenciasUnits.first;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<CourseUnitDetailPageView>(
-                          builder: (context) =>
-                              CourseUnitDetailPageView(correctUnit),
-                        ),
-                      );
-                    }
-                  }
-                },
+                lectures: _lecturesOfDay(date),
+                showClassNumber: true,
               ),
             )
             .toList(),
-        initialTab:
-            (todayIndex != -1 &&
-                _lecturesOfDay(lectures, reorderedDates[todayIndex]).isNotEmpty)
-            ? todayIndex
-            : reorderedDates.indexWhere(
-                (date) =>
-                    date.isAfter(now) &&
-                    _lecturesOfDay(lectures, date).isNotEmpty,
-              ),
-        tabEnabled: reorderedDates
-            .map((date) => _lecturesOfDay(lectures, date).isNotEmpty)
+        initialTab: initialTab,
+        tabEnabled: days
+            .map((date) => _lecturesOfDay(date).isNotEmpty)
             .toList(),
       ),
     );
   }
 
-  List<Lecture> _lecturesOfDay(List<Lecture> lectures, DateTime date) {
+  List<Lecture> _lecturesOfDay(DateTime date) {
     return lectures.where((lecture) {
       final startTime = lecture.startTime;
       return startTime.year == date.year &&
