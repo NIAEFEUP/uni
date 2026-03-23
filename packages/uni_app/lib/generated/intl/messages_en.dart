@@ -289,6 +289,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "You have no classes this week",
     ),
     "no_college": MessageLookupByLibrary.simpleMessage("no college"),
+    "no_course_unit_classes": MessageLookupByLibrary.simpleMessage(
+      "No classes have been assigned to this course unit yet",
+    ),
+    "no_course_unit_info": MessageLookupByLibrary.simpleMessage(
+      "This course unit has no information available yet",
+    ),
     "no_course_units": MessageLookupByLibrary.simpleMessage(
       "No course units in the selected period",
     ),
@@ -313,7 +319,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "No favorite restaurants open",
     ),
     "no_files": MessageLookupByLibrary.simpleMessage(
-      "There\'s no files attached",
+      "There are no files attached",
     ),
     "no_files_found": MessageLookupByLibrary.simpleMessage("No files found"),
     "no_files_label": MessageLookupByLibrary.simpleMessage(
@@ -467,6 +473,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "uc_info": MessageLookupByLibrary.simpleMessage("Open UC page"),
     "ucs": MessageLookupByLibrary.simpleMessage("UCS"),
+    "unable_to_load_data": MessageLookupByLibrary.simpleMessage(
+      "Unable to load data",
+    ),
     "unavailable": MessageLookupByLibrary.simpleMessage("Unavailable"),
     "until": MessageLookupByLibrary.simpleMessage("Until"),
     "valid_email": MessageLookupByLibrary.simpleMessage(
