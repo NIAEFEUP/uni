@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/profile_info.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
+import 'package:uni/model/providers/riverpod/profile_info_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/view/profile_info/widgets/no_profile_data.dart';
 import 'package:uni/view/profile_info/widgets/profile_data.dart';
@@ -18,7 +19,7 @@ class ProfileInfoPageView extends ConsumerStatefulWidget {
       ProfileInfoPageViewState();
 }
 
-/// Manages the 'about' section of the app.
+/// Manages the profile information page of the app.
 class ProfileInfoPageViewState
     extends SecondaryPageViewState<ProfileInfoPageView> {
   @override
@@ -29,19 +30,18 @@ class ProfileInfoPageViewState
         children: [
           ProfileOverview(profile: profile),
           const SizedBox(height: 16),
-          ProfileData(
-            profileInfo:
-                profile.profileInfo ??
-                ProfileInfo.fromList([
-                  {'': ''},
-                  {'': ''},
-                  {'': ''},
-                  {'': ''},
-                ]),
+          DefaultConsumer<ProfileInfo>(
+            provider: profileInfoProvider,
+            builder: (context, ref, profileInfo) =>
+                ProfileData(profileInfo: profileInfo),
+            hasContent: (profileInfo) =>
+                true, // because profileInfo != null is allways true
+            nullContentWidget: const Center(child: NoProfileDataWidget()),
+            loadingWidget: const ShimmerProfileInfoPage(),
           ),
         ],
       ),
-      hasContent: (profile) => profile.profileInfo != null,
+      hasContent: (profile) => true,
       nullContentWidget: LayoutBuilder(
         // Band-aid for allowing refresh on null content
         builder: (context, constraints) => SingleChildScrollView(
@@ -59,7 +59,10 @@ class ProfileInfoPageViewState
 
   @override
   Future<void> onRefresh() async {
-    await ref.read(profileProvider.notifier).refreshRemote();
+    await Future.wait([
+      ref.read(profileProvider.notifier).refreshRemote(),
+      ref.read(profileInfoProvider.notifier).refreshRemote(),
+    ]);
   }
 
   @override

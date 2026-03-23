@@ -29,7 +29,7 @@ final class LibraryOccupationNotifier
     final occupation = await LibraryOccupationFetcher().getLibraryOccupation();
 
     // if success save to database
-    Database().saveLibraryOccupations(occupation.floors);
+    await Database().saveLibraryOccupations(occupation.floors);
 
     return occupation;
   }

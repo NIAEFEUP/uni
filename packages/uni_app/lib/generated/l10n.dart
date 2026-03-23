@@ -1995,6 +1995,16 @@ class S {
     return Intl.message('Addresses', name: 'addresses', desc: '', args: []);
   }
 
+  /// `Try to refresh the page`
+  String get no_info_description {
+    return Intl.message(
+      'Try to refresh the page',
+      name: 'no_info_description',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Unable to load data`
   String get unable_to_load_data {
     return Intl.message(

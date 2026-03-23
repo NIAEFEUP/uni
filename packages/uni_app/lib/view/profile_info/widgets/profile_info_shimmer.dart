@@ -68,7 +68,6 @@ class ShimmerProfileInfoPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 6),
                 Padding(
                   padding: const EdgeInsets.only(left: 16, right: 16, top: 20),
                   child: Shimmer.fromColors(
@@ -79,7 +78,6 @@ class ShimmerProfileInfoPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 6),
               ],
             ),
           ),

@@ -329,6 +329,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_info": MessageLookupByLibrary.simpleMessage(
       "There is no information to display",
     ),
+    "no_info_description": MessageLookupByLibrary.simpleMessage(
+      "Try to refresh the page",
+    ),
     "no_internet": MessageLookupByLibrary.simpleMessage(
       "It looks like you\'re offline",
     ),

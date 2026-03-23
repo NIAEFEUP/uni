@@ -4,7 +4,6 @@ import 'package:http/http.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
-import 'package:uni/model/entities/profile_info.dart';
 
 /// Stores information about the user's profile.
 @Entity()
@@ -16,11 +15,9 @@ class Profile {
     this.printBalance = '',
     this.feesBalance = '',
     this.feesLimit,
-    ProfileInfo? profileInfo,
     this.answeredPedagogicalSurveys = false,
   }) : courses = courses ?? [],
-       courseUnits = [],
-       profileInfo = profileInfo ?? ProfileInfo();
+       courseUnits = [];
 
   /// Creates a new instance from a JSON object.
   factory Profile.fromResponse(Response response) {
@@ -45,7 +42,6 @@ class Profile {
   String printBalance;
   String feesBalance;
   DateTime? feesLimit;
-  ProfileInfo? profileInfo;
   bool answeredPedagogicalSurveys;
   @Transient()
   List<Course> courses;

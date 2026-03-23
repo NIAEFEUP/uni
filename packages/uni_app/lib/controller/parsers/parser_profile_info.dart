@@ -13,8 +13,16 @@ List<Map<String, String>> parseProfileDetails(http.Response response) {
         .where((cell) => cell.isNotEmpty)
         .toList();
     final List<List<String>> tableWithPairs = [];
+    if (table.length.isOdd) {
+      table.removeLast();
+    }
     for (var i = 0; i < table.length; i += 2) {
-      tableWithPairs.add(table.sublist(i, i + 2));
+      final key = table[i];
+      final value = table[i + 1];
+      final cleanedKey = key.endsWith(':')
+          ? key.substring(0, key.length - 1)
+          : key;
+      tableWithPairs.add([cleanedKey, value]);
     }
 
     eachTable.add(tableWithPairs);

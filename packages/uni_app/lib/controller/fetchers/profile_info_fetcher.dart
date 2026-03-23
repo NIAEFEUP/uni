@@ -27,6 +27,9 @@ class ProfileInfoFetcher implements SessionDependantFetcher {
       session,
     );
 
+    if (responseProfileInfo.statusCode != 200) {
+      return null;
+    }
     final data = parseProfileDetails(responseProfileInfo);
 
     final profileInfo = ProfileInfo.fromList(data);

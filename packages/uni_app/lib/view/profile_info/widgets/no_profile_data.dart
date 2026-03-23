@@ -15,7 +15,7 @@ class NoProfileDataWidget extends StatelessWidget {
         fontSize: 18,
         color: Theme.of(context).colorScheme.primary,
       ),
-      sublabel: S.of(context).no_courses_description,
+      sublabel: S.of(context).no_info_description,
       sublabelTextStyle: Theme.of(context).textTheme.bodyLarge,
     );
   }

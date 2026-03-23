@@ -454,7 +454,7 @@
     },
     {
       "id": "10:922783939952528203",
-      "lastPropertyId": "1:8569900553789516116",
+      "lastPropertyId": "6:2830288554895083365",
       "name": "ProfileInfo",
       "properties": [
         {
@@ -462,6 +462,31 @@
           "name": "id",
           "type": 6,
           "flags": 1
+        },
+        {
+          "id": "2:5828169048906513518",
+          "name": "dbProfileInfo",
+          "type": 9
+        },
+        {
+          "id": "3:3465265641240967824",
+          "name": "dbNationalities",
+          "type": 9
+        },
+        {
+          "id": "4:7007012828787970201",
+          "name": "dbIdentification",
+          "type": 9
+        },
+        {
+          "id": "5:6301870427040977068",
+          "name": "dbContacts",
+          "type": 9
+        },
+        {
+          "id": "6:2830288554895083365",
+          "name": "dbAddresses",
+          "type": 9
         }
       ],
       "relations": []

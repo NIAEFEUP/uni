@@ -31,7 +31,7 @@ class LectureNotifier extends CachedAsyncNotifier<List<Lecture>> {
     final lectures = (await _getLectures(session)).toSet().toList();
 
     try {
-      Database().saveLectures(lectures);
+      await Database().saveLectures(lectures);
     } catch (err, st) {
       Logger().e(
         'Failed to save lectures to local database',

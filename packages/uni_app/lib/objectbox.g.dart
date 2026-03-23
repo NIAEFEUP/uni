@@ -564,7 +564,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(10, 922783939952528203),
     name: 'ProfileInfo',
-    lastPropertyId: const obx_int.IdUid(1, 8569900553789516116),
+    lastPropertyId: const obx_int.IdUid(6, 2830288554895083365),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -572,6 +572,36 @@ final _entities = <obx_int.ModelEntity>[
         name: 'id',
         type: 6,
         flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 5828169048906513518),
+        name: 'dbProfileInfo',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 3465265641240967824),
+        name: 'dbNationalities',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 7007012828787970201),
+        name: 'dbIdentification',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 6301870427040977068),
+        name: 'dbContacts',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 2830288554895083365),
+        name: 'dbAddresses',
+        type: 9,
+        flags: 0,
       ),
     ],
     relations: <obx_int.ModelRelation>[],
@@ -1465,21 +1495,53 @@ obx_int.ModelDefinition getObjectBoxModel() {
         object.id = id;
       },
       objectToFB: (ProfileInfo object, fb.Builder fbb) {
-        fbb.startTable(2);
-        fbb.addInt64(0, object.id ?? 0);
+        final dbProfileInfoOffset = fbb.writeString(object.dbProfileInfo);
+        final dbNationalitiesOffset = fbb.writeString(object.dbNationalities);
+        final dbIdentificationOffset = fbb.writeString(object.dbIdentification);
+        final dbContactsOffset = fbb.writeString(object.dbContacts);
+        final dbAddressesOffset = fbb.writeString(object.dbAddresses);
+        fbb.startTable(7);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, dbProfileInfoOffset);
+        fbb.addOffset(2, dbNationalitiesOffset);
+        fbb.addOffset(3, dbIdentificationOffset);
+        fbb.addOffset(4, dbContactsOffset);
+        fbb.addOffset(5, dbAddressesOffset);
         fbb.finish(fbb.endTable());
-        return object.id ?? 0;
+        return object.id;
       },
       objectFromFB: (obx.Store store, ByteData fbData) {
         final buffer = fb.BufferContext(fbData);
         final rootOffset = buffer.derefObject(0);
-
-        final object = ProfileInfo()
-          ..id = const fb.Int64Reader().vTableGetNullable(
-            buffer,
-            rootOffset,
-            4,
-          );
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final dbProfileInfoParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final dbNationalitiesParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 8, '');
+        final dbIdentificationParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 10, '');
+        final dbContactsParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 12, '');
+        final dbAddressesParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 14, '');
+        final object = ProfileInfo(
+          id: idParam,
+          dbProfileInfo: dbProfileInfoParam,
+          dbNationalities: dbNationalitiesParam,
+          dbIdentification: dbIdentificationParam,
+          dbContacts: dbContactsParam,
+          dbAddresses: dbAddressesParam,
+        );
 
         return object;
       },
@@ -2041,6 +2103,31 @@ class ProfileInfo_ {
   /// See [ProfileInfo.id].
   static final id = obx.QueryIntegerProperty<ProfileInfo>(
     _entities[9].properties[0],
+  );
+
+  /// See [ProfileInfo.dbProfileInfo].
+  static final dbProfileInfo = obx.QueryStringProperty<ProfileInfo>(
+    _entities[9].properties[1],
+  );
+
+  /// See [ProfileInfo.dbNationalities].
+  static final dbNationalities = obx.QueryStringProperty<ProfileInfo>(
+    _entities[9].properties[2],
+  );
+
+  /// See [ProfileInfo.dbIdentification].
+  static final dbIdentification = obx.QueryStringProperty<ProfileInfo>(
+    _entities[9].properties[3],
+  );
+
+  /// See [ProfileInfo.dbContacts].
+  static final dbContacts = obx.QueryStringProperty<ProfileInfo>(
+    _entities[9].properties[4],
+  );
+
+  /// See [ProfileInfo.dbAddresses].
+  static final dbAddresses = obx.QueryStringProperty<ProfileInfo>(
+    _entities[9].properties[5],
   );
 }
 

@@ -478,6 +478,8 @@
   "@identification_documents": {},
   "addresses": "Addresses",
   "@addresses": {},
+  "no_info_description": "Try to refresh the page",
+  "@no_info_description": {},
   "unable_to_load_data": "Unable to load data",
   "@unable_to_load_data": {},
   "pedagogical_surveys": "Pedagogical Surveys",

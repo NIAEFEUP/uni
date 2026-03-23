@@ -46,7 +46,7 @@ class ProfileData extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               GenericCard(
-                tooltip: S.of(context).user_informations,
+                tooltip: S.of(context).nationalities,
                 margin: const EdgeInsets.symmetric(vertical: 8),
                 child: Column(
                   children: profileInfo.nationalities.entries
@@ -69,7 +69,7 @@ class ProfileData extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               GenericCard(
-                tooltip: S.of(context).user_informations,
+                tooltip: S.of(context).identification_documents,
                 margin: const EdgeInsets.symmetric(vertical: 8),
                 child: Column(
                   children: profileInfo.identification.entries
@@ -90,7 +90,7 @@ class ProfileData extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               GenericCard(
-                tooltip: S.of(context).user_informations,
+                tooltip: S.of(context).contacts,
                 margin: const EdgeInsets.symmetric(vertical: 8),
                 child: Column(
                   children: profileInfo.contacts.entries
@@ -111,7 +111,7 @@ class ProfileData extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               GenericCard(
-                tooltip: S.of(context).user_informations,
+                tooltip: S.of(context).addresses,
                 margin: const EdgeInsets.symmetric(vertical: 8),
                 child: Column(
                   children: profileInfo.addresses.entries
