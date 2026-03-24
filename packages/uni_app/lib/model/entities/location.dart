@@ -96,7 +96,7 @@ abstract class Location {
       case 'WC':
         return WcLocation(floor);
       case 'CAR_PARK':
-        return CarPark(floor);
+        return CarPark(floor, args['name'].toString());
       default:
         return UnknownLocation(floor, json['type'].toString());
     }

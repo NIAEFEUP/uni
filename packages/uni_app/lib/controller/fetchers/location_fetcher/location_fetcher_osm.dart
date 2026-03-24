@@ -482,7 +482,8 @@ class LocationFetcherOSM extends LocationFetcher {
     }
 
     if (tags['amenity'] == 'parking') {
-      return CarPark(floor);
+      final name = tags['name'] ?? 'Parque';
+      return CarPark(floor, name);
     }
 
     return null;
