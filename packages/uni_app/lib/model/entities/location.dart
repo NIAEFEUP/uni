@@ -1,5 +1,6 @@
 import 'package:uni/model/entities/locations/atm.dart';
 import 'package:uni/model/entities/locations/coffee_machine.dart';
+import 'package:uni/model/entities/locations/parking.dart';
 import 'package:uni/model/entities/locations/printer.dart';
 import 'package:uni/model/entities/locations/restaurant_location.dart';
 import 'package:uni/model/entities/locations/room_group_location.dart';
@@ -21,6 +22,7 @@ enum LocationType {
   specialRoom,
   store,
   wc,
+  carPark,
 }
 
 String locationTypeToString(LocationType type) {
@@ -45,6 +47,8 @@ String locationTypeToString(LocationType type) {
       return 'STORE';
     case LocationType.wc:
       return 'WC';
+    case LocationType.carPark:
+      return 'CAR_PARK';
   }
 }
 
@@ -91,6 +95,8 @@ abstract class Location {
         return StoreLocation(floor, args['name'].toString());
       case 'WC':
         return WcLocation(floor);
+      case 'CAR_PARK':
+        return CarPark(floor);
       default:
         return UnknownLocation(floor, json['type'].toString());
     }

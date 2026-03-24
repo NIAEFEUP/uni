@@ -56,6 +56,7 @@ class UniIcons {
   static const storefront = PhosphorIconsDuotone.storefront;
   static const questionMark = PhosphorIconsDuotone.questionMark;
   static const toilet = PhosphorIconsDuotone.toiletPaper;
+  static const carPark = PhosphorIconsDuotone.letterCircleP;
 
   // Restaurants icons
   static const canteen = PhosphorIconsDuotone.cookingPot;
@@ -113,6 +114,5 @@ class UniIcon extends PhosphorIcon {
          color: color,
          semanticLabel: semanticLabel,
          textDirection: textDirection,
-         duotoneSecondaryOpacity: solid ? 1 : 0.20,
        );
 }

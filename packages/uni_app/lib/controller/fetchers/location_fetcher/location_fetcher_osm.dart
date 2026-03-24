@@ -8,6 +8,7 @@ import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/entities/locations/atm.dart';
 import 'package:uni/model/entities/locations/coffee_machine.dart';
+import 'package:uni/model/entities/locations/parking.dart';
 import 'package:uni/model/entities/locations/printer.dart';
 import 'package:uni/model/entities/locations/restaurant_location.dart';
 import 'package:uni/model/entities/locations/vending_machine.dart';
@@ -478,6 +479,10 @@ class LocationFetcherOSM extends LocationFetcher {
 
     if (tags['amenity'] == 'printer') {
       return Printer(floor);
+    }
+
+    if (tags['amenity'] == 'parking') {
+      return CarPark(floor);
     }
 
     return null;
