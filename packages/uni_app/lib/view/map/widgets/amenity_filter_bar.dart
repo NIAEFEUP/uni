@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/locations/atm.dart';
 import 'package:uni/model/entities/locations/coffee_machine.dart';
+import 'package:uni/model/entities/locations/parking.dart';
 import 'package:uni/model/entities/locations/printer.dart';
 import 'package:uni/model/entities/locations/restaurant_location.dart';
 import 'package:uni/model/entities/locations/store_location.dart';
@@ -16,6 +17,7 @@ enum AmenityFilter {
   atm('ATM', UniIcons.money),
   printer('Printer', UniIcons.printer),
   wc('WC', UniIcons.toilet),
+  parking('Parking', UniIcons.carPark),
   store('Stores', UniIcons.storefront);
 
   const AmenityFilter(this.label, this.icon);
@@ -32,6 +34,7 @@ enum AmenityFilter {
       AmenityFilter.printer => location is Printer,
       AmenityFilter.wc => location is WcLocation,
       AmenityFilter.store => location is StoreLocation,
+      AmenityFilter.parking => location is CarPark
     };
   }
 }
