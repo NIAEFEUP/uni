@@ -228,33 +228,14 @@ class MapPageStateView extends ConsumerState<MapPage> {
                 alignment: Alignment.bottomRight,
                 child: SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 10, bottom: 68),
-                    child: FloatingActionButton(
-                      mini: true,
-                      onPressed: () {
-                        setState(() {
-                          _showIndoorLayer = !_showIndoorLayer;
-                        });
-                      },
-                      child: Icon(
-                        _showIndoorLayer ? Icons.layers_clear : Icons.layers,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            if (isIndoorPlansLoaded)
-              Align(
-                alignment: Alignment.bottomRight,
-                child: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 10, bottom: 10),
+                    padding: const EdgeInsets.only(right: 20, bottom: 6),
                     child: FloorSelectorButton(
                       floors: allFloors,
                       selectedFloor: effectiveFloor,
                       onFloorSelected: (floor) {
                         setState(() {
                           _selectedFloor = floor;
+                          _showIndoorLayer = true;
                           _popupLayerController.hideAllPopups();
                         });
                       },

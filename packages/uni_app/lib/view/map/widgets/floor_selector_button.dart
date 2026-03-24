@@ -81,8 +81,8 @@ class _FloorSelectorButtonState extends State<FloorSelectorButton> {
       child: GestureDetector(
         onTap: _toggle,
         child: Container(
-          width: 42,
-          height: 42,
+          width: 50,
+          height: 50,
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.secondary,
             borderRadius: BorderRadius.circular(8),
