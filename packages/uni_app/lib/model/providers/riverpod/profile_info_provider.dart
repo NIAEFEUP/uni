@@ -13,7 +13,7 @@ final profileInfoProvider =
 
 class ProfileInfoNotifier extends CachedAsyncNotifier<ProfileInfo?> {
   @override
-  Duration? get cacheDuration => const Duration(days: 1);
+  Duration? get cacheDuration => const Duration(days: 30);
 
   @override
   Future<ProfileInfo?> loadFromStorage() async {
