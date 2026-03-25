@@ -132,7 +132,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                 );
               } else if (index == favoriteCards.length + 1) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 125),
                   child: TextButton.icon(
                     style: TextButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.secondary,
