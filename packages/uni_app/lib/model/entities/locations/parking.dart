@@ -22,6 +22,10 @@ class CarPark implements Location {
 
   @override
   Map<String, dynamic> toMap({int? groupId}) {
-    return {'floor': floor, 'name': name,  'type': locationTypeToString(LocationType.carPark)};
+    return {
+      'floor': floor,
+      'name': name,
+      'type': locationTypeToString(LocationType.carPark),
+    };
   }
 }
