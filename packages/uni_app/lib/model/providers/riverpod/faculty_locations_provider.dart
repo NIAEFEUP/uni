@@ -45,11 +45,8 @@ class FacultyLocationsNotifier
       if (osmData.isNotEmpty) {
         return osmData;
       }
-      debugPrint(
-        '[Locations] OSM returned empty for ${_faculty.name}, using asset fallback',
-      );
     } catch (err) {
-      debugPrint('[Locations] OSM fetch failed for ${_faculty.name}: $err');
+      return loadFromStorage();
     }
     return LocationFetcherAsset(_faculty).getLocations();
   }
@@ -76,9 +73,6 @@ class IndoorFloorPlansNotifier
     try {
       return await ref.read(_osmFetcherProvider).getIndoorFloorPlans();
     } catch (err) {
-      debugPrint(
-        '[Locations] Failed to load indoor plans for ${_faculty.name}: $err',
-      );
       return loadFromStorage();
     }
   }
