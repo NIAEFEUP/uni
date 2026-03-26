@@ -107,7 +107,7 @@ class LocationRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      location.description(),
+      location.description(context),
       textAlign: TextAlign.left,
       overflow: TextOverflow.ellipsis,
       style: TextStyle(color: color),

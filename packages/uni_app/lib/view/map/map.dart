@@ -122,7 +122,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
         final allLocations = location.floors.values.expand((x) => x);
         return allLocations.any((loc) {
           return _normalizeSearchText(
-            loc.description(),
+            loc.description(context),
           ).contains(normalizedSearchTerm);
         });
       });

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:uni/model/entities/locations/atm.dart';
 import 'package:uni/model/entities/locations/coffee_machine.dart';
 import 'package:uni/model/entities/locations/parking.dart';
@@ -60,7 +61,9 @@ abstract class Location {
   final int weight;
   final dynamic icon;
 
-  String description();
+  String description(BuildContext context);
+
+  String dedupKey();
 
   Map<String, dynamic> toMap({int? groupId});
 

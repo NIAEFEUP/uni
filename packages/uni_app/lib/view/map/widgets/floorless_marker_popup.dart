@@ -39,7 +39,7 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
     return locations
         .map(
           (location) => Text(
-            location.description(),
+            location.description(context),
             textAlign: TextAlign.left,
             style: TextStyle(color: _getFontColor(context)),
           ),
@@ -62,7 +62,7 @@ class LocationRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      location.description(),
+      location.description(context),
       textAlign: TextAlign.left,
       style: TextStyle(color: _getFontColor(context)),
     );

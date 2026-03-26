@@ -63,6 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "at_least_one_college": MessageLookupByLibrary.simpleMessage(
       "Select at least one college",
     ),
+    "atm": MessageLookupByLibrary.simpleMessage("ATM"),
     "available_amount": MessageLookupByLibrary.simpleMessage(
       "Available amount",
     ),
@@ -119,6 +120,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Class Registration",
     ),
     "close": MessageLookupByLibrary.simpleMessage("Close"),
+    "coffee_machine": MessageLookupByLibrary.simpleMessage("Coffee Machine"),
     "collect_usage_stats": MessageLookupByLibrary.simpleMessage(
       "Collect usage statistics",
     ),
@@ -405,6 +407,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "press_again": MessageLookupByLibrary.simpleMessage("Press again to exit"),
     "print": MessageLookupByLibrary.simpleMessage("Print"),
     "print_balance": MessageLookupByLibrary.simpleMessage("Print balance"),
+    "printer": MessageLookupByLibrary.simpleMessage("Printer"),
     "prints": MessageLookupByLibrary.simpleMessage("Prints"),
     "problem_id": MessageLookupByLibrary.simpleMessage(
       "Brief identification of the problem",
@@ -481,9 +484,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "valid_email": MessageLookupByLibrary.simpleMessage(
       "Please enter a valid email",
     ),
+    "vending_machine": MessageLookupByLibrary.simpleMessage("Vending Machine"),
     "view_course_details": MessageLookupByLibrary.simpleMessage(
       "View course details",
     ),
+    "wc": MessageLookupByLibrary.simpleMessage("WC"),
     "widget_prompt": MessageLookupByLibrary.simpleMessage(
       "Choose a widget to add to your personal area:",
     ),

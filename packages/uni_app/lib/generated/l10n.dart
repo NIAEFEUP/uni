@@ -1502,7 +1502,7 @@ class S {
     return Intl.message('See more', name: 'see_more', desc: '', args: []);
   }
 
-  /// `Search_here`
+  /// `Search here`
   String get search_here {
     return Intl.message('Search here', name: 'search_here', desc: '', args: []);
   }
@@ -2028,6 +2028,41 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Vending Machine`
+  String get vending_machine {
+    return Intl.message(
+      'Vending Machine',
+      name: 'vending_machine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coffee Machine`
+  String get coffee_machine {
+    return Intl.message(
+      'Coffee Machine',
+      name: 'coffee_machine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ATM`
+  String get atm {
+    return Intl.message('ATM', name: 'atm', desc: '', args: []);
+  }
+
+  /// `Printer`
+  String get printer {
+    return Intl.message('Printer', name: 'printer', desc: '', args: []);
+  }
+
+  /// `WC`
+  String get wc {
+    return Intl.message('WC', name: 'wc', desc: '', args: []);
   }
 }
 

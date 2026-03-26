@@ -46,8 +46,7 @@ class CollapsedLocationCluster {
     final deduplicated = <Location>[];
 
     for (final location in locations) {
-      final key =
-          '${location.floor}|${location.runtimeType}|${location.description().trim().toLowerCase()}';
+      final key = location.dedupKey();
       if (seen.add(key)) {
         deduplicated.add(location);
       }
