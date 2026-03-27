@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 import 'package:uni/controller/fetchers/location_fetcher/location_fetcher.dart';
@@ -68,10 +67,6 @@ class LocationFetcherOSM extends LocationFetcher {
 
     for (var attempt = 0; attempt < maxRetries; attempt++) {
       try {
-        debugPrint(
-          '[OSM] Querying Overpass API (attempt ${attempt + 1}/$maxRetries)...',
-        );
-
         final response = await http
             .post(
               Uri.parse(overpassUrl),
@@ -85,15 +80,12 @@ class LocationFetcherOSM extends LocationFetcher {
         }
 
         if (response.statusCode == 504 && attempt < maxRetries - 1) {
-          debugPrint('[OSM] Got 504, retrying in ... ');
           continue;
         }
 
         throw Exception('[OSM] Overpass API returned ${response.statusCode}');
-      } on Exception catch (e) {
-        if (attempt < maxRetries - 1) {
-          debugPrint('[OSM] Request failed ($e), retrying...');
-        } else {
+      } on Exception {
+        if (attempt >= maxRetries - 1) {
           rethrow;
         }
       }
@@ -116,10 +108,6 @@ class LocationFetcherOSM extends LocationFetcher {
     final json = jsonDecode(response.body) as Map<String, dynamic>;
     final elements = json['elements'] as List<dynamic>;
 
-    debugPrint(
-      '[OSM] Parsing indoor data for ${facultyConfig.name} from ${elements.length} elements',
-    );
-
     final nodeMap = <int, LatLng>{};
     for (final elem in elements) {
       final element = elem as Map<String, dynamic>;
@@ -132,7 +120,6 @@ class LocationFetcherOSM extends LocationFetcher {
         }
       }
     }
-    debugPrint('[OSM] Built node map with ${nodeMap.length} nodes');
 
     // Map: BuildingCode -> Floor -> FloorData
     final buildingFloorMap = <String, Map<int, _FloorData>>{};
@@ -257,20 +244,10 @@ class LocationFetcherOSM extends LocationFetcher {
     final allPlans = <IndoorFloorPlan>[];
     for (final buildingEntry in buildingFloorMap.entries) {
       final buildingCode = buildingEntry.key;
-      debugPrint(
-        '[OSM] Building $buildingCode: ${buildingEntry.value.length} floor(s)',
-      );
 
       for (final floorEntry in buildingEntry.value.entries) {
         final floor = floorEntry.key;
         final data = floorEntry.value;
-
-        debugPrint(
-          '[OSM]   Floor $floor — '
-          '${data.rooms.length} rooms, '
-          '${data.corridors.length} corridors, '
-          '${data.amenities.length} amenities',
-        );
 
         allPlans.add(
           IndoorFloorPlan(
@@ -285,10 +262,6 @@ class LocationFetcherOSM extends LocationFetcher {
       }
     }
 
-    debugPrint(
-      '[OSM] Indoor parse complete: '
-      '${allPlans.length} floor plans from ${buildingFloorMap.length} buildings',
-    );
     return allPlans;
   }
 
@@ -312,11 +285,6 @@ class LocationFetcherOSM extends LocationFetcher {
   List<LocationGroup> _parseLocations(http.Response response) {
     final json = jsonDecode(response.body) as Map<String, dynamic>;
     final elements = json['elements'] as List<dynamic>;
-
-    debugPrint(
-      '[OSM] Parsing ${elements.length} elements for '
-      '${facultyConfig.name} location groups',
-    );
 
     // Build node map so way centroids can be computed.
     final nodeMap = <int, LatLng>{};

@@ -34,7 +34,7 @@ enum AmenityFilter {
       AmenityFilter.printer => location is Printer,
       AmenityFilter.wc => location is WcLocation,
       AmenityFilter.store => location is StoreLocation,
-      AmenityFilter.parking => location is CarPark
+      AmenityFilter.parking => location is CarPark,
     };
   }
 }
