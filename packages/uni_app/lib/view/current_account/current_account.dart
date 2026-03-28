@@ -42,12 +42,15 @@ class _CurrentAccountInfo extends ConsumerState<CurrentAccountInfo> {
                     borderRadius: BorderRadius.circular(8),
                     color: const Color.fromARGB(255, 246, 220, 220),
                   ),
-                  child: _FilterBar(
-                    selected: _selectedTab,
-                    onSelected: (index) => setState(() {
-                      _selectedTab = index;
-                    }),
-                  ),
+                  child: Material(
+  color: Colors.transparent,
+  child: _FilterBar(
+    selected: _selectedTab,
+    onSelected: (index) => setState(() {
+      _selectedTab = index;
+    }),
+  ),
+),
                 ),
               ),
             ),
@@ -69,7 +72,7 @@ class _FilterBar extends StatelessWidget {
   const _FilterBar({required this.selected, required this.onSelected});
 
   final int selected;
-  final Function(int) onSelected;
+  final void Function(int) onSelected;
 
   @override
   Widget build(BuildContext context) {

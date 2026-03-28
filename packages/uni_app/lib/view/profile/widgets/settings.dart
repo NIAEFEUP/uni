@@ -65,6 +65,25 @@ class Settings extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 8),
             child: ProfileListTile(
               icon: UniIcons.thumbsUp,
+              title: "Current Account",
+              subtitle: "See information about your payments here!",
+              trailing: UniIcon(
+                UniIcons.caretRight,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  '/${NavigationItem.navCurrentAccount.route}',
+                );
+              },
+            ),
+          ),
+          GenericCard(
+            tooltip: S.of(context).leave_feedback,
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            child: ProfileListTile(
+              icon: UniIcons.thumbsUp,
               title: S.of(context).leave_feedback,
               subtitle: S.of(context).feedback_description,
               trailing: UniIcon(
