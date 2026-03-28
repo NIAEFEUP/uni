@@ -20,6 +20,11 @@ class IndoorFloorLayer extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
+    final camera = MapCamera.of(context);
+    if (camera.zoom < 17) {
+      return const SizedBox.shrink();
+    }
+
     // Filter floor plans for selected floor
     final currentFloorPlans = floorPlans
         .where((plan) => plan.floor == selectedFloor)
