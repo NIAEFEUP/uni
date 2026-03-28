@@ -493,5 +493,9 @@
   "printer": "Printer",
   "@printer": {},
   "wc": "WC",
-  "@wc": {}
+  "@wc": {},
+  "parking": "Parking",
+  "@parking": {},
+  "shop": "Shop",
+  "@shop": {}
 }

@@ -493,5 +493,9 @@
   "printer": "Impressora",
   "@printer": {},
   "wc": "Casa de banho",
-  "@wc": {}
+  "@wc": {},
+  "parking": "parque automóvel",
+  "@parking": {},
+  "shop": "loja",
+  "@shop": {}
 }

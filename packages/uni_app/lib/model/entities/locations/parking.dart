@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni_ui/icons.dart';
 
@@ -18,6 +19,9 @@ class CarPark implements Location {
 
   @override
   String description(BuildContext context) {
+    if (name.toLowerCase() == 'parking') {
+      return S.of(context).parking;
+    }
     return name;
   }
 

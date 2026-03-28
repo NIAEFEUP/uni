@@ -517,6 +517,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ver detalhes da Unidade Curricular",
     ),
     "wc": MessageLookupByLibrary.simpleMessage("Casa de banho"),
+    "parking": MessageLookupByLibrary.simpleMessage("parque automóvel"),
+    "shop": MessageLookupByLibrary.simpleMessage("loja"),
     "widget_prompt": MessageLookupByLibrary.simpleMessage(
       "Escolhe um widget para adicionares à tua área pessoal:",
     ),

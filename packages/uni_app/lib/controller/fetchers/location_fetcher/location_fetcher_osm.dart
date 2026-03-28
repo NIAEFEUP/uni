@@ -451,12 +451,12 @@ class LocationFetcherOSM extends LocationFetcher {
     }
 
     if (tags['amenity'] == 'parking') {
-      final name = tags['name'] ?? 'Parque';
+      final name = tags['name'] ?? 'parking';
       return CarPark(floor, name);
     }
 
-    if (tags['amenity'] == 'copyshop') {
-      final name = tags['name'] ?? 'store';
+    if (tags['amenity'] == 'shop') {
+      final name = tags['name'] ?? 'shop';
       return StoreLocation(floor, name);
     }
 

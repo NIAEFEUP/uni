@@ -489,6 +489,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "View course details",
     ),
     "wc": MessageLookupByLibrary.simpleMessage("WC"),
+    "parking": MessageLookupByLibrary.simpleMessage("Parking"),
+    "shop": MessageLookupByLibrary.simpleMessage("Shop"),
     "widget_prompt": MessageLookupByLibrary.simpleMessage(
       "Choose a widget to add to your personal area:",
     ),
