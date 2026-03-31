@@ -84,10 +84,11 @@ class Transaction extends StatelessWidget {
                   description,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 15,
+                    fontSize: 12,
                     color: Colors.black,
                   ),
                 ),
+                const SizedBox(height: 4),
                 Text(
                   status == PaymentStatus.paid || deadline == null
                       ? "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}"

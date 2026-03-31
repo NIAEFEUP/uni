@@ -6,6 +6,9 @@ import 'package:uni/model/providers/riverpod/current_account_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/current_account/widgets/transaction.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
+import 'package:uni_ui/cards/generic_card.dart';
+import 'package:uni_ui/cards/profile_list_tile.dart';
+import 'package:uni_ui/icons.dart';
 
 class CurrentAccountPageView extends ConsumerStatefulWidget {
   const CurrentAccountPageView({super.key});
@@ -93,6 +96,8 @@ class CurrentAccountPageViewState
         final unpaid = data.$1;
         final history = data.$2;
 
+        final nextItem = unpaid.isNotEmpty ? unpaid.first : null;
+
         List<dynamic> currentList;
 
         switch (_selectedTab) {
@@ -110,7 +115,74 @@ class CurrentAccountPageViewState
         }
 
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const GenericCard(
+              tooltip: 'Balance',
+              margin: EdgeInsets.only(bottom: 14, right: 20, left: 20),
+              child: ProfileListTile(
+                icon: UniIcons.piggyBank,
+                title: 'Balance',
+                subtitle: 'See information about your payments here!',
+                trailing: Text(
+                  '-280€',
+                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 15),
+                ),
+              ),
+            ),
+            const GenericCard(
+              tooltip: 'Deadline',
+              margin: EdgeInsets.only(bottom: 14, right: 20, left: 20),
+              child: ProfileListTile(
+                icon: UniIcons.calendarDots,
+                title: 'Balance',
+                subtitle: 'See information about your payments here!',
+                trailing: Text(
+                  'No date',
+                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 15),
+                ),
+              ),
+            ),
+            const GenericCard(
+              tooltip: 'Print Balance',
+              margin: EdgeInsets.only(bottom: 14, right: 20, left: 20),
+              child: ProfileListTile(
+                icon: UniIcons.printer,
+                title: 'Print Balance',
+                subtitle: 'See information about your payments here!',
+                trailing: Text(
+                  '9.80€',
+                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 15),
+                ),
+              ),
+            ),
+            const SizedBox(height: 26),
+            if(nextItem != null)
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  'Next',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Transaction(
+                  description: nextItem!.description,
+                  date: nextItem!.date,
+                  deadline: nextItem?.deadline,
+                  value: nextItem!.amountDue,
+                  interestOnLatePayment: nextItem?.interestOnLatePayment,
+                  paymentLink: nextItem?.paymentLink,
+                  isUnpaid: true,
+                ),
+              ),
+
             Padding(
               padding: const EdgeInsets.all(20),
               child: Container(
