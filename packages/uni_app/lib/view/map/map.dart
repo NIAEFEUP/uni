@@ -165,7 +165,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
         body: FlutterMap(
           options: MapOptions(
             minZoom: 16,
-            maxZoom: 19,
+            maxZoom: 20,
             initialCenter: bounds.center,
             initialZoom: 17,
             initialCameraFit: CameraFit.insideBounds(bounds: bounds),
