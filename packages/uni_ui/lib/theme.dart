@@ -213,29 +213,29 @@ ThemeData darkTheme = ThemeData(
   textTheme: _darkTextTheme,
   colorScheme: ColorScheme.dark(
     primary: Color(0xFF2F0A0C),
-    inversePrimary: Color(0xFF3F100F),
-    surface: Color(0xFF1C0F10),
+    inversePrimary: Color(0xFF250103),
+    surface: Color(0xFF0F0607), // changed
     onSurface: Color(0xFFFFF5F3),
-    secondary: Color(0xFF56272B),
+    secondary: Color(0xFF2F1313), // changed
     onSecondaryContainer: Color(0xFFE5C8C7),
   ),
   cardTheme: CardThemeData(
-    color: Color(0xFF56272B),
+    color: Color(0xFF2F1313), // changed
     shadowColor: Color(0xFF000000).withValues(alpha: 0.03),
     margin: const EdgeInsets.all(4),
   ),
   textButtonTheme: TextButtonThemeData(
-    style: TextButton.styleFrom(backgroundColor: Color(0xFF56272B)),
+    style: TextButton.styleFrom(backgroundColor: Color(0xFF2F1313)), // changed
   ),
   iconTheme: IconThemeData(color: Color(0xFFE5C8C7)),
   tabBarTheme: TabBarThemeData(indicatorColor: Color(0xFFE5C8C7)),
-  dialogTheme: DialogThemeData(backgroundColor: Color(0xFF56272B)),
+  dialogTheme: DialogThemeData(backgroundColor: Color(0xFF2F1313)), // changed
   checkboxTheme: CheckboxThemeData(
     fillColor: WidgetStateProperty.all(Color(0xFFE5C8C7)),
-    checkColor: WidgetStateProperty.all(Color(0xFF56272B)),
+    checkColor: WidgetStateProperty.all(Color(0xFF2F1313)), // changed
   ),
   switchTheme: SwitchThemeData(
-    trackColor: WidgetStateProperty.all(Color(0xFF3F100F)),
+    trackColor: WidgetStateProperty.all(Color(0xFF250103)),
     trackOutlineColor: WidgetStateProperty.all(Color(0xFF2F0A0C)),
     thumbColor: WidgetStateProperty.all(Color(0xFFE5C8C7)),
   ),

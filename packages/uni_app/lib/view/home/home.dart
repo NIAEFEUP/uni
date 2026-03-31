@@ -174,7 +174,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
           gradient: LinearGradient(
             colors: Theme.of(context).brightness == Brightness.light
                 ? const [Color(0xFF280709), Color(0xFF511515)]
-                : const [Color(0x99861D25), Color(0xFF1C0F10)],
+                : const [Color(0xFF2F0A0C), Color(0xFF0F0607)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             stops: const [0, 1],
