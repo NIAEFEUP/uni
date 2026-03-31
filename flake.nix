@@ -48,7 +48,7 @@
           ndkVersions = ["28.2.13676358"];
         };
 
-        flutter = pkgs.flutter338;
+        flutter = pkgs.flutter;
         jdks = with pkgs; [jdk21 jdk17];
       };
     } {
