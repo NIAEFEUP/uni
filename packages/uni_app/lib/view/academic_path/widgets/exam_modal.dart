@@ -1,13 +1,10 @@
-import 'package:add_2_calendar_new/add_2_calendar_new.dart';
 import 'package:collection/collection.dart';
-
+import 'package:device_calendar_plus/device_calendar_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
-
 import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/utils/string_formatter.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
@@ -24,6 +21,7 @@ class ExamModal extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = ref.watch(localeProvider);
+    final calendar = DeviceCalendar.instance;
 
     return ModalDialog(
       children: [
@@ -66,15 +64,29 @@ class ExamModal extends ConsumerWidget {
             UniIcons.caretRight,
             color: Theme.of(context).colorScheme.primary,
           ),
-          onPressed: () {
-            final event = Event(
+          onPressed: () async {
+            final calendars = await calendar.listCalendars();
+
+            var hasUniCalendar = false;
+            for (final calendar in calendars) {
+              if (calendar.name == 'Uni Exams') {
+                hasUniCalendar = true;
+                break;
+              }
+            }
+
+            final calendarId = hasUniCalendar
+                ? calendars.firstWhere((c) => c.name == 'Uni Exams').id
+                : await calendar.createCalendar(name: 'Uni Exams');
+
+            await calendar.createEvent(
+              calendarId: calendarId,
               title: exam.subject,
               description: exam.examType,
               location: exam.rooms.join(', '),
               startDate: exam.start,
               endDate: exam.finish,
             );
-            Add2Calendar.addEvent2Cal(event);
           },
         ),
         ModalInfoRow(
