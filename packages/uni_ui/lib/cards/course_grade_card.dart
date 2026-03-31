@@ -39,7 +39,7 @@ class CourseGradeCard extends StatelessWidget {
           children: [
             Text(
               courseName,
-              style: Theme.of(context).textTheme.bodySmall,
+              style: theme.textTheme.headlineSmall,
               overflow: TextOverflow.ellipsis,
             ),
             Row(

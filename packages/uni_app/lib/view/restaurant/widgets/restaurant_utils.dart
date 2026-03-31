@@ -54,6 +54,21 @@ class RestaurantUtils {
     }
   }
 
+  static String? getMealName(String typeKey) {
+    const typeToMealName = <String, String>{
+      'meat_dishes': 'Carne',
+      'fish_dishes': 'Peixe',
+      'vegetarian_dishes': 'Vegetariano',
+      'soups': 'Sopa',
+      'salads': 'Hortícola',
+      'diet_dishes': 'Dieta',
+      'dishes_of_the_day': 'Prato do Dia',
+      'closed': 'Encerrado',
+    };
+
+    return typeToMealName[typeKey];
+  }
+
   static bool mealMatchesFilter(Set<String> selectedTypes, String mealType) {
     if (selectedTypes.isEmpty) {
       return true; // If nothing selected, show everything

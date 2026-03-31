@@ -11,6 +11,7 @@ class ScheduleCard extends StatelessWidget {
     required this.room,
     required this.type,
     this.isActive = false,
+    this.classNumber,
     this.teacherName,
     this.teacherPhoto,
     this.onTap,
@@ -21,6 +22,7 @@ class ScheduleCard extends StatelessWidget {
   final String room;
   final String type;
   final bool isActive;
+  final String? classNumber;
   final String? teacherName;
   final Image? teacherPhoto;
   final VoidCallback? onTap;
@@ -83,6 +85,18 @@ class ScheduleCard extends StatelessWidget {
                       backgroundColor: scheduleTypeColors[type],
                       textColor: Theme.of(context).colorScheme.surface,
                     ),
+                    if (classNumber != null && type != 'T') ...[
+                      const SizedBox(width: 8),
+                      Badge(
+                        label: Text(classNumber!),
+                        backgroundColor: isActive
+                            ? Theme.of(context).colorScheme.secondary
+                            : Theme.of(context).colorScheme.primary,
+                        textColor: isActive
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.onPrimary,
+                      ),
+                    ],
                   ],
                 ),
                 Text(
@@ -101,8 +115,7 @@ class ScheduleCard extends StatelessWidget {
                         backgroundImage: teacherPhoto?.image,
                       ),
                       const SizedBox(width: 8), //TODO: create gap()?
-                      SizedBox(
-                        width: 140,
+                      Expanded(
                         child: Text(
                           teacherName!,
                           overflow: TextOverflow.ellipsis,
