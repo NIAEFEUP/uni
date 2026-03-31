@@ -5,10 +5,18 @@ import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/riverpod/course_units_info_provider.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
+import 'package:uni/view/academic_path/widgets/no_classes_widget.dart';
+import 'package:uni/view/academic_path/widgets/schedule_page_shimmer.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_classes_shimmer.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_files_shimmer.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_lectures.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_no_classes.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_no_files.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_no_info.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_sheet_shimmer.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/tabs/tab_icon.dart';
@@ -35,13 +43,15 @@ class CourseUnitDetailPageViewState
   @override
   void initState() {
     super.initState();
-    tabController = TabController(vsync: this, length: 3);
+    tabController = TabController(vsync: this, length: 4);
     tabController.addListener(_onTabChanged);
   }
 
   void _onTabChanged() {
     if (tabController.index == 1) {
       loadClasses(force: false);
+    } else if (tabController.index == 2) {
+      loadLectures(force: false);
     }
   }
 
@@ -77,11 +87,23 @@ class CourseUnitDetailPageViewState
     }
   }
 
+  Future<void> loadLectures({required bool force}) async {
+    final courseUnitsProvider = ref.read(courseUnitsInfoProvider.notifier);
+
+    final courseUnitLectures =
+        courseUnitsProvider.courseUnitsLectures[widget.courseUnit];
+    if (courseUnitLectures == null || force) {
+      await courseUnitsProvider.fetchCourseUnitLectures(widget.courseUnit);
+    }
+  }
+
   @override
   Future<void> onRefresh() async {
     await loadInfo(force: true);
     if (tabController.index == 1) {
       await loadClasses(force: true);
+    } else if (tabController.index == 2) {
+      await loadLectures(force: true);
     }
   }
 
@@ -95,9 +117,12 @@ class CourseUnitDetailPageViewState
     return TabBar(
       controller: tabController,
       dividerHeight: 1,
+      isScrollable: true,
+      tabAlignment: TabAlignment.start,
       tabs: [
         TabIcon(icon: UniIcons.notebook, text: S.of(context).course_info),
         TabIcon(icon: UniIcons.classes, text: S.of(context).course_class),
+        TabIcon(icon: UniIcons.lecture, text: S.of(context).lectures),
         TabIcon(icon: UniIcons.files, text: S.of(context).files),
       ],
     );
@@ -110,6 +135,7 @@ class CourseUnitDetailPageViewState
       children: [
         _courseUnitSheetView(context),
         _courseUnitClassesView(context),
+        _courseUnitLecturesView(context),
         _courseUnitFilesView(context),
       ],
     );
@@ -134,8 +160,26 @@ class CourseUnitDetailPageViewState
         );
 
         if (sheet == null) {
-          return Center(
-            child: Text(S.of(context).no_info, textAlign: TextAlign.center),
+          return const ShimmerCourseSheet();
+        }
+
+        final hasNoInfo =
+            sheet.professors.isEmpty &&
+            sheet.content == 'null' &&
+            sheet.evaluation == 'null' &&
+            sheet.frequency == 'null' &&
+            sheet.books.isEmpty;
+
+        if (hasNoInfo) {
+          return LayoutBuilder(
+            builder: (context, constraints) => SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Container(
+                height: constraints.maxHeight,
+                padding: const EdgeInsets.only(bottom: 120),
+                child: const Center(child: NoInfoWidget()),
+              ),
+            ),
           );
         }
 
@@ -149,7 +193,11 @@ class CourseUnitDetailPageViewState
         .read(courseUnitsInfoProvider.notifier)
         .courseUnitsFiles[widget.courseUnit];
 
-    if (files == null || files.isEmpty) {
+    if (files == null) {
+      return const ShimmerCourseFiles();
+    }
+
+    if (files.isEmpty) {
       return LayoutBuilder(
         builder: (context, constraints) => SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -177,17 +225,24 @@ class CourseUnitDetailPageViewState
             provider.courseUnitsClassProfessors[widget.courseUnit];
 
         if (classes == null) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        if (classes.isEmpty) {
-          return Center(
-            child: Text(S.of(context).no_class, textAlign: TextAlign.center),
-          );
+          return const Center(child: ShimmerCourseClasses());
         }
 
         if (classProfessors == null) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: ShimmerCourseClasses());
+        }
+
+        if (classes.isEmpty) {
+          return LayoutBuilder(
+            builder: (context, constraints) => SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Container(
+                height: constraints.maxHeight,
+                padding: const EdgeInsets.only(bottom: 120),
+                child: const Center(child: NoClassGroupsWidget()),
+              ),
+            ),
+          );
         }
 
         return CourseUnitClassesView(
@@ -196,6 +251,27 @@ class CourseUnitDetailPageViewState
           widget.courseUnit,
           classProfessors: classProfessors,
         );
+      },
+    );
+  }
+
+  Widget _courseUnitLecturesView(BuildContext context) {
+    return Consumer(
+      builder: (context, ref, _) {
+        ref.watch(courseUnitsInfoProvider);
+        final provider = ref.read(courseUnitsInfoProvider.notifier);
+
+        final lectures = provider.courseUnitsLectures[widget.courseUnit];
+
+        if (lectures == null) {
+          return const Center(child: ShimmerSchedulePage());
+        }
+
+        if (lectures.isEmpty) {
+          return const Center(child: NoClassesWidget(showSublabel: false));
+        }
+
+        return CourseUnitLecturesView(lectures, widget.courseUnit);
       },
     );
   }
@@ -223,5 +299,13 @@ class CourseUnitDetailPageViewState
         }
       },
     );
+  }
+
+  @override
+  void dispose() {
+    tabController
+      ..removeListener(_onTabChanged)
+      ..dispose();
+    super.dispose();
   }
 }
