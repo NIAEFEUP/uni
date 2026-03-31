@@ -36,9 +36,7 @@ class CourseCard extends StatelessWidget {
     return GenericCard(
       key: key,
       onClick: onTap,
-      color: selected
-          ? null
-          : Theme.of(context).disabledColor,
+      color: selected ? null : Theme.of(context).disabledColor,
       tooltip: '',
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5.0),

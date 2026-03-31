@@ -58,7 +58,9 @@ class ShimmerCoursesPage extends StatelessWidget {
                     Flexible(
                       flex: 2,
                       child: Shimmer.fromColors(
-                        baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+                        baseColor: Theme.of(
+                          context,
+                        ).disabledColor.withAlpha(0x7f),
                         highlightColor: Theme.of(context).disabledColor,
                         child: GenericSquircle(
                           child: Container(height: 46, color: Colors.grey),
@@ -69,7 +71,9 @@ class ShimmerCoursesPage extends StatelessWidget {
                     Flexible(
                       flex: 5,
                       child: Shimmer.fromColors(
-                        baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+                        baseColor: Theme.of(
+                          context,
+                        ).disabledColor.withAlpha(0x7f),
                         highlightColor: Theme.of(context).disabledColor,
                         child: GenericSquircle(
                           child: Container(height: 46, color: Colors.grey),
@@ -87,7 +91,9 @@ class ShimmerCoursesPage extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Shimmer.fromColors(
-                          baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+                          baseColor: Theme.of(
+                            context,
+                          ).disabledColor.withAlpha(0x7f),
                           highlightColor: Theme.of(context).disabledColor,
                           child: GenericSquircle(
                             child: Container(
@@ -102,7 +108,9 @@ class ShimmerCoursesPage extends StatelessWidget {
                       const SizedBox(width: 6),
                       Expanded(
                         child: Shimmer.fromColors(
-                          baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+                          baseColor: Theme.of(
+                            context,
+                          ).disabledColor.withAlpha(0x7f),
                           highlightColor: Theme.of(context).disabledColor,
                           child: GenericSquircle(
                             child: Container(

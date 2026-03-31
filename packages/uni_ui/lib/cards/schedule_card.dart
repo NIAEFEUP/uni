@@ -67,7 +67,9 @@ class ScheduleCard extends StatelessWidget {
                     if (isActive) ...[
                       PhosphorIcon(
                         PhosphorIcons.clock(PhosphorIconsStyle.duotone),
-                        color: Theme.of(context).colorScheme.onSecondaryContainer,
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSecondaryContainer,
                         size: 20,
                       ),
                       SizedBox(width: 5),
@@ -121,7 +123,9 @@ class ScheduleCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: isActive
-                                ? Theme.of(context).colorScheme.onSecondaryContainer
+                                ? Theme.of(
+                                    context,
+                                  ).colorScheme.onSecondaryContainer
                                 : Theme.of(
                                     context,
                                   ).colorScheme.onSecondaryContainer,

@@ -49,7 +49,10 @@ class CourseGradeCard extends StatelessWidget {
                   '${ects == ects.toInt() ? ects.toInt() : ects} ECTS',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
-                Text('${grade ?? ""}', style: Theme.of(context).textTheme.bodySmall),
+                Text(
+                  '${grade ?? ""}',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
               ],
             ),
           ],

@@ -31,7 +31,9 @@ class ShimmerSchedulePage extends StatelessWidget {
                       width: 50,
                       height: 55,
                       child: Shimmer.fromColors(
-                        baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+                        baseColor: Theme.of(
+                          context,
+                        ).disabledColor.withAlpha(0x7f),
                         highlightColor: Theme.of(context).disabledColor,
                         child: GenericSquircle(
                           borderRadius: 10,

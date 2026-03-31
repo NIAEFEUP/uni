@@ -22,7 +22,10 @@ class ModalInfoRow extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(color: Theme.of(context).colorScheme.inversePrimary, width: 1),
+          top: BorderSide(
+            color: Theme.of(context).colorScheme.inversePrimary,
+            width: 1,
+          ),
         ),
       ),
       child: ListTile(
