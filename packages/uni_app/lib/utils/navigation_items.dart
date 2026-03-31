@@ -17,7 +17,7 @@ enum NavigationItem {
   navBugreport('bug_report'),
   navSplash('splash'),
   navAboutus('sobre_nos'),
-  navCurrentAccount('current_ccount');
+  navCurrentAccount('conta_corrente');
 
   const NavigationItem(this.route, {this.faculties});
 

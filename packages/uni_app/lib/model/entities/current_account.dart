@@ -1,62 +1,25 @@
 class Unpaid {
   Unpaid({
-    required this.status,
-    required this.acronym,
     required this.description,
     required this.date,
     this.deadline,
     required this.value,
-    this.amountPaid,
     required this.amountDue,
     this.interestOnLatePayment,
+    this.paymentLink,
   });
 
-  final String status;
-  final String acronym;
   final String description;
   final DateTime date;
   final DateTime? deadline;
-  final int value;
-  final int? amountPaid;
-  final int amountDue;
-  final int? interestOnLatePayment;
+  final double value;
+  final double amountDue;
+  final double? interestOnLatePayment;
+  final String? paymentLink;
 
   @override
   String toString() {
-    return 'Unpaid(status: $status, acronym: $acronym, description: $description, date: $date, deadline: $deadline, value: $value, amountPaid: $amountPaid, amountDue: $amountDue, interestOnLatePayment: $interestOnLatePayment)';
-  }
-}
-
-class Transaction {
-  Transaction({
-    this.process,
-    this.acronym,
-    required this.description,
-    required this.date,
-    this.deadline,
-    this.debit,
-    this.credit,
-    this.missingDebit,
-    this.interestOnLatePayment,
-    required this.status,
-    required this.document,
-  });
-
-  final String? process;
-  final String? acronym;
-  final String description;
-  final DateTime date;
-  final DateTime? deadline;
-  final int? debit;
-  final int? credit;
-  final int? missingDebit;
-  final int? interestOnLatePayment;
-  final String status;
-  final String document;
-
-  @override
-  String toString() {
-    return 'Transaction(process: $process, acronym: $acronym, description: $description, date: $date, deadline: $deadline, debit: $debit,credit: $credit, missingDebit: $missingDebit, terestOnLatePayment: $interestOnLatePayment, status: $status, document: $document)';
+    return 'Unpaid(description: $description, date: $date, deadline: $deadline, value: $value, amountDue: $amountDue, interestOnLatePayment: $interestOnLatePayment)';
   }
 }
 
@@ -64,17 +27,15 @@ class AccountStatement {
   AccountStatement({
     required this.description,
     required this.date,
-    this.debit,
-    this.credit,
+    required this.credit,
   });
 
   final String description;
   final DateTime date;
-  final int? debit;
-  final int? credit;
+  final double credit;
 
   @override
   String toString() {
-    return 'AccountStatement(description: $description, date: $date, debit: $debit, credit:$credit)';
+    return 'AccountStatement(description: $description, date: $date, credit:$credit)';
   }
 }

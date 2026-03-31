@@ -65,8 +65,8 @@ class Settings extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 8),
             child: ProfileListTile(
               icon: UniIcons.thumbsUp,
-              title: "Current Account",
-              subtitle: "See information about your payments here!",
+              title: 'Current Account',
+              subtitle: 'See information about your payments here!',
               trailing: UniIcon(
                 UniIcons.caretRight,
                 color: Theme.of(context).colorScheme.primary,

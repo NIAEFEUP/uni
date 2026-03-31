@@ -792,7 +792,7 @@ class S {
     );
   }
 
-  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} mapa{Map} faculdade{Faculty} other{Other}}`
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} mapa{Map} faculdade{Faculty} conta_corrente{Current Account} other{Other}}`
   String nav_title(Object title) {
     return Intl.select(
       title,
@@ -809,6 +809,7 @@ class S {
         'percurso_academico': 'Academic Path',
         'mapa': 'Map',
         'faculdade': 'Faculty',
+        'conta_corrente': 'Current Account',
         'other': 'Other',
       },
       name: 'nav_title',

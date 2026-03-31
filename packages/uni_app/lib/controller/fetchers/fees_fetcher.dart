@@ -11,7 +11,7 @@ class FeesFetcher implements SessionDependantFetcher {
     // TO DO: Check balance on all faculties and discard if user is not enrolled
     // Some shared courses (such as L.EIC) do not put fees on both faculties
     final url =
-        '${NetworkRouter.getBaseUrlsFromSession(session)[0]}'
+        '${NetworkRouter.getBaseUrlsFromSession(session)[1]}'
         'gpag_ccorrente_geral.conta_corrente_view';
     return [url];
   }
@@ -22,38 +22,16 @@ class FeesFetcher implements SessionDependantFetcher {
     return NetworkRouter.getWithCookies(url, query, session);
   }
 
-  Future<
-    (
-      List<Unpaid>,
-      List<Transaction>,
-      List<Transaction>,
-      List<Transaction>,
-      List<Transaction>,
-      List<AccountStatement>,
-    )
-  >
-  extractCurrentAccount(Session session, CurrentAccountParser parser) async {
+  Future<(List<Unpaid>, List<AccountStatement>)> extractCurrentAccount(
+    Session session,
+    CurrentAccountParser parser,
+  ) async {
     final response = await getUserFeesResponse(session);
 
     final unpaid = parser.parseUnpaid(response);
 
     final accountStatement = parser.parseAccountStatement(response);
 
-    final certificate = parser.parseCertificate(response);
-
-    final latePaymentInterest = parser.parseLatePaymentInterest(response);
-
-    final tuitionFees = parser.parseTuitionFees(response);
-
-    final schoolInsurance = parser.parseSchoolInsurance(response);
-
-    return (
-      unpaid,
-      certificate,
-      latePaymentInterest,
-      tuitionFees,
-      schoolInsurance,
-      accountStatement,
-    );
+    return (unpaid, accountStatement);
   }
 }

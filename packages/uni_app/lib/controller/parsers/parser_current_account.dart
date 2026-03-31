@@ -6,10 +6,10 @@ import 'package:uni/model/entities/current_account.dart';
 class CurrentAccountParser {
   static const tabNames = {
     'unpaid': ['Despesas não saldadas', 'Unpaid expenses'],
-    'certificate': ['Certidão', 'Certidão'],
-    'latePayment': ['Juros de mora Propinas', 'Juros de mora Propinas'],
-    'tuitionFees': ['Propinas', 'Tuition fees'],
-    'schoolInsurance': ['Seguro Escolar', 'Seguro Escolar'],
+    //'certificate': ['Certidão', 'Certidão'],
+    //'latePayment': ['Juros de mora Propinas', 'Juros de mora Propinas'],
+    //'tuitionFees': ['Propinas', 'Tuition fees'],
+    //'schoolInsurance': ['Seguro Escolar', 'Seguro Escolar'],
     'accountStatement': ['Extrato Geral', 'Account Statement'],
   };
 
@@ -37,8 +37,6 @@ class CurrentAccountParser {
 
       for (final row in rows) {
         final cells = row.querySelectorAll('td');
-        final status = parseStatus(cells[0]);
-        final acronym = cells[1].querySelector('abbr')?.text.trim() ?? '';
         final description = cells[2].text.trim();
 
         final date = DateTime.parse(cells[3].text.trim());
@@ -47,129 +45,32 @@ class CurrentAccountParser {
             ? null
             : DateTime.parse(cells[4].text.trim());
         final value = parseAmount(cells[5].text.trim()) ?? 0;
-        final amountPaid = parseAmount(cells[6].text.trim());
         final amountDue = parseAmount(cells[7].text.trim()) ?? 0;
+
+        final anchor = cells[8].querySelector('a');
+        final relativeLink = anchor?.attributes['href'];
+
+        String? paymentLink;
+        if (relativeLink != null) {
+          paymentLink = 'https://sigarra.up.pt/feup/pt/$relativeLink';
+        }
+
         final interestOnLatePayment = parseAmount(cells[9].text.trim());
 
         data.add(
           Unpaid(
-            status: status,
-            acronym: acronym,
             description: description,
             date: date,
             deadline: deadline,
             value: value,
-            amountPaid: amountPaid,
             amountDue: amountDue,
             interestOnLatePayment: interestOnLatePayment,
+            paymentLink: paymentLink,
           ),
         );
       }
     }
     return data;
-  }
-
-  List<Transaction> _parseTransactionTable(
-    Document document,
-    List<String> names,
-  ) {
-    final List<Transaction> data = [];
-
-    final tableId = findTableId(document, names);
-
-    if (tableId != null) {
-      final tab = document.querySelector(tableId);
-
-      final rows = tab?.querySelectorAll('tr').skip(1) ?? [];
-
-      for (final row in rows) {
-        final cells = row.querySelectorAll('td');
-        final isCredit = cells[0].classes.contains('credito');
-
-        if (isCredit) {
-          final description = cells[0].text.trim();
-
-          final date = DateTime.parse(cells[1].text.trim());
-
-          final deadline = cells[2].text.trim().isEmpty
-              ? null
-              : DateTime.parse(cells[2].text.trim());
-          final debit = parseAmount(cells[3].text.trim());
-          final credit = parseAmount(cells[4].text.trim());
-          final missingDebit = parseAmount(cells[5].text.trim());
-          final interestOnLatePayment = parseAmount(cells[6].text.trim());
-          final status = cells[7].text.trim();
-          final document = cells[8].text.trim();
-
-          data.add(
-            Transaction(
-              description: description,
-              date: date,
-              deadline: deadline,
-              debit: debit,
-              credit: credit,
-              missingDebit: missingDebit,
-              interestOnLatePayment: interestOnLatePayment,
-              status: status,
-              document: document,
-            ),
-          );
-        } else {
-          final process = parseStatus(cells[0]);
-          final acronym = cells[1].querySelector('abbr')?.text.trim() ?? '';
-          final description = cells[2].text.trim();
-
-          final date = DateTime.parse(cells[3].text.trim());
-
-          final deadline = cells[4].text.trim().isEmpty
-              ? null
-              : DateTime.parse(cells[4].text.trim());
-          final debit = parseAmount(cells[5].text.trim());
-          final credit = parseAmount(cells[6].text.trim());
-          final missingDebit = parseAmount(cells[7].text.trim());
-          final interestOnLatePayment = parseAmount(cells[8].text.trim());
-          final status = cells[9].text.trim();
-          final document = cells[10].text.trim();
-
-          data.add(
-            Transaction(
-              process: process,
-              acronym: acronym,
-              description: description,
-              date: date,
-              deadline: deadline,
-              debit: debit,
-              credit: credit,
-              missingDebit: missingDebit,
-              interestOnLatePayment: interestOnLatePayment,
-              status: status,
-              document: document,
-            ),
-          );
-        }
-      }
-    }
-    return data;
-  }
-
-  List<Transaction> parseCertificate(Response response) {
-    final document = parse(response.body);
-    return _parseTransactionTable(document, tabNames['certificate']!);
-  }
-
-  List<Transaction> parseLatePaymentInterest(Response response) {
-    final document = parse(response.body);
-    return _parseTransactionTable(document, tabNames['latePayment']!);
-  }
-
-  List<Transaction> parseTuitionFees(Response response) {
-    final document = parse(response.body);
-    return _parseTransactionTable(document, tabNames['tuitionFees']!);
-  }
-
-  List<Transaction> parseSchoolInsurance(Response response) {
-    final document = parse(response.body);
-    return _parseTransactionTable(document, tabNames['schoolInsurance']!);
   }
 
   List<AccountStatement> parseAccountStatement(Response response) {
@@ -187,17 +88,17 @@ class CurrentAccountParser {
         final description = cells[0].text.trim();
 
         final date = DateTime.parse(cells[1].text.trim());
-        final debit = parseAmount(cells[2].text.trim());
         final credit = parseAmount(cells[3].text.trim());
 
-        data.add(
-          AccountStatement(
-            description: description,
-            date: date,
-            debit: debit,
-            credit: credit,
-          ),
-        );
+        if (credit != null) {
+          data.add(
+            AccountStatement(
+              description: description,
+              date: date,
+              credit: credit,
+            ),
+          );
+        }
       }
     }
 
@@ -216,13 +117,13 @@ class CurrentAccountParser {
     };
   }
 
-  int? parseAmount(String text) {
+  double? parseAmount(String text) {
     final cleaned = text
         .replaceAll('€', '')
         .replaceAll('\u00a0', '')
         .replaceAll(' ', '')
         .replaceAll(',', '');
 
-    return int.tryParse(cleaned);
+    return double.tryParse(cleaned);
   }
 }
