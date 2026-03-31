@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:uni/model/entities/indoor_floor_plan.dart';
+import 'package:uni/view/map/helpers/room_label_info.dart';
 
 class IndoorFloorLayer extends StatelessWidget {
   const IndoorFloorLayer({
@@ -27,7 +28,6 @@ class IndoorFloorLayer extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    // Filter floor plans for selected floor
     final currentFloorPlans = floorPlans
         .where((plan) => plan.floor == selectedFloor)
         .toList();
@@ -51,12 +51,6 @@ class IndoorFloorLayer extends StatelessWidget {
                   color: Theme.of(context).colorScheme.secondary,
                   borderColor: Theme.of(context).colorScheme.primary,
                   borderStrokeWidth: 2,
-                  label: room.ref,
-                  labelStyle: const TextStyle(
-                    color: Colors.black87,
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                  ),
                 ),
               )
               .toList(),
@@ -75,6 +69,36 @@ class IndoorFloorLayer extends StatelessWidget {
                 ),
               )
               .toList(),
+        ),
+        // Labels layer
+        MarkerLayer(
+          markers: visibleRooms.map((room) {
+            final labelProps = getRoomLabelInfo(
+              room.polygon,
+              room.ref,
+              camera.zoom,
+            );
+
+            return Marker(
+              point: labelProps.center,
+              width: 100,
+              alignment: Alignment.center,
+              child: Transform.rotate(
+                angle: labelProps.angle,
+                child: Center(
+                  child: Text(
+                    room.ref,
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: labelProps.fontSize,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
         ),
       ],
     );

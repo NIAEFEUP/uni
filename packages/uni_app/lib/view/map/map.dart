@@ -11,7 +11,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/indoor_floor_plan.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/riverpod/faculty_locations_provider.dart';
-import 'package:uni/view/map/collapsed_location_cluster.dart';
+import 'package:uni/view/map/helpers/collapsed_location_cluster.dart';
 import 'package:uni/view/map/widgets/amenity_filter_bar.dart';
 import 'package:uni/view/map/widgets/floor_selector_button.dart';
 import 'package:uni/view/map/widgets/floorless_marker_popup.dart';
