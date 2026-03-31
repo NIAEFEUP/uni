@@ -136,8 +136,8 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                   child: TextButton.icon(
                     style: TextButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.secondary,
-                      elevation: 2, 
-                      shadowColor: Colors.black.withValues(alpha: 0.3), 
+                      elevation: 2,
+                      shadowColor: Colors.black.withValues(alpha: 0.3),
                       shape: RoundedSuperellipseBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
