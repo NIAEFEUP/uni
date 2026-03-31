@@ -17,8 +17,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: stable
-          flutter-version-file: packages/uni_app/pubspec.yaml
+          flutter-version-file: .fvmrc
           cache: true
       
       - run: flutter pub get
@@ -41,8 +40,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: stable
-          flutter-version-file: packages/uni_app/pubspec.yaml
+          flutter-version-file: .fvmrc
           cache: true
 
       - run: flutter pub get
@@ -67,8 +65,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: stable
-          flutter-version-file: packages/uni_app/pubspec.yaml
+          flutter-version-file: .fvmrc
           cache: true
 
       - name: Test with coverage

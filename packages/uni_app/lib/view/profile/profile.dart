@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
+import 'package:uni/view/profile/profile_shimmer.dart';
 import 'package:uni/view/profile/widgets/profile_info.dart';
 import 'package:uni/view/profile/widgets/profile_overview.dart';
 import 'package:uni/view/profile/widgets/settings.dart';
@@ -19,17 +20,22 @@ class ProfilePageView extends ConsumerStatefulWidget {
 class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
   @override
   Widget getBody(BuildContext context) {
-    return DefaultConsumer<Profile>(
-      provider: profileProvider,
-      builder: (context, ref, profile) => ListView(
-        children: [
-          ProfileOverview(profile: profile),
-          const ProfileInfoWidget(),
-          const Settings(),
-        ],
-      ),
-      hasContent: (profile) => profile.courses.isNotEmpty,
-      nullContentWidget: Container(),
+    return ListView(
+      children: [
+        DefaultConsumer<Profile>(
+          provider: profileProvider,
+          builder: (context, ref, profile) => Column(
+            children: [
+              ProfileOverview(profile: profile),
+              const ProfileInfoWidget(),
+            ],
+          ),
+          hasContent: (profile) => profile.courses.isNotEmpty,
+          loadingWidget: const ProfileCardShimmer(),
+          nullContentWidget: Container(),
+        ),
+        const Settings(),
+      ],
     );
   }
 

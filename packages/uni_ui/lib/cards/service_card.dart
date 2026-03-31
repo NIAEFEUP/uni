@@ -19,6 +19,7 @@ class ServiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GenericCard(
+      margin: EdgeInsets.zero,
       shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
       blurRadius: 2,
       key: key,
@@ -41,6 +42,7 @@ class ServiceCard extends StatelessWidget {
                   style: openingHours.length == 0
                       ? Theme.of(context).textTheme.headlineMedium!
                       : Theme.of(context).textTheme.headlineSmall!,
+                  maxLines: openingHours.length < 2 ? 2 : 1,
                 ),
               ),
             ],

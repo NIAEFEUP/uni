@@ -53,6 +53,34 @@ List<Lecture> getLecturesFromApiResponse(http.Response response) {
       .toList();
 }
 
+/// Returns one [Lecture] per unique time slot, without expanding across
+/// classes. This avoids creating duplicate objects for lectures (e.g.
+/// theoretical classes) that are shared by multiple class groups.
+List<Lecture> getUniqueLecturesFromApiResponse(http.Response response) {
+  final json = jsonDecode(response.body) as Map<String, dynamic>;
+  final data = json['data'] as List<dynamic>;
+
+  return data
+      .cast<Map<String, dynamic>>()
+      .map(ResponseLecture.fromJson)
+      .map(
+        (lecture) => Lecture(
+          lecture.units.first.acronym,
+          _filterSubjectName(lecture.units.first.name),
+          lecture.typology.acronym,
+          lecture.start,
+          lecture.end,
+          lecture.rooms.first.name,
+          lecture.persons.map((person) => person.acronym).join('+'),
+          _filterTeacherName(lecture.persons.first.name),
+          _filterTeacherCode(lecture.persons.first.name),
+          lecture.classes.first.acronym,
+          lecture.units.first.sigarraId,
+        ),
+      )
+      .toList();
+}
+
 String _filterSubjectName(String subject) {
   return RegExp(r' - ([^()]*)(?: \(|$)').firstMatch(subject)?.group(1) ??
       subject;
