@@ -196,6 +196,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                 roomFilter: hasRoomSearchResults
                     ? (room) => _matchesRoomSearch(room, normalizedSearchTerm)
                     : null,
+                hasSearchContent: hasRoomSearchResults,
               ),
             PopupMarkerLayer(
               options: PopupMarkerLayerOptions(

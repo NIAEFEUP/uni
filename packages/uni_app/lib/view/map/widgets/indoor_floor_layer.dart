@@ -7,12 +7,14 @@ class IndoorFloorLayer extends StatelessWidget {
     required this.floorPlans,
     required this.selectedFloor,
     this.roomFilter,
+    this.hasSearchContent = false,
     super.key,
   });
 
   final List<IndoorFloorPlan> floorPlans;
   final int? selectedFloor;
   final bool Function(IndoorRoom room)? roomFilter;
+  final bool hasSearchContent;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class IndoorFloorLayer extends StatelessWidget {
     }
 
     final camera = MapCamera.of(context);
-    if (camera.zoom < 17) {
+    if (camera.zoom < 17.8 && !hasSearchContent) {
       return const SizedBox.shrink();
     }
 
