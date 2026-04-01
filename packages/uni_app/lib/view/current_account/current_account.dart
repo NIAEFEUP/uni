@@ -41,8 +41,8 @@ class CurrentAccountPageViewState
             (e) => e.description.toLowerCase().contains('propina'),
           ),
         ]..sort((a, b) {
-          final dateA = (a is Unpaid) ? a.date : (a as AccountStatement).date;
-          final dateB = (b is Unpaid) ? b.date : (b as AccountStatement).date;
+          final dateA = (a is Unpaid) ? (a.deadline ?? a.date) : (a as AccountStatement).date;          
+          final dateB = (b is Unpaid) ? (b.deadline ?? b.date) : (b as AccountStatement).date;
           return dateB.compareTo(dateA);
         });
 
