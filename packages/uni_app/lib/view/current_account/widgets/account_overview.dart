@@ -8,11 +8,11 @@ import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/cards/profile_list_tile.dart';
 import 'package:uni_ui/icons.dart';
 
-class AccountOverview extends ConsumerWidget{
-  const AccountOverview();
+class AccountOverview extends ConsumerWidget {
+  const AccountOverview({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref){
+  Widget build(BuildContext context, WidgetRef ref) {
     final overview = ref.watch(profileProvider);
 
     return overview.when(
@@ -20,12 +20,14 @@ class AccountOverview extends ConsumerWidget{
       error: (err, stack) => Center(child: Text('Error: $err')),
       data: (dynamic data) {
         final profile = data as Profile;
-        
+
         return Column(
           children: [
             GenericCard(
               tooltip: S.of(context).balance,
               margin: const EdgeInsets.only(bottom: 14, right: 20, left: 20),
+              padding: EdgeInsets.zero,
+
               child: ProfileListTile(
                 icon: UniIcons.piggyBank,
                 title: S.of(context).balance,
@@ -39,12 +41,15 @@ class AccountOverview extends ConsumerWidget{
             GenericCard(
               tooltip: S.of(context).fee_date,
               margin: const EdgeInsets.only(bottom: 14, right: 20, left: 20),
+              padding: EdgeInsets.zero,
+
               child: ProfileListTile(
                 icon: UniIcons.calendarDots,
                 title: S.of(context).fee_date,
                 subtitle: S.of(context).fee_date_description,
                 trailing: Text(
-                  profile.feesLimit != null ? DateFormat('yyyy-MM-dd').format(profile.feesLimit!)
+                  profile.feesLimit != null
+                      ? DateFormat('yyyy-MM-dd').format(profile.feesLimit!)
                       : S.of(context).no_date,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
@@ -53,6 +58,7 @@ class AccountOverview extends ConsumerWidget{
             GenericCard(
               tooltip: S.of(context).print_balance,
               margin: const EdgeInsets.only(bottom: 14, right: 20, left: 20),
+              padding: EdgeInsets.zero,
               child: ProfileListTile(
                 icon: UniIcons.printer,
                 title: S.of(context).print_balance,
@@ -65,7 +71,7 @@ class AccountOverview extends ConsumerWidget{
             ),
           ],
         );
-      }
+      },
     );
   }
 }

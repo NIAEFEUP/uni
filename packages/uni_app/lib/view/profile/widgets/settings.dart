@@ -56,7 +56,6 @@ class Settings extends StatelessWidget {
                   trailing: const ThemeSwitchButton(),
                 ),
                 */
-                
                 ProfileListTile(
                   icon: UniIcons.globeHemisphereWest,
                   title: S.of(context).language,

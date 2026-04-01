@@ -4,7 +4,6 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/view/profile/profile_shimmer.dart';
-import 'package:uni/view/profile/widgets/profile_info.dart';
 import 'package:uni/view/profile/widgets/profile_overview.dart';
 import 'package:uni/view/profile/widgets/settings.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';

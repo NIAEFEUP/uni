@@ -26,7 +26,9 @@ class Transaction extends StatelessWidget {
   final String? paymentLink;
 
   Future<void> _launchPaymentUrl() async {
-    if (paymentLink == null) return;
+    if (paymentLink == null) {
+      return;
+    }
 
     final Uri url = Uri.parse(paymentLink!);
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
@@ -104,7 +106,7 @@ class Transaction extends StatelessWidget {
             children: [
               if (paymentLink != null)
                 Transform.translate(
-                  offset: const Offset(14, 0),
+                  offset: const Offset(12, 0),
                   child: IconButton(
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),

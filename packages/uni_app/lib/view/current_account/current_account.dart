@@ -4,12 +4,10 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/current_account.dart';
 import 'package:uni/model/providers/riverpod/current_account_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
-import 'package:uni/view/current_account/account_overview.dart';
+import 'package:uni/view/current_account/widgets/account_overview.dart';
 import 'package:uni/view/current_account/widgets/transaction.dart';
+import 'package:uni/view/current_account/widgets/transaction_filter_menu.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
-import 'package:uni_ui/cards/generic_card.dart';
-import 'package:uni_ui/cards/profile_list_tile.dart';
-import 'package:uni_ui/icons.dart';
 
 class CurrentAccountPageView extends ConsumerStatefulWidget {
   const CurrentAccountPageView({super.key});
@@ -21,7 +19,7 @@ class CurrentAccountPageView extends ConsumerStatefulWidget {
 
 class CurrentAccountPageViewState
     extends SecondaryPageViewState<CurrentAccountPageView> {
-  int _selectedTab = 0;
+  String _selectedFilter = 'Pending';
 
   @override
   String? getTitle() =>
@@ -53,7 +51,7 @@ class CurrentAccountPageViewState
 
   Widget _buildListView(List<dynamic> items) {
     if (items.isEmpty) {
-      return const Center(child: Text("Sem registos para este filtro."));
+      return const Center(child: Text('Sem registos para este filtro.'));
     }
 
     return ListView.separated(
@@ -80,7 +78,6 @@ class CurrentAccountPageViewState
             description: item.description,
             date: item.date,
             value: item.credit,
-            isUnpaid: false,
           );
         }
         return const SizedBox.shrink();
@@ -103,16 +100,13 @@ class CurrentAccountPageViewState
 
         List<dynamic> currentList;
 
-        switch (_selectedTab) {
-          case 0:
+        switch (_selectedFilter) {
+          case 'Pending':
             currentList = unpaid;
-            break;
-          case 1:
+          case 'Tuition Fees':
             currentList = _filterTuition(unpaid, history);
-            break;
-          case 2:
+          case 'General History':
             currentList = history;
-            break;
           default:
             currentList = [];
         }
@@ -163,41 +157,27 @@ class CurrentAccountPageViewState
                     style: Theme.of(context).textTheme.headlineLarge,
                   ),
                 ),
-                const SizedBox(width: 14),
+                Container(
+                  margin: const EdgeInsets.only(right: 20),
+                  child: TransactionFilterMenu(
+                    items: const ['Pending', 'Tuition Fees', 'General History'],
+                    selectedValue: _selectedFilter,
+                    onSelectionChanged: (newValue) {
+                      setState(() {
+                        _selectedFilter = newValue;
+                      });
+                    },
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 8),
             if (currentList.isEmpty)
-              const Center(child: Text("Sem registos."))
+              Center(child: Text(S.of(context).no_records))
             else
               _buildListView(currentList),
           ],
         );
-      },
-    );
-  }
-}
-
-class _FilterBar extends StatelessWidget {
-  const _FilterBar({required this.selected, required this.onSelected});
-
-  final int selected;
-  final void Function(int) onSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButtonFormField<int>(
-      dropdownColor: const Color.fromARGB(255, 255, 210, 210),
-      style: const TextStyle(color: Colors.black),
-      decoration: const InputDecoration(border: InputBorder.none),
-      initialValue: selected,
-      items: [
-        DropdownMenuItem(value: 0, child: Text(S.of(context).pending)),
-        DropdownMenuItem(value: 1, child: Text(S.of(context).tuition_fees)),
-        DropdownMenuItem(value: 2, child: Text(S.of(context).general_history)),
-      ],
-      onChanged: (index) {
-        if (index != null) onSelected(index);
       },
     );
   }

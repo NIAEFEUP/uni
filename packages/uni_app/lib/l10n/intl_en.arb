@@ -509,5 +509,7 @@
   "interest_on_late_payments": "Interest on late payments",
   "@interest_on_late_payments": {},
   "due_in": "Due in",
-  "@due_in": {}
+  "@due_in": {},
+  "no_records": "No records",
+  "@no_records": {}
 }
