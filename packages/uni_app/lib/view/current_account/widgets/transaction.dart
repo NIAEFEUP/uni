@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -58,9 +59,12 @@ class Transaction extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color.fromRGBO(255, 224, 224, 0.8),
-        borderRadius: BorderRadius.circular(20),
+      decoration: ShapeDecoration(
+        color: Theme.of(context).colorScheme.surfaceContainer,
+        shadows: [BoxShadow(color: Colors.black.withValues(alpha: 0.03))],
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,21 +83,16 @@ class Transaction extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 8),
                 Text(
                   description,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                    color: Colors.black,
-                  ),
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 8),
                 Text(
                   status == PaymentStatus.paid || deadline == null
                       ? "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}"
-                      : "due in ${deadline!.year}-${deadline!.month.toString().padLeft(2, '0')}-${deadline!.day.toString().padLeft(2, '0')}",
-                  style: const TextStyle(fontSize: 12, color: Colors.black87),
+                      : "${S.of(context).due_in} ${deadline!.year}-${deadline!.month.toString().padLeft(2, '0')}-${deadline!.day.toString().padLeft(2, '0')}",
                 ),
               ],
             ),
@@ -109,9 +108,9 @@ class Transaction extends StatelessWidget {
                   child: IconButton(
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
-                    icon: const Icon(
+                    icon: Icon(
                       UniIcons.arrowSquareOut,
-                      color: Colors.black,
+                      color: Theme.of(context).colorScheme.primary,
                       size: 18,
                     ),
                     onPressed: _launchPaymentUrl,
@@ -120,25 +119,23 @@ class Transaction extends StatelessWidget {
                 ),
               Text(
                 '${(value / 100).toStringAsFixed(2)}€',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                  color: Colors.black,
-                ),
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               if (status == PaymentStatus.overdue &&
                   interestOnLatePayment != null) ...[
                 Text(
                   '+ ${(interestOnLatePayment! / 100).toStringAsFixed(2)}€',
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 8,
-                    color: Colors.red[900],
+                    fontSize: 10,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
                 Text(
-                  'interest on late payments',
-                  style: TextStyle(fontSize: 5, color: Colors.red[900]),
+                  S.of(context).interest_on_late_payments,
+                  style: TextStyle(
+                    fontSize: 8,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
               ],
             ],

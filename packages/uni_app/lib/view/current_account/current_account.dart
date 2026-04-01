@@ -4,6 +4,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/current_account.dart';
 import 'package:uni/model/providers/riverpod/current_account_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/current_account/account_overview.dart';
 import 'package:uni/view/current_account/widgets/transaction.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni_ui/cards/generic_card.dart';
@@ -56,6 +57,8 @@ class CurrentAccountPageViewState
     }
 
     return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
       itemCount: items.length,
       separatorBuilder: (context, index) => const SizedBox(height: 12),
@@ -114,90 +117,60 @@ class CurrentAccountPageViewState
             currentList = [];
         }
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        return ListView(
+          padding: const EdgeInsets.symmetric(vertical: 20),
           children: [
-            const GenericCard(
-              tooltip: 'Balance',
-              margin: EdgeInsets.only(bottom: 14, right: 20, left: 20),
-              child: ProfileListTile(
-                icon: UniIcons.piggyBank,
-                title: 'Balance',
-                subtitle: 'See information about your payments here!',
-                trailing: Text(
-                  '-280€',
-                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 15),
-                ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                S.of(context).overview,
+                style: Theme.of(context).textTheme.headlineLarge,
               ),
             ),
-            const GenericCard(
-              tooltip: 'Deadline',
-              margin: EdgeInsets.only(bottom: 14, right: 20, left: 20),
-              child: ProfileListTile(
-                icon: UniIcons.calendarDots,
-                title: 'Balance',
-                subtitle: 'See information about your payments here!',
-                trailing: Text(
-                  'No date',
-                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 15),
-                ),
-              ),
-            ),
-            const GenericCard(
-              tooltip: 'Print Balance',
-              margin: EdgeInsets.only(bottom: 14, right: 20, left: 20),
-              child: ProfileListTile(
-                icon: UniIcons.printer,
-                title: 'Print Balance',
-                subtitle: 'See information about your payments here!',
-                trailing: Text(
-                  '9.80€',
-                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 15),
-                ),
-              ),
-            ),
-            const SizedBox(height: 26),
-            if(nextItem != null)
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+            const SizedBox(height: 8),
+            const AccountOverview(),
+            const SizedBox(height: 8),
+            if (nextItem != null) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  'Next',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
+                  S.of(context).upcoming_due,
+                  style: Theme.of(context).textTheme.headlineLarge,
                 ),
               ),
               const SizedBox(height: 8),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Transaction(
-                  description: nextItem!.description,
-                  date: nextItem!.date,
-                  deadline: nextItem?.deadline,
-                  value: nextItem!.amountDue,
-                  interestOnLatePayment: nextItem?.interestOnLatePayment,
-                  paymentLink: nextItem?.paymentLink,
+                  description: nextItem.description,
+                  date: nextItem.date,
+                  deadline: nextItem.deadline,
+                  value: nextItem.amountDue,
+                  interestOnLatePayment: nextItem.interestOnLatePayment,
+                  paymentLink: nextItem.paymentLink,
                   isUnpaid: true,
                 ),
               ),
-
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: const Color.fromARGB(255, 246, 220, 220),
+            ],
+            const SizedBox(height: 22),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    S.of(context).transactions,
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
                 ),
-                child: _FilterBar(
-                  selected: _selectedTab,
-                  onSelected: (index) => setState(() => _selectedTab = index),
-                ),
-              ),
+                const SizedBox(width: 14),
+              ],
             ),
-            Expanded(child: _buildListView(currentList)),
+            const SizedBox(height: 8),
+            if (currentList.isEmpty)
+              const Center(child: Text("Sem registos."))
+            else
+              _buildListView(currentList),
           ],
         );
       },
@@ -218,10 +191,10 @@ class _FilterBar extends StatelessWidget {
       style: const TextStyle(color: Colors.black),
       decoration: const InputDecoration(border: InputBorder.none),
       initialValue: selected,
-      items: const [
-        DropdownMenuItem(value: 0, child: Text('Pendentes')),
-        DropdownMenuItem(value: 1, child: Text('Propinas')),
-        DropdownMenuItem(value: 2, child: Text('Histórico Geral')),
+      items: [
+        DropdownMenuItem(value: 0, child: Text(S.of(context).pending)),
+        DropdownMenuItem(value: 1, child: Text(S.of(context).tuition_fees)),
+        DropdownMenuItem(value: 2, child: Text(S.of(context).general_history)),
       ],
       onChanged: (index) {
         if (index != null) onSelected(index);

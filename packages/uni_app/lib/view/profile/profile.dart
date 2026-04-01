@@ -24,12 +24,7 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
       children: [
         DefaultConsumer<Profile>(
           provider: profileProvider,
-          builder: (context, ref, profile) => Column(
-            children: [
-              ProfileOverview(profile: profile),
-              const ProfileInfo(),
-            ],
-          ),
+          builder: (context, ref, profile) => ProfileOverview(profile: profile),
           hasContent: (profile) => profile.courses.isNotEmpty,
           loadingWidget: const ProfileCardShimmer(),
           nullContentWidget: Container(),

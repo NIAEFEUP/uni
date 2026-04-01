@@ -26,6 +26,25 @@ class Settings extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineLarge,
           ),
           GenericCard(
+            tooltip: S.of(context).current_account,
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            child: ProfileListTile(
+              icon: UniIcons.bank,
+              title: S.of(context).current_account,
+              subtitle: S.of(context).current_account_description,
+              trailing: UniIcon(
+                UniIcons.caretRight,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  '/${NavigationItem.navCurrentAccount.route}',
+                );
+              },
+            ),
+          ),
+          GenericCard(
             tooltip: S.of(context).settings,
             margin: const EdgeInsets.symmetric(vertical: 8),
             child: Column(
@@ -37,6 +56,7 @@ class Settings extends StatelessWidget {
                   trailing: const ThemeSwitchButton(),
                 ),
                 */
+                
                 ProfileListTile(
                   icon: UniIcons.globeHemisphereWest,
                   title: S.of(context).language,
@@ -58,25 +78,6 @@ class Settings extends StatelessWidget {
                   },
                 ),
               ],
-            ),
-          ),
-          GenericCard(
-            tooltip: S.of(context).leave_feedback,
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            child: ProfileListTile(
-              icon: UniIcons.thumbsUp,
-              title: 'Current Account',
-              subtitle: 'See information about your payments here!',
-              trailing: UniIcon(
-                UniIcons.caretRight,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  '/${NavigationItem.navCurrentAccount.route}',
-                );
-              },
             ),
           ),
           GenericCard(
