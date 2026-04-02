@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 enum PaymentStatus { paid, pending, overdue }
@@ -51,9 +52,9 @@ class Transaction extends StatelessWidget {
   }
 
   Color _dotColor(BuildContext context) => switch (status) {
-    PaymentStatus.paid => Colors.green,
-    PaymentStatus.pending => Colors.amber,
-    PaymentStatus.overdue => Colors.red,
+    PaymentStatus.paid => BadgeColors.pl,
+    PaymentStatus.pending => BadgeColors.ee,
+    PaymentStatus.overdue => BadgeColors.er,
   };
 
   @override
@@ -70,7 +71,9 @@ class Transaction extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: paymentLink != null
+            ? CrossAxisAlignment.start
+            : CrossAxisAlignment.center,
         children: [
           Expanded(
             child: Column(
@@ -100,47 +103,56 @@ class Transaction extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 24),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (paymentLink != null)
-                Transform.translate(
-                  offset: const Offset(12, 0),
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    icon: Icon(
-                      UniIcons.arrowSquareOut,
-                      color: Theme.of(context).colorScheme.primary,
-                      size: 18,
+          IntrinsicHeight(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                if (paymentLink != null)
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      icon: Icon(
+                        UniIcons.arrowSquareOut,
+                        color: Theme.of(context).colorScheme.primary,
+                        size: 18,
+                      ),
+                      onPressed: _launchPaymentUrl,
+                      visualDensity: VisualDensity.compact,
                     ),
-                    onPressed: _launchPaymentUrl,
-                    visualDensity: VisualDensity.compact,
                   ),
-                ),
-              Text(
-                '${(value / 100).toStringAsFixed(2)}€',
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              if (status == PaymentStatus.overdue &&
-                  interestOnLatePayment != null) ...[
-                Text(
-                  '+ ${(interestOnLatePayment! / 100).toStringAsFixed(2)}€',
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                Text(
-                  S.of(context).interest_on_late_payments,
-                  style: TextStyle(
-                    fontSize: 8,
-                    color: Theme.of(context).colorScheme.primary,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '${(value / 100).toStringAsFixed(2)}€',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                      if (status == PaymentStatus.overdue &&
+                          interestOnLatePayment != null) ...[
+                        Text(
+                          '+ ${(interestOnLatePayment! / 100).toStringAsFixed(2)}€',
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                        Text(
+                          S.of(context).interest_on_late_payments,
+                          style: TextStyle(
+                            fontSize: 8,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
                 ),
               ],
-            ],
+            ),
           ),
         ],
       ),

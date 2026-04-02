@@ -55,7 +55,15 @@ class CurrentAccountParser {
           paymentLink = 'https://sigarra.up.pt/feup/pt/$relativeLink';
         }
 
-        final interestOnLatePayment = parseAmount(cells[9].text.trim());
+        final interest = cells[9].text.trim();
+        double? interestOnLatePayment;
+
+        if (interest.isNotEmpty) {
+          final parts = interest.split('+');
+          interestOnLatePayment = parts
+              .map((p) => parseAmount(p) ?? 0.0)
+              .reduce((a, b) => a + b);
+        }
 
         data.add(
           Unpaid(
