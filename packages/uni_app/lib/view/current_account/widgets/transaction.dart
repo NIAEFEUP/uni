@@ -5,7 +5,6 @@ import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/view/current_account/widgets/payment_webview.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/theme.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 enum PaymentStatus { paid, pending, overdue }
 
@@ -28,17 +27,6 @@ class Transaction extends ConsumerWidget {
   final double? interestOnLatePayment;
   final bool isUnpaid;
   final String? paymentLink;
-
-  Future<void> _launchPaymentUrl() async {
-    if (paymentLink == null) {
-      return;
-    }
-
-    final Uri url = Uri.parse(paymentLink!);
-    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-      throw Exception('Could not launch $url');
-    }
-  }
 
   PaymentStatus get status {
     if (deadline == null) {
@@ -101,8 +89,8 @@ class Transaction extends ConsumerWidget {
                 const SizedBox(height: 8),
                 Text(
                   status == PaymentStatus.paid || deadline == null
-                      ? "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}"
-                      : "${S.of(context).due_in} ${deadline!.year}-${deadline!.month.toString().padLeft(2, '0')}-${deadline!.day.toString().padLeft(2, '0')}",
+                      ? "${date.day.toString().padLeft(2, '0')}-${date.month.toString().padLeft(2, '0')}-${date.year}"
+                      : "${S.of(context).due_in} ${deadline!.day.toString().padLeft(2, '0')}-${deadline!.month.toString().padLeft(2, '0')}-${deadline!.year}",
                 ),
               ],
             ),
@@ -126,7 +114,7 @@ class Transaction extends ConsumerWidget {
                       onPressed: () {
                         sessionAsync.whenData((session) {
                           if (session != null) {
-                            showModalBottomSheet(
+                            showModalBottomSheet<void>(
                               context: context,
                               isScrollControlled: true,
                               backgroundColor: Colors.transparent,
@@ -138,8 +126,7 @@ class Transaction extends ConsumerWidget {
                                   ),
                                 ),
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.9,
+                                height: MediaQuery.sizeOf(context).height * 0.9,
                                 child: PaymentWebView(
                                   url: paymentLink!,
                                   session: session,
@@ -148,10 +135,8 @@ class Transaction extends ConsumerWidget {
                             );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  "Sessão expirada. Faça login novamente.",
-                                ),
+                              SnackBar(
+                                content: Text(S.of(context).failed_login),
                               ),
                             );
                           }

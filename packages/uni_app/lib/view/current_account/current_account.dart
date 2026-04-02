@@ -207,28 +207,28 @@ class CurrentAccountPageViewState
         if (currentList.isEmpty)
           switch (_selectedFilter) {
             'Pending' => Transform.scale(
-              scale: 0.8, // Encolhe o desenho em 20%
+              scale: 0.8,
               child: CurrentAccountNoInfo(
                 label: S.of(context).no_pending_label,
                 sublabel: S.of(context).no_pending_sublabel,
               ),
             ),
             'Tuition Fees' => Transform.scale(
-              scale: 0.8, // Encolhe o desenho em 20%
+              scale: 0.8,
               child: CurrentAccountNoInfo(
                 label: S.of(context).no_tuition_fees_label,
                 sublabel: S.of(context).no_tuition_fees_sublabel,
               ),
             ),
             'General History' => Transform.scale(
-              scale: 0.8, // Encolhe o desenho em 20%
+              scale: 0.8,
               child: CurrentAccountNoInfo(
                 label: S.of(context).no_history_label,
                 sublabel: S.of(context).no_history_sublabel,
               ),
             ),
             _ => Transform.scale(
-              scale: 0.8, // Encolhe o desenho em 20%
+              scale: 0.8,
               child: CurrentAccountNoInfo(
                 label: S.of(context).no_pending_label,
                 sublabel: S.of(context).no_pending_sublabel,

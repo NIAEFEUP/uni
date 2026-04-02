@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:uni/session/flows/base/session.dart';
 
-class PaymentWebView extends StatefulWidget  {
+class PaymentWebView extends StatefulWidget {
   const PaymentWebView({super.key, required this.url, required this.session});
 
   final String url;
   final Session session;
-  
+
   @override
   State<PaymentWebView> createState() => _PaymentWebViewState();
 }
+
 class _PaymentWebViewState extends State<PaymentWebView> {
   bool isLoading = true;
 
@@ -30,19 +31,11 @@ class _PaymentWebViewState extends State<PaymentWebView> {
           ),
         ),
         Expanded(
-          child: Stack( 
+          child: Stack(
             children: [
               InAppWebView(
                 initialUrlRequest: URLRequest(url: WebUri(widget.url)),
-                initialSettings: InAppWebViewSettings(
-                  javaScriptEnabled: true,
-                  thirdPartyCookiesEnabled: true,
-                  supportZoom: true,
-                  builtInZoomControls: true,
-                  displayZoomControls: false,
-                  useWideViewPort: true,
-                  loadWithOverviewMode: true,
-                ),
+                initialSettings: InAppWebViewSettings(),
                 gestureRecognizers: const {
                   Factory<VerticalDragGestureRecognizer>(
                     VerticalDragGestureRecognizer.new,
@@ -50,9 +43,9 @@ class _PaymentWebViewState extends State<PaymentWebView> {
                 },
                 onWebViewCreated: (controller) async {
                   final cookieManager = CookieManager.instance();
-                  const baseUrl = "https://sigarra.up.pt";
+                  const baseUrl = 'https://sigarra.up.pt';
 
-                  for (var cookie in widget.session.cookies) {
+                  for (final cookie in widget.session.cookies) {
                     await cookieManager.setCookie(
                       url: WebUri(baseUrl),
                       name: cookie.name,
@@ -72,7 +65,9 @@ class _PaymentWebViewState extends State<PaymentWebView> {
                     """,
                   );
 
-                  await Future.delayed(const Duration(milliseconds: 1500));
+                  await Future<void>.delayed(
+                    const Duration(milliseconds: 1500),
+                  );
 
                   if (mounted) {
                     setState(() {
@@ -81,13 +76,11 @@ class _PaymentWebViewState extends State<PaymentWebView> {
                   }
                 },
               ),
-              
+
               if (isLoading)
                 Container(
                   color: Colors.white,
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                  child: const Center(child: CircularProgressIndicator()),
                 ),
             ],
           ),
