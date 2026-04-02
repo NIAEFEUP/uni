@@ -13,7 +13,9 @@ class ProfessorLecturesParams {
 
   @override
   bool operator ==(Object other) {
-    if (identical(this, other)) return true;
+    if (identical(this, other)) {
+      return true;
+    }
     return other is ProfessorLecturesParams &&
         other.professor == professor &&
         other.lectiveYear == lectiveYear;
