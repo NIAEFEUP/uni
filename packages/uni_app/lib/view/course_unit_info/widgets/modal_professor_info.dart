@@ -47,18 +47,18 @@ class ProfessorInfoModal extends ConsumerWidget {
                 children: [
                   ModalInfoRow(
                     title: S.of(context).email,
-                    description: info.email ?? '—',
+                    description: info.institutionalEmail ?? '—',
                     icon: UniIcons.email,
-                    trailing: info.email != null
+                    trailing: info.institutionalEmail != null
                         ? UniIcon(
                             UniIcons.caretRight,
                             color: Theme.of(context).colorScheme.primary,
                           )
                         : const SizedBox(),
-                    onPressed: info.email != null
+                    onPressed: info.institutionalEmail != null
                         ? () => launchUrlWithToast(
                             context,
-                            'mailto:${info.email}',
+                            'mailto:${info.institutionalEmail}',
                           )
                         : null,
                   ),

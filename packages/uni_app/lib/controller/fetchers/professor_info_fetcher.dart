@@ -3,14 +3,8 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/session/flows/base/session.dart';
 
-class ProfessorExtraInfo {
-  const ProfessorExtraInfo({this.email, this.rooms = const []});
-  final String? email;
-  final List<String> rooms;
-}
-
 class ProfessorInfoFetcher {
-  Future<ProfessorExtraInfo> fetchProfessorInfo(
+  Future<Professor> fetchProfessorInfo(
     Professor professor,
     Session session,
     List<String> baseUrls,
@@ -19,7 +13,15 @@ class ProfessorInfoFetcher {
     final rooms = {...professor.rooms};
 
     if (email != null && rooms.isNotEmpty) {
-      return ProfessorExtraInfo(email: email, rooms: rooms.toList());
+      return Professor(
+        code: professor.code,
+        name: professor.name,
+        classes: professor.classes,
+        institutionalEmail: email,
+        rooms: rooms.toList(),
+        picture: professor.picture,
+        isRegent: professor.isRegent,
+      );
     }
 
     for (final baseUrl in baseUrls) {
@@ -111,16 +113,29 @@ class ProfessorInfoFetcher {
           }
         }
 
-        return ProfessorExtraInfo(
-          email: parsedEmail,
+        return Professor(
+          code: professor.code,
+          name: professor.name,
+          classes: professor.classes,
+          institutionalEmail: parsedEmail,
           rooms: _dedupeRooms(rooms),
+          picture: professor.picture,
+          isRegent: professor.isRegent,
         );
       } catch (_) {
         continue;
       }
     }
 
-    return ProfessorExtraInfo(email: email, rooms: _dedupeRooms(rooms));
+    return Professor(
+      code: professor.code,
+      name: professor.name,
+      classes: professor.classes,
+      institutionalEmail: email,
+      rooms: _dedupeRooms(rooms),
+      picture: professor.picture,
+      isRegent: professor.isRegent,
+    );
   }
 
   List<String> _dedupeRooms(Iterable<String> roomValues) {
