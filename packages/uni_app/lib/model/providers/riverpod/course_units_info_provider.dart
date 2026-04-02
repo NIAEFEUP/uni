@@ -2,13 +2,13 @@ import 'dart:collection';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
-import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_new_api.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
+import 'package:uni/model/providers/riverpod/professor_lectures_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 
 typedef SheetsMap = Map<CourseUnit, Sheet>;
@@ -205,11 +205,6 @@ class CourseUnitsInfoNotifier
   }
 
   Future<void> fetchClassProfessors(CourseUnit courseUnit) async {
-    final session = await ref.read(sessionProvider.future);
-    if (session == null) {
-      return;
-    }
-
     final sheet = courseUnitsSheets[courseUnit];
     if (sheet == null) {
       return;
@@ -229,14 +224,14 @@ class CourseUnitsInfoNotifier
     }
 
     for (final professor in professors) {
-      final fetcher = ScheduleFetcherNewApiProfessor(
-        professorCode: professor.code,
-      );
-
       try {
-        final lectures = await fetcher.getLectures(
-          session,
-          lectiveYear: lectiveYear,
+        final lectures = await ref.read(
+          professorLecturesProvider(
+            ProfessorLecturesParams(
+              professor: professor,
+              lectiveYear: lectiveYear,
+            ),
+          ).future,
         );
 
         for (final lecture in lectures) {
