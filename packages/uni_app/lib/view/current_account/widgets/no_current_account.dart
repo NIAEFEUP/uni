@@ -3,7 +3,11 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/widgets/expanded_image_label.dart';
 
 class CurrentAccountNoInfo extends StatelessWidget {
-  const CurrentAccountNoInfo({super.key,required this.label, required this.sublabel});
+  const CurrentAccountNoInfo({
+    super.key,
+    required this.label,
+    required this.sublabel,
+  });
 
   final String label;
   final String sublabel;

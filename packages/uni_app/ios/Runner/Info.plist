@@ -55,6 +55,11 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Exportar exames e eventos para o calendário</string>
 	<key>NSPhotoLibraryUsageDescription</key>

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/providers/riverpod/session_provider.dart';
+import 'package:uni/view/current_account/widgets/payment_webview.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 enum PaymentStatus { paid, pending, overdue }
 
-class Transaction extends StatelessWidget {
+class Transaction extends ConsumerWidget {
   const Transaction({
     super.key,
     required this.description,
@@ -58,7 +61,9 @@ class Transaction extends StatelessWidget {
   };
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sessionAsync = ref.watch(sessionProvider);
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -118,7 +123,40 @@ class Transaction extends StatelessWidget {
                         color: Theme.of(context).colorScheme.primary,
                         size: 18,
                       ),
-                      onPressed: _launchPaymentUrl,
+                      onPressed: () {
+                        sessionAsync.whenData((session) {
+                          if (session != null) {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (context) => Container(
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(20),
+                                  ),
+                                ),
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.9,
+                                child: PaymentWebView(
+                                  url: paymentLink!,
+                                  session: session,
+                                ),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  "Sessão expirada. Faça login novamente.",
+                                ),
+                              ),
+                            );
+                          }
+                        });
+                      },
                       visualDensity: VisualDensity.compact,
                     ),
                   ),
