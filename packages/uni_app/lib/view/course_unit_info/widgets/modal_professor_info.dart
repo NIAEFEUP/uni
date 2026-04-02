@@ -5,6 +5,7 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
+import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/professor_info_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
@@ -38,69 +39,64 @@ class ProfessorInfoModal extends ConsumerWidget {
             studentNumber: int.parse(professor.code),
           ),
         ),
-        Consumer(
-          builder: (context, ref, _) {
-            final infoAsyncValue = ref.watch(professorInfoProvider(professor));
-            return infoAsyncValue.when(
-              data: (info) => Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ModalInfoRow(
-                    title: S.of(context).email,
-                    description: info.institutionalEmail ?? '—',
-                    icon: UniIcons.email,
-                    trailing: info.institutionalEmail != null
-                        ? UniIcon(
-                            UniIcons.caretRight,
-                            color: Theme.of(context).colorScheme.primary,
-                          )
-                        : const SizedBox(),
-                    onPressed: info.institutionalEmail != null
-                        ? () => launchUrlWithToast(
-                            context,
-                            'mailto:${info.institutionalEmail}',
-                          )
-                        : null,
-                  ),
-                  ModalInfoRow(
-                    title: S.of(context).room,
-                    description: info.rooms.isNotEmpty
-                        ? info.rooms.join(', ')
-                        : '—',
-                    icon: UniIcons.location,
-                  ),
-                ],
+        DefaultConsumer<Professor>(
+          provider: professorInfoProvider(professor),
+          builder: (context, ref, info) => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ModalInfoRow(
+                title: S.of(context).email,
+                description: info.institutionalEmail ?? '—',
+                icon: UniIcons.email,
+                trailing: info.institutionalEmail != null
+                    ? UniIcon(
+                        UniIcons.caretRight,
+                        color: Theme.of(context).colorScheme.primary,
+                      )
+                    : const SizedBox(),
+                onPressed: info.institutionalEmail != null
+                    ? () => launchUrlWithToast(
+                        context,
+                        'mailto:${info.institutionalEmail}',
+                      )
+                    : null,
               ),
-              loading: () => Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ShimmerInfoRow(
-                    title: S.of(context).email,
-                    icon: UniIcons.email,
-                  ),
-                  ShimmerInfoRow(
-                    title: S.of(context).room,
-                    icon: UniIcons.location,
-                  ),
-                ],
+              ModalInfoRow(
+                title: S.of(context).room,
+                description: info.rooms.isNotEmpty
+                    ? info.rooms.join(', ')
+                    : '—',
+                icon: UniIcons.location,
               ),
-              error: (err, stack) => Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ModalInfoRow(
-                    title: S.of(context).email,
-                    description: '—',
-                    icon: UniIcons.email,
-                  ),
-                  ModalInfoRow(
-                    title: S.of(context).room,
-                    description: '—',
-                    icon: UniIcons.location,
-                  ),
-                ],
+            ],
+          ),
+          loadingWidget: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ShimmerInfoRow(title: S.of(context).email, icon: UniIcons.email),
+              ShimmerInfoRow(
+                title: S.of(context).room,
+                icon: UniIcons.location,
               ),
-            );
-          },
+            ],
+          ),
+          errorWidget: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ModalInfoRow(
+                title: S.of(context).email,
+                description: '—',
+                icon: UniIcons.email,
+              ),
+              ModalInfoRow(
+                title: S.of(context).room,
+                description: '—',
+                icon: UniIcons.location,
+              ),
+            ],
+          ),
+          nullContentWidget: const SizedBox.shrink(),
+          hasContent: (info) => true,
         ),
         if (baseUrls.isNotEmpty)
           ModalInfoRow(
