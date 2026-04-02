@@ -511,5 +511,19 @@
   "due_in": "Vence em",
   "@due_in": {},
   "no_records": "Sem registos",
-  "@no_records": {}
+  "@no_records": {},
+  "no_current_account_info": "Tenta atualizar a página ou volta mais tarde.",
+  "@no_current_account_info": {},
+  "no_pending_label": "Tudo em dia!",
+  "@no_pending_label": {},
+  "no_pending_sublabel": "Não tens pagamentos pendentes.",
+  "@no_pending_sublabel": {},
+  "no_history_label": "Sem movimentos",
+  "@no_history_label": {},
+  "no_history_sublabel": "O teu histórico de pagamentos aparecerá aqui.",
+  "@no_history_sublabel": {},
+  "no_tuition_fees_label": "Sem propinas encontradas",
+  "@no_tuition_fees_label": {},
+  "no_tuition_fees_sublabel": "Os teus registos de propinas aparecerão aqui.",
+  "@no_tuition_fees_sublabel": {}
 }
