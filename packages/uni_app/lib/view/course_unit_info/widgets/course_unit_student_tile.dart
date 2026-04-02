@@ -63,28 +63,14 @@ class CourseUnitStudentTile extends ConsumerWidget {
                   return Container(
                     width: constraints.maxWidth,
                     padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Column(
-                      children: [
+                    child: 
                         Text(
-                          firstName,
-                          overflow: TextOverflow.fade,
-                          style: Theme.of(context).textTheme.titleLarge
-                              ?.copyWith(
-                                color: const Color.fromARGB(255, 48, 48, 48),
-                              ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          lastName,
+                          '$firstName $lastName\n',
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.titleLarge
-                              ?.copyWith(
-                                color: const Color.fromARGB(255, 48, 48, 48),
-                              ),
+                          maxLines: 2,
+                          style: Theme.of(context).textTheme.titleLarge,
                           textAlign: TextAlign.center,
                         ),
-                      ],
-                    ),
                   );
                 },
               ),

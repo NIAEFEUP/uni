@@ -116,7 +116,7 @@ class CourseUnitDetailPageViewState
   Widget? getHeader(BuildContext context) {
     return TabBar(
       controller: tabController,
-      dividerHeight: 1,
+      dividerHeight: 0,
       isScrollable: true,
       tabAlignment: TabAlignment.start,
       tabs: [

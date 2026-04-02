@@ -19,8 +19,8 @@ class ShimmerCourseFiles extends StatelessWidget {
           child: SizedBox(
             height: 80,
             child: Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
+              baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+              highlightColor: Theme.of(context).disabledColor,
               child: GenericSquircle(
                 child: Container(height: 35, color: Colors.grey),
               ),
@@ -37,8 +37,8 @@ class ShimmerCourseFiles extends StatelessWidget {
           child: SizedBox(
             height: 80,
             child: Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
+              baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+              highlightColor: Theme.of(context).disabledColor,
               child: GenericSquircle(
                 child: Container(height: 35, color: Colors.grey),
               ),
@@ -55,8 +55,8 @@ class ShimmerCourseFiles extends StatelessWidget {
           child: SizedBox(
             height: 80,
             child: Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
+              baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+              highlightColor: Theme.of(context).disabledColor,
               child: GenericSquircle(
                 child: Container(height: 35, color: Colors.grey),
               ),
@@ -73,8 +73,8 @@ class ShimmerCourseFiles extends StatelessWidget {
           child: SizedBox(
             height: 80,
             child: Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
+              baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+              highlightColor: Theme.of(context).disabledColor,
               child: GenericSquircle(
                 child: Container(height: 35, color: Colors.grey),
               ),
@@ -91,8 +91,8 @@ class ShimmerCourseFiles extends StatelessWidget {
           child: SizedBox(
             height: 80,
             child: Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
+              baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+              highlightColor: Theme.of(context).disabledColor,
               child: GenericSquircle(
                 child: Container(height: 35, color: Colors.grey),
               ),
@@ -109,8 +109,8 @@ class ShimmerCourseFiles extends StatelessWidget {
           child: SizedBox(
             height: 80,
             child: Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
+              baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+              highlightColor: Theme.of(context).disabledColor,
               child: GenericSquircle(
                 child: Container(height: 35, color: Colors.grey),
               ),
