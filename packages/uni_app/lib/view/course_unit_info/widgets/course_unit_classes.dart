@@ -181,7 +181,9 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                         : courseUnitClass.className,
                     style: isSelected
                         ? Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.onSecondaryContainer,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSecondaryContainer,
                           )
                         : Theme.of(context).textTheme.labelMedium,
                     textAlign: TextAlign.center,
