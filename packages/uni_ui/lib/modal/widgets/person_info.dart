@@ -20,7 +20,7 @@ class ModalPersonInfo extends StatelessWidget {
           Padding(padding: EdgeInsets.only(top: 10.0)),
           Text(
             name,
-            style: Theme.of(context).textTheme.displaySmall,
+            style: Theme.of(context).textTheme.headlineLarge,
             textAlign: TextAlign.center,
           ),
         ],

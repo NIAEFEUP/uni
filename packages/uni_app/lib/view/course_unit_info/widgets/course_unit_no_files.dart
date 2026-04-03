@@ -10,11 +10,7 @@ class NoFilesWidget extends StatelessWidget {
     return ImageLabel(
       imagePath: 'assets/images/files.png',
       label: S.of(context).no_files_label,
-      labelTextStyle: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 18,
-        color: Theme.of(context).colorScheme.primary,
-      ),
+      labelTextStyle: Theme.of(context).textTheme.headlineLarge,
       sublabel: S.of(context).no_files,
       sublabelTextStyle: Theme.of(context).textTheme.bodyLarge,
     );

@@ -75,16 +75,20 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                 CheckboxListTile(
                   title: Text(
                     S.of(context).select_all,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  activeColor: Theme.of(
+                    context,
+                  ).colorScheme.onSecondaryContainer,
+                  checkColor: Theme.of(context).colorScheme.secondary,
+                  side: BorderSide(
+                    color: Theme.of(context).colorScheme.onSecondaryContainer,
                   ),
                   value: isAllSelected,
                   onChanged: toggleSelectAll,
                   contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                   controlAffinity: ListTileControlAffinity.trailing,
                 ),
-                const Divider(height: 1),
                 const SizedBox(height: 8),
                 ...widget.items.map((keyLabel) {
                   final isSelected = dialogSelected.contains(keyLabel);
@@ -93,23 +97,22 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                     child: CheckboxListTile(
                       dense: true,
                       visualDensity: const VisualDensity(vertical: -2),
-                      selected: isSelected,
-                      selectedTileColor: Theme.of(
-                        context,
-                      ).colorScheme.primary.withAlpha(20),
                       title: Text(
                         S.of(context).dish_type(keyLabel),
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: isSelected
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                        ),
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      secondary: Opacity(
-                        opacity: isSelected ? 1.0 : 0.7,
-                        child: RestaurantUtils.getIcon(
-                          RestaurantUtils.getMealName(keyLabel),
-                        ),
+                      secondary: RestaurantUtils.getIcon(
+                        RestaurantUtils.getMealName(keyLabel),
+                        color: Theme.of(context).iconTheme.color,
+                      ),
+                      activeColor: Theme.of(
+                        context,
+                      ).colorScheme.onSecondaryContainer,
+                      checkColor: Theme.of(context).colorScheme.secondary,
+                      side: BorderSide(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSecondaryContainer,
                       ),
                       value: isSelected,
                       onChanged: (isChecked) => toggleDish(keyLabel, isChecked),
@@ -126,18 +129,13 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                   children: [
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      style: TextButton.styleFrom(
-                        foregroundColor: Theme.of(
-                          context,
-                        ).colorScheme.onSecondaryContainer,
-                      ),
                       child: Text(
                         S.of(context).cancel,
-                        style: const TextStyle(fontSize: 12),
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ),
                     const SizedBox(width: 8),
-                    FilledButton(
+                    TextButton(
                       onPressed: () {
                         setState(() {
                           tempSelected = dialogSelected;
@@ -145,12 +143,15 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                         widget.onSelectionChanged(tempSelected);
                         Navigator.of(context).pop();
                       },
+                      style: TextButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.onSecondaryContainer,
+                      ),
                       child: Text(
                         S.of(context).apply,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.white,
-                        ),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context).colorScheme.secondary,
+                            )
                       ),
                     ),
                   ],

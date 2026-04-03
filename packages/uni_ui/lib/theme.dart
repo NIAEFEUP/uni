@@ -1,220 +1,118 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// Widget Colors
-const Color primaryVibrant = Color.fromARGB(255, 102, 9, 16);
-const Color secondary = Color.fromARGB(255, 255, 245, 243);
-const Color grayText = Color.fromARGB(255, 48, 48, 48);
-const Color grayMiddle = Color.fromARGB(255, 127, 127, 127);
-const Color grayLight = Color.fromARGB(255, 245, 245, 245);
-const Color background = Color.fromARGB(255, 255, 255, 255);
-const Color details = Color.fromARGB(235, 177, 77, 84);
-const Color divider = Color.fromARGB(255, 229, 229, 229);
-const Color focused = Color.fromARGB(64, 177, 77, 84);
+// --- Widget Colors ---
+const Color _lightTextColor = Color(0xFF660910);
+const Color _darkTextColor = Color(0xFFE5C8C7);
 
-const _lightTextTheme = TextTheme(
-  displayLarge: TextStyle(
-    fontSize: 40,
-    fontWeight: FontWeight.w400,
-    color: Color(0xFF660910),
-  ),
-  displayMedium: TextStyle(
-    fontSize: 40,
-    fontWeight: FontWeight.w400,
-    color: Color(0xFF660910),
-  ),
-  displaySmall: TextStyle(
-    fontSize: 28,
-    fontWeight: FontWeight.w500,
-    color: Color(0xFF660910),
-  ),
-  headlineLarge: TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w500,
-    color: Color(0xFF660910),
-  ),
-  headlineMedium: TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w500,
-    color: Color(0xFF660910),
-  ),
-  headlineSmall: TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
-    color: Color(0xFF660910),
-  ),
-  titleLarge: TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
-    color: Color(0xFF660910),
-  ),
-  titleMedium: TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w500,
-    color: Color(0xFF660910),
-  ),
-  titleSmall: TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    color: Color(0xFF660910),
-  ),
-  bodyLarge: TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    color: Color(0xFF660910),
-  ),
-  bodyMedium: TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    color: Color(0xFF660910),
-  ),
-  bodySmall: TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    color: Color(0xFF660910),
-  ),
-  labelLarge: TextStyle(
-    fontSize: 9,
-    fontWeight: FontWeight.w400,
-    color: Color(0xFF660910),
-  ),
-  labelMedium: TextStyle(
-    fontSize: 9,
-    fontWeight: FontWeight.w400,
-    color: Color(0xFF660910),
-  ),
-  labelSmall: TextStyle(
-    fontSize: 9,
-    fontWeight: FontWeight.w400,
-    color: Color(0xFF660910),
-  ),
+// --- Text Themes ---
+
+// Light Theme Typography
+final TextTheme _lightTextTheme = const TextTheme(
+  displayLarge: TextStyle(fontSize: 28, fontWeight: FontWeight.w500, color: _lightTextColor),
+  displayMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.normal, color: _lightTextColor),
+  displaySmall: TextStyle(fontSize: 28, fontWeight: FontWeight.normal, color: _lightTextColor),
+
+  headlineLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: _lightTextColor),
+  headlineMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: _lightTextColor),
+  headlineSmall: TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: _lightTextColor),
+
+  titleLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: _lightTextColor),
+  titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: _lightTextColor),
+  titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: _lightTextColor),
+
+  bodyLarge: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: _lightTextColor),
+  bodyMedium: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: _lightTextColor),
+  bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: _lightTextColor),
+
+  labelLarge: TextStyle(fontSize: 9, fontWeight: FontWeight.w500, color: _lightTextColor),
+  labelMedium: TextStyle(fontSize: 9, fontWeight: FontWeight.normal, color: _lightTextColor),
+  labelSmall: TextStyle(fontSize: 9, fontWeight: FontWeight.normal, color: _lightTextColor),
 );
 
-const _darkTextTheme = TextTheme(
-  displayLarge: TextStyle(
-    fontSize: 40,
-    fontWeight: FontWeight.w400,
-    color: Color(0xFFE5C8C7),
-  ),
-  displayMedium: TextStyle(
-    fontSize: 40,
-    fontWeight: FontWeight.w400,
-    color: Color(0xFFE5C8C7),
-  ),
-  displaySmall: TextStyle(
-    fontSize: 28,
-    fontWeight: FontWeight.w500,
-    color: Color(0xFFE5C8C7),
-  ),
-  headlineLarge: TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w500,
-    color: Color(0xFFE5C8C7),
-  ),
-  headlineMedium: TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w500,
-    color: Color(0xFFE5C8C7),
-  ),
-  headlineSmall: TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
-    color: Color(0xFFE5C8C7),
-  ),
-  titleLarge: TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
-    color: Color(0xFFE5C8C7),
-  ),
-  titleMedium: TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w500,
-    color: Color(0xFFE5C8C7),
-  ),
-  titleSmall: TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    color: Color(0xFFE5C8C7),
-  ),
-  bodyLarge: TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    color: Color(0xFFE5C8C7),
-  ),
-  bodyMedium: TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    color: Color(0xFFE5C8C7),
-  ),
-  bodySmall: TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    color: Color(0xFFE5C8C7),
-  ),
-  labelLarge: TextStyle(
-    fontSize: 9,
-    fontWeight: FontWeight.w400,
-    color: Color(0xFFE5C8C7),
-  ),
-  labelMedium: TextStyle(
-    fontSize: 9,
-    fontWeight: FontWeight.w400,
-    color: Color(0xFFE5C8C7),
-  ),
-  labelSmall: TextStyle(
-    fontSize: 9,
-    fontWeight: FontWeight.w400,
-    color: Color(0xFFE5C8C7),
-  ),
+// Dark Theme Typography
+final TextTheme _darkTextTheme = const TextTheme(
+  displayLarge: TextStyle(fontSize: 28, fontWeight: FontWeight.w500, color: _darkTextColor),
+  displayMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.normal, color: _darkTextColor),
+  displaySmall: TextStyle(fontSize: 28, fontWeight: FontWeight.normal, color: _darkTextColor),
+
+  headlineLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: _darkTextColor),
+  headlineMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: _darkTextColor),
+  headlineSmall: TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: _darkTextColor),
+
+  titleLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: _darkTextColor),
+  titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: _darkTextColor),
+  titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: _darkTextColor),
+
+  bodyLarge: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: _darkTextColor),
+  bodyMedium: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: _darkTextColor),
+  bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: _darkTextColor),
+
+  labelLarge: TextStyle(fontSize: 9, fontWeight: FontWeight.w500, color: _darkTextColor),
+  labelMedium: TextStyle(fontSize: 9, fontWeight: FontWeight.normal, color: _darkTextColor),
+  labelSmall: TextStyle(fontSize: 9, fontWeight: FontWeight.normal, color: _darkTextColor),
 );
+
+// --- ThemeData Definitions ---
 
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,
+  brightness: Brightness.light,
   textTheme: _lightTextTheme,
   colorScheme: ColorScheme.light(
-    primary: Color(0xFF660910),
-    inversePrimary: Color.fromARGB(40, 177, 77, 84),
-    surface: Color(0xFFFFFFFF),
-    onSurface: Color(0xFF313131),
-    secondary: Color(0xFFFFF5F3),
-    onSecondaryContainer: Color(0xFF660910),
-    shadow: Color(0xFF000000).withValues(alpha: 0.03),
+    primary: const Color(0xFF660910),
+    onPrimary: Colors.white, // Critical for readability on buttons
+    inversePrimary: const Color(0xFFB14D54).withValues(alpha: 0.15),
+    surface: const Color(0xFFFFFFFF),
+    onSurface: const Color(0xFF313131),
+    secondary: const Color(0xFFFFF5F3),
+    onSecondary: const Color(0xFF660910),
+    onSecondaryContainer: const Color(0xFF660910),
+    shadow: Colors.black.withValues(alpha: 0.03),
+    error: const Color(0xFFB00020),
+    onError: Colors.white,
   ),
-  iconTheme: IconThemeData(color: Color(0xFF660910)),
-  disabledColor: Color.fromARGB(255, 118, 117, 117),
+  iconTheme: const IconThemeData(color: Color(0xFF660910)),
+  disabledColor: const Color(0xFF767575),
+  dividerColor: const Color(0xFFE5E5E5),
 );
 
 ThemeData darkTheme = ThemeData(
   useMaterial3: true,
+  brightness: Brightness.dark,
   textTheme: _darkTextTheme,
   colorScheme: ColorScheme.dark(
-    primary: Color(0xFF2F0A0C),
-    inversePrimary: Color(0xFF250103),
-    surface: Color(0xFF0F0607),
-    onSurface: Color(0xFFFFF5F3),
-    secondary: Color(0xFF2F1313),
-    onSecondaryContainer: Color(0xFFE5C8C7),
-    shadow: Color(0xFF000000).withValues(alpha: 0.03),
+    primary: const Color(0xFF2F0A0C),
+    onPrimary: const Color(0xFFE5C8C7),
+    inversePrimary: const Color(0xFF250103),
+    surface: const Color(0xFF0F0607),
+    onSurface: const Color(0xFFFFF5F3),
+    secondary: const Color(0xFF2F1313),
+    onSecondary: const Color(0xFFE5C8C7),
+    onSecondaryContainer: const Color(0xFFE5C8C7),
+    shadow: Colors.black.withValues(alpha: 0.03),
   ),
-  iconTheme: IconThemeData(color: Color(0xFFE5C8C7)),
-  disabledColor: Color(0xFF614D4F),
+  iconTheme: const IconThemeData(color: Color(0xFFE5C8C7)),
+  disabledColor: const Color(0xFF614D4F),
 );
+
+// --- Custom Colors ---
 
 class BadgeColors {
   // Schedule
-  static const t = Color(0xFFfbc11f);
-  static const tp = Color(0xFFd3944c);
-  static const p = Color(0xFFab4d39);
-  static const pl = Color(0xFF769c87);
-  static const ot = Color(0xFF7ca5b8);
-  static const tc = Color(0xFFcdbeb1);
-  static const s = Color(0xFF917c9b);
+  static const t = Color(0xFFFBC11F);
+  static const tp = Color(0xFFD3944C);
+  static const p = Color(0xFFAB4D39);
+  static const pl = Color(0xFF769C87);
+  static const ot = Color(0xFF7CA5B8);
+  static const tc = Color(0xFFCDBEB1);
+  static const s = Color(0xFF917C9B);
 
   // Exams
-  static const mt = Color(0xFF7ca5b8);
-  static const en = Color(0xFF769c87);
-  static const er = Color(0xFFab4d39);
-  static const ee = Color(0xFFfbc11f);
+  static const mt = Color(0xFF7CA5B8);
+  static const en = Color(0xFF769C87);
+  static const er = Color(0xFFAB4D39);
+  static const ee = Color(0xFFFBC11F);
 }
 
 class AppSystemOverlayStyles {

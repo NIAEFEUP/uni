@@ -29,12 +29,12 @@ class ProfileCard extends StatelessWidget {
               Text(
                 label,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.headlineSmall!,
+                style: Theme.of(context).textTheme.titleLarge!,
               ),
               Text(
                 content,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodyLarge!,
+                style: Theme.of(context).textTheme.bodyMedium!,
               ),
             ],
           ),

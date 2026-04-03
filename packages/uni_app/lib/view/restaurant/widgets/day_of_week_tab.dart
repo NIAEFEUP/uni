@@ -29,14 +29,14 @@ class DayOfWeekTab extends StatelessWidget {
         children: [
           Text(
             weekDay,
-            style: Theme.of(context).textTheme.bodySmall,
+            style: Theme.of(context).textTheme.bodyMedium,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             maxLines: 1,
           ),
           Text(
             day,
-            style: Theme.of(context).textTheme.bodySmall,
+            style: Theme.of(context).textTheme.bodyMedium,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             maxLines: 1,

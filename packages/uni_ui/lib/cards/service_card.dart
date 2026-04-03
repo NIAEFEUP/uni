@@ -39,9 +39,7 @@ class ServiceCard extends StatelessWidget {
                 child: Text(
                   name,
                   overflow: TextOverflow.ellipsis,
-                  style: openingHours.length == 0
-                      ? Theme.of(context).textTheme.headlineMedium!
-                      : Theme.of(context).textTheme.headlineSmall!,
+                  style: Theme.of(context).textTheme.titleLarge!,
                   maxLines: openingHours.length < 2 ? 2 : 1,
                 ),
               ),

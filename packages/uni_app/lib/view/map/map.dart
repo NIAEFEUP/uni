@@ -213,7 +213,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                             cursor: SystemMouseCursors.click,
                             child: Text(
                               '©OpenStreetMap @CARTO',
-                              style: Theme.of(context).textTheme.bodySmall,
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
                         ),

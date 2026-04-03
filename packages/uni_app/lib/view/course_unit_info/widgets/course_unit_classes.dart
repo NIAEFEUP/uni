@@ -180,12 +180,12 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                         ? '${courseUnitClass.className} *'
                         : courseUnitClass.className,
                     style: isSelected
-                        ? Theme.of(context).textTheme.labelMedium?.copyWith(
+                        ? Theme.of(context).textTheme.labelLarge?.copyWith(
                             color: Theme.of(
                               context,
                             ).colorScheme.onSecondaryContainer,
                           )
-                        : Theme.of(context).textTheme.labelMedium,
+                        : Theme.of(context).textTheme.labelLarge,
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

@@ -40,7 +40,7 @@ class TermsAndConditionDialog {
         return AlertDialog(
           title: Text(
             S.of(context).terms_change,
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: Theme.of(context).textTheme.headlineMedium,
             textAlign: TextAlign.center,
           ),
           content: Column(

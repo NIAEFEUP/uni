@@ -37,7 +37,7 @@ class DraggableTile extends StatelessWidget {
             children: [
               icon,
               const SizedBox(height: 5),
-              Text(title, style: Theme.of(context).textTheme.bodySmall),
+              Text(title, style: Theme.of(context).textTheme.bodyMedium),
             ],
           ),
         );
@@ -50,10 +50,10 @@ class DraggableTile extends StatelessWidget {
             color: Theme.of(context).colorScheme.secondary,
           ),
           child: ListTile(
-            trailing: const UniIcon(UniIcons.more),
+            trailing: UniIcon(UniIcons.more, color: Theme.of(context).iconTheme.color),
             title: Text(
               title,
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             leading: icon,
           ),

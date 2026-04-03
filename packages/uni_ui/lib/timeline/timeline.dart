@@ -171,7 +171,7 @@ class _TimelineState extends State<Timeline> {
                     bool isSelected = _currentIndex == index;
                     TextStyle textStyle = Theme.of(
                       context,
-                    ).textTheme.bodySmall!;
+                    ).textTheme.bodyMedium!;
                     return GestureDetector(
                       onTap: () => _onTabTapped(index),
                       child: Padding(

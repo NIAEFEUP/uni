@@ -490,7 +490,7 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
               Text(
                 S.of(context).pass_change_request,
                 textAlign: TextAlign.start,
-                style: Theme.of(context).textTheme.titleSmall,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 20),
               Align(

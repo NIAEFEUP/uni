@@ -35,7 +35,7 @@ class ModalInfoRow extends StatelessWidget {
         title: Text(
           title,
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.headlineSmall,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         subtitle: description != null
             ? Text(description!, style: Theme.of(context).textTheme.bodyMedium)

@@ -10,11 +10,7 @@ class NoExamsWidget extends StatelessWidget {
     return ImageLabel(
       imagePath: 'assets/images/vacation.png',
       label: S.of(context).no_exams_label,
-      labelTextStyle: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 18,
-        color: Theme.of(context).colorScheme.primary,
-      ),
+      labelTextStyle: Theme.of(context).textTheme.headlineLarge,
       sublabel: S.of(context).no_exams,
       sublabelTextStyle: Theme.of(context).textTheme.bodyLarge,
     );

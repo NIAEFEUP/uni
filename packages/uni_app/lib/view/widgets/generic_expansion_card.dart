@@ -13,7 +13,7 @@ abstract class GenericExpansionCard extends StatelessWidget {
 
   TextStyle? getTitleStyle(BuildContext context) => Theme.of(
     context,
-  ).textTheme.headlineSmall?.apply(color: Theme.of(context).primaryColor);
+  ).textTheme.headlineMedium?.apply(color: Theme.of(context).primaryColor);
 
   String getTitle(BuildContext context);
 
@@ -32,7 +32,7 @@ abstract class GenericExpansionCard extends StatelessWidget {
             : const Color.fromARGB(255, 43, 43, 43),
         title: Text(
           getTitle(context),
-          style: Theme.of(context).textTheme.headlineSmall?.apply(
+          style: Theme.of(context).textTheme.headlineMedium?.apply(
             color: Theme.of(context).primaryColor,
           ),
         ),

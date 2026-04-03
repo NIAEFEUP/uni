@@ -79,7 +79,7 @@ class ScheduleCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: isActive
                           ? Theme.of(context).textTheme.titleLarge
-                          : Theme.of(context).textTheme.headlineSmall,
+                          : Theme.of(context).textTheme.titleLarge,
                     ),
                     const SizedBox(width: 8), //TODO: Create a custom Gap()?
                     Badge(
@@ -104,9 +104,7 @@ class ScheduleCard extends StatelessWidget {
                 Text(
                   name,
                   overflow: TextOverflow.ellipsis,
-                  style: isActive
-                      ? Theme.of(context).textTheme.titleSmall
-                      : Theme.of(context).textTheme.bodySmall,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 if (teacherName != null) SizedBox(height: 5),
                 if (teacherName != null)

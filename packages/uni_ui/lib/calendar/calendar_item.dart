@@ -19,7 +19,7 @@ class _CalendarItemDate extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          Text(endYear ?? '', style: Theme.of(context).textTheme.bodySmall),
+          Text(endYear ?? '', style: Theme.of(context).textTheme.bodyMedium),
         ],
       );
     } else {

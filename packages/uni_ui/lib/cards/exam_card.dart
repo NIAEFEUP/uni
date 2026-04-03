@@ -60,7 +60,7 @@ class ExamCard extends StatelessWidget {
                       Text(
                         acronym,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.headlineSmall!,
+                        style: Theme.of(context).textTheme.titleLarge!,
                       ),
                       const SizedBox(width: 8),
                       Badge(
@@ -73,7 +73,7 @@ class ExamCard extends StatelessWidget {
                   Text(
                     name,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodySmall!,
+                    style: Theme.of(context).textTheme.bodyMedium!,
                   ),
                   const SizedBox(height: 5),
                   Row(
@@ -86,7 +86,7 @@ class ExamCard extends StatelessWidget {
                       const SizedBox(width: 4),
                       Text(
                         startTime ?? "--:--",
-                        style: Theme.of(context).textTheme.labelSmall!,
+                        style: Theme.of(context).textTheme.labelMedium!,
                       ),
                       if (examDay != null && examMonth != null) ...[
                         const SizedBox(width: 8),
@@ -98,7 +98,7 @@ class ExamCard extends StatelessWidget {
                         const SizedBox(width: 4),
                         Text(
                           '$examDay $examMonth',
-                          style: Theme.of(context).textTheme.labelSmall!,
+                          style: Theme.of(context).textTheme.labelMedium!,
                         ),
                       ],
                       const SizedBox(width: 8),
@@ -125,7 +125,7 @@ class ExamCard extends StatelessWidget {
                             scrollDirection: Axis.horizontal,
                             child: Text(
                               rooms.join(" "),
-                              style: Theme.of(context).textTheme.labelSmall,
+                              style: Theme.of(context).textTheme.labelMedium,
                             ),
                           ),
                         ),

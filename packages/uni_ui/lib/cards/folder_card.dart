@@ -17,7 +17,7 @@ class _FolderCardState extends State<FolderCard> {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      title: Text(widget.title),
+      title: Text(widget.title, style: Theme.of(context).textTheme.bodyLarge),
       leading: AnimatedSwitcher(
         duration: const Duration(milliseconds: 200),
         child: UniIcon(

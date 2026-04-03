@@ -28,11 +28,11 @@ class FloorOccupationWidget extends StatelessWidget {
             children: [
               Text(
                 '${floorText} ${floorNumber}',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               Text(
                 '${occupation}/${capacity}',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ],
           ),

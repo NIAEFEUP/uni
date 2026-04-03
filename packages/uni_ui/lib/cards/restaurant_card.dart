@@ -86,7 +86,7 @@ class RestaurantCardHeader extends StatelessWidget {
                 children: [
                   Text(
                     name,
-                    style: Theme.of(context).textTheme.headlineSmall,
+                    style: Theme.of(context).textTheme.titleLarge,
                     overflow: TextOverflow.clip,
                   ),
                   if (subtitle != null)
@@ -102,7 +102,7 @@ class RestaurantCardHeader extends StatelessWidget {
                       ),
                       child: Text(
                         subtitle!,
-                        style: Theme.of(context).textTheme.bodySmall,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ),
                 ],

@@ -35,7 +35,7 @@ class DraggableSquare extends StatelessWidget {
             children: [
               icon,
               const SizedBox(height: 5),
-              Text(title, style: Theme.of(context).textTheme.bodySmall),
+              Text(title, style: Theme.of(context).textTheme.bodyMedium),
             ],
           ),
         );
@@ -54,7 +54,7 @@ class DraggableSquare extends StatelessWidget {
             children: [
               icon,
               const SizedBox(height: 5),
-              Text(title, style: Theme.of(context).textTheme.labelSmall),
+              Text(title, style: Theme.of(context).textTheme.labelMedium),
             ],
           ),
         );
