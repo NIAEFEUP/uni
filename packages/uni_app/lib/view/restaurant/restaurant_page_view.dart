@@ -208,8 +208,8 @@ class _RestaurantPageViewState
     final locale = ref.watch(localeProvider);
     final selectedTabIndex = ref.watch(tabControllerProvider);
 
-    const daysOfTheWeek = DayOfWeek.values;
-    final selectedDayOfWeek = daysOfTheWeek[selectedTabIndex];
+    final selectedDate = DateTime.now().add(Duration(days: selectedTabIndex));
+    final selectedDayOfWeek = parseDateTime(selectedDate);
 
     final restaurantsWidgets =
         restaurants
