@@ -166,13 +166,13 @@ class EditHomeViewState extends State<EditHomeView> {
               height: 350,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                colors: Theme.of(context).brightness == Brightness.light
-                    ? const [Color(0xFF280709), Color(0xFF511515)]
-                    : const [Color(0xFF2F0A0C), Color(0xFF0F0607)],
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                stops: const [0, 1],
-              ),
+                  colors: Theme.of(context).brightness == Brightness.light
+                      ? const [Color(0xFF280709), Color(0xFF511515)]
+                      : const [Color(0xFF2F0A0C), Color(0xFF0F0607)],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  stops: const [0, 1],
+                ),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -38,9 +38,7 @@ class GenericCard extends StatelessWidget {
         decoration: ShapeDecoration(
           shadows: [
             BoxShadow(
-              color:
-                  shadowColor ??
-                  theme.colorScheme.shadow,
+              color: shadowColor ?? theme.colorScheme.shadow,
               blurRadius: blurRadius ?? 0,
             ),
           ],
@@ -54,9 +52,7 @@ class GenericCard extends StatelessWidget {
             borderRadius: borderRadius,
             child: Container(
               decoration: BoxDecoration(
-                color:
-                    color ??
-                    theme.colorScheme.secondary,
+                color: color ?? theme.colorScheme.secondary,
                 gradient: gradient,
               ),
               child: Padding(
