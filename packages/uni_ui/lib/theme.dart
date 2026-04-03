@@ -9,48 +9,168 @@ const Color _darkTextColor = Color(0xFFE5C8C7);
 
 // Light Theme Typography
 final TextTheme _lightTextTheme = const TextTheme(
-  displayLarge: TextStyle(fontSize: 28, fontWeight: FontWeight.w500, color: _lightTextColor),
-  displayMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.normal, color: _lightTextColor),
-  displaySmall: TextStyle(fontSize: 28, fontWeight: FontWeight.normal, color: _lightTextColor),
+  displayLarge: TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.w500,
+    color: _lightTextColor,
+  ),
+  displayMedium: TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.normal,
+    color: _lightTextColor,
+  ),
+  displaySmall: TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.normal,
+    color: _lightTextColor,
+  ),
 
-  headlineLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: _lightTextColor),
-  headlineMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: _lightTextColor),
-  headlineSmall: TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: _lightTextColor),
+  headlineLarge: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    color: _lightTextColor,
+  ),
+  headlineMedium: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.normal,
+    color: _lightTextColor,
+  ),
+  headlineSmall: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.normal,
+    color: _lightTextColor,
+  ),
 
-  titleLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: _lightTextColor),
-  titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: _lightTextColor),
-  titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: _lightTextColor),
+  titleLarge: TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: _lightTextColor,
+  ),
+  titleMedium: TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.normal,
+    color: _lightTextColor,
+  ),
+  titleSmall: TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.normal,
+    color: _lightTextColor,
+  ),
 
-  bodyLarge: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: _lightTextColor),
-  bodyMedium: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: _lightTextColor),
-  bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: _lightTextColor),
+  bodyLarge: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: _lightTextColor,
+  ),
+  bodyMedium: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.normal,
+    color: _lightTextColor,
+  ),
+  bodySmall: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.normal,
+    color: _lightTextColor,
+  ),
 
-  labelLarge: TextStyle(fontSize: 9, fontWeight: FontWeight.w500, color: _lightTextColor),
-  labelMedium: TextStyle(fontSize: 9, fontWeight: FontWeight.normal, color: _lightTextColor),
-  labelSmall: TextStyle(fontSize: 9, fontWeight: FontWeight.normal, color: _lightTextColor),
+  labelLarge: TextStyle(
+    fontSize: 9,
+    fontWeight: FontWeight.w500,
+    color: _lightTextColor,
+  ),
+  labelMedium: TextStyle(
+    fontSize: 9,
+    fontWeight: FontWeight.normal,
+    color: _lightTextColor,
+  ),
+  labelSmall: TextStyle(
+    fontSize: 9,
+    fontWeight: FontWeight.normal,
+    color: _lightTextColor,
+  ),
 );
 
 // Dark Theme Typography
 final TextTheme _darkTextTheme = const TextTheme(
-  displayLarge: TextStyle(fontSize: 28, fontWeight: FontWeight.w500, color: _darkTextColor),
-  displayMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.normal, color: _darkTextColor),
-  displaySmall: TextStyle(fontSize: 28, fontWeight: FontWeight.normal, color: _darkTextColor),
+  displayLarge: TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.w500,
+    color: _darkTextColor,
+  ),
+  displayMedium: TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.normal,
+    color: _darkTextColor,
+  ),
+  displaySmall: TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.normal,
+    color: _darkTextColor,
+  ),
 
-  headlineLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: _darkTextColor),
-  headlineMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: _darkTextColor),
-  headlineSmall: TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: _darkTextColor),
+  headlineLarge: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    color: _darkTextColor,
+  ),
+  headlineMedium: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.normal,
+    color: _darkTextColor,
+  ),
+  headlineSmall: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.normal,
+    color: _darkTextColor,
+  ),
 
-  titleLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: _darkTextColor),
-  titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: _darkTextColor),
-  titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: _darkTextColor),
+  titleLarge: TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: _darkTextColor,
+  ),
+  titleMedium: TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.normal,
+    color: _darkTextColor,
+  ),
+  titleSmall: TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.normal,
+    color: _darkTextColor,
+  ),
 
-  bodyLarge: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: _darkTextColor),
-  bodyMedium: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: _darkTextColor),
-  bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: _darkTextColor),
+  bodyLarge: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: _darkTextColor,
+  ),
+  bodyMedium: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.normal,
+    color: _darkTextColor,
+  ),
+  bodySmall: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.normal,
+    color: _darkTextColor,
+  ),
 
-  labelLarge: TextStyle(fontSize: 9, fontWeight: FontWeight.w500, color: _darkTextColor),
-  labelMedium: TextStyle(fontSize: 9, fontWeight: FontWeight.normal, color: _darkTextColor),
-  labelSmall: TextStyle(fontSize: 9, fontWeight: FontWeight.normal, color: _darkTextColor),
+  labelLarge: TextStyle(
+    fontSize: 9,
+    fontWeight: FontWeight.w500,
+    color: _darkTextColor,
+  ),
+  labelMedium: TextStyle(
+    fontSize: 9,
+    fontWeight: FontWeight.normal,
+    color: _darkTextColor,
+  ),
+  labelSmall: TextStyle(
+    fontSize: 9,
+    fontWeight: FontWeight.normal,
+    color: _darkTextColor,
+  ),
 );
 
 // --- ThemeData Definitions ---

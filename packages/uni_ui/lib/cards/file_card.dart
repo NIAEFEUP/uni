@@ -108,7 +108,11 @@ class _FileCardState extends State<FileCard>
         controller: _controller,
         child: ListTile(
           contentPadding: EdgeInsets.only(left: 32),
-          title: Text(widget.filename, style: Theme.of(context).textTheme.bodyMedium, overflow: TextOverflow.ellipsis),
+          title: Text(
+            widget.filename,
+            style: Theme.of(context).textTheme.bodyMedium,
+            overflow: TextOverflow.ellipsis,
+          ),
           leading: UniIcon(
             getIconForExtension(widget.extension),
             color: Theme.of(context).iconTheme.color,

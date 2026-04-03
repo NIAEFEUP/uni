@@ -50,11 +50,11 @@ class DraggableTile extends StatelessWidget {
             color: Theme.of(context).colorScheme.secondary,
           ),
           child: ListTile(
-            trailing: UniIcon(UniIcons.more, color: Theme.of(context).iconTheme.color),
-            title: Text(
-              title,
-              style: Theme.of(context).textTheme.titleLarge,
+            trailing: UniIcon(
+              UniIcons.more,
+              color: Theme.of(context).iconTheme.color,
             ),
+            title: Text(title, style: Theme.of(context).textTheme.titleLarge),
             leading: icon,
           ),
         );

@@ -22,9 +22,9 @@ class FLoginButton extends StatelessWidget {
           const SizedBox(width: 16),
           Text(
             S.of(context).login,
-            style: Theme.of(
-              context,
-            ).textTheme.headlineMedium?.copyWith(color: const Color(0xFF303030)),
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              color: const Color(0xFF303030),
+            ),
             textAlign: TextAlign.left,
           ),
         ],

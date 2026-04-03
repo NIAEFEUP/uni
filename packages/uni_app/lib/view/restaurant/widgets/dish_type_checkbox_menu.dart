@@ -144,14 +144,15 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                         Navigator.of(context).pop();
                       },
                       style: TextButton.styleFrom(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.onSecondaryContainer,
+                        backgroundColor: Theme.of(
+                          context,
+                        ).colorScheme.onSecondaryContainer,
                       ),
                       child: Text(
                         S.of(context).apply,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.secondary,
-                            )
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
                       ),
                     ),
                   ],
