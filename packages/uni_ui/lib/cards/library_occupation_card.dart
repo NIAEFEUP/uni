@@ -28,7 +28,7 @@ class FloorOccupationWidget extends StatelessWidget {
             children: [
               Text(
                 '${floorText} ${floorNumber}',
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               Text(
                 '${occupation}/${capacity}',

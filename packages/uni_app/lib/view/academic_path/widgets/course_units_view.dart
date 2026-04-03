@@ -45,6 +45,9 @@ class _CourseUnitsViewState extends ConsumerState<CourseUnitsView> {
                 Padding(
                   padding: const EdgeInsets.only(left: 8, right: 8),
                   child: DropdownButton(
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    dropdownColor: Theme.of(context).colorScheme.secondary,
+                    borderRadius: BorderRadius.circular(8),
                     underline: Container(),
                     items: _getAvailableYears(courseUnits)
                         .map(
@@ -64,6 +67,9 @@ class _CourseUnitsViewState extends ConsumerState<CourseUnitsView> {
                   ),
                 ),
                 DropdownButton(
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  dropdownColor: Theme.of(context).colorScheme.secondary,
+                  borderRadius: BorderRadius.circular(8),
                   underline: Container(),
                   items: _getAvailableSemesters(courseUnits)
                       .map((semester) => _toDropdownMenuItem(semester, '1S+2S'))

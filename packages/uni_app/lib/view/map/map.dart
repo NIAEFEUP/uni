@@ -94,8 +94,9 @@ class MapPageStateView extends ConsumerState<MapPage> {
               ),
               children: <Widget>[
                 TileLayer(
-                  urlTemplate:
-                      'https://basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
+                  urlTemplate: Theme.of(context).brightness == Brightness.dark
+                      ? 'https://basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png'
+                      : 'https://basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
                   tileProvider: NetworkTileProvider(
                     cachingProvider:
                         BuiltInMapCachingProvider.getOrCreateInstance(),
@@ -108,7 +109,6 @@ class MapPageStateView extends ConsumerState<MapPage> {
                     markers: filteredLocations.map((location) {
                       return LocationMarker(location.latlng, location);
                     }).toList(),
-                    popupController: _popupLayerController,
                     popupDisplayOptions: PopupDisplayOptions(
                       animation: const PopupAnimation.fade(
                         duration: Duration(milliseconds: 400),
@@ -174,6 +174,10 @@ class MapPageStateView extends ConsumerState<MapPage> {
                           prefixIcon: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: SvgPicture.asset(
+                              colorFilter: ColorFilter.mode(
+                                Theme.of(context).colorScheme.onSecondaryContainer,
+                                BlendMode.srcIn,
+                              ),
                               'assets/images/logo_dark.svg',
                               semanticsLabel: 'search',
                               width: 10,
@@ -185,6 +189,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                           ),
                           contentPadding: const EdgeInsets.all(10),
                           hintText: '${S.of(context).search}...',
+                          hintStyle: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
                     ),

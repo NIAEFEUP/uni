@@ -94,6 +94,9 @@ class _RestaurantPageViewState
       alignment: Alignment.bottomCenter,
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
+          style: Theme.of(context).textTheme.bodyLarge,
+          dropdownColor: Theme.of(context).colorScheme.secondary,
+          borderRadius: BorderRadius.circular(8),
           value: campus[selectedCampus],
           elevation: 16,
           onChanged: (value) {
