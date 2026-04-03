@@ -16,77 +16,77 @@ const _lightTextTheme = TextTheme(
   displayLarge: TextStyle(
     fontSize: 40,
     fontWeight: FontWeight.w400,
-    color: primaryVibrant,
+    color: Color(0xFF660910),
   ),
   displayMedium: TextStyle(
     fontSize: 40,
     fontWeight: FontWeight.w400,
-    color: primaryVibrant,
+    color: Color(0xFF660910),
   ),
   displaySmall: TextStyle(
     fontSize: 28,
     fontWeight: FontWeight.w500,
-    color: grayText,
+    color: Color(0xFF660910),
   ),
   headlineLarge: TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w500,
-    color: grayText,
+    color: Color(0xFF660910),
   ),
   headlineMedium: TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w500,
-    color: primaryVibrant,
+    color: Color(0xFF660910),
   ),
   headlineSmall: TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w500,
-    color: primaryVibrant,
+    color: Color(0xFF660910),
   ),
   titleLarge: TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w500,
-    color: background,
+    color: Color(0xFF660910),
   ),
   titleMedium: TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w500,
-    color: grayText,
+    color: Color(0xFF660910),
   ),
   titleSmall: TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w400,
-    color: background,
+    color: Color(0xFF660910),
   ),
   bodyLarge: TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w400,
-    color: grayText,
+    color: Color(0xFF660910),
   ),
   bodyMedium: TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w400,
-    color: grayMiddle,
+    color: Color(0xFF660910),
   ),
   bodySmall: TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w400,
-    color: primaryVibrant,
+    color: Color(0xFF660910),
   ),
   labelLarge: TextStyle(
     fontSize: 9,
     fontWeight: FontWeight.w400,
-    color: grayText,
+    color: Color(0xFF660910),
   ),
   labelMedium: TextStyle(
     fontSize: 9,
     fontWeight: FontWeight.w400,
-    color: grayMiddle,
+    color: Color(0xFF660910),
   ),
   labelSmall: TextStyle(
     fontSize: 9,
     fontWeight: FontWeight.w400,
-    color: primaryVibrant,
+    color: Color(0xFF660910),
   ),
 );
 
@@ -168,23 +168,6 @@ const _darkTextTheme = TextTheme(
   ),
 );
 
-/*
-var _lightTextTheme = TextTheme(
-  displayLarge: _textTheme.displayLarge!,
-  displayMedium: _textTheme.displayMedium!,
-  displaySmall: _textTheme.displaySmall!,
-  headlineLarge: _textTheme.headlineLarge!,
-  headlineMedium: _textTheme.headlineMedium!.copyWith(color: primaryColor),
-  headlineSmall: _textTheme.headlineSmall!,
-  titleLarge: _textTheme.titleLarge!.copyWith(color: primaryColor),
-  titleMedium: _textTheme.titleMedium!,
-  titleSmall: _textTheme.titleSmall!,
-  bodyLarge: _textTheme.bodyLarge!,
-  bodyMedium: _textTheme.bodyMedium!,
-  bodySmall: _textTheme.bodySmall!,
-);
-*/
-
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   textTheme: _lightTextTheme,
@@ -195,17 +178,10 @@ ThemeData lightTheme = ThemeData(
     onSurface: Color(0xFF313131),
     secondary: Color(0xFFFFF5F3),
     onSecondaryContainer: Color(0xFF660910),
-  ),
-  cardTheme: CardThemeData(
-    color: Color(0xFFFFF5F3),
-    shadowColor: Color(0xFF000000).withValues(alpha: 0.03),
-    margin: const EdgeInsets.all(4),
-  ),
-  textButtonTheme: TextButtonThemeData(
-    style: TextButton.styleFrom(backgroundColor: Color(0xFFFFF5F3)),
+    shadow: Color(0xFF000000).withValues(alpha: 0.03),
   ),
   iconTheme: IconThemeData(color: Color(0xFF660910)),
-  disabledColor: Color(0xFFF9F7F7),
+  disabledColor: Color.fromARGB(255, 118, 117, 117),
 );
 
 ThemeData darkTheme = ThemeData(
@@ -214,31 +190,13 @@ ThemeData darkTheme = ThemeData(
   colorScheme: ColorScheme.dark(
     primary: Color(0xFF2F0A0C),
     inversePrimary: Color(0xFF250103),
-    surface: Color(0xFF0F0607), // changed
+    surface: Color(0xFF0F0607),
     onSurface: Color(0xFFFFF5F3),
-    secondary: Color(0xFF2F1313), // changed
+    secondary: Color(0xFF2F1313),
     onSecondaryContainer: Color(0xFFE5C8C7),
-  ),
-  cardTheme: CardThemeData(
-    color: Color(0xFF2F1313), // changed
-    shadowColor: Color(0xFF000000).withValues(alpha: 0.03),
-    margin: const EdgeInsets.all(4),
-  ),
-  textButtonTheme: TextButtonThemeData(
-    style: TextButton.styleFrom(backgroundColor: Color(0xFF2F1313)), // changed
+    shadow: Color(0xFF000000).withValues(alpha: 0.03),
   ),
   iconTheme: IconThemeData(color: Color(0xFFE5C8C7)),
-  tabBarTheme: TabBarThemeData(indicatorColor: Color(0xFFE5C8C7)),
-  dialogTheme: DialogThemeData(backgroundColor: Color(0xFF2F1313)), // changed
-  checkboxTheme: CheckboxThemeData(
-    fillColor: WidgetStateProperty.all(Color(0xFFE5C8C7)),
-    checkColor: WidgetStateProperty.all(Color(0xFF2F1313)), // changed
-  ),
-  switchTheme: SwitchThemeData(
-    trackColor: WidgetStateProperty.all(Color(0xFF250103)),
-    trackOutlineColor: WidgetStateProperty.all(Color(0xFF2F0A0C)),
-    thumbColor: WidgetStateProperty.all(Color(0xFFE5C8C7)),
-  ),
   disabledColor: Color(0xFF614D4F),
 );
 

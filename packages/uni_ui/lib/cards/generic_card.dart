@@ -29,20 +29,18 @@ class GenericCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cardTheme = CardTheme.of(context);
     final theme = Theme.of(context);
 
     return Tooltip(
       message: tooltip,
       child: Container(
-        margin: margin ?? cardTheme.margin ?? const EdgeInsets.all(4),
+        margin: margin ?? const EdgeInsets.all(4),
         decoration: ShapeDecoration(
           shadows: [
             BoxShadow(
               color:
                   shadowColor ??
-                  cardTheme.shadowColor ??
-                  Colors.black.withValues(alpha: 0.03),
+                  theme.colorScheme.shadow,
               blurRadius: blurRadius ?? 0,
             ),
           ],
@@ -58,8 +56,7 @@ class GenericCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color:
                     color ??
-                    cardTheme.color ??
-                    theme.colorScheme.surfaceContainer,
+                    theme.colorScheme.secondary,
                 gradient: gradient,
               ),
               child: Padding(

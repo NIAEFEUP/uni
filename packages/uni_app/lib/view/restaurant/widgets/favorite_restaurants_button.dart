@@ -16,6 +16,9 @@ class FavoriteRestaurantsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: onToggle,
+      style: TextButton.styleFrom(
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

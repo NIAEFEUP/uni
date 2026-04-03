@@ -97,7 +97,6 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                       selectedTileColor: Theme.of(
                         context,
                       ).colorScheme.primary.withAlpha(20),
-                      activeColor: Theme.of(context).colorScheme.primary,
                       title: Text(
                         S.of(context).dish_type(keyLabel),
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -127,6 +126,11 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                   children: [
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(),
+                      style: TextButton.styleFrom(
+                        foregroundColor: Theme.of(
+                          context,
+                        ).colorScheme.onSecondaryContainer,
+                      ),
                       child: Text(
                         S.of(context).cancel,
                         style: const TextStyle(fontSize: 12),
@@ -163,6 +167,9 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () => _showFilterDialog(context),
+      style: TextButton.styleFrom(
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

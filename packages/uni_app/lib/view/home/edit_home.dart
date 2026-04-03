@@ -79,12 +79,14 @@ class EditHomeViewState extends State<EditHomeView> {
           preferredSize: const Size.fromHeight(125),
           child: Container(
             height: 90,
-            decoration: const BoxDecoration(
-              gradient: RadialGradient(
-                colors: [Color(0xFF280709), Color(0xFF511515)],
-                center: Alignment.topLeft,
-                radius: 1.5,
-                stops: [0, 1],
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: Theme.of(context).brightness == Brightness.light
+                    ? const [Color(0xFF280709), Color(0xFF511515)]
+                    : const [Color(0xFF2F0A0C), Color(0xFF0F0607)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: const [0, 1],
               ),
             ),
             child: DragTarget<FavoriteWidgetType>(
@@ -162,13 +164,15 @@ class EditHomeViewState extends State<EditHomeView> {
             return Container(
               padding: const EdgeInsets.symmetric(vertical: 35, horizontal: 20),
               height: 350,
-              decoration: const BoxDecoration(
-                gradient: RadialGradient(
-                  colors: [Color(0xFF280709), Color(0xFF511515)],
-                  center: Alignment.topLeft,
-                  radius: 1.5,
-                  stops: [0, 1],
-                ),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                colors: Theme.of(context).brightness == Brightness.light
+                    ? const [Color(0xFF280709), Color(0xFF511515)]
+                    : const [Color(0xFF2F0A0C), Color(0xFF0F0607)],
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                stops: const [0, 1],
+              ),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
