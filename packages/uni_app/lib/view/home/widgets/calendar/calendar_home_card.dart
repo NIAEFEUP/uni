@@ -65,7 +65,7 @@ class CalendarHomeCard extends GenericHomecard {
       nullContentWidget: Center(
         child: Text(
           S.of(context).no_events,
-          style: Theme.of(context).textTheme.headlineLarge,
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
       ),
       loadingWidget: const ShimmerCalendarItem(),
