@@ -12,7 +12,9 @@ class FLoginButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.all(18),
-        shape: RoundedSuperellipseBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
         backgroundColor: const Color(0xFFFFF5F3),
       ),
       onPressed: onPressed,
@@ -23,9 +25,9 @@ class FLoginButton extends StatelessWidget {
           const SizedBox(width: 16),
           Text(
             S.of(context).login,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: const Color(0xFF0F0607),
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(color: const Color(0xFF0F0607)),
             textAlign: TextAlign.left,
           ),
         ],
