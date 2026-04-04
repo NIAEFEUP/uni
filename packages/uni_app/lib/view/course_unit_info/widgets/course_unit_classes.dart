@@ -163,8 +163,7 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                         ? [
                             BoxShadow(
                               color: Theme.of(context).colorScheme.shadow,
-                              blurRadius: 4,
-                              offset: const Offset(0, 2),
+                              blurRadius: 1,
                             ),
                           ]
                         : null,
