@@ -49,6 +49,7 @@ class TermsAndConditionsButton extends StatelessWidget {
       builder: (context) {
         return AlertDialog(
           title: Text(S.of(context).terms),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
           content: const SingleChildScrollView(child: TermsAndConditions()),
           actions: <Widget>[
             SimpleDialogOption(
