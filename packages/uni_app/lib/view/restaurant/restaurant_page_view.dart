@@ -259,7 +259,7 @@ class _RestaurantPageViewState
       return Center(
         child: Text(
           S.of(context).no_menus,
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
       );
     }
