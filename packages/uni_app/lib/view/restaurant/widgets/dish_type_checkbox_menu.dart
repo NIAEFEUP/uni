@@ -79,10 +79,10 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                   ),
                   activeColor: Theme.of(
                     context,
-                  ).colorScheme.onSecondaryContainer,
+                  ).colorScheme.onSecondary,
                   checkColor: Theme.of(context).colorScheme.secondary,
                   side: BorderSide(
-                    color: Theme.of(context).colorScheme.onSecondaryContainer,
+                    color: Theme.of(context).colorScheme.onSecondary,
                   ),
                   value: isAllSelected,
                   onChanged: toggleSelectAll,
@@ -107,12 +107,12 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                       ),
                       activeColor: Theme.of(
                         context,
-                      ).colorScheme.onSecondaryContainer,
+                      ).colorScheme.onSecondary,
                       checkColor: Theme.of(context).colorScheme.secondary,
                       side: BorderSide(
                         color: Theme.of(
                           context,
-                        ).colorScheme.onSecondaryContainer,
+                        ).colorScheme.onSecondary,
                       ),
                       value: isSelected,
                       onChanged: (isChecked) => toggleDish(keyLabel, isChecked),
@@ -146,7 +146,7 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                       style: TextButton.styleFrom(
                         backgroundColor: Theme.of(
                           context,
-                        ).colorScheme.onSecondaryContainer,
+                        ).colorScheme.onSecondary,
                       ),
                       child: Text(
                         S.of(context).apply,

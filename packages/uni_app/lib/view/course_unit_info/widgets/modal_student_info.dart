@@ -43,7 +43,7 @@ class StudentInfoModal extends ConsumerWidget {
                   icon: UniIcons.email,
                   trailing: UniIcon(
                     UniIcons.caretRight,
-                    color: Theme.of(context).colorScheme.onSecondaryContainer,
+                    color: Theme.of(context).colorScheme.onSecondary,
                   ),
                 ),
               ),

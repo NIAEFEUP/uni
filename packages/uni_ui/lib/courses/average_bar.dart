@@ -85,8 +85,8 @@ class AverageBar extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(5)),
                     backgroundColor: Theme.of(
                       context,
-                    ).colorScheme.inversePrimary,
-                    color: Theme.of(context).colorScheme.onSecondaryContainer,
+                    ).colorScheme.onPrimary,
+                    color: Theme.of(context).colorScheme.onSecondary,
                   ),
                   Text(statusText),
                 ],

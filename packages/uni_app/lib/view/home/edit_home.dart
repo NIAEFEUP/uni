@@ -95,9 +95,9 @@ class EditHomeViewState extends State<EditHomeView> {
                   child: Center(
                     child: Text(
                       S.of(context).drag_and_drop,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge, // titleMedium as in figma is with the wrong colors
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.onPrimaryFixed,
+                          ),
                     ),
                   ),
                 );
@@ -119,12 +119,12 @@ class EditHomeViewState extends State<EditHomeView> {
                       builder: (context, candidate, rejected) => Container(
                         height: 20,
                         margin: const EdgeInsets.only(top: 2, bottom: 2),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
+                        decoration: ShapeDecoration(
+                          shape: RoundedSuperellipseBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           color: candidate.isNotEmpty
-                              ? Theme.of(context).shadowColor.withAlpha(
-                                  51,
-                                ) // 20% opacity
+                              ? Theme.of(context).disabledColor
                               : Colors.transparent,
                         ),
                       ),
@@ -179,9 +179,9 @@ class EditHomeViewState extends State<EditHomeView> {
                 children: [
                   Text(
                     S.of(context).available_elements,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.titleLarge, // TODO: titleMedium not working
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.onPrimaryFixed,
+                        ),
                   ),
                   SizedBox(
                     width: double.infinity,
@@ -193,18 +193,16 @@ class EditHomeViewState extends State<EditHomeView> {
                           ? listlessCardWidgets
                           : [
                               ...listlessCardWidgets,
-                              ClipRSuperellipse(
-                                borderRadius: BorderRadius.circular(15),
-                                child: Container(
+                              Container(
                                   width: 75,
                                   height: 75,
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.secondary.withAlpha(64),
+                                  decoration: ShapeDecoration(
+                                    shape: RoundedSuperellipseBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    color: Theme.of(context).disabledColor,
                                   ),
                                 ),
-                              ),
                             ],
                     ),
                   ),
@@ -216,7 +214,9 @@ class EditHomeViewState extends State<EditHomeView> {
                         ),
                     child: Text(
                       S.of(context).save,
-                      style: Theme.of(context).textTheme.titleLarge,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.onPrimaryFixed,
+                          ),
                     ),
                   ),
                 ],

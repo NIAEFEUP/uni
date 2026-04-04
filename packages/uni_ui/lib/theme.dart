@@ -181,20 +181,16 @@ ThemeData lightTheme = ThemeData(
   textTheme: _lightTextTheme,
   colorScheme: ColorScheme.light(
     primary: const Color(0xFF660910),
-    onPrimary: Colors.white, // Critical for readability on buttons
-    inversePrimary: const Color(0xFFB14D54).withValues(alpha: 0.15),
-    surface: const Color(0xFFFFFFFF),
-    onSurface: const Color(0xFF313131),
+    onPrimary: const Color(0xFFB14D54).withValues(alpha: 0.15),
+    onPrimaryFixed: const Color(0xFFFFF5F3),
     secondary: const Color(0xFFFFF5F3),
     onSecondary: const Color(0xFF660910),
-    onSecondaryContainer: const Color(0xFF660910),
+    surface: const Color(0xFFFFFFFF),
+    onSurface: const Color(0xFF313131),
     shadow: Colors.black.withValues(alpha: 0.03),
-    error: const Color(0xFFB00020),
-    onError: Colors.white,
   ),
   iconTheme: const IconThemeData(color: Color(0xFF660910)),
   disabledColor: const Color(0xFF767575),
-  dividerColor: const Color(0xFFE5E5E5),
 );
 
 ThemeData darkTheme = ThemeData(
@@ -203,13 +199,12 @@ ThemeData darkTheme = ThemeData(
   textTheme: _darkTextTheme,
   colorScheme: ColorScheme.dark(
     primary: const Color(0xFF2F0A0C),
-    onPrimary: const Color(0xFFE5C8C7),
-    inversePrimary: const Color(0xFF250103),
-    surface: const Color(0xFF0F0607),
-    onSurface: const Color(0xFFFFF5F3),
+    onPrimary: const Color(0xFF250103),
+    onPrimaryFixed: const Color(0xFFE5C8C7),
     secondary: const Color(0xFF2F1313),
     onSecondary: const Color(0xFFE5C8C7),
-    onSecondaryContainer: const Color(0xFFE5C8C7),
+    surface: const Color(0xFF0F0607),
+    onSurface: const Color(0xFFFFF5F3),
     shadow: Colors.black.withValues(alpha: 0.03),
   ),
   iconTheme: const IconThemeData(color: Color(0xFFE5C8C7)),

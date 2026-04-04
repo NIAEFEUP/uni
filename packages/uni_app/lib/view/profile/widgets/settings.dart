@@ -67,7 +67,7 @@ class Settings extends StatelessWidget {
               subtitle: S.of(context).feedback_description,
               trailing: UniIcon(
                 UniIcons.caretRight,
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
               onTap: () {
                 Navigator.pushNamed(
@@ -85,7 +85,7 @@ class Settings extends StatelessWidget {
               title: S.of(context).terms,
               trailing: UniIcon(
                 UniIcons.caretRight,
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
               onTap: () {
                 Navigator.pushNamed(
@@ -104,7 +104,7 @@ class Settings extends StatelessWidget {
               title: S.of(context).change_password,
               trailing: UniIcon(
                 UniIcons.caretRight,
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
               onTap: () =>
                   launchUrlWithToast(context, 'https://self-id.up.pt/password'),
@@ -119,7 +119,7 @@ class Settings extends StatelessWidget {
               title: S.of(context).logout,
               trailing: UniIcon(
                 UniIcons.caretRight,
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
               onTap: NetworkRouter.authenticationController?.close,
             ),

@@ -46,7 +46,7 @@ class FormTextField extends StatelessWidget {
           floatingLabelBehavior: FloatingLabelBehavior.always,
           border: InputBorder.none,
         ),
-        cursorColor: Theme.of(context).colorScheme.onSecondaryContainer,
+        cursorColor: Theme.of(context).colorScheme.onSecondary,
         style: Theme.of(context).textTheme.bodyMedium,
         controller: controller,
         validator: (value) {

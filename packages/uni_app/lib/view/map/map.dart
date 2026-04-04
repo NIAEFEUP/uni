@@ -177,7 +177,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                               colorFilter: ColorFilter.mode(
                                 Theme.of(
                                   context,
-                                ).colorScheme.onSecondaryContainer,
+                                ).colorScheme.onSecondary,
                                 BlendMode.srcIn,
                               ),
                               'assets/images/logo_dark.svg',

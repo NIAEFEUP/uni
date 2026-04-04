@@ -28,7 +28,7 @@ class _BottomNavbarContainer extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: RadialGradient(
               colors: [
-                Theme.of(context).colorScheme.inversePrimary,
+                Theme.of(context).colorScheme.onPrimary,
                 Colors.transparent,
               ],
               center: Alignment(-0.5, -1.1),
@@ -39,7 +39,7 @@ class _BottomNavbarContainer extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: RadialGradient(
                 colors: [
-                  Theme.of(context).colorScheme.inversePrimary,
+                  Theme.of(context).colorScheme.onPrimary,
                   Colors.transparent,
                 ],
                 center: Alignment.bottomRight,
@@ -78,7 +78,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     return _BottomNavbarContainer(
       child: Theme(
         data: Theme.of(context).copyWith(
-          splashColor: Theme.of(context).colorScheme.inversePrimary,
+          splashColor: Theme.of(context).colorScheme.onPrimary,
           highlightColor: Colors.transparent,
         ),
         child: BottomNavigationBar(

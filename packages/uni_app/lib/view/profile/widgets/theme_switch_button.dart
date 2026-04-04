@@ -35,7 +35,7 @@ class ThemeSwitchButton extends ConsumerWidget {
         child: ElevatedButton(
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all(
-              Theme.of(context).colorScheme.onSecondaryContainer,
+              Theme.of(context).colorScheme.onSecondary,
             ),
             padding: WidgetStateProperty.all(EdgeInsets.zero),
           ),

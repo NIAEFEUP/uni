@@ -166,8 +166,8 @@ class CalendarItem extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: isToday
-                    ? Theme.of(context).colorScheme.secondary
-                    : Theme.of(context).colorScheme.onSecondaryContainer,
+                    ? Theme.of(context).colorScheme.onPrimaryFixed
+                    : Theme.of(context).colorScheme.onSecondary,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 height: 1,

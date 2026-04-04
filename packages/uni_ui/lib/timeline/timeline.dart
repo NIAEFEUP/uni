@@ -196,10 +196,10 @@ class _TimelineState extends State<Timeline> {
                                     ? (isSelected
                                           ? Theme.of(
                                               context,
-                                            ).colorScheme.onSecondaryContainer
+                                            ).colorScheme.onSecondary
                                           : Theme.of(
                                               context,
-                                            ).colorScheme.onSecondaryContainer)
+                                            ).colorScheme.onSecondary)
                                     : Theme.of(context).disabledColor,
                               ),
                               child: tab,

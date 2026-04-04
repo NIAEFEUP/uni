@@ -50,7 +50,7 @@ class AcademicPathPageViewState
   Widget? getHeader(BuildContext context) {
     return TabBar(
       controller: tabController,
-      indicatorColor: Theme.of(context).colorScheme.onSecondaryContainer,
+      indicatorColor: Theme.of(context).colorScheme.onSecondary,
       splashFactory: NoSplash.splashFactory,
       overlayColor: WidgetStateProperty.all(Colors.transparent),
       dividerHeight: 0,

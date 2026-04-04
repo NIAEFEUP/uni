@@ -15,9 +15,9 @@ class LocationMarker extends Marker {
         child: Builder(
           builder: (context) => DecoratedBox(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
+              color: Theme.of(context).colorScheme.onSecondary,
               border: Border.all(
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(20)),
             ),

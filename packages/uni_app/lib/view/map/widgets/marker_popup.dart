@@ -73,7 +73,7 @@ class Floor extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border(
               left: BorderSide(
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
             ),
           ),
@@ -84,7 +84,7 @@ class Floor extends StatelessWidget {
                 .map(
                   (location) => LocationRow(
                     location: location,
-                    color: Theme.of(context).colorScheme.onSecondaryContainer,
+                    color: Theme.of(context).colorScheme.onSecondary,
                   ),
                 )
                 .toList(),

@@ -183,7 +183,7 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                         ? Theme.of(context).textTheme.labelLarge?.copyWith(
                             color: Theme.of(
                               context,
-                            ).colorScheme.onSecondaryContainer,
+                            ).colorScheme.onSecondary,
                           )
                         : Theme.of(context).textTheme.labelLarge,
                     textAlign: TextAlign.center,

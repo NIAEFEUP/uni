@@ -238,10 +238,10 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
                   controlAffinity: ListTileControlAffinity.trailing,
                   activeColor: Theme.of(
                     context,
-                  ).colorScheme.onSecondaryContainer,
+                  ).colorScheme.onSecondary,
                   checkColor: Theme.of(context).colorScheme.secondary,
                   side: BorderSide(
-                    color: Theme.of(context).colorScheme.onSecondaryContainer,
+                    color: Theme.of(context).colorScheme.onSecondary,
                   ),
                   title: Text(
                     S.of(context).consent,
@@ -258,7 +258,7 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     backgroundColor: _isConsentGiven
-                        ? Theme.of(context).colorScheme.onSecondaryContainer
+                        ? Theme.of(context).colorScheme.onSecondary
                         : Theme.of(context).disabledColor,
                     disabledBackgroundColor: Theme.of(context).disabledColor,
                   ),

@@ -22,7 +22,7 @@ class ProfileListTile extends StatelessWidget {
     return ListTile(
       leading: UniIcon(
         icon,
-        color: Theme.of(context).colorScheme.onSecondaryContainer,
+        color: Theme.of(context).colorScheme.onSecondary,
       ),
       title: Text(
         title,
