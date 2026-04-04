@@ -3,7 +3,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/courses/course_info.dart';
 import 'package:uni_ui/icons.dart';
-import 'package:uni_ui/theme.dart';
 
 class CourseCard extends StatelessWidget {
   const CourseCard({
@@ -50,14 +49,18 @@ class CourseCard extends StatelessWidget {
                 size: 32,
                 color: selected
                     ? Theme.of(context).colorScheme.onSecondary
-                    : Theme.of(context).colorScheme.onSecondary?.withAlpha(0x80),
+                    : Theme.of(
+                        context,
+                      ).colorScheme.onSecondary.withAlpha(0x80),
               ),
               Text(
                 courseInfo.abbreviation,
                 style: Theme.of(context).textTheme.titleLarge?.apply(
                   color: selected
                       ? Theme.of(context).colorScheme.onSecondary
-                      : Theme.of(context).colorScheme.onSecondary?.withAlpha(0x80),
+                      : Theme.of(
+                          context,
+                        ).colorScheme.onSecondary.withAlpha(0x80),
                 ),
               ),
               Text(
@@ -65,7 +68,9 @@ class CourseCard extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium?.apply(
                   color: selected
                       ? Theme.of(context).colorScheme.onSecondary
-                      : Theme.of(context).colorScheme.onSecondary?.withAlpha(0x80),
+                      : Theme.of(
+                          context,
+                        ).colorScheme.onSecondary.withAlpha(0x80),
                 ),
               ),
             ],

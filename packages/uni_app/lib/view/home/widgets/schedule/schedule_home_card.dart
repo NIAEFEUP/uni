@@ -47,10 +47,7 @@ class ScheduleHomeCard extends GenericHomecard {
         child: IconLabel(
           icon: const UniIcon(size: 45, UniIcons.beer),
           label: S.of(context).no_classes,
-          labelTextStyle: TextStyle(
-            fontSize: 14,
-            color: Theme.of(context).colorScheme.primary,
-          ),
+          labelTextStyle: Theme.of(context).textTheme.bodyMedium,
         ),
       ),
       mapper: (lectures) => lectures

@@ -14,7 +14,9 @@ class _BottomNavbarContainer extends StatelessWidget {
       margin: EdgeInsets.only(left: 20, right: 20, bottom: 0),
       decoration: ShapeDecoration(
         color: Theme.of(context).colorScheme.primary,
-        shape: RoundedSuperellipseBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
         shadows: [
           BoxShadow(
             color: Theme.of(context).colorScheme.shadow,

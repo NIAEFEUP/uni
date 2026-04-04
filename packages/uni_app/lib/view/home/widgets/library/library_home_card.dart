@@ -42,10 +42,7 @@ class LibraryHomeCard extends GenericHomecard {
         child: IconLabel(
           icon: const Icon(UniIcons.library, size: 45),
           label: S.of(context).no_library_info,
-          labelTextStyle: TextStyle(
-            fontSize: 14,
-            color: Theme.of(context).colorScheme.primary,
-          ),
+          labelTextStyle: Theme.of(context).textTheme.bodyMedium,
         ),
       ),
       loadingWidget: const ShimmerLibraryHomeCard(),

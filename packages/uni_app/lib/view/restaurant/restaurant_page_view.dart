@@ -359,7 +359,10 @@ class _RestaurantPageViewState
               meal.namePt,
               meal.nameEn,
             ),
-            icon: RestaurantUtils.getIcon(meal.type, color: Theme.of(context).colorScheme.onSecondary),
+            icon: RestaurantUtils.getIcon(
+              meal.type,
+              color: Theme.of(context).colorScheme.onSecondary,
+            ),
           ),
         );
       }

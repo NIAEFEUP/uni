@@ -11,32 +11,50 @@ import 'package:uni_ui/icons.dart';
     case FavoriteWidgetType.schedule:
       return (
         S.of(context).schedule,
-        UniIcon(UniIcons.lecture, color: Theme.of(context).colorScheme.onSecondary),
+        UniIcon(
+          UniIcons.lecture,
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
       );
     case FavoriteWidgetType.exams:
       return (
         S.of(context).exams,
-        UniIcon(UniIcons.exam, color: Theme.of(context).colorScheme.onSecondary),
+        UniIcon(
+          UniIcons.exam,
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
       );
     case FavoriteWidgetType.library:
       return (
         S.of(context).library,
-        UniIcon(UniIcons.library, color: Theme.of(context).colorScheme.onSecondary),
+        UniIcon(
+          UniIcons.library,
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
       );
     case FavoriteWidgetType.restaurants:
       return (
         S.of(context).restaurants,
-        UniIcon(UniIcons.restaurant, color: Theme.of(context).colorScheme.onSecondary),
+        UniIcon(
+          UniIcons.restaurant,
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
       );
     case FavoriteWidgetType.calendar:
       return (
         S.of(context).calendar,
-        UniIcon(UniIcons.calendar, color: Theme.of(context).colorScheme.onSecondary),
+        UniIcon(
+          UniIcons.calendar,
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
       );
     case FavoriteWidgetType.news:
       return (
         S.of(context).news,
-        UniIcon(UniIcons.news, color: Theme.of(context).colorScheme.onSecondary),
+        UniIcon(
+          UniIcons.news,
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
       );
     // case 'ucs':
     //   title = 'UCS';

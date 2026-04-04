@@ -180,15 +180,24 @@ ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   textTheme: _lightTextTheme,
   colorScheme: ColorScheme.light(
-    primary: const Color(0xFF660910),
-    onPrimary: const Color(0xFFB14D54).withValues(alpha: 0.15),
-    onPrimaryFixed: const Color(0xFFFFF5F3),
-    secondary: const Color(0xFFFFF5F3),
-    onSecondary: const Color(0xFF660910),
-    onSecondaryFixed: const Color(0xFFB14D54).withValues(alpha: 0.15),
-    surface: const Color(0xFFFFFFFF),
-    onSurface: const Color(0xFF313131),
-    shadow: Colors.black.withValues(alpha: 0.03),
+    primary: const Color(0xFF660910), // navigation bar
+    onPrimary: const Color(
+      0xFFB14D54,
+    ).withValues(alpha: 0.15), // stuff on navigation bar
+
+    secondary: const Color(0xFFFFF5F3), // cards
+    onSecondary: const Color(0xFF660910), // stuff on cards
+    onSecondaryFixed: const Color(
+      0xFFB14D54,
+    ).withValues(alpha: 0.15), // details on cards
+
+    tertiary: const Color(0xFF660910), // for gradients
+    onTertiary: const Color(0xFF280709), // for gradients
+
+    surface: const Color(0xFFFFFFFF), // backgrounds
+    onSurfaceVariant: const Color(0xFFFFF5F3), // stuff on colored backgrounds
+
+    shadow: Colors.black.withValues(alpha: 0.03), // for shadows
   ),
   disabledColor: const Color(0xFF767575),
 );
@@ -200,12 +209,17 @@ ThemeData darkTheme = ThemeData(
   colorScheme: ColorScheme.dark(
     primary: const Color(0xFF2F0A0C),
     onPrimary: const Color(0xFF3C0306),
-    onPrimaryFixed: const Color(0xFFE5C8C7),
+
     secondary: const Color(0xFF2F1313),
     onSecondary: const Color(0xFFE5C8C7),
     onSecondaryFixed: const Color(0xFF250103),
+
+    tertiary: const Color(0xFF660910),
+    onTertiary: const Color(0xFF280709),
+
     surface: const Color(0xFF0F0607),
-    onSurface: const Color(0xFFFFF5F3),
+    onSurfaceVariant: const Color(0xFFE5C8C7),
+
     shadow: const Color(0xFFE5C8C7).withValues(alpha: 0.03),
   ),
   disabledColor: const Color(0xFF614D4F),

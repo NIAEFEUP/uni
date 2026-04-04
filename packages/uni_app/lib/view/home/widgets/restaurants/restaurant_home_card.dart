@@ -86,7 +86,7 @@ class RestaurantSliderState extends ConsumerState<RestaurantSlider> {
                 effect: WormEffect(
                   dotHeight: 4,
                   dotWidth: 4,
-                  activeDotColor: Theme.of(context).colorScheme.primary,
+                  activeDotColor: Theme.of(context).colorScheme.onSecondary,
                 ),
               ),
             ],
@@ -154,7 +154,12 @@ List<RestaurantCard> getRestaurantInformation(
           }
         }
 
-        final menuItems = getMainMenus(context, displayedDay, restaurant, locale);
+        final menuItems = getMainMenus(
+          context,
+          displayedDay,
+          restaurant,
+          locale,
+        );
 
         String? subtitle;
         if (showTomorrow) {
@@ -225,8 +230,10 @@ List<RestaurantMenuItem> getMainMenus(
           meal.namePt,
           meal.nameEn,
         ),
-        icon: RestaurantUtils.getIcon(meal.type, 
-              color: Theme.of(context).colorScheme.onSecondary,),
+        icon: RestaurantUtils.getIcon(
+          meal.type,
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
       ),
     );
   }

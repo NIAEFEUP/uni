@@ -159,16 +159,15 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                         ? Theme.of(context).colorScheme.secondary
                         : Colors.transparent,
                     borderRadius: BorderRadius.circular(25),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.shadow.withAlpha(0x25),
-                        spreadRadius: 2,
-                        blurRadius: 2,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
+                    boxShadow: isSelected
+                        ? [
+                            BoxShadow(
+                              color: Theme.of(context).colorScheme.shadow,
+                              blurRadius: 4,
+                              offset: const Offset(0, 2),
+                            ),
+                          ]
+                        : null,
                   ),
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
@@ -181,9 +180,7 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                         : courseUnitClass.className,
                     style: isSelected
                         ? Theme.of(context).textTheme.labelLarge?.copyWith(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSecondary,
+                            color: Theme.of(context).colorScheme.onSecondary,
                           )
                         : Theme.of(context).textTheme.labelLarge,
                     textAlign: TextAlign.center,

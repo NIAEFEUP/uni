@@ -53,10 +53,7 @@ class ExamHomeCard extends GenericHomecard {
             child: IconLabel(
               icon: const UniIcon(UniIcons.island, size: 45),
               label: S.of(context).no_exams,
-              labelTextStyle: TextStyle(
-                fontSize: 14,
-                color: Theme.of(context).colorScheme.primary,
-              ),
+              labelTextStyle: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
           loadingWidget: const ShimmerCardTimeline(),

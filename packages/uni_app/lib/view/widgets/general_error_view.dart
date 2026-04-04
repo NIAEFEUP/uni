@@ -19,14 +19,14 @@ class GeneralErrorView extends StatelessWidget {
             UniIcon(
               UniIcons.warning,
               size: 48,
-              color: textColor ?? Theme.of(context).colorScheme.primary,
+              color: textColor ?? Theme.of(context).colorScheme.onSecondary,
             ),
             const SizedBox(height: 8),
             Text(
               S.of(context).unable_to_load_data,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w500,
-                color: textColor ?? Theme.of(context).colorScheme.onSurface,
+                color: textColor ?? Theme.of(context).colorScheme.onSecondary,
               ),
               textAlign: TextAlign.center,
             ),

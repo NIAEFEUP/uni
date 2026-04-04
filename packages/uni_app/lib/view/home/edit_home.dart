@@ -96,8 +96,8 @@ class EditHomeViewState extends State<EditHomeView> {
                     child: Text(
                       S.of(context).drag_and_drop,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: Theme.of(context).colorScheme.onPrimaryFixed,
-                          ),
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ),
                 );
@@ -180,8 +180,8 @@ class EditHomeViewState extends State<EditHomeView> {
                   Text(
                     S.of(context).available_elements,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimaryFixed,
-                        ),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                   ),
                   SizedBox(
                     width: double.infinity,
@@ -194,15 +194,15 @@ class EditHomeViewState extends State<EditHomeView> {
                           : [
                               ...listlessCardWidgets,
                               Container(
-                                  width: 75,
-                                  height: 75,
-                                  decoration: ShapeDecoration(
-                                    shape: RoundedSuperellipseBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    color: Theme.of(context).disabledColor,
+                                width: 75,
+                                height: 75,
+                                decoration: ShapeDecoration(
+                                  shape: RoundedSuperellipseBorder(
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
+                                  color: Theme.of(context).disabledColor,
                                 ),
+                              ),
                             ],
                     ),
                   ),
@@ -215,8 +215,8 @@ class EditHomeViewState extends State<EditHomeView> {
                     child: Text(
                       S.of(context).save,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: Theme.of(context).colorScheme.onPrimaryFixed,
-                          ),
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ),
                 ],

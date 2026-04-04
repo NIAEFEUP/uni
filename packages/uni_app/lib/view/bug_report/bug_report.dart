@@ -170,7 +170,10 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
                         ),
                         GestureDetector(
                           onTap: uploadImages,
-                          child: const Icon(Icons.add),
+                          child: Icon(
+                            Icons.add,
+                            color: Theme.of(context).colorScheme.onSecondary,
+                          ),
                         ),
                       ],
                     ),
@@ -236,9 +239,7 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
                     });
                   },
                   controlAffinity: ListTileControlAffinity.trailing,
-                  activeColor: Theme.of(
-                    context,
-                  ).colorScheme.onSecondary,
+                  activeColor: Theme.of(context).colorScheme.onSecondary,
                   checkColor: Theme.of(context).colorScheme.secondary,
                   side: BorderSide(
                     color: Theme.of(context).colorScheme.onSecondary,

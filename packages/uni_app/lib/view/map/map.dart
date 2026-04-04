@@ -175,9 +175,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: SvgPicture.asset(
                               colorFilter: ColorFilter.mode(
-                                Theme.of(
-                                  context,
-                                ).colorScheme.onSecondary,
+                                Theme.of(context).colorScheme.onSecondary,
                                 BlendMode.srcIn,
                               ),
                               'assets/images/logo_dark.svg',

@@ -25,7 +25,7 @@ class _UsageStatsSwitchState extends State<UsageStatsSwitch> {
       onChanged: (value) => saveUsageStatsToggle(value: value),
       activeTrackColor: Theme.of(context).colorScheme.onSecondary,
       activeThumbColor: Theme.of(context).colorScheme.secondary,
-      inactiveTrackColor: Theme.of(context).colorScheme.onPrimary,
+      inactiveTrackColor: Theme.of(context).colorScheme.onSecondaryFixed,
       inactiveThumbColor: Theme.of(context).colorScheme.onSecondary,
       trackOutlineColor: const WidgetStatePropertyAll(Colors.transparent),
     );
