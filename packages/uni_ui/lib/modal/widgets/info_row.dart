@@ -30,7 +30,6 @@ class ModalInfoRow extends StatelessWidget {
       ),
       child: ListTile(
         dense: true,
-        // visualDensity: VisualDensity(vertical: -4),
         leading: UniIcon(icon, color: Theme.of(context).iconTheme.color),
         title: Text(
           title,
