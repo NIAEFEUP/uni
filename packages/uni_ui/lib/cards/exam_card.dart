@@ -80,7 +80,7 @@ class ExamCard extends StatelessWidget {
                     children: [
                       UniIcon(
                         UniIcons.clock,
-                        color: Theme.of(context).iconTheme.color,
+                        color: Theme.of(context).colorScheme.onSecondary,
                         size: 20,
                       ),
                       const SizedBox(width: 4),
@@ -92,7 +92,7 @@ class ExamCard extends StatelessWidget {
                         const SizedBox(width: 8),
                         UniIcon(
                           UniIcons.calendarBlank,
-                          color: Theme.of(context).iconTheme.color,
+                          color: Theme.of(context).colorScheme.onSecondary,
                           size: 20,
                         ),
                         const SizedBox(width: 4),
@@ -105,7 +105,7 @@ class ExamCard extends StatelessWidget {
                       if (rooms.isNotEmpty)
                         UniIcon(
                           UniIcons.mapPin,
-                          color: Theme.of(context).iconTheme.color,
+                          color: Theme.of(context).colorScheme.onSecondary,
                           size: 20,
                         ),
                       const SizedBox(width: 4),
@@ -140,7 +140,7 @@ class ExamCard extends StatelessWidget {
                 onPressed: iconAction ?? () {},
                 icon: UniIcon(
                   isInvisible ? UniIcons.eyeVisible : UniIcons.eyeHidden,
-                  color: Theme.of(context).iconTheme.color,
+                  color: Theme.of(context).colorScheme.onSecondary,
                   size: 35,
                 ),
               ),

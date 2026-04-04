@@ -283,7 +283,7 @@ class _RestaurantPageViewState
     AppLocale locale,
   ) {
     final menuItems =
-        _getRestaurantMenuItems(dayOfWeek, restaurant, locale) ?? [];
+        _getRestaurantMenuItems(context, dayOfWeek, restaurant, locale) ?? [];
     return menuItems.isNotEmpty
         ? RestaurantCard(
             name: RestaurantUtils.getRestaurantName(
@@ -295,6 +295,7 @@ class _RestaurantPageViewState
             ),
             icon: RestaurantUtils.getIcon(
               restaurant.typeEn ?? restaurant.typePt,
+              color: Theme.of(context).colorScheme.onSecondary,
             ),
             isFavorite: PreferencesController.getFavoriteRestaurants().contains(
               restaurant.namePt + restaurant.period,
@@ -326,7 +327,7 @@ class _RestaurantPageViewState
                             icon: UniIcons.email,
                             trailing: UniIcon(
                               UniIcons.caretRight,
-                              color: Theme.of(context).iconTheme.color,
+                              color: Theme.of(context).colorScheme.onSecondary,
                             ),
                           ),
                       ],
@@ -340,6 +341,7 @@ class _RestaurantPageViewState
   }
 
   List<RestaurantMenuItem>? _getRestaurantMenuItems(
+    BuildContext context,
     DayOfWeek dayOfWeek,
     Restaurant restaurant,
     AppLocale locale,
@@ -357,7 +359,7 @@ class _RestaurantPageViewState
               meal.namePt,
               meal.nameEn,
             ),
-            icon: RestaurantUtils.getIcon(meal.type),
+            icon: RestaurantUtils.getIcon(meal.type, color: Theme.of(context).colorScheme.onSecondary),
           ),
         );
       }

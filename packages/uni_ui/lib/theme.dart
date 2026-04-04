@@ -189,7 +189,6 @@ ThemeData lightTheme = ThemeData(
     onSurface: const Color(0xFF313131),
     shadow: Colors.black.withValues(alpha: 0.03),
   ),
-  iconTheme: const IconThemeData(color: Color(0xFF660910)),
   disabledColor: const Color(0xFF767575),
 );
 
@@ -205,9 +204,8 @@ ThemeData darkTheme = ThemeData(
     onSecondary: const Color(0xFFE5C8C7),
     surface: const Color(0xFF0F0607),
     onSurface: const Color(0xFFFFF5F3),
-    shadow: Colors.black.withValues(alpha: 0.03),
+    shadow: const Color(0xFFE5C8C7).withValues(alpha: 0.03),
   ),
-  iconTheme: const IconThemeData(color: Color(0xFFE5C8C7)),
   disabledColor: const Color(0xFF614D4F),
 );
 

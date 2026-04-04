@@ -14,10 +14,10 @@ class _BottomNavbarContainer extends StatelessWidget {
       margin: EdgeInsets.only(left: 20, right: 20, bottom: 0),
       decoration: ShapeDecoration(
         color: Theme.of(context).colorScheme.primary,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedSuperellipseBorder(borderRadius: BorderRadius.circular(20)),
         shadows: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.shadow.withAlpha(0x7f),
+            color: Theme.of(context).colorScheme.shadow,
             blurRadius: 5,
             offset: Offset(0, 3),
           ),
@@ -84,7 +84,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
         child: BottomNavigationBar(
           onTap: _onTap,
           backgroundColor: Colors.transparent,
-          elevation: 0,
+          elevation: 1,
           iconSize: 32,
           type: BottomNavigationBarType.fixed,
           items: widget.items

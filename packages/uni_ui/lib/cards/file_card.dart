@@ -115,7 +115,7 @@ class _FileCardState extends State<FileCard>
           ),
           leading: UniIcon(
             getIconForExtension(widget.extension),
-            color: Theme.of(context).iconTheme.color,
+            color: Theme.of(context).colorScheme.onSecondary,
             size: 35,
           ),
         ),

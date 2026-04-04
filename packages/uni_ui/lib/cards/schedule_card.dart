@@ -140,8 +140,8 @@ class ScheduleCard extends StatelessWidget {
               PhosphorIcon(
                 PhosphorIcons.mapPin(PhosphorIconsStyle.duotone),
                 color: isActive
-                    ? Theme.of(context).iconTheme.color
-                    : Theme.of(context).iconTheme.color,
+                    ? Theme.of(context).colorScheme.onSecondary
+                    : Theme.of(context).colorScheme.onSecondary,
                 size: 35,
               ),
               Text(

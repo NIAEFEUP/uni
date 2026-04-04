@@ -103,7 +103,7 @@ class CalendarItem extends StatelessWidget {
                     ? Theme.of(context).primaryColor
                     : Colors.transparent,
                 border: Border.all(
-                  color: Theme.of(context).iconTheme.color!,
+                  color: Theme.of(context).colorScheme.onSecondary!,
                   width: 4.0,
                 ),
               ),
@@ -129,7 +129,7 @@ class CalendarItem extends StatelessWidget {
                   bottomRight: Radius.circular(2),
                 ),
                 shape: BoxShape.rectangle,
-                color: Theme.of(context).iconTheme.color!,
+                color: Theme.of(context).colorScheme.onSecondary!,
               ),
             ),
           ],

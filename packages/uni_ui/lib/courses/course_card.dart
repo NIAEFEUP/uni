@@ -49,15 +49,15 @@ class CourseCard extends StatelessWidget {
                 _getIconData(courseInfo.abbreviation, selected),
                 size: 32,
                 color: selected
-                    ? Theme.of(context).iconTheme.color
-                    : Theme.of(context).iconTheme.color?.withAlpha(0x80),
+                    ? Theme.of(context).colorScheme.onSecondary
+                    : Theme.of(context).colorScheme.onSecondary?.withAlpha(0x80),
               ),
               Text(
                 courseInfo.abbreviation,
                 style: Theme.of(context).textTheme.titleLarge?.apply(
                   color: selected
                       ? Theme.of(context).colorScheme.onSecondary
-                      : Theme.of(context).iconTheme.color?.withAlpha(0x80),
+                      : Theme.of(context).colorScheme.onSecondary?.withAlpha(0x80),
                 ),
               ),
               Text(
@@ -65,7 +65,7 @@ class CourseCard extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium?.apply(
                   color: selected
                       ? Theme.of(context).colorScheme.onSecondary
-                      : Theme.of(context).iconTheme.color?.withAlpha(0x80),
+                      : Theme.of(context).colorScheme.onSecondary?.withAlpha(0x80),
                 ),
               ),
             ],

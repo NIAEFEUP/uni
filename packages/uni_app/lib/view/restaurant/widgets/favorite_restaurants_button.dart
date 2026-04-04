@@ -29,7 +29,7 @@ class FavoriteRestaurantsButton extends StatelessWidget {
           const SizedBox(width: 8),
           UniIcon(
             isFavoriteOn ? UniIcons.heartFill : UniIcons.heartOutline,
-            color: Theme.of(context).iconTheme.color,
+            color: Theme.of(context).colorScheme.onSecondary,
           ),
         ],
       ),

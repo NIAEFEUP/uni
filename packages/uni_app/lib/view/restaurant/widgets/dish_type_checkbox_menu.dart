@@ -103,7 +103,7 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
                       ),
                       secondary: RestaurantUtils.getIcon(
                         RestaurantUtils.getMealName(keyLabel),
-                        color: Theme.of(context).iconTheme.color,
+                        color: Theme.of(context).colorScheme.onSecondary,
                       ),
                       activeColor: Theme.of(
                         context,
@@ -182,7 +182,7 @@ class _DishTypeCheckboxMenuState extends State<DishTypeCheckboxMenu> {
           const SizedBox(width: 8),
           UniIcon(
             UniIcons.caretDownRegular,
-            color: Theme.of(context).iconTheme.color,
+            color: Theme.of(context).colorScheme.onSecondary,
           ),
         ],
       ),

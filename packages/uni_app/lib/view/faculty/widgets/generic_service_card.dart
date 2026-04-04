@@ -62,7 +62,7 @@ class ServicesCard extends StatelessWidget {
                   icon: UniIcons.phone,
                   trailing: UniIcon(
                     UniIcons.caretRight,
-                    color: Theme.of(context).iconTheme.color,
+                    color: Theme.of(context).colorScheme.onSecondary,
                   ),
                 ),
               ),
@@ -75,7 +75,7 @@ class ServicesCard extends StatelessWidget {
                   icon: UniIcons.email,
                   trailing: UniIcon(
                     UniIcons.caretRight,
-                    color: Theme.of(context).iconTheme.color,
+                    color: Theme.of(context).colorScheme.onSecondary,
                   ),
                 ),
               ),

@@ -23,7 +23,7 @@ class _FolderCardState extends State<FolderCard> {
         child: UniIcon(
           _isExpanded ? UniIcons.folderOpen : UniIcons.folderClosed,
           key: ValueKey<bool>(_isExpanded),
-          color: Theme.of(context).iconTheme.color,
+          color: Theme.of(context).colorScheme.onSecondary,
           size: 35,
         ),
       ),
@@ -33,7 +33,7 @@ class _FolderCardState extends State<FolderCard> {
         child: UniIcon(
           UniIcons.caretDown,
           key: ValueKey<bool>(_isExpanded),
-          color: Theme.of(context).iconTheme.color,
+          color: Theme.of(context).colorScheme.onSecondary,
           size: 35,
         ),
       ),

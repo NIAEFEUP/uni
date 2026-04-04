@@ -290,7 +290,7 @@ class CourseUnitDetailPageViewState
     return IconButton(
       icon: UniIcon(
         UniIcons.arrowSquareOut,
-        color: Theme.of(context).iconTheme.color,
+        color: Theme.of(context).colorScheme.onSecondary,
       ),
       onPressed: () async {
         // If the course unit isn't from FEUP, sigarra redirects to the correct page

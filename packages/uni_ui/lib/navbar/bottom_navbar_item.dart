@@ -22,7 +22,7 @@ class BottomNavbarItem {
                 borderRadius: BorderRadius.circular(10),
               )
             : null,
-        child: UniIcon(icon, size: 32, color: Color(0xFFE5C8C7)),
+        child: UniIcon(icon, size: 32, color: Theme.of(context).colorScheme.onPrimaryFixed),
       ),
       label: '',
     );

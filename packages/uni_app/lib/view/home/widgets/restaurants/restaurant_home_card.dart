@@ -154,7 +154,7 @@ List<RestaurantCard> getRestaurantInformation(
           }
         }
 
-        final menuItems = getMainMenus(displayedDay, restaurant, locale);
+        final menuItems = getMainMenus(context, displayedDay, restaurant, locale);
 
         String? subtitle;
         if (showTomorrow) {
@@ -171,7 +171,10 @@ List<RestaurantCard> getRestaurantInformation(
             restaurant.namePt,
             restaurant.period,
           ),
-          icon: RestaurantUtils.getIcon(restaurant.typeEn ?? restaurant.typePt),
+          icon: RestaurantUtils.getIcon(
+            restaurant.typeEn ?? restaurant.typePt,
+            color: Theme.of(context).colorScheme.onSecondary,
+          ),
           isFavorite: PreferencesController.getFavoriteRestaurants().contains(
             restaurant.namePt + restaurant.period,
           ),
@@ -187,6 +190,7 @@ List<RestaurantCard> getRestaurantInformation(
 }
 
 List<RestaurantMenuItem> getMainMenus(
+  BuildContext context,
   DayOfWeek dayOfWeek,
   Restaurant restaurant,
   AppLocale locale,
@@ -221,7 +225,8 @@ List<RestaurantMenuItem> getMainMenus(
           meal.namePt,
           meal.nameEn,
         ),
-        icon: RestaurantUtils.getIcon(meal.type),
+        icon: RestaurantUtils.getIcon(meal.type, 
+              color: Theme.of(context).colorScheme.onSecondary,),
       ),
     );
   }
