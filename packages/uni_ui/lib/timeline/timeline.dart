@@ -38,6 +38,10 @@ class _TimelineState extends State<Timeline> {
 
     _tabKeys.addAll(List.generate(widget.tabs.length, (index) => GlobalKey()));
 
+    _tabScrollController.addListener(() {
+      setState(() {});
+    });
+
     _itemPositionsListener.itemPositions.addListener(() {
       if (!_didInitialScroll) return;
 
@@ -211,50 +215,57 @@ class _TimelineState extends State<Timeline> {
                   }).toList(),
                 ),
               ),
-              Positioned(
-                left: 0,
-                top: 0,
-                bottom: 0,
-                width: 32,
-                child: IgnorePointer(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [
-                          Theme.of(context).scaffoldBackgroundColor,
-                          Theme.of(
-                            context,
-                          ).scaffoldBackgroundColor.withAlpha(0),
-                        ],
+              if (!(_currentIndex == 0 &&
+                  _tabScrollController.hasClients &&
+                  _tabScrollController.offset <= 0))
+                Positioned(
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  width: 32,
+                  child: IgnorePointer(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            Theme.of(context).scaffoldBackgroundColor,
+                            Theme.of(
+                              context,
+                            ).scaffoldBackgroundColor.withAlpha(0),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                right: 0,
-                top: 0,
-                bottom: 0,
-                width: 32,
-                child: IgnorePointer(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.centerRight,
-                        end: Alignment.centerLeft,
-                        colors: [
-                          Theme.of(context).scaffoldBackgroundColor,
-                          Theme.of(
-                            context,
-                          ).scaffoldBackgroundColor.withAlpha(0),
-                        ],
+              if (!(_currentIndex == widget.tabs.length - 1 &&
+                  _tabScrollController.hasClients &&
+                  _tabScrollController.offset >=
+                      _tabScrollController.position.maxScrollExtent))
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  width: 32,
+                  child: IgnorePointer(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerRight,
+                          end: Alignment.centerLeft,
+                          colors: [
+                            Theme.of(context).scaffoldBackgroundColor,
+                            Theme.of(
+                              context,
+                            ).scaffoldBackgroundColor.withAlpha(0),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
             ],
           ),
         ),
