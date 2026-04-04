@@ -8,10 +8,10 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/bug_report.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
-import 'package:uni/view/bug_report/widgets/dropdown_bug_select.dart';
 import 'package:uni/view/bug_report/widgets/text_field.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/widgets/toast_message.dart';
+import 'package:uni_ui/cards/generic_card.dart';
 
 class BugReportPageView extends ConsumerStatefulWidget {
   const BugReportPageView({super.key});
@@ -75,29 +75,145 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
 
   @override
   Widget getBody(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Form(
-          key: _formKey,
+    return Form(
+      key: _formKey,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 20,
             children: <Widget>[
-              const Padding(padding: EdgeInsets.only(bottom: 10)),
-              dropdownBugSelectWidget(context),
+              // Header section
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 8,
+                children: [
+                  Text(
+                    S.of(context).feedback_type_title_section,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  Text(
+                    S.of(context).feedback_type_description_section,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              ),
+
+              GenericCard(
+                tooltip: S.of(context).feedback_type_title_section,
+                margin: EdgeInsets.zero,
+                child: DropdownButton<int>(
+                  underline: const SizedBox(),
+                  isDense: true,
+                  isExpanded: true,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  borderRadius: BorderRadius.circular(20),
+                  dropdownColor: Theme.of(context).colorScheme.secondary,
+                  value: _selectedBug,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _selectedBug = newValue ?? 0;
+                    });
+                  },
+                  items: bugList,
+                ),
+              ),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 8,
+                children: [
+                  Text(
+                    S.of(context).description,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  Text(
+                    S.of(context).feedback_description_section,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              ),
+
               FormTextField(
                 titleController,
                 maxLines: 3,
                 hintText: S.of(context).problem_id,
                 labelText: S.of(context).title,
-                bottomMargin: 20,
               ),
+
+              FormTextField(
+                descriptionController,
+                minLines: 3,
+                maxLines: 5,
+                hintText: S.of(context).bug_description,
+                labelText: S.of(context).description,
+              ),
+
+              GenericCard(
+                tooltip: S.of(context).feedback_images_title_section,
+                margin: EdgeInsets.zero,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 12,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          S.of(context).feedback_images_title_section,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        GestureDetector(
+                          onTap: uploadImages,
+                          child: const Icon(Icons.add),
+                        ),
+                      ],
+                    ),
+                    if (previewImages.isEmpty)
+                      Center(
+                        child: Text(
+                          S.of(context).feedback_images_empty_section,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ),
+                    if (previewImages.isNotEmpty)
+                      GridView.count(
+                        crossAxisCount: 3,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        mainAxisSpacing: 8,
+                        crossAxisSpacing: 8,
+                        children: previewImages,
+                      ),
+                  ],
+                ),
+              ),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 8,
+                children: [
+                  Text(
+                    S.of(context).feedback_privacy_section,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  Text(
+                    S.of(context).feedback_privacy_description_section,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              ),
+
               FormTextField(
                 emailController,
                 maxLines: 2,
                 description: S.of(context).contact,
                 labelText: S.of(context).desired_email,
-                bottomMargin: 20,
                 isOptional: true,
                 formatValidator: (value) {
                   if (value == null || value.isEmpty) {
@@ -108,77 +224,60 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
                       : S.of(context).valid_email;
                 },
               ),
-              FormTextField(
-                descriptionController,
-                maxLines: 3,
-                hintText: S.of(context).description,
-                labelText: S.of(context).bug_description,
-                bottomMargin: 20,
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: TextButton.icon(
-                  icon: Icon(
-                    Icons.add,
-                    color: Theme.of(context).colorScheme.primary,
+
+              GenericCard(
+                tooltip: S.of(context).feedback_consent_title,
+                margin: EdgeInsets.zero,
+                child: CheckboxListTile(
+                  value: _isConsentGiven,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _isConsentGiven = newValue ?? false;
+                    });
+                  },
+                  controlAffinity: ListTileControlAffinity.trailing,
+                  activeColor: Theme.of(
+                    context,
+                  ).colorScheme.onSecondaryContainer,
+                  checkColor: Theme.of(context).colorScheme.secondary,
+                  side: BorderSide(
+                    color: Theme.of(context).colorScheme.onSecondaryContainer,
                   ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                  title: Text(
+                    S.of(context).consent,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  onPressed: uploadImages,
-                  label: Text(S.of(context).add_photo),
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.all(1),
-                child: Row(children: previewImages),
-              ),
-              Container(
-                padding: EdgeInsets.zero,
-                margin: const EdgeInsets.only(bottom: 20),
-                child: ListTileTheme(
-                  contentPadding: EdgeInsets.zero,
-                  child: CheckboxListTile(
-                    contentPadding: EdgeInsets.zero,
-                    value: _isConsentGiven,
-                    onChanged: (newValue) {
-                      setState(() {
-                        _isConsentGiven = newValue ?? false;
-                      });
-                    },
-                    controlAffinity: ListTileControlAffinity.leading,
-                    activeColor: Theme.of(context).colorScheme.primary,
-                    title: Text(
-                      S.of(context).consent,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                      textAlign: TextAlign.left,
+
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    shape: RoundedSuperellipseBorder(
+                      borderRadius: BorderRadius.circular(16),
                     ),
+                    backgroundColor: _isConsentGiven
+                        ? Theme.of(context).colorScheme.onSecondaryContainer
+                        : Theme.of(context).disabledColor,
+                    disabledBackgroundColor: Theme.of(context).disabledColor,
                   ),
-                ),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: _isConsentGiven
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context).dividerColor,
-                ),
-                onPressed: !_isConsentGiven
-                    ? null
-                    : () {
-                        if (_formKey.currentState!.validate() &&
-                            !_isButtonTapped) {
-                          if (!FocusScope.of(context).hasPrimaryFocus) {
-                            FocusScope.of(context).unfocus();
+                  onPressed: !_isConsentGiven
+                      ? null
+                      : () {
+                          if (_formKey.currentState!.validate() &&
+                              !_isButtonTapped) {
+                            if (!FocusScope.of(context).hasPrimaryFocus) {
+                              FocusScope.of(context).unfocus();
+                            }
+                            submitBugReport();
                           }
-                          submitBugReport();
-                        }
-                      },
-                child: Text(
-                  S.of(context).send,
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: _isConsentGiven
-                        ? Theme.of(context).colorScheme.onPrimary
-                        : Theme.of(context).colorScheme.onTertiary,
+                        },
+                  child: Text(
+                    S.of(context).send,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
                   ),
                 ),
               ),
@@ -197,18 +296,6 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
   @override
   String? getTitle() =>
       S.of(context).nav_title(NavigationItem.navBugreport.route);
-
-  Widget dropdownBugSelectWidget(BuildContext context) {
-    return DropdownMenuBugSelect(
-      items: bugList,
-      selectedValue: _selectedBug,
-      onChange: (newValue) {
-        setState(() {
-          _selectedBug = newValue ?? 0;
-        });
-      },
-    );
-  }
 
   Future<void> uploadImages() async {
     try {
