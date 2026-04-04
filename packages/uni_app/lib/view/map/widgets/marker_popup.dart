@@ -71,15 +71,21 @@ class Floor extends StatelessWidget {
         Container(
           padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
           decoration: BoxDecoration(
-            border: Border(left: BorderSide(color: Theme.of(context).colorScheme.onSecondaryContainer)),
+            border: Border(
+              left: BorderSide(
+                color: Theme.of(context).colorScheme.onSecondaryContainer,
+              ),
+            ),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: locations
                 .map(
-                  (location) =>
-                      LocationRow(location: location, color: Theme.of(context).colorScheme.onSecondaryContainer),
+                  (location) => LocationRow(
+                    location: location,
+                    color: Theme.of(context).colorScheme.onSecondaryContainer,
+                  ),
                 )
                 .toList(),
           ),
