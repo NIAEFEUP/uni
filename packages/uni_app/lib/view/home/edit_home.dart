@@ -80,14 +80,25 @@ class EditHomeViewState extends State<EditHomeView> {
           child: Container(
             height: 90,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: Theme.of(context).brightness == Brightness.light
-                    ? const [Color(0xFF280709), Color(0xFF511515)]
-                    : const [Color(0xFF2F0A0C), Color(0xFF0F0607)],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: const [0, 1],
-              ),
+              gradient: Theme.of(context).brightness == Brightness.light
+                  ? RadialGradient(
+                      colors: [
+                        Theme.of(context).colorScheme.tertiary,
+                        Theme.of(context).colorScheme.onTertiary,
+                      ],
+                      center: Alignment.topLeft,
+                      radius: 2,
+                      stops: const [0, 1],
+                    )
+                  : LinearGradient(
+                      colors: [
+                        Theme.of(context).colorScheme.primary,
+                        Theme.of(context).colorScheme.surface,
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: const [0, 1],
+                  ),
             ),
             child: DragTarget<FavoriteWidgetType>(
               builder: (context, candidate, rejected) {
@@ -165,14 +176,25 @@ class EditHomeViewState extends State<EditHomeView> {
               padding: const EdgeInsets.symmetric(vertical: 35, horizontal: 20),
               height: 350,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: Theme.of(context).brightness == Brightness.light
-                      ? const [Color(0xFF280709), Color(0xFF511515)]
-                      : const [Color(0xFF2F0A0C), Color(0xFF0F0607)],
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  stops: const [0, 1],
-                ),
+                gradient: Theme.of(context).brightness == Brightness.light
+                    ? RadialGradient(
+                        colors: [
+                          Theme.of(context).colorScheme.tertiary,
+                          Theme.of(context).colorScheme.onTertiary,
+                        ],
+                        center: Alignment.topLeft,
+                        radius: 2,
+                        stops: const [0, 1],
+                      )
+                    : LinearGradient(
+                        colors: [
+                          Theme.of(context).colorScheme.primary,
+                          Theme.of(context).colorScheme.surface,
+                        ],
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        stops: const [0, 1],
+                      ),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
