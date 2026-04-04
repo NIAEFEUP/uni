@@ -23,7 +23,7 @@ class ModalInfoRow extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
-            color: Theme.of(context).colorScheme.onPrimary,
+            color: Theme.of(context).colorScheme.onSecondaryFixed,
             width: 1,
           ),
         ),

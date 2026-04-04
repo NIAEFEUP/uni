@@ -39,7 +39,7 @@ class FloorOccupationWidget extends StatelessWidget {
           LinearPercentIndicator(
             lineHeight: 8.0,
             percent: occupation / capacity,
-            backgroundColor: Theme.of(context).colorScheme.onPrimary,
+            backgroundColor: Theme.of(context).colorScheme.onSecondaryFixed,
             progressColor: Theme.of(context).colorScheme.onSecondary,
             barRadius: const Radius.circular(10),
             padding: EdgeInsets.zero,
@@ -80,7 +80,7 @@ class LibraryOccupationCard extends StatelessWidget {
               style: Theme.of(context).textTheme.displayMedium,
             ),
             circularStrokeCap: CircularStrokeCap.round,
-            backgroundColor: Theme.of(context).colorScheme.onPrimary,
+            backgroundColor: Theme.of(context).colorScheme.onSecondaryFixed,
             progressColor: Theme.of(context).colorScheme.onSecondary,
           ),
           const SizedBox(width: 10),
