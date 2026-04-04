@@ -53,7 +53,10 @@ class ServiceCard extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        UniIcon(UniIcons.clock, color: Theme.of(context).colorScheme.onSecondary),
+                        UniIcon(
+                          UniIcons.clock,
+                          color: Theme.of(context).colorScheme.onSecondary,
+                        ),
                         const SizedBox(width: 5),
                         Expanded(
                           child: Column(
