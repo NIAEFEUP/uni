@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:uni_ui/icons.dart';
 
 class ModalServiceInfo extends StatelessWidget {
   const ModalServiceInfo({required this.name, required this.durations});
@@ -15,18 +16,14 @@ class ModalServiceInfo extends StatelessWidget {
         children: [
           Text(
             name,
-            style: Theme.of(context).textTheme.headlineMedium,
+            style: Theme.of(context).textTheme.headlineLarge,
             textAlign: TextAlign.center,
           ),
           Padding(padding: EdgeInsets.all(3)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              PhosphorIcon(
-                PhosphorIcons.clock(PhosphorIconsStyle.duotone),
-                //TODO: color: darkGray,
-                //TODO: duotoneSecondaryColor: normalGray,
-              ),
+              UniIcon(UniIcons.clock, color: Theme.of(context).colorScheme.onSecondary),
               Padding(padding: EdgeInsets.all(2)),
               Column(
                 children: durations.map((duration) {

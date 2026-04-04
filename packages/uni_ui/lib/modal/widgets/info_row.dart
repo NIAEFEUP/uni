@@ -29,6 +29,7 @@ class ModalInfoRow extends StatelessWidget {
         ),
       ),
       child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 12),
         dense: true,
         leading: UniIcon(
           icon,
