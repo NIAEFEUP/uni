@@ -21,7 +21,7 @@ class CourseGradeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GenericCard(
       shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
-      blurRadius: 2,
+      blurRadius: 1,
       key: key,
       tooltip: tooltip,
       onClick: onTap,
@@ -30,7 +30,7 @@ class CourseGradeCard extends StatelessWidget {
           ? null
           : ((double.tryParse(grade!) ?? 0) >= 10
                 ? null
-                : Theme.of(context).disabledColor.withAlpha(0x80)),
+                : Theme.of(context).colorScheme.secondary.withAlpha(120)),
       child: SizedBox(
         height: 75,
         child: Column(

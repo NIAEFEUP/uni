@@ -197,9 +197,9 @@ ThemeData lightTheme = ThemeData(
     surface: const Color(0xFFFFFFFF), // backgrounds
     onSurfaceVariant: const Color(0xFFFFF5F3), // stuff on colored backgrounds
 
-    shadow: Colors.black.withValues(alpha: 0.03), // for shadows
+    shadow: Color(0xFF660910).withValues(alpha: 0x25), // for shadows
   ),
-  disabledColor: const Color(0xFF767575),
+  disabledColor: const Color(0xFFE0E0E0),
 );
 
 ThemeData darkTheme = ThemeData(

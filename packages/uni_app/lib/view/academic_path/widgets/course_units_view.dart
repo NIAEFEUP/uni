@@ -84,7 +84,7 @@ class _CourseUnitsViewState extends ConsumerState<CourseUnitsView> {
                 ),
                 const Spacer(),
                 IconButton(
-                  icon: const UniIcon(UniIcons.list),
+                  icon: UniIcon(UniIcons.list, color: Theme.of(context).colorScheme.onSecondary),
                   onPressed: () {
                     setState(() {
                       isGrid = false;
@@ -93,7 +93,7 @@ class _CourseUnitsViewState extends ConsumerState<CourseUnitsView> {
                   },
                 ),
                 IconButton(
-                  icon: const UniIcon(UniIcons.grid),
+                  icon: UniIcon(UniIcons.grid, color: Theme.of(context).colorScheme.onSecondary),
                   onPressed: () {
                     setState(() {
                       isGrid = true;
