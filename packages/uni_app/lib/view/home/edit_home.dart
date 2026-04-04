@@ -98,7 +98,7 @@ class EditHomeViewState extends State<EditHomeView> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       stops: const [0, 1],
-                  ),
+                    ),
             ),
             child: DragTarget<FavoriteWidgetType>(
               builder: (context, candidate, rejected) {
@@ -187,9 +187,7 @@ class EditHomeViewState extends State<EditHomeView> {
                         stops: const [0, 1],
                       )
                     : LinearGradient(
-                        colors: [
-                          Theme.of(context).colorScheme.tertiary,
-                        ],
+                        colors: [Theme.of(context).colorScheme.tertiary],
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                         stops: const [0, 1],
