@@ -151,7 +151,7 @@ class CalendarItem extends StatelessWidget {
                         Theme.of(context).colorScheme.tertiary,
                       ],
                       center: Alignment.topLeft,
-                      radius: 1.5,
+                      radius: 2,
                       stops: [0, 1],
                     )
                   : null,

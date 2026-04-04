@@ -214,8 +214,8 @@ ThemeData darkTheme = ThemeData(
     onSecondary: const Color(0xFFE5C8C7),
     onSecondaryFixed: const Color(0xFF250103),
 
-    tertiary: const Color(0xFF660910),
-    onTertiary: const Color(0xFF280709),
+    tertiary: const Color(0xFF2F0A0C),
+    onTertiary: const Color(0xFF3C0306),
 
     surface: const Color(0xFF0F0607),
     onSurfaceVariant: const Color(0xFFE5C8C7),

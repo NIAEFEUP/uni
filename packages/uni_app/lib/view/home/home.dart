@@ -183,7 +183,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                 )
               : LinearGradient(
                   colors: [
-                    Theme.of(context).colorScheme.primary,
+                    Theme.of(context).colorScheme.tertiary,
                     Theme.of(context).colorScheme.surface,
                   ],
                   begin: Alignment.topCenter,

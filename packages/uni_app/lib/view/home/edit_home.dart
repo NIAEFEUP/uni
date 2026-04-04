@@ -92,7 +92,7 @@ class EditHomeViewState extends State<EditHomeView> {
                     )
                   : LinearGradient(
                       colors: [
-                        Theme.of(context).colorScheme.primary,
+                        Theme.of(context).colorScheme.tertiary,
                         Theme.of(context).colorScheme.surface,
                       ],
                       begin: Alignment.topCenter,
@@ -188,8 +188,7 @@ class EditHomeViewState extends State<EditHomeView> {
                       )
                     : LinearGradient(
                         colors: [
-                          Theme.of(context).colorScheme.primary,
-                          Theme.of(context).colorScheme.surface,
+                          Theme.of(context).colorScheme.tertiary,
                         ],
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
