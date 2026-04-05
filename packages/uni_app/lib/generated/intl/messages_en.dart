@@ -174,6 +174,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Drag and drop elements",
     ),
     "ects": MessageLookupByLibrary.simpleMessage("ECTS performed: "),
+    "edit_homepage": MessageLookupByLibrary.simpleMessage("Edit"),
     "edit_off": MessageLookupByLibrary.simpleMessage("Edit"),
     "edit_on": MessageLookupByLibrary.simpleMessage("Finish editing"),
     "email": MessageLookupByLibrary.simpleMessage("Email"),

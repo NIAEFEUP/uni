@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
 import 'package:uni/model/providers/riverpod/connectivity_provider.dart';
@@ -115,32 +116,47 @@ class HomePageViewState extends ConsumerState<HomePageView> {
       ),
       child: Scaffold(
         extendBody: true,
-        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Theme.of(context).primaryColor,
-          foregroundColor: Colors.white,
-          shape: const CircleBorder(),
-          onPressed: () => {
-            Navigator.pushNamed(
-              context,
-              '/${NavigationItem.navEditPersonalArea.route}',
-            ),
-          },
-          child: const UniIcon(UniIcons.edit),
-        ),
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: homeAppBar(context),
         bottomNavigationBar: const AppBottomNavbar(),
         body: RefreshIndicator(
           onRefresh: () => refreshPage(context),
           child: ListView.separated(
-            itemCount: favoriteCards.length + 1,
+            itemCount: favoriteCards.length + 2,
             separatorBuilder: (_, _) => const SizedBox(height: 10),
             itemBuilder: (_, index) {
               if (index == 0) {
                 return Visibility(
                   visible: !_isBannerViewed,
                   child: TrackingBanner(setBannerViewed),
+                );
+              } else if (index == favoriteCards.length + 1) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 125),
+                  child: TextButton.icon(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      elevation: 2,
+                      shadowColor: Colors.black.withValues(alpha: 0.3),
+                      shape: RoundedSuperellipseBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/${NavigationItem.navEditPersonalArea.route}',
+                      );
+                    },
+                    icon: const UniIcon(UniIcons.edit),
+                    label: Text(
+                      S.of(context).edit_homepage,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
                 );
               } else {
                 return typeToCard[favoriteCards[index - 1]];
