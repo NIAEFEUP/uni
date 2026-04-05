@@ -131,13 +131,12 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                   child: TrackingBanner(setBannerViewed),
                 );
               } else if (index == favoriteCards.length + 1) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 125),
+                return Center(
                   child: TextButton.icon(
                     style: TextButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.secondary,
                       elevation: 2,
-                      shadowColor: Colors.black.withValues(alpha: 0.3),
+                      shadowColor: Theme.of(context).colorScheme.shadow,
                       shape: RoundedSuperellipseBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -148,12 +147,14 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                         '/${NavigationItem.navEditPersonalArea.route}',
                       );
                     },
-                    icon: const UniIcon(UniIcons.edit),
+                    icon: UniIcon(
+                      UniIcons.edit,
+                      color: Theme.of(context).colorScheme.onSecondary,
+                    ),
                     label: Text(
                       S.of(context).edit_homepage,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.onSecondary,
                       ),
                     ),
                   ),
