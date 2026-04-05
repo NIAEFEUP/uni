@@ -499,5 +499,7 @@
   "feedback_images_empty_section": "As imagens anexadas aparecerão aqui.",
   "@feedback_images_empty_section": {},
   "feedback_consent_title": "Consentimento para recolha de dados",
-  "@feedback_consent_title": {}
+  "@feedback_consent_title": {},
+  "edit_homepage": "Editar",
+  "@edit_homepage": {}
 }
