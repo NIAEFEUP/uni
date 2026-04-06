@@ -13,6 +13,7 @@ class ExamMonthTimeline extends ConsumerWidget {
     super.key,
     required this.now,
     required this.monthDate,
+    required this.weekday,
     required this.exams,
     this.hiddenExams,
     this.onToggleHidden,
@@ -20,6 +21,7 @@ class ExamMonthTimeline extends ConsumerWidget {
 
   final DateTime now;
   final DateTime monthDate;
+  final String Function(DateTime) weekday;
   final List<Exam> exams;
   final List<String>? hiddenExams;
   final void Function(String)? onToggleHidden;
@@ -47,7 +49,7 @@ class ExamMonthTimeline extends ConsumerWidget {
           ),
           const SizedBox(height: 14),
           CardTimeline(
-            items: _buildTimelineItems(exams, context, ref, appLocale),
+            items: _buildTimelineItems(exams, context, ref, appLocale, weekday),
           ),
         ],
       ),
@@ -59,13 +61,14 @@ class ExamMonthTimeline extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     AppLocale appLocale,
+    String Function(DateTime) weekdayOf,
   ) {
     return exams.map((exam) {
       final isActive = _isExamActive(exam);
       return TimelineItem(
         isActive: isActive,
         title: exam.start.day.toString(),
-        subtitle: exam.monthAcronym(appLocale),
+        subtitle: weekdayOf(exam.start),
         lineHeight: 55,
         card: ExamCard(
           name: exam.subject,
