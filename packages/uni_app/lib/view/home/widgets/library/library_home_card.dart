@@ -40,7 +40,11 @@ class LibraryHomeCard extends GenericHomecard {
       hasContent: (libraryOccupation) => libraryOccupation.capacity > 0,
       nullContentWidget: Center(
         child: IconLabel(
-          icon: const Icon(UniIcons.library, size: 45),
+          icon: UniIcon(
+            size: 45,
+            UniIcons.library,
+            color: Theme.of(context).colorScheme.onSecondary,
+          ),
           label: S.of(context).no_library_info,
           labelTextStyle: Theme.of(context).textTheme.bodyMedium,
         ),

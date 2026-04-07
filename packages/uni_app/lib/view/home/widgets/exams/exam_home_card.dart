@@ -51,7 +51,11 @@ class ExamHomeCard extends GenericHomecard {
               getVisibleExams(allExams, hiddenExams).isNotEmpty,
           nullContentWidget: Center(
             child: IconLabel(
-              icon: const UniIcon(UniIcons.island, size: 45),
+              icon: UniIcon(
+                size: 45,
+                UniIcons.island,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
               label: S.of(context).no_exams,
               labelTextStyle: Theme.of(context).textTheme.bodyMedium,
             ),

@@ -45,7 +45,11 @@ class ScheduleHomeCard extends GenericHomecard {
           .isNotEmpty,
       nullContentWidget: Center(
         child: IconLabel(
-          icon: const UniIcon(size: 45, UniIcons.beer),
+          icon: UniIcon(
+            size: 45,
+            UniIcons.beer,
+            color: Theme.of(context).colorScheme.onSecondary,
+          ),
           label: S.of(context).no_classes,
           labelTextStyle: Theme.of(context).textTheme.bodyMedium,
         ),
