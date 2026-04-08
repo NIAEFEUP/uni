@@ -220,7 +220,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                       UniLogo(
                         iconColor: Theme.of(
                           context,
-                        ).colorScheme.onSecondaryFixed,
+                        ).colorScheme.onSurfaceVariant,
                       ),
                       Row(
                         spacing: 16,
