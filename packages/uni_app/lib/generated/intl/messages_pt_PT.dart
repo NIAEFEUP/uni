@@ -180,6 +180,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Arrasta e solta os elementos",
     ),
     "ects": MessageLookupByLibrary.simpleMessage("ECTS realizados: "),
+    "edit_homepage": MessageLookupByLibrary.simpleMessage("Editar"),
     "edit_off": MessageLookupByLibrary.simpleMessage("Editar"),
     "edit_on": MessageLookupByLibrary.simpleMessage("Concluir edição"),
     "email": MessageLookupByLibrary.simpleMessage("Email"),

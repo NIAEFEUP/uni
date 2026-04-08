@@ -2029,6 +2029,11 @@ class S {
       args: [],
     );
   }
+
+  /// `Edit`
+  String get edit_homepage {
+    return Intl.message('Edit', name: 'edit_homepage', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
