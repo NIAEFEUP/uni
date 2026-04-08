@@ -182,6 +182,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Arrasta e solta os elementos",
     ),
     "ects": MessageLookupByLibrary.simpleMessage("ECTS realizados: "),
+    "edit_homepage": MessageLookupByLibrary.simpleMessage("Editar"),
     "edit_off": MessageLookupByLibrary.simpleMessage("Editar"),
     "edit_on": MessageLookupByLibrary.simpleMessage("Concluir edição"),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
@@ -407,6 +408,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Erro ao abrir o ficheiro",
     ),
     "other_links": MessageLookupByLibrary.simpleMessage("Outros links"),
+    "parking": MessageLookupByLibrary.simpleMessage("parque automóvel"),
     "pass_change_request": MessageLookupByLibrary.simpleMessage(
       "Por razões de segurança, as palavras-passe têm de ser alteradas periodicamente.",
     ),
@@ -469,6 +471,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "services": MessageLookupByLibrary.simpleMessage("Serviços"),
     "settings": MessageLookupByLibrary.simpleMessage("Definições"),
+    "shop": MessageLookupByLibrary.simpleMessage("loja"),
     "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
     "some_error": MessageLookupByLibrary.simpleMessage("Algum erro!"),
     "spotted_an_error": MessageLookupByLibrary.simpleMessage(
@@ -517,8 +520,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ver detalhes da Unidade Curricular",
     ),
     "wc": MessageLookupByLibrary.simpleMessage("Casa de banho"),
-    "parking": MessageLookupByLibrary.simpleMessage("parque automóvel"),
-    "shop": MessageLookupByLibrary.simpleMessage("loja"),
     "widget_prompt": MessageLookupByLibrary.simpleMessage(
       "Escolhe um widget para adicionares à tua área pessoal:",
     ),

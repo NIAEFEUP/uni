@@ -176,6 +176,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Drag and drop elements",
     ),
     "ects": MessageLookupByLibrary.simpleMessage("ECTS performed: "),
+    "edit_homepage": MessageLookupByLibrary.simpleMessage("Edit"),
     "edit_off": MessageLookupByLibrary.simpleMessage("Edit"),
     "edit_on": MessageLookupByLibrary.simpleMessage("Finish editing"),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
@@ -385,6 +386,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Error opening the file",
     ),
     "other_links": MessageLookupByLibrary.simpleMessage("Other links"),
+    "parking": MessageLookupByLibrary.simpleMessage("Parking"),
     "pass_change_request": MessageLookupByLibrary.simpleMessage(
       "For security reasons, passwords must be changed periodically.",
     ),
@@ -445,6 +447,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "services": MessageLookupByLibrary.simpleMessage("Services"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+    "shop": MessageLookupByLibrary.simpleMessage("Shop"),
     "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
     "some_error": MessageLookupByLibrary.simpleMessage("Some error!"),
     "spotted_an_error": MessageLookupByLibrary.simpleMessage(
@@ -489,8 +492,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "View course details",
     ),
     "wc": MessageLookupByLibrary.simpleMessage("WC"),
-    "parking": MessageLookupByLibrary.simpleMessage("Parking"),
-    "shop": MessageLookupByLibrary.simpleMessage("Shop"),
     "widget_prompt": MessageLookupByLibrary.simpleMessage(
       "Choose a widget to add to your personal area:",
     ),

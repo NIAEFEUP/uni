@@ -497,5 +497,7 @@
   "parking": "Parking",
   "@parking": {},
   "shop": "Shop",
-  "@shop": {}
+  "@shop": {},
+  "edit_homepage": "Edit",
+  "@edit_homepage": {}
 }

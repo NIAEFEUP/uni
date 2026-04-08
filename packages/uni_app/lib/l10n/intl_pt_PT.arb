@@ -497,5 +497,7 @@
   "parking": "parque automóvel",
   "@parking": {},
   "shop": "loja",
-  "@shop": {}
+  "@shop": {},
+  "edit_homepage": "Editar",
+  "@edit_homepage": {}
 }
