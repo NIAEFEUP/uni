@@ -15,7 +15,7 @@ class ModalPersonInfo extends StatelessWidget {
           CircleAvatar(
             radius: 60.0,
             backgroundImage: image?.image,
-            backgroundColor: Colors.green,
+            backgroundColor: Theme.of(context).colorScheme.onSecondary,
           ),
           Padding(padding: EdgeInsets.only(top: 10.0)),
           Text(

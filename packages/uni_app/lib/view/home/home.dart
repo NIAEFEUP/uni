@@ -217,7 +217,11 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const UniLogo(iconColor: Colors.white),
+                      UniLogo(
+                        iconColor: Theme.of(
+                          context,
+                        ).colorScheme.onSecondaryFixed,
+                      ),
                       Row(
                         spacing: 16,
                         mainAxisSize: MainAxisSize.min,
@@ -234,8 +238,8 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                   padding: const EdgeInsets.symmetric(vertical: 25),
                   child: DefaultConsumer<List<Lecture>>(
                     provider: lectureProvider,
-                    errorWidget: const GeneralErrorView(
-                      textColor: Colors.white,
+                    errorWidget: GeneralErrorView(
+                      textColor: Theme.of(context).colorScheme.onSecondaryFixed,
                     ),
                     builder: (context, ref, lectures) {
                       return ScheduleCard(

@@ -38,6 +38,7 @@ class TermsAndConditionDialog {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.secondary,
           title: Text(
             S.of(context).terms_change,
             style: Theme.of(context).textTheme.headlineMedium,
@@ -64,7 +65,7 @@ class TermsAndConditionDialog {
                     },
                     child: Text(
                       S.of(context).accept,
-                      style: const TextStyle(fontSize: 12, color: Colors.white),
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
                   const SizedBox(width: 20),
@@ -80,7 +81,7 @@ class TermsAndConditionDialog {
                     },
                     child: Text(
                       S.of(context).reject,
-                      style: const TextStyle(fontSize: 12, color: Colors.white),
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
                 ],
