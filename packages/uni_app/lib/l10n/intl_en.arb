@@ -525,5 +525,7 @@
   "no_tuition_fees_label": "No tuition fees found",
   "@no_tuition_fees_label": {},
   "no_tuition_fees_sublabel": "Your tuition fee records will appear here.",
-  "@no_tuition_fees_sublabel": {}
+  "@no_tuition_fees_sublabel": {},
+  "edit_homepage": "Edit",
+  "@edit_homepage": {}
 }

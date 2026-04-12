@@ -525,5 +525,7 @@
   "no_tuition_fees_label": "Sem propinas encontradas",
   "@no_tuition_fees_label": {},
   "no_tuition_fees_sublabel": "Os teus registos de propinas aparecerão aqui.",
-  "@no_tuition_fees_sublabel": {}
+  "@no_tuition_fees_sublabel": {},
+  "edit_homepage": "Editar",
+  "@edit_homepage": {}
 }
