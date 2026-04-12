@@ -58,22 +58,21 @@ class _PaymentWebViewState extends State<PaymentWebView> {
                   }
                 },
                 onLoadStop: (controller, url) async {
+                  final urlString = url?.toString() ?? '';
+
+                  if (urlString.contains('https://www.up')) {
+                    setState(() {
+                      isLoading = false;
+                    });
+                    return;
+                  }
+
                   await controller.evaluateJavascript(
                     source: """
                       const btn = document.getElementById('botao-mb');
                       if (btn) btn.click();
                     """,
                   );
-
-                  await Future<void>.delayed(
-                    const Duration(milliseconds: 1500),
-                  );
-
-                  if (mounted) {
-                    setState(() {
-                      isLoading = false;
-                    });
-                  }
                 },
               ),
 

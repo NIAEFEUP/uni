@@ -26,25 +26,6 @@ class Settings extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineLarge,
           ),
           GenericCard(
-            tooltip: S.of(context).current_account,
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            child: ProfileListTile(
-              icon: UniIcons.bank,
-              title: S.of(context).current_account,
-              subtitle: S.of(context).current_account_description,
-              trailing: UniIcon(
-                UniIcons.caretRight,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  '/${NavigationItem.navCurrentAccount.route}',
-                );
-              },
-            ),
-          ),
-          GenericCard(
             tooltip: S.of(context).settings,
             margin: const EdgeInsets.symmetric(vertical: 8),
             child: Column(
