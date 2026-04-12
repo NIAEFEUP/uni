@@ -35,7 +35,12 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
         ),
         GenericCard(
           tooltip: S.of(context).current_account,
-          margin: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
+          margin: const EdgeInsets.only(
+            top: 20,
+            left: 20,
+            right: 20,
+            bottom: 10,
+          ),
           child: ProfileListTile(
             icon: UniIcons.bank,
             title: S.of(context).current_account,
