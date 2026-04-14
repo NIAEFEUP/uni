@@ -110,7 +110,9 @@ class RestaurantCardHeader extends StatelessWidget {
                       ),
                       child: Text(
                         subtitle!,
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
                       ),
                     ),
                 ],
