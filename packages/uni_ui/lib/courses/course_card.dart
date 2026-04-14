@@ -35,7 +35,10 @@ class CourseCard extends StatelessWidget {
     return GenericCard(
       key: key,
       onClick: onTap,
-      color: selected ? null : Theme.of(context).disabledColor,
+      color: selected
+          ? null
+          : Theme.of(context).colorScheme.secondary.withAlpha(120),
+      shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
       tooltip: '',
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -49,16 +52,14 @@ class CourseCard extends StatelessWidget {
                 size: 32,
                 color: selected
                     ? Theme.of(context).colorScheme.onSecondary
-                    : Theme.of(context).colorScheme.onSecondary.withAlpha(0x80),
+                    : Theme.of(context).colorScheme.onSecondary,
               ),
               Text(
                 courseInfo.abbreviation,
                 style: Theme.of(context).textTheme.titleLarge?.apply(
                   color: selected
                       ? Theme.of(context).colorScheme.onSecondary
-                      : Theme.of(
-                          context,
-                        ).colorScheme.onSecondary.withAlpha(0x80),
+                      : Theme.of(context).colorScheme.onSecondary,
                 ),
               ),
               Text(
@@ -66,16 +67,13 @@ class CourseCard extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium?.apply(
                   color: selected
                       ? Theme.of(context).colorScheme.onSecondary
-                      : Theme.of(
-                          context,
-                        ).colorScheme.onSecondary.withAlpha(0x80),
+                      : Theme.of(context).colorScheme.onSecondary,
                 ),
               ),
             ],
           ),
         ),
       ),
-      shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
       blurRadius: 2,
     );
   }
