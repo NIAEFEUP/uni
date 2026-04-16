@@ -121,6 +121,8 @@ class HomePageViewState extends ConsumerState<HomePageView> {
         bottomNavigationBar: const AppBottomNavbar(),
         body: RefreshIndicator(
           onRefresh: () => refreshPage(context),
+          color: Theme.of(context).colorScheme.onSecondary,
+          backgroundColor: Theme.of(context).colorScheme.secondary,
           child: ListView.separated(
             itemCount: favoriteCards.length + 2,
             separatorBuilder: (_, _) => const SizedBox(height: 10),
