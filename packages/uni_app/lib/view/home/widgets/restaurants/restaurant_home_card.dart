@@ -20,10 +20,7 @@ import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
 
 class RestaurantHomeCard extends GenericHomecard {
   const RestaurantHomeCard({super.key})
-    : super(
-        titlePadding: const EdgeInsets.symmetric(horizontal: 20),
-        bodyPadding: EdgeInsets.zero,
-      );
+    : super(titlePadding: const EdgeInsets.symmetric(horizontal: 20));
 
   @override
   String getTitle(BuildContext context) {
@@ -108,7 +105,7 @@ class RestaurantSliderState extends ConsumerState<RestaurantSlider> {
         ).isNotEmpty;
       },
       nullContentWidget: NoRestaurantsHomeCard(onClick: widget.onClick),
-      loadingWidget: const ShimmerRestaurantsHomeCard(),
+      loadingWidget: const Center(child: ShimmerRestaurantsHomeCard()),
     );
   }
 }
