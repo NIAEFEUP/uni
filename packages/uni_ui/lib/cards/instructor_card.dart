@@ -53,12 +53,12 @@ class InstructorCard extends StatelessWidget {
                       children: [
                         Text(
                           name,
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: Theme.of(context).textTheme.bodyLarge,
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
                           isRegent ? regentLabel : instructorLabel,
-                          style: Theme.of(context).textTheme.labelLarge,
+                          style: Theme.of(context).textTheme.labelMedium,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],

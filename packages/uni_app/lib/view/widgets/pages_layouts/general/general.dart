@@ -94,11 +94,7 @@ abstract class GeneralPageViewState<T extends ConsumerStatefulWidget>
             child: ImageLabel(
               imagePath: 'assets/images/no_wifi.png',
               label: S.of(context).no_internet,
-              labelTextStyle: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Theme.of(context).colorScheme.primary,
-              ),
+              labelTextStyle: Theme.of(context).textTheme.headlineLarge,
               sublabel: S.of(context).check_internet,
             ),
           ),

@@ -94,6 +94,9 @@ class _RestaurantPageViewState
       alignment: Alignment.bottomCenter,
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
+          style: Theme.of(context).textTheme.bodyLarge,
+          dropdownColor: Theme.of(context).colorScheme.secondary,
+          borderRadius: BorderRadius.circular(8),
           value: campus[selectedCampus],
           elevation: 16,
           onChanged: (value) {
@@ -256,7 +259,7 @@ class _RestaurantPageViewState
       return Center(
         child: Text(
           S.of(context).no_menus,
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
       );
     }
@@ -280,7 +283,7 @@ class _RestaurantPageViewState
     AppLocale locale,
   ) {
     final menuItems =
-        _getRestaurantMenuItems(dayOfWeek, restaurant, locale) ?? [];
+        _getRestaurantMenuItems(context, dayOfWeek, restaurant, locale) ?? [];
     return menuItems.isNotEmpty
         ? RestaurantCard(
             name: RestaurantUtils.getRestaurantName(
@@ -292,6 +295,7 @@ class _RestaurantPageViewState
             ),
             icon: RestaurantUtils.getIcon(
               restaurant.typeEn ?? restaurant.typePt,
+              color: Theme.of(context).colorScheme.onSecondary,
             ),
             isFavorite: PreferencesController.getFavoriteRestaurants().contains(
               restaurant.namePt + restaurant.period,
@@ -321,7 +325,10 @@ class _RestaurantPageViewState
                               'mailto:${restaurant.email}',
                             ),
                             icon: UniIcons.email,
-                            trailing: const UniIcon(UniIcons.caretRight),
+                            trailing: UniIcon(
+                              UniIcons.caretRight,
+                              color: Theme.of(context).colorScheme.onSecondary,
+                            ),
                           ),
                       ],
                     );
@@ -334,6 +341,7 @@ class _RestaurantPageViewState
   }
 
   List<RestaurantMenuItem>? _getRestaurantMenuItems(
+    BuildContext context,
     DayOfWeek dayOfWeek,
     Restaurant restaurant,
     AppLocale locale,
@@ -351,7 +359,10 @@ class _RestaurantPageViewState
               meal.namePt,
               meal.nameEn,
             ),
-            icon: RestaurantUtils.getIcon(meal.type),
+            icon: RestaurantUtils.getIcon(
+              meal.type,
+              color: Theme.of(context).colorScheme.onSecondary,
+            ),
           ),
         );
       }
