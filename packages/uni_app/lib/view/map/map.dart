@@ -263,6 +263,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                       color: Theme.of(context).colorScheme.secondary,
                       elevation: 4,
                       child: TextFormField(
+                        cursorColor: Theme.of(context).colorScheme.onSecondary,
                         key: searchFormKey,
                         onChanged: (text) {
                           setState(() {
