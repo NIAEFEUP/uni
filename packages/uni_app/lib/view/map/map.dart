@@ -154,9 +154,15 @@ class MapPageStateView extends ConsumerState<MapPage> {
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: AppSystemOverlayStyles.base.copyWith(
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.light,
-        systemNavigationBarIconBrightness: Brightness.dark,
+        statusBarIconBrightness: Theme.of(context).brightness == Brightness.dark
+            ? Brightness.light
+            : Brightness.dark,
+        statusBarBrightness: Theme.of(context).brightness == Brightness.dark
+            ? Brightness.dark
+            : Brightness.light,
+        systemNavigationBarIconBrightness: Theme.of(context).brightness == Brightness.dark
+            ? Brightness.light
+            : Brightness.dark,
       ),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -180,8 +186,9 @@ class MapPageStateView extends ConsumerState<MapPage> {
           ),
           children: <Widget>[
             TileLayer(
-              urlTemplate:
-                  'https://basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
+              urlTemplate: Theme.of(context).brightness == Brightness.dark
+                  ? 'https://basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png'
+                  : 'https://basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
               tileProvider: NetworkTileProvider(
                 cachingProvider:
                     BuiltInMapCachingProvider.getOrCreateInstance(),
@@ -268,6 +275,10 @@ class MapPageStateView extends ConsumerState<MapPage> {
                           prefixIcon: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: SvgPicture.asset(
+                              colorFilter: ColorFilter.mode(
+                                Theme.of(context).colorScheme.onSecondary,
+                                BlendMode.srcIn,
+                              ),
                               'assets/images/logo_dark.svg',
                               semanticsLabel: 'search',
                               width: 44,
@@ -327,7 +338,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                         cursor: SystemMouseCursors.click,
                         child: Text(
                           '©OpenStreetMap @CARTO',
-                          style: Theme.of(context).textTheme.bodySmall,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
                     ),

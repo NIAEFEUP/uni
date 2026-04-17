@@ -166,7 +166,7 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
               padding: const EdgeInsets.only(top: 16),
               child: Text(
                 course.name ?? '',
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: Theme.of(context).textTheme.headlineLarge,
                 textAlign: TextAlign.center,
               ),
             ),

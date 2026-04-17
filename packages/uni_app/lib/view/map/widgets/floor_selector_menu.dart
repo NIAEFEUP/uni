@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uni_ui/theme.dart';
 
 class FloorSelectorMenu extends StatelessWidget {
   const FloorSelectorMenu({
@@ -42,7 +41,9 @@ class FloorSelectorMenu extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: isSelected ? primaryVibrant : grayText,
+                    color: isSelected 
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.onSecondary, 
                   ),
                 ),
               ),

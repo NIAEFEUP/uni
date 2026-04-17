@@ -18,10 +18,10 @@ class ConnectivityWarning extends StatelessWidget {
         color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.circular(8),
       ),
-      textStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
+      textStyle: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
       child: UniIcon(
         UniIcons.noWifi,
-        color: Theme.of(context).colorScheme.secondary,
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
       ),
     );
   }

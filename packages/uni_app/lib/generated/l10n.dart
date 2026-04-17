@@ -792,7 +792,7 @@ class S {
     );
   }
 
-  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} mapa{Map} faculdade{Faculty} other{Other}}`
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} mapa{Map} faculdade{Faculty} bug_report{Leave Feedback} other{Other}}`
   String nav_title(Object title) {
     return Intl.select(
       title,
@@ -809,6 +809,7 @@ class S {
         'percurso_academico': 'Academic Path',
         'mapa': 'Map',
         'faculdade': 'Faculty',
+        'bug_report': 'Leave Feedback',
         'other': 'Other',
       },
       name: 'nav_title',
@@ -2040,11 +2041,31 @@ class S {
     );
   }
 
+  /// `Select the type of feedback`
+  String get feedback_type_title_section {
+    return Intl.message(
+      'Select the type of feedback',
+      name: 'feedback_type_title_section',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Coffee Machine`
   String get coffee_machine {
     return Intl.message(
       'Coffee Machine',
       name: 'coffee_machine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please choose the category that best describes your feedback to help us address it effectively.`
+  String get feedback_type_description_section {
+    return Intl.message(
+      'Please choose the category that best describes your feedback to help us address it effectively.',
+      name: 'feedback_type_description_section',
       desc: '',
       args: [],
     );
@@ -2073,6 +2094,66 @@ class S {
   /// `Shop`
   String get shop {
     return Intl.message('Shop', name: 'shop', desc: '', args: []);
+  }
+
+  /// `Provide a clear and concise title along with a detailed description of the issue or suggestion. The more information you provide, the better we can understand and address your feedback.`
+  String get feedback_description_section {
+    return Intl.message(
+      'Provide a clear and concise title along with a detailed description of the issue or suggestion. The more information you provide, the better we can understand and address your feedback.',
+      name: 'feedback_description_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Privacy and Consent`
+  String get feedback_privacy_section {
+    return Intl.message(
+      'Privacy and Consent',
+      name: 'feedback_privacy_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your privacy is important to us. You consent to the collection and use of your feedback and any attached images for the purpose of improving our app. You can choose to provide your email for follow-up, but it is not required.`
+  String get feedback_privacy_description_section {
+    return Intl.message(
+      'Your privacy is important to us. You consent to the collection and use of your feedback and any attached images for the purpose of improving our app. You can choose to provide your email for follow-up, but it is not required.',
+      name: 'feedback_privacy_description_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attach images`
+  String get feedback_images_title_section {
+    return Intl.message(
+      'Attach images',
+      name: 'feedback_images_title_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attached images will appear here.`
+  String get feedback_images_empty_section {
+    return Intl.message(
+      'Attached images will appear here.',
+      name: 'feedback_images_empty_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Consent to data collection`
+  String get feedback_consent_title {
+    return Intl.message(
+      'Consent to data collection',
+      name: 'feedback_consent_title',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Edit`
