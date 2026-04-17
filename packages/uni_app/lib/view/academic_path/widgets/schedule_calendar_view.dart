@@ -75,31 +75,26 @@ class ScheduleCalendarView extends ConsumerWidget {
       weekDaysList.add(WeekDays.saturday);
     }
 
-    // Determine the week to display
-    // The parent SchedulePage already handles determining which week to show
-    // (current week or next week if it's the weekend with no remaining classes)
-    // So we just show the week that was passed to us
-    final weekToShow = currentWeek.start;
-
-    // End date is always Friday unless there are Saturday classes
-
     return CalendarControllerProvider(
       controller: controller,
       child: WeekView(
         backgroundColor: Theme.of(context).colorScheme.surface,
-
+        showVerticalLines: false,
         controller: controller,
         initialDay: earliestClass,
         weekDays: weekDaysList,
-        // safeAreaOption: const SafeAreaOption(minimum: EdgeInsets.only(bottom: 150)),
         showLiveTimeLineInAllDays: true,
         weekNumberBuilder: (weekNum) {
           return Container();
         },
         onEventTap: (events, date) {
-          if (events.isEmpty) return;
+          if (events.isEmpty) {
+            return;
+          }
           final lecture = events.first.event;
-          if (lecture == null) return;
+          if (lecture == null) {
+            return;
+          }
 
           final profile = ref.read(profileProvider).value;
 
@@ -120,25 +115,20 @@ class ScheduleCalendarView extends ConsumerWidget {
         weekPageHeaderBuilder: WeekHeader.hidden,
         minDay: earliestClass,
         maxDay: latestClass,
-
         startHour: 7,
+        hourIndicatorSettings: HourIndicatorSettings(
+          color: Theme.of(context).colorScheme.onSurface.withAlpha(0x20),
+        ),
+        // small hour indicator on the left of the line that separates hours
         timeLineBuilder: (date) {
-          final hour = date.hour;
-          return Container(
-            alignment: Alignment.topCenter,
-            // padding: const EdgeInsets.only(right: 8),
-            decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: Theme.of(context).colorScheme.onSurface),
-              ),
-            ),
-            child: Text(
-              '${hour.toString().padLeft(2, '0')}:00',
-              // strutStyle: const StrutStyle(leading: 0, forceStrutHeight: true, height: 0.6),
-              style: TextStyle(
-                fontSize: 12,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2),
+            child: DefaultTimeLineMark(
+              date: date,
+              markingStyle: Theme.of(context).textTheme.labelLarge,
+              timeStringBuilder: (date, {secondaryDate}) {
+                return DateFormat.Hm().format(date);
+              },
             ),
           );
         },
@@ -161,19 +151,19 @@ class ScheduleCalendarView extends ConsumerWidget {
           // Color is chosen basen on if a student has a class at the moment
           final tileColor = isCurrentClass
               ? Theme.of(context).colorScheme.primary
-              : Theme.of(context).colorScheme.onPrimary;
+              : Theme.of(context).colorScheme.secondary;
 
           return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
+            margin: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
             decoration: BoxDecoration(
               color: tileColor,
               borderRadius: BorderRadius.circular(8),
-              border: isCurrentClass
-                  ? Border.all(
-                      color: Theme.of(context).colorScheme.primary,
-                      width: 2,
-                    )
-                  : null,
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
+                  blurRadius: 2,
+                ),
+              ],
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
@@ -234,7 +224,7 @@ class ScheduleCalendarView extends ConsumerWidget {
                     children: [
                       Container(
                         height: 1,
-                        margin: const EdgeInsets.symmetric(vertical: 4),
+                        margin: const EdgeInsets.symmetric(vertical: 2),
                         color: isCurrentClass
                             ? Theme.of(context).colorScheme.onPrimary
                             : Theme.of(context).colorScheme.onSecondary,
@@ -284,7 +274,6 @@ class ScheduleCalendarView extends ConsumerWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-
         weekDayStringBuilder: (weekDay) {
           final locale = Localizations.localeOf(context);
           final dateSymbols = DateFormat.EEEE(locale.toString()).dateSymbols;
@@ -292,9 +281,8 @@ class ScheduleCalendarView extends ConsumerWidget {
 
           return shortWeekdays[weekDay + 1];
         },
-        // hourIndicatorSettings: const HourIndicatorSettings(),
         liveTimeIndicatorSettings: LiveTimeIndicatorSettings(
-          color: Theme.of(context).colorScheme.primary,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
       ),
     );

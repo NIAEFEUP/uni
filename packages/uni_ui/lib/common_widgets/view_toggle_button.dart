@@ -37,11 +37,14 @@ class ViewToggleButton extends StatelessWidget {
           padding: WidgetStateProperty.all(
             const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
           ),
+          enableFeedback: true,
           backgroundColor: WidgetStateProperty.resolveWith<Color>((
             Set<WidgetState> states,
           ) {
             if (states.contains(WidgetState.selected)) {
-              return Theme.of(context).colorScheme.primaryContainer;
+              return Theme.of(context)
+                  .colorScheme
+                  .onSurface; // will delete all this file later, just changing this so i can see smth
             }
             return Theme.of(context).colorScheme.surface;
           }),
@@ -49,7 +52,7 @@ class ViewToggleButton extends StatelessWidget {
             Set<WidgetState> states,
           ) {
             if (states.contains(WidgetState.selected)) {
-              return Theme.of(context).colorScheme.onPrimaryContainer;
+              return Theme.of(context).colorScheme.surface;
             }
             return Theme.of(context).colorScheme.onSurface;
           }),
