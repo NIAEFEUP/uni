@@ -62,8 +62,8 @@ class IndoorFloorLayer extends StatelessWidget {
                 (plan) => plan.corridors.map(
                   (corridor) => Polygon(
                     points: corridor.polygon,
-                    color: Colors.grey.withValues(alpha: 0.1),
-                    borderColor: Colors.grey,
+                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05),
+                    borderColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2),
                     borderStrokeWidth: 1,
                   ),
                 ),
@@ -89,7 +89,7 @@ class IndoorFloorLayer extends StatelessWidget {
                   child: Text(
                     room.ref,
                     style: TextStyle(
-                      color: Colors.black87,
+                      color: Theme.of(context).colorScheme.onSecondary,
                       fontSize: labelProps.fontSize,
                       fontWeight: FontWeight.bold,
                     ),

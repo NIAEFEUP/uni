@@ -295,7 +295,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                             fontFamily: 'Roboto',
                             fontSize: 9,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context).shadowColor,
+                            color: Theme.of(context).colorScheme.onSecondary,
                           ),
                         ),
                       ),

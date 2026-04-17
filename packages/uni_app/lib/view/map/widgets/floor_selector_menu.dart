@@ -18,7 +18,12 @@ class FloorSelectorMenu extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.circular(8),
-        boxShadow: const [BoxShadow(color: Color(0x40000000), blurRadius: 4)],
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).colorScheme.shadow,
+            blurRadius: 4,
+          ),
+        ],
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

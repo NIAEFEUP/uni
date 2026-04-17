@@ -80,7 +80,7 @@ class MarkerIcon extends StatelessWidget {
 
     return UniIcon(
       Icons.device_unknown,
-      color: Theme.of(context).colorScheme.secondary,
+      color: Theme.of(context).colorScheme.primary,
       size: 12,
       solid: true,
     );

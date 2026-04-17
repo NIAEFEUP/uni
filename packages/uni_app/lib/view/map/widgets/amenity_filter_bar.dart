@@ -94,10 +94,10 @@ class _AmenityChip extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color(0x40000000),
-            offset: Offset(0, 4),
+            color: Theme.of(context).colorScheme.shadow,
+            offset: const Offset(0, 4),
             blurRadius: 4,
           ),
         ],
@@ -116,13 +116,15 @@ class _AmenityChip extends StatelessWidget {
                 Icon(
                   amenity.icon,
                   size: 18,
-                  color: isSelected ? secondaryColor : primaryColor,
+                  color: isSelected ? Theme.of(context).colorScheme.onSurfaceVariant : Theme.of(context).colorScheme.onSecondary,
                 ),
                 const SizedBox(width: 6),
                 Text(
                   amenity.label,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: isSelected ? secondaryColor : primaryColor,
+                    color: isSelected
+                        ? Theme.of(context).colorScheme.onSurfaceVariant 
+                        : Theme.of(context).colorScheme.onSecondary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

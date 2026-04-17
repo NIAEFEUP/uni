@@ -86,14 +86,21 @@ class _FloorSelectorButtonState extends State<FloorSelectorButton> {
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.secondary,
             borderRadius: BorderRadius.circular(8),
-            boxShadow: const [
-              BoxShadow(color: Color(0x40000000), blurRadius: 4),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).colorScheme.shadow,
+                blurRadius: 4,
+              ),
             ],
           ),
           alignment: Alignment.center,
           child: Text(
             widget.selectedFloor?.toString() ?? '-',
-            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: Theme.of(context).colorScheme.onSecondary,
+            ),
           ),
         ),
       ),
