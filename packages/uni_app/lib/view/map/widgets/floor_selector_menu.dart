@@ -19,10 +19,7 @@ class FloorSelectorMenu extends StatelessWidget {
         color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).colorScheme.shadow,
-            blurRadius: 4,
-          ),
+          BoxShadow(color: Theme.of(context).colorScheme.shadow, blurRadius: 4),
         ],
       ),
       child: Column(
@@ -46,9 +43,9 @@ class FloorSelectorMenu extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: isSelected 
+                    color: isSelected
                         ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.onSecondary, 
+                        : Theme.of(context).colorScheme.onSecondary,
                   ),
                 ),
               ),

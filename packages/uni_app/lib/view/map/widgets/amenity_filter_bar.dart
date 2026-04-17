@@ -116,14 +116,16 @@ class _AmenityChip extends StatelessWidget {
                 Icon(
                   amenity.icon,
                   size: 18,
-                  color: isSelected ? Theme.of(context).colorScheme.onSurfaceVariant : Theme.of(context).colorScheme.onSecondary,
+                  color: isSelected
+                      ? Theme.of(context).colorScheme.onSurfaceVariant
+                      : Theme.of(context).colorScheme.onSecondary,
                 ),
                 const SizedBox(width: 6),
                 Text(
                   amenity.label,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: isSelected
-                        ? Theme.of(context).colorScheme.onSurfaceVariant 
+                        ? Theme.of(context).colorScheme.onSurfaceVariant
                         : Theme.of(context).colorScheme.onSecondary,
                     fontWeight: FontWeight.w500,
                   ),

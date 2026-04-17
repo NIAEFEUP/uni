@@ -62,8 +62,12 @@ class IndoorFloorLayer extends StatelessWidget {
                 (plan) => plan.corridors.map(
                   (corridor) => Polygon(
                     points: corridor.polygon,
-                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05),
-                    borderColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.05),
+                    borderColor: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.2),
                     borderStrokeWidth: 1,
                   ),
                 ),

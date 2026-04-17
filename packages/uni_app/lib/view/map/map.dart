@@ -160,7 +160,8 @@ class MapPageStateView extends ConsumerState<MapPage> {
         statusBarBrightness: Theme.of(context).brightness == Brightness.dark
             ? Brightness.dark
             : Brightness.light,
-        systemNavigationBarIconBrightness: Theme.of(context).brightness == Brightness.dark
+        systemNavigationBarIconBrightness:
+            Theme.of(context).brightness == Brightness.dark
             ? Brightness.light
             : Brightness.dark,
       ),
