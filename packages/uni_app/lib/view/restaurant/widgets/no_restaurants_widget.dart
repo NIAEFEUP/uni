@@ -10,11 +10,7 @@ class NoRestaurantsWidget extends StatelessWidget {
     return ImageLabel(
       imagePath: 'assets/images/chef.png',
       label: S.of(context).no_restaurants_available,
-      labelTextStyle: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 18,
-        color: Theme.of(context).colorScheme.primary,
-      ),
+      labelTextStyle: Theme.of(context).textTheme.headlineLarge,
       sublabel: S.of(context).no_restaurants_available_sublabel,
       sublabelTextStyle: Theme.of(context).textTheme.bodyLarge,
     );

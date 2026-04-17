@@ -54,7 +54,6 @@ class PreferencesController {
     'salads',
     'diet_dishes',
     'dishes_of_the_day',
-    'closed',
   };
   static const _isFavoriteRestaurantsFilterOn =
       'is_favorite_restaurant_filter_on';

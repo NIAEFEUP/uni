@@ -36,6 +36,8 @@ class AllServiceCardsState extends State<AllServiceCards> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     final services = <Widget>[
       ServicesCard(
         name: S.of(context).goi,
@@ -59,7 +61,7 @@ class AllServiceCardsState extends State<AllServiceCards> {
       ),
       ServicesCard(
         name: S.of(context).dona_bia,
-        openingHours: const ['8:30h - 12:00h', '13:30h - 19:00h'],
+        openingHours: const ['9:00h - 12:00h', '14:00h - 18:00h'],
         location: S.of(context).dona_bia_building,
         telephone: '+351 225 081 416',
         email: 'papelaria.fe.up@gmail.com',
@@ -96,50 +98,32 @@ class AllServiceCardsState extends State<AllServiceCards> {
             const Spacer(),
             IconButton(
               onPressed: changeCardsToList,
-              icon: const UniIcon(UniIcons.list),
+              icon: UniIcon(
+                UniIcons.list,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
             ),
             IconButton(
               onPressed: changeCardsToGrid,
-              icon: const UniIcon(UniIcons.grid),
+              icon: UniIcon(
+                UniIcons.grid,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
             ),
           ],
         ),
         const SizedBox(height: 7),
-        LayoutBuilder(
-          builder: (context, constraints) {
-            if (isGrid) {
-              const spacing = 7.0;
-              final itemWidth = (constraints.maxWidth - spacing * 2) / 2;
-
-              return Wrap(
-                spacing: spacing,
-                runSpacing: spacing,
-                children: services.asMap().entries.map((entry) {
-                  final idx = entry.key;
-                  final service = entry.value;
-                  final width = idx == 0
-                      ? (itemWidth * 2 + spacing)
-                      : itemWidth;
-                  return SizedBox(width: width, child: service);
-                }).toList(),
-              );
-            } else {
-              return Column(
-                children: services
-                    .map(
-                      (service) => Padding(
-                        padding: const EdgeInsetsDirectional.only(
-                          start: 7,
-                          end: 7,
-                          bottom: 7,
-                        ),
-                        child: service,
-                      ),
-                    )
-                    .toList(),
-              );
-            }
-          },
+        GridView.count(
+          crossAxisCount: isGrid ? 2 : 1,
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          childAspectRatio: isGrid
+              ? (width - 40) / (width * 3.25) * 5
+              : (width - 32) / width * 3.25,
+          // Calculate aspect ratio, to avoid inconsistencies between grid and list view
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          children: services,
         ),
       ],
     );

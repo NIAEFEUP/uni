@@ -27,8 +27,8 @@ class RowFormat extends StatelessWidget {
       card: Text(
         event.name,
         style: isToday
-            ? Theme.of(context).textTheme.headlineMedium
-            : Theme.of(context).textTheme.headlineSmall,
+            ? Theme.of(context).textTheme.titleLarge
+            : Theme.of(context).textTheme.titleMedium,
         maxLines: 5,
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ImageLabel extends StatelessWidget {
   const ImageLabel({
@@ -20,7 +21,11 @@ class ImageLabel extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Image.asset(imagePath, height: 300, width: 300),
+        if (imagePath.toLowerCase().endsWith('.svg'))
+          SvgPicture.asset(imagePath, width: 300)
+        else
+          Image.asset(imagePath, width: 300),
+        const SizedBox(height: 20),
         Text(label, style: labelTextStyle, textAlign: TextAlign.center),
         if (sublabel.isNotEmpty) const SizedBox(height: 10),
         Text(sublabel, style: sublabelTextStyle, textAlign: TextAlign.center),

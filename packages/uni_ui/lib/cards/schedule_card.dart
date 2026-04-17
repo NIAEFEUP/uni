@@ -11,6 +11,7 @@ class ScheduleCard extends StatelessWidget {
     required this.room,
     required this.type,
     this.isActive = false,
+    this.classNumber,
     this.teacherName,
     this.teacherPhoto,
     this.onTap,
@@ -21,6 +22,7 @@ class ScheduleCard extends StatelessWidget {
   final String room;
   final String type;
   final bool isActive;
+  final String? classNumber;
   final String? teacherName;
   final Image? teacherPhoto;
   final VoidCallback? onTap;
@@ -41,9 +43,12 @@ class ScheduleCard extends StatelessWidget {
       blurRadius: 2,
       gradient: isActive
           ? RadialGradient(
-              colors: [Color(0xFF280709), Color(0xFF511515)],
+              colors: [
+                Theme.of(context).colorScheme.onTertiary,
+                Theme.of(context).colorScheme.tertiary,
+              ],
               center: Alignment.topLeft,
-              radius: 1.5,
+              radius: 2,
               stops: [0, 1],
             )
           : null,
@@ -62,7 +67,7 @@ class ScheduleCard extends StatelessWidget {
                     if (isActive) ...[
                       PhosphorIcon(
                         PhosphorIcons.clock(PhosphorIconsStyle.duotone),
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                         size: 20,
                       ),
                       SizedBox(width: 5),
@@ -71,8 +76,12 @@ class ScheduleCard extends StatelessWidget {
                       acronym,
                       overflow: TextOverflow.ellipsis,
                       style: isActive
-                          ? Theme.of(context).textTheme.titleLarge
-                          : Theme.of(context).textTheme.headlineSmall,
+                          ? Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurfaceVariant,
+                            )
+                          : Theme.of(context).textTheme.titleLarge,
                     ),
                     const SizedBox(width: 8), //TODO: Create a custom Gap()?
                     Badge(
@@ -80,14 +89,28 @@ class ScheduleCard extends StatelessWidget {
                       backgroundColor: scheduleTypeColors[type],
                       textColor: Theme.of(context).colorScheme.surface,
                     ),
+                    if (classNumber != null && type != 'T') ...[
+                      const SizedBox(width: 8),
+                      Badge(
+                        label: Text(classNumber!),
+                        backgroundColor: isActive
+                            ? Theme.of(context).colorScheme.secondary
+                            : Theme.of(context).colorScheme.onSecondary,
+                        textColor: isActive
+                            ? Theme.of(context).colorScheme.onSecondary
+                            : Theme.of(context).colorScheme.secondary,
+                      ),
+                    ],
                   ],
                 ),
                 Text(
                   name,
                   overflow: TextOverflow.ellipsis,
                   style: isActive
-                      ? Theme.of(context).textTheme.titleSmall
-                      : Theme.of(context).textTheme.bodySmall,
+                      ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )
+                      : Theme.of(context).textTheme.bodyMedium,
                 ),
                 if (teacherName != null) SizedBox(height: 5),
                 if (teacherName != null)
@@ -98,16 +121,19 @@ class ScheduleCard extends StatelessWidget {
                         backgroundImage: teacherPhoto?.image,
                       ),
                       const SizedBox(width: 8), //TODO: create gap()?
-                      SizedBox(
-                        width: 140,
+                      Expanded(
                         child: Text(
                           teacherName!,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: isActive
-                                ? Theme.of(context).colorScheme.secondary
-                                : Theme.of(context).colorScheme.primary,
-                          ),
+                          style: isActive
+                              ? Theme.of(
+                                  context,
+                                ).textTheme.bodyMedium?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                )
+                              : Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
                     ],
@@ -120,18 +146,18 @@ class ScheduleCard extends StatelessWidget {
               PhosphorIcon(
                 PhosphorIcons.mapPin(PhosphorIconsStyle.duotone),
                 color: isActive
-                    ? Theme.of(context).colorScheme.secondary
-                    : Theme.of(context).iconTheme.color,
+                    ? Theme.of(context).colorScheme.onSurfaceVariant
+                    : Theme.of(context).colorScheme.onSecondary,
                 size: 35,
               ),
               Text(
                 room,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: isActive
-                      ? Theme.of(context).colorScheme.secondary
-                      : Theme.of(context).colorScheme.primary,
-                ),
+                style: isActive
+                    ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      )
+                    : Theme.of(context).textTheme.bodyMedium,
               ),
             ],
           ),

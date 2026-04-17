@@ -19,13 +19,7 @@ class _CalendarItemDate extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          Text(
-            endYear ?? '',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.outline,
-              fontSize: 11,
-            ),
-          ),
+          Text(endYear ?? '', style: Theme.of(context).textTheme.bodyMedium),
         ],
       );
     } else {
@@ -105,9 +99,11 @@ class CalendarItem extends StatelessWidget {
               height: 20,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isToday ? Theme.of(context).primaryColor : Colors.white,
+                color: isToday
+                    ? Theme.of(context).colorScheme.onSecondary
+                    : Colors.transparent,
                 border: Border.all(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.onSecondary,
                   width: 4.0,
                 ),
               ),
@@ -118,7 +114,10 @@ class CalendarItem extends StatelessWidget {
                         height: 20,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 3),
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.surface,
+                            width: 3,
+                          ),
                         ),
                       ),
                     )
@@ -133,7 +132,7 @@ class CalendarItem extends StatelessWidget {
                   bottomRight: Radius.circular(2),
                 ),
                 shape: BoxShape.rectangle,
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
             ),
           ],
@@ -147,9 +146,12 @@ class CalendarItem extends StatelessWidget {
             decoration: ShapeDecoration(
               gradient: isToday
                   ? RadialGradient(
-                      colors: [Color(0xFF280709), Color(0xFF511515)],
+                      colors: [
+                        Theme.of(context).colorScheme.onTertiary,
+                        Theme.of(context).colorScheme.tertiary,
+                      ],
                       center: Alignment.topLeft,
-                      radius: 1.5,
+                      radius: 2,
                       stops: [0, 1],
                     )
                   : null,
@@ -170,8 +172,8 @@ class CalendarItem extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: isToday
-                    ? Theme.of(context).colorScheme.secondary
-                    : Theme.of(context).colorScheme.primary,
+                    ? Theme.of(context).colorScheme.onSurfaceVariant
+                    : Theme.of(context).colorScheme.onSecondary,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 height: 1,
