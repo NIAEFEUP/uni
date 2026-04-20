@@ -40,7 +40,7 @@ abstract class SecondaryPageViewState<T extends ConsumerStatefulWidget>
       leftButton: BackButton(
         style: ButtonStyle(
           iconColor: WidgetStateProperty.all(
-            Theme.of(context).colorScheme.primary,
+            Theme.of(context).colorScheme.onSecondary,
           ),
         ),
       ),

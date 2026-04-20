@@ -116,7 +116,10 @@ class CourseUnitDetailPageViewState
   Widget? getHeader(BuildContext context) {
     return TabBar(
       controller: tabController,
-      dividerHeight: 1,
+      indicatorColor: Theme.of(context).colorScheme.onSecondary,
+      splashFactory: NoSplash.splashFactory,
+      overlayColor: WidgetStateProperty.all(Colors.transparent),
+      dividerHeight: 0,
       isScrollable: true,
       tabAlignment: TabAlignment.start,
       tabs: [
@@ -287,7 +290,7 @@ class CourseUnitDetailPageViewState
     return IconButton(
       icon: UniIcon(
         UniIcons.arrowSquareOut,
-        color: Theme.of(context).iconTheme.color,
+        color: Theme.of(context).colorScheme.onSecondary,
       ),
       onPressed: () async {
         // If the course unit isn't from FEUP, sigarra redirects to the correct page

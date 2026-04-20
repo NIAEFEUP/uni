@@ -10,8 +10,8 @@ class ShimmerRestaurantPageView extends StatelessWidget {
     return ListView(
       children: [
         Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
+          baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+          highlightColor: Theme.of(context).disabledColor,
           child: GenericSquircle(
             child: Container(
               height: 200,
@@ -21,8 +21,8 @@ class ShimmerRestaurantPageView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
+          baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+          highlightColor: Theme.of(context).disabledColor,
           // Suggestion: change the speed of shimmer
           child: GenericSquircle(
             child: Container(
@@ -33,8 +33,8 @@ class ShimmerRestaurantPageView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
+          baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+          highlightColor: Theme.of(context).disabledColor,
           // Suggestion: change the speed of shimmer
           child: GenericSquircle(
             child: Container(
