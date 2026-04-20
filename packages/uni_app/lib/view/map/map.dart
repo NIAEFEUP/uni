@@ -69,9 +69,17 @@ class MapPageStateView extends ConsumerState<MapPage> {
 
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: AppSystemOverlayStyles.base.copyWith(
-            statusBarIconBrightness: Brightness.dark,
-            statusBarBrightness: Brightness.light,
-            systemNavigationBarIconBrightness: Brightness.dark,
+            statusBarIconBrightness:
+                Theme.of(context).brightness == Brightness.dark
+                ? Brightness.light
+                : Brightness.dark,
+            statusBarBrightness: Theme.of(context).brightness == Brightness.dark
+                ? Brightness.dark
+                : Brightness.light,
+            systemNavigationBarIconBrightness:
+                Theme.of(context).brightness == Brightness.dark
+                ? Brightness.light
+                : Brightness.dark,
           ),
           child: Scaffold(
             resizeToAvoidBottomInset: false,
@@ -94,8 +102,9 @@ class MapPageStateView extends ConsumerState<MapPage> {
               ),
               children: <Widget>[
                 TileLayer(
-                  urlTemplate:
-                      'https://basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
+                  urlTemplate: Theme.of(context).brightness == Brightness.dark
+                      ? 'https://basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png'
+                      : 'https://basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
                   tileProvider: NetworkTileProvider(
                     cachingProvider:
                         BuiltInMapCachingProvider.getOrCreateInstance(),
@@ -108,7 +117,6 @@ class MapPageStateView extends ConsumerState<MapPage> {
                     markers: filteredLocations.map((location) {
                       return LocationMarker(location.latlng, location);
                     }).toList(),
-                    popupController: _popupLayerController,
                     popupDisplayOptions: PopupDisplayOptions(
                       animation: const PopupAnimation.fade(
                         duration: Duration(milliseconds: 400),
@@ -174,6 +182,10 @@ class MapPageStateView extends ConsumerState<MapPage> {
                           prefixIcon: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: SvgPicture.asset(
+                              colorFilter: ColorFilter.mode(
+                                Theme.of(context).colorScheme.onSecondary,
+                                BlendMode.srcIn,
+                              ),
                               'assets/images/logo_dark.svg',
                               semanticsLabel: 'search',
                               width: 10,
@@ -185,6 +197,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                           ),
                           contentPadding: const EdgeInsets.all(10),
                           hintText: '${S.of(context).search}...',
+                          hintStyle: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
                     ),
@@ -213,7 +226,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                             cursor: SystemMouseCursors.click,
                             child: Text(
                               '©OpenStreetMap @CARTO',
-                              style: Theme.of(context).textTheme.bodySmall,
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
                         ),

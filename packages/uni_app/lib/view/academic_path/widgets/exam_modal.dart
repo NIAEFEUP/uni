@@ -36,7 +36,7 @@ class ExamModal extends ConsumerWidget {
               UniIcon(
                 UniIcons.clock,
                 size: 20,
-                color: Theme.of(context).shadowColor,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
               const SizedBox(width: 8),
               Text(
@@ -48,7 +48,7 @@ class ExamModal extends ConsumerWidget {
               UniIcon(
                 UniIcons.calendar,
                 size: 20,
-                color: Theme.of(context).shadowColor,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
               const SizedBox(width: 8),
               Text(
@@ -64,7 +64,7 @@ class ExamModal extends ConsumerWidget {
           icon: UniIcons.calendar,
           trailing: UniIcon(
             UniIcons.caretRight,
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).colorScheme.onSecondary,
           ),
           onPressed: () {
             final event = Event(
@@ -82,7 +82,7 @@ class ExamModal extends ConsumerWidget {
           icon: UniIcons.courseUnit,
           trailing: UniIcon(
             UniIcons.caretRight,
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).colorScheme.onSecondary,
           ),
           onPressed: () {
             final profile = ref.watch(

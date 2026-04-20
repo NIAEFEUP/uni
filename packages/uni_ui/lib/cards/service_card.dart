@@ -19,6 +19,7 @@ class ServiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GenericCard(
+      margin: EdgeInsets.zero,
       shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
       blurRadius: 2,
       key: key,
@@ -38,9 +39,8 @@ class ServiceCard extends StatelessWidget {
                 child: Text(
                   name,
                   overflow: TextOverflow.ellipsis,
-                  style: openingHours.length == 0
-                      ? Theme.of(context).textTheme.headlineMedium!
-                      : Theme.of(context).textTheme.headlineSmall!,
+                  style: Theme.of(context).textTheme.titleLarge!,
+                  maxLines: openingHours.length < 2 ? 2 : 1,
                 ),
               ),
             ],
@@ -55,7 +55,7 @@ class ServiceCard extends StatelessWidget {
                       children: [
                         UniIcon(
                           UniIcons.clock,
-                          color: Theme.of(context).shadowColor,
+                          color: Theme.of(context).colorScheme.onSecondary,
                         ),
                         const SizedBox(width: 5),
                         Expanded(

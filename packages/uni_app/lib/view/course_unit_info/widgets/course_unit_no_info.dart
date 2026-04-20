@@ -10,11 +10,7 @@ class NoInfoWidget extends StatelessWidget {
     return ImageLabel(
       imagePath: 'assets/images/course_info.png',
       label: S.of(context).no_info,
-      labelTextStyle: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 18,
-        color: Theme.of(context).colorScheme.primary,
-      ),
+      labelTextStyle: Theme.of(context).textTheme.headlineLarge,
       sublabel: S.of(context).no_course_unit_info,
       sublabelTextStyle: Theme.of(context).textTheme.bodyLarge,
     );

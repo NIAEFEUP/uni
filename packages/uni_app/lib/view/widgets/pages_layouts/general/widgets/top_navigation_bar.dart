@@ -54,7 +54,7 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
   Widget _buildTitleColumn(BuildContext context) {
     final TextStyle? titleStyle = centerTitle
         ? Theme.of(context).textTheme.headlineLarge
-        : Theme.of(context).textTheme.displaySmall;
+        : Theme.of(context).textTheme.displayLarge;
 
     final titleWidget = Text(
       title ?? '',
@@ -69,7 +69,7 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
     final subtitleWidget = Text(
       subtitle!,
       style:
-          Theme.of(context).textTheme.labelSmall ??
+          Theme.of(context).textTheme.labelMedium ??
           Theme.of(context).textTheme.labelMedium,
       overflow: TextOverflow.ellipsis,
     );

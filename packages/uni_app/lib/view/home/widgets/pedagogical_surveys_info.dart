@@ -19,14 +19,14 @@ class PedagogicalSurveysInfo extends StatelessWidget {
         color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.circular(8),
       ),
-      textStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
+      textStyle: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
       child: InkWell(
         onTap: () {
           PedagogicalSurveysDialog.forceBuild(context);
         },
         child: UniIcon(
           UniIcons.chartBar,
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
         ),
       ),
     );
