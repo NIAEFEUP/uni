@@ -12,17 +12,11 @@ class TabControllerProvider extends StateNotifier<int> {
   static int _getInitialIndex() {
     final now = DateTime.now();
 
-    int index = now.weekday - 1;
-
     if (RestaurantUtils.shouldShowTomorrowMenu(now)) {
-      index++;
+      return 1;
     }
 
-    if (index >= DayOfWeek.values.length) {
-      index = 0;
-    }
-
-    return index;
+    return 0;
   }
 
   void setTabIndex(int index) {

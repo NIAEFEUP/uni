@@ -17,18 +17,19 @@ class TermsAndConditionsButton extends StatelessWidget {
           text: TextSpan(
             text: S.of(context).agree_terms,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.white,
-              decorationColor: Colors.white,
+              color: Theme.of(context).colorScheme.onSecondaryFixed,
+              decorationColor: Theme.of(context).colorScheme.onSecondaryFixed,
             ),
             children: [
               const TextSpan(text: ' '),
               TextSpan(
                 text: S.of(context).terms,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.onSecondaryFixed,
                   decoration: TextDecoration.underline,
-                  decorationColor: Colors.white,
+                  decorationColor: Theme.of(
+                    context,
+                  ).colorScheme.onSecondaryFixed,
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
@@ -49,6 +50,7 @@ class TermsAndConditionsButton extends StatelessWidget {
       builder: (context) {
         return AlertDialog(
           title: Text(S.of(context).terms),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
           content: const SingleChildScrollView(child: TermsAndConditions()),
           actions: <Widget>[
             SimpleDialogOption(
