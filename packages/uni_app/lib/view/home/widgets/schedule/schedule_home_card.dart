@@ -20,59 +20,58 @@ import 'package:uni_ui/icons.dart';
 
 /*List<Lecture> getMockLectures() {
   final now = DateTime.now();
-  
+
   return [
     Lecture(
       'ESOF',
-      
+
       'ESOF',
-      
+
       'T',
-      
+
       now.subtract(const Duration(hours: 2)),
-      
+
       now.subtract(const Duration(hours: 1)),
-      
+
       'Room B123',
-      
+
       'ademaraguiar',
-      
+
       'ademaraguiar',
-      
+
       101,
-      
+
       '1',
-      
+
       1001,
      ),
-     
+
      Lecture(
       'LTW',
-      
+
       'LTW',
-      
+
       'TP',
-      
+
       now.add(const Duration(hours: 0)),
-      
+
       now.add(const Duration(hours: 1)),
-      
+
       'Room B234',
-      
+
       'arestivo',
-      
+
       'arestivo',
-      
+
       102,
-      
+
       '2',
-      
+
       1002,
      ),
   ];
 
 }*/
-
 
 class ScheduleHomeCard extends GenericHomecard {
   const ScheduleHomeCard({super.key})
@@ -94,8 +93,8 @@ class ScheduleHomeCard extends GenericHomecard {
         final now = DateTime.now();
         final today = DateTime(now.year, now.month, now.day);
         final startOfNextWeek = today.add(Duration(days: 8 - now.weekday));
-        final upcomingLectures =
-            lectures.toList()..sort((a, b) => a.startTime.compareTo(b.startTime));
+        final upcomingLectures = lectures.toList()
+          ..sort((a, b) => a.startTime.compareTo(b.startTime));
 
         if (upcomingLectures.isEmpty) {
           return Center(
@@ -209,7 +208,9 @@ class ScheduleHomeCard extends GenericHomecard {
               ],
             ),
             const SizedBox(height: 18),
-            CardTimeline(items: buildTimelineItems(nextLectureDayLectures, ref)),
+            CardTimeline(
+              items: buildTimelineItems(nextLectureDayLectures, ref),
+            ),
           ],
         );
       },
@@ -233,8 +234,7 @@ class ScheduleHomeCard extends GenericHomecard {
   }
 
   bool _isLectureCurrent(Lecture lecture, DateTime now) {
-    return
-        (now.isAfter(lecture.startTime) ||
+    return (now.isAfter(lecture.startTime) ||
             now.isAtSameMomentAs(lecture.startTime)) &&
         now.isBefore(lecture.endTime);
   }
@@ -252,9 +252,9 @@ class ScheduleHomeCard extends GenericHomecard {
     final now = DateTime.now();
     final session = ref.read(sessionProvider);
 
-    final sortedLectures = lectures
-        .toList()
-        .sortedBy((lecture) => lecture.startTime);
+    final sortedLectures = lectures.toList().sortedBy(
+      (lecture) => lecture.startTime,
+    );
 
     final items = sortedLectures
         .take(2)
