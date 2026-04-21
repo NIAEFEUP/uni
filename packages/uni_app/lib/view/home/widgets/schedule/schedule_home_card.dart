@@ -100,11 +100,15 @@ class ScheduleHomeCard extends GenericHomecard {
         if (upcomingLectures.isEmpty) {
           return Center(
             child: IconLabel(
-              icon: const UniIcon(size: 45, UniIcons.beer),
+              icon: UniIcon(
+                size: 45,
+                UniIcons.beer,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
               label: S.of(context).no_classes,
               labelTextStyle: TextStyle(
                 fontSize: 14,
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
             ),
           );
@@ -117,11 +121,15 @@ class ScheduleHomeCard extends GenericHomecard {
         if (lecturesThisWeek.isEmpty) {
           return Center(
             child: IconLabel(
-              icon: const UniIcon(size: 45, UniIcons.beer),
+              icon: UniIcon(
+                size: 45,
+                UniIcons.beer,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
               label: S.of(context).no_classes_this_week,
               labelTextStyle: TextStyle(
                 fontSize: 14,
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
             ),
           );
@@ -141,14 +149,18 @@ class ScheduleHomeCard extends GenericHomecard {
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const UniIcon(size: 45, UniIcons.beer),
+                  UniIcon(
+                    size: 45,
+                    UniIcons.beer,
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
                   const SizedBox(height: 8),
                   Text(
                     '${S.of(context).no_classes_today}\n${S.of(context).nextclasses}${S.of(context).tomorrow}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).colorScheme.onSecondary,
                     ),
                   ),
                 ],
@@ -180,14 +192,18 @@ class ScheduleHomeCard extends GenericHomecard {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const UniIcon(size: 45, UniIcons.beer),
+                UniIcon(
+                  size: 45,
+                  UniIcons.beer,
+                  color: Theme.of(context).colorScheme.onSecondary,
+                ),
                 const SizedBox(height: 8),
                 Text(
                   '${S.of(context).no_classes_today}\n${S.of(context).nextclasses}$dateText:',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).colorScheme.onSecondary,
                   ),
                 ),
               ],
