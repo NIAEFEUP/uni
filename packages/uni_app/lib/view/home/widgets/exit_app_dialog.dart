@@ -21,7 +21,7 @@ class BackButtonExitWrapper extends StatelessWidget {
           builder: (context) => AlertDialog(
             title: Text(
               S.of(context).exit_confirm,
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             actions: <Widget>[
               ElevatedButton(

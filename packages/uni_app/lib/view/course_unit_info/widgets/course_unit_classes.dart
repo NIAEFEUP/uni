@@ -124,7 +124,7 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
 
   Widget _buildClassSelector(int studentNumber) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20, top: 10),
+      padding: const EdgeInsets.only(bottom: 10, top: 10),
       child: SizedBox(
         height: 55,
         child: ListView.builder(
@@ -156,19 +156,17 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                   ),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.secondary,
+                        ? Theme.of(context).colorScheme.secondary
+                        : Colors.transparent,
                     borderRadius: BorderRadius.circular(25),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.shadow.withAlpha(0x25),
-                        spreadRadius: 2,
-                        blurRadius: 2,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
+                    boxShadow: isSelected
+                        ? [
+                            BoxShadow(
+                              color: Theme.of(context).colorScheme.shadow,
+                              blurRadius: 1,
+                            ),
+                          ]
+                        : null,
                   ),
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
@@ -180,10 +178,10 @@ class _CourseUnitClassesViewState extends ConsumerState<CourseUnitClassesView> {
                         ? '${courseUnitClass.className} *'
                         : courseUnitClass.className,
                     style: isSelected
-                        ? Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.onPrimary,
+                        ? Theme.of(context).textTheme.labelLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.onSecondary,
                           )
-                        : Theme.of(context).textTheme.labelMedium,
+                        : Theme.of(context).textTheme.labelLarge,
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

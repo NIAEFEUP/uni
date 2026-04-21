@@ -28,7 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "${Intl.plural(time, zero: 'Refreshed ${time} minutes ago', one: 'Refreshed ${time} minute ago', other: 'Refreshed ${time} minutes ago')}";
 
   static m3(title) =>
-      "${Intl.select(title, {'horario': 'Schedule', 'exames': 'Exams', 'area': 'Personal Area', 'cadeiras': 'Course Units', 'autocarros': 'Buses', 'locais': 'Places', 'restaurantes': 'Restaurants', 'calendario': 'Calendar', 'biblioteca': 'Library', 'percurso_academico': 'Academic Path', 'mapa': 'Map', 'faculdade': 'Faculty', 'other': 'Other'})}";
+      "${Intl.select(title, {'horario': 'Schedule', 'exames': 'Exams', 'area': 'Personal Area', 'cadeiras': 'Course Units', 'autocarros': 'Buses', 'locais': 'Places', 'restaurantes': 'Restaurants', 'calendario': 'Calendar', 'biblioteca': 'Library', 'percurso_academico': 'Academic Path', 'mapa': 'Map', 'faculdade': 'Faculty', 'bug_report': 'Leave Feedback', 'other': 'Other'})}";
 
   static m4(period) =>
       "${Intl.select(period, {'lunch': 'Lunch', 'dinner': 'Dinner', 'other': 'Other'})}";
@@ -176,6 +176,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Drag and drop elements",
     ),
     "ects": MessageLookupByLibrary.simpleMessage("ECTS performed: "),
+    "edit_homepage": MessageLookupByLibrary.simpleMessage("Edit"),
     "edit_off": MessageLookupByLibrary.simpleMessage("Edit"),
     "edit_on": MessageLookupByLibrary.simpleMessage("Finish editing"),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
@@ -201,8 +202,32 @@ class MessageLookup extends MessageLookupByLibrary {
     "favorite_filter": MessageLookupByLibrary.simpleMessage("Favorites"),
     "fee_date": MessageLookupByLibrary.simpleMessage("Deadline"),
     "fee_notification": MessageLookupByLibrary.simpleMessage("Fee deadline"),
+    "feedback_consent_title": MessageLookupByLibrary.simpleMessage(
+      "Consent to data collection",
+    ),
     "feedback_description": MessageLookupByLibrary.simpleMessage(
       "Report an issue or suggest an improvement",
+    ),
+    "feedback_description_section": MessageLookupByLibrary.simpleMessage(
+      "Provide a clear and concise title along with a detailed description of the issue or suggestion. The more information you provide, the better we can understand and address your feedback.",
+    ),
+    "feedback_images_empty_section": MessageLookupByLibrary.simpleMessage(
+      "Attached images will appear here.",
+    ),
+    "feedback_images_title_section": MessageLookupByLibrary.simpleMessage(
+      "Attach images",
+    ),
+    "feedback_privacy_description_section": MessageLookupByLibrary.simpleMessage(
+      "Your privacy is important to us. You consent to the collection and use of your feedback and any attached images for the purpose of improving our app. You can choose to provide your email for follow-up, but it is not required.",
+    ),
+    "feedback_privacy_section": MessageLookupByLibrary.simpleMessage(
+      "Privacy and Consent",
+    ),
+    "feedback_type_description_section": MessageLookupByLibrary.simpleMessage(
+      "Please choose the category that best describes your feedback to help us address it effectively.",
+    ),
+    "feedback_type_title_section": MessageLookupByLibrary.simpleMessage(
+      "Select the type of feedback",
     ),
     "files": MessageLookupByLibrary.simpleMessage("Files"),
     "first_year_registration": MessageLookupByLibrary.simpleMessage(
@@ -296,6 +321,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "You have no classes this week",
     ),
     "no_college": MessageLookupByLibrary.simpleMessage("no college"),
+    "no_course_unit_classes": MessageLookupByLibrary.simpleMessage(
+      "No classes have been assigned to this course unit yet",
+    ),
+    "no_course_unit_info": MessageLookupByLibrary.simpleMessage(
+      "This course unit has no information available yet",
+    ),
     "no_course_units": MessageLookupByLibrary.simpleMessage(
       "No course units in the selected period",
     ),
@@ -320,7 +351,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "No favorite restaurants open",
     ),
     "no_files": MessageLookupByLibrary.simpleMessage(
-      "There\'s no files attached",
+      "There are no files attached",
     ),
     "no_files_found": MessageLookupByLibrary.simpleMessage("No files found"),
     "no_files_label": MessageLookupByLibrary.simpleMessage(

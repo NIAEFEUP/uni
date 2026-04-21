@@ -30,10 +30,7 @@ class NewsHomeCard extends GenericHomecard {
         child: IconLabel(
           icon: const UniIcon(size: 45, UniIcons.news),
           label: S.of(context).no_news,
-          labelTextStyle: TextStyle(
-            fontSize: 14,
-            color: Theme.of(context).colorScheme.primary,
-          ),
+          labelTextStyle: Theme.of(context).textTheme.bodyMedium,
         ),
       ),
       hasContent: (newsList) => newsList.isNotEmpty,

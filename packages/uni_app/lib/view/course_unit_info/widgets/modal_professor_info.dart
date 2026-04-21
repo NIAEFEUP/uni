@@ -38,7 +38,7 @@ class ProfessorInfoModal extends ConsumerWidget {
           icon: UniIcons.email,
           trailing: UniIcon(
             UniIcons.caretRight,
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).colorScheme.onSecondary,
           ),
         ),
         const ModalInfoRow(
