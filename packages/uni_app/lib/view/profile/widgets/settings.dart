@@ -21,10 +21,6 @@ class Settings extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            S.of(context).settings,
-            style: Theme.of(context).textTheme.headlineLarge,
-          ),
           GenericCard(
             tooltip: S.of(context).user_informations,
             margin: const EdgeInsets.symmetric(vertical: 8),
@@ -42,6 +38,10 @@ class Settings extends StatelessWidget {
                 );
               },
             ),
+          ),
+          Text(
+            S.of(context).settings,
+            style: Theme.of(context).textTheme.headlineLarge,
           ),
           GenericCard(
             tooltip: S.of(context).settings,
