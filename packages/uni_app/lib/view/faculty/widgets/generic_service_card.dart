@@ -52,18 +52,17 @@ class ServicesCard extends StatelessWidget {
               ),
             if (telephone != null)
               GestureDetector(
-                onTap:
-                    () => launchUrlWithToast(
-                      context,
-                      'tel:${telephone?.substring(5)}',
-                    ),
+                onTap: () => launchUrlWithToast(
+                  context,
+                  'tel:${telephone?.substring(5)}',
+                ),
                 child: ModalInfoRow(
                   title: S.of(context).telephone,
                   description: telephone,
                   icon: UniIcons.phone,
                   trailing: UniIcon(
                     UniIcons.caretRight,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).colorScheme.onSecondary,
                   ),
                 ),
               ),
@@ -76,7 +75,7 @@ class ServicesCard extends StatelessWidget {
                   icon: UniIcons.email,
                   trailing: UniIcon(
                     UniIcons.caretRight,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).colorScheme.onSecondary,
                   ),
                 ),
               ),

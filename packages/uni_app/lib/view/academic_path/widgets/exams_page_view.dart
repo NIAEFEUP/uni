@@ -31,52 +31,49 @@ class ExamsPageView extends ConsumerWidget {
       years.add(currentYear + 1);
     }
 
-    final monthsDates =
-        years
-            .expand((y) => List.generate(12, (index) => DateTime(y, index + 1)))
-            .toList();
+    final monthsDates = years
+        .expand((y) => List.generate(12, (index) => DateTime(y, index + 1)))
+        .toList();
 
-    final tabs =
-        monthsDates.map((date) {
-          return SizedBox(
-            width: 30,
-            height: 34,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Text(
-                    date.shortMonth(locale),
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    '${date.month}',
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                  ),
-                ),
-              ],
+    final tabs = monthsDates.map((date) {
+      return SizedBox(
+        width: 30,
+        height: 34,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Text(
+                date.shortMonth(locale),
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+              ),
             ),
-          );
-        }).toList();
+            Expanded(
+              child: Text(
+                '${date.month}',
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+              ),
+            ),
+          ],
+        ),
+      );
+    }).toList();
 
-    final content =
-        monthsDates.map((date) {
-          final monthKey = '${date.year}-${date.month}';
-          final examsForMonth = examsByMonth[monthKey] ?? [];
-          return ExamMonthTimeline(
-            now: now,
-            monthDate: date,
-            exams: examsForMonth,
-            hiddenExams: hiddenExams,
-            onToggleHidden: onToggleHidden,
-          );
-        }).toList();
+    final content = monthsDates.map((date) {
+      final monthKey = '${date.year}-${date.month}';
+      final examsForMonth = examsByMonth[monthKey] ?? [];
+      return ExamMonthTimeline(
+        now: now,
+        monthDate: date,
+        exams: examsForMonth,
+        hiddenExams: hiddenExams,
+        onToggleHidden: onToggleHidden,
+      );
+    }).toList();
 
     final initialTabIndex = monthsDates.indexWhere((date) {
       final monthKey = '${date.year}-${date.month}';
@@ -89,13 +86,11 @@ class ExamsPageView extends ConsumerWidget {
         tabs: tabs,
         content: content,
         initialTab: initialTabIndex == -1 ? 0 : initialTabIndex,
-        tabEnabled:
-            monthsDates
-                .map(
-                  (date) =>
-                      examsByMonth.containsKey('${date.year}-${date.month}'),
-                )
-                .toList(),
+        tabEnabled: monthsDates
+            .map(
+              (date) => examsByMonth.containsKey('${date.year}-${date.month}'),
+            )
+            .toList(),
       ),
     );
   }

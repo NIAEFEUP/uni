@@ -34,13 +34,12 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
   }
 
   void _updateState(T? newState, {bool updateTimestamp = true}) {
-    if (newState == null) {
-      state = const AsyncData(null);
+    if (!ref.mounted) {
       return;
     }
 
     state = AsyncData(newState);
-    if (updateTimestamp) {
+    if (newState != null && updateTimestamp) {
       _lastUpdateTime = DateTime.now();
       PreferencesController.setLastDataClassUpdateTime(
         runtimeType.toString(),
@@ -50,6 +49,10 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
   }
 
   void _updateError(Object error, [StackTrace? stackTrace]) {
+    if (!ref.mounted) {
+      return;
+    }
+
     state = AsyncError(error, stackTrace ?? StackTrace.current);
     Logger().e(
       'Error in $runtimeType: $error',
@@ -64,12 +67,14 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
   }) async {
     try {
       final result = await operation();
-      if (result != null) {
+      if (result != null && ref.mounted) {
         _updateState(result, updateTimestamp: updateTimestamp);
       }
       return result;
     } catch (err, st) {
-      _updateError(err, st);
+      if (ref.mounted) {
+        _updateError(err, st);
+      }
       rethrow;
     }
   }
@@ -94,12 +99,7 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
       if (!_isCacheValid) {
         Logger().d('$runtimeType cache is invalid');
       }
-      Logger().d('Loading $runtimeType from remote...');
-      final remoteData = await _safeExecute(loadFromRemote);
-      if (remoteData != null) {
-        Logger().d('✅ Loaded $runtimeType from remote!');
-        return remoteData;
-      }
+      return refreshRemote();
     }
 
     return localData;
@@ -107,11 +107,38 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
 
   Future<T?> refreshRemote() async {
     Logger().d('Refreshing $runtimeType from remote...');
-    final result = await _safeExecute(loadFromRemote);
-    if (result != null) {
-      Logger().d('✅ Refreshed $runtimeType from remote!');
+    try {
+      state = const AsyncLoading();
+      final result = await loadFromRemote();
+
+      if (!ref.mounted) {
+        return result;
+      }
+
+      if (result != null) {
+        _updateState(result);
+        Logger().d('✅ Refreshed $runtimeType from remote!');
+        return result;
+      }
+
+      return _handleRemoteFailure(
+        'Failed to refresh $runtimeType: No valid cache and remote fetch failed',
+      );
+    } catch (err, st) {
+      return _handleRemoteFailure(err, st);
     }
-    return result;
+  }
+
+  T? _handleRemoteFailure(Object error, [StackTrace? stackTrace]) {
+    final cachedValue = state.value;
+    if (cachedValue != null && !_invalidLocalData(cachedValue)) {
+      Logger().w('Falling back to cached data for $runtimeType due to: $error');
+      _updateState(cachedValue, updateTimestamp: false);
+      return cachedValue;
+    }
+
+    _updateError(error, stackTrace);
+    return null;
   }
 
   void updateState(T newState) {

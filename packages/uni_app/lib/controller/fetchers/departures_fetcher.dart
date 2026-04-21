@@ -18,8 +18,8 @@ class DeparturesFetcher {
   final BusStopData _stopData;
   static final _client = http.IOClient(
     HttpClient(context: SecurityContext())
-      ..badCertificateCallback =
-          (cert, host, port) => host == 'www.stcp.pt' && port == 443,
+      ..badCertificateCallback = (cert, host, port) =>
+          host == 'www.stcp.pt' && port == 443,
   );
 
   Future<String> _getCSRFToken() async {
@@ -29,12 +29,11 @@ class DeparturesFetcher {
     final response = await _client.get(url.toUri());
     final htmlResponse = parse(response.body);
     try {
-      final scriptText =
-          htmlResponse
-              .querySelectorAll('table script')
-              .where((element) => element.text.contains(_stopCode))
-              .map((e) => e.text)
-              .first;
+      final scriptText = htmlResponse
+          .querySelectorAll('table script')
+          .where((element) => element.text.contains(_stopCode))
+          .map((e) => e.text)
+          .first;
 
       final callParam = scriptText
           .substring(scriptText.indexOf('('))
@@ -84,8 +83,10 @@ class DeparturesFetcher {
     for (final entry in tableEntries) {
       final rawBusInformation = entry.querySelectorAll('td');
 
-      final busLine =
-          rawBusInformation[0].querySelector('ul > li')?.text.trim();
+      final busLine = rawBusInformation[0]
+          .querySelector('ul > li')
+          ?.text
+          .trim();
 
       if (!configuredBuses.contains(busLine)) {
         continue;

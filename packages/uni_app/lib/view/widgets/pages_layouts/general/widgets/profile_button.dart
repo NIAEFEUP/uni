@@ -12,10 +12,9 @@ class ProfileButton extends StatelessWidget {
         padding: const EdgeInsets.all(5),
         shape: const CircleBorder(),
       ),
-      onPressed:
-          () => {
-            Navigator.pushNamed(context, '/${NavigationItem.navProfile.route}'),
-          },
+      onPressed: () => {
+        Navigator.pushNamed(context, '/${NavigationItem.navProfile.route}'),
+      },
       icon: const ProfileImage(radius: 20),
     );
   }

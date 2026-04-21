@@ -19,14 +19,12 @@ class ProfessorInfoModal extends ConsumerWidget {
     return ModalDialog(
       children: [
         FutureBuilder<File?>(
-          builder:
-              (context, snapshot) => ModalPersonInfo(
-                name: professor.name,
-                image:
-                    snapshot.hasData && snapshot.data != null
-                        ? Image(image: FileImage(snapshot.data!))
-                        : Image.asset('assets/images/profile_placeholder.png'),
-              ),
+          builder: (context, snapshot) => ModalPersonInfo(
+            name: professor.name,
+            image: snapshot.hasData && snapshot.data != null
+                ? Image(image: FileImage(snapshot.data!))
+                : Image.asset('assets/images/profile_placeholder.png'),
+          ),
           future: ProfileNotifier.fetchOrGetCachedProfilePicture(
             session,
             studentNumber: int.parse(professor.code),
@@ -40,7 +38,7 @@ class ProfessorInfoModal extends ConsumerWidget {
           icon: UniIcons.email,
           trailing: UniIcon(
             UniIcons.caretRight,
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).colorScheme.onSecondary,
           ),
         ),
         const ModalInfoRow(

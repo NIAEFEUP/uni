@@ -34,105 +34,100 @@ class CourseUnitSheetView extends ConsumerWidget {
         _buildSection(
           title: S.of(context).instructors,
           titlePadding: 20,
-          content:
-              courseUnitSheet.professors.isEmpty
-                  ? Padding(
-                    padding: const EdgeInsets.only(top: 8, left: 20),
-                    child: Text(
-                      S.of(context).noInstructors,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  )
-                  : courseUnitSheet.professors.length <= 4
-                  ? Padding(
+          content: courseUnitSheet.professors.isEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 8, left: 20),
+                  child: Text(
+                    S.of(context).noInstructors,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                )
+              : courseUnitSheet.professors.length <= 4
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 3,
+                  ),
+                  child: Wrap(
+                    spacing: _horizontalSpacing,
+                    runSpacing: _verticalSpacing,
+                    children: courseUnitSheet.professors
+                        .map(
+                          (instructor) =>
+                              _InstructorCard(instructor: instructor),
+                        )
+                        .toList(),
+                  ),
+                )
+              : AnimatedExpandable(
+                  firstChild: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
-                      vertical: 3,
+                      vertical: 2,
+                    ),
+                    child: _LimitedInstructorsRow(
+                      instructors: courseUnitSheet.professors,
+                    ),
+                  ),
+                  secondChild: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 2,
                     ),
                     child: Wrap(
                       spacing: _horizontalSpacing,
                       runSpacing: _verticalSpacing,
-                      children:
-                          courseUnitSheet.professors
-                              .map(
-                                (instructor) =>
-                                    _InstructorCard(instructor: instructor),
-                              )
-                              .toList(),
-                    ),
-                  )
-                  : AnimatedExpandable(
-                    firstChild: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 2,
-                      ),
-                      child: _LimitedInstructorsRow(
-                        instructors: courseUnitSheet.professors,
-                      ),
-                    ),
-                    secondChild: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 2,
-                      ),
-                      child: Wrap(
-                        spacing: _horizontalSpacing,
-                        runSpacing: _verticalSpacing,
-                        children:
-                            courseUnitSheet.professors
-                                .map(
-                                  (instructor) =>
-                                      _InstructorCard(instructor: instructor),
-                                )
-                                .toList(),
-                      ),
+                      children: courseUnitSheet.professors
+                          .map(
+                            (instructor) =>
+                                _InstructorCard(instructor: instructor),
+                          )
+                          .toList(),
                     ),
                   ),
+                ),
           context: context,
         ),
         _buildSection(
           title: S.of(context).assessments,
           titlePadding: 20,
-          content:
-              exams.isEmpty
-                  ? Padding(
-                    padding: const EdgeInsets.only(top: 8, left: 20),
-                    child: Text(
-                      S.of(context).noExamsScheduled,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  )
-                  : SizedBox(
-                    height: 100,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: exams.length + 2,
-                      separatorBuilder:
-                          (context, index) =>
-                              const SizedBox(width: _horizontalSpacing),
-                      itemBuilder: (context, index) {
-                        if (index == 0 || index == exams.length + 1) {
-                          return const SizedBox(width: 10);
-                        }
-                        return SizedBox(
-                          width: 240,
-                          child: ExamCard(
-                            name: exams[index - 1].subject,
-                            acronym: exams[index - 1].subjectAcronym,
-                            rooms: exams[index - 1].rooms,
-                            type: exams[index - 1].examType,
-                            startTime: exams[index - 1].startTime,
-                            examDay: exams[index - 1].start.day.toString(),
-                            examMonth: exams[index - 1].monthAcronym(
-                              PreferencesController.getLocale(),
-                            ),
-                            showIcon: false,
-                          ),
-                        );
-                      },
-                    ),
+          content: exams.isEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 8, left: 20),
+                  child: Text(
+                    S.of(context).noExamsScheduled,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
+                )
+              : SizedBox(
+                  height: 100,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: exams.length + 2,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: _horizontalSpacing),
+                    itemBuilder: (context, index) {
+                      if (index == 0 || index == exams.length + 1) {
+                        return const SizedBox(width: 10);
+                      }
+                      return SizedBox(
+                        width: 240,
+                        child: ExamCard(
+                          name: exams[index - 1].subject,
+                          acronym: exams[index - 1].subjectAcronym,
+                          rooms: exams[index - 1].rooms,
+                          type: exams[index - 1].examType,
+                          startTime: exams[index - 1].startTime,
+                          examDay: exams[index - 1].start.day.toString(),
+                          examMonth: exams[index - 1].monthAcronym(
+                            PreferencesController.getLocale(),
+                          ),
+                          showIcon: false,
+                        ),
+                      );
+                    },
+                  ),
+                ),
           context: context,
         ),
         Padding(
@@ -183,27 +178,26 @@ class CourseUnitSheetView extends ConsumerWidget {
                 width: double.infinity,
                 child: Wrap(
                   alignment: WrapAlignment.spaceBetween,
-                  children:
-                      courseUnitSheet.books.map((book) {
-                        return book.isbn.isNotEmpty
-                            ? FutureBuilder<String?>(
-                              future: BookThumbFetcher().fetchBookThumb(
-                                book.isbn,
-                              ),
-                              builder: (context, snapshot) {
-                                return BookCard(
-                                  title: book.title,
-                                  isbn: book.isbn,
-                                  imageUrl: snapshot.data,
-                                );
-                              },
-                            )
-                            : BookCard(
-                              title: book.title,
-                              isbn: book.isbn,
-                              imageUrl: null,
-                            );
-                      }).toList(),
+                  children: courseUnitSheet.books.map((book) {
+                    return book.isbn.isNotEmpty
+                        ? FutureBuilder<String?>(
+                            future: BookThumbFetcher().fetchBookThumb(
+                              book.isbn,
+                            ),
+                            builder: (context, snapshot) {
+                              return BookCard(
+                                title: book.title,
+                                isbn: book.isbn,
+                                imageUrl: snapshot.data,
+                              );
+                            },
+                          )
+                        : BookCard(
+                            title: book.title,
+                            isbn: book.isbn,
+                            imageUrl: null,
+                          );
+                  }).toList(),
                 ),
               ),
               context: context,
@@ -280,10 +274,9 @@ class _InstructorCard extends ConsumerWidget {
             studentNumber: int.parse(instructor.code),
           ),
           builder: (context, snapshot) {
-            final profileImage =
-                snapshot.hasData && snapshot.data != null
-                    ? FileImage(snapshot.data!)
-                    : null;
+            final profileImage = snapshot.hasData && snapshot.data != null
+                ? FileImage(snapshot.data!)
+                : null;
 
             return InstructorCard(
               name: instructor.name,
@@ -332,10 +325,9 @@ class _LimitedInstructorsRow extends ConsumerWidget {
               final images =
                   snapshot.data
                       ?.map(
-                        (file) =>
-                            file != null
-                                ? FileImage(file) as ImageProvider
-                                : null,
+                        (file) => file != null
+                            ? FileImage(file) as ImageProvider
+                            : null,
                       )
                       .toList() ??
                   List.filled(remainingToShow.length, null);

@@ -24,18 +24,17 @@ class CourseSelection extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children:
-            courseInfos.indexed.map<CourseCard>((entry) {
-              final index = entry.$1;
-              final courseInfos = entry.$2;
+        children: courseInfos.indexed.map<CourseCard>((entry) {
+          final index = entry.$1;
+          final courseInfos = entry.$2;
 
-              return CourseCard(
-                courseInfo: courseInfos,
-                selected: index == selected,
-                onTap: () => {onSelected(index)},
-                nowText: nowText,
-              );
-            }).toList(),
+          return CourseCard(
+            courseInfo: courseInfos,
+            selected: index == selected,
+            onTap: () => {onSelected(index)},
+            nowText: nowText,
+          );
+        }).toList(),
       ),
     );
   }

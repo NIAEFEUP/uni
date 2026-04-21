@@ -13,6 +13,7 @@ class RestaurantCard extends StatelessWidget {
     required this.onFavoriteToggle,
     this.showFavoriteButton = true,
     this.onClick,
+    this.subtitle,
   });
 
   final String name;
@@ -22,6 +23,7 @@ class RestaurantCard extends StatelessWidget {
   final VoidCallback onFavoriteToggle;
   final bool showFavoriteButton;
   final Function()? onClick;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,7 @@ class RestaurantCard extends StatelessWidget {
             isFavorite: isFavorite,
             onFavoriteToggle: onFavoriteToggle,
             showFavoriteButton: showFavoriteButton,
+            subtitle: subtitle,
           ),
           Column(children: menuItems),
         ],
@@ -57,6 +60,7 @@ class RestaurantCardHeader extends StatelessWidget {
     required this.isFavorite,
     required this.onFavoriteToggle,
     this.showFavoriteButton = true,
+    this.subtitle,
   });
 
   final String name;
@@ -64,13 +68,17 @@ class RestaurantCardHeader extends StatelessWidget {
   final bool isFavorite;
   final VoidCallback onFavoriteToggle;
   final bool showFavoriteButton;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: Theme.of(context).dividerColor, width: 1.0),
+          bottom: BorderSide(
+            color: Theme.of(context).colorScheme.onSecondaryFixed,
+            width: 1.0,
+          ),
         ),
       ),
       child: Row(
@@ -78,10 +86,37 @@ class RestaurantCardHeader extends StatelessWidget {
           Expanded(flex: 1, child: icon),
           Expanded(
             flex: 4,
-            child: Text(
-              name,
-              style: Theme.of(context).textTheme.headlineSmall,
-              overflow: TextOverflow.clip,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    name,
+                    style: Theme.of(context).textTheme.titleLarge,
+                    overflow: TextOverflow.clip,
+                  ),
+                  if (subtitle != null)
+                    Container(
+                      margin: const EdgeInsets.only(top: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.onSecondary,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        subtitle!,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
           if (showFavoriteButton)

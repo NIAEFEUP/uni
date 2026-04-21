@@ -34,10 +34,9 @@ class _CourseUnitsViewState extends ConsumerState<CourseUnitsView> {
       hasContent: (profile) => true,
       builder: (context, ref, profile) {
         final courseUnits = profile.courseUnits;
-        final courseGradeCards =
-            _applyFilters(courseUnits)
-                .map((courseUnit) => _toCourseGradeCard(courseUnit, context))
-                .toList();
+        final courseGradeCards = _applyFilters(
+          courseUnits,
+        ).map((courseUnit) => _toCourseGradeCard(courseUnit, context)).toList();
 
         return Column(
           children: [
@@ -46,16 +45,18 @@ class _CourseUnitsViewState extends ConsumerState<CourseUnitsView> {
                 Padding(
                   padding: const EdgeInsets.only(left: 8, right: 8),
                   child: DropdownButton(
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    dropdownColor: Theme.of(context).colorScheme.secondary,
+                    borderRadius: BorderRadius.circular(8),
                     underline: Container(),
-                    items:
-                        _getAvailableYears(courseUnits)
-                            .map(
-                              (year) => _toDropdownMenuItem(
-                                year,
-                                S.of(context).all_feminine,
-                              ),
-                            )
-                            .toList(),
+                    items: _getAvailableYears(courseUnits)
+                        .map(
+                          (year) => _toDropdownMenuItem(
+                            year,
+                            S.of(context).all_feminine,
+                          ),
+                        )
+                        .toList(),
                     value: selectedSchoolYear,
                     onChanged: (value) {
                       setState(() {
@@ -66,14 +67,13 @@ class _CourseUnitsViewState extends ConsumerState<CourseUnitsView> {
                   ),
                 ),
                 DropdownButton(
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  dropdownColor: Theme.of(context).colorScheme.secondary,
+                  borderRadius: BorderRadius.circular(8),
                   underline: Container(),
-                  items:
-                      _getAvailableSemesters(courseUnits)
-                          .map(
-                            (semester) =>
-                                _toDropdownMenuItem(semester, '1S+2S'),
-                          )
-                          .toList(),
+                  items: _getAvailableSemesters(courseUnits)
+                      .map((semester) => _toDropdownMenuItem(semester, '1S+2S'))
+                      .toList(),
                   value: selectedSemester,
                   onChanged: (value) {
                     setState(() {
@@ -84,7 +84,10 @@ class _CourseUnitsViewState extends ConsumerState<CourseUnitsView> {
                 ),
                 const Spacer(),
                 IconButton(
-                  icon: const UniIcon(UniIcons.list),
+                  icon: UniIcon(
+                    UniIcons.list,
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
                   onPressed: () {
                     setState(() {
                       isGrid = false;
@@ -93,7 +96,10 @@ class _CourseUnitsViewState extends ConsumerState<CourseUnitsView> {
                   },
                 ),
                 IconButton(
-                  icon: const UniIcon(UniIcons.grid),
+                  icon: UniIcon(
+                    UniIcons.grid,
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
                   onPressed: () {
                     setState(() {
                       isGrid = true;
@@ -107,10 +113,9 @@ class _CourseUnitsViewState extends ConsumerState<CourseUnitsView> {
               crossAxisCount: isGrid ? 2 : 1,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              childAspectRatio:
-                  isGrid
-                      ? (width - 40) / (width * 2) * 5
-                      : (width - 32) / width * 5,
+              childAspectRatio: isGrid
+                  ? (width - 40) / (width * 2) * 5
+                  : (width - 32) / width * 5,
               // Calculate aspect ratio, to avoid inconsistencies between grid and list view
               mainAxisSpacing: 8,
               crossAxisSpacing: 8,
@@ -143,16 +148,17 @@ class _CourseUnitsViewState extends ConsumerState<CourseUnitsView> {
 
   static List<String?> _getAvailableYears(List<CourseUnit> courseUnits) {
     final years = courseUnits.map((unit) => unit.schoolYear).nonNulls.toSet();
-    final yearsList =
-        years.map((year) => year as String?).toList()
-          ..sort()
-          ..insert(0, null);
+    final yearsList = years.map((year) => year as String?).toList()
+      ..sort()
+      ..insert(0, null);
     return yearsList;
   }
 
   static List<String?> _getAvailableSemesters(List<CourseUnit> courseUnits) {
-    final semesters =
-        courseUnits.map((unit) => unit.semesterCode).nonNulls.toSet();
+    final semesters = courseUnits
+        .map((unit) => unit.semesterCode)
+        .nonNulls
+        .toSet();
     final semestersList =
         semesters.map((semester) => semester as String?).toList()
           ..sort()

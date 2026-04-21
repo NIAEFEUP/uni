@@ -49,7 +49,7 @@ class Course {
   }
   @JsonKey(name: 'cur_id')
   @Id(assignable: true)
-  final int? id;
+  int? id;
   @JsonKey(name: 'fest_id')
   final int? festId;
   @JsonKey(name: 'cur_nome')

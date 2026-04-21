@@ -37,13 +37,12 @@ abstract class GenericHomecard extends ConsumerWidget {
                 titleWidget,
               Container(
                 margin: const EdgeInsets.only(top: 10),
-                child:
-                    bodyPadding != null
-                        ? Padding(
-                          padding: bodyPadding!,
-                          child: buildCardContent(context),
-                        )
-                        : buildCardContent(context),
+                child: bodyPadding != null
+                    ? Padding(
+                        padding: bodyPadding!,
+                        child: buildCardContent(context),
+                      )
+                    : buildCardContent(context),
               ),
             ],
           ),

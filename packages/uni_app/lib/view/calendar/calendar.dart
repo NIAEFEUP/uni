@@ -37,24 +37,23 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
           child: Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: Column(
-              children:
-                  calendar.map((event) {
-                    final start = event.startDate;
-                    final end = event.endDate ?? event.startDate;
-                    final isToday =
-                        start != null &&
-                            today.year == start.year &&
-                            today.month == start.month &&
-                            today.day == start.day ||
-                        (end != null &&
-                            today.isAfter(start ?? end) &&
-                            today.isBefore(end.add(const Duration(days: 1))));
-                    return RowFormat(
-                      event: event,
-                      locale: locale,
-                      isToday: isToday,
-                    );
-                  }).toList(),
+              children: calendar.map((event) {
+                final start = event.startDate;
+                final end = event.endDate ?? event.startDate;
+                final isToday =
+                    start != null &&
+                        today.year == start.year &&
+                        today.month == start.month &&
+                        today.day == start.day ||
+                    (end != null &&
+                        today.isAfter(start ?? end) &&
+                        today.isBefore(end.add(const Duration(days: 1))));
+                return RowFormat(
+                  event: event,
+                  locale: locale,
+                  isToday: isToday,
+                );
+              }).toList(),
             ),
           ),
         );

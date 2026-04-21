@@ -52,9 +52,8 @@ Widget createPasswordInput(
       toggleObscurePasswordInput,
       obscurePasswordInput: obscurePasswordInput,
     ),
-    validator:
-        (value) =>
-            value != null && value.isEmpty ? S.of(context).empty_text : null,
+    validator: (value) =>
+        value != null && value.isEmpty ? S.of(context).empty_text : null,
   );
 }
 
@@ -63,7 +62,7 @@ InputDecoration textFieldDecoration(BuildContext context, String placeholder) {
   return InputDecoration(
     hintStyle: Theme.of(
       context,
-    ).textTheme.titleMedium?.copyWith(color: const Color(0xFF3C0A0E)),
+    ).textTheme.bodyMedium?.copyWith(color: const Color(0xFF3C0A0E)),
     hintText: placeholder,
     contentPadding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
     border: const UnderlineInputBorder(),
@@ -81,7 +80,7 @@ InputDecoration passwordFieldDecoration(
   return InputDecoration(
     hintStyle: Theme.of(
       context,
-    ).textTheme.titleMedium?.copyWith(color: const Color(0xFF3C0A0E)),
+    ).textTheme.bodyMedium?.copyWith(color: const Color(0xFF3C0A0E)),
     hintText: placeholder,
     contentPadding: const EdgeInsets.fromLTRB(10, 25, 0, 0),
     border: const UnderlineInputBorder(),

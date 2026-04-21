@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni_ui/icons.dart';
@@ -9,15 +9,53 @@ import 'package:uni_ui/icons.dart';
 ) {
   switch (favorite) {
     case FavoriteWidgetType.schedule:
-      return (S.of(context).schedule, const UniIcon(UniIcons.lecture));
+      return (
+        S.of(context).schedule,
+        UniIcon(
+          UniIcons.lecture,
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
+      );
     case FavoriteWidgetType.exams:
-      return (S.of(context).exams, const UniIcon(UniIcons.exam));
+      return (
+        S.of(context).exams,
+        UniIcon(
+          UniIcons.exam,
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
+      );
     case FavoriteWidgetType.library:
-      return (S.of(context).library, const UniIcon(UniIcons.library));
+      return (
+        S.of(context).library,
+        UniIcon(
+          UniIcons.library,
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
+      );
     case FavoriteWidgetType.restaurants:
-      return (S.of(context).restaurants, const UniIcon(UniIcons.restaurant));
+      return (
+        S.of(context).restaurants,
+        UniIcon(
+          UniIcons.restaurant,
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
+      );
     case FavoriteWidgetType.calendar:
-      return (S.of(context).calendar, const UniIcon(UniIcons.calendar));
+      return (
+        S.of(context).calendar,
+        UniIcon(
+          UniIcons.calendar,
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
+      );
+    case FavoriteWidgetType.news:
+      return (
+        S.of(context).news,
+        UniIcon(
+          UniIcons.news,
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
+      );
     // case 'ucs':
     //   title = 'UCS';
     //   icon = const UniIcon(UniIcons.graduationCap);

@@ -7,6 +7,7 @@ class TimelineItem extends StatelessWidget {
     required this.card,
     this.isActive = false,
     this.titleWidth = 50,
+    this.lineHeight = 75,
     super.key,
   });
 
@@ -15,6 +16,7 @@ class TimelineItem extends StatelessWidget {
   final Widget card;
   final bool isActive;
   final double titleWidth;
+  final double lineHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -38,33 +40,37 @@ class TimelineItem extends StatelessWidget {
               height: 20,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isActive ? Theme.of(context).primaryColor : Colors.white,
+                color: isActive
+                    ? Theme.of(context).colorScheme.onSecondary
+                    : Colors.transparent,
                 border: Border.all(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).colorScheme.onSecondary,
                   width: 4.0,
                 ),
               ),
-              child:
-                  isActive
-                      ? Center(
-                        child: Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 3),
+              child: isActive
+                  ? Center(
+                      child: Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.surface,
+                            width: 3,
                           ),
                         ),
-                      )
-                      : null,
+                      ),
+                    )
+                  : null,
             ),
             Container(
               margin: EdgeInsets.only(bottom: 5, left: 10, right: 10),
-              height: isActive ? 75 : 55,
+              height: lineHeight,
               width: 3,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
             ),
           ],

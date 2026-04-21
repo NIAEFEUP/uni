@@ -35,8 +35,9 @@ class AnimatedExpandableState extends State<AnimatedExpandable> {
         duration: const Duration(milliseconds: 500),
         firstChild: widget.firstChild,
         secondChild: widget.secondChild,
-        crossFadeState:
-            _expanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+        crossFadeState: _expanded
+            ? CrossFadeState.showSecond
+            : CrossFadeState.showFirst,
       ),
     );
   }

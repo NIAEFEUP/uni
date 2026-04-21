@@ -6,6 +6,7 @@ import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
 import 'package:uni/view/academic_path/widgets/exams_page_view.dart';
 import 'package:uni/view/academic_path/widgets/no_exams_widget.dart';
+import 'package:uni/view/academic_path/widgets/schedule_page_shimmer.dart';
 
 class ExamsPage extends ConsumerStatefulWidget {
   const ExamsPage({super.key});
@@ -49,16 +50,16 @@ class _ExamsPageState extends ConsumerState<ExamsPage> {
         hasContent: (exams) => exams.isNotEmpty,
         nullContentWidget: LayoutBuilder(
           // Band-aid for allowing refresh on null content
-          builder:
-              (context, constraints) => SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Container(
-                  height: constraints.maxHeight, // Height of bottom navbar
-                  padding: const EdgeInsets.only(bottom: 120),
-                  child: const Center(child: NoExamsWidget()),
-                ),
-              ),
+          builder: (context, constraints) => SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Container(
+              height: constraints.maxHeight, // Height of bottom navbar
+              padding: const EdgeInsets.only(bottom: 120),
+              child: const Center(child: NoExamsWidget()),
+            ),
+          ),
         ),
+        loadingWidget: const ShimmerSchedulePage(),
       ),
     );
   }

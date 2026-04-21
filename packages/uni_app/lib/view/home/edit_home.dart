@@ -40,10 +40,9 @@ class EditHomeViewState extends State<EditHomeView> {
 
     activeCards = favoriteCards;
 
-    listlessCards =
-        allCards
-            .where((widgetType) => !favoriteCards.contains(widgetType))
-            .toList();
+    listlessCards = allCards
+        .where((widgetType) => !favoriteCards.contains(widgetType))
+        .toList();
   }
 
   void saveCards() {
@@ -80,13 +79,26 @@ class EditHomeViewState extends State<EditHomeView> {
           preferredSize: const Size.fromHeight(125),
           child: Container(
             height: 90,
-            decoration: const BoxDecoration(
-              gradient: RadialGradient(
-                colors: [Color(0xFF280709), Color(0xFF511515)],
-                center: Alignment.topLeft,
-                radius: 1.5,
-                stops: [0, 1],
-              ),
+            decoration: BoxDecoration(
+              gradient: Theme.of(context).brightness == Brightness.light
+                  ? RadialGradient(
+                      colors: [
+                        Theme.of(context).colorScheme.tertiary,
+                        Theme.of(context).colorScheme.onTertiary,
+                      ],
+                      center: Alignment.topLeft,
+                      radius: 2,
+                      stops: const [0, 1],
+                    )
+                  : LinearGradient(
+                      colors: [
+                        Theme.of(context).colorScheme.tertiary,
+                        Theme.of(context).colorScheme.surface,
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: const [0, 1],
+                    ),
             ),
             child: DragTarget<FavoriteWidgetType>(
               builder: (context, candidate, rejected) {
@@ -94,10 +106,9 @@ class EditHomeViewState extends State<EditHomeView> {
                   child: Center(
                     child: Text(
                       S.of(context).drag_and_drop,
-                      style:
-                          Theme.of(context)
-                              .textTheme
-                              .titleLarge, // titleMedium as in figma is with the wrong colors
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ),
                 );
@@ -116,20 +127,18 @@ class EditHomeViewState extends State<EditHomeView> {
                   if (index.isEven) {
                     final dropIndex = (index / 2).floor();
                     return DragTarget<FavoriteWidgetType>(
-                      builder:
-                          (context, candidate, rejected) => Container(
-                            height: 20,
-                            margin: const EdgeInsets.only(top: 2, bottom: 2),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color:
-                                  candidate.isNotEmpty
-                                      ? Theme.of(context).shadowColor.withAlpha(
-                                        51,
-                                      ) // 20% opacity
-                                      : Colors.transparent,
-                            ),
+                      builder: (context, candidate, rejected) => Container(
+                        height: 20,
+                        margin: const EdgeInsets.only(top: 2, bottom: 2),
+                        decoration: ShapeDecoration(
+                          shape: RoundedSuperellipseBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
+                          color: candidate.isNotEmpty
+                              ? Theme.of(context).disabledColor
+                              : Colors.transparent,
+                        ),
+                      ),
                       onAcceptWithDetails: (details) {
                         setState(() {
                           activeCards
@@ -154,36 +163,47 @@ class EditHomeViewState extends State<EditHomeView> {
         ),
         bottomNavigationBar: DragTarget<FavoriteWidgetType>(
           builder: (context, candidate, rejected) {
-            final listlessCardWidgets =
-                listlessCards
-                    .map(
-                      (widgetType) => DraggableSquare(
-                        data: widgetType,
-                        callback: removeListlessWhileDragging,
-                      ),
-                    )
-                    .toList();
+            final listlessCardWidgets = listlessCards
+                .map(
+                  (widgetType) => DraggableSquare(
+                    data: widgetType,
+                    callback: removeListlessWhileDragging,
+                  ),
+                )
+                .toList();
 
             return Container(
-              padding: const EdgeInsets.symmetric(vertical: 35),
+              padding: const EdgeInsets.symmetric(vertical: 35, horizontal: 20),
               height: 350,
-              decoration: const BoxDecoration(
-                gradient: RadialGradient(
-                  colors: [Color(0xFF280709), Color(0xFF511515)],
-                  center: Alignment.topLeft,
-                  radius: 1.5,
-                  stops: [0, 1],
-                ),
+              decoration: BoxDecoration(
+                gradient: Theme.of(context).brightness == Brightness.light
+                    ? RadialGradient(
+                        colors: [
+                          Theme.of(context).colorScheme.tertiary,
+                          Theme.of(context).colorScheme.onTertiary,
+                        ],
+                        center: Alignment.topLeft,
+                        radius: 2,
+                        stops: const [0, 1],
+                      )
+                    : LinearGradient(
+                        colors: [
+                          Theme.of(context).colorScheme.tertiary,
+                          Theme.of(context).colorScheme.surface,
+                        ],
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        stops: const [0, 1],
+                      ),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     S.of(context).available_elements,
-                    style:
-                        Theme.of(
-                          context,
-                        ).textTheme.titleLarge, // TODO: titleMedium not working
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                   ),
                   SizedBox(
                     width: double.infinity,
@@ -191,35 +211,34 @@ class EditHomeViewState extends State<EditHomeView> {
                       alignment: WrapAlignment.center,
                       spacing: 20,
                       runSpacing: 10,
-                      children:
-                          candidate.isEmpty
-                              ? listlessCardWidgets
-                              : [
-                                ...listlessCardWidgets,
-                                ClipRSuperellipse(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Container(
-                                    width: 75,
-                                    height: 75,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.secondary.withAlpha(64),
-                                    ),
+                      children: candidate.isEmpty
+                          ? listlessCardWidgets
+                          : [
+                              ...listlessCardWidgets,
+                              Container(
+                                width: 75,
+                                height: 75,
+                                decoration: ShapeDecoration(
+                                  shape: RoundedSuperellipseBorder(
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
+                                  color: Theme.of(context).disabledColor,
                                 ),
-                              ],
+                              ),
+                            ],
                     ),
                   ),
                   TextButton(
-                    onPressed:
-                        () => Navigator.of(context).pushNamedAndRemoveUntil(
+                    onPressed: () =>
+                        Navigator.of(context).pushNamedAndRemoveUntil(
                           '/${NavigationItem.navPersonalArea.route}',
                           (route) => false,
                         ),
                     child: Text(
                       S.of(context).save,
-                      style: Theme.of(context).textTheme.titleLarge,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ),
                 ],

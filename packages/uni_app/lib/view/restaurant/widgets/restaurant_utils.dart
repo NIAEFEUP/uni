@@ -4,36 +4,69 @@ import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni_ui/icons.dart';
 
 class RestaurantUtils {
+  // Hour after which to show tomorrow's lunch menu
+  static const int lunchSwitchHour = 15;
+  // Hour after which to show tomorrow's dinner menu
+  static const int dinnerSwitchHour = 21;
+
+  /// Determines if tomorrow's menu should be shown based on current time
+  /// and meal period (lunch or dinner)
+  /// Returns true if:
+  /// - It's after the respective switch hour (15:00 for lunch, 21:00 for dinner)
+  /// - It's not Sunday (to avoid showing Monday's menu)
+  /// For lunch: switches after 15:00 (3pm)
+  /// For dinner: switches after 21:00 (9pm)
+  /// If no period is specified, uses dinner switch hour (21:00)
+  static bool shouldShowTomorrowMenu(DateTime now, {String? period}) {
+    final switchHour = period == 'lunch' ? lunchSwitchHour : dinnerSwitchHour;
+    return now.hour >= switchHour && now.weekday != DateTime.sunday;
+  }
+
   // Method to get a restaurant related UniIcon based on a specific type
   static UniIcon getIcon(String? type, {double size = 24, Color? color}) {
     switch (type) {
       case 'Canteen':
-        return const UniIcon(UniIcons.canteen);
+        return UniIcon(UniIcons.canteen, size: size, color: color);
       case 'Snack-bar':
-        return const UniIcon(UniIcons.snackBar);
+        return UniIcon(UniIcons.snackBar, size: size, color: color);
       case 'Sopa':
-        return const UniIcon(UniIcons.soup);
+        return UniIcon(UniIcons.soup, size: size, color: color);
       case 'Carne':
       case 'Prato de Carne':
-        return const UniIcon(UniIcons.meat);
+        return UniIcon(UniIcons.meat, size: size, color: color);
       case 'Pescado':
       case 'Peixe':
       case 'Prato de Peixe':
-        return const UniIcon(UniIcons.fish);
+        return UniIcon(UniIcons.fish, size: size, color: color);
       case 'Vegetariano':
       case 'Prato Vegetariano':
-        return const UniIcon(UniIcons.vegetarian);
+        return UniIcon(UniIcons.vegetarian, size: size, color: color);
       case 'Hortícola':
-        return const UniIcon(UniIcons.salad);
+        return UniIcon(UniIcons.salad, size: size, color: color);
       case 'Dieta':
-        return const UniIcon(UniIcons.diet);
+        return UniIcon(UniIcons.diet, size: size, color: color);
       case 'Prato do Dia':
-        return const UniIcon(UniIcons.dishOfTheDay);
+        return UniIcon(UniIcons.dishOfTheDay, size: size, color: color);
       case 'Encerrado':
-        return const UniIcon(UniIcons.closed);
+        return UniIcon(UniIcons.closed, size: size, color: color);
       default:
-        return const UniIcon(UniIcons.restaurant);
+        return UniIcon(UniIcons.restaurant, size: size, color: color);
     }
+  }
+
+  static String? getMealName(String typeKey) {
+    const typeToMealName = <String, String>{
+      'meat_dishes': 'Carne',
+      'fish_dishes': 'Peixe',
+      'vegetarian_dishes': 'Vegetariano',
+      'soups': 'Sopa',
+      'salads': 'Hortícola',
+      'diet_dishes': 'Dieta',
+      'dishes_of_the_day': 'Prato do Dia',
+      'closed': 'Encerrado',
+    };
+
+    return typeToMealName[typeKey];
   }
 
   static bool mealMatchesFilter(Set<String> selectedTypes, String mealType) {

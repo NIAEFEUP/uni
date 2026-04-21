@@ -4,6 +4,7 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/lecture_provider.dart';
 import 'package:uni/view/academic_path/widgets/no_classes_widget.dart';
+import 'package:uni/view/academic_path/widgets/schedule_page_shimmer.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_view.dart';
 
 class SchedulePage extends ConsumerWidget {
@@ -24,15 +25,14 @@ class SchedulePage extends ConsumerWidget {
           return SchedulePageView(lectures, startOfWeek: startOfWeek, now: now);
         },
         nullContentWidget: LayoutBuilder(
-          builder:
-              (context, constraints) => SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Container(
-                  height: constraints.maxHeight,
-                  padding: const EdgeInsets.only(bottom: 120),
-                  child: const Center(child: NoClassesWidget()),
-                ),
-              ),
+          builder: (context, constraints) => SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Container(
+              height: constraints.maxHeight,
+              padding: const EdgeInsets.only(bottom: 120),
+              child: const Center(child: NoClassesWidget()),
+            ),
+          ),
         ),
         hasContent: (lectures) => lectures.isNotEmpty,
         mapper: (lectures) {
@@ -47,6 +47,7 @@ class SchedulePage extends ConsumerWidget {
               )
               .toList();
         },
+        loadingWidget: const ShimmerSchedulePage(),
       ),
     );
   }

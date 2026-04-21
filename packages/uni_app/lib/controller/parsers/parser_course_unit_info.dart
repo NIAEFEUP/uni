@@ -55,34 +55,33 @@ Future<Sheet> parseSheet(http.Response response) async {
         .toList(),
   );
 
-  final regents =
-      (json['responsabilidades'] as List).map((element) {
-        return Professor.fromJson(element as Map<String, dynamic>);
-      }).toList();
+  final regents = (json['responsabilidades'] as List).map((element) {
+    return Professor.fromJson(element as Map<String, dynamic>);
+  }).toList();
 
   for (final regent in regents) {
     professors
-        .firstWhere(
-          (professor) => professor.code == regent.code,
-          orElse: () {
-            regent.isRegent = true;
-            professors.add(regent);
-            return regent;
-          },
-        )
-        .isRegent = true;
+            .firstWhere(
+              (professor) => professor.code == regent.code,
+              orElse: () {
+                regent.isRegent = true;
+                professors.add(regent);
+                return regent;
+              },
+            )
+            .isRegent =
+        true;
   }
 
-  final books =
-      (json['bibliografia'] as List? ?? [])
-          .map((element) => element as Map<String, dynamic>)
-          .map<Book>((element) {
-            return Book(
-              title: element['titulo'].toString(),
-              isbn: element['isbn'].toString(),
-            );
-          })
-          .toList();
+  final books = (json['bibliografia'] as List? ?? [])
+      .map((element) => element as Map<String, dynamic>)
+      .map<Book>((element) {
+        return Book(
+          title: element['titulo'].toString(),
+          isbn: element['isbn'].toString(),
+        );
+      })
+      .toList();
 
   return Sheet(
     professors: professors,

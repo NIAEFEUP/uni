@@ -8,6 +8,7 @@ class GenericCard extends StatelessWidget {
     this.padding,
     this.color,
     this.shadowColor,
+    this.borderRadius,
     this.blurRadius,
     this.onClick,
     this.child,
@@ -19,6 +20,7 @@ class GenericCard extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final Color? color;
   final Color? shadowColor;
+  final double? borderRadius;
   final double? blurRadius;
   final VoidCallback? onClick;
   final Widget? child;
@@ -27,36 +29,30 @@ class GenericCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cardTheme = CardTheme.of(context);
     final theme = Theme.of(context);
 
     return Tooltip(
       message: tooltip,
       child: Container(
-        margin: margin ?? cardTheme.margin ?? const EdgeInsets.all(4),
+        margin: margin ?? const EdgeInsets.all(4),
         decoration: ShapeDecoration(
           shadows: [
             BoxShadow(
-              color:
-                  shadowColor ??
-                  cardTheme.shadowColor ??
-                  Colors.black.withValues(alpha: 0.03),
+              color: shadowColor ?? theme.colorScheme.shadow,
               blurRadius: blurRadius ?? 0,
             ),
           ],
           shape: RoundedSuperellipseBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(borderRadius ?? 20),
           ),
         ),
         child: GestureDetector(
           onTap: onClick,
           child: GenericSquircle(
+            borderRadius: borderRadius,
             child: Container(
               decoration: BoxDecoration(
-                color:
-                    color ??
-                    cardTheme.color ??
-                    theme.colorScheme.surfaceContainer,
+                color: color ?? theme.colorScheme.secondary,
                 gradient: gradient,
               ),
               child: Padding(

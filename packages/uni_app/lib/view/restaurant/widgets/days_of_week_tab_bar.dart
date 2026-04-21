@@ -18,24 +18,22 @@ class DaysOfWeekTabBar extends ConsumerWidget {
     final tabController = ref.read(tabControllerProvider.notifier);
     final localeNotifier = ref.read(localeProvider.notifier);
 
-    final weekDay = DateTime.now().weekday;
     final today = DateTime.now();
-
     final daysOfTheWeek = localeNotifier.getWeekdaysWithLocale();
 
-    final dates = List.generate(daysOfTheWeek.length, (i) {
-      return today.subtract(Duration(days: weekDay - 1)).add(Duration(days: i));
+    final dates = List.generate(7, (i) {
+      return today.add(Duration(days: i));
     });
 
     final tabs = <Widget>[];
-    for (var i = 0; i < daysOfTheWeek.length; i++) {
+    for (var i = 0; i < 7; i++) {
       tabs.add(
         GestureDetector(
           onTap: () => tabController.setTabIndex(i),
           child: DayOfWeekTab(
-            key: Key('cantine-page-tab-${daysOfTheWeek[i]}'),
+            key: Key('cantine-page-tab-${dates[i].weekday}'),
             isSelected: selectedTabIndex == i,
-            weekDay: toShortVersion(daysOfTheWeek[i]),
+            weekDay: toShortVersion(daysOfTheWeek[dates[i].weekday - 1]),
             day: '${dates[i].day}',
           ),
         ),
@@ -49,10 +47,9 @@ class DaysOfWeekTabBar extends ConsumerWidget {
     final match = RegExp(r'^\p{L}+', unicode: true).firstMatch(dayOfTheWeek);
     if (match != null) {
       final matchedString = match.group(0)!;
-      final shortened =
-          matchedString.length >= 3
-              ? matchedString.substring(0, 3)
-              : matchedString;
+      final shortened = matchedString.length >= 3
+          ? matchedString.substring(0, 3)
+          : matchedString;
       return shortened[0].toUpperCase() + shortened.substring(1).toLowerCase();
     }
     return 'Blank';

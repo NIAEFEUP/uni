@@ -7,16 +7,22 @@ import 'package:uni/view/login/login.dart';
 
 /// Manages the navigation logic
 class NavigationService {
-  static void logoutAndPopHistory() {
+  static Future<void> logoutAndPopHistory() async {
     final context = Application.navigatorKey.currentContext!;
-    unawaited(cleanupStoredData(context));
+    await cleanupStoredData(context);
 
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute<LoginPageView>(
-        builder: (context) => const LoginPageView(),
+    if (!context.mounted) {
+      return;
+    }
+
+    unawaited(
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute<LoginPageView>(
+          builder: (context) => const LoginPageView(),
+        ),
+        (route) => false,
       ),
-      (route) => false,
     );
   }
 

@@ -14,10 +14,12 @@ class _BottomNavbarContainer extends StatelessWidget {
       margin: EdgeInsets.only(left: 20, right: 20, bottom: 0),
       decoration: ShapeDecoration(
         color: Theme.of(context).colorScheme.primary,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
         shadows: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.shadow.withAlpha(0x7f),
+            color: Theme.of(context).colorScheme.shadow,
             blurRadius: 5,
             offset: Offset(0, 3),
           ),
@@ -28,7 +30,7 @@ class _BottomNavbarContainer extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: RadialGradient(
               colors: [
-                Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
+                Theme.of(context).colorScheme.onPrimary,
                 Colors.transparent,
               ],
               center: Alignment(-0.5, -1.1),
@@ -39,7 +41,7 @@ class _BottomNavbarContainer extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: RadialGradient(
                 colors: [
-                  Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
+                  Theme.of(context).colorScheme.onPrimary,
                   Colors.transparent,
                 ],
                 center: Alignment.bottomRight,
@@ -78,19 +80,18 @@ class _BottomNavbarState extends State<BottomNavbar> {
     return _BottomNavbarContainer(
       child: Theme(
         data: Theme.of(context).copyWith(
-          splashColor: Theme.of(context).colorScheme.tertiary.withAlpha(0x1f),
+          splashColor: Theme.of(context).colorScheme.onPrimary,
           highlightColor: Colors.transparent,
         ),
         child: BottomNavigationBar(
           onTap: _onTap,
           backgroundColor: Colors.transparent,
-          elevation: 0,
+          elevation: 1,
           iconSize: 32,
           type: BottomNavigationBarType.fixed,
-          items:
-              widget.items
-                  .map((item) => item.toBottomNavigationBarItem(context))
-                  .toList(),
+          items: widget.items
+              .map((item) => item.toBottomNavigationBarItem(context))
+              .toList(),
           selectedFontSize: 0,
           unselectedFontSize: 0,
           showSelectedLabels: false,

@@ -66,6 +66,7 @@ class ExamMonthTimeline extends ConsumerWidget {
         isActive: isActive,
         title: exam.start.day.toString(),
         subtitle: exam.monthAcronym(appLocale),
+        lineHeight: 55,
         card: ExamCard(
           name: exam.subject,
           acronym: exam.subjectAcronym,
@@ -79,8 +80,9 @@ class ExamMonthTimeline extends ConsumerWidget {
               builder: (context) => ExamModal(exam: exam),
             );
           },
-          iconAction:
-              onToggleHidden == null ? null : () => onToggleHidden!(exam.id),
+          iconAction: onToggleHidden == null
+              ? null
+              : () => onToggleHidden!(exam.id),
         ),
       );
     }).toList();
