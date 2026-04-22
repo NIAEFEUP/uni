@@ -51,7 +51,7 @@ class ProfessorInfoModal extends ConsumerWidget {
                 trailing: info.institutionalEmail != null
                     ? UniIcon(
                         UniIcons.caretRight,
-                        color: Theme.of(context).colorScheme.primary,
+                        color: Theme.of(context).colorScheme.onSecondary,
                       )
                     : const SizedBox(),
                 onPressed: info.institutionalEmail != null
@@ -104,7 +104,7 @@ class ProfessorInfoModal extends ConsumerWidget {
             icon: UniIcons.lecture,
             trailing: UniIcon(
               UniIcons.caretRight,
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.onSecondary,
             ),
             onPressed: () => Navigator.pushNamed(
               context,
