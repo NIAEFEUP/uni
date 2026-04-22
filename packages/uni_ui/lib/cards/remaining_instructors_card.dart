@@ -71,7 +71,9 @@ class RemainingInstructorsCard extends StatelessWidget {
                             ),
                             child: CircleAvatar(
                               radius: _avatarRadius,
-                              backgroundColor: CardTheme.of(context).color,
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.secondary,
                               child: FittedBox(
                                 fit: BoxFit.scaleDown,
                                 child: Padding(

@@ -10,11 +10,7 @@ class NoClassGroupsWidget extends StatelessWidget {
     return ImageLabel(
       imagePath: 'assets/images/classes.png',
       label: S.of(context).no_class,
-      labelTextStyle: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 18,
-        color: Theme.of(context).colorScheme.primary,
-      ),
+      labelTextStyle: Theme.of(context).textTheme.headlineLarge,
       sublabel: S.of(context).no_course_unit_classes,
       sublabelTextStyle: Theme.of(context).textTheme.bodyLarge,
     );

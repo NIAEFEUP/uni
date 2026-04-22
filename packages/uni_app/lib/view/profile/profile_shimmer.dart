@@ -10,8 +10,8 @@ class ProfileCardShimmer extends StatelessWidget {
     double width = (name?.length ?? 10) * 15.0;
     width = width.clamp(80.0, 200.0);
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
+      baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+      highlightColor: Theme.of(context).disabledColor,
       child: Column(
         children: [
           Container(
