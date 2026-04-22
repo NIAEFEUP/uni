@@ -4,40 +4,22 @@ import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 
-/// Parameters for fetching professor lectures.
-class ProfessorLecturesParams {
-  ProfessorLecturesParams({required this.professor, this.lectiveYear});
-
-  final Professor professor;
-  final int? lectiveYear;
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    return other is ProfessorLecturesParams &&
-        other.professor == professor &&
-        other.lectiveYear == lectiveYear;
-  }
-
-  @override
-  int get hashCode => Object.hash(professor, lectiveYear);
-}
-
 /// Fetches the list of lectures for a specific professor.
 ///
 /// Optionally filters by lective year if provided.
 /// Deduplicates lectures taught to multiple classes.
+/// Family parameter: (professor, lectiveYear?)
 final professorLecturesProvider = FutureProvider.autoDispose
-    .family<List<Lecture>, ProfessorLecturesParams>((ref, params) async {
+    .family<List<Lecture>, (Professor, int?)>((ref, params) async {
+      final (professor, lectiveYear) = params;
+
       final session = await ref.watch(sessionProvider.future);
       if (session == null) {
         return [];
       }
       final lectures = await ScheduleFetcherNewApiProfessor(
-        professorCode: params.professor.code,
-      ).getLectures(session, lectiveYear: params.lectiveYear);
+        professorCode: professor.code,
+      ).getLectures(session, lectiveYear: lectiveYear);
 
       // Deduplicate lectures that are taught to multiple classes
       final seen = <String>{};

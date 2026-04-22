@@ -22,9 +22,7 @@ class ProfessorSchedulePage extends ConsumerWidget {
       context: context,
       removeBottom: true,
       child: DefaultConsumer<List<Lecture>>(
-        provider: professorLecturesProvider(
-          ProfessorLecturesParams(professor: professor),
-        ),
+        provider: professorLecturesProvider((professor, null)),
         builder: (context, ref, lectures) {
           final startOfWeek = _getStartOfWeek(now, lectures);
 
@@ -84,11 +82,7 @@ class _ProfessorSchedulePageViewState
     extends SecondaryPageViewState<ProfessorSchedulePageView> {
   @override
   Future<void> onRefresh() async {
-    ref.invalidate(
-      professorLecturesProvider(
-        ProfessorLecturesParams(professor: widget.professor),
-      ),
-    );
+    ref.invalidate(professorLecturesProvider((widget.professor, null)));
   }
 
   @override

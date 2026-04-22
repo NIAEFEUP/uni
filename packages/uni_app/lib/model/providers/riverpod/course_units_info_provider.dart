@@ -226,12 +226,7 @@ class CourseUnitsInfoNotifier
     for (final professor in professors) {
       try {
         final lectures = await ref.read(
-          professorLecturesProvider(
-            ProfessorLecturesParams(
-              professor: professor,
-              lectiveYear: lectiveYear,
-            ),
-          ).future,
+          professorLecturesProvider((professor, lectiveYear)).future,
         );
 
         for (final lecture in lectures) {
