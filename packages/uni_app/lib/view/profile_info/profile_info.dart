@@ -5,6 +5,7 @@ import 'package:uni/model/entities/profile_info.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/profile_info_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
+import 'package:uni/view/profile/profile_shimmer.dart';
 import 'package:uni/view/profile_info/widgets/no_profile_data.dart';
 import 'package:uni/view/profile_info/widgets/profile_data.dart';
 import 'package:uni/view/profile_info/widgets/profile_info_shimmer.dart';
@@ -24,36 +25,36 @@ class ProfileInfoPageViewState
     extends SecondaryPageViewState<ProfileInfoPageView> {
   @override
   Widget getBody(BuildContext context) {
-    return DefaultConsumer<Profile>(
-      provider: profileProvider,
-      builder: (context, ref, profile) => ListView(
-        children: [
-          ProfileOverview(profile: profile),
-          const SizedBox(height: 16),
-          DefaultConsumer<ProfileInfo>(
-            provider: profileInfoProvider,
-            builder: (context, ref, profileInfo) =>
-                ProfileData(profileInfo: profileInfo),
-            hasContent: (profileInfo) =>
-                true, // because profileInfo != null is allways true
-            nullContentWidget: const Center(child: NoProfileDataWidget()),
-            loadingWidget: const ShimmerProfileInfoPage(),
+    return ListView(
+      children: [
+        DefaultConsumer<Profile>(
+          provider: profileProvider,
+          builder: (context, ref, profile) => ProfileOverview(profile: profile),
+          hasContent: (profile) => true,
+          nullContentWidget: LayoutBuilder(
+            // Band-aid for allowing refresh on null content
+            builder: (context, constraints) => SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Container(
+                height: constraints.maxHeight,
+                padding: const EdgeInsets.only(bottom: 120),
+                child: const Center(child: NoProfileDataWidget()),
+              ),
+            ),
           ),
-        ],
-      ),
-      hasContent: (profile) => true,
-      nullContentWidget: LayoutBuilder(
-        // Band-aid for allowing refresh on null content
-        builder: (context, constraints) => SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Container(
-            height: constraints.maxHeight,
-            padding: const EdgeInsets.only(bottom: 120),
-            child: const Center(child: NoProfileDataWidget()),
-          ),
+          loadingWidget: const ProfileCardShimmer(),
         ),
-      ),
-      loadingWidget: const ShimmerProfileInfoPage(),
+
+        DefaultConsumer<ProfileInfo>(
+          provider: profileInfoProvider,
+          builder: (context, ref, profileInfo) =>
+              ProfileData(profileInfo: profileInfo),
+          hasContent: (profileInfo) =>
+              true, // because profileInfo != null is allways true
+          nullContentWidget: const Center(child: NoProfileDataWidget()),
+          loadingWidget: const ShimmerProfileInfoPage(),
+        ),
+      ],
     );
   }
 

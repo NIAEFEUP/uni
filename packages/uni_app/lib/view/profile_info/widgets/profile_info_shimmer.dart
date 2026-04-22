@@ -7,46 +7,8 @@ class ShimmerProfileInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-          child: Center(
-            child: FractionallySizedBox(
-              widthFactor: 0.38,
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
-                  child: GenericSquircle(
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 5, left: 16, right: 16),
-          child: Center(
-            child: FractionallySizedBox(
-              widthFactor: 0.3,
-              child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
-                child: GenericSquircle(
-                  child: Container(height: 50, color: Colors.grey),
-                ),
-              ),
-            ),
-          ),
-        ),
         ...List.generate(
           4,
           (index) => Padding(
@@ -58,8 +20,10 @@ class ShimmerProfileInfoPage extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Shimmer.fromColors(
-                      baseColor: Colors.grey[300]!,
-                      highlightColor: Colors.grey[100]!,
+                      baseColor: Theme.of(
+                        context,
+                      ).disabledColor.withAlpha(0x7f),
+                      highlightColor: Theme.of(context).disabledColor,
                       child: Container(
                         height: 40,
                         color: Colors.grey,
@@ -71,8 +35,8 @@ class ShimmerProfileInfoPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 16, right: 16, top: 20),
                   child: Shimmer.fromColors(
-                    baseColor: Colors.grey[300]!,
-                    highlightColor: Colors.grey[100]!,
+                    baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+                    highlightColor: Theme.of(context).disabledColor,
                     child: GenericSquircle(
                       child: Container(height: 200, color: Colors.grey),
                     ),

@@ -29,7 +29,7 @@ class Settings extends StatelessWidget {
               title: S.of(context).user_informations,
               trailing: UniIcon(
                 UniIcons.caretRight,
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
               onTap: () {
                 Navigator.pushNamed(
