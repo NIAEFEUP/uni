@@ -3,7 +3,6 @@ import 'package:uni/controller/fetchers/professor_info_fetcher.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 
-// Note: this provider expects a Professor object and uses its code as the cache key
 final professorInfoProvider = FutureProvider.family<Professor, Professor>((
   ref,
   professor,

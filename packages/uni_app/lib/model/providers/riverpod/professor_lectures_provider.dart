@@ -7,8 +7,7 @@ import 'package:uni/model/providers/riverpod/session_provider.dart';
 /// Fetches the list of lectures for a specific professor.
 ///
 /// Optionally filters by lective year if provided.
-/// Deduplicates lectures taught to multiple classes.
-/// Family parameter: (professor, lectiveYear?)
+/// Uses the same deduplication strategy as the main lectureProvider.
 final professorLecturesProvider = FutureProvider.autoDispose
     .family<List<Lecture>, (Professor, int?)>((ref, params) async {
       final (professor, lectiveYear) = params;
@@ -17,24 +16,12 @@ final professorLecturesProvider = FutureProvider.autoDispose
       if (session == null) {
         return [];
       }
+
       final lectures = await ScheduleFetcherNewApiProfessor(
         professorCode: professor.code,
       ).getLectures(session, lectiveYear: lectiveYear);
 
-      // Deduplicate lectures that are taught to multiple classes
-      final seen = <String>{};
-      final uniqueLectures = <Lecture>[];
-
-      for (final lecture in lectures) {
-        // Create a unique key based on time and content
-        final key =
-            '${lecture.startTime}|${lecture.endTime}|${lecture.subject}|${lecture.room}|${lecture.typeClass}';
-
-        if (!seen.contains(key)) {
-          seen.add(key);
-          uniqueLectures.add(lecture);
-        }
-      }
-
-      return uniqueLectures;
+      // Use the same deduplication as lectureProvider: convert to Set and back
+      // This relies on Lecture's equality implementation
+      return lectures.toSet().toList();
     });
