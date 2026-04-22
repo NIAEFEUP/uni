@@ -19,8 +19,8 @@ class ShimmerInfoRow extends StatelessWidget {
         leading: UniIcon(icon, color: Theme.of(context).colorScheme.primary),
         title: Text(title, style: Theme.of(context).textTheme.headlineSmall),
         subtitle: Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
+          baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+          highlightColor: Theme.of(context).disabledColor,
           child: Container(height: 10, width: 140, color: Colors.white),
         ),
       ),
