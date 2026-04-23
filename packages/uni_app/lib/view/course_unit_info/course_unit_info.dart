@@ -286,6 +286,44 @@ class CourseUnitDetailPageViewState
   String? getSubtitle() => widget.courseUnit.schoolYear;
 
   @override
+  Widget? getSubtitleWidget() {
+    final List<String> list = <String>[
+      '2022/2023',
+      '2023/2024',
+      '2024/2025',
+      '2025/2026',
+    ];
+    int selectedItem = list.indexOf(widget.courseUnit.schoolYear!);
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          style: Theme.of(context).textTheme.bodyLarge,
+          dropdownColor: Theme.of(context).colorScheme.secondary,
+          borderRadius: BorderRadius.circular(8),
+          value: list[selectedItem],
+          elevation: 16,
+          onChanged: (value) {
+            setState(() {
+              selectedItem = list.indexOf(value!);
+              Navigator.push(
+                context,
+                MaterialPageRoute<CourseUnitDetailPageView>(
+                  builder: (context) =>
+                      CourseUnitDetailPageView(widget.courseUnit),
+                ),
+              );
+            });
+          },
+          items: list.map((item) {
+            return DropdownMenuItem<String>(value: item, child: Text(item));
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
+  @override
   Widget? getRightContent(BuildContext context) {
     return IconButton(
       icon: UniIcon(
