@@ -501,5 +501,17 @@
   "feedback_consent_title": "Consent to data collection",
   "@feedback_consent_title": {},
   "edit_homepage": "Edit",
-  "@edit_homepage": {}
+  "@edit_homepage": {},
+  "certificates": "Certificates",
+  "@certificates": {},
+  "no_certificates_for_course": "No certificates found for this course.",
+  "@no_certificates_for_course": {},
+  "requested": "Requested",
+  "@requested": {},
+  "requested_on": "Requested on",
+  "@requested_on": {},
+  "delivered_on": "Delivered on",
+  "@delivered_on": {},
+  "canceled_on": "Canceled on",
+  "@canceled_on": {}
 }

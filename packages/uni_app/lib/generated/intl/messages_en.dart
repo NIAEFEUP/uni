@@ -7,7 +7,8 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names
+// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -19,22 +20,22 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static m0(type) =>
+  static String m0(type) =>
       "${Intl.select(type, {'all_dishes': 'All dishes', 'meat_dishes': 'Meat dishes', 'fish_dishes': 'Fish dishes', 'vegetarian_dishes': 'Vegetarian dishes', 'soups': 'Soups', 'salads': 'Salads', 'diet_dishes': 'Diet dishes', 'dishes_of_the_day': 'Dishes of the Day', 'closed': 'Closed', 'other': 'Other'})}";
 
-  static m1(time) => "last refresh at ${time}";
+  static String m1(time) => "last refresh at ${time}";
 
-  static m2(time) =>
+  static String m2(time) =>
       "${Intl.plural(time, zero: 'Refreshed ${time} minutes ago', one: 'Refreshed ${time} minute ago', other: 'Refreshed ${time} minutes ago')}";
 
-  static m3(title) =>
+  static String m3(title) =>
       "${Intl.select(title, {'horario': 'Schedule', 'exames': 'Exams', 'area': 'Personal Area', 'cadeiras': 'Course Units', 'autocarros': 'Buses', 'locais': 'Places', 'restaurantes': 'Restaurants', 'calendario': 'Calendar', 'biblioteca': 'Library', 'percurso_academico': 'Academic Path', 'mapa': 'Map', 'faculdade': 'Faculty', 'bug_report': 'Leave Feedback', 'other': 'Other'})}";
 
-  static m4(period) =>
+  static String m4(period) =>
       "${Intl.select(period, {'lunch': 'Lunch', 'dinner': 'Dinner', 'other': 'Other'})}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function>{
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("About us"),
     "academic_services": MessageLookupByLibrary.simpleMessage(
       "Academic services",
@@ -106,6 +107,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "canceled_on": MessageLookupByLibrary.simpleMessage("Canceled on"),
+    "certificates": MessageLookupByLibrary.simpleMessage("Certificates"),
     "change": MessageLookupByLibrary.simpleMessage("Change"),
     "change_password": MessageLookupByLibrary.simpleMessage("Change password"),
     "change_prompt": MessageLookupByLibrary.simpleMessage(
@@ -151,6 +154,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Current academic year: ",
     ),
     "decrement": MessageLookupByLibrary.simpleMessage("Decrement 1,00€"),
+    "delivered_on": MessageLookupByLibrary.simpleMessage("Delivered on"),
     "description": MessageLookupByLibrary.simpleMessage("Description"),
     "desired_email": MessageLookupByLibrary.simpleMessage(
       "Email where you want to be contacted",
@@ -300,6 +304,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "no_bus": MessageLookupByLibrary.simpleMessage("Don\'t miss any bus!"),
     "no_bus_stops": MessageLookupByLibrary.simpleMessage("No configured stops"),
+    "no_certificates_for_course": MessageLookupByLibrary.simpleMessage(
+      "No certificates found for this course.",
+    ),
     "no_class": MessageLookupByLibrary.simpleMessage(
       "There are no classes to display",
     ),
@@ -448,6 +455,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "remove": MessageLookupByLibrary.simpleMessage("Delete"),
     "report_bug": MessageLookupByLibrary.simpleMessage("Report a bug"),
     "report_error": MessageLookupByLibrary.simpleMessage("Report error"),
+    "requested": MessageLookupByLibrary.simpleMessage("Requested"),
+    "requested_on": MessageLookupByLibrary.simpleMessage("Requested on"),
     "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
       "Do you want to see your favorite restaurants in the main page?",
     ),

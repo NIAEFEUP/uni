@@ -10,7 +10,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
 
 class S {
   S();
@@ -28,9 +28,10 @@ class S {
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
+    final name =
+        (locale.countryCode?.isEmpty ?? false)
+            ? locale.languageCode
+            : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -2114,6 +2115,56 @@ class S {
   /// `Edit`
   String get edit_homepage {
     return Intl.message('Edit', name: 'edit_homepage', desc: '', args: []);
+  }
+
+  /// `Certificates`
+  String get certificates {
+    return Intl.message(
+      'Certificates',
+      name: 'certificates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No certificates found for this course.`
+  String get no_certificates_for_course {
+    return Intl.message(
+      'No certificates found for this course.',
+      name: 'no_certificates_for_course',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Requested`
+  String get requested {
+    return Intl.message('Requested', name: 'requested', desc: '', args: []);
+  }
+
+  /// `Requested on`
+  String get requested_on {
+    return Intl.message(
+      'Requested on',
+      name: 'requested_on',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delivered on`
+  String get delivered_on {
+    return Intl.message(
+      'Delivered on',
+      name: 'delivered_on',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Canceled on`
+  String get canceled_on {
+    return Intl.message('Canceled on', name: 'canceled_on', desc: '', args: []);
   }
 }
 

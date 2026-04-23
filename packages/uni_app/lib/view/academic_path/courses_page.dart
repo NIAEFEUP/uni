@@ -5,12 +5,14 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
+import 'package:uni/view/academic_path/certificates_page.dart';
 import 'package:uni/view/academic_path/widgets/course_units_view.dart';
 import 'package:uni/view/academic_path/widgets/courses_page_shimmer.dart';
 import 'package:uni/view/academic_path/widgets/no_courses_widget.dart';
 import 'package:uni_ui/courses/average_bar.dart';
 import 'package:uni_ui/courses/course_info.dart';
 import 'package:uni_ui/courses/course_selection.dart';
+import 'package:uni_ui/icons.dart';
 
 class CoursesPage extends ConsumerStatefulWidget {
   const CoursesPage({super.key});
@@ -78,8 +80,7 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
     }
 
     final state = course.state!;
-    final bool isAttending =
-        state.toLowerCase().contains('frequent') ||
+    final bool isAttending = state.toLowerCase().contains('frequent') ||
         state.toLowerCase().contains('attend');
     final bool isConcluded = state.toLowerCase().contains('concl');
 
@@ -164,10 +165,49 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 16),
-              child: Text(
-                course.name ?? '',
-                style: Theme.of(context).textTheme.headlineLarge,
-                textAlign: TextAlign.center,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      course.name ?? '',
+                      style: Theme.of(context).textTheme.headlineLarge,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (_) => CertificatesPage(
+                            course: course,
+                            courseAbbreviation: _getCourseAbbreviation(course),
+                          ),
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          UniIcon(
+                            UniIcons.courses,
+                            size: 28,
+                            color: Theme.of(context).colorScheme.onSecondary,
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            S.of(context).certificates,
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(
