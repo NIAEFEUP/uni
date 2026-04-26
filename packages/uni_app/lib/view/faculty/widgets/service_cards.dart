@@ -98,11 +98,17 @@ class AllServiceCardsState extends State<AllServiceCards> {
             const Spacer(),
             IconButton(
               onPressed: changeCardsToList,
-              icon: const UniIcon(UniIcons.list),
+              icon: UniIcon(
+                UniIcons.list,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
             ),
             IconButton(
               onPressed: changeCardsToGrid,
-              icon: const UniIcon(UniIcons.grid),
+              icon: UniIcon(
+                UniIcons.grid,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
             ),
           ],
         ),

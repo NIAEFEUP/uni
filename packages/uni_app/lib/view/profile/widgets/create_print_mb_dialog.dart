@@ -38,7 +38,7 @@ Future<void> addMoneyDialog(BuildContext context) {
                     child: Text(
                       S.of(context).reference_sigarra_help,
                       textAlign: TextAlign.start,
-                      style: Theme.of(context).textTheme.titleSmall,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
                   Row(
@@ -103,7 +103,7 @@ Future<void> addMoneyDialog(BuildContext context) {
             ),
             title: Text(
               S.of(context).add_quota,
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             actions: [
               TextButton(

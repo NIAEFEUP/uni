@@ -20,10 +20,7 @@ import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
 
 class RestaurantHomeCard extends GenericHomecard {
   const RestaurantHomeCard({super.key})
-    : super(
-        titlePadding: const EdgeInsets.symmetric(horizontal: 20),
-        bodyPadding: EdgeInsets.zero,
-      );
+    : super(titlePadding: const EdgeInsets.symmetric(horizontal: 20));
 
   @override
   String getTitle(BuildContext context) {
@@ -86,7 +83,7 @@ class RestaurantSliderState extends ConsumerState<RestaurantSlider> {
                 effect: WormEffect(
                   dotHeight: 4,
                   dotWidth: 4,
-                  activeDotColor: Theme.of(context).colorScheme.primary,
+                  activeDotColor: Theme.of(context).colorScheme.onSecondary,
                 ),
               ),
             ],
@@ -108,7 +105,7 @@ class RestaurantSliderState extends ConsumerState<RestaurantSlider> {
         ).isNotEmpty;
       },
       nullContentWidget: NoRestaurantsHomeCard(onClick: widget.onClick),
-      loadingWidget: const ShimmerRestaurantsHomeCard(),
+      loadingWidget: const Center(child: ShimmerRestaurantsHomeCard()),
     );
   }
 }
@@ -154,7 +151,12 @@ List<RestaurantCard> getRestaurantInformation(
           }
         }
 
-        final menuItems = getMainMenus(displayedDay, restaurant, locale);
+        final menuItems = getMainMenus(
+          context,
+          displayedDay,
+          restaurant,
+          locale,
+        );
 
         String? subtitle;
         if (showTomorrow) {
@@ -171,7 +173,10 @@ List<RestaurantCard> getRestaurantInformation(
             restaurant.namePt,
             restaurant.period,
           ),
-          icon: RestaurantUtils.getIcon(restaurant.typeEn ?? restaurant.typePt),
+          icon: RestaurantUtils.getIcon(
+            restaurant.typeEn ?? restaurant.typePt,
+            color: Theme.of(context).colorScheme.onSecondary,
+          ),
           isFavorite: PreferencesController.getFavoriteRestaurants().contains(
             restaurant.namePt + restaurant.period,
           ),
@@ -187,6 +192,7 @@ List<RestaurantCard> getRestaurantInformation(
 }
 
 List<RestaurantMenuItem> getMainMenus(
+  BuildContext context,
   DayOfWeek dayOfWeek,
   Restaurant restaurant,
   AppLocale locale,
@@ -221,7 +227,10 @@ List<RestaurantMenuItem> getMainMenus(
           meal.namePt,
           meal.nameEn,
         ),
-        icon: RestaurantUtils.getIcon(meal.type),
+        icon: RestaurantUtils.getIcon(
+          meal.type,
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
       ),
     );
   }

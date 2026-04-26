@@ -29,12 +29,12 @@ class ProfileCard extends StatelessWidget {
               Text(
                 label,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.headlineSmall!,
+                style: Theme.of(context).textTheme.titleLarge!,
               ),
               Text(
                 content,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodyLarge!,
+                style: Theme.of(context).textTheme.bodyMedium!,
               ),
             ],
           ),
@@ -48,13 +48,13 @@ class ProfileCard extends StatelessWidget {
               child: Container(
                 child: PhosphorIcon(
                   PhosphorIcons.plus(PhosphorIconsStyle.light),
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.secondary,
                   size: 14,
                 ),
                 padding: EdgeInsets.all(3.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.onSecondary,
                 ),
               ),
             ),

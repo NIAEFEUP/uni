@@ -17,9 +17,7 @@ class FavoriteRestaurantsButton extends StatelessWidget {
     return TextButton(
       onPressed: onToggle,
       style: TextButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -29,7 +27,10 @@ class FavoriteRestaurantsButton extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           const SizedBox(width: 8),
-          UniIcon(isFavoriteOn ? UniIcons.heartFill : UniIcons.heartOutline),
+          UniIcon(
+            isFavoriteOn ? UniIcons.heartFill : UniIcons.heartOutline,
+            color: Theme.of(context).colorScheme.onSecondary,
+          ),
         ],
       ),
     );

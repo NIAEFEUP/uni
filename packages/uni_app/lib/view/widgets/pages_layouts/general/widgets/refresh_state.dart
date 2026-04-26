@@ -27,6 +27,8 @@ class RefreshState extends ConsumerWidget {
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: RefreshIndicator(
                   key: GlobalKey<RefreshIndicatorState>(),
+                  color: Theme.of(context).colorScheme.onSecondary,
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
                   notificationPredicate: (notification) =>
                       notification.metrics.axisDirection == AxisDirection.down,
                   onRefresh: () async {
