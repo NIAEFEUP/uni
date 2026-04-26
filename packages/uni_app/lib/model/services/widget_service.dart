@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:home_widget/home_widget.dart';
 
@@ -37,6 +38,16 @@ class WidgetService {
     );
     debugPrint(
       '[WidgetService.updateWidget] iOSWidgetName: $iOSWidgetName, qualifiedAndroidName: $qualifiedAndroidName, result: $result',
+    );
+  }
+
+  static Future<void> updateScheduleWidget(List<dynamic> scheduleData) async {
+    final jsonData = jsonEncode(scheduleData);
+    await HomeWidget.saveWidgetData('schedule_data', jsonData);
+
+    await HomeWidget.updateWidget(
+      iOSName: 'ScheduleWidget',
+      // android
     );
   }
 }
