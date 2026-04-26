@@ -7,7 +7,7 @@ class WidgetService {
   static const iOSWidgetName = 'ScheduleWidget';
 
   /// Android
-  static const androidPackagePrefix = 'com.example.foo';
+  static const androidPackagePrefix = 'uniApp';
   static const androidWidgetName =
       '$androidPackagePrefix.receivers.ScheduleWidgetReceiver';
 

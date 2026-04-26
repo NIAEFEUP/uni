@@ -21,6 +21,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/providers/plausible/plausible_provider.dart';
 import 'package:uni/model/providers/riverpod/theme_provider.dart';
+import 'package:uni/model/services/widget_service.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/about/about.dart';
 import 'package:uni/view/academic_path/academic_path.dart';
@@ -60,6 +61,7 @@ Future<String> firstRoute() async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await WidgetService.initialize();
 
   PreferencesController.prefs = await SharedPreferences.getInstance();
 
