@@ -14,7 +14,7 @@ import 'package:uni/view/course_unit_info/widgets/course_unit_lectures.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet_shimmer.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
-import 'package:uni_ui/common_widgets/EmptyStateWidget.dart';
+import 'package:uni_ui/common_widgets/empty_state_widget.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/tabs/tab_icon.dart';
 import 'package:url_launcher/url_launcher.dart';

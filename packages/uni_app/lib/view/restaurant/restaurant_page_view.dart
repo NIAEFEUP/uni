@@ -20,7 +20,7 @@ import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
 import 'package:uni/view/widgets/pages_layouts/general/general.dart';
 import 'package:uni_ui/cards/restaurant_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
-import 'package:uni_ui/common_widgets/EmptyStateWidget.dart';
+import 'package:uni_ui/common_widgets/empty_state_widget.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';

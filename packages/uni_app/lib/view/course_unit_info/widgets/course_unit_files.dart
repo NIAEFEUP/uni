@@ -10,7 +10,7 @@ import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/view/widgets/toast_message.dart';
 import 'package:uni_ui/cards/file_card.dart';
 import 'package:uni_ui/cards/folder_card.dart';
-import 'package:uni_ui/common_widgets/EmptyStateWidget.dart';
+import 'package:uni_ui/common_widgets/empty_state_widget.dart';
 
 class CourseUnitFilesView extends ConsumerWidget {
   const CourseUnitFilesView(this.files, {super.key});

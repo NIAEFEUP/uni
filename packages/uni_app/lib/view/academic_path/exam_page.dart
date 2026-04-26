@@ -7,7 +7,7 @@ import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
 import 'package:uni/view/academic_path/widgets/exams_page_view.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_shimmer.dart';
-import 'package:uni_ui/common_widgets/EmptyStateWidget.dart';
+import 'package:uni_ui/common_widgets/empty_state_widget.dart';
 
 class ExamsPage extends ConsumerStatefulWidget {
   const ExamsPage({super.key});
