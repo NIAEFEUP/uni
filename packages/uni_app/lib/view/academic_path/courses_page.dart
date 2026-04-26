@@ -7,7 +7,7 @@ import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/view/academic_path/widgets/course_units_view.dart';
 import 'package:uni/view/academic_path/widgets/courses_page_shimmer.dart';
-import 'package:uni/view/academic_path/widgets/no_courses_widget.dart';
+import 'package:uni_ui/common_widgets/EmptyStateWidget.dart';
 import 'package:uni_ui/courses/average_bar.dart';
 import 'package:uni_ui/courses/course_info.dart';
 import 'package:uni_ui/courses/course_selection.dart';
@@ -191,7 +191,13 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
           child: Container(
             height: constraints.maxHeight,
             padding: const EdgeInsets.only(bottom: 120),
-            child: const Center(child: NoCoursesWidget()),
+            child: Center(
+              child: EmptyStateWidget(
+                imagePath: 'assets/images/school.png',
+                title: S.of(context).no_courses,
+                subtitle: S.of(context).no_courses_description,
+              ),
+            ),
           ),
         ),
       ),
