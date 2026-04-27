@@ -205,7 +205,7 @@ Map<String, int> parseOccurences(http.Response response) {
     occur = occur as Map<String, dynamic>;
     final year = occur['ano_letivo'] as int;
     final id = occur['id'] as int;
-    final key = '${year}/${year + 1}';
+    final key = '$year/${year + 1}';
     result[key] = id;
   }
   return result;

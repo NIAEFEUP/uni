@@ -175,12 +175,6 @@ class CourseUnitsInfoNotifier
     if (occurrId == null) {
       return;
     }
-    print('I am hereeeeeeeeeeeeee');
-    final result = await CourseUnitsInfoFetcher().fetchCourseUnitOccurences(
-      session,
-      courseUnit.occurrId!,
-    );
-    print(result);
 
     final files = await CourseUnitsInfoFetcher().fetchCourseUnitFiles(
       session,

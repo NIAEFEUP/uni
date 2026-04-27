@@ -1,4 +1,3 @@
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
@@ -21,7 +20,7 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
   }
 
   Future<Sheet> fetchSheet(Session session, int occurId) async {
-    //TODO: Through this link we can't retrieve the sheet of a course unit in english
+    // TODO: Through this link we can't retrieve the sheet of a course unit in english
     final responses = await Future.wait(
       getEndpoints(session)
           .map(
