@@ -71,7 +71,10 @@ class LocationFetcherOSM extends LocationFetcher {
         final response = await http
             .post(
               Uri.parse(overpassUrl),
-              headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'User-Agent': 'uni_app/map_fetcher (uni)',
+              },
               body: 'data=$query',
             )
             .timeout(const Duration(seconds: 90));
@@ -94,7 +97,10 @@ class LocationFetcherOSM extends LocationFetcher {
 
     final response = await http.post(
       Uri.parse(overpassUrl),
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'User-Agent': 'uni_app/map_fetcher (uni)',
+      },
       body: 'data=$query',
     );
 
