@@ -7,8 +7,24 @@
 import WidgetKit
 import SwiftUI
 
+var exampleLectures = [LectureData(subject: "Compiladores", acronym: "C", room: "B310", typeClass: "TP", startTime: "8:30", endTime:"10:30"), LectureData(subject: "Computação Gráfica", acronym: "CGRA", room: "B001", typeClass: "T", startTime: "10:30", endTime:"12:30")]
+
+// helper to extract just HH:MM from the Dart date string
+func formatTime(_ rawString: String) -> String {
+    // splitting "2026-04-27 08:30:00.000" by spaces
+    let components = rawString.split(separator: " ")
+    if components.count > 1 {
+        // now we have "08:30:00.000", split by colon
+        let timeComponents = components[1].split(separator: ":")
+        if timeComponents.count >= 2 {
+            return "\(timeComponents[0]):\(timeComponents[1])"
+        }
+    }
+    return rawString // fallback just in case
+}
+
+
 struct Provider: TimelineProvider {
-    
     
     // method to retrive data from flutter app
     func getDataFromFlutter() -> SimpleEntry {
@@ -29,7 +45,7 @@ struct Provider: TimelineProvider {
     
     // preview in widget gallery
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), lectures: [LectureData(subject: "Compiladores", acronym: "C", room: "B310", typeClass: "TP", teacherName: "João Bispo", startTime: "8:30", endTime:"10:30")])
+        SimpleEntry(date: Date(), lectures: exampleLectures)
     }
     
     // widget gallery/selection preview
@@ -68,17 +84,15 @@ struct ScheduleWidgetEntryView : View {
             } else {
                 switch family {
                 case .systemSmall:
-                    // Display ONLY the first lecture
-                    LectureCardView(lecture: entry.lectures.first!)
+                    LectureCardView(lecture: entry.lectures.first!, showTime: true)
                 case .systemMedium:
-                    // Display up to exactly 2 lectures in a timeline
-                    HStack(spacing: 12) {
-                        VStack(spacing: 8) {
-                            ForEach(entry.lectures.prefix(2), id: \.acronym) { lecture in
-                                LectureTimelineRow(lecture: lecture)
-                            }
+                    VStack(spacing: 6) {
+                        ForEach(entry.lectures.prefix(2), id: \.acronym) { lecture in
+                            LectureTimelineRow(lecture: lecture)
                         }
                     }
+                    .padding(.vertical, 8) // outer padding for the whole medium widget
+                    
                 default:
                     Text("Unsupported Size")
                 }
@@ -90,47 +104,48 @@ struct ScheduleWidgetEntryView : View {
 
 // MARK: - Medium Widget Row (Timeline Style)
 struct LectureTimelineRow: View {
+    @Environment(\.colorScheme) var colorScheme
     let lecture: LectureData
     
+    var accentColor: Color {
+        colorScheme == .dark ? Color(red: 229/255, green: 200/255, blue: 199/255) : Color(red: 0.4, green: 0.1, blue: 0.1)
+    }
+    
+    var textColor: Color {
+        colorScheme == .dark ? .white : Color(red: 0.4, green: 0.1, blue: 0.1)
+    }
+    
     var body: some View {
-        HStack(alignment: .top, spacing: 8) {
+        HStack(alignment: .top, spacing: 10) {
             // 1. Time Column
-            VStack {
-                Text(formatTime(from: lecture.startTime))
+            VStack(alignment: .trailing, spacing: 10) {
+                Text(formatTime(lecture.startTime))
                     .font(.caption).bold()
-                    .foregroundColor(Color(red: 0.4, green: 0.1, blue: 0.1))
-                Text(formatTime(from: lecture.endTime))
-                    .font(.caption2)
-                    .foregroundColor(Color(red: 0.4, green: 0.1, blue: 0.1))
+                    .foregroundColor(textColor)
+                    .padding(.top, 4)
             }
-            .frame(width: 40)
+            .frame(width: 44, alignment: .trailing)
             
             // 2. Timeline Line & Circle
             VStack(spacing: 0) {
                 Circle()
-                    .strokeBorder(Color(red: 0.4, green: 0.1, blue: 0.1), lineWidth: 3)
+                    .strokeBorder(accentColor, lineWidth: 3)
                     .frame(width: 12, height: 12)
+                    .padding(.top, 4) // Aaign circle dot with the text
+                
                 Rectangle()
-                    .fill(Color(red: 0.4, green: 0.1, blue: 0.1))
-                    .frame(width: 3)
+                    .fill(accentColor)
+                    .frame(width: 2)
             }
+            .padding(.trailing, 4)
             
             // 3. The Details Card
-            LectureCardView(lecture: lecture)
+            MediumLectureCardView(lecture: lecture)
         }
+        .padding(.trailing, 12)
     }
     
-    // Helper to format ISO8601 into "HH:mm"
-    func formatTime(from isoString: String) -> String {
-        let formatter = ISO8601DateFormatter()
-        // If your string includes fractional seconds, you might need formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        if let date = formatter.date(from: isoString) {
-            let timeFormatter = DateFormatter()
-            timeFormatter.dateFormat = "HH:mm"
-            return timeFormatter.string(from: date)
-        }
-        return "00:00"
-    }
+    
 }
 
 // MARK: - Inner Card & Small Widget View
@@ -139,6 +154,7 @@ struct LectureCardView: View {
     @Environment(\.widgetRenderingMode) var renderingMode
     
     let lecture: LectureData
+    var showTime: Bool = true
     
     // Theme Colors
     var accentColor: Color {
@@ -153,31 +169,23 @@ struct LectureCardView: View {
         colorScheme == .dark ? Color(red: 229/255, green: 200/255, blue: 199/255) : .secondary
     }
     
-    // helper to extract just HH:MM from the Dart date string
-    func formatTime(_ rawString: String) -> String {
-        // splitting "2026-04-27 08:30:00.000" by spaces
-        let components = rawString.split(separator: " ")
-        if components.count > 1 {
-            // now we have "08:30:00.000", split by colon
-            let timeComponents = components[1].split(separator: ":")
-            if timeComponents.count >= 2 {
-                return "\(timeComponents[0]):\(timeComponents[1])"
-            }
-        }
-        return rawString // Fallback just in case
-    }
+    
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             
             HStack {
-                Text(formatTime(lecture.startTime))
-                    .font(.subheadline)
-                    .bold()
-                    .foregroundColor(primaryTextColor)
-                    .padding(.vertical, 2)
+                if showTime {
+                    Text(formatTime(lecture.startTime))
+                        .font(.subheadline)
+                        .bold()
+                        .foregroundColor(primaryTextColor)
+                        .padding(.vertical, 2)
+                    
+                }
                 
-                Spacer()
+                
+                Spacer(minLength: 0)
                 
                 Text(lecture.typeClass)
                     .font(.caption).bold()
@@ -235,6 +243,74 @@ struct LectureCardView: View {
     }
 }
 
+// MARK: - Medium Inner Card
+struct MediumLectureCardView: View {
+    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.widgetRenderingMode) var renderingMode
+    
+    let lecture: LectureData
+    
+    var accentColor: Color {
+        colorScheme == .dark ? Color(red: 229/255, green: 200/255, blue: 199/255) : Color(red: 0.4, green: 0.1, blue: 0.1)
+    }
+    var primaryTextColor: Color { colorScheme == .dark ? .white : .black }
+    var subtleTextColor: Color { colorScheme == .dark ? Color(red: 229/255, green: 200/255, blue: 199/255) : .secondary }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            
+            HStack(alignment: .center) {
+                
+                // acronym
+                Text(lecture.acronym)
+                    .font(.title3)
+                    .bold()
+                    .foregroundColor(primaryTextColor)
+                
+                // class type
+                Text(lecture.typeClass)
+                    .font(.caption).bold()
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background {
+                        if renderingMode == .fullColor {
+                            lecture.typeClass == "T" ? Color.orange : Color.brown
+                        } else {
+                            Color.secondary.opacity(0.3)
+                        }
+                    }
+                    .clipShape(Capsule())
+                    .widgetAccentable()
+                
+                Spacer(minLength: 0)
+                
+                // room
+                HStack(spacing: 4) {
+                    Image(systemName: "mappin.circle.fill")
+                        .foregroundColor(accentColor)
+                        .font(.subheadline)
+                    Text(lecture.room)
+                        .font(.subheadline)
+                        .bold()
+                        .foregroundColor(primaryTextColor)
+                }
+            }
+            
+            // subject
+            Text(lecture.subject)
+                .font(.caption)
+                .foregroundColor(subtleTextColor)
+                .lineLimit(1)
+        }
+        .padding(.vertical, 10)
+        .padding(.horizontal, 12)
+        // slight background so it pops off the main background
+        .background(Color.secondary.opacity(colorScheme == .dark ? 0.15 : 0.05))
+        .cornerRadius(16)
+    }
+}
+
 struct WidgetBackgroundView: View {
     @Environment(\.colorScheme) var colorScheme
     
@@ -268,6 +344,6 @@ struct ScheduleWidget: Widget {
 #Preview(as: .systemSmall) {
     ScheduleWidget()
 } timeline: {
-    SimpleEntry(date: .now, lectures: [LectureData(subject: "Compiladores", acronym: "C", room: "B310", typeClass: "TP", teacherName: "João Bispo", startTime: "8:30", endTime:"10:30")])
-    SimpleEntry(date: .now, lectures: [LectureData(subject: "Compiladores", acronym: "C", room: "B310", typeClass: "TP", teacherName: "João Bispo", startTime: "8:30", endTime:"10:30")])
+    SimpleEntry(date: .now, lectures: exampleLectures)
+    SimpleEntry(date: .now, lectures: exampleLectures)
 }
