@@ -29,8 +29,6 @@ import es.antonborri.home_widget.HomeWidgetGlanceStateDefinition
 import androidx.glance.currentState
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
 
 class ScheduleWidget : GlanceAppWidget() {
     override val stateDefinition: GlanceStateDefinition<*> = HomeWidgetGlanceStateDefinition()
@@ -76,7 +74,9 @@ class ScheduleWidget : GlanceAppWidget() {
         val backgroundColor = Color(0xFFF8E8E3)
         val primaryTextColor = ColorProvider(Color(0xFF000000))
         val secondaryTextColor = ColorProvider(Color(0xFF888888))
-        val badgeColor = Color(0xFFB08968)
+        val tColor = Color(0xFFFBC11F)
+        val tpColor = Color(0xFFD3944C)
+        val badgeColor = if (typeClass == "T") tColor else tpColor
         val iconContainerColor = Color(0xFF6B1B1B)
 
         val context = LocalContext.current
