@@ -84,7 +84,7 @@ struct ScheduleWidgetEntryView : View {
                 }
             }
         }
-        .containerBackground(Color(red: 1.0, green: 0.98, blue: 0.98), for: .widget) // Background matching your app
+
     }
 }
 
@@ -135,6 +135,9 @@ struct LectureTimelineRow: View {
 
 // MARK: - Inner Card & Small Widget View
 struct LectureCardView: View {
+    
+    @Environment(\.widgetRenderingMode) var renderingMode
+    
     let lecture: LectureData
     
     // helper to extract just HH:MM from the Dart date string
@@ -163,12 +166,20 @@ struct LectureCardView: View {
                 Spacer()
                 
                 Text(lecture.typeClass)
-                    .font(.caption2).bold()
+                    .font(.caption).bold()
                     .foregroundColor(.white)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
-                    .background(lecture.typeClass == "T" ? Color.orange : Color.brown) // Match your TP/T colors
+                    .background {
+                        if renderingMode == .fullColor {
+                            lecture.typeClass == "T" ? Color.orange : Color.brown
+                        } else {
+                            // 2hen in clear/tinted mode, use a vibrant overlay
+                            Color.secondary.opacity(0.3)
+                        }
+                    }
                     .clipShape(Capsule())
+                    .widgetAccentable()
                 
             }
             
@@ -212,7 +223,7 @@ struct LectureCardView: View {
         }
         .padding(16)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .background(Color(red: 0.98, green: 0.93, blue: 0.91))
+        
         
     }
 }
@@ -224,6 +235,9 @@ struct ScheduleWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             ScheduleWidgetEntryView(entry: entry)
+                .containerBackground(for: .widget) {
+                    Color(red: 0.98, green: 0.93, blue: 0.91)
+                }
         }
         .supportedFamilies([.systemSmall, .systemMedium])
         .contentMarginsDisabled()
