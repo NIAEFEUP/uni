@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
+import 'package:uni/utils/string_formatter.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/theme.dart';
@@ -35,7 +36,6 @@ class ScheduleCalendarView extends ConsumerWidget {
           startTime: lecture.startTime,
           endTime: lecture.endTime,
           description: '${lecture.room}\n${lecture.typeClass}',
-          color: _getColorForSubject(lecture.subject),
           event: lecture,
         ),
       );
@@ -117,7 +117,7 @@ class ScheduleCalendarView extends ConsumerWidget {
         maxDay: latestClass,
         startHour: 7,
         hourIndicatorSettings: HourIndicatorSettings(
-          color: Theme.of(context).colorScheme.onSurface.withAlpha(0x20),
+          color: Theme.of(context).colorScheme.onSurface.withAlpha(0x10),
         ),
         // small hour indicator on the left of the line that separates hours
         timeLineBuilder: (date) {
@@ -150,13 +150,24 @@ class ScheduleCalendarView extends ConsumerWidget {
 
           // Color is chosen basen on if a student has a class at the moment
           final tileColor = isCurrentClass
-              ? Theme.of(context).colorScheme.primary
+              ? Theme.of(context).colorScheme.tertiary
               : Theme.of(context).colorScheme.secondary;
 
           return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+            margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
             decoration: BoxDecoration(
               color: tileColor,
+              gradient: isCurrentClass
+                  ? RadialGradient(
+                      colors: [
+                        Theme.of(context).colorScheme.onTertiary,
+                        Theme.of(context).colorScheme.tertiary,
+                      ],
+                      center: Alignment.topLeft,
+                      radius: 2,
+                      stops: const [0, 1],
+                    )
+                  : null,
               borderRadius: BorderRadius.circular(8),
               boxShadow: [
                 BoxShadow(
@@ -166,7 +177,7 @@ class ScheduleCalendarView extends ConsumerWidget {
               ],
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -177,7 +188,7 @@ class ScheduleCalendarView extends ConsumerWidget {
                         lecture.acronym,
                         style: TextStyle(
                           color: isCurrentClass
-                              ? Theme.of(context).colorScheme.onPrimary
+                              ? Theme.of(context).colorScheme.onSurfaceVariant
                               : Theme.of(context).colorScheme.onSecondary,
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
@@ -196,7 +207,7 @@ class ScheduleCalendarView extends ConsumerWidget {
                         '${_formatTime(lecture.startTime)} - ${_formatTime(lecture.endTime)}',
                         style: TextStyle(
                           color: isCurrentClass
-                              ? Theme.of(context).colorScheme.onPrimary
+                              ? Theme.of(context).colorScheme.onSurfaceVariant
                               : Theme.of(context).colorScheme.onSecondary,
                           fontSize: 9,
                         ),
@@ -208,7 +219,7 @@ class ScheduleCalendarView extends ConsumerWidget {
                         lecture.teacher,
                         style: TextStyle(
                           color: isCurrentClass
-                              ? Theme.of(context).colorScheme.onPrimary
+                              ? Theme.of(context).colorScheme.onSurfaceVariant
                               : Theme.of(context).colorScheme.onSecondary,
                           fontSize: 9,
                         ),
@@ -218,44 +229,31 @@ class ScheduleCalendarView extends ConsumerWidget {
                       ),
                     ],
                   ),
-
-                  Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Container(
-                        height: 1,
-                        margin: const EdgeInsets.symmetric(vertical: 2),
+                      UniIcon(
+                        UniIcons.mapPin,
                         color: isCurrentClass
-                            ? Theme.of(context).colorScheme.onPrimary
+                            ? Theme.of(context).colorScheme.onSurfaceVariant
                             : Theme.of(context).colorScheme.onSecondary,
+                        size: 12,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          UniIcon(
-                            UniIcons.mapPin,
+                      const SizedBox(width: 3),
+                      Flexible(
+                        child: Text(
+                          lecture.room,
+                          style: TextStyle(
                             color: isCurrentClass
-                                ? Theme.of(context).colorScheme.onPrimary
+                                ? Theme.of(context).colorScheme.onSurfaceVariant
                                 : Theme.of(context).colorScheme.onSecondary,
-                            size: 12,
+                            fontSize: 10,
                           ),
-                          const SizedBox(width: 3),
-                          Flexible(
-                            child: Text(
-                              lecture.room,
-                              style: TextStyle(
-                                color: isCurrentClass
-                                    ? Theme.of(context).colorScheme.onPrimary
-                                    : Theme.of(context).colorScheme.onSecondary,
-                                fontSize: 10,
-                              ),
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),
@@ -264,25 +262,17 @@ class ScheduleCalendarView extends ConsumerWidget {
             ),
           );
         },
-        headerStyle: HeaderStyle(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-          ),
-          headerTextStyle: TextStyle(
-            color: Theme.of(context).colorScheme.onSurface,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        weekTitleBackgroundColor: Theme.of(context).colorScheme.surface,
+        // change the weekday string (Seg, Ter, Qua, etc.)
         weekDayStringBuilder: (weekDay) {
           final locale = Localizations.localeOf(context);
           final dateSymbols = DateFormat.EEEE(locale.toString()).dateSymbols;
           final shortWeekdays = dateSymbols.SHORTWEEKDAYS;
 
-          return shortWeekdays[weekDay + 1];
+          return shortWeekdays[weekDay + 1].capitalize().substring(0, 3);
         },
         liveTimeIndicatorSettings: LiveTimeIndicatorSettings(
-          color: Theme.of(context).colorScheme.onSurface,
+          color: Theme.of(context).colorScheme.onSecondary,
         ),
       ),
     );
@@ -290,13 +280,6 @@ class ScheduleCalendarView extends ConsumerWidget {
 
   String _formatTime(DateTime date) {
     return DateFormat.Hm().format(date);
-  }
-
-  Color _getColorForSubject(String subject) {
-    // Generate a consistent color based on subject name
-    final hash = subject.hashCode;
-    final hue = (hash % 360).toDouble();
-    return HSLColor.fromAHSL(1, hue, 0.6, 0.5).toColor();
   }
 
   Color _getTypeClassColor(String type) {

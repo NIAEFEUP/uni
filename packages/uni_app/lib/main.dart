@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -166,8 +167,21 @@ class ApplicationState extends ConsumerState<Application> {
           child: MaterialApp(
             title: 'uni',
             navigatorKey: Application.navigatorKey,
-            theme: lightTheme,
-            darkTheme: darkTheme,
+            theme: lightTheme.copyWith(
+              extensions: [
+                WeekViewThemeData.light().copyWith(
+                  borderColor: Colors.transparent,
+                  weekDayTextColor: lightTheme.colorScheme.onSecondary,
+                ),
+              ],
+            ),
+            darkTheme: darkTheme.copyWith(
+              extensions: [
+                WeekViewThemeData.dark().copyWith(
+                  borderColor: Colors.transparent,
+                ),
+              ],
+            ),
             themeMode: themeMode,
             locale: locale.localeCode,
             localizationsDelegates: const [
