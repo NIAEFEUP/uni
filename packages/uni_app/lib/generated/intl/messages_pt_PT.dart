@@ -276,7 +276,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "lectures": MessageLookupByLibrary.simpleMessage("Aulas"),
     "library": MessageLookupByLibrary.simpleMessage("Biblioteca"),
     "library_building": MessageLookupByLibrary.simpleMessage(
-      "Edifício da Biblioteca",
+      "Edifício C (Biblioteca)",
     ),
     "library_occupation": MessageLookupByLibrary.simpleMessage(
       "Ocupação da Biblioteca",
