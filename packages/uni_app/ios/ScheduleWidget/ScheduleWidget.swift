@@ -7,7 +7,8 @@
 import WidgetKit
 import SwiftUI
 
-struct Provider: AppIntentTimelineProvider {
+struct Provider: TimelineProvider {
+    
     
     // method to retrive data from flutter app
     func getDataFromFlutter() -> SimpleEntry {
@@ -23,25 +24,25 @@ struct Provider: AppIntentTimelineProvider {
             }
         }
         
-        return SimpleEntry(date: Date(), configuration: ConfigurationAppIntent(), lectures: lectures)
+        return SimpleEntry(date: Date(), lectures: lectures)
     }
  
     // preview in widget gallery
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent(), lectures: [LectureData(subject: "Compiladores", acronym: "C", room: "B310", typeClass: "TP", teacherName: "João Bispo", startTime: "8:30", endTime:"10:30")])
+        SimpleEntry(date: Date(), lectures: [LectureData(subject: "Compiladores", acronym: "C", room: "B310", typeClass: "TP", teacherName: "João Bispo", startTime: "8:30", endTime:"10:30")])
     }
 
-    // widget gallery/selection preview
-    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        getDataFromFlutter()
+    // widget gallery/selection preview 
+    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
+        let entry = getDataFromFlutter()
+        completion(entry)
     }
     
     // actual widget on homescreen
-    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-        
+    func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
         let entry = getDataFromFlutter()
-
-        return Timeline(entries: [entry], policy: .atEnd)
+        let timeline = Timeline(entries: [entry], policy: .atEnd)
+        completion(timeline)
     }
 
 }
@@ -50,7 +51,6 @@ struct Provider: AppIntentTimelineProvider {
 // the data structure for the widget
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let configuration: ConfigurationAppIntent
     let lectures: [LectureData]
 }
 
@@ -222,7 +222,7 @@ struct ScheduleWidget: Widget {
     let kind: String = "ScheduleWidget"
 
     var body: some WidgetConfiguration {
-        AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
+        StaticConfiguration(kind: kind, provider: Provider()) { entry in
             ScheduleWidgetEntryView(entry: entry)
         }
         .supportedFamilies([.systemSmall, .systemMedium])
@@ -230,23 +230,11 @@ struct ScheduleWidget: Widget {
     }
 }
 
-extension ConfigurationAppIntent {
-    fileprivate static var smiley: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "😀"
-        return intent
-    }
-    
-    fileprivate static var starEyes: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "🤩"
-        return intent
-    }
-}
+
 
 #Preview(as: .systemSmall) {
     ScheduleWidget()
 } timeline: {
-    SimpleEntry(date: .now, configuration: .smiley, lectures: [LectureData(subject: "Compiladores", acronym: "C", room: "B310", typeClass: "TP", teacherName: "João Bispo", startTime: "8:30", endTime:"10:30")])
-    SimpleEntry(date: .now, configuration: .starEyes, lectures: [LectureData(subject: "Compiladores", acronym: "C", room: "B310", typeClass: "TP", teacherName: "João Bispo", startTime: "8:30", endTime:"10:30")])
+    SimpleEntry(date: .now, lectures: [LectureData(subject: "Compiladores", acronym: "C", room: "B310", typeClass: "TP", teacherName: "João Bispo", startTime: "8:30", endTime:"10:30")])
+    SimpleEntry(date: .now, lectures: [LectureData(subject: "Compiladores", acronym: "C", room: "B310", typeClass: "TP", teacherName: "João Bispo", startTime: "8:30", endTime:"10:30")])
 }
