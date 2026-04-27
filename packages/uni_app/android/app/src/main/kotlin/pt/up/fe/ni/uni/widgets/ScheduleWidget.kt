@@ -20,19 +20,70 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import androidx.glance.layout.Alignment
+import androidx.glance.state.GlanceStateDefinition
+import es.antonborri.home_widget.HomeWidgetGlanceState
+import es.antonborri.home_widget.HomeWidgetGlanceStateDefinition
+import androidx.glance.currentState
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class ScheduleWidget : GlanceAppWidget() {
+    override val stateDefinition: GlanceStateDefinition<*> = HomeWidgetGlanceStateDefinition()
+
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
-            WidgetUI()
+            val state = currentState<HomeWidgetGlanceState>()
+            val prefs = state.preferences
+            val scheduleDataJson = prefs.getString("schedule_data", null)
+
+            val lectures = if (scheduleDataJson != null) {
+                try {
+                    val type = object : TypeToken<List<Map<String, Any>>>() {}.type
+                    Gson().fromJson<List<Map<String, Any>>>(scheduleDataJson, type)
+                } catch (e: Exception) {
+                    emptyList()
+                }
+            } else {
+                emptyList()
+            }
+
+            val nextLecture = lectures.firstOrNull()
+
+            val acronym = nextLecture?.let { it["acronym"] as? String }
+            val subject = nextLecture?.let { it["subject"] as? String }
+            val typeClass = nextLecture?.let { it["typeClass"] as? String }
+            val room = nextLecture?.let { it["room"] as? String }
+            val startTimeStr = nextLecture?.let { it["startTime"] as? String }
+
+            WidgetUI(acronym, subject, typeClass, room, startTimeStr)
         }
     }
 
     @SuppressLint("RestrictedApi")
     @Composable
-    fun WidgetUI() {
+    fun WidgetUI(
+        acronym: String?,
+        subject: String?,
+        typeClass: String?,
+        room: String?,
+        startTimeStr: String?
+    ) {
         val primaryTextColor = ColorProvider(Color(0xFF000000))
         val secondaryTextColor = ColorProvider(Color(0xFF888888))
+
+        val displayTime = try {
+            if (startTimeStr != null) {
+                val odt = OffsetDateTime.parse(startTimeStr)
+                odt.format(DateTimeFormatter.ofPattern("H:mm", Locale.getDefault()))
+            } else {
+                "--:--"
+            }
+        } catch (e: Exception) {
+            "--:--"
+        }
 
         Box(
             modifier = GlanceModifier
@@ -41,87 +92,93 @@ class ScheduleWidget : GlanceAppWidget() {
                 .padding(16.dp),
             contentAlignment = Alignment.TopStart
         ) {
-            Column(modifier = GlanceModifier.fillMaxSize()) {
-                // Top Row: Time and Badge
-                Row(
-                    modifier = GlanceModifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+            if (acronym == null) {
+                Box(modifier = GlanceModifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text(text = "No upcoming classes", style = TextStyle(color = secondaryTextColor))
+                }
+            } else {
+                Column(modifier = GlanceModifier.fillMaxSize()) {
+                    // Top Row: Time and Badge
+                    Row(
+                        modifier = GlanceModifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.Start,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = displayTime,
+                            style = TextStyle(
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = primaryTextColor
+                            )
+                        )
+                        Spacer(modifier = GlanceModifier.defaultWeight())
+                        Box(
+                            modifier = GlanceModifier
+                                .background(ImageProvider(R.drawable.badge_background))
+                                .padding(horizontal = 12.dp, vertical = 4.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = typeClass ?: "",
+                                style = TextStyle(
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    color = ColorProvider(Color.White)
+                                )
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = GlanceModifier.height(16.dp))
+
+                    // Middle Section: Course Acronym and Name
                     Text(
-                        text = "8:30",
+                        text = acronym,
                         style = TextStyle(
-                            fontSize = 24.sp,
+                            fontSize = 32.sp,
                             fontWeight = FontWeight.Bold,
                             color = primaryTextColor
                         )
                     )
+                    Text(
+                        text = subject ?: "",
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            color = secondaryTextColor
+                        )
+                    )
+
                     Spacer(modifier = GlanceModifier.defaultWeight())
-                    Box(
-                        modifier = GlanceModifier
-                            .background(ImageProvider(R.drawable.badge_background))
-                            .padding(horizontal = 12.dp, vertical = 4.dp),
-                        contentAlignment = Alignment.Center
+
+                    // Bottom Section: Location
+                    Row(
+                        modifier = GlanceModifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.End,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
+                        Box(
+                            modifier = GlanceModifier
+                                .size(32.dp)
+                                .background(ImageProvider(R.drawable.icon_background)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Image(
+                                provider = ImageProvider(R.drawable.ic_pin),
+                                contentDescription = "Location",
+                                modifier = GlanceModifier.size(16.dp)
+                            )
+                        }
+                        Spacer(modifier = GlanceModifier.width(8.dp))
                         Text(
-                            text = "TP",
+                            text = room ?: "",
                             style = TextStyle(
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = ColorProvider(Color.White)
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = primaryTextColor
                             )
                         )
                     }
-                }
-
-                Spacer(modifier = GlanceModifier.height(16.dp))
-
-                // Middle Section: Course Acronym and Name
-                Text(
-                    text = "C",
-                    style = TextStyle(
-                        fontSize = 32.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = primaryTextColor
-                    )
-                )
-                Text(
-                    text = "Compiladores",
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        color = secondaryTextColor
-                    )
-                )
-
-                Spacer(modifier = GlanceModifier.defaultWeight())
-
-                // Bottom Section: Location
-                Row(
-                    modifier = GlanceModifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.End,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = GlanceModifier
-                            .size(32.dp)
-                            .background(ImageProvider(R.drawable.icon_background)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Image(
-                            provider = ImageProvider(R.drawable.ic_pin),
-                            contentDescription = "Location",
-                            modifier = GlanceModifier.size(16.dp)
-                        )
-                    }
-                    Spacer(modifier = GlanceModifier.width(8.dp))
-                    Text(
-                        text = "B310",
-                        style = TextStyle(
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = primaryTextColor
-                        )
-                    )
                 }
             }
         }
