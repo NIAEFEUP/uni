@@ -197,3 +197,16 @@ String shortName(String name) {
   final splitName = name.split(' ');
   return '${splitName.first} ${splitName.last}';
 }
+
+Map<String, int> parseOccurences(http.Response response) {
+  final data = jsonDecode(response.body) as List<dynamic>;
+  final result = <String, int>{};
+  for (var occur in data) {
+    occur = occur as Map<String, dynamic>;
+    final year = occur['ano_letivo'] as int;
+    final id = occur['id'] as int;
+    final key = '${year}/${year + 1}';
+    result[key] = id;
+  }
+  return result;
+}

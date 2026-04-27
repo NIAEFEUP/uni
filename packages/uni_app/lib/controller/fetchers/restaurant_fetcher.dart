@@ -25,15 +25,18 @@ class RestaurantFetcher {
         final mealTypePt = isClosed ? 'Encerrado' : dish.dishType.namePt;
 
         // Extract the information about the meal.
-        meals.add(
-          Meal(
-            mealTypePt,
-            isClosed ? 'Encerrado' : dish.dish.namePt,
-            isClosed ? 'Closed' : dish.dish.nameEn ?? dish.dish.namePt,
-            dayMenu.day,
-            dbDayOfWeek: parseDateTime(dayMenu.day).index,
-          ),
-        );
+        final mealsNames = meals.map((meal) => meal.namePt).toList();
+        if (!mealsNames.contains(dish.dish.namePt)) {
+          meals.add(
+            Meal(
+              mealTypePt,
+              isClosed ? 'Encerrado' : dish.dish.namePt,
+              isClosed ? 'Closed' : dish.dish.nameEn ?? dish.dish.namePt,
+              dayMenu.day,
+              dbDayOfWeek: parseDateTime(dayMenu.day).index,
+            ),
+          );
+        }
       }
     }
     return Restaurant(

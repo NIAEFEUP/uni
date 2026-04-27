@@ -1,3 +1,4 @@
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
@@ -164,5 +165,16 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     }
 
     return courseUnitClasses;
+  }
+
+  Future<Map<String, int>> fetchCourseUnitOccurences(
+    Session session,
+    int occurId,
+  ) async {
+    final url = '${getEndpoints(session)[0]}mob_ucurr_geral.outras_ocorrencias';
+    final response = await NetworkRouter.getWithCookies(url, {
+      'pv_ocorrencia_id': occurId.toString(),
+    }, session);
+    return parseOccurences(response);
   }
 }

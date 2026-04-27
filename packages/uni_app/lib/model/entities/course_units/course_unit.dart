@@ -24,6 +24,7 @@ class CourseUnit {
     this.ects,
     this.schoolYear,
     this.festId,
+    this.occurences,
   }); // e.g. 2020/2021
 
   factory CourseUnit.fromJson(Map<String, dynamic> json) =>
@@ -61,6 +62,7 @@ class CourseUnit {
   @JsonKey(name: 'fest_id') // Course id
   int? festId;
   String? schoolYear;
+  Map<String, int>? occurences;
 
   Map<String, dynamic> toJson() => _$CourseUnitToJson(this);
 

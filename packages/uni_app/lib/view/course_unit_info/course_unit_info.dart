@@ -287,13 +287,13 @@ class CourseUnitDetailPageViewState
 
   @override
   Widget? getSubtitleWidget() {
-    final List<String> list = <String>[
-      '2022/2023',
-      '2023/2024',
-      '2024/2025',
-      '2025/2026',
-    ];
-    int selectedItem = list.indexOf(widget.courseUnit.schoolYear!);
+    var occurs = widget.courseUnit.occurences;
+    if (occurs == null || occurs.isEmpty) {
+      occurs = {widget.courseUnit.schoolYear!: widget.courseUnit.occurrId!};
+    }
+    final years = occurs.keys.toList();
+
+    int selectedItem = years.indexOf(widget.courseUnit.schoolYear!);
     return Align(
       alignment: Alignment.bottomCenter,
       child: DropdownButtonHideUnderline(
@@ -301,21 +301,27 @@ class CourseUnitDetailPageViewState
           style: Theme.of(context).textTheme.bodyLarge,
           dropdownColor: Theme.of(context).colorScheme.secondary,
           borderRadius: BorderRadius.circular(8),
-          value: list[selectedItem],
+          value: years[selectedItem],
           elevation: 16,
           onChanged: (value) {
             setState(() {
-              selectedItem = list.indexOf(value!);
+              selectedItem = years.indexOf(value!);
+              final nextOccur = CourseUnit(
+                abbreviation: widget.courseUnit.abbreviation,
+                name: widget.courseUnit.name,
+                occurrId: occurs?[value],
+                schoolYear: value,
+                occurences: occurs,
+              );
               Navigator.push(
                 context,
                 MaterialPageRoute<CourseUnitDetailPageView>(
-                  builder: (context) =>
-                      CourseUnitDetailPageView(widget.courseUnit),
+                  builder: (context) => CourseUnitDetailPageView(nextOccur),
                 ),
               );
             });
           },
-          items: list.map((item) {
+          items: years.map((item) {
             return DropdownMenuItem<String>(value: item, child: Text(item));
           }).toList(),
         ),
