@@ -155,7 +155,9 @@ class CardFavoriteButtonState extends State<CardFavoriteButton> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: UniIcon(isFavorite ? UniIcons.heartFill : UniIcons.heartOutline, color: Theme.of(context).colorScheme.onSecondary
+      icon: UniIcon(
+        isFavorite ? UniIcons.heartFill : UniIcons.heartOutline,
+        color: Theme.of(context).colorScheme.onSecondary,
       ),
       onPressed: () {
         widget.onFavoriteToggle();
