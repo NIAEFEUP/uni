@@ -19,6 +19,7 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
+import androidx.glance.LocalContext
 import androidx.glance.layout.Alignment
 import androidx.glance.state.GlanceStateDefinition
 import es.antonborri.home_widget.HomeWidgetGlanceState
@@ -28,7 +29,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 class ScheduleWidget : GlanceAppWidget() {
     override val stateDefinition: GlanceStateDefinition<*> = HomeWidgetGlanceStateDefinition()
@@ -74,10 +74,15 @@ class ScheduleWidget : GlanceAppWidget() {
         val primaryTextColor = ColorProvider(Color(0xFF000000))
         val secondaryTextColor = ColorProvider(Color(0xFF888888))
 
+        val context = LocalContext.current
         val displayTime = try {
             if (startTimeStr != null) {
-                val odt = OffsetDateTime.parse(startTimeStr)
-                odt.format(DateTimeFormatter.ofPattern("H:mm", Locale.getDefault()))
+                // Dart format: 2023-10-27 08:30:00.000
+                val timePart = startTimeStr.split(" ")[1] // get "08:30:00.000"
+                val parts = timePart.split(":")
+                val hour = parts[0].toInt().toString() // remove leading zero from hour
+                val minute = parts[1]
+                "$hour:$minute"
             } else {
                 "--:--"
             }
