@@ -26,13 +26,13 @@ struct Provider: TimelineProvider {
         
         return SimpleEntry(date: Date(), lectures: lectures)
     }
- 
+    
     // preview in widget gallery
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: Date(), lectures: [LectureData(subject: "Compiladores", acronym: "C", room: "B310", typeClass: "TP", teacherName: "João Bispo", startTime: "8:30", endTime:"10:30")])
     }
-
-    // widget gallery/selection preview 
+    
+    // widget gallery/selection preview
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
         let entry = getDataFromFlutter()
         completion(entry)
@@ -44,7 +44,7 @@ struct Provider: TimelineProvider {
         let timeline = Timeline(entries: [entry], policy: .atEnd)
         completion(timeline)
     }
-
+    
 }
 
 
@@ -58,7 +58,7 @@ struct SimpleEntry: TimelineEntry {
 struct ScheduleWidgetEntryView : View {
     @Environment(\.widgetFamily) var family
     var entry: Provider.Entry
-
+    
     var body: some View {
         Group {
             if entry.lectures.isEmpty {
@@ -84,7 +84,7 @@ struct ScheduleWidgetEntryView : View {
                 }
             }
         }
-
+        
     }
 }
 
@@ -135,10 +135,23 @@ struct LectureTimelineRow: View {
 
 // MARK: - Inner Card & Small Widget View
 struct LectureCardView: View {
-    
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.widgetRenderingMode) var renderingMode
     
     let lecture: LectureData
+    
+    // Theme Colors
+    var accentColor: Color {
+        colorScheme == .dark ? Color(red: 229/255, green: 200/255, blue: 199/255) : Color(red: 0.4, green: 0.1, blue: 0.1)
+    }
+    
+    var primaryTextColor: Color {
+        colorScheme == .dark ? .white : .black
+    }
+    
+    var subtleTextColor: Color {
+        colorScheme == .dark ? Color(red: 229/255, green: 200/255, blue: 199/255) : .secondary
+    }
     
     // helper to extract just HH:MM from the Dart date string
     func formatTime(_ rawString: String) -> String {
@@ -161,6 +174,7 @@ struct LectureCardView: View {
                 Text(formatTime(lecture.startTime))
                     .font(.subheadline)
                     .bold()
+                    .foregroundColor(primaryTextColor)
                     .padding(.vertical, 2)
                 
                 Spacer()
@@ -184,38 +198,31 @@ struct LectureCardView: View {
             }
             
             Spacer()
-    
+            
             Text(lecture.acronym)
                 .font(.title3)
                 .bold()
-                
-           
+                .foregroundColor(primaryTextColor)
+            
+            
             Text(lecture.subject)
                 .font(.caption)
-                .foregroundColor(.secondary)
+                .foregroundColor(subtleTextColor)
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
-
+            
             Spacer()
-            
-//            HStack {
-//                Image(systemName: "person.circle.fill") // Placeholder for teacher photo
-//                    .foregroundColor(.gray)
-//                Text(lecture.teacherName)
-//                    .font(.caption2)
-//                    .lineLimit(1)
-//            }
-            
             
             
             // Room
             HStack {
                 Spacer()
                 Image(systemName: "mappin.circle.fill")
-                    .foregroundColor(Color(red: 0.4, green: 0.1, blue: 0.1))
+                    .foregroundColor(accentColor)
                 Text(lecture.room)
                     .font(.subheadline)
                     .bold()
+                    .foregroundColor(primaryTextColor)
             }
             .padding(.bottom,2)
             
@@ -228,15 +235,27 @@ struct LectureCardView: View {
     }
 }
 
+struct WidgetBackgroundView: View {
+    @Environment(\.colorScheme) var colorScheme
+    
+    var body: some View {
+        if colorScheme == .dark {
+            Color(red: 47/255, green: 19/255, blue: 19/255)
+        } else {
+            Color(red: 255/255, green: 245/255, blue: 243/255)
+        }
+    }
+}
+
 // the main widget configuration
 struct ScheduleWidget: Widget {
     let kind: String = "ScheduleWidget"
-
+    
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             ScheduleWidgetEntryView(entry: entry)
                 .containerBackground(for: .widget) {
-                    Color(red: 0.98, green: 0.93, blue: 0.91)
+                    WidgetBackgroundView()
                 }
         }
         .supportedFamilies([.systemSmall, .systemMedium])
