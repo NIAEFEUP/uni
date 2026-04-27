@@ -12,6 +12,8 @@ import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.provideContent
+import androidx.glance.appwidget.appWidgetBackground
+import androidx.glance.appwidget.cornerRadius
 import androidx.glance.background
 import pt.up.fe.ni.uni.R
 import androidx.glance.layout.*
@@ -71,8 +73,11 @@ class ScheduleWidget : GlanceAppWidget() {
         room: String?,
         startTimeStr: String?
     ) {
+        val backgroundColor = Color(0xFFF8E8E3)
         val primaryTextColor = ColorProvider(Color(0xFF000000))
         val secondaryTextColor = ColorProvider(Color(0xFF888888))
+        val badgeColor = Color(0xFFB08968)
+        val iconContainerColor = Color(0xFF6B1B1B)
 
         val context = LocalContext.current
         val displayTime = try {
@@ -93,7 +98,9 @@ class ScheduleWidget : GlanceAppWidget() {
         Box(
             modifier = GlanceModifier
                 .fillMaxSize()
-                .background(ImageProvider(R.drawable.widget_background))
+                .appWidgetBackground()
+                .background(backgroundColor)
+                .cornerRadius(R.dimen.widget_radius)
                 .padding(16.dp),
             contentAlignment = Alignment.TopStart
         ) {
@@ -120,7 +127,8 @@ class ScheduleWidget : GlanceAppWidget() {
                         Spacer(modifier = GlanceModifier.defaultWeight())
                         Box(
                             modifier = GlanceModifier
-                                .background(ImageProvider(R.drawable.badge_background))
+                                .background(badgeColor)
+                                .cornerRadius(100.dp)
                                 .padding(horizontal = 12.dp, vertical = 4.dp),
                             contentAlignment = Alignment.Center
                         ) {
@@ -165,7 +173,8 @@ class ScheduleWidget : GlanceAppWidget() {
                         Box(
                             modifier = GlanceModifier
                                 .size(32.dp)
-                                .background(ImageProvider(R.drawable.icon_background)),
+                                .background(iconContainerColor)
+                                .cornerRadius(16.dp),
                             contentAlignment = Alignment.Center
                         ) {
                             Image(
