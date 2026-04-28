@@ -67,7 +67,9 @@ class ScheduleDayTimeline extends ConsumerWidget {
         isActive: isActive,
         title: DateFormat('HH:mm').format(groupStart),
         subtitle: DateFormat('HH:mm').format(groupEnd),
-        lineHeight: group.length > 1 ? group.length * 75.0 + (group.length-1)*29.0+6 : 75.0,
+        lineHeight: group.length > 1
+            ? 75 + 17 * (group.length - 1) + 92 * (group.length - 1)
+            : 75,
         card: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: group.map((lecture) {
@@ -113,7 +115,8 @@ class ScheduleDayTimeline extends ConsumerWidget {
     var groupEnd = sorted.first.endTime;
 
     for (final lecture in sorted.skip(1)) {
-      if (lecture.startTime.isAtSameMomentAs(groupStart) && lecture.endTime.isAtSameMomentAs(groupEnd)) {
+      if (lecture.startTime.isAtSameMomentAs(groupStart) &&
+          lecture.endTime.isAtSameMomentAs(groupEnd)) {
         currentGroup.add(lecture);
       } else {
         groups.add(currentGroup);
@@ -130,4 +133,4 @@ class ScheduleDayTimeline extends ConsumerWidget {
   bool _isLectureActive(Lecture lecture) {
     return now.isAfter(lecture.startTime) && now.isBefore(lecture.endTime);
   }
-}  
+}
