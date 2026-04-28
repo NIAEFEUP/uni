@@ -6,10 +6,10 @@ import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/profile_info_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/view/profile/profile_shimmer.dart';
+import 'package:uni/view/profile/widgets/profile_overview.dart';
 import 'package:uni/view/profile_info/widgets/no_profile_data.dart';
 import 'package:uni/view/profile_info/widgets/profile_data.dart';
 import 'package:uni/view/profile_info/widgets/profile_info_shimmer.dart';
-import 'package:uni/view/profile_info/widgets/profile_overview.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 
 class ProfileInfoPageView extends ConsumerStatefulWidget {
