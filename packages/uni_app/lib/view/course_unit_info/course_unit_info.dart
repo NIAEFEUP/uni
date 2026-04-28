@@ -299,6 +299,7 @@ class CourseUnitDetailPageViewState
       alignment: Alignment.bottomCenter,
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
+          isDense: true,
           style: Theme.of(context).textTheme.bodyLarge,
           dropdownColor: Theme.of(context).colorScheme.secondary,
           borderRadius: BorderRadius.circular(8),
