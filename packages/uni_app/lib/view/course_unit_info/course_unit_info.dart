@@ -156,7 +156,8 @@ class CourseUnitDetailPageViewState
         final courseExams = exams.maybeWhen(
           data: (list) => list!
               .where(
-                (exam) => exam.subjectAcronym == widget.courseUnit.abbreviation,
+                (exam) =>
+                    exam.occurrId == widget.courseUnit.occurrId.toString(),
               )
               .toList(),
           orElse: () => <Exam>[],
