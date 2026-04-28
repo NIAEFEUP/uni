@@ -4,8 +4,8 @@ import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
+import 'package:uni_ui/modal/widgets/header_info.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
-import 'package:uni_ui/modal/widgets/service_info.dart';
 
 // TODO(thePeras): This class should be extracted up
 class RowFormat extends StatelessWidget {
@@ -27,7 +27,7 @@ class RowFormat extends StatelessWidget {
       builder: (context) {
         return ModalDialog(
           children: [
-            ModalServiceInfo(name: event.name, durations: const []),
+            ModalHeader(name: event.name),
             ModalInfoRow(
               title: 'Date',
               description: '${eventPeriod[0]} ${eventPeriod[1]}'.trim(),
