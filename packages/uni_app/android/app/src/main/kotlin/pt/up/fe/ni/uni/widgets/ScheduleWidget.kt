@@ -14,7 +14,13 @@ import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.appWidgetBackground
 import androidx.glance.appwidget.cornerRadius
+import androidx.glance.appwidget.action.actionStartActivity
+import android.content.Intent
+import androidx.glance.action.clickable
+import androidx.glance.appwidget.action.actionStartActivity
+import androidx.glance.appwidget.cornerRadius
 import androidx.glance.background
+import pt.up.fe.ni.uni.MainActivity
 import pt.up.fe.ni.uni.R
 import androidx.glance.layout.*
 import androidx.glance.text.FontWeight
@@ -101,7 +107,8 @@ class ScheduleWidget : GlanceAppWidget() {
                 .appWidgetBackground()
                 .background(backgroundColor)
                 .cornerRadius(R.dimen.widget_radius)
-                .padding(16.dp),
+                .padding(16.dp)
+                .clickable(actionStartActivity(Intent(context, MainActivity::class.java))),
             contentAlignment = Alignment.TopStart
         ) {
             if (acronym == null) {
