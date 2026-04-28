@@ -97,20 +97,7 @@ class ScheduleWidget : GlanceAppWidget() {
         val iconContainerColor = ColorProvider(day = Color(0xFF6B1B1B), night = Color(0xFFE5C8C7))
 
         val context = LocalContext.current
-        val displayTime = try {
-            if (startTimeStr != null) {
-                // Dart format: 2023-10-27 08:30:00.000
-                val timePart = startTimeStr.split(" ")[1] // get "08:30:00.000"
-                val parts = timePart.split(":")
-                val hour = parts[0].toInt().toString() // remove leading zero from hour
-                val minute = parts[1]
-                "$hour:$minute"
-            } else {
-                "--:--"
-            }
-        } catch (e: Exception) {
-            "--:--"
-        }
+        val displayTime = formatTime(startTimeStr)
 
         Box(
             modifier = GlanceModifier
