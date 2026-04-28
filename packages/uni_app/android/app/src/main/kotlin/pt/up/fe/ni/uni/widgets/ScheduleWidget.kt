@@ -78,13 +78,11 @@ class ScheduleWidget : GlanceAppWidget() {
         room: String?,
         startTimeStr: String?
     ) {
-        val backgroundColor = ColorProvider(day = Color(0xFFF8E8E3), night = Color(0xFF2F1313))
-        val primaryTextColor = ColorProvider(day = Color(0xFF000000), night = Color(0xFFE5C8C7))
-        val secondaryTextColor = ColorProvider(day = Color(0xFF888888), night = Color(0xFF917C9B))
-        val tColor = Color(0xFFFBC11F)
-        val tpColor = Color(0xFFD3944C)
-        val badgeColor = if (typeClass == "T") tColor else tpColor
-        val iconContainerColor = ColorProvider(day = Color(0xFF6B1B1B), night = Color(0xFF2F0A0C))
+        val backgroundColor = ColorProvider(day = Color(0xFFF8E8E3), night = Color(0xFF2F0A0C))
+        val primaryTextColor = ColorProvider(day = Color(0xFF000000), night = Color(0xFFFFFFFF))
+        val secondaryTextColor = ColorProvider(day = Color(0xFF888888), night = Color(0xFFE5C8C7))
+        val badgeColor = if (typeClass == "TP") Color(0xFFD3944C) else Color(0xFFFBC11F)
+        val iconContainerColor = ColorProvider(day = Color(0xFF6B1B1B), night = Color(0xFFE5C8C7))
 
         val context = LocalContext.current
         val displayTime = try {
@@ -188,7 +186,7 @@ class ScheduleWidget : GlanceAppWidget() {
                             Image(
                                 provider = ImageProvider(R.drawable.ic_pin),
                                 contentDescription = "Location",
-                                modifier = GlanceModifier.size(14.dp)
+                                modifier = GlanceModifier.size(18.dp)
                             )
                         }
                         Spacer(modifier = GlanceModifier.width(8.dp))
