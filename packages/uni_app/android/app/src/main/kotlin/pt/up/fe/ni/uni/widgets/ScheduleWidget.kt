@@ -27,6 +27,7 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
+import androidx.glance.color.ColorProvider
 import androidx.glance.LocalContext
 import androidx.glance.layout.Alignment
 import androidx.glance.state.GlanceStateDefinition
@@ -77,13 +78,13 @@ class ScheduleWidget : GlanceAppWidget() {
         room: String?,
         startTimeStr: String?
     ) {
-        val backgroundColor = Color(0xFFF8E8E3)
-        val primaryTextColor = ColorProvider(Color(0xFF000000))
-        val secondaryTextColor = ColorProvider(Color(0xFF888888))
+        val backgroundColor = ColorProvider(day = Color(0xFFF8E8E3), night = Color(0xFF2F1313))
+        val primaryTextColor = ColorProvider(day = Color(0xFF000000), night = Color(0xFFE5C8C7))
+        val secondaryTextColor = ColorProvider(day = Color(0xFF888888), night = Color(0xFF917C9B))
         val tColor = Color(0xFFFBC11F)
         val tpColor = Color(0xFFD3944C)
         val badgeColor = if (typeClass == "T") tColor else tpColor
-        val iconContainerColor = Color(0xFF6B1B1B)
+        val iconContainerColor = ColorProvider(day = Color(0xFF6B1B1B), night = Color(0xFF2F0A0C))
 
         val context = LocalContext.current
         val displayTime = try {
