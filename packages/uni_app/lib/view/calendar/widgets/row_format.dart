@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/calendar_event.dart';
+import 'package:uni_ui/calendar/calendar_item_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
@@ -48,48 +49,10 @@ class RowFormat extends StatelessWidget {
       subtitle: eventperiod[1],
       titleWidth: 90,
       isActive: isToday,
-      card: GestureDetector(
+      card: CalendarItemCard(
+        eventName: event.name,
+        isToday: isToday,
         onTap: () => _popUp(context),
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
-          decoration: ShapeDecoration(
-            gradient: isToday
-                ? RadialGradient(
-                    colors: [
-                      Theme.of(context).colorScheme.onTertiary,
-                      Theme.of(context).colorScheme.tertiary,
-                    ],
-                    center: Alignment.topLeft,
-                    radius: 2,
-                    stops: const [0, 1],
-                  )
-                : null,
-            color: isToday ? null : Theme.of(context).colorScheme.secondary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            shadows: [
-              BoxShadow(
-                color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
-                blurRadius: 2,
-              ),
-            ],
-          ),
-          child: Text(
-            event.name,
-            maxLines: 4,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: isToday
-                  ? Theme.of(context).colorScheme.onSurfaceVariant
-                  : Theme.of(context).colorScheme.onSecondary,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              height: 1,
-            ),
-          ),
-        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni_ui/calendar/calendar_item_card.dart';
 
 class _CalendarItemDate extends StatelessWidget {
   const _CalendarItemDate({this.eventPeriod, this.endYear});
@@ -137,48 +138,13 @@ class CalendarItem extends StatelessWidget {
             ),
           ],
         ),
-        GestureDetector(
-          onTap: onTap,
-          child: Container(
-            margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+        Container(
+          margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+          child: CalendarItemCard(
+            eventName: eventName,
+            isToday: isToday,
+            onTap: onTap,
             width: 140,
-            decoration: ShapeDecoration(
-              gradient: isToday
-                  ? RadialGradient(
-                      colors: [
-                        Theme.of(context).colorScheme.onPrimary,
-                        Theme.of(context).colorScheme.primary,
-                      ],
-                      center: Alignment.topLeft,
-                      radius: 2,
-                      stops: [0, 1],
-                    )
-                  : null,
-              color: isToday ? null : Theme.of(context).colorScheme.secondary,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              shadows: [
-                BoxShadow(
-                  color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
-                  blurRadius: 2,
-                ),
-              ],
-            ),
-            child: Text(
-              eventName,
-              maxLines: 4,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: isToday
-                    ? Theme.of(context).colorScheme.onSurfaceVariant
-                    : Theme.of(context).colorScheme.onSecondary,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                height: 1,
-              ),
-            ),
           ),
         ),
       ],
