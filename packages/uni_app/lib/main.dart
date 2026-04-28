@@ -20,6 +20,7 @@ import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/providers/plausible/plausible_provider.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/theme_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/about/about.dart';
@@ -152,6 +153,7 @@ class ApplicationState extends ConsumerState<Application> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(profileProvider);
     final themeMode = ref.watch<ThemeMode>(themeProvider);
     final locale = ref.watch(localeProvider);
 
