@@ -172,7 +172,7 @@ class ScheduleWidget : GlanceAppWidget() {
                     ) {
                         Box(
                             modifier = GlanceModifier
-                                .size(32.dp)
+                                .size(30.dp)
                                 .background(iconContainerColor)
                                 .cornerRadius(16.dp),
                             contentAlignment = Alignment.Center
@@ -180,14 +180,14 @@ class ScheduleWidget : GlanceAppWidget() {
                             Image(
                                 provider = ImageProvider(R.drawable.ic_pin),
                                 contentDescription = "Location",
-                                modifier = GlanceModifier.size(16.dp)
+                                modifier = GlanceModifier.size(14.dp)
                             )
                         }
                         Spacer(modifier = GlanceModifier.width(8.dp))
                         Text(
                             text = room ?: "",
                             style = TextStyle(
-                                fontSize = 20.sp,
+                                fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = primaryTextColor
                             )
