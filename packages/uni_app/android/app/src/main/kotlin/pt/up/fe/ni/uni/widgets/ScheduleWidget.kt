@@ -5,6 +5,8 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.DpSize
+import androidx.glance.appwidget.SizeMode
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
@@ -40,6 +42,13 @@ import com.google.gson.reflect.TypeToken
 class ScheduleWidget : GlanceAppWidget() {
     override val stateDefinition: GlanceStateDefinition<*> = HomeWidgetGlanceStateDefinition()
 
+    override val sizeMode: SizeMode = SizeMode.Responsive(
+        setOf(
+            DpSize(110.dp, 110.dp), // Small (2x2)
+            DpSize(240.dp, 110.dp)  // Wide (4x2)
+        )
+    )
+
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
             val state = currentState<HomeWidgetGlanceState>()
@@ -57,15 +66,18 @@ class ScheduleWidget : GlanceAppWidget() {
                 emptyList()
             }
 
-            val nextLecture = lectures.firstOrNull()
-
-            val acronym = nextLecture?.let { it["acronym"] as? String }
-            val subject = nextLecture?.let { it["subject"] as? String }
-            val typeClass = nextLecture?.let { it["typeClass"] as? String }
-            val room = nextLecture?.let { it["room"] as? String }
-            val startTimeStr = nextLecture?.let { it["startTime"] as? String }
-
-            WidgetUI(acronym, subject, typeClass, room, startTimeStr)
+            val size = androidx.glance.LocalSize.current
+            if (size.width >= 240.dp) {
+                WideWidgetUI(lectures)
+            } else {
+                val nextLecture = lectures.firstOrNull()
+                val acronym = nextLecture?.let { it["acronym"] as? String }
+                val subject = nextLecture?.let { it["subject"] as? String }
+                val typeClass = nextLecture?.let { it["typeClass"] as? String }
+                val room = nextLecture?.let { it["room"] as? String }
+                val startTimeStr = nextLecture?.let { it["startTime"] as? String }
+                WidgetUI(acronym, subject, typeClass, room, startTimeStr)
+            }
         }
     }
 
@@ -201,6 +213,187 @@ class ScheduleWidget : GlanceAppWidget() {
                     }
                 }
             }
+        }
+    }
+
+    @SuppressLint("RestrictedApi")
+    @Composable
+    fun WideWidgetUI(lectures: List<Map<String, Any>>) {
+        val backgroundColor = ColorProvider(day = Color(0xFFF8E8E3), night = Color(0xFF2F0A0C))
+        val primaryTextColor = ColorProvider(day = Color(0xFF000000), night = Color(0xFFFFFFFF))
+        val secondaryTextColor = ColorProvider(day = Color(0xFF888888), night = Color(0xFFE5C8C7))
+        val timelineColor = ColorProvider(day = Color(0xFF6B1B1B), night = Color(0xFFE5C8C7))
+        val context = LocalContext.current
+
+        Box(
+            modifier = GlanceModifier
+                .fillMaxSize()
+                .appWidgetBackground()
+                .background(backgroundColor)
+                .cornerRadius(R.dimen.widget_radius)
+                .padding(16.dp)
+                .clickable(actionStartActivity(Intent(context, MainActivity::class.java))),
+            contentAlignment = Alignment.TopStart
+        ) {
+            if (lectures.isEmpty()) {
+                Box(modifier = GlanceModifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text(text = "No upcoming classes", style = TextStyle(color = secondaryTextColor))
+                }
+            } else {
+                Row(modifier = GlanceModifier.fillMaxSize()) {
+                    // Timeline
+                    Column(
+                        modifier = GlanceModifier.fillMaxHeight().width(40.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        lectures.take(2).forEachIndexed { index, lecture ->
+                            val startTimeStr = lecture["startTime"] as? String
+                            val displayTime = formatTime(startTimeStr)
+
+                            Text(
+                                text = displayTime,
+                                style = TextStyle(
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    color = timelineColor
+                                )
+                            )
+                            Spacer(modifier = GlanceModifier.height(4.dp))
+                            // Dot and Line
+                            Box(
+                                modifier = GlanceModifier.size(12.dp).background(timelineColor)
+                                    .cornerRadius(6.dp)
+                            ) {}
+                            if (index == 0 && lectures.size > 1) {
+                                Box(
+                                    modifier = GlanceModifier.width(2.dp).defaultWeight()
+                                        .background(timelineColor)
+                                ) {}
+                            } else {
+                                Spacer(modifier = GlanceModifier.defaultWeight())
+                            }
+                        }
+                    }
+
+                    Spacer(modifier = GlanceModifier.width(12.dp))
+
+                    // Lecture Cards
+                    Column(modifier = GlanceModifier.fillMaxSize().defaultWeight()) {
+                        lectures.take(2).forEachIndexed { index, lecture ->
+                            LectureCard(lecture, primaryTextColor, secondaryTextColor)
+                            if (index == 0 && lectures.size > 1) {
+                                Spacer(modifier = GlanceModifier.height(8.dp))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun LectureCard(
+        lecture: Map<String, Any>,
+        primaryTextColor: ColorProvider,
+        secondaryTextColor: ColorProvider
+    ) {
+        val acronym = lecture["acronym"] as? String ?: ""
+        val subject = lecture["subject"] as? String ?: ""
+        val typeClass = lecture["typeClass"] as? String ?: ""
+        val room = lecture["room"] as? String ?: ""
+        val badgeColor = if (typeClass == "TP") Color(0xFFD3944C) else Color(0xFFFBC11F)
+        val iconContainerColor = ColorProvider(day = Color(0xFF6B1B1B), night = Color(0xFFE5C8C7))
+
+        Box(
+            modifier = GlanceModifier
+                .fillMaxWidth()
+                .background(ColorProvider(day = Color.White.copy(alpha = 0.1f), night = Color.White.copy(alpha = 0.1f))) // Subtle card background
+                .cornerRadius(12.dp)
+                .padding(8.dp)
+        ) {
+            Column(modifier = GlanceModifier.fillMaxSize()) {
+                Row(
+                    modifier = GlanceModifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = acronym,
+                        style = TextStyle(
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = primaryTextColor
+                        )
+                    )
+                    Spacer(modifier = GlanceModifier.width(8.dp))
+                    Box(
+                        modifier = GlanceModifier
+                            .background(badgeColor)
+                            .cornerRadius(100.dp)
+                            .padding(horizontal = 8.dp, vertical = 2.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = typeClass,
+                            style = TextStyle(
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = ColorProvider(day = Color.White, night = Color.White)
+                            )
+                        )
+                    }
+                    Spacer(modifier = GlanceModifier.defaultWeight())
+                    // Location
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = GlanceModifier
+                                .size(20.dp)
+                                .background(iconContainerColor)
+                                .cornerRadius(10.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Image(
+                                provider = ImageProvider(R.drawable.ic_pin),
+                                contentDescription = "Location",
+                                modifier = GlanceModifier.size(12.dp)
+                            )
+                        }
+                        Spacer(modifier = GlanceModifier.width(4.dp))
+                        Text(
+                            text = room,
+                            style = TextStyle(
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = primaryTextColor
+                            )
+                        )
+                    }
+                }
+                Spacer(modifier = GlanceModifier.height(4.dp))
+                Text(
+                    text = subject,
+                    style = TextStyle(
+                        fontSize = 12.sp,
+                        color = secondaryTextColor
+                    ),
+                    maxLines = 1
+                )
+            }
+        }
+    }
+
+    private fun formatTime(startTimeStr: String?): String {
+        return try {
+            if (startTimeStr != null) {
+                val timePart = startTimeStr.split(" ")[1]
+                val parts = timePart.split(":")
+                val hour = parts[0].toInt().toString().padStart(2, '0')
+                val minute = parts[1]
+                "$hour:$minute"
+            } else {
+                "--:--"
+            }
+        } catch (e: Exception) {
+            "--:--"
         }
     }
 }
