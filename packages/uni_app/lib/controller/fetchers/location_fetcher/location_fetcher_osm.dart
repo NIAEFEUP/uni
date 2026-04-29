@@ -95,20 +95,7 @@ class LocationFetcherOSM extends LocationFetcher {
       }
     }
 
-    final response = await http.post(
-      Uri.parse(overpassUrl),
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'User-Agent': 'uni_app/map_fetcher (uni)',
-      },
-      body: 'data=$query',
-    );
-
-    if (response.statusCode != 200) {
-      throw Exception('[OSM] Overpass API returned ${response.statusCode}');
-    }
-
-    return response;
+    throw Exception('[OSM] Overpass API failed after $maxRetries retries');
   }
 
   List<IndoorFloorPlan> _parseIndoorData(http.Response response) {
