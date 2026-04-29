@@ -107,7 +107,7 @@ class Transaction extends ConsumerWidget {
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
                       icon: Icon(
-                        UniIcons.arrowSquareOut,
+                        UniIcons.coins,
                         color: Theme.of(context).colorScheme.primary,
                         size: 18,
                       ),
