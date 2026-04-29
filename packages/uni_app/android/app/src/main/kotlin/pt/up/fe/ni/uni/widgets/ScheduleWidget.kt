@@ -235,45 +235,47 @@ class ScheduleWidget : GlanceAppWidget() {
                             val startTimeStr = lecture["startTime"] as? String
                             val displayTime = formatTime(startTimeStr)
 
+                            // Time Text Column
                             Column(
-                                modifier = GlanceModifier.fillMaxHeight().width(76.dp),
+                                modifier = GlanceModifier.width(48.dp).fillMaxHeight(),
                                 horizontalAlignment = Alignment.End
                             ) {
-                                Row(
-                                    modifier = GlanceModifier.fillMaxWidth(),
-                                    horizontalAlignment = Alignment.End,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(
-                                        text = displayTime,
-                                        style = TextStyle(
-                                            fontSize = 16.sp,
-                                            fontWeight = FontWeight.Bold,
-                                            color = timelineColor
-                                        )
+                                Text(
+                                    text = displayTime,
+                                    style = TextStyle(
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = timelineColor
                                     )
-                                    Spacer(modifier = GlanceModifier.width(8.dp))
-                                    // Hollow Dot
-                                    Box(
-                                        modifier = GlanceModifier
-                                            .size(16.dp)
-                                            .background(timelineColor)
-                                            .cornerRadius(8.dp),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Box(
-                                            modifier = GlanceModifier
-                                                .size(10.dp)
-                                                .background(backgroundColor)
-                                                .cornerRadius(5.dp)
-                                        ) {}
-                                    }
-                                }
+                                )
+                            }
 
-                                // Line spanning the rest of the height of the row (which is the card height)
+                            Spacer(modifier = GlanceModifier.width(12.dp))
+
+                            // Dot + Line Column (Guarantees connection)
+                            Column(
+                                modifier = GlanceModifier.fillMaxHeight().width(22.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                // Hollow Dot
                                 Box(
                                     modifier = GlanceModifier
-                                        .padding(end = 6.5.dp) // (16-3)/2 = 6.5
+                                        .size(18.dp)
+                                        .background(timelineColor)
+                                        .cornerRadius(8.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Box(
+                                        modifier = GlanceModifier
+                                            .size(10.dp)
+                                            .background(backgroundColor)
+                                            .cornerRadius(5.dp)
+                                    ) {}
+                                }
+
+                                // Line touching the dot
+                                Box(
+                                    modifier = GlanceModifier
                                         .width(3.dp)
                                         .fillMaxHeight()
                                         .background(timelineColor)
