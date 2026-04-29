@@ -88,7 +88,7 @@ class ScheduleWidget : GlanceAppWidget() {
         room: String?,
         startTimeStr: String?
     ) {
-        val backgroundColor = ColorProvider(day = Color(0xFFF8E8E3), night = Color(0xFF2F0A0C))
+        val backgroundColor = ColorProvider(day = Color(0xFFFFF5F3), night = Color(0xFF2F0A0C))
         val primaryTextColor = ColorProvider(day = Color(0xFF000000), night = Color(0xFFFFFFFF))
         val secondaryTextColor = ColorProvider(day = Color(0xFF888888), night = Color(0xFFE5C8C7))
         val badgeColor = if (typeClass == "TP") Color(0xFFD3944C) else Color(0xFFFBC11F)
@@ -204,7 +204,7 @@ class ScheduleWidget : GlanceAppWidget() {
     @SuppressLint("RestrictedApi")
     @Composable
     fun WideWidgetUI(lectures: List<Map<String, Any>>) {
-        val backgroundColor = ColorProvider(day = Color(0xFFF8E8E3), night = Color(0xFF2F0A0C))
+        val backgroundColor = ColorProvider(day = Color(0xFFFFF5F3), night = Color(0xFF2F0A0C))
         val primaryTextColor = ColorProvider(day = Color(0xFF000000), night = Color(0xFFFFFFFF))
         val secondaryTextColor = ColorProvider(day = Color(0xFF888888), night = Color(0xFFE5C8C7))
         val timelineColor = ColorProvider(day = Color(0xFF6B1B1B), night = Color(0xFFE5C8C7))
@@ -313,7 +313,7 @@ class ScheduleWidget : GlanceAppWidget() {
         Box(
             modifier = GlanceModifier
                 .fillMaxWidth()
-                .background(ColorProvider(day = Color.White, night = Color.White.copy(alpha = 0.1f)))
+                .background(ColorProvider(day = Color(0xFFF2E9E7), night = Color(0xFF4E3636)))
                 .cornerRadius(24.dp)
                 .padding(horizontal = 16.dp, vertical = 10.dp)
         ) {
