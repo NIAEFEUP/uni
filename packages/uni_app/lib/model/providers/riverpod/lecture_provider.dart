@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_new_api.dart';
@@ -23,11 +22,11 @@ class LectureNotifier extends CachedAsyncNotifier<List<Lecture>> {
       return lecture.endTime.isAfter(now);
     }).toList();
 
-    final topTwoLectures = upcomingLectures.take(2).toList();
+    final lecturesForWidget = upcomingLectures.take(6).toList();
 
     unawaited(
       WidgetService.updateScheduleWidget(
-        topTwoLectures.map((l) => l.toJson()).toList(),
+        lecturesForWidget.map((l) => l.toJson()).toList(),
       ),
     );
   }

@@ -7,8 +7,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/controller/background_workers/notifications/tuition_notification.dart';
+import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_new_api.dart';
 import 'package:uni/controller/local_storage/notification_timeout_storage.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/model/services/widget_service.dart';
 import 'package:uni/session/flows/base/session.dart';
 import 'package:workmanager/workmanager.dart';
 
@@ -153,6 +155,14 @@ class NotificationManager {
     final request = savedSession.createRefreshRequest();
     final session = await request.perform();
 
+    // 1. check and trigger notifications
+    await _triggerNotifications(session);
+
+    // 2. fetch and refresh widget data in the background
+    await _refreshScheduleWidget(session);
+  }
+
+  static Future<void> _triggerNotifications(Session session) async {
     // Get the .json file that contains the last time that the
     // notification has ran
     await _initFlutterNotificationsPlugin();
@@ -181,6 +191,36 @@ class NotificationManager {
           DateTime.now(),
         );
       }
+    }
+  }
+
+  static Future<void> _refreshScheduleWidget(Session session) async {
+    try {
+      // must initialize WidgetService in background isolates
+      // so it correctly binds to the ios AppGroup before saving data.
+      await WidgetService.initialize();
+
+      final lectures = await ScheduleFetcherNewApi().getLectures(session);
+      final now = DateTime.now();
+
+      final upcomingLectures = lectures.where((lecture) {
+        return lecture.endTime.isAfter(now);
+      }).toList();
+
+      final lecturesForWidget = upcomingLectures.take(6).toList();
+
+      // update shared storage and notify WidgetKit
+      await WidgetService.updateScheduleWidget(
+        lecturesForWidget.map((l) => l.toJson()).toList(),
+      );
+
+      Logger().d('Schedule widget updated from background worker');
+    } catch (e, stackTrace) {
+      Logger().e(
+        'Failed to refresh schedule widget in background',
+        error: e,
+        stackTrace: stackTrace,
+      );
     }
   }
 }

@@ -27,9 +27,9 @@ func formatTime(_ rawString: String) -> String {
 struct Provider: TimelineProvider {
     
     // method to retrive data from flutter app
-    func getDataFromFlutter() -> SimpleEntry {
+    func getLecturesFromFlutter() -> [LectureData] {
         let userDefaults = UserDefaults(suiteName: "group.uniApp")
-        let scheduleJson = userDefaults?.string(forKey: "schedule_data") ?? "No data!"
+        let scheduleJson = userDefaults?.string(forKey: "schedule_data") ?? "[]"
         
         var lectures: [LectureData] = []
         if let data = scheduleJson.data(using: .utf8) {
@@ -39,8 +39,7 @@ struct Provider: TimelineProvider {
                 print("Failed to decode JSON: \(error)")
             }
         }
-        
-        return SimpleEntry(date: Date(), lectures: lectures)
+        return lectures
     }
     
     // preview in widget gallery
@@ -50,14 +49,48 @@ struct Provider: TimelineProvider {
     
     // widget gallery/selection preview
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
-        let entry = getDataFromFlutter()
-        completion(entry)
+        let allLectures = getLecturesFromFlutter()
+        completion(SimpleEntry(date: Date(), lectures: Array(allLectures.prefix(2))))
     }
     
     // actual widget on homescreen
     func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
-        let entry = getDataFromFlutter()
-        let timeline = Timeline(entries: [entry], policy: .atEnd)
+        let allLectures = getLecturesFromFlutter()
+        
+        let dateFormatter = DateFormatter()
+
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        
+        let now = Date()
+        var entries: [SimpleEntry] = []
+        
+        // 1. create the current state entry
+        let currentLectures = allLectures.filter { lecture in
+            if let endDate = dateFormatter.date(from: lecture.endTime) {
+                return endDate > now
+            }
+            return true
+        }
+        entries.append(SimpleEntry(date: now, lectures: Array(currentLectures.prefix(2))))
+        
+        // 2. freate future entries for the moment each class ends
+        for lecture in allLectures {
+            if let endDate = dateFormatter.date(from: lecture.endTime), endDate > now {
+                let futureLectures = allLectures.filter { nextLecture in
+                    if let nextEndDate = dateFormatter.date(from: nextLecture.endTime) {
+                        return nextEndDate > endDate
+                    }
+                    return false
+                }
+                entries.append(SimpleEntry(date: endDate, lectures: Array(futureLectures.prefix(2))))
+            }
+        }
+        
+        // sort entries by date ascending
+        entries.sort { $0.date < $1.date }
+        
+        let timeline = Timeline(entries: entries, policy: .atEnd)
         completion(timeline)
     }
     
