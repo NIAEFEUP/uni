@@ -230,30 +230,51 @@ class ScheduleWidget : GlanceAppWidget() {
                 Row(modifier = GlanceModifier.fillMaxSize()) {
                     // Timeline
                     Column(
-                        modifier = GlanceModifier.fillMaxHeight().width(40.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        modifier = GlanceModifier.fillMaxHeight().width(64.dp),
+                        horizontalAlignment = Alignment.End
                     ) {
                         lectures.take(2).forEachIndexed { index, lecture ->
                             val startTimeStr = lecture["startTime"] as? String
                             val displayTime = formatTime(startTimeStr)
 
-                            Text(
-                                text = displayTime,
-                                style = TextStyle(
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Medium,
-                                    color = timelineColor
+                            Row(
+                                modifier = GlanceModifier.fillMaxWidth(),
+                                horizontalAlignment = Alignment.End,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = displayTime,
+                                    style = TextStyle(
+                                        fontSize = 14.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = timelineColor
+                                    )
                                 )
-                            )
-                            Spacer(modifier = GlanceModifier.height(4.dp))
-                            // Dot and Line
-                            Box(
-                                modifier = GlanceModifier.size(12.dp).background(timelineColor)
-                                    .cornerRadius(6.dp)
-                            ) {}
-                            if (index == 0 && lectures.size > 1) {
+                                Spacer(modifier = GlanceModifier.width(8.dp))
+                                // Hollow Dot
                                 Box(
-                                    modifier = GlanceModifier.width(2.dp).defaultWeight()
+                                    modifier = GlanceModifier
+                                        .size(12.dp)
+                                        .background(timelineColor)
+                                        .cornerRadius(6.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Box(
+                                        modifier = GlanceModifier
+                                            .size(6.dp)
+                                            .background(backgroundColor)
+                                            .cornerRadius(3.dp)
+                                    ) {}
+                                }
+                            }
+
+                            if (index == 0 && lectures.size > 1) {
+                                // Line connecting to the next dot
+                                Box(
+                                    modifier = GlanceModifier
+                                        .padding(end = 6.dp)
+                                        .width(3.dp)
+                                        .defaultWeight()
                                         .background(timelineColor)
                                 ) {}
                             } else {
