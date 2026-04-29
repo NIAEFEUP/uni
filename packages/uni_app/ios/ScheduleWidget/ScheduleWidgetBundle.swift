@@ -11,7 +11,5 @@ import SwiftUI
 struct ScheduleWidgetBundle: WidgetBundle {
     var body: some Widget {
         ScheduleWidget()
-        ScheduleWidgetControl()
-        ScheduleWidgetLiveActivity()
     }
 }
