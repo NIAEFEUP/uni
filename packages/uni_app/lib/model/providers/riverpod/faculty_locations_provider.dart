@@ -45,7 +45,7 @@ class FacultyLocationsNotifier
         return osmData;
       }
     } catch (err) {
-      return loadFromStorage();
+      // not fetching from cache yet, ignore error and fall back to asset.
     }
     return LocationFetcherAsset(_faculty).getLocations();
   }
