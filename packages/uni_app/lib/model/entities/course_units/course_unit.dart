@@ -75,7 +75,7 @@ class CourseUnit {
 
   // --- The Database/JSON bridge for occurences ---
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   String? dbOccurences;
 
   @Transient()
