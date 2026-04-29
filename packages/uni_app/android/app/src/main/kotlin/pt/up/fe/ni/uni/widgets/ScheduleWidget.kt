@@ -19,8 +19,6 @@ import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.action.actionStartActivity
 import android.content.Intent
 import androidx.glance.action.clickable
-import androidx.glance.appwidget.action.actionStartActivity
-import androidx.glance.appwidget.cornerRadius
 import androidx.glance.background
 import pt.up.fe.ni.uni.MainActivity
 import pt.up.fe.ni.uni.R
@@ -45,7 +43,7 @@ class ScheduleWidget : GlanceAppWidget() {
     override val sizeMode: SizeMode = SizeMode.Responsive(
         setOf(
             DpSize(110.dp, 110.dp), // Small (2x2)
-            DpSize(240.dp, 110.dp)  // Wide (4x2)
+            DpSize(250.dp, 110.dp)  // Wide (4x2)
         )
     )
 
@@ -67,7 +65,7 @@ class ScheduleWidget : GlanceAppWidget() {
             }
 
             val size = androidx.glance.LocalSize.current
-            if (size.width >= 240.dp) {
+            if (size.width >= 200.dp) {
                 WideWidgetUI(lectures)
             } else {
                 val nextLecture = lectures.firstOrNull()
@@ -105,7 +103,7 @@ class ScheduleWidget : GlanceAppWidget() {
                 .appWidgetBackground()
                 .background(backgroundColor)
                 .cornerRadius(R.dimen.widget_radius)
-                .padding(16.dp)
+                .padding(12.dp)
                 .clickable(actionStartActivity(Intent(context, MainActivity::class.java))),
             contentAlignment = Alignment.TopStart
         ) {
@@ -218,7 +216,7 @@ class ScheduleWidget : GlanceAppWidget() {
                 .appWidgetBackground()
                 .background(backgroundColor)
                 .cornerRadius(R.dimen.widget_radius)
-                .padding(16.dp)
+                .padding(horizontal = 12.dp, vertical = 12.dp)
                 .clickable(actionStartActivity(Intent(context, MainActivity::class.java))),
             contentAlignment = Alignment.TopStart
         ) {
@@ -227,71 +225,71 @@ class ScheduleWidget : GlanceAppWidget() {
                     Text(text = "No upcoming classes", style = TextStyle(color = secondaryTextColor))
                 }
             } else {
-                Row(modifier = GlanceModifier.fillMaxSize()) {
-                    // Timeline
-                    Column(
-                        modifier = GlanceModifier.fillMaxHeight().width(64.dp),
-                        horizontalAlignment = Alignment.End
-                    ) {
-                        lectures.take(2).forEachIndexed { index, lecture ->
+                Column(modifier = GlanceModifier.fillMaxSize()) {
+                    lectures.take(2).forEachIndexed { index, lecture ->
+                        Row(
+                            modifier = GlanceModifier.fillMaxWidth().defaultWeight(),
+                            verticalAlignment = Alignment.Top
+                        ) {
+                            // Timeline Item for this lecture
                             val startTimeStr = lecture["startTime"] as? String
                             val displayTime = formatTime(startTimeStr)
 
-                            Row(
-                                modifier = GlanceModifier.fillMaxWidth(),
-                                horizontalAlignment = Alignment.End,
-                                verticalAlignment = Alignment.CenterVertically
+                            Column(
+                                modifier = GlanceModifier.fillMaxHeight().width(76.dp),
+                                horizontalAlignment = Alignment.End
                             ) {
-                                Text(
-                                    text = displayTime,
-                                    style = TextStyle(
-                                        fontSize = 14.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = timelineColor
-                                    )
-                                )
-                                Spacer(modifier = GlanceModifier.width(8.dp))
-                                // Hollow Dot
-                                Box(
-                                    modifier = GlanceModifier
-                                        .size(12.dp)
-                                        .background(timelineColor)
-                                        .cornerRadius(6.dp),
-                                    contentAlignment = Alignment.Center
+                                Row(
+                                    modifier = GlanceModifier.fillMaxWidth(),
+                                    horizontalAlignment = Alignment.End,
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
+                                    Text(
+                                        text = displayTime,
+                                        style = TextStyle(
+                                            fontSize = 16.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = timelineColor
+                                        )
+                                    )
+                                    Spacer(modifier = GlanceModifier.width(8.dp))
+                                    // Hollow Dot
                                     Box(
                                         modifier = GlanceModifier
-                                            .size(6.dp)
-                                            .background(backgroundColor)
-                                            .cornerRadius(3.dp)
-                                    ) {}
+                                            .size(16.dp)
+                                            .background(timelineColor)
+                                            .cornerRadius(8.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Box(
+                                            modifier = GlanceModifier
+                                                .size(10.dp)
+                                                .background(backgroundColor)
+                                                .cornerRadius(5.dp)
+                                        ) {}
+                                    }
                                 }
-                            }
 
-                            if (index == 0 && lectures.size > 1) {
-                                // Line connecting to the next dot
+                                // Line spanning the rest of the height of the row (which is the card height)
                                 Box(
                                     modifier = GlanceModifier
-                                        .padding(end = 6.dp)
+                                        .padding(end = 6.5.dp) // (16-3)/2 = 6.5
                                         .width(3.dp)
-                                        .defaultWeight()
+                                        .fillMaxHeight()
                                         .background(timelineColor)
                                 ) {}
-                            } else {
-                                Spacer(modifier = GlanceModifier.defaultWeight())
+                            }
+
+                            Spacer(modifier = GlanceModifier.width(12.dp))
+
+                            // Lecture Card
+                            Box(modifier = GlanceModifier.defaultWeight()) {
+                                LectureCard(lecture, primaryTextColor, secondaryTextColor)
                             }
                         }
-                    }
 
-                    Spacer(modifier = GlanceModifier.width(12.dp))
-
-                    // Lecture Cards
-                    Column(modifier = GlanceModifier.fillMaxSize().defaultWeight()) {
-                        lectures.take(2).forEachIndexed { index, lecture ->
-                            LectureCard(lecture, primaryTextColor, secondaryTextColor)
-                            if (index == 0 && lectures.size > 1) {
-                                Spacer(modifier = GlanceModifier.height(8.dp))
-                            }
+                        if (index == 0 && lectures.size > 1) {
+                            Spacer(modifier = GlanceModifier.height(8.dp))
                         }
                     }
                 }
@@ -309,17 +307,17 @@ class ScheduleWidget : GlanceAppWidget() {
         val subject = lecture["subject"] as? String ?: ""
         val typeClass = lecture["typeClass"] as? String ?: ""
         val room = lecture["room"] as? String ?: ""
-        val badgeColor = if (typeClass == "TP") Color(0xFFD3944C) else Color(0xFFFBC11F)
+        val badgeColor = if (typeClass == "TP") Color(0xFFAC8062) else Color(0xFFFF9633)
         val iconContainerColor = ColorProvider(day = Color(0xFF6B1B1B), night = Color(0xFFE5C8C7))
 
         Box(
             modifier = GlanceModifier
                 .fillMaxWidth()
-                .background(ColorProvider(day = Color.White.copy(alpha = 0.1f), night = Color.White.copy(alpha = 0.1f))) // Subtle card background
-                .cornerRadius(12.dp)
-                .padding(8.dp)
+                .background(ColorProvider(day = Color.White, night = Color.White.copy(alpha = 0.1f)))
+                .cornerRadius(24.dp)
+                .padding(horizontal = 16.dp, vertical = 10.dp)
         ) {
-            Column(modifier = GlanceModifier.fillMaxSize()) {
+            Column(modifier = GlanceModifier.fillMaxWidth()) {
                 Row(
                     modifier = GlanceModifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
@@ -327,23 +325,23 @@ class ScheduleWidget : GlanceAppWidget() {
                     Text(
                         text = acronym,
                         style = TextStyle(
-                            fontSize = 20.sp,
+                            fontSize = 24.sp,
                             fontWeight = FontWeight.Bold,
                             color = primaryTextColor
                         )
                     )
-                    Spacer(modifier = GlanceModifier.width(8.dp))
+                    Spacer(modifier = GlanceModifier.width(10.dp))
                     Box(
                         modifier = GlanceModifier
                             .background(badgeColor)
                             .cornerRadius(100.dp)
-                            .padding(horizontal = 8.dp, vertical = 2.dp),
+                            .padding(horizontal = 10.dp, vertical = 3.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
                             text = typeClass,
                             style = TextStyle(
-                                fontSize = 10.sp,
+                                fontSize = 12.sp,
                                 fontWeight = FontWeight.Medium,
                                 color = ColorProvider(day = Color.White, night = Color.White)
                             )
@@ -354,22 +352,22 @@ class ScheduleWidget : GlanceAppWidget() {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Box(
                             modifier = GlanceModifier
-                                .size(20.dp)
+                                .size(24.dp)
                                 .background(iconContainerColor)
-                                .cornerRadius(10.dp),
+                                .cornerRadius(12.dp),
                             contentAlignment = Alignment.Center
                         ) {
                             Image(
                                 provider = ImageProvider(R.drawable.ic_pin),
                                 contentDescription = "Location",
-                                modifier = GlanceModifier.size(12.dp)
+                                modifier = GlanceModifier.size(14.dp)
                             )
                         }
-                        Spacer(modifier = GlanceModifier.width(4.dp))
+                        Spacer(modifier = GlanceModifier.width(6.dp))
                         Text(
                             text = room,
                             style = TextStyle(
-                                fontSize = 14.sp,
+                                fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = primaryTextColor
                             )
@@ -380,7 +378,7 @@ class ScheduleWidget : GlanceAppWidget() {
                 Text(
                     text = subject,
                     style = TextStyle(
-                        fontSize = 12.sp,
+                        fontSize = 14.sp,
                         color = secondaryTextColor
                     ),
                     maxLines = 1
