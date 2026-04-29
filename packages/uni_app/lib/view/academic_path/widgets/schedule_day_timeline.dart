@@ -59,9 +59,7 @@ class ScheduleDayTimeline extends ConsumerWidget {
     return groups.map((group) {
       final isActive = group.any(_isLectureActive);
       final groupStart = group.first.startTime;
-      final groupEnd = group
-          .map((l) => l.endTime)
-          .reduce((a, b) => a.isAfter(b) ? a : b);
+      final groupEnd = group.first.endTime;
 
       return TimelineItem(
         isActive: isActive,
