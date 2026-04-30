@@ -7,7 +7,7 @@
 import WidgetKit
 import SwiftUI
 
-var exampleLectures = [LectureData(subject: "Compiladores", acronym: "C", room: "B310", typeClass: "TP", startTime: "8:30", endTime:"10:30"), LectureData(subject: "Computação Gráfica", acronym: "CGRA", room: "B001", typeClass: "T", startTime: "10:30", endTime:"12:30")]
+var exampleLectures = [LectureData(subject: "Compiladores", acronym: "C", room: "B310", typeClass: "TP", startTime: "08:30", endTime:"10:30"), LectureData(subject: "Computação Gráfica", acronym: "CG", room: "B001", typeClass: "T", startTime: "10:30", endTime:"12:30")]
 
 // helper to extract just HH:MM from the Dart date string
 func formatTime(_ rawString: String) -> String {
@@ -120,7 +120,7 @@ struct ScheduleWidgetEntryView : View {
                     LectureCardView(lecture: entry.lectures.first!, showTime: true)
                 case .systemMedium:
                     VStack(spacing: 6) {
-                        ForEach(entry.lectures.prefix(2), id: \.acronym) { lecture in
+                        ForEach(entry.lectures.prefix(2), id: \.self) { lecture in
                             LectureTimelineRow(lecture: lecture)
                         }
                     }
@@ -156,8 +156,9 @@ struct LectureTimelineRow: View {
                     .font(.caption).bold()
                     .foregroundColor(textColor)
                     .padding(.top, 4)
+
             }
-            .frame(width: 44, alignment: .trailing)
+            .frame(width: 48, alignment: .trailing)
             
             // 2. Timeline Line & Circle
             VStack(spacing: 0) {
@@ -342,7 +343,7 @@ struct MediumLectureCardView: View {
         .background(Color.secondary.opacity(colorScheme == .dark ? 0.15 : 0.05))
         .cornerRadius(16)
     }
-}
+} 
 
 struct WidgetBackgroundView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -367,6 +368,8 @@ struct ScheduleWidget: Widget {
                     WidgetBackgroundView()
                 }
         }
+        .configurationDisplayName("Schedule")
+        .description("See your upcoming lectures.")
         .supportedFamilies([.systemSmall, .systemMedium])
         .contentMarginsDisabled()
     }
