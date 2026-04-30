@@ -5,18 +5,18 @@ import 'package:uni/model/providers/riverpod/session_provider.dart';
 
 final professorInfoProvider = FutureProvider.autoDispose
     .family<Professor, Professor>((ref, professor) async {
-  final session = await ref.watch(sessionProvider.future);
-  if (session == null) {
-    throw Exception('Session not available');
-  }
+      final session = await ref.watch(sessionProvider.future);
+      if (session == null) {
+        throw Exception('Session not available');
+      }
 
-  final baseUrls = List<String>.from(
-    session.faculties.map((f) => 'https://sigarra.up.pt/$f/pt/'),
-  );
+      final baseUrls = List<String>.from(
+        session.faculties.map((f) => 'https://sigarra.up.pt/$f/pt/'),
+      );
 
-  return ProfessorInfoFetcher().fetchProfessorInfo(
-    professor,
-    session,
-    baseUrls,
-  );
-});
+      return ProfessorInfoFetcher().fetchProfessorInfo(
+        professor,
+        session,
+        baseUrls,
+      );
+    });
