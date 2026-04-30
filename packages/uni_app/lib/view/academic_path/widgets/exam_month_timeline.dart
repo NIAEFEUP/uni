@@ -60,32 +60,62 @@ class ExamMonthTimeline extends ConsumerWidget {
     WidgetRef ref,
     AppLocale appLocale,
   ) {
-    return exams.map((exam) {
-      final isActive = _isExamActive(exam);
+    final groups = _groupExamsByDay(exams);
+
+    return groups.map((group) {
+      final isActive = group.any(_isExamActive);
+      final firstExam = group.first;
+
       return TimelineItem(
         isActive: isActive,
-        title: exam.start.day.toString(),
-        subtitle: exam.monthAcronym(appLocale),
-        lineHeight: 55,
-        card: ExamCard(
-          name: exam.subject,
-          acronym: exam.subjectAcronym,
-          rooms: exam.rooms,
-          type: exam.examType,
-          startTime: exam.formatTime(exam.start),
-          isInvisible: hiddenExams?.contains(exam.id) ?? false,
-          onClick: () {
-            showDialog<void>(
-              context: context,
-              builder: (context) => ExamModal(exam: exam),
+        title: firstExam.start.day.toString(),
+        subtitle: firstExam.monthAcronym(appLocale),
+        lineHeight: 55 + 13 * (group.length - 1) + 78 * (group.length - 1),
+        card: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: group.map((exam) {
+            return ExamCard(
+              name: exam.subject,
+              acronym: exam.subjectAcronym,
+              rooms: exam.rooms,
+              type: exam.examType,
+              startTime: exam.formatTime(exam.start),
+              isInvisible: hiddenExams?.contains(exam.id) ?? false,
+              onClick: () {
+                showDialog<void>(
+                  context: context,
+                  builder: (context) => ExamModal(exam: exam),
+                );
+              },
+              iconAction: onToggleHidden == null
+                  ? null
+                  : () => onToggleHidden!(exam.id),
             );
-          },
-          iconAction: onToggleHidden == null
-              ? null
-              : () => onToggleHidden!(exam.id),
+          }).toList(),
         ),
       );
     }).toList();
+  }
+
+  List<List<Exam>> _groupExamsByDay(List<Exam> exams) {
+    final sorted = [...exams]..sort((a, b) => a.start.compareTo(b.start));
+
+    final groups = <List<Exam>>[];
+    var currentGroup = [sorted.first];
+    var currentDay = sorted.first.start.day;
+
+    for (final exam in sorted.skip(1)) {
+      if (exam.start.day == currentDay) {
+        currentGroup.add(exam);
+      } else {
+        groups.add(currentGroup);
+        currentGroup = [exam];
+        currentDay = exam.start.day;
+      }
+    }
+    groups.add(currentGroup);
+
+    return groups;
   }
 
   bool _isExamActive(Exam exam) {
