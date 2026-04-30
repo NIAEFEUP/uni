@@ -49,7 +49,7 @@ class ExamMonthTimeline extends ConsumerWidget {
           ),
           const SizedBox(height: 14),
           CardTimeline(
-            items: _buildTimelineItems(exams, context, ref, appLocale, weekday),
+            items: _buildTimelineItems(exams, context, ref, appLocale),
           ),
         ],
       ),
@@ -61,14 +61,13 @@ class ExamMonthTimeline extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     AppLocale appLocale,
-    String Function(DateTime) weekdayOf,
   ) {
     return exams.map((exam) {
       final isActive = _isExamActive(exam);
       return TimelineItem(
         isActive: isActive,
         title: exam.start.day.toString(),
-        subtitle: weekdayOf(exam.start),
+        subtitle: _formatWeekday(exam.start, appLocale),
         lineHeight: 55,
         card: ExamCard(
           name: exam.subject,
@@ -93,5 +92,10 @@ class ExamMonthTimeline extends ConsumerWidget {
 
   bool _isExamActive(Exam exam) {
     return now.isAfter(exam.start) && now.isBefore(exam.finish);
+  }
+
+  String _formatWeekday(DateTime date, AppLocale locale) {
+    final weekday = DateFormat.E(locale.localeCode.languageCode).format(date);
+    return weekday[0].toUpperCase() + weekday.substring(1).toLowerCase();
   }
 }
