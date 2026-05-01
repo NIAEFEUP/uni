@@ -28,7 +28,8 @@ struct Provider: TimelineProvider {
     
     // method to retrive data from flutter app
     func getLecturesFromFlutter() -> [LectureData] {
-        let userDefaults = UserDefaults(suiteName: "group.uniApp")
+        let groupID = Bundle.main.object(forInfoDictionaryKey: "AppGroupID") as? String ?? "group.pt.up.fe.ni.uni"
+        let userDefaults = UserDefaults(suiteName: groupID)
         let scheduleJson = userDefaults?.string(forKey: "schedule_data") ?? "[]"
         
         var lectures: [LectureData] = []
@@ -58,7 +59,7 @@ struct Provider: TimelineProvider {
         let allLectures = getLecturesFromFlutter()
         
         let dateFormatter = DateFormatter()
-
+        
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         
@@ -112,26 +113,24 @@ struct ScheduleWidgetEntryView : View {
         Group {
             if entry.lectures.isEmpty {
                 Text("No classes ahead! 🍻") // Empty state
-                    .font(.headline)
-                    .foregroundColor(Color(red: 0.4, green: 0.1, blue: 0.1)) // Dark Maroon
+                    .font(.headline) // Dark Maroon
             } else {
                 switch family {
                 case .systemSmall:
                     LectureCardView(lecture: entry.lectures.first!, showTime: true)
                 case .systemMedium:
-                    VStack(spacing: 6) {
+                    VStack(spacing: 12) {
                         ForEach(entry.lectures.prefix(2), id: \.self) { lecture in
                             LectureTimelineRow(lecture: lecture)
+                                .frame(maxHeight: .infinity)
                         }
                     }
-                    .padding(.vertical, 8) // outer padding for the whole medium widget
-                    
+                    .padding(12)
                 default:
                     Text("Unsupported Size")
                 }
             }
         }
-        
     }
 }
 
@@ -149,34 +148,36 @@ struct LectureTimelineRow: View {
     }
     
     var body: some View {
-        HStack(alignment: .top, spacing: 10) {
-            // 1. Time Column
-            VStack(alignment: .trailing, spacing: 10) {
+        HStack(alignment: .top, spacing: 8) {
+            
+            // 1. Time Column (Stays at the top)
+            VStack(alignment: .trailing) {
                 Text(formatTime(lecture.startTime))
                     .font(.caption).bold()
                     .foregroundColor(textColor)
                     .padding(.top, 4)
-
+                
             }
-            .frame(width: 48, alignment: .trailing)
+            .frame(width: 40, alignment: .center)
             
             // 2. Timeline Line & Circle
             VStack(spacing: 0) {
                 Circle()
                     .strokeBorder(accentColor, lineWidth: 3)
                     .frame(width: 12, height: 12)
-                    .padding(.top, 4) // Aaign circle dot with the text
+                    .padding(.top, 2)
                 
+                // This stretches the line to the bottom of the row
                 Rectangle()
                     .fill(accentColor)
                     .frame(width: 2)
+                    .frame(maxHeight: .infinity)
             }
-            .padding(.trailing, 4)
             
             // 3. The Details Card
             MediumLectureCardView(lecture: lecture)
+                .frame(maxHeight: .infinity)
         }
-        .padding(.trailing, 12)
     }
     
     
@@ -217,7 +218,6 @@ struct LectureCardView: View {
                         .padding(.vertical, 2)
                     
                 }
-                
                 
                 Spacer(minLength: 0)
                 
@@ -289,9 +289,9 @@ struct MediumLectureCardView: View {
     }
     var primaryTextColor: Color { colorScheme == .dark ? .white : .black }
     var subtleTextColor: Color { colorScheme == .dark ? Color(red: 229/255, green: 200/255, blue: 199/255) : .secondary }
-
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 4) {
             
             HStack(alignment: .center) {
                 
@@ -339,11 +339,12 @@ struct MediumLectureCardView: View {
         }
         .padding(.vertical, 10)
         .padding(.horizontal, 12)
-        // slight background so it pops off the main background
-        .background(Color.secondary.opacity(colorScheme == .dark ? 0.15 : 0.05))
-        .cornerRadius(16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        .background(
+            ContainerRelativeShape().fill(
+                Color.secondary.opacity(colorScheme == .dark ? 0.15 : 0.05)))
     }
-} 
+}
 
 struct WidgetBackgroundView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -380,6 +381,5 @@ struct ScheduleWidget: Widget {
 #Preview(as: .systemSmall) {
     ScheduleWidget()
 } timeline: {
-    SimpleEntry(date: .now, lectures: exampleLectures)
     SimpleEntry(date: .now, lectures: exampleLectures)
 }

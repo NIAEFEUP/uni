@@ -4,7 +4,7 @@ import 'package:home_widget/home_widget.dart';
 
 class WidgetService {
   /// iOS
-  static const iOSWidgetAppGroupId = 'group.uniApp';
+  static const iOSWidgetAppGroupId = 'group.pt.up.fe.ni.uni';
   static const iOSWidgetName = 'ScheduleWidget';
 
   /// Android
