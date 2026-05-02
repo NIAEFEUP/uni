@@ -74,8 +74,7 @@ class ExamsPageView extends ConsumerWidget {
         exams: examsForMonth,
         hiddenExams: hiddenExams,
         onToggleHidden: onToggleHidden,
-        weekday: (dateTime) =>
-            _toShortVersion(daysOfTheWeek[dateTime.weekday - 1]),
+        weekday: (dateTime) => daysOfTheWeek[dateTime.weekday - 1],
       );
     }).toList();
 
@@ -106,17 +105,5 @@ class ExamsPageView extends ConsumerWidget {
       months.putIfAbsent(month, () => []).add(exam);
     }
     return months;
-  }
-
-  String _toShortVersion(String dayOfTheWeek) {
-    final match = RegExp(r'^\p{L}+', unicode: true).firstMatch(dayOfTheWeek);
-    if (match != null) {
-      final matchedString = match.group(0)!;
-      final shortened = matchedString.length >= 3
-          ? matchedString.substring(0, 3)
-          : matchedString;
-      return shortened[0].toUpperCase() + shortened.substring(1).toLowerCase();
-    }
-    return 'Blank';
   }
 }
