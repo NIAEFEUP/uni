@@ -442,6 +442,8 @@
   "@available_elements": {},
   "library": "Library",
   "@library": {},
+  "library_building": "Building C (Library)",
+  "@library_building": {},
   "restaurants": "Restaurants",
   "@restaurants": {},
   "tomorrows_meals": "Tomorrow's Menu",

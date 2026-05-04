@@ -263,6 +263,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "leave_feedback": MessageLookupByLibrary.simpleMessage("Leave feedback"),
     "lectures": MessageLookupByLibrary.simpleMessage("Lectures"),
     "library": MessageLookupByLibrary.simpleMessage("Library"),
+    "library_building": MessageLookupByLibrary.simpleMessage(
+      "Building C (Library)",
+    ),
     "library_occupation": MessageLookupByLibrary.simpleMessage(
       "Library Occupation",
     ),
