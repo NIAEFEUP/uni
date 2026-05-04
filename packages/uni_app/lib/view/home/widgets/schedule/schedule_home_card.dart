@@ -18,61 +18,6 @@ import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
 import 'package:uni_ui/icons.dart';
 
-/*List<Lecture> getMockLectures() {
-  final now = DateTime.now();
-
-  return [
-    Lecture(
-      'ESOF',
-
-      'ESOF',
-
-      'T',
-
-      now.subtract(const Duration(hours: 2)),
-
-      now.subtract(const Duration(hours: 1)),
-
-      'Room B123',
-
-      'ademaraguiar',
-
-      'ademaraguiar',
-
-      101,
-
-      '1',
-
-      1001,
-     ),
-
-     Lecture(
-      'LTW',
-
-      'LTW',
-
-      'TP',
-
-      now.add(const Duration(hours: 0)),
-
-      now.add(const Duration(hours: 1)),
-
-      'Room B234',
-
-      'arestivo',
-
-      'arestivo',
-
-      102,
-
-      '2',
-
-      1002,
-     ),
-  ];
-
-}*/
-
 class ScheduleHomeCard extends GenericHomecard {
   const ScheduleHomeCard({super.key})
     : super(
