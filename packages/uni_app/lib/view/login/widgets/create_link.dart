@@ -20,16 +20,16 @@ class LinkWidget extends StatelessWidget {
       text: TextSpan(
         text: textStart,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-          color: Theme.of(context).colorScheme.onSecondaryFixed,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
         ),
         children: [
           const TextSpan(text: ' '),
           TextSpan(
             text: textEnd,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: Theme.of(context).colorScheme.onSecondaryFixed,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
               decoration: TextDecoration.underline,
-              decorationColor: Theme.of(context).colorScheme.onSecondaryFixed,
+              decorationColor: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
             recognizer: recognizer,
           ),

@@ -241,7 +241,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                   child: DefaultConsumer<List<Lecture>>(
                     provider: lectureProvider,
                     errorWidget: GeneralErrorView(
-                      textColor: Theme.of(context).colorScheme.onSecondaryFixed,
+                      textColor: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                     builder: (context, ref, lectures) {
                       return ScheduleCard(
