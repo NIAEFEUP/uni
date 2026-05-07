@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/widget_card_background"
+    android:background="@drawable/widget_card_background"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
     android:paddingVertical="16dp">
@@ -31,8 +31,7 @@
             android:paddingVertical="3dp"
             android:text="?attr/lectureTypeClass"
             android:textColor="#FFFFFF"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textSize="12sp" />
 
         <FrameLayout
             android:layout_width="0dp"

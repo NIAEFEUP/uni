@@ -32,13 +32,21 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="12dp"
-                android:background="@color/widget_accent" />
+                android:background="@color/widget_accent" >
+
+                <FrameLayout
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/widget_accent" />
+            </FrameLayout>
 
             <FrameLayout
                 android:layout_width="17dp"
                 android:layout_height="17dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="3.5dp"
+                android:layout_marginTop="2.5dp"
                 android:background="@drawable/widget_timeline_dot" />
         </FrameLayout>
 
@@ -76,6 +84,7 @@
                 android:layout_width="3dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
                 android:background="@color/widget_accent" />
 
             <FrameLayout
