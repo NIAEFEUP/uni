@@ -12,6 +12,8 @@ class WidgetService {
   static const androidPackagePrefix = 'pt.up.fe.ni.uni';
   static const androidWidgetName =
       '$androidPackagePrefix.receivers.ScheduleWidgetReceiver';
+  static const androidWidgetWideName =
+      '$androidPackagePrefix.receivers.ScheduleWidgetWideReceiver';
 
   /// Called in main.dart
   static Future<void> initialize() async {
@@ -26,6 +28,10 @@ class WidgetService {
     await _updateWidget(
       iOSWidgetName: iOSWidgetName,
       qualifiedAndroidName: androidWidgetName,
+    );
+
+    await _updateWidget(
+      qualifiedAndroidName: androidWidgetWideName,
     );
   }
 
