@@ -21,11 +21,11 @@ class LectureNotifier extends CachedAsyncNotifier<List<Lecture>> {
       return lecture.endTime.isAfter(now);
     }).toList();
 
-    final topTwoLectures = upcomingLectures.take(2).toList();
+    final lecturesForWidget = upcomingLectures.take(6).toList();
 
     unawaited(
       WidgetService.updateScheduleWidget(
-        topTwoLectures.map((l) => l.toJson()).toList(),
+        lecturesForWidget.map((l) => l.toJson()).toList(),
       ),
     );
   }
@@ -42,7 +42,7 @@ class LectureNotifier extends CachedAsyncNotifier<List<Lecture>> {
 
   @override
   Future<List<Lecture>> loadFromStorage() async {
-    final lectures = await Database().lectures.toSet().toList();
+    final lectures = Database().lectures.toSet().toList();
 
     // update widget when app starts and loads cached local data
     _updateWidgetWithNextLectures(lectures);
@@ -62,6 +62,9 @@ class LectureNotifier extends CachedAsyncNotifier<List<Lecture>> {
 
     try {
       Database().saveLectures(lectures);
+
+      // update widget when new data is downloaded in the bg or pulled manually
+      _updateWidgetWithNextLectures(lectures);
     } catch (e, st) {
       Logger().e(
         'Failed to save lectures to local database',
