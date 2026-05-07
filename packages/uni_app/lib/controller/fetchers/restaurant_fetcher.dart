@@ -1,5 +1,8 @@
+import 'package:html/parser.dart';
+import 'package:http/http.dart' as http;
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/controller/parsers/parser_restaurants.dart';
+import 'package:uni/controller/parsers/restaurant/parser_multirest.dart';
+import 'package:uni/controller/parsers/restaurant/parser_restaurants.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/utils/day_of_week.dart';
@@ -107,9 +110,38 @@ class RestaurantFetcher {
     return restaurants;
   }
 
+  Future<List<Restaurant>> fetchMultirestRestaurants() async {
+    final response = await http.get(Uri.parse('http://multirest.eu/meals.php'));
+    final mainDoc = parse(response.body);
+    final institutionIds = <String>{};
+    final institutionNames = <String, String>{}; 
+
+    for (final a in mainDoc.querySelectorAll('a')) {
+      final href = a.attributes['href'];
+      if (href == null) {
+        continue;
+      }
+      final match = RegExp(r'institution=(\d+)').firstMatch(href);
+
+      if (match != null) {
+        final id = match.group(1)!;
+        institutionIds.add(id);
+        institutionNames[id] = a.text.trim();
+      }
+    }
+    final List<Restaurant> restaurants = [];
+    for (final id in institutionIds) {
+      final resp = await http.get(Uri.parse('http://multirest.eu/meals.php?institution=$id'));
+      final name = institutionNames[id] ?? 'Institution $id';
+      final dayRestaurants = parseMultirestHtml(resp.body, name, id);
+      restaurants.addAll(dayRestaurants);
+    }
+    return restaurants;
+  }
+
   Future<List<Restaurant>> getRestaurants(Session session) async {
     final restaurants =
-        await fetchSASUPRestaurants() + await fetchSigarraRestaurants(session);
+        await fetchSASUPRestaurants() + await fetchSigarraRestaurants(session) + await fetchMultirestRestaurants();
 
     return restaurants;
   }
