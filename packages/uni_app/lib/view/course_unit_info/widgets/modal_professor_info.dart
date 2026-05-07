@@ -40,7 +40,7 @@ class ProfessorInfoModal extends ConsumerWidget {
           ),
         ),
         DefaultConsumer<Professor>(
-          provider: professorInfoProvider(professor),
+          provider: professorInfoFamilyProvider(professor),
           builder: (context, ref, info) => Column(
             mainAxisSize: MainAxisSize.min,
             children: [
