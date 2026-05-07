@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/professor_lectures_provider.dart';
-import 'package:uni/view/academic_path/widgets/no_classes_widget.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_shimmer.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_view.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
+import 'package:uni_ui/common_widgets/empty_state_widget.dart';
 
 class ProfessorSchedulePage extends ConsumerWidget {
   ProfessorSchedulePage({super.key, required this.professor, DateTime? now})
@@ -39,7 +40,13 @@ class ProfessorSchedulePage extends ConsumerWidget {
             child: Container(
               height: constraints.maxHeight,
               padding: const EdgeInsets.only(bottom: 120),
-              child: const Center(child: NoClassesWidget()),
+              child: Center(
+                child: EmptyStateWidget(
+                  imagePath: 'assets/images/school.png',
+                  title: S.of(context).no_classes,
+                  subtitle: S.of(context).no_classes_this_week,
+                ),
+              ),
             ),
           ),
         ),
