@@ -45,56 +45,44 @@ class _TransactionFilterMenuState extends State<TransactionFilterMenu> {
           builder: (context, setModalState) {
             return ModalDialog(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Text(
-                    S.of(context).transactions,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                Text(
+                  S.of(context).transactions,
+                  style: Theme.of(context).textTheme.headlineLarge,
                 ),
-                const Divider(height: 1),
-                const SizedBox(height: 8),
-
+                const SizedBox(height: 16),
                 ...widget.items.map((keyLabel) {
                   final isSelected = dialogSelected == keyLabel;
 
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 1),
-                    child: ListTile(
-                      dense: true,
-                      visualDensity: const VisualDensity(vertical: -2),
-                      selected: isSelected,
-                      selectedTileColor: Theme.of(
-                        context,
-                      ).colorScheme.primary.withAlpha(20),
-                      title: Text(
-                        _getFilterLabel(context, keyLabel),
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: isSelected
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                          color: isSelected
-                              ? Theme.of(context).colorScheme.primary
-                              : null,
-                        ),
-                      ),
-                      trailing: isSelected
-                          ? Icon(
-                              Icons.check,
-                              color: Theme.of(context).colorScheme.primary,
-                            )
-                          : null,
-                      onTap: () {
-                        setModalState(() {
-                          dialogSelected = keyLabel;
-                        });
-                      },
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 12,
+                  return ListTile(
+                    dense: true,
+                    visualDensity: const VisualDensity(vertical: -2),
+                    selected: isSelected,
+                    selectedTileColor: Theme.of(
+                      context,
+                    ).colorScheme.onSecondary,
+                    title: Text(
+                      _getFilterLabel(context, keyLabel),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: isSelected
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                        color: isSelected
+                            ? Theme.of(context).colorScheme.onSecondary
+                            : null,
                       ),
                     ),
+                    trailing: isSelected
+                        ? Icon(
+                            Icons.check,
+                            color: Theme.of(context).colorScheme.onSecondary,
+                          )
+                        : null,
+                    onTap: () {
+                      setModalState(() {
+                        dialogSelected = keyLabel;
+                      });
+                    },
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                   );
                 }),
 
@@ -102,16 +90,16 @@ class _TransactionFilterMenuState extends State<TransactionFilterMenu> {
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
+                  spacing: 8,
                   children: [
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(),
                       child: Text(
                         S.of(context).cancel,
-                        style: const TextStyle(fontSize: 12),
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    FilledButton(
+                    TextButton(
                       onPressed: () {
                         setState(() {
                           currentSelected = dialogSelected;
@@ -119,11 +107,15 @@ class _TransactionFilterMenuState extends State<TransactionFilterMenu> {
                         widget.onSelectionChanged(currentSelected);
                         Navigator.of(context).pop();
                       },
+                      style: TextButton.styleFrom(
+                        backgroundColor: Theme.of(
+                          context,
+                        ).colorScheme.onSecondary,
+                      ),
                       child: Text(
                         S.of(context).apply,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.white,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                     ),
@@ -154,20 +146,27 @@ class _TransactionFilterMenuState extends State<TransactionFilterMenu> {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-        shape: const StadiumBorder(),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        shape: const RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        visualDensity: VisualDensity.compact,
       ),
       onPressed: () => _showFilterDialog(context),
       child: Row(
+        spacing: 4,
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             _getFilterLabel(context, currentSelected),
             style: Theme.of(context).textTheme.bodySmall,
           ),
-          const SizedBox(width: 4),
-          const Icon(Icons.keyboard_arrow_down, size: 16),
+          Icon(
+            Icons.keyboard_arrow_down,
+            size: 16,
+            color: Theme.of(context).colorScheme.onSecondary,
+          ),
         ],
       ),
     );

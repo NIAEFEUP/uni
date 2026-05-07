@@ -40,9 +40,9 @@ class ProfileOverview extends ConsumerWidget {
               return Badge(
                 label: Text(
                   type.toUpperCase(),
-                  style: Theme.of(context).textTheme.titleSmall,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
-                backgroundColor: Theme.of(context).colorScheme.primary,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               );
             }).toList(),

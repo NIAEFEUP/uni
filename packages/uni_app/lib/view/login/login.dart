@@ -305,9 +305,11 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
                     ),
                   ),
                   if (_loggingIn)
-                    const Align(
-                      alignment: Alignment(0, 0.35),
-                      child: CircularProgressIndicator(color: Colors.white),
+                    Align(
+                      alignment: const Alignment(0, 0.35),
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).colorScheme.onSecondaryFixed,
+                      ),
                     ),
                   if (!_loggingIn)
                     Padding(
@@ -490,7 +492,7 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
               Text(
                 S.of(context).pass_change_request,
                 textAlign: TextAlign.start,
-                style: Theme.of(context).textTheme.titleSmall,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 20),
               Align(

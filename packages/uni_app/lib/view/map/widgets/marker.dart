@@ -15,8 +15,10 @@ class LocationMarker extends Marker {
         child: Builder(
           builder: (context) => DecoratedBox(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              border: Border.all(color: Theme.of(context).colorScheme.primary),
+              color: Theme.of(context).colorScheme.onSecondary,
+              border: Border.all(
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
               borderRadius: const BorderRadius.all(Radius.circular(20)),
             ),
             child: MarkerIcon(
@@ -39,28 +41,20 @@ class MarkerIcon extends StatelessWidget {
       return Container();
     }
 
-    final fontColor = _getFontColor(context);
     if (location?.icon is IconData) {
       return UniIcon(
         location?.icon as IconData,
-        color: fontColor,
+        color: Theme.of(context).colorScheme.secondary,
         size: 12,
         solid: true,
       );
     } else {
       return UniIcon(
         Icons.device_unknown,
-        color: fontColor,
+        color: Theme.of(context).colorScheme.secondary,
         size: 12,
         solid: true,
       );
     }
-  }
-
-  // TODO(thePeras): Duplicated code
-  Color _getFontColor(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.light
-        ? Theme.of(context).colorScheme.primary
-        : Theme.of(context).colorScheme.tertiary;
   }
 }

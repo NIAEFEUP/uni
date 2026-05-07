@@ -168,6 +168,7 @@ class ApplicationState extends ConsumerState<Application> {
             title: 'uni',
             navigatorKey: Application.navigatorKey,
             theme: lightTheme,
+            darkTheme: darkTheme,
             themeMode: themeMode,
             locale: locale.localeCode,
             localizationsDelegates: const [

@@ -5,19 +5,16 @@ import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/riverpod/course_units_info_provider.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
-import 'package:uni/view/academic_path/widgets/no_classes_widget.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_shimmer.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes_shimmer.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files_shimmer.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_lectures.dart';
-import 'package:uni/view/course_unit_info/widgets/course_unit_no_classes.dart';
-import 'package:uni/view/course_unit_info/widgets/course_unit_no_files.dart';
-import 'package:uni/view/course_unit_info/widgets/course_unit_no_info.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet_shimmer.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
+import 'package:uni_ui/common_widgets/empty_state_widget.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/tabs/tab_icon.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -116,7 +113,10 @@ class CourseUnitDetailPageViewState
   Widget? getHeader(BuildContext context) {
     return TabBar(
       controller: tabController,
-      dividerHeight: 1,
+      indicatorColor: Theme.of(context).colorScheme.onSecondary,
+      splashFactory: NoSplash.splashFactory,
+      overlayColor: WidgetStateProperty.all(Colors.transparent),
+      dividerHeight: 0,
       isScrollable: true,
       tabAlignment: TabAlignment.start,
       tabs: [
@@ -177,7 +177,13 @@ class CourseUnitDetailPageViewState
               child: Container(
                 height: constraints.maxHeight,
                 padding: const EdgeInsets.only(bottom: 120),
-                child: const Center(child: NoInfoWidget()),
+                child: Center(
+                  child: EmptyStateWidget(
+                    imagePath: 'assets/images/course_info.png',
+                    title: S.of(context).no_info,
+                    subtitle: S.of(context).no_course_unit_info,
+                  ),
+                ),
               ),
             ),
           );
@@ -204,7 +210,13 @@ class CourseUnitDetailPageViewState
           child: Container(
             height: constraints.maxHeight,
             padding: const EdgeInsets.only(bottom: 120),
-            child: const Center(child: NoFilesWidget()),
+            child: Center(
+              child: EmptyStateWidget(
+                imagePath: 'assets/images/files.svg',
+                title: S.of(context).no_files_label,
+                subtitle: S.of(context).no_files,
+              ),
+            ),
           ),
         ),
       );
@@ -239,7 +251,13 @@ class CourseUnitDetailPageViewState
               child: Container(
                 height: constraints.maxHeight,
                 padding: const EdgeInsets.only(bottom: 120),
-                child: const Center(child: NoClassGroupsWidget()),
+                child: Center(
+                  child: EmptyStateWidget(
+                    imagePath: 'assets/images/classes.png',
+                    title: S.of(context).no_class,
+                    subtitle: S.of(context).no_course_unit_classes,
+                  ),
+                ),
               ),
             ),
           );
@@ -268,7 +286,12 @@ class CourseUnitDetailPageViewState
         }
 
         if (lectures.isEmpty) {
-          return const Center(child: NoClassesWidget(showSublabel: false));
+          return Center(
+            child: EmptyStateWidget(
+              imagePath: 'assets/images/school.png',
+              title: S.of(context).no_classes,
+            ),
+          );
         }
 
         return CourseUnitLecturesView(lectures, widget.courseUnit);
@@ -287,7 +310,7 @@ class CourseUnitDetailPageViewState
     return IconButton(
       icon: UniIcon(
         UniIcons.arrowSquareOut,
-        color: Theme.of(context).iconTheme.color,
+        color: Theme.of(context).colorScheme.onSecondary,
       ),
       onPressed: () async {
         // If the course unit isn't from FEUP, sigarra redirects to the correct page

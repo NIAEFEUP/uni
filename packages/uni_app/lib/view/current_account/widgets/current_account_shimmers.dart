@@ -15,8 +15,8 @@ class CurrentAccountShimmers extends StatelessWidget {
             child: ClipRSuperellipse(
               borderRadius: BorderRadiusGeometry.circular(20),
               child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
+                baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+                highlightColor: Theme.of(context).disabledColor,
                 child: Container(
                   height: 40,
                   decoration: const BoxDecoration(color: Colors.white),
@@ -29,8 +29,8 @@ class CurrentAccountShimmers extends StatelessWidget {
             child: ClipRSuperellipse(
               borderRadius: BorderRadiusGeometry.circular(20),
               child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
+                baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+                highlightColor: Theme.of(context).disabledColor,
                 child: Container(
                   height: 60,
                   decoration: const BoxDecoration(color: Colors.white),
@@ -43,8 +43,8 @@ class CurrentAccountShimmers extends StatelessWidget {
             child: ClipRSuperellipse(
               borderRadius: BorderRadiusGeometry.circular(20),
               child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
+                baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+                highlightColor: Theme.of(context).disabledColor,
                 child: Container(
                   height: 70,
                   decoration: const BoxDecoration(color: Colors.white),
@@ -57,8 +57,8 @@ class CurrentAccountShimmers extends StatelessWidget {
             child: ClipRSuperellipse(
               borderRadius: BorderRadiusGeometry.circular(20),
               child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
+                baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+                highlightColor: Theme.of(context).disabledColor,
                 child: Container(
                   height: 70,
                   decoration: const BoxDecoration(color: Colors.white),
@@ -72,8 +72,8 @@ class CurrentAccountShimmers extends StatelessWidget {
             child: ClipRSuperellipse(
               borderRadius: BorderRadiusGeometry.circular(20),
               child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
+                baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+                highlightColor: Theme.of(context).disabledColor,
                 child: Container(
                   height: 40,
                   decoration: const BoxDecoration(color: Colors.white),
@@ -86,8 +86,8 @@ class CurrentAccountShimmers extends StatelessWidget {
             child: ClipRSuperellipse(
               borderRadius: BorderRadiusGeometry.circular(20),
               child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
+                baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+                highlightColor: Theme.of(context).disabledColor,
                 child: Container(
                   height: 100,
                   decoration: const BoxDecoration(color: Colors.white),
@@ -101,8 +101,8 @@ class CurrentAccountShimmers extends StatelessWidget {
             child: ClipRSuperellipse(
               borderRadius: BorderRadiusGeometry.circular(20),
               child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
+                baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+                highlightColor: Theme.of(context).disabledColor,
                 child: Container(
                   height: 40,
                   decoration: const BoxDecoration(color: Colors.white),
@@ -115,8 +115,8 @@ class CurrentAccountShimmers extends StatelessWidget {
             child: ClipRSuperellipse(
               borderRadius: BorderRadiusGeometry.circular(20),
               child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
+                baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+                highlightColor: Theme.of(context).disabledColor,
                 child: Container(
                   height: 150,
                   decoration: const BoxDecoration(color: Colors.white),

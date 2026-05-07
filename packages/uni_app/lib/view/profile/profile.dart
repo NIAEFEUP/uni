@@ -47,7 +47,7 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
             subtitle: S.of(context).current_account_description,
             trailing: UniIcon(
               UniIcons.caretRight,
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.onSecondary,
             ),
             onTap: () {
               Navigator.pushNamed(

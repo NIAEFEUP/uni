@@ -179,19 +179,16 @@ class CurrentAccountPageViewState
           ),
         ],
         const SizedBox(height: 22),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
                 S.of(context).transactions,
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(right: 20),
-              child: TransactionFilterMenu(
+              TransactionFilterMenu(
                 items: const ['Pending', 'Tuition Fees', 'General History'],
                 selectedValue: _selectedFilter,
                 onSelectionChanged: (newValue) {
@@ -200,8 +197,8 @@ class CurrentAccountPageViewState
                   });
                 },
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         const SizedBox(height: 8),
         if (currentList.isEmpty)

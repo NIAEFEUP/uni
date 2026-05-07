@@ -121,6 +121,8 @@ class HomePageViewState extends ConsumerState<HomePageView> {
         bottomNavigationBar: const AppBottomNavbar(),
         body: RefreshIndicator(
           onRefresh: () => refreshPage(context),
+          color: Theme.of(context).colorScheme.onSecondary,
+          backgroundColor: Theme.of(context).colorScheme.secondary,
           child: ListView.separated(
             itemCount: favoriteCards.length + 2,
             separatorBuilder: (_, _) => const SizedBox(height: 10),
@@ -131,13 +133,12 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                   child: TrackingBanner(setBannerViewed),
                 );
               } else if (index == favoriteCards.length + 1) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 125),
+                return Center(
                   child: TextButton.icon(
                     style: TextButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.secondary,
                       elevation: 2,
-                      shadowColor: Colors.black.withValues(alpha: 0.3),
+                      shadowColor: Theme.of(context).colorScheme.shadow,
                       shape: RoundedSuperellipseBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -148,12 +149,14 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                         '/${NavigationItem.navEditPersonalArea.route}',
                       );
                     },
-                    icon: const UniIcon(UniIcons.edit),
+                    icon: UniIcon(
+                      UniIcons.edit,
+                      color: Theme.of(context).colorScheme.onSecondary,
+                    ),
                     label: Text(
                       S.of(context).edit_homepage,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.onSecondary,
                       ),
                     ),
                   ),
@@ -186,13 +189,26 @@ class HomePageViewState extends ConsumerState<HomePageView> {
     return PreferredSize(
       preferredSize: Size.fromHeight(appBarHeight),
       child: Container(
-        decoration: const BoxDecoration(
-          gradient: RadialGradient(
-            colors: [Color(0xFF280709), Color(0xFF511515)],
-            center: Alignment.topLeft,
-            radius: 1.5,
-            stops: [0, 1],
-          ),
+        decoration: BoxDecoration(
+          gradient: Theme.of(context).brightness == Brightness.light
+              ? RadialGradient(
+                  colors: [
+                    Theme.of(context).colorScheme.tertiary,
+                    Theme.of(context).colorScheme.onTertiary,
+                  ],
+                  center: Alignment.topLeft,
+                  radius: 2,
+                  stops: const [0, 1],
+                )
+              : LinearGradient(
+                  colors: [
+                    Theme.of(context).colorScheme.tertiary,
+                    Theme.of(context).colorScheme.surface,
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: const [0, 1],
+                ),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
@@ -203,7 +219,11 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const UniLogo(iconColor: Colors.white),
+                      UniLogo(
+                        iconColor: Theme.of(
+                          context,
+                        ).colorScheme.onSurfaceVariant,
+                      ),
                       Row(
                         spacing: 16,
                         mainAxisSize: MainAxisSize.min,
@@ -220,8 +240,8 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                   padding: const EdgeInsets.symmetric(vertical: 25),
                   child: DefaultConsumer<List<Lecture>>(
                     provider: lectureProvider,
-                    errorWidget: const GeneralErrorView(
-                      textColor: Colors.white,
+                    errorWidget: GeneralErrorView(
+                      textColor: Theme.of(context).colorScheme.onSecondaryFixed,
                     ),
                     builder: (context, ref, lectures) {
                       return ScheduleCard(

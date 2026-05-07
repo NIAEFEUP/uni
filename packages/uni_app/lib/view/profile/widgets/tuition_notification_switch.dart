@@ -24,7 +24,11 @@ class _TuitionNotificationSwitchState extends State<TuitionNotificationSwitch> {
     return Switch.adaptive(
       value: tuitionNotificationToggle,
       onChanged: (value) => saveTuitionNotificationToggle(value: value),
-      activeTrackColor: Theme.of(context).colorScheme.primary,
+      activeTrackColor: Theme.of(context).colorScheme.onSecondary,
+      activeThumbColor: Theme.of(context).colorScheme.secondary,
+      inactiveTrackColor: Theme.of(context).colorScheme.onSecondaryFixed,
+      inactiveThumbColor: Theme.of(context).colorScheme.onSecondary,
+      trackOutlineColor: const WidgetStatePropertyAll(Colors.transparent),
     );
   }
 }

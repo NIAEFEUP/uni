@@ -15,12 +15,12 @@ import 'package:uni/view/restaurant/tab_controller_provider.dart';
 import 'package:uni/view/restaurant/widgets/days_of_week_tab_bar.dart';
 import 'package:uni/view/restaurant/widgets/dish_type_checkbox_menu.dart';
 import 'package:uni/view/restaurant/widgets/favorite_restaurants_button.dart';
-import 'package:uni/view/restaurant/widgets/no_restaurants_widget.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_page_view_shimmer.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
 import 'package:uni/view/widgets/pages_layouts/general/general.dart';
 import 'package:uni_ui/cards/restaurant_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
+import 'package:uni_ui/common_widgets/empty_state_widget.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
@@ -94,6 +94,9 @@ class _RestaurantPageViewState
       alignment: Alignment.bottomCenter,
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
+          style: Theme.of(context).textTheme.bodyLarge,
+          dropdownColor: Theme.of(context).colorScheme.secondary,
+          borderRadius: BorderRadius.circular(8),
           value: campus[selectedCampus],
           elevation: 16,
           onChanged: (value) {
@@ -167,7 +170,13 @@ class _RestaurantPageViewState
             child: Container(
               height: constraints.maxHeight,
               padding: const EdgeInsets.only(bottom: 120),
-              child: const Center(child: NoRestaurantsWidget()),
+              child: Center(
+                child: EmptyStateWidget(
+                  imagePath: 'assets/images/chef.png',
+                  title: S.of(context).no_restaurants_available,
+                  subtitle: S.of(context).no_restaurants_available_sublabel,
+                ),
+              ),
             ),
           ),
         ),
@@ -256,7 +265,7 @@ class _RestaurantPageViewState
       return Center(
         child: Text(
           S.of(context).no_menus,
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
       );
     }
@@ -280,7 +289,7 @@ class _RestaurantPageViewState
     AppLocale locale,
   ) {
     final menuItems =
-        _getRestaurantMenuItems(dayOfWeek, restaurant, locale) ?? [];
+        _getRestaurantMenuItems(context, dayOfWeek, restaurant, locale) ?? [];
     return menuItems.isNotEmpty
         ? RestaurantCard(
             name: RestaurantUtils.getRestaurantName(
@@ -292,6 +301,7 @@ class _RestaurantPageViewState
             ),
             icon: RestaurantUtils.getIcon(
               restaurant.typeEn ?? restaurant.typePt,
+              color: Theme.of(context).colorScheme.onSecondary,
             ),
             isFavorite: PreferencesController.getFavoriteRestaurants().contains(
               restaurant.namePt + restaurant.period,
@@ -321,7 +331,10 @@ class _RestaurantPageViewState
                               'mailto:${restaurant.email}',
                             ),
                             icon: UniIcons.email,
-                            trailing: const UniIcon(UniIcons.caretRight),
+                            trailing: UniIcon(
+                              UniIcons.caretRight,
+                              color: Theme.of(context).colorScheme.onSecondary,
+                            ),
                           ),
                       ],
                     );
@@ -334,6 +347,7 @@ class _RestaurantPageViewState
   }
 
   List<RestaurantMenuItem>? _getRestaurantMenuItems(
+    BuildContext context,
     DayOfWeek dayOfWeek,
     Restaurant restaurant,
     AppLocale locale,
@@ -351,7 +365,10 @@ class _RestaurantPageViewState
               meal.namePt,
               meal.nameEn,
             ),
-            icon: RestaurantUtils.getIcon(meal.type),
+            icon: RestaurantUtils.getIcon(
+              meal.type,
+              color: Theme.of(context).colorScheme.onSecondary,
+            ),
           ),
         );
       }

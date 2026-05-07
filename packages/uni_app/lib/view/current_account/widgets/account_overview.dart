@@ -25,14 +25,13 @@ class AccountOverview extends StatelessWidget {
           tooltip: S.of(context).balance,
           margin: const EdgeInsets.only(bottom: 14, right: 20, left: 20),
           padding: EdgeInsets.zero,
-
           child: ProfileListTile(
             icon: UniIcons.piggyBank,
             title: S.of(context).balance,
             subtitle: S.of(context).balance_description,
             trailing: Text(
               feesBalance,
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
         ),
@@ -40,7 +39,6 @@ class AccountOverview extends StatelessWidget {
           tooltip: S.of(context).fee_date,
           margin: const EdgeInsets.only(bottom: 14, right: 20, left: 20),
           padding: EdgeInsets.zero,
-
           child: ProfileListTile(
             icon: UniIcons.calendarDots,
             title: S.of(context).fee_date,
@@ -49,7 +47,7 @@ class AccountOverview extends StatelessWidget {
               feesLimit != null
                   ? DateFormat('yyyy-MM-dd').format(feesLimit!)
                   : S.of(context).no_date,
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
         ),
@@ -63,7 +61,7 @@ class AccountOverview extends StatelessWidget {
             subtitle: S.of(context).print_balance_description,
             trailing: Text(
               printBalance,
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
         ),
