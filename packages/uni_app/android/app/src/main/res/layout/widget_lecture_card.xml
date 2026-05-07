@@ -5,7 +5,7 @@
     android:background="@drawable/widget_card_background"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
-    android:paddingVertical="16dp">
+    android:paddingVertical="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:text="?attr/lectureAcronym"
             android:textColor="@color/widget_primary_text"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <TextView
@@ -31,7 +31,7 @@
             android:paddingVertical="3dp"
             android:text="?attr/lectureTypeClass"
             android:textColor="#FFFFFF"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
 
         <FrameLayout
             android:layout_width="0dp"
@@ -63,7 +63,7 @@
                 android:layout_marginStart="6dp"
                 android:text="?attr/lectureRoom"
                 android:textColor="@color/widget_primary_text"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
@@ -76,5 +76,5 @@
         android:maxLines="1"
         android:text="?attr/lectureSubject"
         android:textColor="@color/widget_secondary_text"
-        android:textSize="14sp" />
+        android:textSize="9sp" />
 </LinearLayout>
