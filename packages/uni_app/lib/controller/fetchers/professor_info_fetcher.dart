@@ -66,10 +66,6 @@ class ProfessorInfoFetcher {
           }
         }
 
-        if (parsedEmail == null) {
-          continue;
-        }
-
         for (final roomLink in document.querySelectorAll(
           'a[href*="instal_geral.espaco_view"]',
         )) {
@@ -113,15 +109,17 @@ class ProfessorInfoFetcher {
           }
         }
 
-        return Professor(
-          code: professor.code,
-          name: professor.name,
-          classes: professor.classes,
-          institutionalEmail: parsedEmail,
-          rooms: _dedupeRooms(rooms),
-          picture: professor.picture,
-          isRegent: professor.isRegent,
-        );
+        if (parsedEmail != null || rooms.isNotEmpty) {
+          return Professor(
+            code: professor.code,
+            name: professor.name,
+            classes: professor.classes,
+            institutionalEmail: parsedEmail ?? email,
+            rooms: _dedupeRooms(rooms),
+            picture: professor.picture,
+            isRegent: professor.isRegent,
+          );
+        }
       } catch (_) {
         continue;
       }

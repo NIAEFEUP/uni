@@ -108,11 +108,6 @@ List<Professor> getCourseUnitProfessors(List<Map<String, dynamic>> ds) {
             )];
 
         existingProfessor.classes.add(map['tipo'].toString());
-        existingProfessor.institutionalEmail ??= professor.institutionalEmail;
-        existingProfessor.rooms = {
-          ...existingProfessor.rooms,
-          ...professor.rooms,
-        }.toList();
       } else {
         professors.add(professor);
       }
