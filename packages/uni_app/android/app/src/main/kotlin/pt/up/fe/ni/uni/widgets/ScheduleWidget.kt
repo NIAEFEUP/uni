@@ -36,6 +36,8 @@ import es.antonborri.home_widget.HomeWidgetGlanceStateDefinition
 import androidx.glance.currentState
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 private object WidgetTheme {
     val Background = ColorProvider(day = Color(0xFFFFF5F3), night = Color(0xFF2F0A0C))
@@ -65,7 +67,7 @@ class ScheduleWidget : GlanceAppWidget() {
             val prefs = state.preferences
             val scheduleDataJson = prefs.getString("schedule_data", null)
 
-            val lectures = if (scheduleDataJson != null) {
+            val allLectures = if (scheduleDataJson != null) {
                 try {
                     val type = object : TypeToken<List<Map<String, Any>>>() {}.type
                     Gson().fromJson<List<Map<String, Any>>>(scheduleDataJson, type)
@@ -74,6 +76,14 @@ class ScheduleWidget : GlanceAppWidget() {
                 }
             } else {
                 emptyList()
+            }
+
+            // Filter lectures based on current time
+            val now = LocalDateTime.now()
+            val lectures = allLectures.filter { lecture ->
+                val endTimeStr = lecture["endTime"] as? String
+                val endTime = parseDateTime(endTimeStr)
+                endTime?.isAfter(now) ?: false
             }
 
             val size = androidx.glance.LocalSize.current
@@ -403,6 +413,18 @@ class ScheduleWidget : GlanceAppWidget() {
                     maxLines = 1
                 )
             }
+        }
+    }
+
+    private fun parseDateTime(dateTimeStr: String?): LocalDateTime? {
+        if (dateTimeStr == null) return null
+        return try {
+            // Flutter's DateTime.toString() returns "YYYY-MM-DD HH:MM:SS.mmm"
+            // LocalDateTime.parse expects ISO format "YYYY-MM-DDTHH:MM:SS"
+            val cleanStr = dateTimeStr.replace(" ", "T")
+            LocalDateTime.parse(cleanStr)
+        } catch (e: Exception) {
+            null
         }
     }
 
