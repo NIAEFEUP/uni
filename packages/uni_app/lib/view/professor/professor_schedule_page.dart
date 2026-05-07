@@ -27,11 +27,11 @@ class ProfessorSchedulePage extends ConsumerWidget {
           final startOfWeek = _getStartOfWeek(now, lectures);
 
           return SchedulePageView(
-          lectures,
-          startOfWeek: startOfWeek,
-          now: now,
-          showClassNumber: true,
-        );
+            lectures,
+            startOfWeek: startOfWeek,
+            now: now,
+            showClassNumber: true,
+          );
         },
         nullContentWidget: LayoutBuilder(
           builder: (context, constraints) => SingleChildScrollView(

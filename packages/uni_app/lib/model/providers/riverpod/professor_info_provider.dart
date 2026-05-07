@@ -6,8 +6,8 @@ import 'package:uni/model/providers/riverpod/session_provider.dart';
 
 final professorInfoProvider =
     AsyncNotifierProvider.autoDispose<ProfessorInfoNotifier, Professor?>(
-  ProfessorInfoNotifier.new,
-);
+      ProfessorInfoNotifier.new,
+    );
 
 class ProfessorInfoNotifier extends CachedAsyncNotifier<Professor?> {
   @override
@@ -48,6 +48,6 @@ class ProfessorInfoNotifier extends CachedAsyncNotifier<Professor?> {
 
 final professorInfoFamilyProvider = FutureProvider.autoDispose
     .family<Professor?, Professor>((ref, professor) {
-  ref.read(professorInfoProvider.notifier).setProfessor(professor);
-  return ref.watch(professorInfoProvider.future);
-});
+      ref.read(professorInfoProvider.notifier).setProfessor(professor);
+      return ref.watch(professorInfoProvider.future);
+    });
