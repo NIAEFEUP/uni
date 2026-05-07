@@ -2,7 +2,11 @@ import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 
-List<Restaurant> parseMultirestHtml(String html, String institutionName, String institutionId) {
+List<Restaurant> parseMultirestHtml(
+  String html,
+  String institutionName,
+  String institutionId,
+) {
   final lines = html.split('\n');
   final List<Restaurant> result = [];
   DateTime? currentDate;
@@ -12,26 +16,28 @@ List<Restaurant> parseMultirestHtml(String html, String institutionName, String 
     final headerMatch = dayHeaderRegex.firstMatch(line);
     if (headerMatch != null) {
       if (currentDate != null && meals.isNotEmpty) {
-        result.add(Restaurant(
-          null,
-          null,
-          null,
-          institutionName,
-          institutionName,
-          institutionId,
-          0,
-          '',
-          [],
-          '',
-          meals: meals,
-        ));
+        result.add(
+          Restaurant(
+            null,
+            null,
+            null,
+            institutionName,
+            institutionName,
+            institutionId,
+            0,
+            '',
+            [],
+            '',
+            meals: meals,
+          ),
+        );
         meals.clear();
       }
       final dateStr = headerMatch.group(2)!;
       currentDate = DateTime.parse(convertEuropeanDate(dateStr));
       continue;
     }
-    
+
     if (line.trim().startsWith('[')) {
       final dishNameMatch = RegExp(r'\[(.*?)\]').firstMatch(line);
       if (dishNameMatch == null) {
@@ -41,29 +47,33 @@ List<Restaurant> parseMultirestHtml(String html, String institutionName, String 
       if (currentDate == null) {
         continue;
       }
-      meals.add(Meal(
-        'Refeição',
-        dishName,
-        dishName,
-        currentDate,
-        dbDayOfWeek: parseDateTime(currentDate).index,
-      ));
+      meals.add(
+        Meal(
+          'Refeição',
+          dishName,
+          dishName,
+          currentDate,
+          dbDayOfWeek: parseDateTime(currentDate).index,
+        ),
+      );
     }
   }
   if (currentDate != null && meals.isNotEmpty) {
-    result.add(Restaurant(
-      null,
-      null,
-      null,
-      institutionName,
-      institutionName,
-      institutionId,
-      0,
-      '',
-      [],
-      '',
-      meals: meals,
-    ));
+    result.add(
+      Restaurant(
+        null,
+        null,
+        null,
+        institutionName,
+        institutionName,
+        institutionId,
+        0,
+        '',
+        [],
+        '',
+        meals: meals,
+      ),
+    );
   }
   return result;
 }

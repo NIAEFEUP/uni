@@ -114,7 +114,7 @@ class RestaurantFetcher {
     final response = await http.get(Uri.parse('http://multirest.eu/meals.php'));
     final mainDoc = parse(response.body);
     final institutionIds = <String>{};
-    final institutionNames = <String, String>{}; 
+    final institutionNames = <String, String>{};
 
     for (final a in mainDoc.querySelectorAll('a')) {
       final href = a.attributes['href'];
@@ -131,7 +131,9 @@ class RestaurantFetcher {
     }
     final List<Restaurant> restaurants = [];
     for (final id in institutionIds) {
-      final resp = await http.get(Uri.parse('http://multirest.eu/meals.php?institution=$id'));
+      final resp = await http.get(
+        Uri.parse('http://multirest.eu/meals.php?institution=$id'),
+      );
       final name = institutionNames[id] ?? 'Institution $id';
       final dayRestaurants = parseMultirestHtml(resp.body, name, id);
       restaurants.addAll(dayRestaurants);
@@ -141,7 +143,9 @@ class RestaurantFetcher {
 
   Future<List<Restaurant>> getRestaurants(Session session) async {
     final restaurants =
-        await fetchSASUPRestaurants() + await fetchSigarraRestaurants(session) + await fetchMultirestRestaurants();
+        await fetchSASUPRestaurants() +
+        await fetchSigarraRestaurants(session) +
+        await fetchMultirestRestaurants();
 
     return restaurants;
   }
