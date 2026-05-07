@@ -38,8 +38,9 @@ class ScheduleHomeCard extends GenericHomecard {
         final now = DateTime.now();
         final today = DateTime(now.year, now.month, now.day);
         final startOfNextWeek = today.add(Duration(days: 8 - now.weekday));
-        final upcomingLectures = lectures.toList()
-          ..sort((a, b) => a.startTime.compareTo(b.startTime));
+        final upcomingLectures =
+            lectures.where((lecture) => lecture.endTime.isAfter(now)).toList()
+              ..sort((a, b) => a.startTime.compareTo(b.startTime));
 
         if (upcomingLectures.isEmpty) {
           return Center(
