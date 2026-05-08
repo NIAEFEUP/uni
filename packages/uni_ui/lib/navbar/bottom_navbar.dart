@@ -13,7 +13,7 @@ class _BottomNavbarContainer extends StatelessWidget {
       height: 80,
       margin: EdgeInsets.only(left: 20, right: 20, bottom: 0),
       decoration: ShapeDecoration(
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).colorScheme.tertiary,
         shape: RoundedSuperellipseBorder(
           borderRadius: BorderRadius.circular(20),
         ),
@@ -30,7 +30,7 @@ class _BottomNavbarContainer extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: RadialGradient(
               colors: [
-                Theme.of(context).colorScheme.onPrimary,
+                Theme.of(context).colorScheme.onTertiary,
                 Colors.transparent,
               ],
               center: Alignment(-0.5, -1.1),
@@ -41,7 +41,7 @@ class _BottomNavbarContainer extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: RadialGradient(
                 colors: [
-                  Theme.of(context).colorScheme.onPrimary,
+                  Theme.of(context).colorScheme.onTertiary,
                   Colors.transparent,
                 ],
                 center: Alignment.bottomRight,
@@ -80,7 +80,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     return _BottomNavbarContainer(
       child: Theme(
         data: Theme.of(context).copyWith(
-          splashColor: Theme.of(context).colorScheme.onPrimary,
+          splashColor: Theme.of(context).colorScheme.onTertiary,
           highlightColor: Colors.transparent,
         ),
         child: BottomNavigationBar(
