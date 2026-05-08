@@ -547,5 +547,7 @@
   "edit_homepage": "Editar",
   "@edit_homepage": {},
   "pay": "Pagar",
-  "@pay": {}
+  "@pay": {},
+  "no_records_for_filter": "Sem registos para este filtro.",
+  "@no_records_for_filter": {}
 }

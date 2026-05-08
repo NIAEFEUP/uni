@@ -7,10 +7,10 @@ import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/current_account/widgets/account_overview.dart';
 import 'package:uni/view/current_account/widgets/current_account_shimmers.dart';
-import 'package:uni/view/current_account/widgets/no_current_account.dart';
 import 'package:uni/view/current_account/widgets/transaction.dart';
 import 'package:uni/view/current_account/widgets/transaction_filter_menu.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
+import 'package:uni_ui/common_widgets/empty_state_widget.dart';
 
 class CurrentAccountPageView extends ConsumerStatefulWidget {
   const CurrentAccountPageView({super.key});
@@ -58,7 +58,7 @@ class CurrentAccountPageViewState
 
   Widget _buildListView(List<dynamic> items) {
     if (items.isEmpty) {
-      return const Center(child: Text('Sem registos para este filtro.'));
+      return Center(child: Text(S.of(context).no_records_for_filter));
     }
 
     return ListView.separated(
@@ -109,9 +109,10 @@ class CurrentAccountPageViewState
             height: constraints.maxHeight,
             padding: const EdgeInsets.only(bottom: 120),
             child: Center(
-              child: CurrentAccountNoInfo(
-                label: S.of(context).no_info,
-                sublabel: S.of(context).no_current_account_info,
+              child:  EmptyStateWidget(
+                imagePath: 'assets/images/current_account.png',
+                title: S.of(context).no_info,
+                subtitle: S.of(context).no_current_account_info,
               ),
             ),
           ),
@@ -205,30 +206,36 @@ class CurrentAccountPageViewState
           switch (_selectedFilter) {
             'Pending' => Transform.scale(
               scale: 0.8,
-              child: CurrentAccountNoInfo(
-                label: S.of(context).no_pending_label,
-                sublabel: S.of(context).no_pending_sublabel,
+              child: EmptyStateWidget(
+                imagePath: 'assets/images/current_account.png',
+                title: S.of(context).no_pending_label,
+                subtitle: S.of(context).no_pending_sublabel,
               ),
+               
             ),
             'Tuition Fees' => Transform.scale(
               scale: 0.8,
-              child: CurrentAccountNoInfo(
-                label: S.of(context).no_tuition_fees_label,
-                sublabel: S.of(context).no_tuition_fees_sublabel,
+              child: EmptyStateWidget(
+                imagePath: 'assets/images/current_account.png',
+                title: S.of(context).no_tuition_fees_label,
+                subtitle: S.of(context).no_tuition_fees_sublabel,
               ),
+              
             ),
             'General History' => Transform.scale(
               scale: 0.8,
-              child: CurrentAccountNoInfo(
-                label: S.of(context).no_history_label,
-                sublabel: S.of(context).no_history_sublabel,
+              child: EmptyStateWidget(
+                imagePath: 'assets/images/current_account.png',
+                title: S.of(context).no_history_label,
+                subtitle: S.of(context).no_history_sublabel,
               ),
             ),
             _ => Transform.scale(
               scale: 0.8,
-              child: CurrentAccountNoInfo(
-                label: S.of(context).no_pending_label,
-                sublabel: S.of(context).no_pending_sublabel,
+              child: EmptyStateWidget(
+                imagePath: 'assets/images/current_account.png',
+                title: S.of(context).no_pending_label,
+                subtitle: S.of(context).no_pending_sublabel,
               ),
             ),
           }

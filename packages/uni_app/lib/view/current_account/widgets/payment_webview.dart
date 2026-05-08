@@ -26,7 +26,7 @@ class _PaymentWebViewState extends State<PaymentWebView> {
           height: 4,
           width: 40,
           decoration: BoxDecoration(
-            color: Colors.grey[300],
+            color: Colors.grey[400],
             borderRadius: BorderRadius.circular(2),
           ),
         ),
@@ -78,8 +78,8 @@ class _PaymentWebViewState extends State<PaymentWebView> {
 
               if (isLoading)
                 Container(
-                  color: Colors.white,
-                  child: const Center(child: CircularProgressIndicator()),
+                  color: Theme.of(context).colorScheme.surface,
+                  child: Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.secondary,)),
                 ),
             ],
           ),

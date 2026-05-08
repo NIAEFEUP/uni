@@ -547,5 +547,7 @@
   "edit_homepage": "Edit",
   "@edit_homepage": {},
   "pay": "Pay",
-  "@pay": {}
+  "@pay": {},
+  "no_records_for_filter": "No records for this filter.",
+  "@no_records_for_filter": {}
 }

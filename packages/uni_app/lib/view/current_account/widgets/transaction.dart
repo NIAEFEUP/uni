@@ -148,9 +148,9 @@ class Transaction extends ConsumerWidget {
                           isScrollControlled: true,
                           backgroundColor: Colors.transparent,
                           builder: (context) => Container(
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.vertical(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.surface,
+                              borderRadius: const BorderRadius.vertical(
                                 top: Radius.circular(20),
                               ),
                             ),
