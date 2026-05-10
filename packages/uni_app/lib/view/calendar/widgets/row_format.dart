@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni_ui/calendar/calendar_item_card.dart';
@@ -30,7 +31,7 @@ class RowFormat extends StatelessWidget {
           children: [
             ModalHeader(name: event.name),
             ModalInfoRow(
-              title: 'Date',
+              title: S.of(context).date,
               description: '${eventPeriod[0]} ${eventPeriod[1]}'.trim(),
               icon: UniIcons.calendar,
             ),
