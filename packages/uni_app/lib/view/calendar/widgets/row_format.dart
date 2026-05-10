@@ -50,6 +50,7 @@ class RowFormat extends StatelessWidget {
       subtitle: eventperiod[1],
       titleWidth: 90,
       isActive: isToday,
+      titleTextAlign: TextAlign.center,
       card: CalendarItemCard(
         eventName: event.name,
         isToday: isToday,
