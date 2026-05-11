@@ -26,20 +26,20 @@ class FacultyConfig {
     assetPath: 'assets/text/locations/feup.json',
   );
 
-  static final fep = FacultyConfig(
-    id: 'fep',
-    name: 'FEP',
+  static final fcup = FacultyConfig(
+    id: 'fcup',
+    name: 'FCUP',
     bounds: const FacultyBounds(
-      minLat: 41.154,
-      maxLat: 41.156,
-      minLon: -8.639,
-      maxLon: -8.636,
+      minLat: 41.151,
+      maxLat: 41.154,
+      minLon: -8.641,
+      maxLon: -8.637,
     ),
-    buildingCodePattern: RegExp('^(FEP[A-Z]?)'),
+    buildingCodePattern: RegExp('^(FCUP[A-Z]?)'),
     // No fallback yet
   );
 
-  static final all = [feup, fep];
+  static final all = [feup, fcup];
 }
 
 class FacultyBounds {
