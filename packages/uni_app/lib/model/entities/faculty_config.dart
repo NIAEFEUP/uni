@@ -30,10 +30,10 @@ class FacultyConfig {
     id: 'fcup',
     name: 'FCUP',
     bounds: const FacultyBounds(
-      minLat: 41.151,
+      minLat: 41.152,
       maxLat: 41.154,
       minLon: -8.641,
-      maxLon: -8.637,
+      maxLon: -8.636,
     ),
     buildingCodePattern: RegExp('^(FCUP[A-Z]?)'),
     // No fallback yet
