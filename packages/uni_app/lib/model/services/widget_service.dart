@@ -49,7 +49,6 @@ class WidgetService {
 
     await HomeWidget.updateWidget(
       iOSName: 'ScheduleWidget',
-<<<<<<< feat/android-widget
       qualifiedAndroidName: androidWidgetName
     );
 
@@ -58,9 +57,3 @@ class WidgetService {
     );
   }
 }
-=======
-      // android
-    );
-  }
-}
->>>>>>> feat/widget
