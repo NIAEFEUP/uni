@@ -34,7 +34,7 @@ class FloorSelectorMenu extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6),
                 color: isSelected
-                    ? Theme.of(context).focusColor
+                    ? Theme.of(context).colorScheme.onSecondaryFixed
                     : Colors.transparent,
               ),
               child: Center(
@@ -44,7 +44,7 @@ class FloorSelectorMenu extends StatelessWidget {
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                     color: isSelected
-                        ? Theme.of(context).colorScheme.primary
+                        ? Theme.of(context).colorScheme.onSecondary
                         : Theme.of(context).colorScheme.onSecondary,
                   ),
                 ),
