@@ -67,8 +67,6 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
   }) async {
     try {
       final result = await operation();
-      // Guard against both a disposed notifier (HEAD) and empty/null results
-      // (develop) — both checks are necessary and independent.
       if (result != null && ref.mounted && !_invalidLocalData(result)) {
         _updateState(result, updateTimestamp: updateTimestamp);
       }
