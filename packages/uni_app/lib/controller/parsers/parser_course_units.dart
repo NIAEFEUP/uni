@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
-import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/session/flows/base/session.dart';
@@ -159,11 +158,6 @@ Future<List<CourseUnit>> parseCourseUnitsAndCourseAverage(
 
       final occurId = int.parse(finalOccurIdStr);
 
-      final occurs = await CourseUnitsInfoFetcher().fetchCourseUnitOccurences(
-        session,
-        occurId,
-      );
-
       final courseUnit = CourseUnit(
         schoolYear: schoolYear,
         occurrId: occurId,
@@ -176,7 +170,6 @@ Future<List<CourseUnit>> parseCourseUnitsAndCourseAverage(
         curricularYear: int.tryParse(year),
         semesterCode: semester,
         festId: course.festId,
-        occurences: occurs,
       );
       courseUnits.add(courseUnit);
     }
