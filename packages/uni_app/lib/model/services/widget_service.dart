@@ -8,9 +8,11 @@ class WidgetService {
   static const iOSWidgetName = 'ScheduleWidget';
 
   /// Android
-  static const androidPackagePrefix = 'uniApp';
+  static const androidPackagePrefix = 'pt.up.fe.ni.uni';
   static const androidWidgetName =
       '$androidPackagePrefix.receivers.ScheduleWidgetReceiver';
+  static const androidWidgetWideName =
+      '$androidPackagePrefix.receivers.ScheduleWidgetWideReceiver';
 
   /// Called in main.dart
   static Future<void> initialize() async {
@@ -47,7 +49,11 @@ class WidgetService {
 
     await HomeWidget.updateWidget(
       iOSName: 'ScheduleWidget',
-      // android
+      qualifiedAndroidName: androidWidgetName
+    );
+
+    await HomeWidget.updateWidget(
+      qualifiedAndroidName: androidWidgetWideName
     );
   }
 }
