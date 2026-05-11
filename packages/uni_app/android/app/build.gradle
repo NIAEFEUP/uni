@@ -101,8 +101,8 @@ dependencies {
     def composeBom = platform('androidx.compose:compose-bom:2026.04.01')
     implementation composeBom
 
-    implementation "androidx.glance:glance-appwidget:1.1.1"
-    implementation "androidx.glance:glance-material3:1.1.1"
+    implementation "androidx.glance:glance-appwidget:1.2.0-rc01"
+    implementation "androidx.glance:glance-material3:1.2.0-rc01"
 
     implementation "com.google.code.gson:gson:2.14.0"
 

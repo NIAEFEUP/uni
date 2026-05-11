@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.DpSize
 import androidx.glance.appwidget.SizeMode
+import androidx.glance.appwidget.PreviewSizeMode
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
@@ -60,6 +61,49 @@ class ScheduleWidget : GlanceAppWidget() {
             DpSize(250.dp, 110.dp)  // Wide (4x2)
         )
     )
+
+    override val previewSizeMode: PreviewSizeMode = SizeMode.Responsive(
+        setOf(
+            DpSize(110.dp, 110.dp), // Small (2x2)
+            DpSize(250.dp, 110.dp)  // Wide (4x2)
+        )
+    )
+
+    override suspend fun providePreview(context: Context, widgetCategory: Int) {
+        val sampleLectures = listOf(
+            mapOf(
+                "acronym" to "C",
+                "subject" to "Compiladores",
+                "typeClass" to "TP",
+                "room" to "B102",
+                "startTime" to "2024-05-11 09:00:00.000",
+                "endTime" to "2024-05-11 11:00:00.000"
+            ),
+            mapOf(
+                "acronym" to "IA",
+                "subject" to "Inteligencia Artificial",
+                "typeClass" to "PL",
+                "room" to "B203",
+                "startTime" to "2024-05-11 11:30:00.000",
+                "endTime" to "2024-05-11 13:30:00.000"
+            )
+        )
+
+        provideContent {
+            val size = androidx.glance.LocalSize.current
+            if (size.width >= 200.dp) {
+                WideWidgetUI(sampleLectures)
+            } else {
+                val nextLecture = sampleLectures.firstOrNull()
+                val acronym = nextLecture?.let { it["acronym"] as? String }
+                val subject = nextLecture?.let { it["subject"] as? String }
+                val typeClass = nextLecture?.let { it["typeClass"] as? String }
+                val room = nextLecture?.let { it["room"] as? String }
+                val startTimeStr = nextLecture?.let { it["startTime"] as? String }
+                WidgetUI(acronym, subject, typeClass, room, startTimeStr)
+            }
+        }
+    }
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {

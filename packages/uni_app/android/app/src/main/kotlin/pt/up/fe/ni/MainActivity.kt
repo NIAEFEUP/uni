@@ -1,13 +1,14 @@
 package pt.up.fe.ni.uni
 
+import android.annotation.SuppressLint
 import io.flutter.embedding.android.FlutterActivity
 import android.os.Build
 import android.os.Bundle
 import androidx.core.view.WindowCompat
-import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProviderInfo
-import android.content.ComponentName
-import android.widget.RemoteViews
+import androidx.glance.appwidget.GlanceAppWidgetManager
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import pt.up.fe.ni.uni.receivers.ScheduleWidgetReceiver
 import pt.up.fe.ni.uni.receivers.ScheduleWidgetWideReceiver
 
@@ -23,23 +24,18 @@ class MainActivity : FlutterActivity() {
         setWidgetPreviews()
     }
 
+    @SuppressLint("CheckResult")
     private fun setWidgetPreviews() {
         if (Build.VERSION.SDK_INT >= 35) { // Android 15
-            val appWidgetManager = AppWidgetManager.getInstance(this)
+            val glanceAppWidgetManager = GlanceAppWidgetManager(this)
 
-            // Small Widget Preview
-            appWidgetManager.setWidgetPreview(
-                ComponentName(this, ScheduleWidgetReceiver::class.java),
-                AppWidgetProviderInfo.WIDGET_CATEGORY_HOME_SCREEN,
-                RemoteViews(packageName, R.layout.schedule_widget_preview)
-            )
+            lifecycleScope.launch {
+                // Small Widget Preview
+                glanceAppWidgetManager.setWidgetPreviews(ScheduleWidgetReceiver::class)
 
-            // Wide Widget Preview
-            appWidgetManager.setWidgetPreview(
-                ComponentName(this, ScheduleWidgetWideReceiver::class.java),
-                AppWidgetProviderInfo.WIDGET_CATEGORY_HOME_SCREEN,
-                RemoteViews(packageName, R.layout.schedule_widget_wide_preview)
-            )
+                // Wide Widget Preview
+                glanceAppWidgetManager.setWidgetPreviews(ScheduleWidgetWideReceiver::class)
+            }
         }
     }
 }
