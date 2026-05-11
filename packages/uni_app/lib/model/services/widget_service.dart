@@ -4,7 +4,7 @@ import 'package:home_widget/home_widget.dart';
 
 class WidgetService {
   /// iOS
-  static const iOSWidgetAppGroupId = 'group.uniApp';
+  static const iOSWidgetAppGroupId = 'group.pt.up.fe.ni.uni';
   static const iOSWidgetName = 'ScheduleWidget';
 
   /// Android
@@ -49,6 +49,7 @@ class WidgetService {
 
     await HomeWidget.updateWidget(
       iOSName: 'ScheduleWidget',
+<<<<<<< feat/android-widget
       qualifiedAndroidName: androidWidgetName
     );
 
@@ -57,3 +58,9 @@ class WidgetService {
     );
   }
 }
+=======
+      // android
+    );
+  }
+}
+>>>>>>> feat/widget
