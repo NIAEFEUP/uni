@@ -25,9 +25,9 @@ import 'package:uni_ui/tabs/tab_icon.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CourseUnitDetailPageView extends ConsumerStatefulWidget {
-  const CourseUnitDetailPageView(this.initialCourseUnit, {super.key});
+  const CourseUnitDetailPageView(this.courseUnit, {super.key});
 
-  final CourseUnit initialCourseUnit;
+  final CourseUnit courseUnit;
 
   @override
   ConsumerState<CourseUnitDetailPageView> createState() {
@@ -42,94 +42,85 @@ class CourseUnitDetailPageViewState
 
   late TabController tabController;
 
-  late CourseUnit courseUnit;
-
   @override
   void initState() {
     super.initState();
-    courseUnit = widget.initialCourseUnit;
     tabController = TabController(vsync: this, length: 4);
     tabController.addListener(_onTabChanged);
   }
 
   void _onTabChanged() {
     if (tabController.index == 1) {
-      loadClasses(courseUnit, force: false);
+      loadClasses(force: false);
     } else if (tabController.index == 2) {
-      loadLectures(courseUnit, force: false);
+      loadLectures(force: false);
     }
   }
 
-  Future<void> loadInfo(CourseUnit courseUnit, {required bool force}) async {
+  Future<void> loadInfo({required bool force}) async {
     final session = await ref.read(sessionProvider.future);
     if (session == null) {
       return;
     }
     final occurs = await CourseUnitsInfoFetcher().fetchCourseUnitOccurences(
       session,
-      courseUnit.occurrId!,
+      widget.courseUnit.occurrId!,
     );
-    courseUnit.occurences = occurs;
+    widget.courseUnit.occurences = occurs;
     final courseUnitsProvider = ref.read(courseUnitsInfoProvider.notifier);
 
-    final courseUnitSheet = courseUnitsProvider.courseUnitsSheets[courseUnit];
+    final courseUnitSheet =
+        courseUnitsProvider.courseUnitsSheets[widget.courseUnit];
     if (courseUnitSheet == null || force) {
-      await courseUnitsProvider.fetchCourseUnitSheet(courseUnit);
+      await courseUnitsProvider.fetchCourseUnitSheet(widget.courseUnit);
     }
 
-    final courseUnitFiles = courseUnitsProvider.courseUnitsFiles[courseUnit];
+    final courseUnitFiles =
+        courseUnitsProvider.courseUnitsFiles[widget.courseUnit];
     if (courseUnitFiles == null || force) {
-      await courseUnitsProvider.fetchCourseUnitFiles(courseUnit);
+      await courseUnitsProvider.fetchCourseUnitFiles(widget.courseUnit);
     }
   }
 
-  Future<void> loadClasses(CourseUnit courseUnit, {required bool force}) async {
+  Future<void> loadClasses({required bool force}) async {
     final courseUnitsProvider = ref.read(courseUnitsInfoProvider.notifier);
 
     final courseUnitClasses =
-        courseUnitsProvider.courseUnitsClasses[courseUnit];
+        courseUnitsProvider.courseUnitsClasses[widget.courseUnit];
     if (courseUnitClasses == null || force) {
-      await courseUnitsProvider.fetchCourseUnitClasses(courseUnit);
+      await courseUnitsProvider.fetchCourseUnitClasses(widget.courseUnit);
     }
 
     final courseUnitClassProfessors =
-        courseUnitsProvider.courseUnitsClassProfessors[courseUnit];
+        courseUnitsProvider.courseUnitsClassProfessors[widget.courseUnit];
     if (courseUnitClassProfessors == null || force) {
-      await courseUnitsProvider.fetchClassProfessors(courseUnit);
+      await courseUnitsProvider.fetchClassProfessors(widget.courseUnit);
     }
   }
 
-  Future<void> loadLectures(
-    CourseUnit courseUnit, {
-    required bool force,
-  }) async {
+  Future<void> loadLectures({required bool force}) async {
     final courseUnitsProvider = ref.read(courseUnitsInfoProvider.notifier);
 
     final courseUnitLectures =
-        courseUnitsProvider.courseUnitsLectures[courseUnit];
+        courseUnitsProvider.courseUnitsLectures[widget.courseUnit];
     if (courseUnitLectures == null || force) {
-      await courseUnitsProvider.fetchCourseUnitLectures(courseUnit);
+      await courseUnitsProvider.fetchCourseUnitLectures(widget.courseUnit);
     }
   }
 
   @override
   Future<void> onRefresh() async {
-    await loadInfo(courseUnit, force: true);
+    await loadInfo(force: true);
     if (tabController.index == 1) {
-      await loadClasses(courseUnit, force: true);
+      await loadClasses(force: true);
     } else if (tabController.index == 2) {
-      await loadLectures(courseUnit, force: true);
+      await loadLectures(force: true);
     }
   }
 
   @override
   Future<void> onLoad(BuildContext context) async {
-    await loadInfo(courseUnit, force: false);
-    if (tabController.index == 1) {
-      await loadClasses(courseUnit, force: false);
-    } else if (tabController.index == 2) {
-      await loadLectures(courseUnit, force: false);
-    }
+    await loadInfo(force: false);
   }
 
   @override
@@ -169,13 +160,16 @@ class CourseUnitDetailPageViewState
       builder: (context, ref, _) {
         final sheet = ref
             .watch(courseUnitsInfoProvider.notifier)
-            .courseUnitsSheets[courseUnit];
+            .courseUnitsSheets[widget.courseUnit];
 
         final exams = ref.watch(examProvider);
 
         final courseExams = exams.maybeWhen(
           data: (list) => list!
-              .where((exam) => exam.occurrId == courseUnit.occurrId.toString())
+              .where(
+                (exam) =>
+                    exam.occurrId == widget.courseUnit.occurrId.toString(),
+              )
               .toList(),
           orElse: () => <Exam>[],
         );
@@ -212,7 +206,7 @@ class CourseUnitDetailPageViewState
   Widget _courseUnitFilesView(BuildContext context) {
     final files = ref
         .read(courseUnitsInfoProvider.notifier)
-        .courseUnitsFiles[courseUnit];
+        .courseUnitsFiles[widget.courseUnit];
 
     if (files == null) {
       return const ShimmerCourseFiles();
@@ -240,9 +234,10 @@ class CourseUnitDetailPageViewState
         ref.watch(courseUnitsInfoProvider);
         final provider = ref.read(courseUnitsInfoProvider.notifier);
 
-        final classes = provider.courseUnitsClasses[courseUnit];
-        final sheet = provider.courseUnitsSheets[courseUnit];
-        final classProfessors = provider.courseUnitsClassProfessors[courseUnit];
+        final classes = provider.courseUnitsClasses[widget.courseUnit];
+        final sheet = provider.courseUnitsSheets[widget.courseUnit];
+        final classProfessors =
+            provider.courseUnitsClassProfessors[widget.courseUnit];
 
         if (classes == null) {
           return const Center(child: ShimmerCourseClasses());
@@ -268,7 +263,7 @@ class CourseUnitDetailPageViewState
         return CourseUnitClassesView(
           classes,
           sheet?.professors ?? [],
-          courseUnit,
+          widget.courseUnit,
           classProfessors: classProfessors,
         );
       },
@@ -281,7 +276,7 @@ class CourseUnitDetailPageViewState
         ref.watch(courseUnitsInfoProvider);
         final provider = ref.read(courseUnitsInfoProvider.notifier);
 
-        final lectures = provider.courseUnitsLectures[courseUnit];
+        final lectures = provider.courseUnitsLectures[widget.courseUnit];
 
         if (lectures == null) {
           return const Center(child: ShimmerSchedulePage());
@@ -291,26 +286,26 @@ class CourseUnitDetailPageViewState
           return const Center(child: NoClassesWidget(showSublabel: false));
         }
 
-        return CourseUnitLecturesView(lectures, courseUnit);
+        return CourseUnitLecturesView(lectures, widget.courseUnit);
       },
     );
   }
 
   @override
-  String? getTitle() => courseUnit.name;
+  String? getTitle() => widget.courseUnit.name;
 
   @override
-  String? getSubtitle() => courseUnit.schoolYear;
+  String? getSubtitle() => widget.courseUnit.schoolYear;
 
   @override
   Widget? getSubtitleWidget() {
-    var occurs = courseUnit.occurences;
+    var occurs = widget.courseUnit.occurences;
     if (occurs == null || occurs.isEmpty) {
-      occurs = {courseUnit.schoolYear!: courseUnit.occurrId!};
+      occurs = {widget.courseUnit.schoolYear!: widget.courseUnit.occurrId!};
     }
     final years = occurs.keys.toList();
 
-    final selectedItem = years.indexOf(courseUnit.schoolYear!);
+    final selectedItem = years.indexOf(widget.courseUnit.schoolYear!);
     return Align(
       alignment: Alignment.bottomCenter,
       child: DropdownButtonHideUnderline(
@@ -321,22 +316,21 @@ class CourseUnitDetailPageViewState
           borderRadius: BorderRadius.circular(8),
           value: years[selectedItem],
           elevation: 16,
-          onChanged: (value) async {
-            final nextOccur = CourseUnit(
-              abbreviation: courseUnit.abbreviation,
-              name: courseUnit.name,
-              occurrId: occurs?[value],
-              schoolYear: value,
-            );
-            // Preload data for the new course unit
-            await loadInfo(nextOccur, force: false);
-            if (tabController.index == 1) {
-              await loadClasses(nextOccur, force: false);
-            } else if (tabController.index == 2) {
-              await loadLectures(nextOccur, force: false);
-            }
+          onChanged: (value) {
             setState(() {
-              courseUnit = nextOccur;
+              final nextOccur = CourseUnit(
+                abbreviation: widget.courseUnit.abbreviation,
+                name: widget.courseUnit.name,
+                occurrId: occurs?[value],
+                schoolYear: value,
+              );
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute<CourseUnitDetailPageView>(
+                  builder: (context) => CourseUnitDetailPageView(nextOccur),
+                ),
+              );
             });
           },
           items: years.map((item) {
@@ -357,7 +351,7 @@ class CourseUnitDetailPageViewState
       onPressed: () async {
         // If the course unit isn't from FEUP, sigarra redirects to the correct page
         final url = Uri.parse(
-          'https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=${courseUnit.occurrId}',
+          'https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=${widget.courseUnit.occurrId}',
         );
         if (await canLaunchUrl(url)) {
           await launchUrl(url);
