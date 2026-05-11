@@ -55,9 +55,19 @@ internal object WidgetTheme {
 class ScheduleWidget : GlanceAppWidget() {
     override val stateDefinition: GlanceStateDefinition<*> = HomeWidgetGlanceStateDefinition()
 
-    override val sizeMode: SizeMode = SizeMode.Single
+    override val sizeMode: SizeMode = SizeMode.Responsive(
+        setOf(
+            DpSize(110.dp, 110.dp), // Small (2x2)
+            DpSize(250.dp, 110.dp)  // Wide (4x2)
+        )
+    )
 
-    override val previewSizeMode: PreviewSizeMode = SizeMode.Single
+    override val previewSizeMode: PreviewSizeMode = SizeMode.Responsive(
+        setOf(
+            DpSize(110.dp, 110.dp), // Small (2x2)
+            DpSize(250.dp, 110.dp)  // Wide (4x2)
+        )
+    )
 
     override suspend fun providePreview(context: Context, widgetCategory: Int) {
         val sampleLectures = listOf(
@@ -80,13 +90,18 @@ class ScheduleWidget : GlanceAppWidget() {
         )
 
         provideContent {
-            val nextLecture = sampleLectures.firstOrNull()
-            val acronym = nextLecture?.let { it["acronym"] as? String }
-            val subject = nextLecture?.let { it["subject"] as? String }
-            val typeClass = nextLecture?.let { it["typeClass"] as? String }
-            val room = nextLecture?.let { it["room"] as? String }
-            val startTimeStr = nextLecture?.let { it["startTime"] as? String }
-            WidgetUI(acronym, subject, typeClass, room, startTimeStr)
+            val size = androidx.glance.LocalSize.current
+            if (size.width >= 200.dp) {
+                ScheduleWideWidget().WideWidgetUI(sampleLectures)
+            } else {
+                val nextLecture = sampleLectures.firstOrNull()
+                val acronym = nextLecture?.let { it["acronym"] as? String }
+                val subject = nextLecture?.let { it["subject"] as? String }
+                val typeClass = nextLecture?.let { it["typeClass"] as? String }
+                val room = nextLecture?.let { it["room"] as? String }
+                val startTimeStr = nextLecture?.let { it["startTime"] as? String }
+                WidgetUI(acronym, subject, typeClass, room, startTimeStr)
+            }
         }
     }
 
@@ -115,13 +130,18 @@ class ScheduleWidget : GlanceAppWidget() {
                 endTime?.isAfter(now) ?: false
             }
 
-            val nextLecture = lectures.firstOrNull()
-            val acronym = nextLecture?.let { it["acronym"] as? String }
-            val subject = nextLecture?.let { it["subject"] as? String }
-            val typeClass = nextLecture?.let { it["typeClass"] as? String }
-            val room = nextLecture?.let { it["room"] as? String }
-            val startTimeStr = nextLecture?.let { it["startTime"] as? String }
-            WidgetUI(acronym, subject, typeClass, room, startTimeStr)
+            val size = androidx.glance.LocalSize.current
+            if (size.width >= 200.dp) {
+                ScheduleWideWidget().WideWidgetUI(lectures)
+            } else {
+                val nextLecture = lectures.firstOrNull()
+                val acronym = nextLecture?.let { it["acronym"] as? String }
+                val subject = nextLecture?.let { it["subject"] as? String }
+                val typeClass = nextLecture?.let { it["typeClass"] as? String }
+                val room = nextLecture?.let { it["room"] as? String }
+                val startTimeStr = nextLecture?.let { it["startTime"] as? String }
+                WidgetUI(acronym, subject, typeClass, room, startTimeStr)
+            }
         }
     }
 
