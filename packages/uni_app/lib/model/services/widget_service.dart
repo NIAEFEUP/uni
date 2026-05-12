@@ -49,11 +49,7 @@ class WidgetService {
 
     await HomeWidget.updateWidget(
       iOSName: 'ScheduleWidget',
-      qualifiedAndroidName: androidWidgetName
-    );
-
-    await HomeWidget.updateWidget(
-      qualifiedAndroidName: androidWidgetWideName
+      qualifiedAndroidName: androidWidgetName,
     );
   }
 }
