@@ -24,7 +24,7 @@ class ImageLabel extends StatelessWidget {
         if (imagePath.toLowerCase().endsWith('.svg'))
           SvgPicture.asset(imagePath, width: 300)
         else
-          Image.asset(imagePath, width: 300),
+          Image.asset(imagePath, width: 200),
         const SizedBox(height: 20),
         Text(label, style: labelTextStyle, textAlign: TextAlign.center),
         if (sublabel.isNotEmpty) const SizedBox(height: 10),

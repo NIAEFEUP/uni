@@ -17,19 +17,19 @@ class TermsAndConditionsButton extends StatelessWidget {
           text: TextSpan(
             text: S.of(context).agree_terms,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSecondaryFixed,
-              decorationColor: Theme.of(context).colorScheme.onSecondaryFixed,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              decorationColor: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
             children: [
               const TextSpan(text: ' '),
               TextSpan(
                 text: S.of(context).terms,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.onSecondaryFixed,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                   decoration: TextDecoration.underline,
                   decorationColor: Theme.of(
                     context,
-                  ).colorScheme.onSecondaryFixed,
+                  ).colorScheme.onSurfaceVariant,
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
