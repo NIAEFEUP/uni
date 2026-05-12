@@ -22,7 +22,6 @@ class LectureNotifier extends CachedAsyncNotifier<List<Lecture>> {
       return lecture.endTime.isAfter(now);
     }).toList();
 
-
     final lecturesForWidget = upcomingLectures.take(20).toList();
 
     unawaited(
