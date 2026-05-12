@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
-import 'package:uni/controller/fetchers/location_fetcher/location_fetcher.dart';
+import 'package:uni/controller/fetchers/location_fetcher/osm/osm_models.dart';
+import 'package:uni/model/entities/faculty_config.dart';
 import 'package:uni/model/entities/indoor_floor_plan.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
@@ -14,91 +15,12 @@ import 'package:uni/model/entities/locations/store_location.dart';
 import 'package:uni/model/entities/locations/vending_machine.dart';
 import 'package:uni/model/entities/locations/wc_location.dart';
 
-class LocationFetcherOSM extends LocationFetcher {
-  LocationFetcherOSM(super.facultyConfig);
+class OSMParser {
+  OSMParser(this.facultyConfig);
 
-  Future<http.Response>? _response;
+  final FacultyConfig facultyConfig;
 
-  @override
-  Future<List<LocationGroup>> getLocations() async {
-    try {
-      final response = await (_response ??= _queryOverpass());
-      return _parseLocations(response);
-    } catch (err) {
-      _response = null;
-      throw Exception('[OSM] Failed to fetch locations: $err');
-    }
-  }
-
-  @override
-  Future<List<IndoorFloorPlan>> getIndoorFloorPlans() async {
-    try {
-      final response = await (_response ??= _queryOverpass());
-      return _parseIndoorData(response);
-    } catch (err) {
-      _response = null;
-      throw Exception('[OSM] Failed to fetch indoor data: $err');
-    }
-  }
-
-  Future<http.Response> _queryOverpass() async {
-    const overpassUrl = 'https://overpass-api.de/api/interpreter';
-    const maxRetries = 10;
-
-    final bounds = facultyConfig.bounds;
-    final query =
-        '''
-      [out:json][timeout:25];
-      (
-        // Get ${facultyConfig.name} buildings
-        way["building"]["name"~"${facultyConfig.name}|Faculdade"](${bounds.minLat},${bounds.minLon},${bounds.maxLat},${bounds.maxLon});
-        
-        // Get indoor features
-        node["indoor"](${bounds.minLat},${bounds.minLon},${bounds.maxLat},${bounds.maxLon});
-        way["indoor"](${bounds.minLat},${bounds.minLon},${bounds.maxLat},${bounds.maxLon});
-        
-        // Get amenities
-        node["amenity"](${bounds.minLat},${bounds.minLon},${bounds.maxLat},${bounds.maxLon});
-        way["amenity"](${bounds.minLat},${bounds.minLon},${bounds.maxLat},${bounds.maxLon});
-      );
-      out body;
-      >;
-      out skel qt;
-    ''';
-
-    for (var attempt = 0; attempt < maxRetries; attempt++) {
-      try {
-        final response = await http
-            .post(
-              Uri.parse(overpassUrl),
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'User-Agent': 'uni_app/map_fetcher (uni)',
-              },
-              body: 'data=$query',
-            )
-            .timeout(const Duration(seconds: 90));
-
-        if (response.statusCode == 200) {
-          return response;
-        }
-
-        if (response.statusCode == 504 && attempt < maxRetries - 1) {
-          continue;
-        }
-
-        throw Exception('[OSM] Overpass API returned ${response.statusCode}');
-      } on Exception {
-        if (attempt >= maxRetries - 1) {
-          rethrow;
-        }
-      }
-    }
-
-    throw Exception('[OSM] Overpass API failed after $maxRetries retries');
-  }
-
-  List<IndoorFloorPlan> _parseIndoorData(http.Response response) {
+  List<IndoorFloorPlan> parseIndoorData(http.Response response) {
     final json = jsonDecode(response.body) as Map<String, dynamic>;
     final elements = json['elements'] as List<dynamic>;
 
@@ -116,10 +38,10 @@ class LocationFetcherOSM extends LocationFetcher {
     }
 
     // Map: BuildingCode -> Floor -> FloorData
-    final buildingFloorMap = <String, Map<int, _FloorData>>{};
+    final buildingFloorMap = <String, Map<int, FloorData>>{};
 
     for (final elem in elements) {
-      final element = _OSMElement.fromJson(elem as Map<String, dynamic>);
+      final element = OSMElement.fromJson(elem as Map<String, dynamic>);
 
       final isAmenity =
           element.tags['amenity'] != null &&
@@ -155,7 +77,7 @@ class LocationFetcherOSM extends LocationFetcher {
           buildingFloorMap.putIfAbsent(buildingCode, () => {});
           buildingFloorMap[buildingCode]!.putIfAbsent(
             floor,
-            () => _FloorData(rooms: [], corridors: [], amenities: []),
+            () => FloorData(rooms: [], corridors: [], amenities: []),
           );
 
           buildingFloorMap[buildingCode]![floor]!.amenities.add(
@@ -186,7 +108,7 @@ class LocationFetcherOSM extends LocationFetcher {
       buildingFloorMap.putIfAbsent(buildingCode, () => {});
       buildingFloorMap[buildingCode]!.putIfAbsent(
         floor,
-        () => _FloorData(rooms: [], corridors: [], amenities: []),
+        () => FloorData(rooms: [], corridors: [], amenities: []),
       );
 
       // Parse features
@@ -276,15 +198,15 @@ class LocationFetcherOSM extends LocationFetcher {
     return polygon;
   }
 
-  List<LocationGroup> _parseLocations(http.Response response) {
+  List<LocationGroup> parseLocations(http.Response response) {
     final json = jsonDecode(response.body) as Map<String, dynamic>;
     final elements = json['elements'] as List<dynamic>;
 
     // Build node map so way centroids can be computed.
     final nodeMap = <int, LatLng>{};
-    final allElements = <_OSMElement>[];
+    final allElements = <OSMElement>[];
     for (final elem in elements) {
-      final element = _OSMElement.fromJson(elem as Map<String, dynamic>);
+      final element = OSMElement.fromJson(elem as Map<String, dynamic>);
       allElements.add(element);
       if (element.type == 'node' &&
           element.lat != null &&
@@ -330,7 +252,7 @@ class LocationFetcherOSM extends LocationFetcher {
     return locationGroups;
   }
 
-  bool _shouldSkipLocationMarker(_OSMElement element, int floor) {
+  bool _shouldSkipLocationMarker(OSMElement element, int floor) {
     // Library only have toilets in -1
     if (facultyConfig.id != 'feup' || element.tags['amenity'] != 'toilets') {
       return false;
@@ -344,7 +266,7 @@ class LocationFetcherOSM extends LocationFetcher {
   }
 
   // For nodes: the direct lat/lon.  For ways: the centroid of their nodes.
-  LatLng? _resolvePosition(_OSMElement element, Map<int, LatLng> nodeMap) {
+  LatLng? _resolvePosition(OSMElement element, Map<int, LatLng> nodeMap) {
     if (element.lat != null && element.lon != null) {
       return LatLng(element.lat!, element.lon!);
     }
@@ -371,7 +293,7 @@ class LocationFetcherOSM extends LocationFetcher {
     return LatLng(avgLat, avgLon);
   }
 
-  String? _extractBuildingCode(_OSMElement element) {
+  String? _extractBuildingCode(OSMElement element) {
     final ref =
         element.tags['ref'] ??
         element.tags['addr:unit'] ??
@@ -387,7 +309,7 @@ class LocationFetcherOSM extends LocationFetcher {
     return null;
   }
 
-  int _extractFloor(_OSMElement element) {
+  int _extractFloor(OSMElement element) {
     final level =
         element.tags['level'] ??
         element.tags['floor'] ??
@@ -413,7 +335,7 @@ class LocationFetcherOSM extends LocationFetcher {
     return 0;
   }
 
-  Location? _createLocation(_OSMElement element, int floor) {
+  Location? _createLocation(OSMElement element, int floor) {
     final tags = element.tags;
 
     if (tags['amenity'] == 'vending_machine') {
@@ -455,50 +377,4 @@ class LocationFetcherOSM extends LocationFetcher {
 
     return null;
   }
-}
-
-class _OSMElement {
-  _OSMElement({
-    required this.id,
-    required this.type,
-    required this.tags,
-    this.lat,
-    this.lon,
-    this.nodes,
-  });
-
-  factory _OSMElement.fromJson(Map<String, dynamic> json) {
-    return _OSMElement(
-      id: json['id'] as int,
-      type: json['type'] as String,
-      tags: Map<String, String>.from(
-        (json['tags'] as Map<String, dynamic>?)?.map(
-              (key, value) => MapEntry(key, value.toString()),
-            ) ??
-            {},
-      ),
-      lat: (json['lat'] as num?)?.toDouble(),
-      lon: (json['lon'] as num?)?.toDouble(),
-      nodes: (json['nodes'] as List<dynamic>?)?.cast<int>(),
-    );
-  }
-
-  final int id;
-  final String type;
-  final Map<String, String> tags;
-  final double? lat;
-  final double? lon;
-  final List<int>? nodes;
-}
-
-class _FloorData {
-  _FloorData({
-    required this.rooms,
-    required this.corridors,
-    required this.amenities,
-  });
-
-  final List<IndoorRoom> rooms;
-  final List<IndoorCorridor> corridors;
-  final List<IndoorAmenity> amenities;
 }
