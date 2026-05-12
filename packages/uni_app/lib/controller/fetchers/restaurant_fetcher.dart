@@ -103,7 +103,8 @@ class RestaurantFetcher {
 
     await Future.wait(responses).then((value) {
       for (final response in value) {
-        restaurants.addAll(getRestaurantsFromHtml(response));
+        final sigarraRestaurants = getRestaurantsFromHtml(response);
+        restaurants.addAll(sigarraRestaurants.where((r) => r.period != '4'));
       }
     });
 
@@ -114,7 +115,6 @@ class RestaurantFetcher {
     final response = await http.get(Uri.parse('http://multirest.eu/meals.php'));
     final mainDoc = parse(response.body);
     final institutionIds = <String>{};
-    final institutionNames = <String, String>{};
 
     for (final a in mainDoc.querySelectorAll('a')) {
       final href = a.attributes['href'];
@@ -126,17 +126,48 @@ class RestaurantFetcher {
       if (match != null) {
         final id = match.group(1)!;
         institutionIds.add(id);
-        institutionNames[id] = a.text.trim();
       }
     }
+
+    final campusMapping = {
+      '1': 3, // FCUP -> Campo Alegre
+      '2': 2, // FEP -> Asprela
+      '3': 2, // FEUP -> Asprela
+      '7': 2, // FPCEUP -> Asprela
+      '8': 1, // FDUP -> Baixa
+      '9': 2, // FMDUP -> Asprela
+      '10': 2, // FMUP -> Asprela
+    };
+
     final List<Restaurant> restaurants = [];
     for (final id in institutionIds) {
       final resp = await http.get(
         Uri.parse('http://multirest.eu/meals.php?institution=$id'),
       );
-      final name = institutionNames[id] ?? 'Institution $id';
-      final dayRestaurants = parseMultirestHtml(resp.body, name, id);
-      restaurants.addAll(dayRestaurants);
+      final campusId = campusMapping[id] ?? 0;
+      final dayRestaurants = parseMultirestHtml(
+        resp.body,
+        'Institution $id',
+        id,
+      );
+
+      restaurants.addAll(
+        dayRestaurants.map(
+          (r) => Restaurant(
+            r.id,
+            r.typePt,
+            r.typeEn,
+            r.namePt,
+            r.nameEn,
+            'lunch',
+            campusId,
+            r.reference,
+            r.openingHours,
+            r.email,
+            meals: r.meals.toList(),
+          ),
+        ),
+      );
     }
     return restaurants;
   }

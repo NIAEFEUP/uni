@@ -1,3 +1,4 @@
+import 'package:html/parser.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/utils/day_of_week.dart';
@@ -7,49 +8,49 @@ List<Restaurant> parseMultirestHtml(
   String institutionName,
   String institutionId,
 ) {
-  final lines = html.split('\n');
+  final document = parse(html);
   final List<Restaurant> result = [];
-  DateTime? currentDate;
-  final List<Meal> meals = [];
-  final dayHeaderRegex = RegExp(r'^[#]+\s*(\d+)ª Feira - (\d{2}/\d{2}/\d{4})');
-  for (final line in lines) {
-    final headerMatch = dayHeaderRegex.firstMatch(line);
-    if (headerMatch != null) {
-      if (currentDate != null && meals.isNotEmpty) {
-        result.add(
-          Restaurant(
-            null,
-            null,
-            null,
-            institutionName,
-            institutionName,
-            institutionId,
-            0,
-            '',
-            [],
-            '',
-            meals: meals,
-          ),
-        );
-        meals.clear();
-      }
-      final dateStr = headerMatch.group(2)!;
-      currentDate = DateTime.parse(convertEuropeanDate(dateStr));
+
+  final nameSpan = document.querySelector('.section-heading-upper');
+  final displayName = nameSpan?.text.trim() ?? institutionName;
+
+  final mealDivs = document.querySelectorAll('.meal');
+  final List<Meal> allMeals = [];
+
+  for (final mealDiv in mealDivs) {
+    final dateSpan = mealDiv.querySelector('h3 > span[data-date]');
+    if (dateSpan == null) {
       continue;
     }
 
-    if (line.trim().startsWith('[')) {
-      final dishNameMatch = RegExp(r'\[(.*?)\]').firstMatch(line);
-      if (dishNameMatch == null) {
+    final dateStr = dateSpan.attributes['data-date']!;
+    final currentDate = DateTime.parse(convertEuropeanDate(dateStr));
+
+    final table = mealDiv.querySelector('table.meal_table');
+    if (table == null) {
+      continue;
+    }
+
+    final rows = table.querySelectorAll('tr');
+    for (final row in rows) {
+      final typeHeader = row.querySelector('th');
+      final dishCell = row.querySelector('td');
+
+      if (typeHeader == null || dishCell == null) {
         continue;
       }
-      final dishName = dishNameMatch.group(1)!.trim();
-      if (currentDate == null) {
+
+      final type = typeHeader.text.replaceAll(':', '').trim();
+      final dishName =
+          dishCell.querySelector('a')?.text.trim() ?? dishCell.text.trim();
+
+      if (dishName.isEmpty) {
         continue;
       }
-      meals.add(
+
+      allMeals.add(
         Meal(
-          'Refeição',
+          type,
           dishName,
           dishName,
           currentDate,
@@ -58,20 +59,21 @@ List<Restaurant> parseMultirestHtml(
       );
     }
   }
-  if (currentDate != null && meals.isNotEmpty) {
+
+  if (allMeals.isNotEmpty) {
     result.add(
       Restaurant(
         null,
         null,
         null,
-        institutionName,
-        institutionName,
+        displayName,
+        displayName,
         institutionId,
         0,
         '',
         [],
         '',
-        meals: meals,
+        meals: allMeals,
       ),
     );
   }
