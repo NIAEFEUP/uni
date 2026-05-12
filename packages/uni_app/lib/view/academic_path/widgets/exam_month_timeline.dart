@@ -70,7 +70,6 @@ class ExamMonthTimeline extends ConsumerWidget {
         isActive: isActive,
         title: firstExam.start.day.toString(),
         subtitle: firstExam.monthAcronym(appLocale),
-        lineHeight: 55 + 13 * (group.length - 1) + 78 * (group.length - 1),
         card: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: group.map((exam) {

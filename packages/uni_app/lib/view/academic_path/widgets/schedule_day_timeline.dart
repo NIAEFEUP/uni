@@ -65,9 +65,6 @@ class ScheduleDayTimeline extends ConsumerWidget {
         isActive: isActive,
         title: DateFormat('HH:mm').format(groupStart),
         subtitle: DateFormat('HH:mm').format(groupEnd),
-        lineHeight: group.length > 1
-            ? 75 + 17 * (group.length - 1) + 92 * (group.length - 1)
-            : 75,
         card: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: group.map((lecture) {

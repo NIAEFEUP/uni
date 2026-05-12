@@ -7,7 +7,6 @@ class TimelineItem extends StatelessWidget {
     required this.card,
     this.isActive = false,
     this.titleWidth = 50,
-    this.lineHeight = 75,
     super.key,
   });
 
@@ -16,67 +15,69 @@ class TimelineItem extends StatelessWidget {
   final Widget card;
   final bool isActive;
   final double titleWidth;
-  final double lineHeight;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: titleWidth,
-          child: Column(
-            children: [
-              Text(title, style: Theme.of(context).textTheme.bodyLarge),
-              Text(subtitle, style: Theme.of(context).textTheme.labelLarge),
-            ],
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: titleWidth,
+            child: Column(
+              children: [
+                Text(title, style: Theme.of(context).textTheme.bodyLarge),
+                Text(subtitle, style: Theme.of(context).textTheme.labelLarge),
+              ],
+            ),
           ),
-        ),
-        Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(bottom: 5, left: 10, right: 10),
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: isActive
-                    ? Theme.of(context).colorScheme.onSecondary
-                    : Colors.transparent,
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.onSecondary,
-                  width: 4.0,
+          Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(bottom: 5, left: 10, right: 10),
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: isActive
+                      ? Theme.of(context).colorScheme.onSecondary
+                      : Colors.transparent,
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.onSecondary,
+                    width: 4.0,
+                  ),
                 ),
-              ),
-              child: isActive
-                  ? Center(
-                      child: Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Theme.of(context).colorScheme.surface,
-                            width: 3,
+                child: isActive
+                    ? Center(
+                        child: Container(
+                          width: 20,
+                          height: 20,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Theme.of(context).colorScheme.surface,
+                              width: 3,
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  : null,
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 5, left: 10, right: 10),
-              height: lineHeight,
-              width: 3,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: Theme.of(context).colorScheme.onSecondary,
+                      )
+                    : null,
               ),
-            ),
-          ],
-        ),
-        Expanded(child: card),
-      ],
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 5, left: 10, right: 10),
+                  width: 3,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Expanded(child: card),
+        ],
+      ),
     );
   }
 }
@@ -85,6 +86,7 @@ class CardTimeline extends StatelessWidget {
   const CardTimeline({required this.items, super.key});
 
   final List<TimelineItem> items;
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

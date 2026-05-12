@@ -84,7 +84,6 @@ class ExamHomeCard extends GenericHomecard {
       return TimelineItem(
         title: firstExam.start.day.toString(),
         subtitle: firstExam.start.shortMonth(locale).capitalize(),
-        lineHeight: 55 + 13 * (group.length - 1) + 78 * (group.length - 1),
         card: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: group.map((exam) {
