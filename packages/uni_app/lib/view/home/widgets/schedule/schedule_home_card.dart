@@ -10,7 +10,6 @@ import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/lecture_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
-import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/timeline_shimmer.dart';
@@ -33,16 +32,135 @@ class ScheduleHomeCard extends GenericHomecard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    final now = DateTime.now();
-    final week = Week(start: now);
     return DefaultConsumer<List<Lecture>>(
       provider: lectureProvider,
-      builder: (context, ref, lectures) => CardTimeline(
-        items: buildTimelineItems(lectures, ref).take(2).toList(),
-      ),
-      hasContent: (lectures) => lectures
-          .where((lecture) => week.contains(lecture.startTime))
-          .isNotEmpty,
+      builder: (context, ref, lectures) {
+        final now = DateTime.now();
+        final today = DateTime(now.year, now.month, now.day);
+        final startOfNextWeek = today.add(Duration(days: 8 - now.weekday));
+        final upcomingLectures =
+            lectures.where((lecture) => lecture.endTime.isAfter(now)).toList()
+              ..sort((a, b) => a.startTime.compareTo(b.startTime));
+
+        if (upcomingLectures.isEmpty) {
+          return Center(
+            child: IconLabel(
+              icon: UniIcon(
+                size: 45,
+                UniIcons.beer,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
+              label: S.of(context).no_classes,
+              labelTextStyle: TextStyle(
+                fontSize: 14,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
+            ),
+          );
+        }
+
+        final lecturesThisWeek = upcomingLectures
+            .where((lecture) => lecture.startTime.isBefore(startOfNextWeek))
+            .toList();
+
+        if (lecturesThisWeek.isEmpty) {
+          return Center(
+            child: IconLabel(
+              icon: UniIcon(
+                size: 45,
+                UniIcons.beer,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
+              label: S.of(context).no_classes_this_week,
+              labelTextStyle: TextStyle(
+                fontSize: 14,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
+            ),
+          );
+        }
+
+        final lecturesToday = _lecturesForDay(lecturesThisWeek, today);
+        if (lecturesToday.isNotEmpty) {
+          return CardTimeline(items: buildTimelineItems(lecturesToday, ref));
+        }
+
+        final tomorrow = today.add(const Duration(days: 1));
+        final lecturesTomorrow = _lecturesForDay(lecturesThisWeek, tomorrow);
+        if (lecturesTomorrow.isNotEmpty) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  UniIcon(
+                    size: 45,
+                    UniIcons.beer,
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    '${S.of(context).no_classes_today}\n${S.of(context).nextclasses}${S.of(context).tomorrow}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).colorScheme.onSecondary,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 18),
+              CardTimeline(items: buildTimelineItems(lecturesTomorrow, ref)),
+            ],
+          );
+        }
+
+        final nextLecture = lecturesThisWeek.first;
+        final nextLectureDay = DateTime(
+          nextLecture.startTime.year,
+          nextLecture.startTime.month,
+          nextLecture.startTime.day,
+        );
+        final nextLectureDayLectures = _lecturesForDay(
+          lecturesThisWeek,
+          nextLectureDay,
+        );
+        final dateText = DateFormat(
+          'EEEE',
+          Localizations.localeOf(context).toString(),
+        ).format(nextLecture.startTime);
+
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                UniIcon(
+                  size: 45,
+                  UniIcons.beer,
+                  color: Theme.of(context).colorScheme.onSecondary,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '${S.of(context).no_classes_today}\n${S.of(context).nextclasses}$dateText:',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 18),
+            CardTimeline(
+              items: buildTimelineItems(nextLectureDayLectures, ref),
+            ),
+          ],
+        );
+      },
+      hasContent: (lectures) => lectures.isNotEmpty,
       nullContentWidget: Center(
         child: IconLabel(
           icon: UniIcon(
@@ -61,6 +179,12 @@ class ScheduleHomeCard extends GenericHomecard {
     );
   }
 
+  bool _isLectureCurrent(Lecture lecture, DateTime now) {
+    return (now.isAfter(lecture.startTime) ||
+            now.isAtSameMomentAs(lecture.startTime)) &&
+        now.isBefore(lecture.endTime);
+  }
+
   @override
   void onCardClick(BuildContext context) {
     Navigator.pushNamed(
@@ -72,19 +196,17 @@ class ScheduleHomeCard extends GenericHomecard {
 
   List<TimelineItem> buildTimelineItems(List<Lecture> lectures, WidgetRef ref) {
     final now = DateTime.now();
-    final week = Week(start: now);
     final session = ref.read(sessionProvider);
 
-    final sortedLectures = lectures
-        .where((lecture) => week.contains(lecture.startTime))
-        .toList()
-        .sortedBy((lecture) => week.getWeekday(lecture.startTime.weekday));
+    final sortedLectures = lectures.toList().sortedBy(
+      (lecture) => lecture.startTime,
+    );
 
     final items = sortedLectures
+        .take(2)
         .map(
           (element) => TimelineItem(
-            isActive:
-                now.isAfter(element.startTime) && now.isBefore(element.endTime),
+            isActive: _isLectureCurrent(element, now),
             title: DateFormat('HH:mm').format(element.startTime),
             subtitle: DateFormat('HH:mm').format(element.endTime),
             card: FutureBuilder<File?>(
@@ -96,9 +218,7 @@ class ScheduleHomeCard extends GenericHomecard {
                   : Future.value(),
               builder: (context, snapshot) {
                 return ScheduleCard(
-                  isActive:
-                      now.isAfter(element.startTime) &&
-                      now.isBefore(element.endTime),
+                  isActive: _isLectureCurrent(element, now),
                   name: element.subject,
                   acronym: element.acronym,
                   room: element.room,
@@ -115,5 +235,19 @@ class ScheduleHomeCard extends GenericHomecard {
         .toList();
 
     return items;
+  }
+
+  List<Lecture> _lecturesForDay(List<Lecture> lectures, DateTime day) {
+    final dayStart = DateTime(day.year, day.month, day.day);
+    final nextDayStart = dayStart.add(const Duration(days: 1));
+
+    return lectures
+        .where(
+          (lecture) =>
+              !lecture.startTime.isBefore(dayStart) &&
+              lecture.startTime.isBefore(nextDayStart),
+        )
+        .toList()
+      ..sort((a, b) => a.startTime.compareTo(b.startTime));
   }
 }

@@ -46,6 +46,7 @@ class RestaurantUtils {
       case 'Dieta':
         return UniIcon(UniIcons.diet, size: size, color: color);
       case 'Prato do Dia':
+      case 'Refeição':
         return UniIcon(UniIcons.dishOfTheDay, size: size, color: color);
       case 'Encerrado':
         return UniIcon(UniIcons.closed, size: size, color: color);
@@ -81,7 +82,7 @@ class RestaurantUtils {
       'soups': ['Sopa'],
       'salads': ['Hortícola'],
       'diet_dishes': ['Dieta'],
-      'dishes_of_the_day': ['Prato do Dia'],
+      'dishes_of_the_day': ['Prato do Dia', 'Refeição'],
       'closed': ['Encerrado'],
     };
 
@@ -113,6 +114,7 @@ class RestaurantUtils {
       case 'Dieta':
         return 6;
       case 'Prato do Dia':
+      case 'Refeição':
         return 7;
       case 'Encerrado':
         return 8;
