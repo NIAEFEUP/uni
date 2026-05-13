@@ -27,7 +27,8 @@ import androidx.glance.layout.*
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
-import androidx.glance.unit.ColorProvider
+//import androidx.glance.unit.ColorProvider
+import androidx.glance.color.ColorProvider
 import androidx.glance.LocalContext
 import androidx.glance.layout.Alignment
 import androidx.glance.state.GlanceStateDefinition
@@ -47,7 +48,16 @@ internal object WidgetTheme {
     val CardBackground = ColorProvider(day = Color(0xFFF2E9E7), night = Color(0xFF4E3636))
 
     fun getBadgeColor(typeClass: String?): Color {
-        return if (typeClass == "TP") Color(0xFFD3944C) else Color(0xFFFBC11F)
+        return when (typeClass?.uppercase()) {
+            "T" -> Color(0xFFFBC11F)
+            "TP" -> Color(0xFFD3944C)
+            "P" -> Color(0xFFAB4D39)
+            "PL" -> Color(0xFF769C87)
+            "OT" -> Color(0xFF7CA5B8)
+            "TC" -> Color(0xFFCDBEB1)
+            "S" ->  Color(0xFF917C9B)
+            else -> Color(0xFFFBC11F) // Default to "T" color
+        }
     }
 }
 
@@ -201,7 +211,7 @@ class ScheduleWidget : GlanceAppWidget() {
                                 style = TextStyle(
                                     fontSize = 12.sp,
                                     fontWeight = FontWeight.Medium,
-                                    color = ColorProvider(Color.White)
+                                    color = ColorProvider(Color.White, Color.White)
                                 )
                             )
                         }
