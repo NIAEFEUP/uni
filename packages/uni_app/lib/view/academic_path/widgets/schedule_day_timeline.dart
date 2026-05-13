@@ -101,6 +101,7 @@ class ScheduleDayTimeline extends ConsumerWidget {
   }
 
   List<List<Lecture>> _groupOverlappingLectures(List<Lecture> lectures) {
+    if (lectures.isEmpty) return [];
     final sorted = [...lectures]
       ..sort((a, b) => a.startTime.compareTo(b.startTime));
 

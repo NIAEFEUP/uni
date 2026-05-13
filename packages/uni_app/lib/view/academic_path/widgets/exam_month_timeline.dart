@@ -97,6 +97,7 @@ class ExamMonthTimeline extends ConsumerWidget {
   }
 
   List<List<Exam>> _groupExamsByDay(List<Exam> exams) {
+    if (exams.isEmpty) return [];
     final sorted = [...exams]..sort((a, b) => a.start.compareTo(b.start));
 
     final groups = <List<Exam>>[];
