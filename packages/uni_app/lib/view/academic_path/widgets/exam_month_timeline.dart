@@ -65,7 +65,7 @@ class ExamMonthTimeline extends ConsumerWidget {
       return TimelineItem(
         isActive: isActive,
         title: exam.start.day.toString(),
-        subtitle: exam.monthAcronym(appLocale),
+        subtitle: _formatWeekday(exam.start, appLocale),
         lineHeight: 55,
         card: ExamCard(
           name: exam.subject,
@@ -90,5 +90,10 @@ class ExamMonthTimeline extends ConsumerWidget {
 
   bool _isExamActive(Exam exam) {
     return now.isAfter(exam.start) && now.isBefore(exam.finish);
+  }
+
+  String _formatWeekday(DateTime date, AppLocale locale) {
+    final weekday = DateFormat.E(locale.localeCode.languageCode).format(date);
+    return weekday[0].toUpperCase() + weekday.substring(1).toLowerCase();
   }
 }
