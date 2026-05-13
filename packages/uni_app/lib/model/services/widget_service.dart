@@ -23,8 +23,13 @@ class WidgetService {
     await HomeWidget.saveWidgetData('schedule_data', jsonData);
 
     await HomeWidget.updateWidget(
-      iOSName: 'ScheduleWidget',
+      iOSName: iOSWidgetName,
       qualifiedAndroidName: androidWidgetName,
+    );
+
+    await HomeWidget.updateWidget(
+      iOSName: iOSWidgetName,
+      qualifiedAndroidName: androidWidgetWideName,
     );
   }
 }
