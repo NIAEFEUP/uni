@@ -48,6 +48,7 @@
         <!-- widget information -->
         <receiver android:name="pt.up.fe.ni.uni.receivers.ScheduleWidgetReceiver"
             android:label="@string/schedule_widget_name_2x2"
+            android:permission="android.permission.BIND_APPWIDGET"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -59,6 +60,7 @@
 
         <receiver android:name="pt.up.fe.ni.uni.receivers.ScheduleWidgetWideReceiver"
             android:label="@string/schedule_widget_name_4x2"
+            android:permission="android.permission.BIND_APPWIDGET"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
