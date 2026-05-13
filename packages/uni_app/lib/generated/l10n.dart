@@ -2026,6 +2026,11 @@ class S {
     return Intl.message(
       'Try to refresh the page',
       name: 'no_info_description',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `tomorrow:`
   String get tomorrow {
     return Intl.message('tomorrow:', name: 'tomorrow', desc: '', args: []);

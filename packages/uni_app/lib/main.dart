@@ -255,15 +255,14 @@ class ApplicationState extends ConsumerState<Application> {
                       page: CourseUnitDetailPageView(courseUnit!),
                       settings: settings,
                     ),
-<<<<<<< feat/personal_info
                 '/${NavigationItem.navProfileInfo.route}': () =>
                     PageTransition.makePageTransition(
                       page: const ProfileInfoPageView(),
-=======
+                      settings: settings,
+                    ),
                 '/${NavigationItem.navProfessorSchedule.route}': () =>
                     PageTransition.makePageTransition(
                       page: ProfessorSchedulePageView(professor!),
->>>>>>> develop
                       settings: settings,
                     ),
               };
