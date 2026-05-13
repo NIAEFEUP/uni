@@ -109,7 +109,7 @@ class CurrentAccountPageViewState
             height: constraints.maxHeight,
             padding: const EdgeInsets.only(bottom: 120),
             child: Center(
-              child:  EmptyStateWidget(
+              child: EmptyStateWidget(
                 imagePath: 'assets/images/current_account.png',
                 title: S.of(context).no_info,
                 subtitle: S.of(context).no_current_account_info,
@@ -211,7 +211,6 @@ class CurrentAccountPageViewState
                 title: S.of(context).no_pending_label,
                 subtitle: S.of(context).no_pending_sublabel,
               ),
-               
             ),
             'Tuition Fees' => Transform.scale(
               scale: 0.8,
@@ -220,7 +219,6 @@ class CurrentAccountPageViewState
                 title: S.of(context).no_tuition_fees_label,
                 subtitle: S.of(context).no_tuition_fees_sublabel,
               ),
-              
             ),
             'General History' => Transform.scale(
               scale: 0.8,

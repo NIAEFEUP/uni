@@ -79,7 +79,11 @@ class _PaymentWebViewState extends State<PaymentWebView> {
               if (isLoading)
                 Container(
                   color: Theme.of(context).colorScheme.surface,
-                  child: Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.secondary,)),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                  ),
                 ),
             ],
           ),
