@@ -54,36 +54,78 @@ class ScheduleDayTimeline extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final session = ref.read(sessionProvider.select((value) => value.value));
+    final groups = _groupOverlappingLectures(lectures);
 
-    return lectures.map((lecture) {
-      final isActive = _isLectureActive(lecture);
+    return groups.map((group) {
+      final isActive = group.any(_isLectureActive);
+      final groupStart = group.first.startTime;
+      final groupEnd = group.first.endTime;
+
       return TimelineItem(
         isActive: isActive,
-        title: DateFormat('HH:mm').format(lecture.startTime),
-        subtitle: DateFormat('HH:mm').format(lecture.endTime),
-        card: FutureBuilder<File?>(
-          future: ProfileNotifier.fetchOrGetCachedProfilePicture(
-            session!,
-            studentNumber: lecture.teacherId,
-          ),
-          builder: (context, snapshot) {
-            return ScheduleCard(
-              isActive: isActive,
-              name: lecture.subject,
-              acronym: lecture.acronym,
-              room: lecture.room,
-              type: lecture.typeClass,
-              classNumber: showClassNumber ? lecture.classNumber : null,
-              teacherName: lecture.teacherName,
-              teacherPhoto: snapshot.hasData && snapshot.data != null
-                  ? Image(image: FileImage(snapshot.data!))
-                  : Image.asset('assets/images/profile_placeholder.png'),
-              onTap: onLectureTap != null ? () => onLectureTap!(lecture) : null,
+        title: DateFormat('HH:mm').format(groupStart),
+        subtitle: DateFormat('HH:mm').format(groupEnd),
+        card: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: group.map((lecture) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: FutureBuilder<File?>(
+                future: ProfileNotifier.fetchOrGetCachedProfilePicture(
+                  session!,
+                  studentNumber: lecture.teacherId,
+                ),
+                builder: (context, snapshot) {
+                  return ScheduleCard(
+                    isActive: _isLectureActive(lecture),
+                    name: lecture.subject,
+                    acronym: lecture.acronym,
+                    room: lecture.room,
+                    type: lecture.typeClass,
+                    classNumber: showClassNumber ? lecture.classNumber : null,
+                    teacherName: lecture.teacherName,
+                    teacherPhoto: snapshot.hasData && snapshot.data != null
+                        ? Image(image: FileImage(snapshot.data!))
+                        : Image.asset('assets/images/profile_placeholder.png'),
+                    onTap: onLectureTap != null
+                        ? () => onLectureTap!(lecture)
+                        : null,
+                  );
+                },
+              ),
             );
-          },
+          }).toList(),
         ),
       );
     }).toList();
+  }
+
+  List<List<Lecture>> _groupOverlappingLectures(List<Lecture> lectures) {
+    if (lectures.isEmpty) {
+      return [];
+    }
+    final sorted = [...lectures]
+      ..sort((a, b) => a.startTime.compareTo(b.startTime));
+
+    final groups = <List<Lecture>>[];
+    var currentGroup = [sorted.first];
+    var groupStart = sorted.first.startTime;
+    var groupEnd = sorted.first.endTime;
+
+    for (final lecture in sorted.skip(1)) {
+      if (lecture.startTime.isAtSameMomentAs(groupStart) &&
+          lecture.endTime.isAtSameMomentAs(groupEnd)) {
+        currentGroup.add(lecture);
+      } else {
+        groups.add(currentGroup);
+        currentGroup = [lecture];
+        groupStart = lecture.startTime;
+        groupEnd = lecture.endTime;
+      }
+    }
+    groups.add(currentGroup);
+
+    return groups;
   }
 
   bool _isLectureActive(Lecture lecture) {
