@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/introduction/widgets/exams_intro_page.dart';
 import 'package:uni/view/introduction/widgets/first_page.dart';
@@ -144,10 +145,10 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView>
             child: Container(
               height: 60,
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-              child: const Center(
+              child: Center(
                 child: Text(
-                  'Skip',
-                  style: TextStyle(
+                  S.of(context).skip,
+                  style: const TextStyle(
                     fontFamily: 'Poppins',
                     color: Color(0xFFFFF5F3),
                     fontSize: 16,
@@ -189,10 +190,10 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView>
                   ),
                 ],
               ),
-              child: const Center(
+              child: Center(
                 child: Text(
-                  'Allow',
-                  style: TextStyle(
+                  S.of(context).allow,
+                  style: const TextStyle(
                     fontFamily: 'Poppins',
                     color: Color(0xFFFFF5F3),
                     fontSize: 16,

@@ -21,7 +21,7 @@ class _MapIntroPageState extends State<MapIntroPage> {
             S.of(context).map.toUpperCase(),
             style: const TextStyle(
               fontFamily: 'Poppins',
-              color: Colors.white,
+              color: Color(0xFFFFF5F3),
               fontWeight: FontWeight.bold,
               fontSize: 24,
             ),
@@ -36,7 +36,7 @@ class _MapIntroPageState extends State<MapIntroPage> {
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontFamily: 'Poppins',
-                color: Colors.white,
+                color: Color(0xFFFFF5F3),
                 fontSize: 16,
               ),
             ),

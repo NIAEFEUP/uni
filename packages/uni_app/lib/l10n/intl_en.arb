@@ -525,6 +525,9 @@
   "feedback_consent_title": "Consent to data collection",
   "@feedback_consent_title": {},
   "edit_homepage": "Edit",
-  "@edit_homepage": {}
+  "@edit_homepage": {},
+  "skip": "Skip",
+  "@skip": {},
+  "allow": "Allow",
+  "@allow": {}
 }
-

@@ -21,7 +21,7 @@ class _RestaurantsIntroPageState extends State<RestaurantsIntroPage> {
             S.of(context).restaurants.toUpperCase(),
             style: const TextStyle(
               fontFamily: 'Poppins',
-              color: Colors.white,
+              color: Color(0xFFFFF5F3),
               fontWeight: FontWeight.bold,
               fontSize: 24,
             ),
@@ -36,7 +36,7 @@ class _RestaurantsIntroPageState extends State<RestaurantsIntroPage> {
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontFamily: 'Poppins',
-                color: Colors.white,
+                color: Color(0xFFFFF5F3),
                 fontSize: 16,
               ),
             ),
