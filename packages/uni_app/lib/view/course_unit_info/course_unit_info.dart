@@ -59,11 +59,18 @@ class CourseUnitDetailPageViewState
     if (session == null) {
       return;
     }
-    final occurs = await CourseUnitsInfoFetcher().fetchCourseUnitOccurences(
-      session,
-      widget.courseUnit.occurrId!,
-    );
-    widget.courseUnit.occurences = occurs;
+
+    final occurrId = widget.courseUnit.occurrId;
+    if (occurrId != null) {
+      try {
+        final occurs = await CourseUnitsInfoFetcher().fetchCourseUnitOccurences(
+          session,
+          occurrId,
+        );
+        widget.courseUnit.occurences = occurs;
+      } catch (_) {}
+    }
+
     final courseUnitsProvider = ref.read(courseUnitsInfoProvider.notifier);
 
     final courseUnitSheet =
@@ -337,21 +344,25 @@ class CourseUnitDetailPageViewState
           value: years[selectedItem],
           elevation: 16,
           onChanged: (value) {
-            setState(() {
-              final nextOccur = CourseUnit(
-                abbreviation: widget.courseUnit.abbreviation,
-                name: widget.courseUnit.name,
-                occurrId: occurs?[value],
-                schoolYear: value,
-              );
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute<CourseUnitDetailPageView>(
-                  builder: (context) => CourseUnitDetailPageView(nextOccur),
-                ),
-              );
-            });
+            if (value == null) {
+              return;
+            }
+            final occurrId = occurs?[value];
+            if (occurrId == null) {
+              return;
+            }
+            final nextOccur = CourseUnit(
+              abbreviation: widget.courseUnit.abbreviation,
+              name: widget.courseUnit.name,
+              occurrId: occurrId,
+              schoolYear: value,
+            );
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute<CourseUnitDetailPageView>(
+                builder: (context) => CourseUnitDetailPageView(nextOccur),
+              ),
+            );
           },
           items: years.map((item) {
             return DropdownMenuItem<String>(value: item, child: Text(item));
