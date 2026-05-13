@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
-import 'package:uni/model/providers/riverpod/lecture_provider.dart';
+import 'package:uni/model/providers/riverpod/professor_lectures_provider.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_shimmer.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_view.dart';
+import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni_ui/common_widgets/empty_state_widget.dart';
 
-class SchedulePage extends ConsumerWidget {
-  SchedulePage({super.key, DateTime? now}) : now = now ?? DateTime.now();
+class ProfessorSchedulePage extends ConsumerWidget {
+  ProfessorSchedulePage({super.key, required this.professor, DateTime? now})
+    : now = now ?? DateTime.now();
 
+  final Professor professor;
   final DateTime now;
 
   @override
@@ -19,11 +23,16 @@ class SchedulePage extends ConsumerWidget {
       context: context,
       removeBottom: true,
       child: DefaultConsumer<List<Lecture>>(
-        provider: lectureProvider,
+        provider: professorLecturesProvider((professor, null)),
         builder: (context, ref, lectures) {
           final startOfWeek = _getStartOfWeek(now, lectures);
 
-          return SchedulePageView(lectures, startOfWeek: startOfWeek, now: now);
+          return SchedulePageView(
+            lectures,
+            startOfWeek: startOfWeek,
+            now: now,
+            showClassNumber: true,
+          );
         },
         nullContentWidget: LayoutBuilder(
           builder: (context, constraints) => SingleChildScrollView(
@@ -62,13 +71,37 @@ class SchedulePage extends ConsumerWidget {
   DateTime _getStartOfWeek(DateTime now, List<Lecture> lectures) {
     final initialSunday = now.subtract(Duration(days: now.weekday % 7));
     final secondSunday = initialSunday.add(const Duration(days: 7));
-
     final hasLecturesThisWeek = lectures.any(
       (lecture) =>
           lecture.endTime.isAfter(now) &&
           lecture.startTime.isBefore(secondSunday),
     );
-
     return !hasLecturesThisWeek ? secondSunday : initialSunday;
+  }
+}
+
+class ProfessorSchedulePageView extends ConsumerStatefulWidget {
+  const ProfessorSchedulePageView(this.professor, {super.key});
+
+  final Professor professor;
+
+  @override
+  ConsumerState<ProfessorSchedulePageView> createState() =>
+      _ProfessorSchedulePageViewState();
+}
+
+class _ProfessorSchedulePageViewState
+    extends SecondaryPageViewState<ProfessorSchedulePageView> {
+  @override
+  Future<void> onRefresh() async {
+    ref.invalidate(professorLecturesProvider((widget.professor, null)));
+  }
+
+  @override
+  String? getTitle() => widget.professor.name;
+
+  @override
+  Widget getBody(BuildContext context) {
+    return ProfessorSchedulePage(professor: widget.professor);
   }
 }

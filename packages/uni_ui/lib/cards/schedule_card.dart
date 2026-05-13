@@ -44,8 +44,8 @@ class ScheduleCard extends StatelessWidget {
       gradient: isActive
           ? RadialGradient(
               colors: [
-                Theme.of(context).colorScheme.onTertiary,
-                Theme.of(context).colorScheme.tertiary,
+                Theme.of(context).colorScheme.onPrimary,
+                Theme.of(context).colorScheme.primary,
               ],
               center: Alignment.topLeft,
               radius: 2,
