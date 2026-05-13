@@ -13,12 +13,14 @@ class SchedulePageView extends ConsumerWidget {
     this.lectures, {
     required this.now,
     required DateTime startOfWeek,
+    this.showClassNumber = false,
     super.key,
   }) : currentWeek = Week(start: startOfWeek);
 
   final DateTime now;
   final List<Lecture> lectures;
   final Week currentWeek;
+  final bool showClassNumber;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -85,6 +87,7 @@ class SchedulePageView extends ConsumerWidget {
                 now: now,
                 day: date,
                 lectures: _lecturesOfDay(lectures, date),
+                showClassNumber: showClassNumber,
                 onLectureTap: (lecture) {
                   final profile = ref.watch(
                     profileProvider.select((value) => value.value),
