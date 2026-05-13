@@ -31,31 +31,31 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(1, 5302605391467104440),
+    id: const obx_int.IdUid(1, 530425131324335422),
     name: 'CalendarEvent',
-    lastPropertyId: const obx_int.IdUid(4, 5797193138877681335),
+    lastPropertyId: const obx_int.IdUid(4, 8425201974706566991),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 5503077758349165),
+        id: const obx_int.IdUid(1, 6382665703867377927),
         name: 'name',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 7357483879645154786),
+        id: const obx_int.IdUid(2, 1456752929405718001),
         name: 'startDate',
         type: 10,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 4969646617027653778),
+        id: const obx_int.IdUid(3, 6512738644323298906),
         name: 'endDate',
         type: 10,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 5797193138877681335),
+        id: const obx_int.IdUid(4, 8425201974706566991),
         name: 'uniqueId',
         type: 6,
         flags: 1,
@@ -65,67 +65,67 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(2, 4315467723036850752),
+    id: const obx_int.IdUid(2, 8766127320748861063),
     name: 'Course',
-    lastPropertyId: const obx_int.IdUid(10, 3077254944509581302),
+    lastPropertyId: const obx_int.IdUid(10, 2241126849191212410),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 6742583233811479684),
+        id: const obx_int.IdUid(1, 3665390265216484172),
         name: 'id',
         type: 6,
         flags: 129,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 8651818331666752326),
+        id: const obx_int.IdUid(2, 2699231020248079055),
         name: 'festId',
         type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 4772153436933285027),
+        id: const obx_int.IdUid(3, 6267706101558314419),
         name: 'name',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 985953530638408558),
+        id: const obx_int.IdUid(4, 2601111797268595146),
         name: 'abbreviation',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 1914709668910806860),
+        id: const obx_int.IdUid(5, 8320243146135565909),
         name: 'currYear',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(6, 2860104212007092639),
+        id: const obx_int.IdUid(6, 35231472350396415),
         name: 'firstEnrollment',
         type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(7, 187800101097391645),
+        id: const obx_int.IdUid(7, 2382592081549804294),
         name: 'faculty',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(8, 2056145371444161964),
+        id: const obx_int.IdUid(8, 4316567919446831375),
         name: 'state',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(9, 1111011935334371861),
+        id: const obx_int.IdUid(9, 4239229779432441373),
         name: 'finishedEcts',
         type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(10, 3077254944509581302),
+        id: const obx_int.IdUid(10, 2241126849191212410),
         name: 'currentAverage',
         type: 8,
         flags: 0,
@@ -135,104 +135,110 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(3, 7263491283156097496),
+    id: const obx_int.IdUid(3, 7350415528151845279),
     name: 'CourseUnit',
-    lastPropertyId: const obx_int.IdUid(16, 3033994229299603667),
+    lastPropertyId: const obx_int.IdUid(17, 2762582051413565992),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 6810706505131706599),
+        id: const obx_int.IdUid(1, 3621357537595052621),
         name: 'id',
         type: 6,
         flags: 129,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 4622608213853414662),
+        id: const obx_int.IdUid(2, 745379497284273090),
         name: 'code',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 6376017859393648726),
+        id: const obx_int.IdUid(3, 8793728078647237426),
         name: 'abbreviation',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 1509960349788473622),
+        id: const obx_int.IdUid(4, 3609787927860755678),
         name: 'name',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 6666028993308151148),
+        id: const obx_int.IdUid(5, 8789877611368532341),
         name: 'curricularYear',
         type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(6, 5420757909315157398),
+        id: const obx_int.IdUid(6, 999281738034458755),
         name: 'occurrId',
         type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(7, 1761504252405887777),
+        id: const obx_int.IdUid(7, 5852839434180085467),
         name: 'semesterCode',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(8, 4380389448840884911),
+        id: const obx_int.IdUid(8, 8606471090830298820),
         name: 'semesterName',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(9, 310075277709484279),
+        id: const obx_int.IdUid(9, 9221464053807943631),
         name: 'type',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(10, 8813062319973056539),
+        id: const obx_int.IdUid(10, 3047877808114953070),
         name: 'status',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(11, 6079439784483057307),
+        id: const obx_int.IdUid(11, 6616481768228805953),
         name: 'grade',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(12, 4281452734915971467),
+        id: const obx_int.IdUid(12, 1155088564660878170),
         name: 'ectsGrade',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(13, 3791606578840953923),
+        id: const obx_int.IdUid(13, 4433817947689839240),
         name: 'result',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(14, 5358362792184218322),
+        id: const obx_int.IdUid(14, 6722515600875181518),
         name: 'ects',
         type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(15, 2465659758248901500),
+        id: const obx_int.IdUid(15, 738982768682995511),
         name: 'festId',
         type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(16, 3033994229299603667),
+        id: const obx_int.IdUid(16, 1117492736799219851),
         name: 'schoolYear',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(17, 2762582051413565992),
+        name: 'dbOccurences',
         type: 9,
         flags: 0,
       ),
@@ -241,61 +247,61 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(4, 7971984820205642133),
+    id: const obx_int.IdUid(4, 6264740013149632054),
     name: 'Exam',
-    lastPropertyId: const obx_int.IdUid(9, 372533802605469321),
+    lastPropertyId: const obx_int.IdUid(9, 4100978704342356506),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 281983176820095774),
+        id: const obx_int.IdUid(1, 7927870062061976403),
         name: 'start',
         type: 10,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 3247433705133311353),
+        id: const obx_int.IdUid(2, 1764251364345465332),
         name: 'finish',
         type: 10,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 1744673006593456038),
+        id: const obx_int.IdUid(3, 1934465095286727673),
         name: 'id',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 8892438397441606429),
+        id: const obx_int.IdUid(4, 5291275696337252017),
         name: 'subjectAcronym',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 793011350351970788),
+        id: const obx_int.IdUid(5, 6050059873492745016),
         name: 'subject',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(6, 3761694166108867558),
+        id: const obx_int.IdUid(6, 390975694419135080),
         name: 'rooms',
         type: 30,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(7, 3691752375694619268),
+        id: const obx_int.IdUid(7, 1533290708627351393),
         name: 'examType',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(8, 4945285468225389477),
+        id: const obx_int.IdUid(8, 6301199270529398118),
         name: 'occurrId',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(9, 372533802605469321),
+        id: const obx_int.IdUid(9, 4100978704342356506),
         name: 'dbId',
         type: 6,
         flags: 1,
@@ -305,25 +311,25 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(5, 7963613868686569285),
+    id: const obx_int.IdUid(5, 8958203706062233220),
     name: 'FloorOccupation',
-    lastPropertyId: const obx_int.IdUid(3, 5420251642333408075),
+    lastPropertyId: const obx_int.IdUid(3, 3201979080228518212),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 4992200964824919170),
+        id: const obx_int.IdUid(1, 2535080945298351667),
         name: 'number',
         type: 6,
         flags: 129,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 2084540709976072336),
+        id: const obx_int.IdUid(2, 7139700621659494979),
         name: 'occupation',
         type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 5420251642333408075),
+        id: const obx_int.IdUid(3, 3201979080228518212),
         name: 'capacity',
         type: 6,
         flags: 0,
@@ -333,79 +339,79 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(6, 1461318235647317622),
+    id: const obx_int.IdUid(6, 8171367879829495835),
     name: 'Lecture',
-    lastPropertyId: const obx_int.IdUid(12, 5152759235045438995),
+    lastPropertyId: const obx_int.IdUid(12, 6969316018269244203),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 6701748320494041795),
+        id: const obx_int.IdUid(1, 5383871921825150407),
         name: 'uniqueId',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 5731470226248978882),
+        id: const obx_int.IdUid(2, 201092000591521938),
         name: 'acronym',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 4792314729920034712),
+        id: const obx_int.IdUid(3, 9183402681471116179),
         name: 'subject',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 8845650491247381445),
+        id: const obx_int.IdUid(4, 8467713965694326563),
         name: 'typeClass',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 7945458042326213101),
+        id: const obx_int.IdUid(5, 3803259491266197706),
         name: 'room',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(6, 5148074725148522794),
+        id: const obx_int.IdUid(6, 8040694404057904311),
         name: 'teacher',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(7, 4053641709659475685),
+        id: const obx_int.IdUid(7, 3822935314972623459),
         name: 'teacherName',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(8, 3480832395393684098),
+        id: const obx_int.IdUid(8, 4999211809095154313),
         name: 'teacherId',
         type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(9, 9139730659474983427),
+        id: const obx_int.IdUid(9, 5209569722892967121),
         name: 'classNumber',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(10, 244389858596388621),
+        id: const obx_int.IdUid(10, 3607372980483634855),
         name: 'startTime',
         type: 10,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(11, 2404503561347115222),
+        id: const obx_int.IdUid(11, 2614048377992864604),
         name: 'endTime',
         type: 10,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(12, 5152759235045438995),
+        id: const obx_int.IdUid(12, 6969316018269244203),
         name: 'occurrId',
         type: 6,
         flags: 0,
@@ -415,53 +421,53 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(7, 2758409591693259312),
+    id: const obx_int.IdUid(7, 7628085297208106091),
     name: 'Meal',
-    lastPropertyId: const obx_int.IdUid(7, 2910283670887119070),
+    lastPropertyId: const obx_int.IdUid(7, 1569316148995165090),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 3953646381678908874),
+        id: const obx_int.IdUid(1, 2958329298568204753),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 1155059277153967278),
+        id: const obx_int.IdUid(2, 1449986141343205200),
         name: 'type',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 1461467095868872351),
+        id: const obx_int.IdUid(3, 2269786060030172862),
         name: 'namePt',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 9111362011587212228),
+        id: const obx_int.IdUid(4, 8605035152093888997),
         name: 'nameEn',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 609742110755467921),
+        id: const obx_int.IdUid(5, 530560705488605197),
         name: 'dbDayOfWeek',
         type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(6, 2025321705760792585),
+        id: const obx_int.IdUid(6, 9009054245949700769),
         name: 'date',
         type: 10,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(7, 2910283670887119070),
+        id: const obx_int.IdUid(7, 1569316148995165090),
         name: 'restaurantId',
         type: 11,
         flags: 520,
-        indexId: const obx_int.IdUid(1, 6559110197396702796),
+        indexId: const obx_int.IdUid(1, 8876662590373252145),
         relationField: 'restaurant',
         relationTarget: 'Restaurant',
       ),
@@ -470,37 +476,37 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(8, 4853540030964354142),
+    id: const obx_int.IdUid(8, 6102888203714718297),
     name: 'News',
-    lastPropertyId: const obx_int.IdUid(5, 389016429589472186),
+    lastPropertyId: const obx_int.IdUid(5, 7746808758803477455),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 4290014196748812725),
+        id: const obx_int.IdUid(1, 2589498743617671750),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 4437344577422499083),
+        id: const obx_int.IdUid(2, 5250660240398378106),
         name: 'title',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 6348957780887855361),
+        id: const obx_int.IdUid(3, 6222112764075254490),
         name: 'description',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 5854310086759254728),
+        id: const obx_int.IdUid(4, 2636276825790901810),
         name: 'image',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 389016429589472186),
+        id: const obx_int.IdUid(5, 7746808758803477455),
         name: 'link',
         type: 9,
         flags: 0,
@@ -510,49 +516,49 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(9, 2667456385677078406),
+    id: const obx_int.IdUid(9, 4928743523651939869),
     name: 'Profile',
-    lastPropertyId: const obx_int.IdUid(7, 1947507333062357966),
+    lastPropertyId: const obx_int.IdUid(7, 9027176496217032455),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 4202980778803173935),
+        id: const obx_int.IdUid(1, 4021117406216425917),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 1875064955468583380),
+        id: const obx_int.IdUid(2, 6027073199829710882),
         name: 'name',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 6865404374902221804),
+        id: const obx_int.IdUid(3, 4273603378121680460),
         name: 'email',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 4415847556907978648),
+        id: const obx_int.IdUid(4, 7177464874805179896),
         name: 'printBalance',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 4851136016534324414),
+        id: const obx_int.IdUid(5, 8464585005346258017),
         name: 'feesBalance',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(6, 7157791953379904424),
+        id: const obx_int.IdUid(6, 7123550134298350589),
         name: 'feesLimit',
         type: 10,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(7, 1947507333062357966),
+        id: const obx_int.IdUid(7, 9027176496217032455),
         name: 'answeredPedagogicalSurveys',
         type: 1,
         flags: 0,
@@ -562,43 +568,43 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(10, 922783939952528203),
+    id: const obx_int.IdUid(10, 4155556763398646214),
     name: 'ProfileInfo',
-    lastPropertyId: const obx_int.IdUid(6, 2830288554895083365),
+    lastPropertyId: const obx_int.IdUid(6, 7289069097129359773),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 8569900553789516116),
+        id: const obx_int.IdUid(1, 608489470411076437),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 5828169048906513518),
+        id: const obx_int.IdUid(2, 8130944735437495208),
         name: 'dbProfileInfo',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 3465265641240967824),
+        id: const obx_int.IdUid(3, 7192430848830637233),
         name: 'dbNationalities',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 7007012828787970201),
+        id: const obx_int.IdUid(4, 1035197482304187710),
         name: 'dbIdentification',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 6301870427040977068),
+        id: const obx_int.IdUid(5, 3401020503640784022),
         name: 'dbContacts',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(6, 2830288554895083365),
+        id: const obx_int.IdUid(6, 7289069097129359773),
         name: 'dbAddresses',
         type: 9,
         flags: 0,
@@ -608,43 +614,43 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(11, 6554512570041553083),
+    id: const obx_int.IdUid(11, 152453921604597964),
     name: 'Reference',
-    lastPropertyId: const obx_int.IdUid(6, 1116133550396136368),
+    lastPropertyId: const obx_int.IdUid(6, 3467342550910815531),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 3134271021568886242),
+        id: const obx_int.IdUid(1, 5938891440526115401),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 7269934126227896914),
+        id: const obx_int.IdUid(2, 6858577409898077466),
         name: 'description',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 7588914179532198782),
+        id: const obx_int.IdUid(3, 984428439819660367),
         name: 'limitDate',
         type: 10,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 3618283678110075128),
+        id: const obx_int.IdUid(4, 3310865443950802329),
         name: 'entity',
         type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 1691845377865886513),
+        id: const obx_int.IdUid(5, 3156375564147692255),
         name: 'reference',
         type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(6, 1116133550396136368),
+        id: const obx_int.IdUid(6, 3467342550910815531),
         name: 'amount',
         type: 8,
         flags: 0,
@@ -654,73 +660,73 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(12, 4484109055609216657),
+    id: const obx_int.IdUid(12, 5587795271338633280),
     name: 'Restaurant',
-    lastPropertyId: const obx_int.IdUid(11, 4921430619914457967),
+    lastPropertyId: const obx_int.IdUid(11, 2582329256329520243),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 5020520903882099143),
+        id: const obx_int.IdUid(1, 2268363033185952743),
         name: 'uniqueId',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 8477170474939315457),
+        id: const obx_int.IdUid(2, 2552898432979327101),
         name: 'id',
         type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 5413761272654987267),
+        id: const obx_int.IdUid(3, 9081120606152061952),
         name: 'typePt',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 1034465791282995058),
+        id: const obx_int.IdUid(4, 7379371056630097488),
         name: 'typeEn',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 2869448469764434889),
+        id: const obx_int.IdUid(5, 625943009229981739),
         name: 'namePt',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(6, 1137441946919859693),
+        id: const obx_int.IdUid(6, 1457292800651987378),
         name: 'nameEn',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(7, 3809521740651135171),
+        id: const obx_int.IdUid(7, 848160823479260009),
         name: 'period',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(8, 3151754287089188606),
+        id: const obx_int.IdUid(8, 1785550905992545677),
         name: 'campusId',
         type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(9, 4109386476443343797),
+        id: const obx_int.IdUid(9, 3239551355494320197),
         name: 'reference',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(10, 2961108682807961565),
+        id: const obx_int.IdUid(10, 4974944789261968474),
         name: 'openingHours',
         type: 30,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(11, 4921430619914457967),
+        id: const obx_int.IdUid(11, 2582329256329520243),
         name: 'email',
         type: 9,
         flags: 0,
@@ -780,8 +786,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
     // Typically, this is done with `dart run build_runner build`.
     generatorVersion: obx_int.GeneratorVersion.v2025_12_16,
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(12, 4484109055609216657),
-    lastIndexId: const obx_int.IdUid(1, 6559110197396702796),
+    lastEntityId: const obx_int.IdUid(12, 5587795271338633280),
+    lastIndexId: const obx_int.IdUid(1, 8876662590373252145),
     lastRelationId: const obx_int.IdUid(0, 0),
     lastSequenceId: const obx_int.IdUid(0, 0),
     retiredEntityUids: const [],
@@ -982,7 +988,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final schoolYearOffset = object.schoolYear == null
             ? null
             : fbb.writeString(object.schoolYear!);
-        fbb.startTable(17);
+        final dbOccurencesOffset = object.dbOccurences == null
+            ? null
+            : fbb.writeString(object.dbOccurences!);
+        fbb.startTable(18);
         fbb.addInt64(0, object.id ?? 0);
         fbb.addOffset(1, codeOffset);
         fbb.addOffset(2, abbreviationOffset);
@@ -999,6 +1008,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addFloat64(13, object.ects);
         fbb.addInt64(14, object.festId);
         fbb.addOffset(15, schoolYearOffset);
+        fbb.addOffset(16, dbOccurencesOffset);
         fbb.finish(fbb.endTable());
         return object.id ?? 0;
       },
@@ -1063,6 +1073,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
           rootOffset,
           32,
         );
+        final dbOccurencesParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 36);
         final object = CourseUnit(
           abbreviation: abbreviationParam,
           name: nameParam,
@@ -1080,6 +1093,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           ects: ectsParam,
           schoolYear: schoolYearParam,
           festId: festIdParam,
+          dbOccurences: dbOccurencesParam,
         );
 
         return object;
@@ -1878,6 +1892,11 @@ class CourseUnit_ {
   /// See [CourseUnit.schoolYear].
   static final schoolYear = obx.QueryStringProperty<CourseUnit>(
     _entities[2].properties[15],
+  );
+
+  /// See [CourseUnit.dbOccurences].
+  static final dbOccurences = obx.QueryStringProperty<CourseUnit>(
+    _entities[2].properties[16],
   );
 }
 
