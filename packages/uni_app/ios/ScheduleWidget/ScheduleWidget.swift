@@ -23,6 +23,27 @@ func formatTime(_ rawString: String) -> String {
     return rawString // fallback just in case
 }
 
+func typeClassColor(_ typeClass: String) -> Color {
+    switch typeClass {
+    case "T":
+        return Color(red: 251/255, green: 193/255, blue: 31/255)
+    case "TP":
+        return Color(red: 211/255, green: 148/255, blue: 76/255)
+    case "P":
+        return Color(red: 171/255, green: 77/255, blue: 57/255)
+    case "PL":
+        return Color(red: 118/255, green: 156/255, blue: 135/255)
+    case "OT":
+        return Color(red: 124/255, green: 165/255, blue: 184/255)
+    case "TC":
+        return Color(red: 205/255, green: 190/255, blue: 177/255)
+    case "S":
+        return Color(red: 145/255, green: 124/255, blue: 155/255)
+    default:
+        return Color.secondary
+    }
+}
+
 
 struct Provider: TimelineProvider {
     
@@ -71,11 +92,11 @@ struct Provider: TimelineProvider {
             if let endDate = dateFormatter.date(from: lecture.endTime) {
                 return endDate > now
             }
-            return true
+            return false
         }
         entries.append(SimpleEntry(date: now, lectures: Array(currentLectures.prefix(2))))
         
-        // 2. freate future entries for the moment each class ends
+        // 2. create future entries for the moment each class ends
         for lecture in allLectures {
             if let endDate = dateFormatter.date(from: lecture.endTime), endDate > now {
                 let futureLectures = allLectures.filter { nextLecture in
@@ -228,7 +249,7 @@ struct LectureCardView: View {
                     .padding(.vertical, 2)
                     .background {
                         if renderingMode == .fullColor {
-                            lecture.typeClass == "T" ? Color.orange : Color.brown
+                            typeClassColor(lecture.typeClass)
                         } else {
                             // 2hen in clear/tinted mode, use a vibrant overlay
                             Color.secondary.opacity(0.3)
@@ -309,7 +330,7 @@ struct MediumLectureCardView: View {
                     .padding(.vertical, 2)
                     .background {
                         if renderingMode == .fullColor {
-                            lecture.typeClass == "T" ? Color.orange : Color.brown
+                            typeClassColor(lecture.typeClass)
                         } else {
                             Color.secondary.opacity(0.3)
                         }
