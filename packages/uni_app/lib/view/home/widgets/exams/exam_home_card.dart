@@ -42,8 +42,8 @@ class ExamHomeCard extends GenericHomecard {
             final visibleExams = getVisibleExams(
               allExams,
               hiddenExams,
-            ).toList();
-            final items = buildTimelineItems(ref, visibleExams).take(2);
+            ).take(2).toList();
+            final items = buildTimelineItems(ref, visibleExams);
 
             return CardTimeline(items: items.toList());
           },
@@ -76,26 +76,53 @@ class ExamHomeCard extends GenericHomecard {
 
   List<TimelineItem> buildTimelineItems(WidgetRef ref, List<Exam> exams) {
     final locale = ref.watch(localeProvider);
+    final groups = _groupExamsByDay(exams);
 
-    final items = exams
-        .map(
-          (exam) => TimelineItem(
-            title: exam.start.day.toString(),
-            subtitle: exam.start.shortMonth(locale).capitalize(),
-            card: ExamCard(
+    return groups.map((group) {
+      final firstExam = group.first;
+
+      return TimelineItem(
+        title: firstExam.start.day.toString(),
+        subtitle: firstExam.start.shortMonth(locale).capitalize(),
+        card: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: group.map((exam) {
+            return ExamCard(
               showIcon: false,
               name: exam.subject,
               acronym: exam.subjectAcronym,
               rooms: exam.rooms,
               type: exam.examType,
               startTime: exam.startTime,
-            ),
-            lineHeight: 55,
-          ),
-        )
-        .toList();
+            );
+          }).toList(),
+        ),
+      );
+    }).toList();
+  }
 
-    return items;
+  List<List<Exam>> _groupExamsByDay(List<Exam> exams) {
+    if (exams.isEmpty) {
+      return [];
+    }
+    final sorted = [...exams]..sort((a, b) => a.start.compareTo(b.start));
+
+    final groups = <List<Exam>>[];
+    var currentGroup = [sorted.first];
+    var currentDay = sorted.first.start.day;
+
+    for (final exam in sorted.skip(1)) {
+      if (exam.start.day == currentDay) {
+        currentGroup.add(exam);
+      } else {
+        groups.add(currentGroup);
+        currentGroup = [exam];
+        currentDay = exam.start.day;
+      }
+    }
+    groups.add(currentGroup);
+
+    return groups;
   }
 
   @override
