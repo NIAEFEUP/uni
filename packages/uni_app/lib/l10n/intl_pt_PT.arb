@@ -557,5 +557,7 @@
   "pay": "Pagar",
   "@pay": {},
   "no_records_for_filter": "Sem registos para este filtro.",
-  "@no_records_for_filter": {}
+  "@no_records_for_filter": {},
+  "session_expired": "Sessão expirada",
+  "@session_expired": {}
 }

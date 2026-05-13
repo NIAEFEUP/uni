@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/view/current_account/widgets/payment_webview.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/icons.dart';
@@ -51,8 +50,6 @@ class Transaction extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sessionAsync = ref.watch(sessionProvider);
-
     return GenericCard(
       tooltip: description,
       margin: EdgeInsets.zero,
@@ -141,33 +138,22 @@ class Transaction extends ConsumerWidget {
                     visualDensity: VisualDensity.compact,
                   ),
                   onPressed: () {
-                    sessionAsync.whenData((session) {
-                      if (session != null) {
-                        showModalBottomSheet<void>(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: Colors.transparent,
-                          builder: (context) => Container(
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.surface,
-                              borderRadius: const BorderRadius.vertical(
-                                top: Radius.circular(20),
-                              ),
-                            ),
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            height: MediaQuery.sizeOf(context).height * 0.9,
-                            child: PaymentWebView(
-                              url: paymentLink!,
-                              session: session,
-                            ),
+                    showModalBottomSheet<void>(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) => Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surface,
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(20),
                           ),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(S.of(context).failed_login)),
-                        );
-                      }
-                    });
+                        ),
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        height: MediaQuery.sizeOf(context).height * 0.9,
+                        child: PaymentWebView(url: paymentLink!),
+                      ),
+                    );
                   },
                   child: Text(
                     S.of(context).pay,

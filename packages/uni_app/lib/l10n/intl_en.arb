@@ -557,5 +557,7 @@
   "pay": "Pay",
   "@pay": {},
   "no_records_for_filter": "No records for this filter.",
-  "@no_records_for_filter": {}
+  "@no_records_for_filter": {},
+  "session_expired": "Session expired",
+  "@session_expired": {}
 }

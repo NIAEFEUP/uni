@@ -97,7 +97,8 @@ class CurrentAccountPageViewState
     final currentAccount = ref.watch(currentAccountProvider);
     final accountOverview = ref.watch(profileProvider);
 
-    if (currentAccount.isLoading || accountOverview.isLoading) {
+    if ((currentAccount.isLoading && !currentAccount.hasValue) ||
+        (accountOverview.isLoading && !accountOverview.hasValue)) {
       return const CurrentAccountShimmers();
     }
 
