@@ -18,66 +18,63 @@ class TimelineItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: titleWidth,
-            child: Column(
-              children: [
-                Text(title, style: Theme.of(context).textTheme.bodyLarge),
-                Text(subtitle, style: Theme.of(context).textTheme.labelLarge),
-              ],
+    final Color lineColor = Theme.of(context).colorScheme.onSecondary;
+
+    return Stack(
+      children: [
+        Positioned(
+          left: titleWidth + 18.5,
+          top: 25,
+          bottom: 5,
+          child: Container(
+            width: 3,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              color: lineColor,
             ),
           ),
-          Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(bottom: 5, left: 10, right: 10),
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: isActive
-                      ? Theme.of(context).colorScheme.onSecondary
-                      : Colors.transparent,
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.onSecondary,
-                    width: 4.0,
-                  ),
-                ),
-                child: isActive
-                    ? Center(
-                        child: Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Theme.of(context).colorScheme.surface,
-                              width: 3,
-                            ),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: titleWidth,
+              child: Column(
+                children: [
+                  Text(title, style: Theme.of(context).textTheme.bodyLarge),
+                  Text(subtitle, style: Theme.of(context).textTheme.labelLarge),
+                ],
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 5, left: 10, right: 10),
+              width: 20,
+              height: 20,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: isActive ? lineColor : Colors.transparent,
+                border: Border.all(color: lineColor, width: 4.0),
+              ),
+              child: isActive
+                  ? Center(
+                      child: Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.surface,
+                            width: 3,
                           ),
                         ),
-                      )
-                    : null,
-              ),
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 5, left: 10, right: 10),
-                  width: 3,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Theme.of(context).colorScheme.onSecondary,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Expanded(child: card),
-        ],
-      ),
+                      ),
+                    )
+                  : null,
+            ),
+            Expanded(child: card),
+          ],
+        ),
+      ],
     );
   }
 }
