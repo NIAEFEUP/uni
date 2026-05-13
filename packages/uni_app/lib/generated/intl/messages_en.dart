@@ -306,6 +306,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "nav_title": m3,
     "news": MessageLookupByLibrary.simpleMessage("News"),
+    "nextclasses": MessageLookupByLibrary.simpleMessage(
+      "Here are your classes for ",
+    ),
     "no": MessageLookupByLibrary.simpleMessage("No"),
     "noExamsScheduled": MessageLookupByLibrary.simpleMessage(
       "No exams scheduled",
@@ -330,6 +333,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "no_classes_this_week": MessageLookupByLibrary.simpleMessage(
       "You have no classes this week",
+    ),
+    "no_classes_today": MessageLookupByLibrary.simpleMessage(
+      "You don\'t have any more classes today.",
     ),
     "no_college": MessageLookupByLibrary.simpleMessage("no college"),
     "no_course_unit_classes": MessageLookupByLibrary.simpleMessage(
@@ -538,6 +544,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "title": MessageLookupByLibrary.simpleMessage("Title"),
+    "today": MessageLookupByLibrary.simpleMessage("today:"),
+    "tomorrow": MessageLookupByLibrary.simpleMessage("tomorrow:"),
     "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Tomorrow\'s Menu"),
     "transactions": MessageLookupByLibrary.simpleMessage("Transactions"),
     "try_again": MessageLookupByLibrary.simpleMessage("Try again"),
