@@ -18,7 +18,7 @@ class BottomNavbarItem {
         padding: EdgeInsets.all(6),
         decoration: isSelected()
             ? BoxDecoration(
-                color: Theme.of(context).colorScheme.onPrimary,
+                color: Theme.of(context).colorScheme.onTertiary,
                 borderRadius: BorderRadius.circular(10),
               )
             : null,
