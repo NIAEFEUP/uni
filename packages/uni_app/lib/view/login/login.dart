@@ -221,12 +221,6 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
           _intercepting = false;
         });
       }
-      if (mounted) {
-        setState(() {
-          _loggingIn = true;
-          _intercepting = false;
-        });
-      }
     } catch (err, st) {
       await Sentry.captureException(err, stackTrace: st);
       await closeInAppWebView();
