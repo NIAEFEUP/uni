@@ -111,7 +111,12 @@ class _PaymentWebViewState extends ConsumerState<PaymentWebView> {
               if (session == null && !isLoading)
                 Container(
                   color: Theme.of(context).colorScheme.surface,
-                  child: Center(child: Text(S.of(context).session_expired, style: Theme.of(context).textTheme.bodyMedium),),
+                  child: Center(
+                    child: Text(
+                      S.of(context).session_expired,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
                 ),
             ],
           ),
