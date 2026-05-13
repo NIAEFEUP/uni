@@ -17,6 +17,8 @@ class CalendarPageView extends ConsumerStatefulWidget {
 }
 
 class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
+  final GlobalKey _targetEventKey = GlobalKey();
+
   @override
   Widget getBody(BuildContext context) {
     return DefaultConsumer<LocalizedEvents>(
@@ -33,11 +35,28 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
         final calendar = localizedEvents.getEvents(locale);
         final today = DateTime.now();
 
+        final targetIndex = calendar.indexWhere((event) {
+          final end = event.endDate ?? event.startDate;
+          return end == null || !end.isBefore(today);
+        });
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (_targetEventKey.currentContext != null) {
+            Scrollable.ensureVisible(
+              _targetEventKey.currentContext!,
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut,
+            );
+          }
+        });
+
         return SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Column(
-              children: calendar.map((event) {
+              children: calendar.asMap().entries.map((entry) {
+                final index = entry.key;
+                final event = entry.value;
                 final start = event.startDate;
                 final end = event.endDate ?? event.startDate;
                 final isToday =
@@ -49,6 +68,7 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
                         today.isAfter(start ?? end) &&
                         today.isBefore(end.add(const Duration(days: 1))));
                 return RowFormat(
+                  key: index == targetIndex ? _targetEventKey : null,
                   event: event,
                   locale: locale,
                   isToday: isToday,

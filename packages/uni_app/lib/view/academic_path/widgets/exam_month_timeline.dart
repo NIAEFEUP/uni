@@ -69,7 +69,7 @@ class ExamMonthTimeline extends ConsumerWidget {
       return TimelineItem(
         isActive: isActive,
         title: firstExam.start.day.toString(),
-        subtitle: firstExam.monthAcronym(appLocale),
+        subtitle: _formatWeekday(firstExam.start, appLocale),
         card: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: group.map((exam) {
@@ -97,7 +97,9 @@ class ExamMonthTimeline extends ConsumerWidget {
   }
 
   List<List<Exam>> _groupExamsByDay(List<Exam> exams) {
-    if (exams.isEmpty) return [];
+    if (exams.isEmpty) {
+      return [];
+    }
     final sorted = [...exams]..sort((a, b) => a.start.compareTo(b.start));
 
     final groups = <List<Exam>>[];
@@ -120,5 +122,10 @@ class ExamMonthTimeline extends ConsumerWidget {
 
   bool _isExamActive(Exam exam) {
     return now.isAfter(exam.start) && now.isBefore(exam.finish);
+  }
+
+  String _formatWeekday(DateTime date, AppLocale locale) {
+    final weekday = DateFormat.E(locale.localeCode.languageCode).format(date);
+    return weekday[0].toUpperCase() + weekday.substring(1).toLowerCase();
   }
 }

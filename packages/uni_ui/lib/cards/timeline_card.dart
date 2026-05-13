@@ -7,6 +7,7 @@ class TimelineItem extends StatelessWidget {
     required this.card,
     this.isActive = false,
     this.titleWidth = 50,
+    this.titleTextAlign = TextAlign.start,
     super.key,
   });
 
@@ -15,6 +16,7 @@ class TimelineItem extends StatelessWidget {
   final Widget card;
   final bool isActive;
   final double titleWidth;
+  final TextAlign titleTextAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +43,16 @@ class TimelineItem extends StatelessWidget {
               width: titleWidth,
               child: Column(
                 children: [
-                  Text(title, style: Theme.of(context).textTheme.bodyLarge),
-                  Text(subtitle, style: Theme.of(context).textTheme.labelLarge),
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    textAlign: titleTextAlign,
+                  ),
+                  Text(
+                    subtitle,
+                    style: Theme.of(context).textTheme.labelLarge,
+                    textAlign: titleTextAlign,
+                  ),
                 ],
               ),
             ),
