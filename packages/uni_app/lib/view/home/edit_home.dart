@@ -83,8 +83,8 @@ class EditHomeViewState extends State<EditHomeView> {
               gradient: Theme.of(context).brightness == Brightness.light
                   ? RadialGradient(
                       colors: [
-                        Theme.of(context).colorScheme.tertiary,
-                        Theme.of(context).colorScheme.onTertiary,
+                        Theme.of(context).colorScheme.primary,
+                        Theme.of(context).colorScheme.onPrimary,
                       ],
                       center: Alignment.topLeft,
                       radius: 2,
@@ -92,7 +92,7 @@ class EditHomeViewState extends State<EditHomeView> {
                     )
                   : LinearGradient(
                       colors: [
-                        Theme.of(context).colorScheme.tertiary,
+                        Theme.of(context).colorScheme.primary,
                         Theme.of(context).colorScheme.surface,
                       ],
                       begin: Alignment.topCenter,
@@ -179,8 +179,8 @@ class EditHomeViewState extends State<EditHomeView> {
                 gradient: Theme.of(context).brightness == Brightness.light
                     ? RadialGradient(
                         colors: [
-                          Theme.of(context).colorScheme.tertiary,
-                          Theme.of(context).colorScheme.onTertiary,
+                          Theme.of(context).colorScheme.primary,
+                          Theme.of(context).colorScheme.onPrimary,
                         ],
                         center: Alignment.topLeft,
                         radius: 2,
@@ -188,7 +188,7 @@ class EditHomeViewState extends State<EditHomeView> {
                       )
                     : LinearGradient(
                         colors: [
-                          Theme.of(context).colorScheme.tertiary,
+                          Theme.of(context).colorScheme.primary,
                           Theme.of(context).colorScheme.surface,
                         ],
                         begin: Alignment.bottomCenter,
