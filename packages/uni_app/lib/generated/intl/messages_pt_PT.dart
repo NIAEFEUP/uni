@@ -304,6 +304,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "nav_title": m3,
     "news": MessageLookupByLibrary.simpleMessage("Notícias"),
+    "nextclasses": MessageLookupByLibrary.simpleMessage(
+      "Aqui estão as tuas aulas para ",
+    ),
     "no": MessageLookupByLibrary.simpleMessage("Não"),
     "noExamsScheduled": MessageLookupByLibrary.simpleMessage(
       "Não há exames agendados",
@@ -332,6 +335,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "no_classes_this_week": MessageLookupByLibrary.simpleMessage(
       "Não tens aulas esta semana",
+    ),
+    "no_classes_today": MessageLookupByLibrary.simpleMessage(
+      "Não tens mais aulas hoje.",
     ),
     "no_college": MessageLookupByLibrary.simpleMessage("sem faculdade"),
     "no_course_unit_classes": MessageLookupByLibrary.simpleMessage(
@@ -523,6 +529,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "theme": MessageLookupByLibrary.simpleMessage("Tema"),
     "title": MessageLookupByLibrary.simpleMessage("Título"),
+    "today": MessageLookupByLibrary.simpleMessage("hoje:"),
+    "tomorrow": MessageLookupByLibrary.simpleMessage("amanhã:"),
     "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Menu de Amanhã"),
     "try_again": MessageLookupByLibrary.simpleMessage("Tentar de novo"),
     "try_different_login": MessageLookupByLibrary.simpleMessage(
