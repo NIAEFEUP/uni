@@ -23,27 +23,6 @@ func formatTime(_ rawString: String) -> String {
     return rawString // fallback just in case
 }
 
-func typeClassColor(_ typeClass: String) -> Color {
-    switch typeClass {
-    case "T":
-        return Color(red: 251/255, green: 193/255, blue: 31/255)
-    case "TP":
-        return Color(red: 211/255, green: 148/255, blue: 76/255)
-    case "P":
-        return Color(red: 171/255, green: 77/255, blue: 57/255)
-    case "PL":
-        return Color(red: 118/255, green: 156/255, blue: 135/255)
-    case "OT":
-        return Color(red: 124/255, green: 165/255, blue: 184/255)
-    case "TC":
-        return Color(red: 205/255, green: 190/255, blue: 177/255)
-    case "S":
-        return Color(red: 145/255, green: 124/255, blue: 155/255)
-    default:
-        return Color.secondary
-    }
-}
-
 
 struct Provider: TimelineProvider {
     
@@ -161,11 +140,11 @@ struct LectureTimelineRow: View {
     let lecture: LectureData
     
     var accentColor: Color {
-        colorScheme == .dark ? Color(red: 229/255, green: 200/255, blue: 199/255) : Color(red: 0.4, green: 0.1, blue: 0.1)
+        WidgetPalette.accentColor(for: colorScheme)
     }
     
     var textColor: Color {
-        colorScheme == .dark ? .white : Color(red: 0.4, green: 0.1, blue: 0.1)
+        WidgetPalette.primaryTextColor(for: colorScheme)
     }
     
     var body: some View {
@@ -214,15 +193,15 @@ struct LectureCardView: View {
     
     // Theme Colors
     var accentColor: Color {
-        colorScheme == .dark ? Color(red: 229/255, green: 200/255, blue: 199/255) : Color(red: 0.4, green: 0.1, blue: 0.1)
+        WidgetPalette.accentColor(for: colorScheme)
     }
     
     var primaryTextColor: Color {
-        colorScheme == .dark ? .white : .black
+        WidgetPalette.primaryTextColor(for: colorScheme)
     }
     
     var subtleTextColor: Color {
-        colorScheme == .dark ? Color(red: 229/255, green: 200/255, blue: 199/255) : .secondary
+        WidgetPalette.subtleTextColor(for: colorScheme)
     }
     
     
@@ -249,7 +228,7 @@ struct LectureCardView: View {
                     .padding(.vertical, 2)
                     .background {
                         if renderingMode == .fullColor {
-                            typeClassColor(lecture.typeClass)
+                            WidgetPalette.typeClassColor(lecture.typeClass)
                         } else {
                             // 2hen in clear/tinted mode, use a vibrant overlay
                             Color.secondary.opacity(0.3)
@@ -306,10 +285,10 @@ struct MediumLectureCardView: View {
     let lecture: LectureData
     
     var accentColor: Color {
-        colorScheme == .dark ? Color(red: 229/255, green: 200/255, blue: 199/255) : Color(red: 0.4, green: 0.1, blue: 0.1)
+        WidgetPalette.accentColor(for: colorScheme)
     }
-    var primaryTextColor: Color { colorScheme == .dark ? .white : .black }
-    var subtleTextColor: Color { colorScheme == .dark ? Color(red: 229/255, green: 200/255, blue: 199/255) : .secondary }
+    var primaryTextColor: Color { WidgetPalette.primaryTextColor(for: colorScheme) }
+    var subtleTextColor: Color { WidgetPalette.subtleTextColor(for: colorScheme) }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -330,7 +309,7 @@ struct MediumLectureCardView: View {
                     .padding(.vertical, 2)
                     .background {
                         if renderingMode == .fullColor {
-                            typeClassColor(lecture.typeClass)
+                            WidgetPalette.typeClassColor(lecture.typeClass)
                         } else {
                             Color.secondary.opacity(0.3)
                         }
@@ -371,11 +350,7 @@ struct WidgetBackgroundView: View {
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
-        if colorScheme == .dark {
-            Color(red: 47/255, green: 19/255, blue: 19/255)
-        } else {
-            Color(red: 255/255, green: 245/255, blue: 243/255)
-        }
+        WidgetPalette.backgroundColor(for: colorScheme)
     }
 }
 
