@@ -948,6 +948,11 @@ class S {
     return Intl.message('No date', name: 'no_date', desc: '', args: []);
   }
 
+  /// `Date`
+  String get date {
+    return Intl.message('Date', name: 'date', desc: '', args: []);
+  }
+
   /// `No events found`
   String get no_events {
     return Intl.message(
@@ -1886,10 +1891,10 @@ class S {
     return Intl.message('Library', name: 'library', desc: '', args: []);
   }
 
-  /// `Library Building`
+  /// `Building C (Library)`
   String get library_building {
     return Intl.message(
-      'Library Building',
+      'Building C (Library)',
       name: 'library_building',
       desc: '',
       args: [],

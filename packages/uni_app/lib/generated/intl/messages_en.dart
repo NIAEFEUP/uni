@@ -152,6 +152,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "current_year": MessageLookupByLibrary.simpleMessage(
       "Current academic year: ",
     ),
+    "date": MessageLookupByLibrary.simpleMessage("Date"),
     "decrement": MessageLookupByLibrary.simpleMessage("Decrement 1,00€"),
     "description": MessageLookupByLibrary.simpleMessage("Description"),
     "desired_email": MessageLookupByLibrary.simpleMessage(
