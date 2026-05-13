@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:uni/controller/fetchers/location_fetcher/location_fetcher_asset.dart';
-import 'package:uni/controller/fetchers/location_fetcher/osm/location_fetcher_osm.dart';
+import 'package:uni/controller/fetchers/location_fetcher/location_fetcher_osm.dart';
 import 'package:uni/model/entities/faculty_config.dart';
 import 'package:uni/model/entities/indoor_floor_plan.dart';
 import 'package:uni/model/entities/location_group.dart';

@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:uni/controller/fetchers/location_fetcher/location_fetcher.dart';
-import 'package:uni/controller/fetchers/location_fetcher/osm/osm_parser.dart';
+import 'package:uni/controller/parsers/parser_osm.dart';
 import 'package:uni/model/entities/indoor_floor_plan.dart';
 import 'package:uni/model/entities/location_group.dart';
 

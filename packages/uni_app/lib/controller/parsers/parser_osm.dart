@@ -1,7 +1,7 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
-import 'package:uni/controller/fetchers/location_fetcher/osm/osm_models.dart';
 import 'package:uni/model/entities/faculty_config.dart';
 import 'package:uni/model/entities/indoor_floor_plan.dart';
 import 'package:uni/model/entities/location.dart';
@@ -14,6 +14,7 @@ import 'package:uni/model/entities/locations/restaurant_location.dart';
 import 'package:uni/model/entities/locations/store_location.dart';
 import 'package:uni/model/entities/locations/vending_machine.dart';
 import 'package:uni/model/entities/locations/wc_location.dart';
+import 'package:uni/model/osm_models.dart';
 
 class OSMParser {
   OSMParser(this.facultyConfig);
