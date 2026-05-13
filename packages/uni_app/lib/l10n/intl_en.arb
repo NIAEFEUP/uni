@@ -214,6 +214,8 @@
   "@no_classes_on": {},
   "no_classes_on_weekend": "You don't have classes on",
   "@no_classes_on_weekend": {},
+  "no_classes_today": "You don't have any more classes today.",
+  "@no_classes_today": {},
   "no_college": "no college",
   "@no_college": {},
   "no_course_units": "No course units in the selected period",
@@ -482,6 +484,12 @@
   "@addresses": {},
   "no_info_description": "Try to refresh the page",
   "@no_info_description": {},
+  "tomorrow": "tomorrow:",
+  "@tomorrow": {},
+  "today": "today:",
+  "@today": {},
+  "nextclasses": "Here are your classes for ",
+  "@nextclasses": {},
   "no_course_unit_classes": "No classes have been assigned to this course unit yet",
   "@no_course_unit_classes": {},
   "no_course_unit_info": "This course unit has no information available yet",
@@ -519,3 +527,4 @@
   "edit_homepage": "Edit",
   "@edit_homepage": {}
 }
+
