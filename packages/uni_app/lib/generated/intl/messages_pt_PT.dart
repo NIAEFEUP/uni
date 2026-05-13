@@ -28,7 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "${Intl.plural(time, zero: 'Atualizado há ${time} minutos', one: 'Atualizado há ${time} minuto', other: 'Atualizado há ${time} minutos')}";
 
   static m3(title) =>
-      "${Intl.select(title, {'horario': 'Horário', 'exames': 'Exames', 'area': 'Área Pessoal', 'cadeiras': 'Cadeiras', 'autocarros': 'Autocarros', 'locais': 'Locais', 'restaurantes': 'Restaurantes', 'calendario': 'Calendário', 'biblioteca': 'Biblioteca', 'percurso_academico': 'Percurso Académico', 'mapa': 'Mapa', 'faculdade': 'Faculdade', 'other': 'Outros'})}";
+      "${Intl.select(title, {'horario': 'Horário', 'exames': 'Exames', 'area': 'Área Pessoal', 'cadeiras': 'Cadeiras', 'autocarros': 'Autocarros', 'locais': 'Locais', 'restaurantes': 'Restaurantes', 'calendario': 'Calendário', 'biblioteca': 'Biblioteca', 'percurso_academico': 'Percurso Académico', 'mapa': 'Mapa', 'faculdade': 'Faculdade', 'bug_report': 'Feedback', 'other': 'Outros'})}";
 
   static m4(period) =>
       "${Intl.select(period, {'lunch': 'Almoço', 'dinner': 'Jantar', 'other': 'Other'})}";
@@ -180,6 +180,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Arrasta e solta os elementos",
     ),
     "ects": MessageLookupByLibrary.simpleMessage("ECTS realizados: "),
+    "edit_homepage": MessageLookupByLibrary.simpleMessage("Editar"),
     "edit_off": MessageLookupByLibrary.simpleMessage("Editar"),
     "edit_on": MessageLookupByLibrary.simpleMessage("Concluir edição"),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
@@ -212,8 +213,32 @@ class MessageLookup extends MessageLookupByLibrary {
     "fee_notification": MessageLookupByLibrary.simpleMessage(
       "Data limite de propina",
     ),
+    "feedback_consent_title": MessageLookupByLibrary.simpleMessage(
+      "Consentimento para recolha de dados",
+    ),
     "feedback_description": MessageLookupByLibrary.simpleMessage(
       "Reporta um problema ou sugere uma melhoria",
+    ),
+    "feedback_description_section": MessageLookupByLibrary.simpleMessage(
+      "Fornece uma descrição detalhada do problema ou sugestão, incluindo passos para reproduzir o problema, se aplicável. Quanto mais detalhes forneceres, melhor poderemos entender e resolver a questão.",
+    ),
+    "feedback_images_empty_section": MessageLookupByLibrary.simpleMessage(
+      "As imagens anexadas aparecerão aqui.",
+    ),
+    "feedback_images_title_section": MessageLookupByLibrary.simpleMessage(
+      "Anexar imagens",
+    ),
+    "feedback_privacy_description_section": MessageLookupByLibrary.simpleMessage(
+      "A tua privacidade é importante para nós. Concordas com a recolha e utilização do teu feedback e de quaisquer imagens anexadas para o propósito de melhorar a nossa app. Podes optar por fornecer o teu email para acompanhamento, mas não é obrigatório.",
+    ),
+    "feedback_privacy_section": MessageLookupByLibrary.simpleMessage(
+      "Privacidade e Consentimento",
+    ),
+    "feedback_type_description_section": MessageLookupByLibrary.simpleMessage(
+      "Escolhe a categoria que melhor descreve o teu feedback para nos ajudar a processá-lo de forma eficiente.",
+    ),
+    "feedback_type_title_section": MessageLookupByLibrary.simpleMessage(
+      "Seleciona o tipo de feedback",
     ),
     "files": MessageLookupByLibrary.simpleMessage("Ficheiros"),
     "first_year_registration": MessageLookupByLibrary.simpleMessage(
@@ -253,6 +278,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "leave_feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
     "lectures": MessageLookupByLibrary.simpleMessage("Aulas"),
     "library": MessageLookupByLibrary.simpleMessage("Biblioteca"),
+    "library_building": MessageLookupByLibrary.simpleMessage(
+      "Edifício C (Biblioteca)",
+    ),
     "library_occupation": MessageLookupByLibrary.simpleMessage(
       "Ocupação da Biblioteca",
     ),
@@ -282,6 +310,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "nav_title": m3,
     "news": MessageLookupByLibrary.simpleMessage("Notícias"),
+    "nextclasses": MessageLookupByLibrary.simpleMessage(
+      "Aqui estão as tuas aulas para ",
+    ),
     "no": MessageLookupByLibrary.simpleMessage("Não"),
     "noExamsScheduled": MessageLookupByLibrary.simpleMessage(
       "Não há exames agendados",
@@ -310,6 +341,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "no_classes_this_week": MessageLookupByLibrary.simpleMessage(
       "Não tens aulas esta semana",
+    ),
+    "no_classes_today": MessageLookupByLibrary.simpleMessage(
+      "Não tens mais aulas hoje.",
     ),
     "no_college": MessageLookupByLibrary.simpleMessage("sem faculdade"),
     "no_course_unit_classes": MessageLookupByLibrary.simpleMessage(
@@ -513,6 +547,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "theme": MessageLookupByLibrary.simpleMessage("Tema"),
     "title": MessageLookupByLibrary.simpleMessage("Título"),
+    "today": MessageLookupByLibrary.simpleMessage("hoje:"),
+    "tomorrow": MessageLookupByLibrary.simpleMessage("amanhã:"),
     "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Menu de Amanhã"),
     "try_again": MessageLookupByLibrary.simpleMessage("Tentar de novo"),
     "try_different_login": MessageLookupByLibrary.simpleMessage(

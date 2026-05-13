@@ -40,14 +40,14 @@ class NewsCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: Theme.of(context).textTheme.headlineSmall,
+                    style: Theme.of(context).textTheme.titleLarge,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),
                   const SizedBox(height: 8),
                   Text(
                     description,
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context).textTheme.bodyMedium,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),

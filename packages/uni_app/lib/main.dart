@@ -19,6 +19,7 @@ import 'package:uni/controller/local_storage/migrations/migration_controller.dar
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
+import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/providers/plausible/plausible_provider.dart';
 import 'package:uni/model/providers/riverpod/theme_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
@@ -34,6 +35,7 @@ import 'package:uni/view/introduction/introduction.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/login/login.dart';
 import 'package:uni/view/map/map.dart';
+import 'package:uni/view/professor/professor_schedule_page.dart';
 import 'package:uni/view/profile/profile.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/splash/splash.dart';
@@ -168,6 +170,7 @@ class ApplicationState extends ConsumerState<Application> {
             title: 'uni',
             navigatorKey: Application.navigatorKey,
             theme: lightTheme,
+            darkTheme: darkTheme,
             themeMode: themeMode,
             locale: locale.localeCode,
             localizationsDelegates: const [
@@ -182,6 +185,7 @@ class ApplicationState extends ConsumerState<Application> {
             onGenerateRoute: (settings) {
               final args = settings.arguments;
               final courseUnit = args is CourseUnit ? args : null;
+              final professor = args is Professor ? args : null;
               final transitionFunctions = <String, Route<dynamic> Function()>{
                 '/${NavigationItem.navSplash.route}': () =>
                     PageTransition.splashTransitionRoute(
@@ -254,6 +258,11 @@ class ApplicationState extends ConsumerState<Application> {
                 '/${NavigationItem.navIntroduction.route}': () =>
                     PageTransition.introductionTransitionRoute(
                       page: const IntroductionScreenView(),
+                      settings: settings,
+                    ),
+                '/${NavigationItem.navProfessorSchedule.route}': () =>
+                    PageTransition.makePageTransition(
+                      page: ProfessorSchedulePageView(professor!),
                       settings: settings,
                     ),
               };

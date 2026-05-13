@@ -19,7 +19,7 @@ class CalendarLine extends StatelessWidget {
             height: 4,
             margin: const EdgeInsets.only(right: 15),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.onSecondary,
               borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(2),
                 bottomRight: Radius.circular(2),
@@ -33,7 +33,7 @@ class CalendarLine extends StatelessWidget {
               height: 4,
               margin: const EdgeInsets.symmetric(horizontal: 15),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.onSecondary,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -43,7 +43,7 @@ class CalendarLine extends StatelessWidget {
             height: 4,
             margin: const EdgeInsets.only(left: 15),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.onSecondary,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(2),
                 bottomLeft: Radius.circular(2),
