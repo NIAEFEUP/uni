@@ -21,8 +21,6 @@ class ExamsPageView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = ref.watch(localeProvider.select((value) => value));
-    final localeNotifier = ref.read(localeProvider.notifier);
-    final daysOfTheWeek = localeNotifier.getWeekdaysWithLocale();
 
     final examsByMonth = _examsByMonth(exams);
     final now = DateTime.now();
@@ -74,7 +72,6 @@ class ExamsPageView extends ConsumerWidget {
         exams: examsForMonth,
         hiddenExams: hiddenExams,
         onToggleHidden: onToggleHidden,
-        weekday: (dateTime) => daysOfTheWeek[dateTime.weekday - 1],
       );
     }).toList();
 
