@@ -171,9 +171,19 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     int occurId,
   ) async {
     final url = '${getEndpoints(session)[0]}mob_ucurr_geral.outras_ocorrencias';
-    final response = await NetworkRouter.getWithCookies(url, {
-      'pv_ocorrencia_id': occurId.toString(),
-    }, session);
-    return parseOccurences(response);
+
+    try {
+      final response = await NetworkRouter.getWithCookies(url, {
+        'pv_ocorrencia_id': occurId.toString(),
+      }, session);
+
+      if (response.statusCode != 200) {
+        return <String, int>{};
+      }
+
+      return parseOccurences(response);
+    } catch (_) {
+      return <String, int>{};
+    }
   }
 }
