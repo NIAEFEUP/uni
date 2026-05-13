@@ -944,6 +944,11 @@ class S {
     return Intl.message('No date', name: 'no_date', desc: '', args: []);
   }
 
+  /// `Date`
+  String get date {
+    return Intl.message('Date', name: 'date', desc: '', args: []);
+  }
+
   /// `No events found`
   String get no_events {
     return Intl.message(
