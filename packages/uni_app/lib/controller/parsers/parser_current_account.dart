@@ -1,15 +1,17 @@
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
+import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/current_account.dart';
+import 'package:uni/model/providers/riverpod/session_provider.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 class CurrentAccountParser {
+  CurrentAccountParser({this.session});
+  final Session? session;
+  
   static const tabNames = {
     'unpaid': ['Despesas não saldadas', 'Unpaid expenses'],
-    //'certificate': ['Certidão', 'Certidão'],
-    //'latePayment': ['Juros de mora Propinas', 'Juros de mora Propinas'],
-    //'tuitionFees': ['Propinas', 'Tuition fees'],
-    //'schoolInsurance': ['Seguro Escolar', 'Seguro Escolar'],
     'accountStatement': ['Extrato Geral', 'Account Statement'],
   };
 
@@ -51,8 +53,10 @@ class CurrentAccountParser {
         final relativeLink = anchor?.attributes['href'];
 
         String? paymentLink;
-        if (relativeLink != null) {
-          paymentLink = 'https://sigarra.up.pt/feup/pt/$relativeLink';
+        final currentSession = session;
+        if (relativeLink != null && currentSession != null) {
+            paymentLink = '${NetworkRouter.getBaseUrlsFromSession(currentSession)[0]}''$relativeLink';
+            print(paymentLink);
         }
 
         final interest = cells[9].text.trim();
