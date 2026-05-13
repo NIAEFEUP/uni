@@ -230,6 +230,8 @@
   "@no_data": {},
   "no_date": "Sem data",
   "@no_date": {},
+  "date": "Data",
+  "@date": {},
   "no_exams": "Não possui exames marcados",
   "@no_exams": {},
   "no_events": "Nenhum evento encontrado",
