@@ -3,13 +3,12 @@ import 'package:html/parser.dart';
 import 'package:http/http.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/current_account.dart';
-import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/session/flows/base/session.dart';
 
 class CurrentAccountParser {
   CurrentAccountParser({this.session});
   final Session? session;
-  
+
   static const tabNames = {
     'unpaid': ['Despesas não saldadas', 'Unpaid expenses'],
     'accountStatement': ['Extrato Geral', 'Account Statement'],
@@ -55,8 +54,9 @@ class CurrentAccountParser {
         String? paymentLink;
         final currentSession = session;
         if (relativeLink != null && currentSession != null) {
-            paymentLink = '${NetworkRouter.getBaseUrlsFromSession(currentSession)[0]}''$relativeLink';
-            print(paymentLink);
+          paymentLink =
+              '${NetworkRouter.getBaseUrlsFromSession(currentSession)[0]}'
+              '$relativeLink';
         }
 
         final interest = cells[9].text.trim();
