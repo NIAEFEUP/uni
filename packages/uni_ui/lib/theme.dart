@@ -180,10 +180,8 @@ ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   textTheme: _lightTextTheme,
   colorScheme: ColorScheme.light(
-    primary: const Color(0xFF660910), // navigation bar
-    onPrimary: const Color(
-      0xFFB14D54,
-    ).withValues(alpha: 0.15), // stuff on navigation bar
+    primary: const Color(0xFF660910), // gradients
+    onPrimary: const Color(0xFF280709), // gradients
 
     secondary: const Color(0xFFFFF5F3), // cards
     onSecondary: const Color(0xFF660910), // stuff on cards
@@ -191,8 +189,10 @@ ThemeData lightTheme = ThemeData(
       0xFFB14D54,
     ).withValues(alpha: 0.15), // details on cards
 
-    tertiary: const Color(0xFF660910), // for gradients
-    onTertiary: const Color(0xFF280709), // for gradients
+    tertiary: const Color(0xFF660910), // navigation bar
+    onTertiary: const Color(
+      0xFFB14D54,
+    ).withValues(alpha: 0.15), // navigation bar details
 
     surface: const Color(0xFFFFFFFF), // backgrounds
     onSurfaceVariant: const Color(0xFFFFF5F3), // stuff on colored backgrounds

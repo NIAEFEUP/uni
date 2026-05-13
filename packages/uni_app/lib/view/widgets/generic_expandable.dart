@@ -31,6 +31,14 @@ class _GenericExpandableState extends State<GenericExpandable> {
       behavior: HitTestBehavior.translucent,
       child: ExpandablePanel(
         controller: _controller,
+        theme: ExpandableThemeData(
+          hasIcon: true,
+          tapHeaderToExpand: true,
+          tapBodyToExpand: false,
+          tapBodyToCollapse: false,
+          headerAlignment: ExpandablePanelHeaderAlignment.center,
+          iconColor: Theme.of(context).colorScheme.onSecondary,
+        ),
         header: Align(
           alignment: Alignment.centerLeft,
           child: Text(
