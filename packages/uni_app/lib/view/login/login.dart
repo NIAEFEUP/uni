@@ -308,7 +308,7 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
                     Align(
                       alignment: const Alignment(0, 0.35),
                       child: CircularProgressIndicator(
-                        color: Theme.of(context).colorScheme.onSecondaryFixed,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                     ),
                   if (!_loggingIn)
@@ -332,7 +332,7 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
                       },
                       padding: const EdgeInsets.symmetric(horizontal: 37),
                       theme: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: const Color(0xFFFFFFFF),
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                     ),
                   ),
@@ -425,10 +425,12 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
                             _keepSignedIn = !_keepSignedIn;
                           });
                         },
-                        textColor: const Color(0xFF280709),
+                        textColor: Theme.of(
+                          context,
+                        ).colorScheme.onSurfaceVariant,
                         padding: EdgeInsets.zero,
                         theme: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: const Color(0xFF280709),
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
                     ],

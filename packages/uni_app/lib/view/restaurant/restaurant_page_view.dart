@@ -384,24 +384,50 @@ class _RestaurantPageViewState
   ) {
     showDialog<void>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(S.of(context).restaurant_main_page),
-        actions: <Widget>[
-          ElevatedButton(
-            onPressed: () {
-              PreferencesController.setRestaurantReminderDismissed(true);
-              Navigator.of(context).pop();
-            },
-            child: Text(S.of(context).no),
+      builder: (context) => ModalDialog(
+        children: [
+          Text(
+            S.of(context).restaurant_main_page,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
-          ElevatedButton(
-            onPressed: () {
-              updateHomePage(
-                favoriteCardTypes + [FavoriteWidgetType.restaurants],
-              );
-              Navigator.of(context).pop();
-            },
-            child: Text(S.of(context).yes),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            spacing: 8,
+            children: [
+              TextButton(
+                onPressed: () {
+                  PreferencesController.setRestaurantReminderDismissed(true);
+                  Navigator.of(context).pop();
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.onSecondary,
+                ),
+                child: Text(
+                  S.of(context).no,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  updateHomePage(
+                    favoriteCardTypes + [FavoriteWidgetType.restaurants],
+                  );
+                  Navigator.of(context).pop();
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.onSecondary,
+                ),
+                child: Text(
+                  S.of(context).yes,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
