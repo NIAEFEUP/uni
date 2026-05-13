@@ -262,7 +262,7 @@ class ApplicationState extends ConsumerState<Application> {
                     ),
                 '/${NavigationItem.navCurrentAccount.route}': () =>
                     PageTransition.makePageTransition(
-                      page: const CurrentAccountInfo(),
+                      page: const CurrentAccountPageView(),
                       settings: settings,
                     ),
               };
