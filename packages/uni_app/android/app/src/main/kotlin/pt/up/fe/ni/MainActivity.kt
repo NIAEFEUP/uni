@@ -5,7 +5,6 @@ import io.flutter.embedding.android.FlutterActivity
 import android.os.Build
 import android.os.Bundle
 import androidx.core.view.WindowCompat
-import android.appwidget.AppWidgetProviderInfo
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch

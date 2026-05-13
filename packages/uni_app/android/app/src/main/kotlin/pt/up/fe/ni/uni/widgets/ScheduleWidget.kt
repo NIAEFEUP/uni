@@ -28,7 +28,6 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import androidx.glance.color.ColorProvider
 import androidx.glance.LocalContext
 import androidx.glance.layout.Alignment
 import androidx.glance.state.GlanceStateDefinition
