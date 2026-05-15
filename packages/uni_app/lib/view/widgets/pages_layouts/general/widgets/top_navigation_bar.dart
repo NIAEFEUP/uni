@@ -4,6 +4,7 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
   const AppTopNavbar({
     this.title,
     this.subtitle,
+    this.subtitleWidget,
     this.rightButton,
     this.leftButton,
     this.centerTitle = false,
@@ -13,6 +14,7 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
 
   final String? title;
   final String? subtitle;
+  final Widget? subtitleWidget;
   final Widget? rightButton;
   final Widget? leftButton;
   final bool centerTitle;
@@ -26,7 +28,7 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       automaticallyImplyLeading: false,
       title: Padding(
-        padding: EdgeInsets.fromLTRB(leftButton == null ? 15 : 0, 0, 5, 0),
+        padding: EdgeInsets.fromLTRB(leftButton == null ? 15 : 0, 5, 5, 0),
         child: Row(
           children: [
             if (leftButton != null)
@@ -61,25 +63,32 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
       style: titleStyle,
       overflow: TextOverflow.ellipsis,
     );
+    if (subtitleWidget == null) {
+      if (subtitle == null || subtitle!.isEmpty) {
+        return titleWidget;
+      }
 
-    if (subtitle == null || subtitle!.isEmpty) {
-      return titleWidget;
+      final subtitleWidget = Text(
+        subtitle!,
+        style:
+            Theme.of(context).textTheme.labelMedium ??
+            Theme.of(context).textTheme.labelMedium,
+        overflow: TextOverflow.ellipsis,
+      );
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: centerTitle
+            ? CrossAxisAlignment.center
+            : CrossAxisAlignment.start,
+        children: [titleWidget, subtitleWidget],
+      );
     }
-
-    final subtitleWidget = Text(
-      subtitle!,
-      style:
-          Theme.of(context).textTheme.labelMedium ??
-          Theme.of(context).textTheme.labelMedium,
-      overflow: TextOverflow.ellipsis,
-    );
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: centerTitle
           ? CrossAxisAlignment.center
           : CrossAxisAlignment.start,
-      children: [titleWidget, subtitleWidget],
+      children: [titleWidget, subtitleWidget!],
     );
   }
 }

@@ -10,8 +10,8 @@ import 'package:uni_ui/cards/profile_card.dart';
 
 /// Manages the 'Current account' section inside the user's page (accessible
 /// through the top-right widget with the user picture)
-class ProfileInfo extends ConsumerWidget {
-  const ProfileInfo({super.key});
+class ProfileInfoWidget extends ConsumerWidget {
+  const ProfileInfoWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -27,14 +27,13 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
           builder: (context, ref, profile) => Column(
             children: [
               ProfileOverview(profile: profile),
-              const ProfileInfo(),
+              const ProfileInfoWidget(),
             ],
           ),
           hasContent: (profile) => profile.courses.isNotEmpty,
           loadingWidget: const ProfileCardShimmer(),
           nullContentWidget: Container(),
         ),
-
         const Settings(),
       ],
     );

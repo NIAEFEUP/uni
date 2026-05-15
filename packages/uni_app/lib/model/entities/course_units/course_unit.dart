@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 
@@ -24,7 +25,17 @@ class CourseUnit {
     this.ects,
     this.schoolYear,
     this.festId,
-  }); // e.g. 2020/2021
+    String? dbOccurences,
+    Map<String, int>? occurences,
+  }) {
+    // If the constructor receives a Map (e.g., from fromJson), save it.
+    // Otherwise, if it receives a DB string, keep that.
+    if (occurences != null) {
+      this.occurences = occurences;
+    } else {
+      this.dbOccurences = dbOccurences;
+    }
+  }
 
   factory CourseUnit.fromJson(Map<String, dynamic> json) =>
       _$CourseUnitFromJson(json);
@@ -61,6 +72,25 @@ class CourseUnit {
   @JsonKey(name: 'fest_id') // Course id
   int? festId;
   String? schoolYear;
+
+  // --- The Database/JSON bridge for occurences ---
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  String? dbOccurences;
+
+  @Transient()
+  Map<String, int>? get occurences {
+    if (dbOccurences == null || dbOccurences!.trim().isEmpty) {
+      return null;
+    }
+
+    final decoded = jsonDecode(dbOccurences!) as Map<String, dynamic>;
+    return decoded.map((key, value) => MapEntry(key, value as int));
+  }
+
+  set occurences(Map<String, int>? value) {
+    dbOccurences = value != null ? jsonEncode(value) : null;
+  }
 
   Map<String, dynamic> toJson() => _$CourseUnitToJson(this);
 

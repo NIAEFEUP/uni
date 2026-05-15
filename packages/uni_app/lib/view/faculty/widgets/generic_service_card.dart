@@ -4,8 +4,8 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni_ui/cards/service_card.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
+import 'package:uni_ui/modal/widgets/header_info.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
-import 'package:uni_ui/modal/widgets/service_info.dart';
 
 class ServicesCard extends StatelessWidget {
   const ServicesCard({
@@ -43,7 +43,7 @@ class ServicesCard extends StatelessWidget {
       builder: (context) {
         return ModalDialog(
           children: [
-            ModalServiceInfo(name: name, durations: openingHours),
+            ModalHeader(name: name, durations: openingHours),
             if (location != null)
               ModalInfoRow(
                 title: S.of(context).location,

@@ -18,7 +18,8 @@ enum NavigationItem {
   navBugreport('bug_report'),
   navSplash('splash'),
   navAboutus('sobre_nos'),
-  navIntroduction('introducao');
+  navIntroduction('introducao'),
+  navProfileInfo('informacoes_pessoais');
 
   const NavigationItem(this.route, {this.faculties});
 
