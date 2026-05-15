@@ -43,8 +43,8 @@ class _ScheduleIntroPageState extends State<ScheduleIntroPage> {
           ),
         ),
         Align(
-          alignment: const Alignment(0.035, 0.5),
-          child: Image.asset('assets/images/schedule_intro.png', width: 260),
+          alignment: const Alignment(0, 0.25),
+          child: Image.asset('assets/images/schedule_intro.png', width: 250),
         ),
       ],
     );

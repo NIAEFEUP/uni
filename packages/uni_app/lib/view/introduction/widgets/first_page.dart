@@ -116,7 +116,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
           ),
         ),
         Align(
-          alignment: const Alignment(1, -0.1),
+          alignment: const Alignment(0, -0.1),
           child: AnimatedBuilder(
             animation: _image2Controller,
             builder: (context, child) {
@@ -124,14 +124,14 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                 opacity: _image2FadeAnimation,
                 child: SlideTransition(
                   position: _image2SlideAnimation,
-                  child: Image.asset('assets/images/intro2.png', width: 220),
+                  child: Image.asset('assets/images/intro2.png', width: 325),
                 ),
               );
             },
           ),
         ),
         Align(
-          alignment: const Alignment(-1, 0.3),
+          alignment: const Alignment(0, 0.4),
           child: AnimatedBuilder(
             animation: _image1Controller,
             builder: (context, child) {
@@ -139,7 +139,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                 opacity: _image1FadeAnimation,
                 child: SlideTransition(
                   position: _image1SlideAnimation,
-                  child: Image.asset('assets/images/intro1.png', width: 220),
+                  child: Image.asset('assets/images/intro1.png', width: 325),
                 ),
               );
             },

@@ -60,7 +60,7 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView>
     if (_currentPage < 6) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
+        curve: Curves.easeInOutCubic,
       );
     } else {
       _finishIntro();
@@ -112,8 +112,8 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView>
             physics: const NeverScrollableScrollPhysics(),
             children: <Widget>[
               FirstPage(pageController: _pageController),
-              ExamsIntroPage(pageController: _pageController),
               ScheduleIntroPage(pageController: _pageController),
+              ExamsIntroPage(pageController: _pageController),
               RestaurantsIntroPage(pageController: _pageController),
               ServicesIntroPage(pageController: _pageController),
               MapIntroPage(pageController: _pageController),
