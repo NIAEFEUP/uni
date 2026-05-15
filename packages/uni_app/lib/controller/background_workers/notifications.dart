@@ -76,47 +76,36 @@ class NotificationManager {
     await _buildNotificationWorker();
   }
 
+  Future<bool> requestPermission() async {
+    final status = await Permission.notification.request();
+    if (status.isPermanentlyDenied) {
+      await openAppSettings();
+      return false;
+    }
+    return status.isGranted;
+  }
+
   Future<bool> hasNotificationPermission() async {
-    if (Platform.isAndroid) {
-      try {
-        final status = await Permission.notification.status;
-        if (status.isGranted) {
-          return true;
-        }
+    try {
+      final status = await Permission.notification.status;
+      if (status.isGranted) {
+        return true;
+      }
+      if (status.isDenied ||
+          status.isPermanentlyDenied ||
+          status.isRestricted) {
+        return false;
+      }
 
-        if (status.isDenied ||
-            status.isPermanentlyDenied ||
-            status.isRestricted) {
-          return false;
-        }
-
+      if (Platform.isAndroid) {
         final androidPlugin = _localNotificationsPlugin
             .resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin
             >();
         final bool? enabled = await androidPlugin?.areNotificationsEnabled();
         return enabled ?? true;
-      } catch (_) {
-        final androidPlugin = _localNotificationsPlugin
-            .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin
-            >();
-        try {
-          final bool? enabled = await androidPlugin?.areNotificationsEnabled();
-          return enabled ?? true;
-        } catch (_) {
-          return true;
-        }
       }
-    } else if (Platform.isIOS) {
-      try {
-        final status = await Permission.notification.status;
-        return status.isGranted;
-      } catch (_) {
-        return false;
-      }
-    }
-
+    } catch (_) {}
     return false;
   }
 
@@ -139,22 +128,6 @@ class NotificationManager {
     await _localNotificationsPlugin.initialize(
       settings: initializationSettings,
     );
-
-    // specific to android 13+, 12 or lower permission is requested when
-    // the first notification channel opens
-    if (Platform.isAndroid) {
-      final androidPlugin = _localNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin
-          >()!;
-      try {
-        final permissionGranted = await androidPlugin
-            .requestNotificationsPermission();
-        if (permissionGranted != true) {
-          return;
-        }
-      } on PlatformException catch (_) {}
-    }
   }
 
   static Future<void> _buildNotificationWorker() async {

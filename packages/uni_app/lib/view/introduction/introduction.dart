@@ -19,7 +19,7 @@ class IntroductionScreenView extends StatefulWidget {
 }
 
 class _IntroductionScreenViewState extends State<IntroductionScreenView>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   late PageController _pageController;
   int _currentPage = 0;
   bool _notificationPermission = false;
@@ -28,6 +28,7 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView>
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     _pageController = PageController();
     _pageController.addListener(() {
@@ -42,6 +43,9 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView>
 
   Future<void> _checkNotificationPermission() async {
     final granted = await _notificationManager.hasNotificationPermission();
+    if (granted) {
+      await _notificationManager.initializeNotifications();
+    }
     if (mounted) {
       setState(() {
         _notificationPermission = granted;
@@ -51,9 +55,17 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView>
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _pageController.dispose();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && _currentPage == 6) {
+      _checkNotificationPermission();
+    }
   }
 
   void _nextPage() {
@@ -160,9 +172,10 @@ class _IntroductionScreenViewState extends State<IntroductionScreenView>
           GestureDetector(
             onTap: () async {
               try {
-                await _notificationManager.initializeNotifications();
-                final granted = await _notificationManager
-                    .hasNotificationPermission();
+                final granted = await _notificationManager.requestPermission();
+                if (granted) {
+                  await _notificationManager.initializeNotifications();
+                }
                 if (mounted) {
                   setState(() {
                     _notificationPermission = granted;
