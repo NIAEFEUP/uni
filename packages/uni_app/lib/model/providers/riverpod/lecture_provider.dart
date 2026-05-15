@@ -62,14 +62,14 @@ class LectureNotifier extends CachedAsyncNotifier<List<Lecture>> {
     final lectures = (await _getLectures(session)).toSet().toList();
 
     try {
-      Database().saveLectures(lectures);
+      await Database().saveLectures(lectures);
 
       // update widget when new data is downloaded in the bg or pulled manually
       _updateWidgetWithNextLectures(lectures);
-    } catch (e, st) {
+    } catch (err, st) {
       Logger().e(
         'Failed to save lectures to local database',
-        error: e,
+        error: err,
         stackTrace: st,
       );
     }

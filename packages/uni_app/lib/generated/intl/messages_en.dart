@@ -49,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "add_restaurants": MessageLookupByLibrary.simpleMessage("Add restaurants"),
     "add_to_calendar": MessageLookupByLibrary.simpleMessage("Add to calendar"),
     "add_widget": MessageLookupByLibrary.simpleMessage("Add widget"),
+    "addresses": MessageLookupByLibrary.simpleMessage("Addresses"),
     "agree_terms": MessageLookupByLibrary.simpleMessage(
       "By entering you agree with these",
     ),
@@ -138,6 +139,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "I consent to this information being reviewed by NIAEFEUP and may be deleted at my request.",
     ),
     "contact": MessageLookupByLibrary.simpleMessage("Contact (optional)"),
+    "contacts": MessageLookupByLibrary.simpleMessage("Contacts"),
     "copy_center": MessageLookupByLibrary.simpleMessage("Copy center"),
     "copy_center_building": MessageLookupByLibrary.simpleMessage(
       "Floor -1 of building B | AEFEUP building",
@@ -150,6 +152,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "current_year": MessageLookupByLibrary.simpleMessage(
       "Current academic year: ",
     ),
+    "date": MessageLookupByLibrary.simpleMessage("Date"),
     "decrement": MessageLookupByLibrary.simpleMessage("Decrement 1,00€"),
     "description": MessageLookupByLibrary.simpleMessage("Description"),
     "desired_email": MessageLookupByLibrary.simpleMessage(
@@ -244,6 +247,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "goi": MessageLookupByLibrary.simpleMessage(
       "Orientation and Integration Office",
     ),
+    "identification_documents": MessageLookupByLibrary.simpleMessage(
+      "Identification Documents",
+    ),
     "improvement_registration": MessageLookupByLibrary.simpleMessage(
       "Enrollment for Improvement",
     ),
@@ -289,8 +295,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "multimedia_center": MessageLookupByLibrary.simpleMessage(
       "Multimedia center",
     ),
+    "nationalities": MessageLookupByLibrary.simpleMessage("Nationalities"),
+    "nationality": MessageLookupByLibrary.simpleMessage("Nationality"),
     "nav_title": m3,
     "news": MessageLookupByLibrary.simpleMessage("News"),
+    "nextclasses": MessageLookupByLibrary.simpleMessage(
+      "Here are your classes for ",
+    ),
     "no": MessageLookupByLibrary.simpleMessage("No"),
     "noExamsScheduled": MessageLookupByLibrary.simpleMessage(
       "No exams scheduled",
@@ -315,6 +326,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "no_classes_this_week": MessageLookupByLibrary.simpleMessage(
       "You have no classes this week",
+    ),
+    "no_classes_today": MessageLookupByLibrary.simpleMessage(
+      "You don\'t have any more classes today.",
     ),
     "no_college": MessageLookupByLibrary.simpleMessage("no college"),
     "no_course_unit_classes": MessageLookupByLibrary.simpleMessage(
@@ -355,6 +369,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "no_info": MessageLookupByLibrary.simpleMessage(
       "There is no information to display",
+    ),
+    "no_info_description": MessageLookupByLibrary.simpleMessage(
+      "Try to refresh the page",
     ),
     "no_internet": MessageLookupByLibrary.simpleMessage(
       "It looks like you\'re offline",
@@ -494,6 +511,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "title": MessageLookupByLibrary.simpleMessage("Title"),
+    "today": MessageLookupByLibrary.simpleMessage("today:"),
+    "tomorrow": MessageLookupByLibrary.simpleMessage("tomorrow:"),
     "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Tomorrow\'s Menu"),
     "try_again": MessageLookupByLibrary.simpleMessage("Try again"),
     "try_different_login": MessageLookupByLibrary.simpleMessage(
@@ -506,6 +525,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "unavailable": MessageLookupByLibrary.simpleMessage("Unavailable"),
     "until": MessageLookupByLibrary.simpleMessage("Until"),
+    "user_informations": MessageLookupByLibrary.simpleMessage(
+      "Personal Information",
+    ),
     "valid_email": MessageLookupByLibrary.simpleMessage(
       "Please enter a valid email",
     ),

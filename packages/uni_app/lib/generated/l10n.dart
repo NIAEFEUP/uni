@@ -399,6 +399,11 @@ class S {
     );
   }
 
+  /// `Contacts`
+  String get contacts {
+    return Intl.message('Contacts', name: 'contacts', desc: '', args: []);
+  }
+
   /// `Copy center`
   String get copy_center {
     return Intl.message('Copy center', name: 'copy_center', desc: '', args: []);
@@ -903,6 +908,16 @@ class S {
     );
   }
 
+  /// `You don't have any more classes today.`
+  String get no_classes_today {
+    return Intl.message(
+      'You don\'t have any more classes today.',
+      name: 'no_classes_today',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `no college`
   String get no_college {
     return Intl.message('no college', name: 'no_college', desc: '', args: []);
@@ -931,6 +946,11 @@ class S {
   /// `No date`
   String get no_date {
     return Intl.message('No date', name: 'no_date', desc: '', args: []);
+  }
+
+  /// `Date`
+  String get date {
+    return Intl.message('Date', name: 'date', desc: '', args: []);
   }
 
   /// `No events found`
@@ -1473,6 +1493,16 @@ class S {
     return Intl.message('Unavailable', name: 'unavailable', desc: '', args: []);
   }
 
+  /// `Personal Information`
+  String get user_informations {
+    return Intl.message(
+      'Personal Information',
+      name: 'user_informations',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Please enter a valid email`
   String get valid_email {
     return Intl.message(
@@ -1861,10 +1891,10 @@ class S {
     return Intl.message('Library', name: 'library', desc: '', args: []);
   }
 
-  /// `Library Building`
+  /// `Building C (Library)`
   String get library_building {
     return Intl.message(
-      'Library Building',
+      'Building C (Library)',
       name: 'library_building',
       desc: '',
       args: [],
@@ -1956,6 +1986,66 @@ class S {
     return Intl.message(
       'Orientation and Integration Office',
       name: 'goi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nationalities`
+  String get nationalities {
+    return Intl.message(
+      'Nationalities',
+      name: 'nationalities',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nationality`
+  String get nationality {
+    return Intl.message('Nationality', name: 'nationality', desc: '', args: []);
+  }
+
+  /// `Identification Documents`
+  String get identification_documents {
+    return Intl.message(
+      'Identification Documents',
+      name: 'identification_documents',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Addresses`
+  String get addresses {
+    return Intl.message('Addresses', name: 'addresses', desc: '', args: []);
+  }
+
+  /// `Try to refresh the page`
+  String get no_info_description {
+    return Intl.message(
+      'Try to refresh the page',
+      name: 'no_info_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `tomorrow:`
+  String get tomorrow {
+    return Intl.message('tomorrow:', name: 'tomorrow', desc: '', args: []);
+  }
+
+  /// `today:`
+  String get today {
+    return Intl.message('today:', name: 'today', desc: '', args: []);
+  }
+
+  /// `Here are your classes for `
+  String get nextclasses {
+    return Intl.message(
+      'Here are your classes for ',
+      name: 'nextclasses',
       desc: '',
       args: [],
     );

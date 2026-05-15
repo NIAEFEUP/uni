@@ -30,12 +30,15 @@ abstract class SecondaryPageViewState<T extends ConsumerStatefulWidget>
 
   String? getSubtitle() => null;
 
+  Widget? getSubtitleWidget() => null;
+
   @override
   @nonVirtual
   AppTopNavbar? getTopNavbar(BuildContext context) {
     return AppTopNavbar(
       title: getTitle(),
       subtitle: getSubtitle(),
+      subtitleWidget: getSubtitleWidget(),
       centerTitle: true,
       leftButton: BackButton(
         style: ButtonStyle(
