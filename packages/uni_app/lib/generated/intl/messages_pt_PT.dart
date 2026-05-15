@@ -53,6 +53,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Adicionar ao calendário",
     ),
     "add_widget": MessageLookupByLibrary.simpleMessage("Adicionar widget"),
+    "addresses": MessageLookupByLibrary.simpleMessage("Moradas"),
     "agree_terms": MessageLookupByLibrary.simpleMessage(
       "Ao entrares confirmas que concordas com estes",
     ),
@@ -146,6 +147,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Consinto que esta informação seja revista pelo NIAEFEUP, podendo ser eliminada a meu pedido.",
     ),
     "contact": MessageLookupByLibrary.simpleMessage("Contacto (opcional)"),
+    "contacts": MessageLookupByLibrary.simpleMessage("Contactos Gerais"),
     "copy_center": MessageLookupByLibrary.simpleMessage("Centro de cópias"),
     "copy_center_building": MessageLookupByLibrary.simpleMessage(
       "Piso -1 do edifício B | Edifício da AEFEUP",
@@ -257,6 +259,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "goi": MessageLookupByLibrary.simpleMessage(
       "Gabinete de Orientação e Integração",
     ),
+    "identification_documents": MessageLookupByLibrary.simpleMessage(
+      "Documentos de Identificação",
+    ),
     "improvement_registration": MessageLookupByLibrary.simpleMessage(
       "Inscrição para Melhoria",
     ),
@@ -302,6 +307,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "multimedia_center": MessageLookupByLibrary.simpleMessage(
       "Centro de multimédia",
     ),
+    "nationalities": MessageLookupByLibrary.simpleMessage("Nacionalidades"),
+    "nationality": MessageLookupByLibrary.simpleMessage("Nacionalidade"),
     "nav_title": m3,
     "news": MessageLookupByLibrary.simpleMessage("Notícias"),
     "nextclasses": MessageLookupByLibrary.simpleMessage(
@@ -382,6 +389,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "no_info": MessageLookupByLibrary.simpleMessage(
       "Não existem informações para apresentar",
+    ),
+    "no_info_description": MessageLookupByLibrary.simpleMessage(
+      "Tenta refrescar a página",
     ),
     "no_internet": MessageLookupByLibrary.simpleMessage(
       "Parece que estás offline",
@@ -543,6 +553,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "unavailable": MessageLookupByLibrary.simpleMessage("Indisponível"),
     "until": MessageLookupByLibrary.simpleMessage("Até"),
+    "user_informations": MessageLookupByLibrary.simpleMessage(
+      "Informações Pessoais",
+    ),
     "valid_email": MessageLookupByLibrary.simpleMessage(
       "Por favor insere um email válido",
     ),

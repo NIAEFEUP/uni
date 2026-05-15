@@ -44,6 +44,23 @@ class HomePageView extends ConsumerStatefulWidget {
 }
 
 class HomePageViewState extends ConsumerState<HomePageView> {
+  static Locale? _lastLocale;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final locale = Localizations.localeOf(context);
+    if (_lastLocale != locale) {
+      _lastLocale = locale;
+      Future.microtask(() {
+        ref.read(profileProvider.notifier).refreshRemote();
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    }
+  }
+
   List<FavoriteWidgetType> favoriteCards =
       PreferencesController.getFavoriteCards();
 

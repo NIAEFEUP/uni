@@ -399,6 +399,11 @@ class S {
     );
   }
 
+  /// `Contacts`
+  String get contacts {
+    return Intl.message('Contacts', name: 'contacts', desc: '', args: []);
+  }
+
   /// `Copy center`
   String get copy_center {
     return Intl.message('Copy center', name: 'copy_center', desc: '', args: []);
@@ -1488,6 +1493,16 @@ class S {
     return Intl.message('Unavailable', name: 'unavailable', desc: '', args: []);
   }
 
+  /// `Personal Information`
+  String get user_informations {
+    return Intl.message(
+      'Personal Information',
+      name: 'user_informations',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Please enter a valid email`
   String get valid_email {
     return Intl.message(
@@ -1971,6 +1986,46 @@ class S {
     return Intl.message(
       'Orientation and Integration Office',
       name: 'goi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nationalities`
+  String get nationalities {
+    return Intl.message(
+      'Nationalities',
+      name: 'nationalities',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nationality`
+  String get nationality {
+    return Intl.message('Nationality', name: 'nationality', desc: '', args: []);
+  }
+
+  /// `Identification Documents`
+  String get identification_documents {
+    return Intl.message(
+      'Identification Documents',
+      name: 'identification_documents',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Addresses`
+  String get addresses {
+    return Intl.message('Addresses', name: 'addresses', desc: '', args: []);
+  }
+
+  /// `Try to refresh the page`
+  String get no_info_description {
+    return Intl.message(
+      'Try to refresh the page',
+      name: 'no_info_description',
       desc: '',
       args: [],
     );

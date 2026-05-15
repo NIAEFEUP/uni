@@ -49,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "add_restaurants": MessageLookupByLibrary.simpleMessage("Add restaurants"),
     "add_to_calendar": MessageLookupByLibrary.simpleMessage("Add to calendar"),
     "add_widget": MessageLookupByLibrary.simpleMessage("Add widget"),
+    "addresses": MessageLookupByLibrary.simpleMessage("Addresses"),
     "agree_terms": MessageLookupByLibrary.simpleMessage(
       "By entering you agree with these",
     ),
@@ -138,6 +139,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "I consent to this information being reviewed by NIAEFEUP and may be deleted at my request.",
     ),
     "contact": MessageLookupByLibrary.simpleMessage("Contact (optional)"),
+    "contacts": MessageLookupByLibrary.simpleMessage("Contacts"),
     "copy_center": MessageLookupByLibrary.simpleMessage("Copy center"),
     "copy_center_building": MessageLookupByLibrary.simpleMessage(
       "Floor -1 of building B | AEFEUP building",
@@ -245,6 +247,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "goi": MessageLookupByLibrary.simpleMessage(
       "Orientation and Integration Office",
     ),
+    "identification_documents": MessageLookupByLibrary.simpleMessage(
+      "Identification Documents",
+    ),
     "improvement_registration": MessageLookupByLibrary.simpleMessage(
       "Enrollment for Improvement",
     ),
@@ -290,6 +295,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "multimedia_center": MessageLookupByLibrary.simpleMessage(
       "Multimedia center",
     ),
+    "nationalities": MessageLookupByLibrary.simpleMessage("Nationalities"),
+    "nationality": MessageLookupByLibrary.simpleMessage("Nationality"),
     "nav_title": m3,
     "news": MessageLookupByLibrary.simpleMessage("News"),
     "nextclasses": MessageLookupByLibrary.simpleMessage(
@@ -362,6 +369,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "no_info": MessageLookupByLibrary.simpleMessage(
       "There is no information to display",
+    ),
+    "no_info_description": MessageLookupByLibrary.simpleMessage(
+      "Try to refresh the page",
     ),
     "no_internet": MessageLookupByLibrary.simpleMessage(
       "It looks like you\'re offline",
@@ -515,6 +525,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "unavailable": MessageLookupByLibrary.simpleMessage("Unavailable"),
     "until": MessageLookupByLibrary.simpleMessage("Until"),
+    "user_informations": MessageLookupByLibrary.simpleMessage(
+      "Personal Information",
+    ),
     "valid_email": MessageLookupByLibrary.simpleMessage(
       "Please enter a valid email",
     ),
