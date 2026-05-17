@@ -26,8 +26,9 @@ class SchedulePageView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ScheduleViewMode selectedView =
-        ref.watch<ScheduleViewMode>(scheduleViewModeProvider);
+    final ScheduleViewMode selectedView = ref.watch<ScheduleViewMode>(
+      scheduleViewModeProvider,
+    );
 
     return selectedView == ScheduleViewMode.list
         ? _buildListView(context, ref)
@@ -141,10 +142,7 @@ class SchedulePageView extends ConsumerWidget {
             .toList(),
         initialTab:
             (todayIndex != -1 &&
-                _lecturesOfDay(
-                  lectures,
-                  reorderedDates[todayIndex],
-                ).isNotEmpty)
+                _lecturesOfDay(lectures, reorderedDates[todayIndex]).isNotEmpty)
             ? todayIndex
             : reorderedDates.indexWhere(
                 (date) =>
