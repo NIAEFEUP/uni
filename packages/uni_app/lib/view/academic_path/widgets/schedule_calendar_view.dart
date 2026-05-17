@@ -25,9 +25,48 @@ class ScheduleCalendarView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = EventController<Lecture>();
+    final controller = _createEventController();
+    final weekDays = _getVisibleWeekDays();
+    final earliestClass = _getEarliestClassTime();
+    final latestClass = _getLatestClassTime();
 
-    // Add lectures as calendar events
+    return Padding(
+      padding: const EdgeInsets.only(top: 12, bottom: 120),
+      child: CalendarControllerProvider(
+        controller: controller,
+        child: WeekView(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          showVerticalLines: false,
+          controller: controller,
+          initialDay: earliestClass,
+          weekDays: weekDays,
+          showLiveTimeLineInAllDays: true,
+          weekNumberBuilder: (weekNum) => const SizedBox.shrink(),
+          onEventTap: (events, date) => _handleEventTap(context, ref, events),
+          weekPageHeaderBuilder: WeekHeader.hidden,
+          minDay: earliestClass,
+          maxDay: latestClass,
+          startHour: 7,
+          hourIndicatorSettings: HourIndicatorSettings(
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(0x10),
+          ),
+          timeLineBuilder: (date) => _buildTimeLineMark(context, date),
+          eventTileBuilder: (date, events, boundary, start, end) =>
+              _buildEventTile(context, events),
+          weekTitleBackgroundColor: Theme.of(context).colorScheme.surface,
+          weekDayStringBuilder: (day) => _formatWeekday(context, day),
+          liveTimeIndicatorSettings: LiveTimeIndicatorSettings(
+            color: Theme.of(context).colorScheme.onSecondary,
+          ),
+        ),
+      ),
+    );
+  }
+
+  // --- logic ---
+
+  EventController<Lecture> _createEventController() {
+    final controller = EventController<Lecture>();
     for (final lecture in lectures) {
       controller.add(
         CalendarEventData(
@@ -40,30 +79,11 @@ class ScheduleCalendarView extends ConsumerWidget {
         ),
       );
     }
+    return controller;
+  }
 
-    // determine earliest class
-    final earliestClass = lectures
-        .sorted((a, b) => a.startTime.compareTo(b.startTime))
-        .first
-        .startTime;
-    final latestClass = lectures
-        .sorted((a, b) => a.startTime.compareTo(b.startTime))
-        .last
-        .endTime;
-
-    // Determine which days to show (exclude Saturday and Sunday without lectures)
-    final hasLecturesOnWeekday = <int, bool>{};
-    for (var i = DateTime.monday; i <= DateTime.sunday; i++) {
-      hasLecturesOnWeekday[i] = lectures.any(
-        (lecture) => lecture.startTime.weekday == i,
-      );
-    }
-
-    // Determine which days to display
-    final hasSaturdayLectures =
-        hasLecturesOnWeekday[DateTime.saturday] ?? false;
-
-    final weekDaysList = <WeekDays>[
+  List<WeekDays> _getVisibleWeekDays() {
+    final days = [
       WeekDays.monday,
       WeekDays.tuesday,
       WeekDays.wednesday,
@@ -71,218 +91,204 @@ class ScheduleCalendarView extends ConsumerWidget {
       WeekDays.friday,
     ];
 
+    final hasSaturdayLectures = lectures.any(
+      (l) => l.startTime.weekday == DateTime.saturday,
+    );
+
     if (hasSaturdayLectures) {
-      weekDaysList.add(WeekDays.saturday);
+      days.add(WeekDays.saturday);
     }
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 12, bottom: 120),
-      child: CalendarControllerProvider(
-        controller: controller,
-        child: WeekView(
-          backgroundColor: Theme.of(context).colorScheme.surface,
-          showVerticalLines: false,
-          controller: controller,
-          initialDay: earliestClass,
-          weekDays: weekDaysList,
-          showLiveTimeLineInAllDays: true,
-          weekNumberBuilder: (weekNum) {
-            return Container();
-          },
-          onEventTap: (events, date) {
-            if (events.isEmpty) {
-              return;
-            }
-            final lecture = events.first.event;
-            if (lecture == null) {
-              return;
-            }
+    return days;
+  }
 
-            final profile = ref.read(profileProvider).value;
+  DateTime _getEarliestClassTime() {
+    return lectures
+        .sorted((a, b) => a.startTime.compareTo(b.startTime))
+        .first
+        .startTime;
+  }
 
-            if (profile != null) {
-              final courseUnit = profile.courseUnits.firstWhereOrNull(
-                (unit) => unit.occurrId == lecture.occurrId,
-              );
-              if (courseUnit != null && courseUnit.occurrId != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<CourseUnitDetailPageView>(
-                    builder: (context) => CourseUnitDetailPageView(courseUnit),
-                  ),
-                );
-              }
-            }
-          },
-          weekPageHeaderBuilder: WeekHeader.hidden,
-          minDay: earliestClass,
-          maxDay: latestClass,
-          startHour: 7,
-          hourIndicatorSettings: HourIndicatorSettings(
-            color: Theme.of(context).colorScheme.onSurface.withAlpha(0x10),
-          ),
-          // small hour indicator on the left of the line that separates hours
-          timeLineBuilder: (date) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: DefaultTimeLineMark(
-                date: date,
-                markingStyle: Theme.of(context).textTheme.labelLarge,
-                timeStringBuilder: (date, {secondaryDate}) {
-                  return DateFormat.Hm().format(date);
-                },
-              ),
-            );
-          },
-          eventTileBuilder: (date, events, boundary, startDuration, endDuration) {
-            if (events.isEmpty) {
-              return const SizedBox.shrink();
-            }
+  DateTime _getLatestClassTime() {
+    return lectures
+        .sorted((a, b) => a.startTime.compareTo(b.startTime))
+        .last
+        .endTime;
+  }
 
-            final event = events.first;
-            final lecture = event.event;
+  // --- builders ---
 
-            if (lecture == null) {
-              return const SizedBox.shrink();
-            }
+  void _handleEventTap(
+    BuildContext context,
+    WidgetRef ref,
+    List<CalendarEventData<Lecture>> events,
+  ) {
+    if (events.isEmpty) {
+      return;
+    }
+    final lecture = events.first.event;
+    if (lecture == null) {
+      return;
+    }
 
-            // Check if this is the current class
-            final isCurrentClass =
-                now.isAfter(lecture.startTime) && now.isBefore(lecture.endTime);
+    final profile = ref.read(profileProvider).value;
+    if (profile == null) {
+      return;
+    }
 
-            // Color is chosen basen on if a student has a class at the moment
-            final tileColor = isCurrentClass
-                ? Theme.of(context).colorScheme.tertiary
-                : Theme.of(context).colorScheme.secondary;
+    final courseUnit = profile.courseUnits.firstWhereOrNull(
+      (unit) => unit.occurrId == lecture.occurrId,
+    );
 
-            return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-              decoration: BoxDecoration(
-                color: tileColor,
-                gradient: isCurrentClass
-                    ? RadialGradient(
-                        colors: [
-                          Theme.of(context).colorScheme.onTertiary,
-                          Theme.of(context).colorScheme.tertiary,
-                        ],
-                        center: Alignment.topLeft,
-                        radius: 2,
-                        stops: const [0, 1],
-                      )
-                    : null,
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
-                    blurRadius: 2,
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Top section: acronym and type badge
-                    Column(
-                      children: [
-                        Text(
-                          lecture.acronym,
-                          style: TextStyle(
-                            color: isCurrentClass
-                                ? Theme.of(context).colorScheme.onSurfaceVariant
-                                : Theme.of(context).colorScheme.onSecondary,
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 1),
-                        Badge(
-                          label: Text(lecture.typeClass),
-                          backgroundColor: _getTypeClassColor(
-                            lecture.typeClass,
-                          ),
-                          textColor: Theme.of(context).colorScheme.primary,
-                        ),
-                        Text(
-                          '${_formatTime(lecture.startTime)} - ${_formatTime(lecture.endTime)}',
-                          style: TextStyle(
-                            color: isCurrentClass
-                                ? Theme.of(context).colorScheme.onSurfaceVariant
-                                : Theme.of(context).colorScheme.onSecondary,
-                            fontSize: 9,
-                          ),
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text(
-                          lecture.teacher,
-                          style: TextStyle(
-                            color: isCurrentClass
-                                ? Theme.of(context).colorScheme.onSurfaceVariant
-                                : Theme.of(context).colorScheme.onSecondary,
-                            fontSize: 9,
-                          ),
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        UniIcon(
-                          UniIcons.mapPin,
-                          color: isCurrentClass
-                              ? Theme.of(context).colorScheme.onSurfaceVariant
-                              : Theme.of(context).colorScheme.onSecondary,
-                          size: 12,
-                        ),
-                        const SizedBox(width: 3),
-                        Flexible(
-                          child: Text(
-                            lecture.room,
-                            style: TextStyle(
-                              color: isCurrentClass
-                                  ? Theme.of(
-                                      context,
-                                    ).colorScheme.onSurfaceVariant
-                                  : Theme.of(context).colorScheme.onSecondary,
-                              fontSize: 10,
-                            ),
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-          weekTitleBackgroundColor: Theme.of(context).colorScheme.surface,
-          // change the weekday string (Seg, Ter, Qua, etc.)
-          weekDayStringBuilder: (weekDay) {
-            final locale = Localizations.localeOf(context);
-            final dateSymbols = DateFormat.EEEE(locale.toString()).dateSymbols;
-            final shortWeekdays = dateSymbols.SHORTWEEKDAYS;
-
-            return shortWeekdays[weekDay + 1].capitalize().substring(0, 3);
-          },
-          liveTimeIndicatorSettings: LiveTimeIndicatorSettings(
-            color: Theme.of(context).colorScheme.onSecondary,
-          ),
+    if (courseUnit != null && courseUnit.occurrId != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute<CourseUnitDetailPageView>(
+          builder: (context) => CourseUnitDetailPageView(courseUnit),
         ),
+      );
+    }
+  }
+
+  Widget _buildTimeLineMark(BuildContext context, DateTime date) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2),
+      child: DefaultTimeLineMark(
+        date: date,
+        markingStyle: Theme.of(context).textTheme.labelLarge,
+        timeStringBuilder: (date, {secondaryDate}) =>
+            DateFormat.Hm().format(date),
       ),
     );
+  }
+
+  Widget _buildEventTile(
+    BuildContext context,
+    List<CalendarEventData<Lecture>> events,
+  ) {
+    if (events.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    final lecture = events.first.event;
+    if (lecture == null) {
+      return const SizedBox.shrink();
+    }
+
+    final isCurrent =
+        now.isAfter(lecture.startTime) && now.isBefore(lecture.endTime);
+
+    final tileColor = isCurrent
+        ? Theme.of(context).colorScheme.tertiary
+        : Theme.of(context).colorScheme.secondary;
+
+    return Container(
+      margin: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: tileColor,
+        gradient: isCurrent ? _getCurrentClassGradient(context) : null,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
+            blurRadius: 2,
+          ),
+        ],
+      ),
+      child: _buildEventTileContent(context, lecture, isCurrent),
+    );
+  }
+
+  Gradient _getCurrentClassGradient(BuildContext context) {
+    return RadialGradient(
+      colors: [
+        Theme.of(context).colorScheme.onTertiary,
+        Theme.of(context).colorScheme.tertiary,
+      ],
+      center: Alignment.topLeft,
+      radius: 2,
+      stops: const [0, 1],
+    );
+  }
+
+  Widget _buildEventTileContent(
+    BuildContext context,
+    Lecture lecture,
+    bool isCurrent,
+  ) {
+    final textColor = isCurrent
+        ? Theme.of(context).colorScheme.onSurfaceVariant
+        : Theme.of(context).colorScheme.onSecondary;
+
+    return Padding(
+      padding: const EdgeInsets.all(4),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            children: [
+              Text(
+                lecture.acronym,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 1),
+              Badge(
+                label: Text(lecture.typeClass),
+                backgroundColor: _getTypeClassColor(lecture.typeClass),
+                textColor: Theme.of(context).colorScheme.primary,
+              ),
+              Text(
+                '${_formatTime(lecture.startTime)} - ${_formatTime(lecture.endTime)}',
+                style: TextStyle(color: textColor, fontSize: 9),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                lecture.teacher,
+                style: TextStyle(color: textColor, fontSize: 9),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+          _buildLocationRow(context, lecture.room, textColor),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLocationRow(BuildContext context, String room, Color color) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        UniIcon(UniIcons.mapPin, color: color, size: 12),
+        const SizedBox(width: 3),
+        Flexible(
+          child: Text(
+            room,
+            style: TextStyle(color: color, fontSize: 10),
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
+  }
+
+  String _formatWeekday(BuildContext context, int day) {
+    final locale = Localizations.localeOf(context).toString();
+    final symbols = DateFormat.EEEE(locale).dateSymbols;
+    return symbols.SHORTWEEKDAYS[day + 1].capitalize().substring(0, 3);
   }
 
   String _formatTime(DateTime date) {
