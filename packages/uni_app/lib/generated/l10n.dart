@@ -399,6 +399,11 @@ class S {
     );
   }
 
+  /// `Contacts`
+  String get contacts {
+    return Intl.message('Contacts', name: 'contacts', desc: '', args: []);
+  }
+
   /// `Copy center`
   String get copy_center {
     return Intl.message('Copy center', name: 'copy_center', desc: '', args: []);
@@ -792,7 +797,7 @@ class S {
     );
   }
 
-  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} mapa{Map} faculdade{Faculty} other{Other}}`
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} mapa{Map} faculdade{Faculty} bug_report{Leave Feedback} other{Other}}`
   String nav_title(Object title) {
     return Intl.select(
       title,
@@ -809,6 +814,7 @@ class S {
         'percurso_academico': 'Academic Path',
         'mapa': 'Map',
         'faculdade': 'Faculty',
+        'bug_report': 'Leave Feedback',
         'other': 'Other',
       },
       name: 'nav_title',
@@ -902,6 +908,16 @@ class S {
     );
   }
 
+  /// `You don't have any more classes today.`
+  String get no_classes_today {
+    return Intl.message(
+      'You don\'t have any more classes today.',
+      name: 'no_classes_today',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `no college`
   String get no_college {
     return Intl.message('no college', name: 'no_college', desc: '', args: []);
@@ -930,6 +946,11 @@ class S {
   /// `No date`
   String get no_date {
     return Intl.message('No date', name: 'no_date', desc: '', args: []);
+  }
+
+  /// `Date`
+  String get date {
+    return Intl.message('Date', name: 'date', desc: '', args: []);
   }
 
   /// `No events found`
@@ -1472,6 +1493,16 @@ class S {
     return Intl.message('Unavailable', name: 'unavailable', desc: '', args: []);
   }
 
+  /// `Personal Information`
+  String get user_informations {
+    return Intl.message(
+      'Personal Information',
+      name: 'user_informations',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Please enter a valid email`
   String get valid_email {
     return Intl.message(
@@ -1860,6 +1891,16 @@ class S {
     return Intl.message('Library', name: 'library', desc: '', args: []);
   }
 
+  /// `Building C (Library)`
+  String get library_building {
+    return Intl.message(
+      'Building C (Library)',
+      name: 'library_building',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Restaurants`
   String get restaurants {
     return Intl.message('Restaurants', name: 'restaurants', desc: '', args: []);
@@ -1950,6 +1991,66 @@ class S {
     );
   }
 
+  /// `Nationalities`
+  String get nationalities {
+    return Intl.message(
+      'Nationalities',
+      name: 'nationalities',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nationality`
+  String get nationality {
+    return Intl.message('Nationality', name: 'nationality', desc: '', args: []);
+  }
+
+  /// `Identification Documents`
+  String get identification_documents {
+    return Intl.message(
+      'Identification Documents',
+      name: 'identification_documents',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Addresses`
+  String get addresses {
+    return Intl.message('Addresses', name: 'addresses', desc: '', args: []);
+  }
+
+  /// `Try to refresh the page`
+  String get no_info_description {
+    return Intl.message(
+      'Try to refresh the page',
+      name: 'no_info_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `tomorrow:`
+  String get tomorrow {
+    return Intl.message('tomorrow:', name: 'tomorrow', desc: '', args: []);
+  }
+
+  /// `today:`
+  String get today {
+    return Intl.message('today:', name: 'today', desc: '', args: []);
+  }
+
+  /// `Here are your classes for `
+  String get nextclasses {
+    return Intl.message(
+      'Here are your classes for ',
+      name: 'nextclasses',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No classes have been assigned to this course unit yet`
   String get no_course_unit_classes {
     return Intl.message(
@@ -2028,6 +2129,91 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Select the type of feedback`
+  String get feedback_type_title_section {
+    return Intl.message(
+      'Select the type of feedback',
+      name: 'feedback_type_title_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please choose the category that best describes your feedback to help us address it effectively.`
+  String get feedback_type_description_section {
+    return Intl.message(
+      'Please choose the category that best describes your feedback to help us address it effectively.',
+      name: 'feedback_type_description_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Provide a clear and concise title along with a detailed description of the issue or suggestion. The more information you provide, the better we can understand and address your feedback.`
+  String get feedback_description_section {
+    return Intl.message(
+      'Provide a clear and concise title along with a detailed description of the issue or suggestion. The more information you provide, the better we can understand and address your feedback.',
+      name: 'feedback_description_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Privacy and Consent`
+  String get feedback_privacy_section {
+    return Intl.message(
+      'Privacy and Consent',
+      name: 'feedback_privacy_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your privacy is important to us. You consent to the collection and use of your feedback and any attached images for the purpose of improving our app. You can choose to provide your email for follow-up, but it is not required.`
+  String get feedback_privacy_description_section {
+    return Intl.message(
+      'Your privacy is important to us. You consent to the collection and use of your feedback and any attached images for the purpose of improving our app. You can choose to provide your email for follow-up, but it is not required.',
+      name: 'feedback_privacy_description_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attach images`
+  String get feedback_images_title_section {
+    return Intl.message(
+      'Attach images',
+      name: 'feedback_images_title_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attached images will appear here.`
+  String get feedback_images_empty_section {
+    return Intl.message(
+      'Attached images will appear here.',
+      name: 'feedback_images_empty_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Consent to data collection`
+  String get feedback_consent_title {
+    return Intl.message(
+      'Consent to data collection',
+      name: 'feedback_consent_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get edit_homepage {
+    return Intl.message('Edit', name: 'edit_homepage', desc: '', args: []);
   }
 }
 

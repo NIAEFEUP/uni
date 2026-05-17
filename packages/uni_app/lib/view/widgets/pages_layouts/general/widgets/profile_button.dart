@@ -15,7 +15,7 @@ class ProfileButton extends StatelessWidget {
       onPressed: () => {
         Navigator.pushNamed(context, '/${NavigationItem.navProfile.route}'),
       },
-      icon: const ProfileImage(radius: 20),
+      icon: const ProfileImage(radius: 22.56),
     );
   }
 }

@@ -5,7 +5,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/profile/widgets/locale_switch_button.dart';
 import 'package:uni/view/profile/widgets/notifications_dialog.dart';
-// import 'package:uni/view/profile/widgets/theme_switch_button.dart';
+import 'package:uni/view/profile/widgets/theme_switch_button.dart';
 import 'package:uni/view/profile/widgets/usage_stats_switch.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/cards/profile_list_tile.dart';
@@ -21,6 +21,24 @@ class Settings extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          GenericCard(
+            tooltip: S.of(context).user_informations,
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            child: ProfileListTile(
+              icon: UniIcons.userIcon,
+              title: S.of(context).user_informations,
+              trailing: UniIcon(
+                UniIcons.caretRight,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  '/${NavigationItem.navProfileInfo.route}',
+                );
+              },
+            ),
+          ),
           Text(
             S.of(context).settings,
             style: Theme.of(context).textTheme.headlineLarge,
@@ -30,13 +48,11 @@ class Settings extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 8),
             child: Column(
               children: [
-                /*
                 ProfileListTile(
                   icon: UniIcons.pallete,
                   title: S.of(context).theme,
                   trailing: const ThemeSwitchButton(),
                 ),
-                */
                 ProfileListTile(
                   icon: UniIcons.globeHemisphereWest,
                   title: S.of(context).language,
@@ -69,7 +85,7 @@ class Settings extends StatelessWidget {
               subtitle: S.of(context).feedback_description,
               trailing: UniIcon(
                 UniIcons.caretRight,
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
               onTap: () {
                 Navigator.pushNamed(
@@ -87,7 +103,7 @@ class Settings extends StatelessWidget {
               title: S.of(context).terms,
               trailing: UniIcon(
                 UniIcons.caretRight,
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
               onTap: () {
                 Navigator.pushNamed(
@@ -106,7 +122,7 @@ class Settings extends StatelessWidget {
               title: S.of(context).change_password,
               trailing: UniIcon(
                 UniIcons.caretRight,
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
               onTap: () =>
                   launchUrlWithToast(context, 'https://self-id.up.pt/password'),
@@ -121,7 +137,7 @@ class Settings extends StatelessWidget {
               title: S.of(context).logout,
               trailing: UniIcon(
                 UniIcons.caretRight,
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
               onTap: NetworkRouter.authenticationController?.close,
             ),

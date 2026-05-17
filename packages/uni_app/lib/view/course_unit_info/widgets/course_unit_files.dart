@@ -10,8 +10,7 @@ import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/view/widgets/toast_message.dart';
 import 'package:uni_ui/cards/file_card.dart';
 import 'package:uni_ui/cards/folder_card.dart';
-
-import 'course_unit_no_files.dart';
+import 'package:uni_ui/common_widgets/empty_state_widget.dart';
 
 class CourseUnitFilesView extends ConsumerWidget {
   const CourseUnitFilesView(this.files, {super.key});
@@ -43,12 +42,23 @@ class CourseUnitFilesView extends ConsumerWidget {
                   child: Container(
                     height: constraints.maxHeight,
                     padding: const EdgeInsets.only(bottom: 120),
-                    child: const Center(child: NoFilesWidget()),
+                    child: Center(
+                      child: EmptyStateWidget(
+                        imagePath: 'assets/images/files.svg',
+                        title: S.of(context).no_files_label,
+                        subtitle: S.of(context).no_files,
+                      ),
+                    ),
                   ),
                 ),
               )
             : Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
+                padding: const EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                  top: 10,
+                  bottom: 40,
+                ),
                 child: ListView(children: cards),
               );
       },

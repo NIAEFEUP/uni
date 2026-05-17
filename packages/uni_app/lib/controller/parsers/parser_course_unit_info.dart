@@ -56,7 +56,7 @@ Future<Sheet> parseSheet(http.Response response) async {
   );
 
   final regents = (json['responsabilidades'] as List).map((element) {
-    return Professor.fromJson(element as Map<String, dynamic>);
+    return Professor.fromJson(element as Map<String, dynamic>, isRegent: true);
   }).toList();
 
   for (final regent in regents) {
@@ -96,15 +96,18 @@ List<Professor> getCourseUnitProfessors(List<Map<String, dynamic>> ds) {
   final professors = <Professor>[];
   for (final map in ds) {
     for (final docente in map['docentes'] as List<dynamic>) {
-      final professor = Professor(
-        code: (docente as Map<String, dynamic>)['doc_codigo'].toString(),
-        name: shortName(docente['nome'].toString()),
+      final professor = Professor.fromJson(
+        docente as Map<String, dynamic>,
         classes: [map['tipo'].toString()],
       );
+
       if (professors.contains(professor)) {
-        professors[professors.indexWhere((element) => element == professor)]
-            .classes
-            .add(map['tipo'].toString());
+        final existingProfessor =
+            professors[professors.indexWhere(
+              (element) => element == professor,
+            )];
+
+        existingProfessor.classes.add(map['tipo'].toString());
       } else {
         professors.add(professor);
       }
@@ -196,4 +199,17 @@ String _htmlAfterElement(String body, String elementOuterHtml) {
 String shortName(String name) {
   final splitName = name.split(' ');
   return '${splitName.first} ${splitName.last}';
+}
+
+Map<String, int> parseOccurences(http.Response response) {
+  final data = jsonDecode(response.body) as List<dynamic>;
+  final result = <String, int>{};
+  for (var occur in data) {
+    occur = occur as Map<String, dynamic>;
+    final year = occur['ano_letivo'] as int;
+    final id = occur['id'] as int;
+    final key = '$year/${year + 1}';
+    result[key] = id;
+  }
+  return result;
 }

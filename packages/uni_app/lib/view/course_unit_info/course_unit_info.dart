@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/riverpod/course_units_info_provider.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
-import 'package:uni/view/academic_path/widgets/no_classes_widget.dart';
+import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_shimmer.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes_shimmer.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files_shimmer.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_lectures.dart';
-import 'package:uni/view/course_unit_info/widgets/course_unit_no_classes.dart';
-import 'package:uni/view/course_unit_info/widgets/course_unit_no_files.dart';
-import 'package:uni/view/course_unit_info/widgets/course_unit_no_info.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet_shimmer.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
+import 'package:uni_ui/common_widgets/empty_state_widget.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/tabs/tab_icon.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -56,6 +55,22 @@ class CourseUnitDetailPageViewState
   }
 
   Future<void> loadInfo({required bool force}) async {
+    final session = await ref.read(sessionProvider.future);
+    if (session == null) {
+      return;
+    }
+
+    final occurrId = widget.courseUnit.occurrId;
+    if (occurrId != null) {
+      try {
+        final occurs = await CourseUnitsInfoFetcher().fetchCourseUnitOccurences(
+          session,
+          occurrId,
+        );
+        widget.courseUnit.occurences = occurs;
+      } catch (_) {}
+    }
+
     final courseUnitsProvider = ref.read(courseUnitsInfoProvider.notifier);
 
     final courseUnitSheet =
@@ -116,7 +131,10 @@ class CourseUnitDetailPageViewState
   Widget? getHeader(BuildContext context) {
     return TabBar(
       controller: tabController,
-      dividerHeight: 1,
+      indicatorColor: Theme.of(context).colorScheme.onSecondary,
+      splashFactory: NoSplash.splashFactory,
+      overlayColor: WidgetStateProperty.all(Colors.transparent),
+      dividerHeight: 0,
       isScrollable: true,
       tabAlignment: TabAlignment.start,
       tabs: [
@@ -153,7 +171,8 @@ class CourseUnitDetailPageViewState
         final courseExams = exams.maybeWhen(
           data: (list) => list!
               .where(
-                (exam) => exam.subjectAcronym == widget.courseUnit.abbreviation,
+                (exam) =>
+                    exam.occurrId == widget.courseUnit.occurrId.toString(),
               )
               .toList(),
           orElse: () => <Exam>[],
@@ -177,7 +196,13 @@ class CourseUnitDetailPageViewState
               child: Container(
                 height: constraints.maxHeight,
                 padding: const EdgeInsets.only(bottom: 120),
-                child: const Center(child: NoInfoWidget()),
+                child: Center(
+                  child: EmptyStateWidget(
+                    imagePath: 'assets/images/course_info.png',
+                    title: S.of(context).no_info,
+                    subtitle: S.of(context).no_course_unit_info,
+                  ),
+                ),
               ),
             ),
           );
@@ -204,7 +229,13 @@ class CourseUnitDetailPageViewState
           child: Container(
             height: constraints.maxHeight,
             padding: const EdgeInsets.only(bottom: 120),
-            child: const Center(child: NoFilesWidget()),
+            child: Center(
+              child: EmptyStateWidget(
+                imagePath: 'assets/images/files.svg',
+                title: S.of(context).no_files_label,
+                subtitle: S.of(context).no_files,
+              ),
+            ),
           ),
         ),
       );
@@ -239,7 +270,13 @@ class CourseUnitDetailPageViewState
               child: Container(
                 height: constraints.maxHeight,
                 padding: const EdgeInsets.only(bottom: 120),
-                child: const Center(child: NoClassGroupsWidget()),
+                child: Center(
+                  child: EmptyStateWidget(
+                    imagePath: 'assets/images/classes.png',
+                    title: S.of(context).no_class,
+                    subtitle: S.of(context).no_course_unit_classes,
+                  ),
+                ),
               ),
             ),
           );
@@ -268,7 +305,12 @@ class CourseUnitDetailPageViewState
         }
 
         if (lectures.isEmpty) {
-          return const Center(child: NoClassesWidget(showSublabel: false));
+          return Center(
+            child: EmptyStateWidget(
+              imagePath: 'assets/images/school.png',
+              title: S.of(context).no_classes,
+            ),
+          );
         }
 
         return CourseUnitLecturesView(lectures, widget.courseUnit);
@@ -283,11 +325,59 @@ class CourseUnitDetailPageViewState
   String? getSubtitle() => widget.courseUnit.schoolYear;
 
   @override
+  Widget? getSubtitleWidget() {
+    var occurs = widget.courseUnit.occurences;
+    if (occurs == null || occurs.isEmpty) {
+      occurs = {widget.courseUnit.schoolYear!: widget.courseUnit.occurrId!};
+    }
+    final years = occurs.keys.toList();
+
+    final selectedItem = years.indexOf(widget.courseUnit.schoolYear!);
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          isDense: true,
+          style: Theme.of(context).textTheme.bodyLarge,
+          dropdownColor: Theme.of(context).colorScheme.secondary,
+          borderRadius: BorderRadius.circular(8),
+          value: years[selectedItem],
+          elevation: 16,
+          onChanged: (value) {
+            if (value == null) {
+              return;
+            }
+            final occurrId = occurs?[value];
+            if (occurrId == null) {
+              return;
+            }
+            final nextOccur = CourseUnit(
+              abbreviation: widget.courseUnit.abbreviation,
+              name: widget.courseUnit.name,
+              occurrId: occurrId,
+              schoolYear: value,
+            );
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute<CourseUnitDetailPageView>(
+                builder: (context) => CourseUnitDetailPageView(nextOccur),
+              ),
+            );
+          },
+          items: years.map((item) {
+            return DropdownMenuItem<String>(value: item, child: Text(item));
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
+  @override
   Widget? getRightContent(BuildContext context) {
     return IconButton(
       icon: UniIcon(
         UniIcons.arrowSquareOut,
-        color: Theme.of(context).iconTheme.color,
+        color: Theme.of(context).colorScheme.onSecondary,
       ),
       onPressed: () async {
         // If the course unit isn't from FEUP, sigarra redirects to the correct page

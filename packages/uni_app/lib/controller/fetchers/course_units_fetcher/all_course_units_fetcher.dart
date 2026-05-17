@@ -50,6 +50,7 @@ class AllCourseUnitsFetcher {
       session,
     );
     return parseCourseUnitsAndCourseAverage(
+      session,
       responseAcademicPath,
       responseCurricularUnits,
       course,

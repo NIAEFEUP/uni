@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni_ui/cards/generic_card.dart';
 
 class FormTextField extends StatelessWidget {
   const FormTextField(
@@ -27,8 +28,10 @@ class FormTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GenericCard(
+      tooltip: description,
       margin: EdgeInsets.only(bottom: bottomMargin),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: TextFormField(
         onTapOutside: (event) {
           FocusManager.instance.primaryFocus?.unfocus();
@@ -36,22 +39,15 @@ class FormTextField extends StatelessWidget {
         minLines: minLines,
         maxLines: maxLines,
         decoration: InputDecoration(
-          labelText: labelText,
+          labelText: labelText + (isOptional ? '' : ' *'),
           hintText: hintText,
+          labelStyle: Theme.of(context).textTheme.titleLarge,
+          hintStyle: Theme.of(context).textTheme.bodyMedium,
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          border: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
+          border: InputBorder.none,
         ),
+        cursorColor: Theme.of(context).colorScheme.onSecondary,
+        style: Theme.of(context).textTheme.bodyMedium,
         controller: controller,
         validator: (value) {
           if (value == null || value.isEmpty) {

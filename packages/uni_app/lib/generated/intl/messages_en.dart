@@ -28,7 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "${Intl.plural(time, zero: 'Refreshed ${time} minutes ago', one: 'Refreshed ${time} minute ago', other: 'Refreshed ${time} minutes ago')}";
 
   static m3(title) =>
-      "${Intl.select(title, {'horario': 'Schedule', 'exames': 'Exams', 'area': 'Personal Area', 'cadeiras': 'Course Units', 'autocarros': 'Buses', 'locais': 'Places', 'restaurantes': 'Restaurants', 'calendario': 'Calendar', 'biblioteca': 'Library', 'percurso_academico': 'Academic Path', 'mapa': 'Map', 'faculdade': 'Faculty', 'other': 'Other'})}";
+      "${Intl.select(title, {'horario': 'Schedule', 'exames': 'Exams', 'area': 'Personal Area', 'cadeiras': 'Course Units', 'autocarros': 'Buses', 'locais': 'Places', 'restaurantes': 'Restaurants', 'calendario': 'Calendar', 'biblioteca': 'Library', 'percurso_academico': 'Academic Path', 'mapa': 'Map', 'faculdade': 'Faculty', 'bug_report': 'Leave Feedback', 'other': 'Other'})}";
 
   static m4(period) =>
       "${Intl.select(period, {'lunch': 'Lunch', 'dinner': 'Dinner', 'other': 'Other'})}";
@@ -49,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "add_restaurants": MessageLookupByLibrary.simpleMessage("Add restaurants"),
     "add_to_calendar": MessageLookupByLibrary.simpleMessage("Add to calendar"),
     "add_widget": MessageLookupByLibrary.simpleMessage("Add widget"),
+    "addresses": MessageLookupByLibrary.simpleMessage("Addresses"),
     "agree_terms": MessageLookupByLibrary.simpleMessage(
       "By entering you agree with these",
     ),
@@ -138,6 +139,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "I consent to this information being reviewed by NIAEFEUP and may be deleted at my request.",
     ),
     "contact": MessageLookupByLibrary.simpleMessage("Contact (optional)"),
+    "contacts": MessageLookupByLibrary.simpleMessage("Contacts"),
     "copy_center": MessageLookupByLibrary.simpleMessage("Copy center"),
     "copy_center_building": MessageLookupByLibrary.simpleMessage(
       "Floor -1 of building B | AEFEUP building",
@@ -150,6 +152,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "current_year": MessageLookupByLibrary.simpleMessage(
       "Current academic year: ",
     ),
+    "date": MessageLookupByLibrary.simpleMessage("Date"),
     "decrement": MessageLookupByLibrary.simpleMessage("Decrement 1,00€"),
     "description": MessageLookupByLibrary.simpleMessage("Description"),
     "desired_email": MessageLookupByLibrary.simpleMessage(
@@ -174,6 +177,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Drag and drop elements",
     ),
     "ects": MessageLookupByLibrary.simpleMessage("ECTS performed: "),
+    "edit_homepage": MessageLookupByLibrary.simpleMessage("Edit"),
     "edit_off": MessageLookupByLibrary.simpleMessage("Edit"),
     "edit_on": MessageLookupByLibrary.simpleMessage("Finish editing"),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
@@ -199,8 +203,32 @@ class MessageLookup extends MessageLookupByLibrary {
     "favorite_filter": MessageLookupByLibrary.simpleMessage("Favorites"),
     "fee_date": MessageLookupByLibrary.simpleMessage("Deadline"),
     "fee_notification": MessageLookupByLibrary.simpleMessage("Fee deadline"),
+    "feedback_consent_title": MessageLookupByLibrary.simpleMessage(
+      "Consent to data collection",
+    ),
     "feedback_description": MessageLookupByLibrary.simpleMessage(
       "Report an issue or suggest an improvement",
+    ),
+    "feedback_description_section": MessageLookupByLibrary.simpleMessage(
+      "Provide a clear and concise title along with a detailed description of the issue or suggestion. The more information you provide, the better we can understand and address your feedback.",
+    ),
+    "feedback_images_empty_section": MessageLookupByLibrary.simpleMessage(
+      "Attached images will appear here.",
+    ),
+    "feedback_images_title_section": MessageLookupByLibrary.simpleMessage(
+      "Attach images",
+    ),
+    "feedback_privacy_description_section": MessageLookupByLibrary.simpleMessage(
+      "Your privacy is important to us. You consent to the collection and use of your feedback and any attached images for the purpose of improving our app. You can choose to provide your email for follow-up, but it is not required.",
+    ),
+    "feedback_privacy_section": MessageLookupByLibrary.simpleMessage(
+      "Privacy and Consent",
+    ),
+    "feedback_type_description_section": MessageLookupByLibrary.simpleMessage(
+      "Please choose the category that best describes your feedback to help us address it effectively.",
+    ),
+    "feedback_type_title_section": MessageLookupByLibrary.simpleMessage(
+      "Select the type of feedback",
     ),
     "files": MessageLookupByLibrary.simpleMessage("Files"),
     "first_year_registration": MessageLookupByLibrary.simpleMessage(
@@ -218,6 +246,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "goi": MessageLookupByLibrary.simpleMessage(
       "Orientation and Integration Office",
+    ),
+    "identification_documents": MessageLookupByLibrary.simpleMessage(
+      "Identification Documents",
     ),
     "improvement_registration": MessageLookupByLibrary.simpleMessage(
       "Enrollment for Improvement",
@@ -238,6 +269,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "leave_feedback": MessageLookupByLibrary.simpleMessage("Leave feedback"),
     "lectures": MessageLookupByLibrary.simpleMessage("Lectures"),
     "library": MessageLookupByLibrary.simpleMessage("Library"),
+    "library_building": MessageLookupByLibrary.simpleMessage(
+      "Building C (Library)",
+    ),
     "library_occupation": MessageLookupByLibrary.simpleMessage(
       "Library Occupation",
     ),
@@ -261,8 +295,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "multimedia_center": MessageLookupByLibrary.simpleMessage(
       "Multimedia center",
     ),
+    "nationalities": MessageLookupByLibrary.simpleMessage("Nationalities"),
+    "nationality": MessageLookupByLibrary.simpleMessage("Nationality"),
     "nav_title": m3,
     "news": MessageLookupByLibrary.simpleMessage("News"),
+    "nextclasses": MessageLookupByLibrary.simpleMessage(
+      "Here are your classes for ",
+    ),
     "no": MessageLookupByLibrary.simpleMessage("No"),
     "noExamsScheduled": MessageLookupByLibrary.simpleMessage(
       "No exams scheduled",
@@ -287,6 +326,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "no_classes_this_week": MessageLookupByLibrary.simpleMessage(
       "You have no classes this week",
+    ),
+    "no_classes_today": MessageLookupByLibrary.simpleMessage(
+      "You don\'t have any more classes today.",
     ),
     "no_college": MessageLookupByLibrary.simpleMessage("no college"),
     "no_course_unit_classes": MessageLookupByLibrary.simpleMessage(
@@ -327,6 +369,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "no_info": MessageLookupByLibrary.simpleMessage(
       "There is no information to display",
+    ),
+    "no_info_description": MessageLookupByLibrary.simpleMessage(
+      "Try to refresh the page",
     ),
     "no_internet": MessageLookupByLibrary.simpleMessage(
       "It looks like you\'re offline",
@@ -466,6 +511,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "title": MessageLookupByLibrary.simpleMessage("Title"),
+    "today": MessageLookupByLibrary.simpleMessage("today:"),
+    "tomorrow": MessageLookupByLibrary.simpleMessage("tomorrow:"),
     "tomorrows_meals": MessageLookupByLibrary.simpleMessage("Tomorrow\'s Menu"),
     "try_again": MessageLookupByLibrary.simpleMessage("Try again"),
     "try_different_login": MessageLookupByLibrary.simpleMessage(
@@ -478,6 +525,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "unavailable": MessageLookupByLibrary.simpleMessage("Unavailable"),
     "until": MessageLookupByLibrary.simpleMessage("Until"),
+    "user_informations": MessageLookupByLibrary.simpleMessage(
+      "Personal Information",
+    ),
     "valid_email": MessageLookupByLibrary.simpleMessage(
       "Please enter a valid email",
     ),
