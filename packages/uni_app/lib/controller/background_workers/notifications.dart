@@ -88,13 +88,8 @@ class NotificationManager {
   Future<bool> hasNotificationPermission() async {
     try {
       final status = await Permission.notification.status;
-      if (status.isGranted) {
+      if (status.isGranted || status.isProvisional) {
         return true;
-      }
-      if (status.isDenied ||
-          status.isPermanentlyDenied ||
-          status.isRestricted) {
-        return false;
       }
 
       if (Platform.isAndroid) {
@@ -105,6 +100,21 @@ class NotificationManager {
         final bool? enabled = await androidPlugin?.areNotificationsEnabled();
         return enabled ?? true;
       }
+
+      if (Platform.isIOS) {
+        final iosPlugin = _localNotificationsPlugin
+            .resolvePlatformSpecificImplementation<
+              IOSFlutterLocalNotificationsPlugin
+            >();
+        final settings = await iosPlugin?.checkPermissions();
+        return settings?.isAlertEnabled ?? false;
+      }
+
+      if (status.isDenied ||
+          status.isPermanentlyDenied ||
+          status.isRestricted) {
+        return false;
+      }
     } catch (_) {}
     return false;
   }
@@ -114,9 +124,11 @@ class NotificationManager {
       '@mipmap/launcher_icon',
     );
 
-    // request for notifications immediatly on iOS
+    // iOS and macOS
     const darwinInitializationSettings = DarwinInitializationSettings(
-      requestCriticalPermission: true,
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
     );
 
     const initializationSettings = InitializationSettings(
