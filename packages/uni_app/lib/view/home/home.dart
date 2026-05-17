@@ -44,6 +44,23 @@ class HomePageView extends ConsumerStatefulWidget {
 }
 
 class HomePageViewState extends ConsumerState<HomePageView> {
+  static Locale? _lastLocale;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final locale = Localizations.localeOf(context);
+    if (_lastLocale != locale) {
+      _lastLocale = locale;
+      Future.microtask(() {
+        ref.read(profileProvider.notifier).refreshRemote();
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    }
+  }
+
   List<FavoriteWidgetType> favoriteCards =
       PreferencesController.getFavoriteCards();
 
@@ -193,8 +210,8 @@ class HomePageViewState extends ConsumerState<HomePageView> {
           gradient: Theme.of(context).brightness == Brightness.light
               ? RadialGradient(
                   colors: [
-                    Theme.of(context).colorScheme.tertiary,
-                    Theme.of(context).colorScheme.onTertiary,
+                    Theme.of(context).colorScheme.primary,
+                    Theme.of(context).colorScheme.onPrimary,
                   ],
                   center: Alignment.topLeft,
                   radius: 2,
@@ -202,7 +219,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                 )
               : LinearGradient(
                   colors: [
-                    Theme.of(context).colorScheme.tertiary,
+                    Theme.of(context).colorScheme.primary,
                     Theme.of(context).colorScheme.surface,
                   ],
                   begin: Alignment.topCenter,
@@ -241,7 +258,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                   child: DefaultConsumer<List<Lecture>>(
                     provider: lectureProvider,
                     errorWidget: GeneralErrorView(
-                      textColor: Theme.of(context).colorScheme.onSecondaryFixed,
+                      textColor: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                     builder: (context, ref, lectures) {
                       return ScheduleCard(

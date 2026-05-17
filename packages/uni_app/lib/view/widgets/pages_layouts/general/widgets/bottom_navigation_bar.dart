@@ -48,7 +48,7 @@ class AppBottomNavbar extends StatelessWidget {
         ),
       );
     }
-    var bottomPadding = MediaQuery.of(context).systemGestureInsets.bottom;
+    var bottomPadding = MediaQuery.systemGestureInsetsOf(context).bottom;
 
     const iosAdditionalBottomPadding = 30.0;
     const androidMinimumBottomPadding = 20.0;

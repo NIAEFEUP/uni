@@ -1,7 +1,7 @@
 
-# App desenvolvida pelo NIAEFEUP.
+# App developed by NIAEFEUP.
 
-## De estudantes, para estudantes.
+## From students, for students.
 
 ### Terms and Conditions  
 

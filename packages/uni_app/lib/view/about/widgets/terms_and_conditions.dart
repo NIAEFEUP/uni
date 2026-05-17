@@ -10,7 +10,9 @@ class TermsAndConditions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? termsAndConditionsSaved = S.of(context).loading_terms;
-    final termsAndConditionsFuture = fetchTermsAndConditions();
+    final termsAndConditionsFuture = fetchTermsAndConditions(
+      Localizations.localeOf(context).languageCode,
+    );
     return FutureBuilder(
       future: termsAndConditionsFuture,
       builder: (context, termsAndConditions) {

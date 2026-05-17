@@ -16,12 +16,14 @@ class SchedulePageView extends ConsumerStatefulWidget {
     this.lectures, {
     required this.now,
     required DateTime startOfWeek,
+    this.showClassNumber = false,
     super.key,
   }) : currentWeek = Week(start: startOfWeek);
 
   final DateTime now;
   final List<Lecture> lectures;
   final Week currentWeek;
+  final bool showClassNumber;
 
   @override
   ConsumerState<SchedulePageView> createState() => _SchedulePageViewState();
@@ -133,6 +135,7 @@ class _SchedulePageViewState extends ConsumerState<SchedulePageView> {
                 now: widget.now,
                 day: date,
                 lectures: _lecturesOfDay(widget.lectures, date),
+                showClassNumber: widget.showClassNumber,
                 onLectureTap: (lecture) {
                   final profile = ref.watch(
                     profileProvider.select((value) => value.value),
