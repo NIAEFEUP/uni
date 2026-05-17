@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
+import 'package:uni/model/providers/riverpod/schedule_view_mode_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/view/academic_path/widgets/schedule_calendar_view.dart';
 import 'package:uni/view/academic_path/widgets/schedule_day_timeline.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni/view/locale_notifier.dart';
-import 'package:uni_ui/common_widgets/view_toggle_button.dart';
 import 'package:uni_ui/timeline/timeline.dart';
 
-class SchedulePageView extends ConsumerStatefulWidget {
+class SchedulePageView extends ConsumerWidget {
   SchedulePageView(
     this.lectures, {
     required this.now,
@@ -26,43 +25,19 @@ class SchedulePageView extends ConsumerStatefulWidget {
   final bool showClassNumber;
 
   @override
-  ConsumerState<SchedulePageView> createState() => _SchedulePageViewState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ScheduleViewMode selectedView =
+        ref.watch<ScheduleViewMode>(scheduleViewModeProvider);
 
-class _SchedulePageViewState extends ConsumerState<SchedulePageView> {
-  int _selectedView = 0; // 0 = List view, 1 = Calendar view
-
-  @override
-  Widget build(BuildContext context) {
-    final locale = S.of(context);
-
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-          child: ViewToggleButton(
-            options: [locale.list_view, locale.calendar_view],
-            selected: _selectedView,
-            onSelectionChanged: (index) {
-              setState(() {
-                _selectedView = index;
-              });
-            },
-          ),
-        ),
-        Expanded(
-          child: _selectedView == 0
-              ? _buildListView(context)
-              : _buildCalendarView(),
-        ),
-      ],
-    );
+    return selectedView == ScheduleViewMode.list
+        ? _buildListView(context, ref)
+        : _buildCalendarView();
   }
 
-  Widget _buildListView(BuildContext context) {
+  Widget _buildListView(BuildContext context, WidgetRef ref) {
     final allDates = List.generate(
       14,
-      (index) => widget.currentWeek.start.add(Duration(days: index)),
+      (index) => currentWeek.start.add(Duration(days: index)),
     );
 
     // Filter out Saturday (6) and Sunday (0/7) unless there are lectures
@@ -72,7 +47,7 @@ class _SchedulePageViewState extends ConsumerState<SchedulePageView> {
       final isSunday = weekday == DateTime.sunday;
 
       if (isSaturday || isSunday) {
-        return _lecturesOfDay(widget.lectures, date).isNotEmpty;
+        return _lecturesOfDay(lectures, date).isNotEmpty;
       }
       return true;
     }).toList();
@@ -88,9 +63,9 @@ class _SchedulePageViewState extends ConsumerState<SchedulePageView> {
 
     final todayIndex = reorderedDates.indexWhere(
       (date) =>
-          date.year == widget.now.year &&
-          date.month == widget.now.month &&
-          date.day == widget.now.day,
+          date.year == now.year &&
+          date.month == now.month &&
+          date.day == now.day,
     );
 
     return Padding(
@@ -132,10 +107,10 @@ class _SchedulePageViewState extends ConsumerState<SchedulePageView> {
             .map(
               (date) => ScheduleDayTimeline(
                 key: Key('schedule-page-day-view-${date.weekday}'),
-                now: widget.now,
+                now: now,
                 day: date,
-                lectures: _lecturesOfDay(widget.lectures, date),
-                showClassNumber: widget.showClassNumber,
+                lectures: _lecturesOfDay(lectures, date),
+                showClassNumber: showClassNumber,
                 onLectureTap: (lecture) {
                   final profile = ref.watch(
                     profileProvider.select((value) => value.value),
@@ -167,17 +142,17 @@ class _SchedulePageViewState extends ConsumerState<SchedulePageView> {
         initialTab:
             (todayIndex != -1 &&
                 _lecturesOfDay(
-                  widget.lectures,
+                  lectures,
                   reorderedDates[todayIndex],
                 ).isNotEmpty)
             ? todayIndex
             : reorderedDates.indexWhere(
                 (date) =>
-                    date.isAfter(widget.now) &&
-                    _lecturesOfDay(widget.lectures, date).isNotEmpty,
+                    date.isAfter(now) &&
+                    _lecturesOfDay(lectures, date).isNotEmpty,
               ),
         tabEnabled: reorderedDates
-            .map((date) => _lecturesOfDay(widget.lectures, date).isNotEmpty)
+            .map((date) => _lecturesOfDay(lectures, date).isNotEmpty)
             .toList(),
       ),
     );
@@ -185,9 +160,9 @@ class _SchedulePageViewState extends ConsumerState<SchedulePageView> {
 
   Widget _buildCalendarView() {
     return ScheduleCalendarView(
-      widget.lectures,
-      startOfWeek: widget.currentWeek.start,
-      now: widget.now,
+      lectures,
+      startOfWeek: currentWeek.start,
+      now: now,
     );
   }
 
