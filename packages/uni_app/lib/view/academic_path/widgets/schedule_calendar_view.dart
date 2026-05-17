@@ -75,204 +75,211 @@ class ScheduleCalendarView extends ConsumerWidget {
       weekDaysList.add(WeekDays.saturday);
     }
 
-    return CalendarControllerProvider(
-      controller: controller,
-      child: WeekView(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        showVerticalLines: false,
+    return Padding(
+      padding: const EdgeInsets.only(top: 12, bottom: 120),
+      child: CalendarControllerProvider(
         controller: controller,
-        initialDay: earliestClass,
-        weekDays: weekDaysList,
-        showLiveTimeLineInAllDays: true,
-        weekNumberBuilder: (weekNum) {
-          return Container();
-        },
-        onEventTap: (events, date) {
-          if (events.isEmpty) {
-            return;
-          }
-          final lecture = events.first.event;
-          if (lecture == null) {
-            return;
-          }
-
-          final profile = ref.read(profileProvider).value;
-
-          if (profile != null) {
-            final courseUnit = profile.courseUnits.firstWhereOrNull(
-              (unit) => unit.occurrId == lecture.occurrId,
-            );
-            if (courseUnit != null && courseUnit.occurrId != null) {
-              Navigator.push(
-                context,
-                MaterialPageRoute<CourseUnitDetailPageView>(
-                  builder: (context) => CourseUnitDetailPageView(courseUnit),
-                ),
-              );
+        child: WeekView(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          showVerticalLines: false,
+          controller: controller,
+          initialDay: earliestClass,
+          weekDays: weekDaysList,
+          showLiveTimeLineInAllDays: true,
+          weekNumberBuilder: (weekNum) {
+            return Container();
+          },
+          onEventTap: (events, date) {
+            if (events.isEmpty) {
+              return;
             }
-          }
-        },
-        weekPageHeaderBuilder: WeekHeader.hidden,
-        minDay: earliestClass,
-        maxDay: latestClass,
-        startHour: 7,
-        hourIndicatorSettings: HourIndicatorSettings(
-          color: Theme.of(context).colorScheme.onSurface.withAlpha(0x10),
-        ),
-        // small hour indicator on the left of the line that separates hours
-        timeLineBuilder: (date) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2),
-            child: DefaultTimeLineMark(
-              date: date,
-              markingStyle: Theme.of(context).textTheme.labelLarge,
-              timeStringBuilder: (date, {secondaryDate}) {
-                return DateFormat.Hm().format(date);
-              },
-            ),
-          );
-        },
-        eventTileBuilder: (date, events, boundary, startDuration, endDuration) {
-          if (events.isEmpty) {
-            return const SizedBox.shrink();
-          }
+            final lecture = events.first.event;
+            if (lecture == null) {
+              return;
+            }
 
-          final event = events.first;
-          final lecture = event.event;
+            final profile = ref.read(profileProvider).value;
 
-          if (lecture == null) {
-            return const SizedBox.shrink();
-          }
-
-          // Check if this is the current class
-          final isCurrentClass =
-              now.isAfter(lecture.startTime) && now.isBefore(lecture.endTime);
-
-          // Color is chosen basen on if a student has a class at the moment
-          final tileColor = isCurrentClass
-              ? Theme.of(context).colorScheme.tertiary
-              : Theme.of(context).colorScheme.secondary;
-
-          return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-            decoration: BoxDecoration(
-              color: tileColor,
-              gradient: isCurrentClass
-                  ? RadialGradient(
-                      colors: [
-                        Theme.of(context).colorScheme.onTertiary,
-                        Theme.of(context).colorScheme.tertiary,
-                      ],
-                      center: Alignment.topLeft,
-                      radius: 2,
-                      stops: const [0, 1],
-                    )
-                  : null,
-              borderRadius: BorderRadius.circular(8),
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
-                  blurRadius: 2,
-                ),
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Top section: acronym and type badge
-                  Column(
-                    children: [
-                      Text(
-                        lecture.acronym,
-                        style: TextStyle(
-                          color: isCurrentClass
-                              ? Theme.of(context).colorScheme.onSurfaceVariant
-                              : Theme.of(context).colorScheme.onSecondary,
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 1),
-                      Badge(
-                        label: Text(lecture.typeClass),
-                        backgroundColor: _getTypeClassColor(lecture.typeClass),
-                        textColor: Theme.of(context).colorScheme.primary,
-                      ),
-                      Text(
-                        '${_formatTime(lecture.startTime)} - ${_formatTime(lecture.endTime)}',
-                        style: TextStyle(
-                          color: isCurrentClass
-                              ? Theme.of(context).colorScheme.onSurfaceVariant
-                              : Theme.of(context).colorScheme.onSecondary,
-                          fontSize: 9,
-                        ),
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        lecture.teacher,
-                        style: TextStyle(
-                          color: isCurrentClass
-                              ? Theme.of(context).colorScheme.onSurfaceVariant
-                              : Theme.of(context).colorScheme.onSecondary,
-                          fontSize: 9,
-                        ),
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
+            if (profile != null) {
+              final courseUnit = profile.courseUnits.firstWhereOrNull(
+                (unit) => unit.occurrId == lecture.occurrId,
+              );
+              if (courseUnit != null && courseUnit.occurrId != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<CourseUnitDetailPageView>(
+                    builder: (context) => CourseUnitDetailPageView(courseUnit),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      UniIcon(
-                        UniIcons.mapPin,
-                        color: isCurrentClass
-                            ? Theme.of(context).colorScheme.onSurfaceVariant
-                            : Theme.of(context).colorScheme.onSecondary,
-                        size: 12,
-                      ),
-                      const SizedBox(width: 3),
-                      Flexible(
-                        child: Text(
-                          lecture.room,
+                );
+              }
+            }
+          },
+          weekPageHeaderBuilder: WeekHeader.hidden,
+          minDay: earliestClass,
+          maxDay: latestClass,
+          startHour: 7,
+          hourIndicatorSettings: HourIndicatorSettings(
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(0x10),
+          ),
+          // small hour indicator on the left of the line that separates hours
+          timeLineBuilder: (date) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: DefaultTimeLineMark(
+                date: date,
+                markingStyle: Theme.of(context).textTheme.labelLarge,
+                timeStringBuilder: (date, {secondaryDate}) {
+                  return DateFormat.Hm().format(date);
+                },
+              ),
+            );
+          },
+          eventTileBuilder: (date, events, boundary, startDuration, endDuration) {
+            if (events.isEmpty) {
+              return const SizedBox.shrink();
+            }
+
+            final event = events.first;
+            final lecture = event.event;
+
+            if (lecture == null) {
+              return const SizedBox.shrink();
+            }
+
+            // Check if this is the current class
+            final isCurrentClass =
+                now.isAfter(lecture.startTime) && now.isBefore(lecture.endTime);
+
+            // Color is chosen basen on if a student has a class at the moment
+            final tileColor = isCurrentClass
+                ? Theme.of(context).colorScheme.tertiary
+                : Theme.of(context).colorScheme.secondary;
+
+            return Container(
+              margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+              decoration: BoxDecoration(
+                color: tileColor,
+                gradient: isCurrentClass
+                    ? RadialGradient(
+                        colors: [
+                          Theme.of(context).colorScheme.onTertiary,
+                          Theme.of(context).colorScheme.tertiary,
+                        ],
+                        center: Alignment.topLeft,
+                        radius: 2,
+                        stops: const [0, 1],
+                      )
+                    : null,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
+                    blurRadius: 2,
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Top section: acronym and type badge
+                    Column(
+                      children: [
+                        Text(
+                          lecture.acronym,
                           style: TextStyle(
                             color: isCurrentClass
                                 ? Theme.of(context).colorScheme.onSurfaceVariant
                                 : Theme.of(context).colorScheme.onSecondary,
-                            fontSize: 10,
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        const SizedBox(height: 1),
+                        Badge(
+                          label: Text(lecture.typeClass),
+                          backgroundColor: _getTypeClassColor(
+                            lecture.typeClass,
+                          ),
+                          textColor: Theme.of(context).colorScheme.primary,
+                        ),
+                        Text(
+                          '${_formatTime(lecture.startTime)} - ${_formatTime(lecture.endTime)}',
+                          style: TextStyle(
+                            color: isCurrentClass
+                                ? Theme.of(context).colorScheme.onSurfaceVariant
+                                : Theme.of(context).colorScheme.onSecondary,
+                            fontSize: 9,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          lecture.teacher,
+                          style: TextStyle(
+                            color: isCurrentClass
+                                ? Theme.of(context).colorScheme.onSurfaceVariant
+                                : Theme.of(context).colorScheme.onSecondary,
+                            fontSize: 9,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        UniIcon(
+                          UniIcons.mapPin,
+                          color: isCurrentClass
+                              ? Theme.of(context).colorScheme.onSurfaceVariant
+                              : Theme.of(context).colorScheme.onSecondary,
+                          size: 12,
+                        ),
+                        const SizedBox(width: 3),
+                        Flexible(
+                          child: Text(
+                            lecture.room,
+                            style: TextStyle(
+                              color: isCurrentClass
+                                  ? Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant
+                                  : Theme.of(context).colorScheme.onSecondary,
+                              fontSize: 10,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
-        weekTitleBackgroundColor: Theme.of(context).colorScheme.surface,
-        // change the weekday string (Seg, Ter, Qua, etc.)
-        weekDayStringBuilder: (weekDay) {
-          final locale = Localizations.localeOf(context);
-          final dateSymbols = DateFormat.EEEE(locale.toString()).dateSymbols;
-          final shortWeekdays = dateSymbols.SHORTWEEKDAYS;
+            );
+          },
+          weekTitleBackgroundColor: Theme.of(context).colorScheme.surface,
+          // change the weekday string (Seg, Ter, Qua, etc.)
+          weekDayStringBuilder: (weekDay) {
+            final locale = Localizations.localeOf(context);
+            final dateSymbols = DateFormat.EEEE(locale.toString()).dateSymbols;
+            final shortWeekdays = dateSymbols.SHORTWEEKDAYS;
 
-          return shortWeekdays[weekDay + 1].capitalize().substring(0, 3);
-        },
-        liveTimeIndicatorSettings: LiveTimeIndicatorSettings(
-          color: Theme.of(context).colorScheme.onSecondary,
+            return shortWeekdays[weekDay + 1].capitalize().substring(0, 3);
+          },
+          liveTimeIndicatorSettings: LiveTimeIndicatorSettings(
+            color: Theme.of(context).colorScheme.onSecondary,
+          ),
         ),
       ),
     );
