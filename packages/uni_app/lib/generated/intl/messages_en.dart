@@ -58,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "all_widgets_added": MessageLookupByLibrary.simpleMessage(
       "All available widgets have already been added to your personal area!",
     ),
+    "allow": MessageLookupByLibrary.simpleMessage("Allow"),
     "answer": MessageLookupByLibrary.simpleMessage("Answer"),
     "apply": MessageLookupByLibrary.simpleMessage("Apply"),
     "assessments": MessageLookupByLibrary.simpleMessage("Assessments"),
@@ -189,6 +190,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "exams_filter": MessageLookupByLibrary.simpleMessage(
       "Exams Filter Settings",
     ),
+    "exams_intro_message": MessageLookupByLibrary.simpleMessage(
+      "Stay always updated with your exams",
+    ),
     "exit_confirm": MessageLookupByLibrary.simpleMessage(
       "Do you really want to exit?",
     ),
@@ -288,6 +292,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "logout": MessageLookupByLibrary.simpleMessage("Log out"),
     "lunch": MessageLookupByLibrary.simpleMessage("Lunch"),
+    "map": MessageLookupByLibrary.simpleMessage("Map"),
+    "map_intro_message": MessageLookupByLibrary.simpleMessage(
+      "Explore the campus with our interactive map",
+    ),
     "menus": MessageLookupByLibrary.simpleMessage("Menus"),
     "min_value_reference": MessageLookupByLibrary.simpleMessage(
       "Minimum value: 1,00 €",
@@ -419,6 +427,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "No trips found at the moment",
     ),
     "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+    "notifications_intro_message": MessageLookupByLibrary.simpleMessage(
+      "Would you like to receive notifications regarding important updates and alerts, including fee deadlines?",
+    ),
     "now": MessageLookupByLibrary.simpleMessage("Now"),
     "occurrence_type": MessageLookupByLibrary.simpleMessage(
       "Type of occurrence",
@@ -473,9 +484,15 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "restaurant_period": m4,
     "restaurants": MessageLookupByLibrary.simpleMessage("Restaurants"),
+    "restaurants_intro_message": MessageLookupByLibrary.simpleMessage(
+      "Discover campus dining options and menus",
+    ),
     "room": MessageLookupByLibrary.simpleMessage("Room"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
     "schedule": MessageLookupByLibrary.simpleMessage("Schedule"),
+    "schedule_intro_message": MessageLookupByLibrary.simpleMessage(
+      "Keep track of your daily classes and activities",
+    ),
     "school_calendar": MessageLookupByLibrary.simpleMessage("School Calendar"),
     "search": MessageLookupByLibrary.simpleMessage("Search"),
     "see_more": MessageLookupByLibrary.simpleMessage("See more"),
@@ -486,7 +503,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "An error occurred in sending",
     ),
     "services": MessageLookupByLibrary.simpleMessage("Services"),
+    "services_intro_message": MessageLookupByLibrary.simpleMessage(
+      "Access various campus services at your fingertips",
+    ),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+    "skip": MessageLookupByLibrary.simpleMessage("Skip"),
     "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
     "some_error": MessageLookupByLibrary.simpleMessage("Some error!"),
     "spotted_an_error": MessageLookupByLibrary.simpleMessage(

@@ -62,6 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "all_widgets_added": MessageLookupByLibrary.simpleMessage(
       "Todos os widgets disponíveis já foram adicionados à tua área pessoal!",
     ),
+    "allow": MessageLookupByLibrary.simpleMessage("Permitir"),
     "answer": MessageLookupByLibrary.simpleMessage("Responder"),
     "apply": MessageLookupByLibrary.simpleMessage("Aplicar"),
     "assessments": MessageLookupByLibrary.simpleMessage("Avaliações"),
@@ -195,6 +196,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "exams_filter": MessageLookupByLibrary.simpleMessage(
       "Definições Filtro de Exames",
     ),
+    "exams_intro_message": MessageLookupByLibrary.simpleMessage(
+      "Mantém-te sempre atualizado com os teus exames",
+    ),
     "exit_confirm": MessageLookupByLibrary.simpleMessage(
       "Tem a certeza de que pretende sair?",
     ),
@@ -300,6 +304,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "logout": MessageLookupByLibrary.simpleMessage("Terminar sessão"),
     "lunch": MessageLookupByLibrary.simpleMessage("Almoço"),
+    "map": MessageLookupByLibrary.simpleMessage("Mapa"),
+    "map_intro_message": MessageLookupByLibrary.simpleMessage(
+      "Navega pelo campus com o nosso mapa interativo",
+    ),
     "menus": MessageLookupByLibrary.simpleMessage("Ementas"),
     "min_value_reference": MessageLookupByLibrary.simpleMessage(
       "Valor mínimo: 1,00 €",
@@ -441,6 +449,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Não há viagens planeadas de momento",
     ),
     "notifications": MessageLookupByLibrary.simpleMessage("Notificações"),
+    "notifications_intro_message": MessageLookupByLibrary.simpleMessage(
+      "Queres receber alertas de eventos e informações importantes, incluindo o prazo limite de propinas?",
+    ),
     "now": MessageLookupByLibrary.simpleMessage("Agora"),
     "occurrence_type": MessageLookupByLibrary.simpleMessage(
       "Tipo de ocorrência",
@@ -495,9 +506,15 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "restaurant_period": m4,
     "restaurants": MessageLookupByLibrary.simpleMessage("Restaurantes"),
+    "restaurants_intro_message": MessageLookupByLibrary.simpleMessage(
+      "Descobre as opções de restauração do campus e os menus",
+    ),
     "room": MessageLookupByLibrary.simpleMessage("Sala"),
     "save": MessageLookupByLibrary.simpleMessage("Guardar"),
     "schedule": MessageLookupByLibrary.simpleMessage("Aulas"),
+    "schedule_intro_message": MessageLookupByLibrary.simpleMessage(
+      "Mantém o controlo das tuas aulas e atividades diárias",
+    ),
     "school_calendar": MessageLookupByLibrary.simpleMessage(
       "Calendário Escolar",
     ),
@@ -510,7 +527,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ocorreu um erro no envio",
     ),
     "services": MessageLookupByLibrary.simpleMessage("Serviços"),
+    "services_intro_message": MessageLookupByLibrary.simpleMessage(
+      "Explora os serviços académicos disponíveis para ti",
+    ),
     "settings": MessageLookupByLibrary.simpleMessage("Definições"),
+    "skip": MessageLookupByLibrary.simpleMessage("Ignorar"),
     "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
     "some_error": MessageLookupByLibrary.simpleMessage("Algum erro!"),
     "spotted_an_error": MessageLookupByLibrary.simpleMessage(
