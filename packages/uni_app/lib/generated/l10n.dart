@@ -2001,6 +2001,71 @@ class S {
     return Intl.message('Calendar', name: 'calendar_view', desc: '', args: []);
   }
 
+  /// `Map`
+  String get map {
+    return Intl.message('Map', name: 'map', desc: '', args: []);
+  }
+
+  /// `Stay always updated with your exams`
+  String get exams_intro_message {
+    return Intl.message(
+      'Stay always updated with your exams',
+      name: 'exams_intro_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keep track of your daily classes and activities`
+  String get schedule_intro_message {
+    return Intl.message(
+      'Keep track of your daily classes and activities',
+      name: 'schedule_intro_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discover campus dining options and menus`
+  String get restaurants_intro_message {
+    return Intl.message(
+      'Discover campus dining options and menus',
+      name: 'restaurants_intro_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Access various campus services at your fingertips`
+  String get services_intro_message {
+    return Intl.message(
+      'Access various campus services at your fingertips',
+      name: 'services_intro_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Explore the campus with our interactive map`
+  String get map_intro_message {
+    return Intl.message(
+      'Explore the campus with our interactive map',
+      name: 'map_intro_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Would you like to receive notifications regarding important updates and alerts, including fee deadlines?`
+  String get notifications_intro_message {
+    return Intl.message(
+      'Would you like to receive notifications regarding important updates and alerts, including fee deadlines?',
+      name: 'notifications_intro_message',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Nationalities`
   String get nationalities {
     return Intl.message(
@@ -2224,6 +2289,16 @@ class S {
   /// `Edit`
   String get edit_homepage {
     return Intl.message('Edit', name: 'edit_homepage', desc: '', args: []);
+  }
+
+  /// `Skip`
+  String get skip {
+    return Intl.message('Skip', name: 'skip', desc: '', args: []);
+  }
+
+  /// `Allow`
+  String get allow {
+    return Intl.message('Allow', name: 'allow', desc: '', args: []);
   }
 }
 
