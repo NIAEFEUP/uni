@@ -130,10 +130,7 @@ class ScheduleListView extends ConsumerWidget {
             .toList(),
         initialTab:
             (todayIndex != -1 &&
-                _lecturesOfDay(
-                  lectures,
-                  reorderedDates[todayIndex],
-                ).isNotEmpty)
+                _lecturesOfDay(lectures, reorderedDates[todayIndex]).isNotEmpty)
             ? todayIndex
             : reorderedDates.indexWhere(
                 (date) =>

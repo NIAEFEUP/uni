@@ -22,8 +22,9 @@ class SchedulePageView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ScheduleViewMode selectedView =
-        ref.watch<ScheduleViewMode>(scheduleViewModeProvider);
+    final ScheduleViewMode selectedView = ref.watch<ScheduleViewMode>(
+      scheduleViewModeProvider,
+    );
 
     return selectedView == ScheduleViewMode.list
         ? ScheduleListView(
