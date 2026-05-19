@@ -32,8 +32,8 @@ class CertificatesCard extends StatelessWidget {
       blurRadius: 1,
       onClick: onTap,
       padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 20, 12),
-      child: SizedBox(
-        height: 72,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 72),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -45,7 +45,7 @@ class CertificatesCard extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(

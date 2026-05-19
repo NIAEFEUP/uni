@@ -166,7 +166,7 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
             Padding(
               padding: const EdgeInsets.only(top: 16),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
                     child: Text(
