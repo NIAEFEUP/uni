@@ -8,9 +8,10 @@ import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/session/flows/base/session.dart';
 
 class PaymentWebView extends ConsumerStatefulWidget {
-  const PaymentWebView({super.key, required this.url});
+  const PaymentWebView({super.key, required this.url, this.onGatewayEntered});
 
   final String url;
+  final VoidCallback? onGatewayEntered;
 
   @override
   ConsumerState<PaymentWebView> createState() => _PaymentWebViewState();
@@ -19,6 +20,7 @@ class PaymentWebView extends ConsumerStatefulWidget {
 class _PaymentWebViewState extends ConsumerState<PaymentWebView> {
   bool isLoading = true;
   Session? session;
+  bool _hasEnteredGateway = false;
 
   @override
   void initState() {
@@ -59,7 +61,9 @@ class _PaymentWebViewState extends ConsumerState<PaymentWebView> {
               if (session != null)
                 InAppWebView(
                   initialUrlRequest: URLRequest(url: WebUri(widget.url)),
-                  initialSettings: InAppWebViewSettings(),
+                  initialSettings: InAppWebViewSettings(
+                    useShouldOverrideUrlLoading: true,
+                  ),
                   gestureRecognizers: const {
                     Factory<VerticalDragGestureRecognizer>(
                       VerticalDragGestureRecognizer.new,
@@ -81,6 +85,37 @@ class _PaymentWebViewState extends ConsumerState<PaymentWebView> {
                       );
                     }
                   },
+                  shouldOverrideUrlLoading:
+                      (controller, navigationAction) async {
+                        final url =
+                            navigationAction.request.url?.toString() ?? '';
+
+                        if (url.contains('/payment-gateway/')) {
+                          if (!_hasEnteredGateway) {
+                            _hasEnteredGateway = true;
+
+                            await Future.microtask(() {
+                              widget.onGatewayEntered?.call();
+                            });
+                          }
+
+                          return NavigationActionPolicy.ALLOW;
+                        }
+
+                        if (_hasEnteredGateway && url.contains('sigarra.up')) {
+                          if (mounted) {
+                            Navigator.of(context).pop(true);
+                          }
+
+                          return NavigationActionPolicy.CANCEL;
+                        }
+
+                        if (url.contains('sigarra.up')) {
+                          return NavigationActionPolicy.ALLOW;
+                        }
+
+                        return NavigationActionPolicy.CANCEL;
+                      },
                   onLoadStop: (controller, url) async {
                     final urlString = url?.toString() ?? '';
 
@@ -88,7 +123,6 @@ class _PaymentWebViewState extends ConsumerState<PaymentWebView> {
                       setState(() {
                         isLoading = false;
                       });
-                      return;
                     }
 
                     await controller.evaluateJavascript(

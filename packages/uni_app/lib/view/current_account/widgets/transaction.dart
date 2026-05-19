@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/providers/riverpod/current_account_provider.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/view/current_account/widgets/payment_webview.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/icons.dart';
@@ -137,8 +139,10 @@ class Transaction extends ConsumerWidget {
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     visualDensity: VisualDensity.compact,
                   ),
-                  onPressed: () {
-                    showModalBottomSheet<void>(
+                  onPressed: () async {
+                    var userInteractedWithGateway = false;
+
+                    await showModalBottomSheet<bool>(
                       context: context,
                       isScrollControlled: true,
                       backgroundColor: Colors.transparent,
@@ -151,9 +155,24 @@ class Transaction extends ConsumerWidget {
                         ),
                         clipBehavior: Clip.antiAliasWithSaveLayer,
                         height: MediaQuery.sizeOf(context).height * 0.9,
-                        child: PaymentWebView(url: paymentLink!),
+                        child: PaymentWebView(
+                          url: paymentLink!,
+                          onGatewayEntered: () {
+                            userInteractedWithGateway = true;
+                          },
+                        ),
                       ),
                     );
+
+                    if (!context.mounted) {
+                      return;
+                    }
+
+                    if (userInteractedWithGateway) {
+                      ref
+                        ..invalidate(currentAccountProvider)
+                        ..invalidate(profileProvider);
+                    }
                   },
                   child: Text(
                     S.of(context).pay,

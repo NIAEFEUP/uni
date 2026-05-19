@@ -29,7 +29,14 @@ class CurrentAccountPageViewState
       S.of(context).nav_title(NavigationItem.navCurrentAccount.route);
 
   @override
-  Future<void> onRefresh() async {}
+  Future<void> onRefresh() async {
+    ref
+      ..invalidate(currentAccountProvider)
+      ..invalidate(profileProvider);
+
+    await ref.read(currentAccountProvider.future);
+    await ref.read(profileProvider.future);
+  }
 
   List<dynamic> _filterTuition(
     List<Unpaid> unpaid,
