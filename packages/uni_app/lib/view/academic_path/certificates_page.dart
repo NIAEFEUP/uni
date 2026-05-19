@@ -8,11 +8,11 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/providers/riverpod/certificates_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/view/widgets/general_error_view.dart';
-import 'package:uni/view/widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
+import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/widgets/toast_message.dart';
 import 'package:uni_ui/cards/certificates_card.dart';
 
-class CertificatesPage extends ConsumerWidget {
+class CertificatesPage extends ConsumerStatefulWidget {
   const CertificatesPage({
     required this.course,
     required this.courseAbbreviation,
@@ -23,58 +23,61 @@ class CertificatesPage extends ConsumerWidget {
   final String courseAbbreviation;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final certificatesAsync = ref.watch(certificatesProvider(course));
+  ConsumerState<CertificatesPage> createState() => _CertificatesPageState();
+}
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: AppTopNavbar(
-        title: S.of(context).certificates,
-        subtitle: courseAbbreviation,
-        centerTitle: true,
-        leftButton: BackButton(
-          style: ButtonStyle(
-            iconColor: WidgetStateProperty.all(
-              Theme.of(context).colorScheme.onSecondary,
-            ),
-          ),
-        ),
-      ),
-      body: certificatesAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => const GeneralErrorView(),
-        data: (certificates) {
-          if (certificates.isEmpty) {
-            return Center(
-              child: Text(S.of(context).no_certificates_for_course),
-            );
-          }
+class _CertificatesPageState extends SecondaryPageViewState<CertificatesPage> {
+  @override
+  String? getTitle() => S.of(context).certificates;
 
-          return ListView.separated(
-            padding: const EdgeInsets.all(16),
-            itemCount: certificates.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 8),
-            itemBuilder: (context, index) {
-              final certificate = certificates[index];
-              return CertificatesCard(
-                type: certificate.type,
-                subtitle: _buildSubtitle(context, certificate),
-                delivered: certificate.isDelivered,
-                canceled: certificate.isCanceled,
-                onTap: certificate.downloadUrl == null
-                    ? null
-                    : () => _downloadCertificate(context, ref, certificate),
-              );
-            },
+  @override
+  String? getSubtitle() => widget.courseAbbreviation;
+
+  @override
+  Widget getBody(BuildContext context) {
+    final certificatesAsync = ref.watch(certificatesProvider(widget.course));
+
+    return certificatesAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (_, __) => const GeneralErrorView(),
+      data: (certificates) {
+        if (certificates.isEmpty) {
+          return Center(
+            child: Text(S.of(context).no_certificates_for_course),
           );
-        },
-      ),
+        }
+
+        return ListView.builder(
+          padding: const EdgeInsets.all(16),
+          itemCount: certificates.length * 2 - 1,
+          itemBuilder: (context, index) {
+            if (index.isOdd) {
+              return const SizedBox(height: 8);
+            }
+
+            final certificate = certificates[index ~/ 2];
+            return CertificatesCard(
+              type: certificate.type,
+              subtitle: _buildSubtitle(context, certificate),
+              delivered: certificate.isDelivered,
+              canceled: certificate.isCanceled,
+              onTap: certificate.downloadUrl == null
+                  ? null
+                  : () => _downloadCertificate(context, certificate),
+            );
+          },
+        );
+      },
     );
+  }
+
+  @override
+  Future<void> onRefresh() async {
+    ref.invalidate(certificatesProvider(widget.course));
   }
 
   Future<void> _downloadCertificate(
     BuildContext context,
-    WidgetRef ref,
     Certificate certificate,
   ) async {
     final downloadUrl = certificate.downloadUrl;
