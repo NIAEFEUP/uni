@@ -31,11 +31,11 @@ class LectureNotifier extends CachedAsyncNotifier<List<Lecture>> {
     final lectures = (await _getLectures(session)).toSet().toList();
 
     try {
-      Database().saveLectures(lectures);
-    } catch (e, st) {
+      await Database().saveLectures(lectures);
+    } catch (err, st) {
       Logger().e(
         'Failed to save lectures to local database',
-        error: e,
+        error: err,
         stackTrace: st,
       );
     }

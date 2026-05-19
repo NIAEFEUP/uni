@@ -93,6 +93,7 @@ class UniIcons {
 
   static const courseUnit = PhosphorIconsDuotone.chalkboardTeacher;
 
+  static const userIcon = PhosphorIconsDuotone.userCircle;
   static const warning = PhosphorIconsDuotone.warningOctagon;
 
   // current account icons

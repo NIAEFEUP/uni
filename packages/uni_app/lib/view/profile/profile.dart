@@ -6,6 +6,7 @@ import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/profile/profile_shimmer.dart';
+import 'package:uni/view/profile/widgets/profile_info.dart';
 import 'package:uni/view/profile/widgets/profile_overview.dart';
 import 'package:uni/view/profile/widgets/settings.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
@@ -28,7 +29,12 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
       children: [
         DefaultConsumer<Profile>(
           provider: profileProvider,
-          builder: (context, ref, profile) => ProfileOverview(profile: profile),
+          builder: (context, ref, profile) => Column(
+            children: [
+              ProfileOverview(profile: profile),
+              const ProfileInfoWidget(),
+            ],
+          ),
           hasContent: (profile) => profile.courses.isNotEmpty,
           loadingWidget: const ProfileCardShimmer(),
           nullContentWidget: Container(),

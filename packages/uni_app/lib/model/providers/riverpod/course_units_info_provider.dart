@@ -246,7 +246,7 @@ class CourseUnitsInfoNotifier
             }
           }
         }
-      } catch (e) {
+      } catch (err) {
         continue;
       }
     }
