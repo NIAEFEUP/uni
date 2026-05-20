@@ -89,15 +89,39 @@ class MapPageStateView extends ConsumerState<MapPage> {
     }
 
     final hasRoomSearchResults = matchingRoomsByFloor.isNotEmpty;
+
+    final filteredLocations = List<LocationGroup>.from(locations);
+    final matchingLocationFloors = <int>{};
+    if (normalizedSearchTerm.isNotEmpty) {
+      filteredLocations.retainWhere((location) {
+        var match = false;
+        location.floors.forEach((floor, locs) {
+          if (locs.any((loc) => _normalizeSearchText(loc.description(context))
+              .contains(normalizedSearchTerm))) {
+            match = true;
+            matchingLocationFloors.add(floor);
+          }
+        });
+        return match;
+      });
+    }
+
+    final hasLocationSearchResults = matchingLocationFloors.isNotEmpty;
     var effectiveFloor = _selectedFloor;
-    if (hasRoomSearchResults) {
+    if (hasRoomSearchResults || hasLocationSearchResults) {
+      final matchingFloors = {
+        ...matchingRoomsByFloor.keys,
+        ...matchingLocationFloors,
+      };
       if (_selectedFloor != null &&
-          matchingRoomsByFloor.containsKey(_selectedFloor)) {
+          matchingFloors.contains(_selectedFloor)) {
         effectiveFloor = _selectedFloor;
       } else {
-        final candidateFloors = matchingRoomsByFloor.keys.toList()
+        final candidateFloors = matchingFloors.toList()
           ..sort((a, b) => b.compareTo(a));
-        effectiveFloor = candidateFloors.first;
+        if (candidateFloors.isNotEmpty) {
+          effectiveFloor = candidateFloors.first;
+        }
       }
     }
     final shouldShowIndoorLayer = _showIndoorLayer || hasRoomSearchResults;
@@ -116,20 +140,9 @@ class MapPageStateView extends ConsumerState<MapPage> {
     }
     final bounds = _bounds ?? fallbackBounds;
 
-    final filteredLocations = List<LocationGroup>.from(locations);
-    if (normalizedSearchTerm.isNotEmpty) {
+    if (effectiveFloor != null) {
       filteredLocations.retainWhere((location) {
-        final allLocations = location.floors.values.expand((x) => x);
-        return allLocations.any((loc) {
-          return _normalizeSearchText(
-            loc.description(context),
-          ).contains(normalizedSearchTerm);
-        });
-      });
-    }
-    if (_selectedFloor != null) {
-      filteredLocations.retainWhere((location) {
-        return location.floors.containsKey(_selectedFloor);
+        return location.floors.containsKey(effectiveFloor);
       });
     }
     if (_selectedAmenity != null) {
@@ -201,10 +214,10 @@ class MapPageStateView extends ConsumerState<MapPage> {
               IndoorFloorLayer(
                 floorPlans: indoorPlans,
                 selectedFloor: effectiveFloor,
-                roomFilter: hasRoomSearchResults
+                roomFilter: normalizedSearchTerm.isNotEmpty
                     ? (room) => _matchesRoomSearch(room, normalizedSearchTerm)
                     : null,
-                hasSearchContent: hasRoomSearchResults,
+                hasSearchContent: normalizedSearchTerm.isNotEmpty,
               ),
             PopupMarkerLayer(
               options: PopupMarkerLayerOptions(
@@ -212,7 +225,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                   return LocationMarker(
                     cluster.locationGroup.latlng,
                     cluster.locationGroup,
-                    selectedFloor: _selectedFloor,
+                    selectedFloor: effectiveFloor,
                     additionalCount: cluster.additionalAmenities,
                   );
                 }).toList(),
