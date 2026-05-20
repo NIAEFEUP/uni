@@ -40,7 +40,7 @@ class ExamNotifier extends CachedAsyncNotifier<List<Exam>> {
     final exams = await ExamFetcher(profile.courseUnits).extractExams(session);
 
     exams.sort((exam1, exam2) => exam1.start.compareTo(exam2.start));
-    Database().saveExams(exams);
+    await Database().saveExams(exams);
     return exams;
   }
 }

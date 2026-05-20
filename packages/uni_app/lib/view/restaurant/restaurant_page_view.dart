@@ -23,8 +23,8 @@ import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
 import 'package:uni_ui/common_widgets/empty_state_widget.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
+import 'package:uni_ui/modal/widgets/header_info.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
-import 'package:uni_ui/modal/widgets/service_info.dart';
 
 class RestaurantPageView extends ConsumerStatefulWidget {
   const RestaurantPageView({super.key});
@@ -317,7 +317,7 @@ class _RestaurantPageViewState
                   builder: (context) {
                     return ModalDialog(
                       children: [
-                        ModalServiceInfo(
+                        ModalHeader(
                           name: restaurant.namePt,
                           durations: restaurant.openingHours
                             ..sort((a, b) => a.compareTo(b)),

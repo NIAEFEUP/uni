@@ -21,6 +21,24 @@ class Settings extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          GenericCard(
+            tooltip: S.of(context).user_informations,
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            child: ProfileListTile(
+              icon: UniIcons.userIcon,
+              title: S.of(context).user_informations,
+              trailing: UniIcon(
+                UniIcons.caretRight,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  '/${NavigationItem.navProfileInfo.route}',
+                );
+              },
+            ),
+          ),
           Text(
             S.of(context).settings,
             style: Theme.of(context).textTheme.headlineLarge,

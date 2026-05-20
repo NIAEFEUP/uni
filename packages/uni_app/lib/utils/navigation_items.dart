@@ -17,7 +17,10 @@ enum NavigationItem {
   navLogin('login'),
   navBugreport('bug_report'),
   navSplash('splash'),
-  navAboutus('sobre_nos');
+  navAboutus('sobre_nos'),
+  navCurrentAccount('conta_corrente'),
+  navIntroduction('introducao'),
+  navProfileInfo('informacoes_pessoais');
 
   const NavigationItem(this.route, {this.faculties});
 
