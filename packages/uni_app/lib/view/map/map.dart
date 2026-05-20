@@ -96,8 +96,11 @@ class MapPageStateView extends ConsumerState<MapPage> {
       filteredLocations.retainWhere((location) {
         var match = false;
         location.floors.forEach((floor, locs) {
-          if (locs.any((loc) => _normalizeSearchText(loc.description(context))
-              .contains(normalizedSearchTerm))) {
+          if (locs.any(
+            (loc) => _normalizeSearchText(
+              loc.description(context),
+            ).contains(normalizedSearchTerm),
+          )) {
             match = true;
             matchingLocationFloors.add(floor);
           }
@@ -113,8 +116,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
         ...matchingRoomsByFloor.keys,
         ...matchingLocationFloors,
       };
-      if (_selectedFloor != null &&
-          matchingFloors.contains(_selectedFloor)) {
+      if (_selectedFloor != null && matchingFloors.contains(_selectedFloor)) {
         effectiveFloor = _selectedFloor;
       } else {
         final candidateFloors = matchingFloors.toList()
