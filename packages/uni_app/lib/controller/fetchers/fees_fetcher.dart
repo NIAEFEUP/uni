@@ -1,6 +1,8 @@
 import 'package:http/http.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/controller/parsers/parser_current_account.dart';
+import 'package:uni/model/entities/current_account.dart';
 import 'package:uni/session/flows/base/session.dart';
 
 class FeesFetcher implements SessionDependantFetcher {
@@ -18,5 +20,18 @@ class FeesFetcher implements SessionDependantFetcher {
     final url = getEndpoints(session)[0];
     final query = {'pct_cod': session.username};
     return NetworkRouter.getWithCookies(url, query, session);
+  }
+
+  Future<(List<Unpaid>, List<AccountStatement>)> extractCurrentAccount(
+    Session session,
+    CurrentAccountParser parser,
+  ) async {
+    final response = await getUserFeesResponse(session);
+
+    final unpaid = parser.parseUnpaid(response);
+
+    final accountStatement = parser.parseAccountStatement(response);
+
+    return (unpaid, accountStatement);
   }
 }

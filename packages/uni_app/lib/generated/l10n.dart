@@ -797,7 +797,7 @@ class S {
     );
   }
 
-  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} mapa{Map} faculdade{Faculty} bug_report{Leave Feedback} other{Other}}`
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} mapa{Map} faculdade{Faculty} bug_report{Leave Feedback} conta_corrente{Current Account} other{Other}}`
   String nav_title(Object title) {
     return Intl.select(
       title,
@@ -815,6 +815,7 @@ class S {
         'mapa': 'Map',
         'faculdade': 'Faculty',
         'bug_report': 'Leave Feedback',
+        'conta_corrente': 'Current Account',
         'other': 'Other',
       },
       name: 'nav_title',
@@ -2206,6 +2207,196 @@ class S {
     );
   }
 
+  /// `Current Account`
+  String get current_account {
+    return Intl.message(
+      'Current Account',
+      name: 'current_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Track your fees, due dates and payment history.`
+  String get current_account_description {
+    return Intl.message(
+      'Track your fees, due dates and payment history.',
+      name: 'current_account_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Overview`
+  String get overview {
+    return Intl.message('Overview', name: 'overview', desc: '', args: []);
+  }
+
+  /// `Upcoming Due`
+  String get upcoming_due {
+    return Intl.message(
+      'Upcoming Due',
+      name: 'upcoming_due',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transactions`
+  String get transactions {
+    return Intl.message(
+      'Transactions',
+      name: 'transactions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending`
+  String get pending {
+    return Intl.message('Pending', name: 'pending', desc: '', args: []);
+  }
+
+  /// `Tuition Fees`
+  String get tuition_fees {
+    return Intl.message(
+      'Tuition Fees',
+      name: 'tuition_fees',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `General History`
+  String get general_history {
+    return Intl.message(
+      'General History',
+      name: 'general_history',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your total outstanding balance`
+  String get balance_description {
+    return Intl.message(
+      'Your total outstanding balance',
+      name: 'balance_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Due date for your next payment`
+  String get fee_date_description {
+    return Intl.message(
+      'Due date for your next payment',
+      name: 'fee_date_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Funds for university printing services`
+  String get print_balance_description {
+    return Intl.message(
+      'Funds for university printing services',
+      name: 'print_balance_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Interest on late payments`
+  String get interest_on_late_payments {
+    return Intl.message(
+      'Interest on late payments',
+      name: 'interest_on_late_payments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Due in`
+  String get due_in {
+    return Intl.message('Due in', name: 'due_in', desc: '', args: []);
+  }
+
+  /// `No records`
+  String get no_records {
+    return Intl.message('No records', name: 'no_records', desc: '', args: []);
+  }
+
+  /// `Try refreshing the page or check back later.`
+  String get no_current_account_info {
+    return Intl.message(
+      'Try refreshing the page or check back later.',
+      name: 'no_current_account_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All caught up!`
+  String get no_pending_label {
+    return Intl.message(
+      'All caught up!',
+      name: 'no_pending_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have no pending payments.`
+  String get no_pending_sublabel {
+    return Intl.message(
+      'You have no pending payments.',
+      name: 'no_pending_sublabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nothing here yet`
+  String get no_history_label {
+    return Intl.message(
+      'Nothing here yet',
+      name: 'no_history_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your payment history will appear here.`
+  String get no_history_sublabel {
+    return Intl.message(
+      'Your payment history will appear here.',
+      name: 'no_history_sublabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No tuition fees found`
+  String get no_tuition_fees_label {
+    return Intl.message(
+      'No tuition fees found',
+      name: 'no_tuition_fees_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your tuition fee records will appear here.`
+  String get no_tuition_fees_sublabel {
+    return Intl.message(
+      'Your tuition fee records will appear here.',
+      name: 'no_tuition_fees_sublabel',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Select the type of feedback`
   String get feedback_type_title_section {
     return Intl.message(
@@ -2289,6 +2480,31 @@ class S {
   /// `Edit`
   String get edit_homepage {
     return Intl.message('Edit', name: 'edit_homepage', desc: '', args: []);
+  }
+
+  /// `Pay`
+  String get pay {
+    return Intl.message('Pay', name: 'pay', desc: '', args: []);
+  }
+
+  /// `No records for this filter.`
+  String get no_records_for_filter {
+    return Intl.message(
+      'No records for this filter.',
+      name: 'no_records_for_filter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Session expired`
+  String get session_expired {
+    return Intl.message(
+      'Session expired',
+      name: 'session_expired',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Skip`

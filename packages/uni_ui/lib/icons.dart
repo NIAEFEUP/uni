@@ -95,6 +95,12 @@ class UniIcons {
 
   static const userIcon = PhosphorIconsDuotone.userCircle;
   static const warning = PhosphorIconsDuotone.warningOctagon;
+
+  // current account icons
+  static const piggyBank = PhosphorIconsDuotone.piggyBank;
+  static const calendarDots = PhosphorIconsDuotone.calendarDots;
+  static const bank = PhosphorIconsDuotone.bank;
+  static const coins = PhosphorIconsDuotone.coins;
 }
 
 // The same as default Icon class from material.dart but allowing to use PhosphorIcons duotone icons
