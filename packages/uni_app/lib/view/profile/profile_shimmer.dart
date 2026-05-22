@@ -56,7 +56,6 @@ class ProfileCardShimmer extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 0),
         ],
       ),
     );
