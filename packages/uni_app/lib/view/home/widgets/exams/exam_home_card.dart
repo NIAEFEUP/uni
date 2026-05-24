@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
@@ -39,11 +41,14 @@ class ExamHomeCard extends GenericHomecard {
         return DefaultConsumer<List<Exam>>(
           provider: examProvider,
           builder: (context, ref, allExams) {
+            final appLocale = ref.watch(
+              localeProvider.select((value) => value),
+            );
             final visibleExams = getVisibleExams(
               allExams,
               hiddenExams,
             ).take(2).toList();
-            final items = buildTimelineItems(ref, visibleExams);
+            final items = buildTimelineItems(ref, visibleExams, appLocale);
 
             return CardTimeline(items: items.toList());
           },
@@ -74,7 +79,11 @@ class ExamHomeCard extends GenericHomecard {
     return allExams.where((exam) => !hiddenExamsSet.contains(exam.id));
   }
 
-  List<TimelineItem> buildTimelineItems(WidgetRef ref, List<Exam> exams) {
+  List<TimelineItem> buildTimelineItems(
+    WidgetRef ref,
+    List<Exam> exams,
+    AppLocale appLocale,
+  ) {
     final locale = ref.watch(localeProvider);
     final groups = _groupExamsByDay(exams);
 
@@ -82,7 +91,8 @@ class ExamHomeCard extends GenericHomecard {
       final firstExam = group.first;
 
       return TimelineItem(
-        title: firstExam.start.day.toString(),
+        title:
+            '${_formatWeekday(firstExam.start, appLocale)} ${firstExam.start.day}',
         subtitle: firstExam.start.shortMonth(locale).capitalize(),
         card: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -132,5 +142,10 @@ class ExamHomeCard extends GenericHomecard {
       '/${NavigationItem.navAcademicPath.route}',
       arguments: 2,
     );
+  }
+
+  String _formatWeekday(DateTime date, AppLocale locale) {
+    final weekday = DateFormat.E(locale.localeCode.languageCode).format(date);
+    return weekday[0].toUpperCase() + weekday.substring(1).toLowerCase();
   }
 }
