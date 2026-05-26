@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/locations/atm.dart';
 import 'package:uni/model/entities/locations/coffee_machine.dart';
@@ -11,19 +12,32 @@ import 'package:uni/model/entities/locations/wc_location.dart';
 import 'package:uni_ui/icons.dart';
 
 enum AmenityFilter {
-  coffee('Coffee', UniIcons.coffee),
-  restaurants('Restaurants', UniIcons.restaurant),
-  snacks('Snacks', UniIcons.cookie),
-  atm('ATM', UniIcons.money),
-  printer('Printer', UniIcons.printer),
-  wc('WC', UniIcons.toilet),
-  parking('Parking', UniIcons.carPark),
-  store('Stores', UniIcons.storefront);
+  coffee(UniIcons.coffee),
+  restaurants(UniIcons.restaurant),
+  snacks(UniIcons.cookie),
+  atm(UniIcons.money),
+  printer(UniIcons.printer),
+  wc(UniIcons.toilet),
+  parking(UniIcons.carPark),
+  store(UniIcons.storefront);
 
-  const AmenityFilter(this.label, this.icon);
+  const AmenityFilter(this.icon);
 
-  final String label;
   final IconData icon;
+
+  String label(BuildContext context) {
+    final strings = S.of(context);
+    return switch (this) {
+      AmenityFilter.coffee => strings.coffee_machine,
+      AmenityFilter.restaurants => strings.restaurants,
+      AmenityFilter.snacks => strings.snacks,
+      AmenityFilter.atm => strings.atm,
+      AmenityFilter.printer => strings.printer,
+      AmenityFilter.wc => strings.wc,
+      AmenityFilter.parking => strings.parking,
+      AmenityFilter.store => strings.stores,
+    };
+  }
 
   bool matches(Location location) {
     return switch (this) {
@@ -122,7 +136,7 @@ class _AmenityChip extends StatelessWidget {
                 ),
                 const SizedBox(width: 6),
                 Text(
-                  amenity.label,
+                  amenity.label(context),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: isSelected
                         ? Theme.of(context).colorScheme.onSurfaceVariant

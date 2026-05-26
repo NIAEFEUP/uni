@@ -536,7 +536,7 @@
   "@printer": {},
   "wc": "Casa de banho",
   "@wc": {},
-  "parking": "parque automóvel",
+  "parking": "Parque automóvel",
   "@parking": {},
   "shop": "loja",
   "@shop": {},
@@ -609,5 +609,9 @@
   "skip": "Ignorar",
   "@skip": {},
   "allow": "Permitir",
-  "@allow": {}
+  "@allow": {},
+  "snacks": "Snacks",
+  "@snacks": {},
+  "stores": "Lojas",
+  "@stores": {}
 }

@@ -607,5 +607,9 @@
   "skip": "Skip",
   "@skip": {},
   "allow": "Allow",
-  "@allow": {}
+  "@allow": {},
+  "snacks": "Snacks",
+  "@snacks": {},
+  "stores": "Stores",
+  "@stores": {}
 }
