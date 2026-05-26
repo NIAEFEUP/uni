@@ -68,7 +68,7 @@ class LocationFetcherOSM extends LocationFetcher {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'User-Agent': 'uni_app/map_fetcher (uni)',
               },
-              body: 'data=$query',
+              body: {'data': query},
             )
             .timeout(const Duration(seconds: 90));
 

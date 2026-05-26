@@ -71,7 +71,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
     );
     final isIndoorPlansLoaded = indoorPlansAsync.hasValue;
 
-    final isMapLoading = isLocationsLoading || !isIndoorPlansLoaded;
+    final isMapLoading = isLocationsLoading || indoorPlansAsync.isLoading;
     final normalizedSearchTerm = _searchTerms.trim();
 
     final matchingRoomsByFloor = <int, List<IndoorRoom>>{};
