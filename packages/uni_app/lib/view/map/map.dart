@@ -103,7 +103,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
         var match = false;
         location.floors.forEach((floor, locs) {
           if (locs.any(
-                (loc) => _normalizeSearchText(
+            (loc) => _normalizeSearchText(
               loc.description(context),
             ).contains(normalizedSearchTerm),
           )) {
@@ -160,7 +160,8 @@ class MapPageStateView extends ConsumerState<MapPage> {
       });
     }
 
-    final shouldUseCachedClusters = identical(_memoizedLocations, locations) &&
+    final shouldUseCachedClusters =
+        identical(_memoizedLocations, locations) &&
         _memoizedSearchTerm == normalizedSearchTerm &&
         _memoizedEffectiveFloor == effectiveFloor &&
         _memoizedAmenity == _selectedAmenity &&
@@ -197,7 +198,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
             ? Brightness.dark
             : Brightness.light,
         systemNavigationBarIconBrightness:
-        Theme.of(context).brightness == Brightness.dark
+            Theme.of(context).brightness == Brightness.dark
             ? Brightness.light
             : Brightness.dark,
       ),
@@ -228,7 +229,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                   : 'https://basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
               tileProvider: NetworkTileProvider(
                 cachingProvider:
-                BuiltInMapCachingProvider.getOrCreateInstance(),
+                    BuiltInMapCachingProvider.getOrCreateInstance(),
               ),
               retinaMode: RetinaMode.isHighDensity(context),
               maxNativeZoom: 20,
