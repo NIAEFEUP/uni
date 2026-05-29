@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/view/pedagogical_surveys_dialog.dart';
@@ -53,6 +54,26 @@ class PageTransition {
       maintainState: maintainState,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return FadeTransition(opacity: animation, child: child);
+      },
+    );
+  }
+
+  static Route<Widget> introductionTransitionRoute({
+    required Widget page,
+    required RouteSettings settings,
+    bool maintainState = true,
+  }) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      settings: settings,
+      maintainState: maintainState,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SharedAxisTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          transitionType: SharedAxisTransitionType.vertical,
+          child: child,
+        );
       },
     );
   }

@@ -56,6 +56,25 @@ class SessionNotifier extends CachedAsyncNotifier<Session?> {
     return newSession;
   }
 
+  Future<Session?> refreshSilently() async {
+    if (state.value == null) {
+      return null;
+    }
+
+    final oldSnapshot = await controller.snapshot;
+    await oldSnapshot.invalidate();
+
+    final newSnapshot = await controller.snapshot;
+    final newSession = newSnapshot.session;
+
+    if (await PreferencesController.isSessionPersistent()) {
+      await PreferencesController.saveSession(newSession);
+    }
+
+    updateState(newSession);
+    return newSession;
+  }
+
   Future<void> login(
     SessionInitiator initiator, {
     required bool persistentSession,

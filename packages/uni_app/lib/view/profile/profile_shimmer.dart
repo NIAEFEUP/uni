@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:uni_ui/common/generic_squircle.dart';
 
 class ProfileCardShimmer extends StatelessWidget {
   const ProfileCardShimmer({super.key, this.name});
@@ -22,10 +21,10 @@ class ProfileCardShimmer extends StatelessWidget {
               shape: BoxShape.circle,
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 18),
           Container(
             width: width,
-            height: 21,
+            height: 20,
             decoration: const BoxDecoration(color: Colors.white),
           ),
           const SizedBox(height: 5),
@@ -34,7 +33,7 @@ class ProfileCardShimmer extends StatelessWidget {
             height: 12,
             decoration: const BoxDecoration(color: Colors.white),
           ),
-          const SizedBox(height: 13),
+          const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -57,39 +56,6 @@ class ProfileCardShimmer extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GenericSquircle(
-                borderRadius: 20,
-                child: SizedBox(
-                  width: 75,
-                  height: 58,
-                  child: Container(color: Colors.white),
-                ),
-              ),
-              const SizedBox(width: 7),
-              GenericSquircle(
-                borderRadius: 20,
-                child: SizedBox(
-                  width: 100,
-                  height: 58,
-                  child: Container(color: Colors.white),
-                ),
-              ),
-              const SizedBox(width: 7),
-              GenericSquircle(
-                borderRadius: 20,
-                child: SizedBox(
-                  width: 143,
-                  height: 58,
-                  child: Container(color: Colors.white),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
         ],
       ),
     );

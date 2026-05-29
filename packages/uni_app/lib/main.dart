@@ -29,9 +29,11 @@ import 'package:uni/view/academic_path/academic_path.dart';
 import 'package:uni/view/bug_report/bug_report.dart';
 import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
+import 'package:uni/view/current_account/current_account.dart';
 import 'package:uni/view/faculty/faculty.dart';
 import 'package:uni/view/home/edit_home.dart';
 import 'package:uni/view/home/home.dart';
+import 'package:uni/view/introduction/introduction.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/login/login.dart';
 import 'package:uni/view/map/map.dart';
@@ -257,6 +259,11 @@ class ApplicationState extends ConsumerState<Application> {
                       page: CourseUnitDetailPageView(courseUnit!),
                       settings: settings,
                     ),
+                '/${NavigationItem.navIntroduction.route}': () =>
+                    PageTransition.introductionTransitionRoute(
+                      page: const IntroductionScreenView(),
+                      settings: settings,
+                    ),
                 '/${NavigationItem.navProfileInfo.route}': () =>
                     PageTransition.makePageTransition(
                       page: const ProfileInfoPageView(),
@@ -265,6 +272,11 @@ class ApplicationState extends ConsumerState<Application> {
                 '/${NavigationItem.navProfessorSchedule.route}': () =>
                     PageTransition.makePageTransition(
                       page: ProfessorSchedulePageView(professor!),
+                      settings: settings,
+                    ),
+                '/${NavigationItem.navCurrentAccount.route}': () =>
+                    PageTransition.makePageTransition(
+                      page: const CurrentAccountPageView(),
                       settings: settings,
                     ),
               };
