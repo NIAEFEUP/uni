@@ -65,22 +65,7 @@ class ExamModal extends ConsumerWidget {
             color: Theme.of(context).colorScheme.onSecondary,
           ),
           onPressed: () async {
-            final calendars = await calendar.listCalendars();
-
-            var hasUniCalendar = false;
-            for (final calendar in calendars) {
-              if (calendar.name == 'Uni Exams') {
-                hasUniCalendar = true;
-                break;
-              }
-            }
-
-            final calendarId = hasUniCalendar
-                ? calendars.firstWhere((c) => c.name == 'Uni Exams').id
-                : await calendar.createCalendar(name: 'Uni Exams');
-
-            await calendar.createEvent(
-              calendarId: calendarId,
+            await calendar.showCreateEventModal(
               title: exam.subject,
               description: exam.examType,
               location: exam.rooms.join(', '),
