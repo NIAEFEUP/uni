@@ -33,7 +33,9 @@ class ParserExams {
     var days = 0;
     var tableNum = 0;
     document.querySelectorAll('h3').forEach((examType) {
-      examTypes.add(getExamSeasonAbbr(examType.text));
+      if (examType.nextElementSibling!.toString() == '<html table>') {
+        examTypes.add(getExamSeasonAbbr(examType.text));
+      }
     });
 
     final tdElements = document.querySelectorAll(
