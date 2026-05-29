@@ -23,6 +23,7 @@ import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/view/login/widgets/remember_me_checkbox.dart';
 import 'package:uni/view/login/widgets/terms_and_conditions_button.dart';
 import 'package:uni/view/widgets/toast_message.dart';
+import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -399,100 +400,93 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (_) {
-        return AlertDialog(
-          title: Text(
-            S.of(context).login_with_credentials,
-            style: Theme.of(
-              context,
-            ).textTheme.headlineLarge?.copyWith(color: const Color(0xFF280709)),
-            textAlign: TextAlign.center,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-          backgroundColor: const Color(0xFFFFF5F3),
-          actionsAlignment: MainAxisAlignment.center,
-          content: StatefulBuilder(
-            builder: (context, setState) {
-              return SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      createUsernameInput(
-                        context,
-                        usernameController,
-                        usernameFocus,
-                        passwordFocus,
-                      ),
-                      const SizedBox(height: 10),
-                      createPasswordInput(
-                        context,
-                        passwordController,
-                        passwordFocus,
-                        () {
-                          setState(() {
-                            _obscurePasswordInput = !_obscurePasswordInput;
-                          });
-                        },
-                        _login,
-                        obscurePasswordInput: _obscurePasswordInput,
-                      ),
-                      const SizedBox(height: 15),
-                      RememberMeCheckBox(
-                        keepSignedIn: _keepSignedIn,
-                        onToggle: () {
-                          setState(() {
-                            _keepSignedIn = !_keepSignedIn;
-                          });
-                        },
-                        textColor: Theme.of(
+        return ModalDialog(
+          children: [
+            Text(
+              S.of(context).login_with_credentials,
+              style: Theme.of(context).textTheme.headlineLarge,
+              textAlign: TextAlign.center,
+            ),
+            StatefulBuilder(
+              builder: (context, setState) {
+                return SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        createUsernameInput(
                           context,
-                        ).colorScheme.onSurfaceVariant,
-                        padding: EdgeInsets.zero,
-                        theme: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          usernameController,
+                          usernameFocus,
+                          passwordFocus,
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 8),
+                        createPasswordInput(
+                          context,
+                          passwordController,
+                          passwordFocus,
+                          () {
+                            setState(() {
+                              _obscurePasswordInput = !_obscurePasswordInput;
+                            });
+                          },
+                          _login,
+                          obscurePasswordInput: _obscurePasswordInput,
+                        ),
+                        const SizedBox(height: 15),
+                        RememberMeCheckBox(
+                          keepSignedIn: _keepSignedIn,
+                          onToggle: () {
+                            setState(() {
+                              _keepSignedIn = !_keepSignedIn;
+                            });
+                          },
+                          textColor: Theme.of(
+                            context,
+                          ).colorScheme.onSurfaceVariant,
+                          padding: EdgeInsets.zero,
+                          theme: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(
+                    S.of(context).cancel,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
-              );
-            },
-          ),
-          actions: <Widget>[
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF3C0A0E),
-                foregroundColor: const Color(0xFFFFF5F3),
-                side: const BorderSide(color: Color(0xFF56272B)),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                const SizedBox(width: 8),
+                TextButton(
+                  onPressed: () {
+                    _login();
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.onSecondary,
+                  ),
+                  child: Text(
+                    S.of(context).login,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                  ),
                 ),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(S.of(context).cancel),
-            ),
-            const SizedBox(width: 6),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF3C0A0E),
-                foregroundColor: const Color(0xFFFFF5F3),
-                side: const BorderSide(color: Color(0xFF56272B)),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              onPressed: () {
-                _login();
-                if (_formKey.currentState!.validate()) {
-                  Navigator.of(context).pop();
-                }
-              },
-              child: Text(S.of(context).login),
+              ],
             ),
           ],
         );

@@ -60,9 +60,9 @@ Widget createPasswordInput(
 /// Decoration for the username field.
 InputDecoration textFieldDecoration(BuildContext context, String placeholder) {
   return InputDecoration(
-    hintStyle: Theme.of(
-      context,
-    ).textTheme.bodyMedium?.copyWith(color: const Color(0xFF3C0A0E)),
+    hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+      color: Theme.of(context).colorScheme.secondary,
+    ),
     hintText: placeholder,
     contentPadding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
     border: const UnderlineInputBorder(),
@@ -78,9 +78,9 @@ InputDecoration passwordFieldDecoration(
   required bool obscurePasswordInput,
 }) {
   return InputDecoration(
-    hintStyle: Theme.of(
-      context,
-    ).textTheme.bodyMedium?.copyWith(color: const Color(0xFF3C0A0E)),
+    hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+      color: Theme.of(context).colorScheme.secondary,
+    ),
     hintText: placeholder,
     contentPadding: const EdgeInsets.fromLTRB(10, 25, 0, 0),
     border: const UnderlineInputBorder(),
