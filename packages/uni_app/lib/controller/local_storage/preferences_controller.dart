@@ -113,7 +113,7 @@ class PreferencesController {
 
     try {
       value = await _secureStorage.read(key: _userSession);
-    } catch (e) {
+    } catch (err) {
       await _secureStorage.deleteAll();
       return null;
     }
