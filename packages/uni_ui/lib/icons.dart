@@ -114,12 +114,13 @@ class UniIcon extends PhosphorIcon {
     Color? color,
     String? semanticLabel,
     TextDirection? textDirection,
-    bool solid = false,
+    double opacity = 0.2,
   }) : super(
          icon,
          size: size,
          color: color,
          semanticLabel: semanticLabel,
          textDirection: textDirection,
+         duotoneSecondaryOpacity: opacity,
        );
 }
