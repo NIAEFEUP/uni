@@ -69,12 +69,11 @@ InputDecoration textFieldDecoration(BuildContext context, String placeholder) {
     contentPadding: const EdgeInsets.fromLTRB(10, 20, 0, 10),
     border: InputBorder.none,
     focusedBorder: UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: Theme.of(context).colorScheme.onSecondary,
-        width: 2,
-      ),
+      borderSide: BorderSide(color: Theme.of(context).colorScheme.onSecondary),
     ),
-    enabledBorder: InputBorder.none,
+    enabledBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: Theme.of(context).colorScheme.onSecondary),
+    ),
     errorBorder: InputBorder.none,
     disabledBorder: InputBorder.none,
   );
@@ -95,12 +94,11 @@ InputDecoration passwordFieldDecoration(
     contentPadding: const EdgeInsets.fromLTRB(10, 25, 0, 10),
     border: InputBorder.none,
     focusedBorder: UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: Theme.of(context).colorScheme.onSecondary,
-        width: 2,
-      ),
+      borderSide: BorderSide(color: Theme.of(context).colorScheme.onSecondary),
     ),
-    enabledBorder: InputBorder.none,
+    enabledBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: Theme.of(context).colorScheme.onSecondary),
+    ),
     errorBorder: InputBorder.none,
     disabledBorder: InputBorder.none,
 
