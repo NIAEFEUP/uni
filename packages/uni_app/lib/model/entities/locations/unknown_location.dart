@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni_ui/icons.dart';
 
@@ -17,8 +18,13 @@ class UnknownLocation implements Location {
   final String type;
 
   @override
-  String description() {
+  String description(BuildContext context) {
     return type;
+  }
+
+  @override
+  String dedupKey() {
+    return 'unknown|$floor|${type.trim().toLowerCase()}';
   }
 
   @override
