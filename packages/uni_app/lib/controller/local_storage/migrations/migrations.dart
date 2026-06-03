@@ -9,4 +9,10 @@ class Migrations {
     // the easiest solution is to reset only this preference to the default one, which is not that bad as the homepage is fresh new
     await PreferencesController.setDefaultCards();
   }
+
+  static Future<void> migrateToV3() async {
+    // Clear the map cache update times so that the app fetches the new locations/markers from remote
+    // instead of waiting for the cache to expire.
+    await PreferencesController.clearMapCache();
+  }
 }

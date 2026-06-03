@@ -65,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "at_least_one_college": MessageLookupByLibrary.simpleMessage(
       "Select at least one college",
     ),
+    "atm": MessageLookupByLibrary.simpleMessage("ATM"),
     "available_amount": MessageLookupByLibrary.simpleMessage(
       "Available amount",
     ),
@@ -124,6 +125,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Class Registration",
     ),
     "close": MessageLookupByLibrary.simpleMessage("Close"),
+    "coffee_machine": MessageLookupByLibrary.simpleMessage("Coffee Machine"),
     "collect_usage_stats": MessageLookupByLibrary.simpleMessage(
       "Collect usage statistics",
     ),
@@ -478,6 +480,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "other_links": MessageLookupByLibrary.simpleMessage("Other links"),
     "overview": MessageLookupByLibrary.simpleMessage("Overview"),
+    "parking": MessageLookupByLibrary.simpleMessage("Parking"),
     "pass_change_request": MessageLookupByLibrary.simpleMessage(
       "For security reasons, passwords must be changed periodically.",
     ),
@@ -505,6 +508,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "print_balance_description": MessageLookupByLibrary.simpleMessage(
       "Funds for university printing services",
     ),
+    "printer": MessageLookupByLibrary.simpleMessage("Printer"),
     "prints": MessageLookupByLibrary.simpleMessage("Prints"),
     "problem_id": MessageLookupByLibrary.simpleMessage(
       "Brief identification of the problem",
@@ -538,7 +542,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Keep track of your daily classes and activities",
     ),
     "school_calendar": MessageLookupByLibrary.simpleMessage("School Calendar"),
-    "search": MessageLookupByLibrary.simpleMessage("Search"),
+    "search_here": MessageLookupByLibrary.simpleMessage("Search here"),
     "see_more": MessageLookupByLibrary.simpleMessage("See more"),
     "select_all": MessageLookupByLibrary.simpleMessage("Select All"),
     "semester": MessageLookupByLibrary.simpleMessage("Semester"),
@@ -552,13 +556,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "session_expired": MessageLookupByLibrary.simpleMessage("Session expired"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+    "shop": MessageLookupByLibrary.simpleMessage("Shop"),
     "skip": MessageLookupByLibrary.simpleMessage("Skip"),
     "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
+    "snacks": MessageLookupByLibrary.simpleMessage("Snacks"),
     "some_error": MessageLookupByLibrary.simpleMessage("Some error!"),
     "spotted_an_error": MessageLookupByLibrary.simpleMessage(
       "Something not right?",
     ),
     "stcp_stops": MessageLookupByLibrary.simpleMessage("STCP - Upcoming Trips"),
+    "stores": MessageLookupByLibrary.simpleMessage("Stores"),
     "student_number": MessageLookupByLibrary.simpleMessage("Student Number"),
     "success": MessageLookupByLibrary.simpleMessage("Sent with success"),
     "successful_open": MessageLookupByLibrary.simpleMessage(
@@ -600,9 +607,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "valid_email": MessageLookupByLibrary.simpleMessage(
       "Please enter a valid email",
     ),
+    "vending_machine": MessageLookupByLibrary.simpleMessage("Vending Machine"),
     "view_course_details": MessageLookupByLibrary.simpleMessage(
       "View course details",
     ),
+    "wc": MessageLookupByLibrary.simpleMessage("WC"),
     "widget_prompt": MessageLookupByLibrary.simpleMessage(
       "Choose a widget to add to your personal area:",
     ),
