@@ -15,7 +15,7 @@ final currentAccountProvider = FutureProvider.autoDispose((ref) async {
   try {
     final result = await fetcher.extractCurrentAccount(session, parser);
     return result;
-  } catch (err, st) {
+  } catch (err) {
     rethrow;
   }
 });

@@ -47,7 +47,7 @@ class CurrentAccountParser {
         DateTime date;
         try {
           date = DateTime.parse(cells[3].text.trim());
-        } catch (e) {
+        } catch (err) {
           continue;
         }
 
@@ -55,7 +55,7 @@ class CurrentAccountParser {
         if (cells[4].text.trim().isNotEmpty) {
           try {
             deadline = DateTime.parse(cells[4].text.trim());
-          } catch (e) {
+          } catch (err) {
             // ignore unparseable deadline
           }
         }
@@ -124,7 +124,7 @@ class CurrentAccountParser {
         DateTime date;
         try {
           date = DateTime.parse(cells[1].text.trim());
-        } catch (e) {
+        } catch (err) {
           continue;
         }
 
