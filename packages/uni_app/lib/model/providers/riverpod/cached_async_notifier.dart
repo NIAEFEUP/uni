@@ -67,7 +67,7 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
   }) async {
     try {
       final result = await operation();
-      if (result != null && ref.mounted) {
+      if (result != null && ref.mounted && !_invalidLocalData(result)) {
         _updateState(result, updateTimestamp: updateTimestamp);
       }
       return result;

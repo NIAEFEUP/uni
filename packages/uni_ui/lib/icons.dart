@@ -47,6 +47,7 @@ class UniIcons {
   // Locations pins icons
   static const money = PhosphorIconsDuotone.money;
   static const coffee = PhosphorIconsDuotone.coffee;
+  static const cookie = PhosphorIconsDuotone.cookie;
   static const printer = PhosphorIconsDuotone.printer;
   static const lockers = PhosphorIconsDuotone.lockers;
   static const bookOpen = PhosphorIconsDuotone.bookOpen;
@@ -55,6 +56,7 @@ class UniIcons {
   static const storefront = PhosphorIconsDuotone.storefront;
   static const questionMark = PhosphorIconsDuotone.questionMark;
   static const toilet = PhosphorIconsDuotone.toiletPaper;
+  static const carPark = PhosphorIconsDuotone.letterCircleP;
 
   // Restaurants icons
   static const canteen = PhosphorIconsDuotone.cookingPot;
@@ -112,13 +114,13 @@ class UniIcon extends PhosphorIcon {
     Color? color,
     String? semanticLabel,
     TextDirection? textDirection,
-    bool solid = false,
+    double opacity = 0.2,
   }) : super(
          icon,
          size: size,
          color: color,
          semanticLabel: semanticLabel,
          textDirection: textDirection,
-         duotoneSecondaryOpacity: solid ? 1 : 0.20,
+         duotoneSecondaryOpacity: opacity,
        );
 }

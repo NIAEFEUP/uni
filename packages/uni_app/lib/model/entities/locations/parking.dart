@@ -3,34 +3,39 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni_ui/icons.dart';
 
-class CoffeeMachine implements Location {
-  CoffeeMachine(this.floor, {this.locationGroupId});
+class CarPark implements Location {
+  CarPark(this.floor, this.name, {this.locationGroupId});
   @override
   final int floor;
+  final String name;
 
   @override
-  final weight = 3;
+  final weight = 1;
 
   @override
-  final icon = UniIcons.coffee;
+  final icon = UniIcons.carPark;
 
   final int? locationGroupId;
 
   @override
   String description(BuildContext context) {
-    return S.of(context).coffee_machine;
+    if (name.toLowerCase() == 'parking') {
+      return S.of(context).parking;
+    }
+    return name;
   }
 
   @override
   String dedupKey() {
-    return 'coffee_machine|$floor';
+    return 'car_park|$floor|${name.trim().toLowerCase()}';
   }
 
   @override
   Map<String, dynamic> toMap({int? groupId}) {
     return {
       'floor': floor,
-      'type': locationTypeToString(LocationType.coffeeMachine),
+      'name': name,
+      'type': locationTypeToString(LocationType.carPark),
     };
   }
 }
