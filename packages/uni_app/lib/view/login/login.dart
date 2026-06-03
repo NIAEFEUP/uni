@@ -449,7 +449,7 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
                               ?.copyWith(
                                 color: Theme.of(
                                   context,
-                                ).colorScheme.onSurfaceVariant,
+                                ).colorScheme.onSecondary,
                               ),
                         ),
                       ],
