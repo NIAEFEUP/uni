@@ -209,11 +209,11 @@ class NotificationManager {
             session,
             _localNotificationsPlugin,
           );
-        } catch (e, stackTrace) {
+        } catch (err, st) {
           Logger().e(
             'Error while checking notification ${notification.uniqueID}',
-            error: e,
-            stackTrace: stackTrace,
+            error: err,
+            stackTrace: st,
           );
         }
         await notificationStorage.addLastTimeNotificationExecuted(
