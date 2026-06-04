@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uni/controller/fetchers/exam_fetcher.dart';
+import 'package:uni/controller/fetchers/academics/exam_fetcher.dart';
 import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/profile.dart';
