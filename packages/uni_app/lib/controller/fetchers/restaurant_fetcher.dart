@@ -167,9 +167,17 @@ class RestaurantFetcher {
   }
 
   List<Restaurant> filterClosedRestaurants(List<Restaurant> restaurants) {
-    final closedLabels = ['ENCERRADO', 'FERIADO', 'Unidade de Alimentação Encerrada Temporariamente'];
+    final closedLabels = [
+      'ENCERRADO',
+      'FERIADO',
+      'Unidade de Alimentação Encerrada Temporariamente',
+    ];
     return restaurants
-        .where((restaurant) => restaurant.meals.every((meal) => !closedLabels.contains(meal.namePt)))
+        .where(
+          (restaurant) => restaurant.meals.every(
+            (meal) => !closedLabels.contains(meal.namePt),
+          ),
+        )
         .toList();
   }
 
