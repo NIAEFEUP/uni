@@ -29,7 +29,6 @@ class FeesFetcher implements SessionDependantFetcher {
     final response = await getUserFeesResponse(session);
 
     final unpaid = parser.parseUnpaid(response);
-
     final accountStatement = parser.parseAccountStatement(response);
 
     return (unpaid, accountStatement);
