@@ -336,7 +336,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "no_app": MessageLookupByLibrary.simpleMessage(
       "No app found to open the file",
-    ),    "no_class": MessageLookupByLibrary.simpleMessage(
+    ),
+    "no_class": MessageLookupByLibrary.simpleMessage(
       "There are no classes to display",
     ),
     "no_classes": MessageLookupByLibrary.simpleMessage("No classes to present"),
@@ -560,7 +561,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "some_error": MessageLookupByLibrary.simpleMessage("Some error!"),
     "spotted_an_error": MessageLookupByLibrary.simpleMessage(
       "Something not right?",
-    ),    "stores": MessageLookupByLibrary.simpleMessage("Stores"),
+    ),
+    "stores": MessageLookupByLibrary.simpleMessage("Stores"),
     "student_number": MessageLookupByLibrary.simpleMessage("Student Number"),
     "success": MessageLookupByLibrary.simpleMessage("Sent with success"),
     "successful_open": MessageLookupByLibrary.simpleMessage(
