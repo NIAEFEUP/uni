@@ -5,8 +5,17 @@ import 'package:uni/model/providers/riverpod/session_provider.dart';
 
 final currentAccountProvider = FutureProvider.autoDispose((ref) async {
   final session = await ref.watch(sessionProvider.future);
+  if (session == null) {
+    throw Exception('Session is null — user may not be logged in');
+  }
+
   final fetcher = FeesFetcher();
   final parser = CurrentAccountParser(session: session);
-  final result = await fetcher.extractCurrentAccount(session!, parser);
-  return result;
+
+  try {
+    final result = await fetcher.extractCurrentAccount(session, parser);
+    return result;
+  } catch (err) {
+    rethrow;
+  }
 });
