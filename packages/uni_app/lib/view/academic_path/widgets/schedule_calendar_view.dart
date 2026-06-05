@@ -32,31 +32,45 @@ class ScheduleCalendarView extends ConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.only(top: 12, bottom: 120),
-      child: CalendarControllerProvider(
-        controller: controller,
-        child: WeekView(
-          backgroundColor: Theme.of(context).colorScheme.surface,
-          showVerticalLines: false,
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          extensions: [
+            Theme.of(context).brightness == Brightness.light
+                ? WeekViewThemeData.light().copyWith(
+                    borderColor: Colors.transparent,
+                    weekDayTextColor: Theme.of(context).colorScheme.onSecondary,
+                  )
+                : WeekViewThemeData.dark().copyWith(
+                    borderColor: Colors.transparent,
+                  ),
+          ],
+        ),
+        child: CalendarControllerProvider(
           controller: controller,
-          initialDay: earliestClass,
-          weekDays: weekDays,
-          showLiveTimeLineInAllDays: true,
-          weekNumberBuilder: (weekNum) => const SizedBox.shrink(),
-          onEventTap: (events, date) => _handleEventTap(context, ref, events),
-          weekPageHeaderBuilder: WeekHeader.hidden,
-          minDay: earliestClass,
-          maxDay: latestClass,
-          startHour: 7,
-          hourIndicatorSettings: HourIndicatorSettings(
-            color: Theme.of(context).colorScheme.onSurface.withAlpha(0x10),
-          ),
-          timeLineBuilder: (date) => _buildTimeLineMark(context, date),
-          eventTileBuilder: (date, events, boundary, start, end) =>
-              _buildEventTile(context, events),
-          weekTitleBackgroundColor: Theme.of(context).colorScheme.surface,
-          weekDayStringBuilder: (day) => _formatWeekday(context, day),
-          liveTimeIndicatorSettings: LiveTimeIndicatorSettings(
-            color: Theme.of(context).colorScheme.onSecondary,
+          child: WeekView(
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            showVerticalLines: false,
+            controller: controller,
+            initialDay: earliestClass,
+            weekDays: weekDays,
+            showLiveTimeLineInAllDays: true,
+            weekNumberBuilder: (weekNum) => const SizedBox.shrink(),
+            onEventTap: (events, date) => _handleEventTap(context, ref, events),
+            weekPageHeaderBuilder: WeekHeader.hidden,
+            minDay: earliestClass,
+            maxDay: latestClass,
+            startHour: 7,
+            hourIndicatorSettings: HourIndicatorSettings(
+              color: Theme.of(context).colorScheme.onSurface.withAlpha(0x10),
+            ),
+            timeLineBuilder: (date) => _buildTimeLineMark(context, date),
+            eventTileBuilder: (date, events, boundary, start, end) =>
+                _buildEventTile(context, events),
+            weekTitleBackgroundColor: Theme.of(context).colorScheme.surface,
+            weekDayStringBuilder: (day) => _formatWeekday(context, day),
+            liveTimeIndicatorSettings: LiveTimeIndicatorSettings(
+              color: Theme.of(context).colorScheme.onSecondary,
+            ),
           ),
         ),
       ),
