@@ -33,5 +33,12 @@ class LocationGroup {
     );
   }
 
+  Location? getLocationForFloor(int? floor) {
+    if (floor != null && floors.containsKey(floor)) {
+      return floors[floor]!.reduce((a, b) => a.weight > b.weight ? a : b);
+    }
+    return getLocationWithMostWeight();
+  }
+
   Map<String, dynamic> toJson() => _$LocationGroupToJson(this);
 }

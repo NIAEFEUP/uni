@@ -94,6 +94,11 @@ class PreferencesController {
     );
   }
 
+  static Future<void> clearMapCache() async {
+    await prefs.remove('FacultyLocationsNotifier$_lastUpdateTimeKeySuffix');
+    await prefs.remove('IndoorFloorPlansNotifier$_lastUpdateTimeKeySuffix');
+  }
+
   /// Saves the user's student number, password and faculties.
   static const _secureStorage = FlutterSecureStorage();
   static Future<void> saveSession(Session session) async {
@@ -108,7 +113,7 @@ class PreferencesController {
 
     try {
       value = await _secureStorage.read(key: _userSession);
-    } catch (e) {
+    } catch (err) {
       await _secureStorage.deleteAll();
       return null;
     }

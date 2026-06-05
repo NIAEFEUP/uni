@@ -1534,9 +1534,9 @@ class S {
     return Intl.message('See more', name: 'see_more', desc: '', args: []);
   }
 
-  /// `Search`
-  String get search {
-    return Intl.message('Search', name: 'search', desc: '', args: []);
+  /// `Search here`
+  String get search_here {
+    return Intl.message('Search here', name: 'search_here', desc: '', args: []);
   }
 
   /// `Do you really want to log out? Your local data will be deleted and you will have to log in again.`
@@ -2207,6 +2207,51 @@ class S {
     );
   }
 
+  /// `Vending Machine`
+  String get vending_machine {
+    return Intl.message(
+      'Vending Machine',
+      name: 'vending_machine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coffee Machine`
+  String get coffee_machine {
+    return Intl.message(
+      'Coffee Machine',
+      name: 'coffee_machine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ATM`
+  String get atm {
+    return Intl.message('ATM', name: 'atm', desc: '', args: []);
+  }
+
+  /// `Printer`
+  String get printer {
+    return Intl.message('Printer', name: 'printer', desc: '', args: []);
+  }
+
+  /// `WC`
+  String get wc {
+    return Intl.message('WC', name: 'wc', desc: '', args: []);
+  }
+
+  /// `Parking`
+  String get parking {
+    return Intl.message('Parking', name: 'parking', desc: '', args: []);
+  }
+
+  /// `Shop`
+  String get shop {
+    return Intl.message('Shop', name: 'shop', desc: '', args: []);
+  }
+
   /// `Current Account`
   String get current_account {
     return Intl.message(
@@ -2515,6 +2560,16 @@ class S {
   /// `Allow`
   String get allow {
     return Intl.message('Allow', name: 'allow', desc: '', args: []);
+  }
+
+  /// `Snacks`
+  String get snacks {
+    return Intl.message('Snacks', name: 'snacks', desc: '', args: []);
+  }
+
+  /// `Stores`
+  String get stores {
+    return Intl.message('Stores', name: 'stores', desc: '', args: []);
   }
 }
 
