@@ -19,7 +19,9 @@ import 'package:uni/controller/local_storage/migrations/migration_controller.dar
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
+import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/providers/plausible/plausible_provider.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/theme_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/about/about.dart';
@@ -27,13 +29,17 @@ import 'package:uni/view/academic_path/academic_path.dart';
 import 'package:uni/view/bug_report/bug_report.dart';
 import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
+import 'package:uni/view/current_account/current_account.dart';
 import 'package:uni/view/faculty/faculty.dart';
 import 'package:uni/view/home/edit_home.dart';
 import 'package:uni/view/home/home.dart';
+import 'package:uni/view/introduction/introduction.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/login/login.dart';
 import 'package:uni/view/map/map.dart';
+import 'package:uni/view/professor/professor_schedule_page.dart';
 import 'package:uni/view/profile/profile.dart';
+import 'package:uni/view/profile_info/profile_info.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/widgets/page_transition.dart';
@@ -152,6 +158,7 @@ class ApplicationState extends ConsumerState<Application> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(profileProvider);
     final themeMode = ref.watch<ThemeMode>(themeProvider);
     final locale = ref.watch(localeProvider);
 
@@ -167,6 +174,7 @@ class ApplicationState extends ConsumerState<Application> {
             title: 'uni',
             navigatorKey: Application.navigatorKey,
             theme: lightTheme,
+            darkTheme: darkTheme,
             themeMode: themeMode,
             locale: locale.localeCode,
             localizationsDelegates: const [
@@ -181,6 +189,7 @@ class ApplicationState extends ConsumerState<Application> {
             onGenerateRoute: (settings) {
               final args = settings.arguments;
               final courseUnit = args is CourseUnit ? args : null;
+              final professor = args is Professor ? args : null;
               final transitionFunctions = <String, Route<dynamic> Function()>{
                 '/${NavigationItem.navSplash.route}': () =>
                     PageTransition.splashTransitionRoute(
@@ -248,6 +257,26 @@ class ApplicationState extends ConsumerState<Application> {
                 '/${NavigationItem.navCourseUnit.route}': () =>
                     PageTransition.makePageTransition(
                       page: CourseUnitDetailPageView(courseUnit!),
+                      settings: settings,
+                    ),
+                '/${NavigationItem.navIntroduction.route}': () =>
+                    PageTransition.introductionTransitionRoute(
+                      page: const IntroductionScreenView(),
+                      settings: settings,
+                    ),
+                '/${NavigationItem.navProfileInfo.route}': () =>
+                    PageTransition.makePageTransition(
+                      page: const ProfileInfoPageView(),
+                      settings: settings,
+                    ),
+                '/${NavigationItem.navProfessorSchedule.route}': () =>
+                    PageTransition.makePageTransition(
+                      page: ProfessorSchedulePageView(professor!),
+                      settings: settings,
+                    ),
+                '/${NavigationItem.navCurrentAccount.route}': () =>
+                    PageTransition.makePageTransition(
+                      page: const CurrentAccountPageView(),
                       settings: settings,
                     ),
               };

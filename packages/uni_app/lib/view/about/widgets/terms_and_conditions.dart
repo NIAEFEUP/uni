@@ -10,7 +10,9 @@ class TermsAndConditions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? termsAndConditionsSaved = S.of(context).loading_terms;
-    final termsAndConditionsFuture = fetchTermsAndConditions();
+    final termsAndConditionsFuture = fetchTermsAndConditions(
+      Localizations.localeOf(context).languageCode,
+    );
     return FutureBuilder(
       future: termsAndConditionsFuture,
       builder: (context, termsAndConditions) {
@@ -23,28 +25,13 @@ class TermsAndConditions extends StatelessWidget {
           child: MarkdownBody(
             styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
                 .copyWith(
-                  p: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.black87,
-                    height: 1.5,
-                  ),
-                  h1: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
+                  p: Theme.of(context).textTheme.bodyMedium,
+                  h1: Theme.of(context).textTheme.displayLarge,
                   h1Align: WrapAlignment.center,
-                  h2: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
+                  h2: Theme.of(context).textTheme.displayMedium,
                   h2Align: WrapAlignment.center,
-                  h3: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
+                  h3: Theme.of(context).textTheme.titleLarge,
+                  h1Padding: const EdgeInsets.only(top: 24),
                   h2Padding: const EdgeInsets.only(top: 16, bottom: 12),
                   h3Padding: const EdgeInsets.only(top: 20, bottom: 8),
                 ),

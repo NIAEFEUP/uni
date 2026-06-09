@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
 import 'package:uni/model/providers/riverpod/connectivity_provider.dart';
@@ -28,6 +29,7 @@ import 'package:uni/view/home/widgets/restaurants/restaurant_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/schedule_home_card.dart';
 import 'package:uni/view/home/widgets/tracking_banner.dart';
 import 'package:uni/view/home/widgets/uni_logo.dart';
+import 'package:uni/view/widgets/general_error_view.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
@@ -42,6 +44,23 @@ class HomePageView extends ConsumerStatefulWidget {
 }
 
 class HomePageViewState extends ConsumerState<HomePageView> {
+  static Locale? _lastLocale;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final locale = Localizations.localeOf(context);
+    if (_lastLocale != locale) {
+      _lastLocale = locale;
+      Future.microtask(() {
+        ref.read(profileProvider.notifier).refreshRemote();
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    }
+  }
+
   List<FavoriteWidgetType> favoriteCards =
       PreferencesController.getFavoriteCards();
 
@@ -114,32 +133,50 @@ class HomePageViewState extends ConsumerState<HomePageView> {
       ),
       child: Scaffold(
         extendBody: true,
-        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Theme.of(context).primaryColor,
-          foregroundColor: Colors.white,
-          shape: const CircleBorder(),
-          onPressed: () => {
-            Navigator.pushNamed(
-              context,
-              '/${NavigationItem.navEditPersonalArea.route}',
-            ),
-          },
-          child: const UniIcon(UniIcons.edit),
-        ),
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: homeAppBar(context),
         bottomNavigationBar: const AppBottomNavbar(),
         body: RefreshIndicator(
           onRefresh: () => refreshPage(context),
+          color: Theme.of(context).colorScheme.onSecondary,
+          backgroundColor: Theme.of(context).colorScheme.secondary,
           child: ListView.separated(
-            itemCount: favoriteCards.length + 1,
+            itemCount: favoriteCards.length + 2,
             separatorBuilder: (_, _) => const SizedBox(height: 10),
             itemBuilder: (_, index) {
               if (index == 0) {
                 return Visibility(
                   visible: !_isBannerViewed,
                   child: TrackingBanner(setBannerViewed),
+                );
+              } else if (index == favoriteCards.length + 1) {
+                return Center(
+                  child: TextButton.icon(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      elevation: 2,
+                      shadowColor: Theme.of(context).colorScheme.shadow,
+                      shape: RoundedSuperellipseBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/${NavigationItem.navEditPersonalArea.route}',
+                      );
+                    },
+                    icon: UniIcon(
+                      UniIcons.edit,
+                      color: Theme.of(context).colorScheme.onSecondary,
+                    ),
+                    label: Text(
+                      S.of(context).edit_homepage,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.onSecondary,
+                      ),
+                    ),
+                  ),
                 );
               } else {
                 return typeToCard[favoriteCards[index - 1]];
@@ -157,16 +194,38 @@ class HomePageViewState extends ConsumerState<HomePageView> {
 
     final now = DateTime.now();
     final week = Week(start: now);
+    final lectureState = ref.watch(lectureProvider);
+
+    final double appBarHeight = lectureState.when(
+      data: (lectures) =>
+          (lectures != null && lectures.isNotEmpty) ? 200.0 : 150.0,
+      error: (_, _) => 200.0,
+      loading: () => 150.0,
+    );
+
     return PreferredSize(
-      preferredSize: Size.fromHeight(appBarSize),
+      preferredSize: Size.fromHeight(appBarHeight),
       child: Container(
-        decoration: const BoxDecoration(
-          gradient: RadialGradient(
-            colors: [Color(0xFF280709), Color(0xFF511515)],
-            center: Alignment.topLeft,
-            radius: 1.5,
-            stops: [0, 1],
-          ),
+        decoration: BoxDecoration(
+          gradient: Theme.of(context).brightness == Brightness.light
+              ? RadialGradient(
+                  colors: [
+                    Theme.of(context).colorScheme.primary,
+                    Theme.of(context).colorScheme.onPrimary,
+                  ],
+                  center: Alignment.topLeft,
+                  radius: 2,
+                  stops: const [0, 1],
+                )
+              : LinearGradient(
+                  colors: [
+                    Theme.of(context).colorScheme.primary,
+                    Theme.of(context).colorScheme.surface,
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: const [0, 1],
+                ),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
@@ -177,7 +236,11 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const UniLogo(iconColor: Colors.white),
+                      UniLogo(
+                        iconColor: Theme.of(
+                          context,
+                        ).colorScheme.onSurfaceVariant,
+                      ),
                       Row(
                         spacing: 16,
                         mainAxisSize: MainAxisSize.min,
@@ -190,19 +253,15 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                     ],
                   ),
                 ),
-                DefaultConsumer<List<Lecture>>(
-                  provider: lectureProvider,
-                  builder: (context, ref, lectures) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      if (lectures.isNotEmpty && appBarSize != 200) {
-                        setState(() {
-                          appBarSize = 200;
-                        });
-                      }
-                    });
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 25),
-                      child: ScheduleCard(
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 25),
+                  child: DefaultConsumer<List<Lecture>>(
+                    provider: lectureProvider,
+                    errorWidget: GeneralErrorView(
+                      textColor: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                    builder: (context, ref, lectures) {
+                      return ScheduleCard(
                         name: lectures[0].subject,
                         acronym: lectures[0].acronym,
                         room: lectures[0].room,
@@ -225,19 +284,19 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                             );
                           }
                         },
-                      ),
-                    );
-                  },
-                  hasContent: (lectures) => lectures
-                      .where((lecture) => week.contains(lecture.startTime))
-                      .isNotEmpty,
-                  nullContentWidget: const SizedBox.shrink(),
-                  mapper: (lectures) => lectures
-                      .where(
-                        (lecture) => lecture.endTime.isAfter(DateTime.now()),
-                      )
-                      .toList(),
-                  loadingWidget: Container(),
+                      );
+                    },
+                    hasContent: (lectures) => lectures
+                        .where((lecture) => week.contains(lecture.startTime))
+                        .isNotEmpty,
+                    nullContentWidget: const SizedBox.shrink(),
+                    mapper: (lectures) => lectures
+                        .where(
+                          (lecture) => lecture.endTime.isAfter(DateTime.now()),
+                        )
+                        .toList(),
+                    loadingWidget: Container(),
+                  ),
                 ),
               ],
             ),

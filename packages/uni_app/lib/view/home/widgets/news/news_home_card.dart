@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/news.dart';
+import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/news_provider.dart';
 import 'package:uni/view/home/widgets/generic_home_card.dart';
 import 'package:uni/view/home/widgets/news/news_card_shimmer.dart';
@@ -22,51 +23,41 @@ class NewsHomeCard extends GenericHomecard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer(
-      builder: (context, ref, _) {
-        final newsAsync = ref.watch(newsProvider);
-
-        return newsAsync.when(
-          data: (newsList) {
-            if (newsList == null || newsList.isEmpty) {
-              return Center(
-                child: IconLabel(
-                  icon: const UniIcon(size: 45, UniIcons.news),
-                  label: S.of(context).no_news,
-                  labelTextStyle: TextStyle(
-                    fontSize: 14,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              );
-            }
-            return ExpandablePageView.builder(
-              controller: PageController(viewportFraction: 0.9),
-              itemCount: newsList.length,
-              itemBuilder: (context, index) {
-                final news = newsList[index];
-                return NewsCard(
-                  title: news.title,
-                  description: news.description,
-                  image: news.image.isNotEmpty
-                      ? CachedNetworkImage(
-                          imageUrl: news.image,
-                          fit: BoxFit.cover,
-                          errorWidget: (_, _, _) => const SizedBox(height: 90),
-                        )
-                      : null,
-                  openLink: () {
-                    final uri = Uri.tryParse(news.link);
-                    if (uri != null) {
-                      launchUrl(uri);
-                    }
-                  },
-                );
+    return DefaultConsumer<List<News>>(
+      provider: newsProvider,
+      loadingWidget: const Center(child: NewsCardShimmer()),
+      nullContentWidget: Center(
+        child: IconLabel(
+          icon: const UniIcon(size: 45, UniIcons.news),
+          label: S.of(context).no_news,
+          labelTextStyle: Theme.of(context).textTheme.bodyMedium,
+        ),
+      ),
+      hasContent: (newsList) => newsList.isNotEmpty,
+      builder: (context, ref, newsList) {
+        return ExpandablePageView.builder(
+          controller: PageController(viewportFraction: 0.9),
+          itemCount: newsList.length,
+          itemBuilder: (context, index) {
+            final news = newsList[index];
+            return NewsCard(
+              title: news.title,
+              description: news.description,
+              image: news.image.isNotEmpty
+                  ? CachedNetworkImage(
+                      imageUrl: news.image,
+                      fit: BoxFit.cover,
+                      errorWidget: (_, _, _) => const SizedBox(height: 90),
+                    )
+                  : null,
+              openLink: () {
+                final uri = Uri.tryParse(news.link);
+                if (uri != null) {
+                  launchUrl(uri);
+                }
               },
             );
           },
-          error: (error, stackTrace) => Center(child: Text('Error: $error')),
-          loading: () => const Center(child: NewsCardShimmer()),
         );
       },
     );

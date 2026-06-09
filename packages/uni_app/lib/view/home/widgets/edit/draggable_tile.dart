@@ -27,7 +27,10 @@ class DraggableTile extends StatelessWidget {
         final (title, icon) = formatDraggableTile(context, data);
 
         return Container(
-          decoration: BoxDecoration(
+          decoration: ShapeDecoration(
+            shape: RoundedSuperellipseBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
             color: Theme.of(context).colorScheme.secondary,
           ),
           width: 75,
@@ -37,7 +40,7 @@ class DraggableTile extends StatelessWidget {
             children: [
               icon,
               const SizedBox(height: 5),
-              Text(title, style: Theme.of(context).textTheme.bodySmall),
+              Text(title, style: Theme.of(context).textTheme.labelMedium),
             ],
           ),
         );
@@ -46,15 +49,18 @@ class DraggableTile extends StatelessWidget {
         final (title, icon) = formatDraggableTile(context, data);
 
         return Container(
-          decoration: BoxDecoration(
+          decoration: ShapeDecoration(
+            shape: RoundedSuperellipseBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
             color: Theme.of(context).colorScheme.secondary,
           ),
           child: ListTile(
-            trailing: const UniIcon(UniIcons.more),
-            title: Text(
-              title,
-              style: Theme.of(context).textTheme.headlineSmall,
+            trailing: UniIcon(
+              UniIcons.more,
+              color: Theme.of(context).colorScheme.onSecondary,
             ),
+            title: Text(title, style: Theme.of(context).textTheme.titleLarge),
             leading: icon,
           ),
         );

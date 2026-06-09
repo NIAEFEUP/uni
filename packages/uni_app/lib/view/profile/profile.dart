@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
-import 'package:uni/view/profile/widgets/profile_info.dart';
+import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/profile/profile_shimmer.dart';
 import 'package:uni/view/profile/widgets/profile_overview.dart';
 import 'package:uni/view/profile/widgets/settings.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
+import 'package:uni_ui/cards/generic_card.dart';
+import 'package:uni_ui/cards/profile_list_tile.dart';
+import 'package:uni_ui/icons.dart';
 
 class ProfilePageView extends ConsumerStatefulWidget {
   const ProfilePageView({super.key});
@@ -19,17 +24,64 @@ class ProfilePageView extends ConsumerStatefulWidget {
 class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
   @override
   Widget getBody(BuildContext context) {
-    return DefaultConsumer<Profile>(
-      provider: profileProvider,
-      builder: (context, ref, profile) => ListView(
-        children: [
-          ProfileOverview(profile: profile),
-          const ProfileInfo(),
-          const Settings(),
-        ],
-      ),
-      hasContent: (profile) => profile.courses.isNotEmpty,
-      nullContentWidget: Container(),
+    return ListView(
+      children: [
+        DefaultConsumer<Profile>(
+          provider: profileProvider,
+          builder: (context, ref, profile) => ProfileOverview(profile: profile),
+          hasContent: (profile) => profile.courses.isNotEmpty,
+          loadingWidget: const ProfileCardShimmer(),
+          nullContentWidget: Container(),
+        ),
+        GenericCard(
+          tooltip: S.of(context).user_informations,
+          margin: const EdgeInsets.only(
+            top: 20,
+            left: 20,
+            right: 20,
+            bottom: 8,
+          ),
+          child: ProfileListTile(
+            icon: UniIcons.userIcon,
+            title: S.of(context).user_informations,
+            trailing: UniIcon(
+              UniIcons.caretRight,
+              color: Theme.of(context).colorScheme.onSecondary,
+            ),
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/${NavigationItem.navProfileInfo.route}',
+              );
+            },
+          ),
+        ),
+        GenericCard(
+          tooltip: S.of(context).current_account,
+          margin: const EdgeInsets.only(
+            top: 8,
+            left: 20,
+            right: 20,
+            bottom: 10,
+          ),
+          child: ProfileListTile(
+            icon: UniIcons.bank,
+            title: S.of(context).current_account,
+            subtitle: S.of(context).current_account_description,
+            trailing: UniIcon(
+              UniIcons.caretRight,
+              color: Theme.of(context).colorScheme.onSecondary,
+            ),
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/${NavigationItem.navCurrentAccount.route}',
+              );
+            },
+          ),
+        ),
+        const Settings(),
+      ],
     );
   }
 

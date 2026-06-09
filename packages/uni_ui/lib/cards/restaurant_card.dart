@@ -75,7 +75,10 @@ class RestaurantCardHeader extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: Theme.of(context).dividerColor, width: 1.0),
+          bottom: BorderSide(
+            color: Theme.of(context).colorScheme.onSecondaryFixed,
+            width: 1.0,
+          ),
         ),
       ),
       child: Row(
@@ -91,7 +94,7 @@ class RestaurantCardHeader extends StatelessWidget {
                 children: [
                   Text(
                     name,
-                    style: Theme.of(context).textTheme.headlineSmall,
+                    style: Theme.of(context).textTheme.titleLarge,
                     overflow: TextOverflow.clip,
                   ),
                   if (subtitle != null)
@@ -102,16 +105,13 @@ class RestaurantCardHeader extends StatelessWidget {
                         vertical: 2,
                       ),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor.withAlpha(0x20),
+                        color: Theme.of(context).colorScheme.onSecondary,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
                         subtitle!,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onPrimaryContainer,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                     ),
@@ -155,7 +155,10 @@ class CardFavoriteButtonState extends State<CardFavoriteButton> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: UniIcon(isFavorite ? UniIcons.heartFill : UniIcons.heartOutline),
+      icon: UniIcon(
+        isFavorite ? UniIcons.heartFill : UniIcons.heartOutline,
+        color: Theme.of(context).colorScheme.onSecondary,
+      ),
       onPressed: () {
         widget.onFavoriteToggle();
         setState(() {

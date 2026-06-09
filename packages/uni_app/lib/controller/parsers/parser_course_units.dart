@@ -4,6 +4,7 @@ import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 Map<String, int> _parseOccurIdsFromCurricularUnits(Document? document) {
   final map = <String, int>{};
@@ -60,12 +61,13 @@ Map<String, int> _parseOccurIdsFromCurricularUnits(Document? document) {
   return map;
 }
 
-List<CourseUnit> parseCourseUnitsAndCourseAverage(
+Future<List<CourseUnit>> parseCourseUnitsAndCourseAverage(
+  Session session,
   http.Response responseAcademicPath,
   http.Response? responseCurricularUnits,
   Course course, {
   List<CourseUnit>? currentCourseUnits,
-}) {
+}) async {
   final documentAcademicPath = parse(responseAcademicPath.body);
   final documentCurricularUnits = parse(responseCurricularUnits?.body);
   final occurIdMap = _parseOccurIdsFromCurricularUnits(documentCurricularUnits);
@@ -154,9 +156,11 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
       final finalOccurIdStr =
           occurIdMap[mappingKey]?.toString() ?? originalOccurId;
 
+      final occurId = int.parse(finalOccurIdStr);
+
       final courseUnit = CourseUnit(
         schoolYear: schoolYear,
-        occurrId: int.parse(finalOccurIdStr),
+        occurrId: occurId,
         code: codeName,
         abbreviation: matchingCurrentCourseUnit?.abbreviation ?? codeName,
         status: status,

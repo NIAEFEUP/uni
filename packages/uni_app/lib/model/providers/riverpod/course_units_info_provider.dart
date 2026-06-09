@@ -2,23 +2,26 @@ import 'dart:collection';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
-import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_new_api.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
+import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
+import 'package:uni/model/providers/riverpod/professor_lectures_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 
 typedef SheetsMap = Map<CourseUnit, Sheet>;
 typedef ClassesMap = Map<CourseUnit, List<CourseUnitClass>>;
 typedef FilesMap = Map<CourseUnit, List<CourseUnitFileDirectory>>;
 typedef ClassProfessorsMap = Map<CourseUnit, Map<String, List<Professor>>>;
+typedef LecturesMap = Map<CourseUnit, List<Lecture>>;
 typedef CourseUnitsInfoState = (
   SheetsMap,
   ClassesMap,
   FilesMap,
   ClassProfessorsMap,
+  LecturesMap,
 );
 
 final courseUnitsInfoProvider =
@@ -60,6 +63,13 @@ class CourseUnitsInfoNotifier
     );
   }
 
+  UnmodifiableMapView<CourseUnit, List<Lecture>> get courseUnitsLectures {
+    final currentState = state.value;
+    return UnmodifiableMapView(
+      currentState?.$5 ?? <CourseUnit, List<Lecture>>{},
+    );
+  }
+
   @override
   Future<CourseUnitsInfoState?> loadFromStorage() async {
     return (
@@ -67,6 +77,7 @@ class CourseUnitsInfoNotifier
       <CourseUnit, List<CourseUnitClass>>{},
       <CourseUnit, List<CourseUnitFileDirectory>>{},
       <CourseUnit, Map<String, List<Professor>>>{},
+      <CourseUnit, List<Lecture>>{},
     );
   }
 
@@ -77,6 +88,7 @@ class CourseUnitsInfoNotifier
       <CourseUnit, List<CourseUnitClass>>{},
       <CourseUnit, List<CourseUnitFileDirectory>>{},
       <CourseUnit, Map<String, List<Professor>>>{},
+      <CourseUnit, List<Lecture>>{},
     );
   }
 
@@ -100,6 +112,7 @@ class CourseUnitsInfoNotifier
           <CourseUnit, List<CourseUnitClass>>{},
           <CourseUnit, List<CourseUnitFileDirectory>>{},
           <CourseUnit, Map<String, List<Professor>>>{},
+          <CourseUnit, List<Lecture>>{},
         );
 
     final updatedSheetsMap = Map<CourseUnit, Sheet>.from(currentState.$1);
@@ -109,6 +122,7 @@ class CourseUnitsInfoNotifier
       currentState.$2,
       currentState.$3,
       currentState.$4,
+      currentState.$5,
     ));
   }
 
@@ -135,6 +149,7 @@ class CourseUnitsInfoNotifier
           <CourseUnit, List<CourseUnitClass>>{},
           <CourseUnit, List<CourseUnitFileDirectory>>{},
           <CourseUnit, Map<String, List<Professor>>>{},
+          <CourseUnit, List<Lecture>>{},
         );
 
     final updatedClassesMap = Map<CourseUnit, List<CourseUnitClass>>.from(
@@ -146,6 +161,7 @@ class CourseUnitsInfoNotifier
       updatedClassesMap,
       currentState.$3,
       currentState.$4,
+      currentState.$5,
     ));
   }
 
@@ -172,6 +188,7 @@ class CourseUnitsInfoNotifier
           <CourseUnit, List<CourseUnitClass>>{},
           <CourseUnit, List<CourseUnitFileDirectory>>{},
           <CourseUnit, Map<String, List<Professor>>>{},
+          <CourseUnit, List<Lecture>>{},
         );
 
     final updatedFilesMap = Map<CourseUnit, List<CourseUnitFileDirectory>>.from(
@@ -183,15 +200,11 @@ class CourseUnitsInfoNotifier
       currentState.$2,
       updatedFilesMap,
       currentState.$4,
+      currentState.$5,
     ));
   }
 
   Future<void> fetchClassProfessors(CourseUnit courseUnit) async {
-    final session = await ref.read(sessionProvider.future);
-    if (session == null) {
-      return;
-    }
-
     final sheet = courseUnitsSheets[courseUnit];
     if (sheet == null) {
       return;
@@ -211,14 +224,9 @@ class CourseUnitsInfoNotifier
     }
 
     for (final professor in professors) {
-      final fetcher = ScheduleFetcherNewApiProfessor(
-        professorCode: professor.code,
-      );
-
       try {
-        final lectures = await fetcher.getLectures(
-          session,
-          lectiveYear: lectiveYear,
+        final lectures = await ref.read(
+          professorLecturesProvider((professor, lectiveYear)).future,
         );
 
         for (final lecture in lectures) {
@@ -238,7 +246,7 @@ class CourseUnitsInfoNotifier
             }
           }
         }
-      } catch (e) {
+      } catch (err) {
         continue;
       }
     }
@@ -250,6 +258,7 @@ class CourseUnitsInfoNotifier
           <CourseUnit, List<CourseUnitClass>>{},
           <CourseUnit, List<CourseUnitFileDirectory>>{},
           <CourseUnit, Map<String, List<Professor>>>{},
+          <CourseUnit, List<Lecture>>{},
         );
 
     final updatedClassProfessorsMap =
@@ -260,6 +269,46 @@ class CourseUnitsInfoNotifier
       currentState.$2,
       currentState.$3,
       updatedClassProfessorsMap,
+      currentState.$5,
+    ));
+  }
+
+  Future<void> fetchCourseUnitLectures(CourseUnit courseUnit) async {
+    final session = await ref.read(sessionProvider.future);
+    if (session == null) {
+      return;
+    }
+
+    final occurrId = courseUnit.occurrId;
+    if (occurrId == null) {
+      return;
+    }
+
+    final lectures = await CourseUnitsInfoFetcher().fetchCourseUnitLectures(
+      session,
+      occurrId,
+    );
+
+    final currentState =
+        state.value ??
+        (
+          <CourseUnit, Sheet>{},
+          <CourseUnit, List<CourseUnitClass>>{},
+          <CourseUnit, List<CourseUnitFileDirectory>>{},
+          <CourseUnit, Map<String, List<Professor>>>{},
+          <CourseUnit, List<Lecture>>{},
+        );
+
+    final updatedCourseUnitLecturesMap = Map<CourseUnit, List<Lecture>>.from(
+      currentState.$5,
+    );
+    updatedCourseUnitLecturesMap[courseUnit] = lectures;
+    updateState((
+      currentState.$1,
+      currentState.$2,
+      currentState.$3,
+      currentState.$4,
+      updatedCourseUnitLecturesMap,
     ));
   }
 }

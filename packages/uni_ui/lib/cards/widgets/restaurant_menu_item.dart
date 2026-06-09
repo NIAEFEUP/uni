@@ -20,7 +20,7 @@ class RestaurantMenuItem extends StatelessWidget {
               padding: const EdgeInsets.only(right: 32.0),
               child: Text(
                 name,
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.bodyMedium,
                 softWrap: true,
               ),
             ),

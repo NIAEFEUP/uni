@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/view/academic_path/widgets/schedule_day_timeline.dart';
+import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/timeline/timeline.dart';
 
@@ -11,12 +13,14 @@ class SchedulePageView extends ConsumerWidget {
     this.lectures, {
     required this.now,
     required DateTime startOfWeek,
+    this.showClassNumber = false,
     super.key,
   }) : currentWeek = Week(start: startOfWeek);
 
   final DateTime now;
   final List<Lecture> lectures;
   final Week currentWeek;
+  final bool showClassNumber;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -83,6 +87,32 @@ class SchedulePageView extends ConsumerWidget {
                 now: now,
                 day: date,
                 lectures: _lecturesOfDay(lectures, date),
+                showClassNumber: showClassNumber,
+                onLectureTap: (lecture) {
+                  final profile = ref.watch(
+                    profileProvider.select((value) => value.value),
+                  );
+
+                  if (profile != null) {
+                    final ocorrenciasUnits = profile.courseUnits
+                        .where(
+                          (unit) =>
+                              unit.occurrId != null &&
+                              unit.occurrId == lecture.occurrId,
+                        )
+                        .toList();
+                    if (ocorrenciasUnits.isNotEmpty) {
+                      final correctUnit = ocorrenciasUnits.first;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<CourseUnitDetailPageView>(
+                          builder: (context) =>
+                              CourseUnitDetailPageView(correctUnit),
+                        ),
+                      );
+                    }
+                  }
+                },
               ),
             )
             .toList(),

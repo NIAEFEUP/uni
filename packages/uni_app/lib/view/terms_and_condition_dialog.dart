@@ -6,6 +6,7 @@ import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/about/widgets/terms_and_conditions.dart';
+import 'package:uni_ui/modal/modal.dart';
 
 enum TermsAndConditionsState { accepted, rejected }
 
@@ -37,56 +38,59 @@ class TermsAndConditionDialog {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return AlertDialog(
-          title: Text(
-            S.of(context).terms_change,
-            style: Theme.of(context).textTheme.headlineSmall,
-            textAlign: TextAlign.center,
-          ),
-          content: Column(
-            children: [
-              const Expanded(
-                child: SingleChildScrollView(child: TermsAndConditions()),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FilledButton(
-                    onPressed: () async {
-                      Navigator.of(context).pop();
-                      userTermsDecision.complete(
-                        TermsAndConditionsState.accepted,
-                      );
-                      await PreferencesController.setTermsAndConditionsAcceptance(
-                        areAccepted: true,
-                      );
-                    },
-                    child: Text(
-                      S.of(context).accept,
-                      style: const TextStyle(fontSize: 12, color: Colors.white),
+        return ModalDialog(
+          children: [
+            Text(
+              S.of(context).terms_change,
+              style: Theme.of(context).textTheme.headlineLarge,
+            ),
+            const SizedBox(height: 16),
+            const Expanded(
+              child: SingleChildScrollView(child: TermsAndConditions()),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              spacing: 8,
+              children: [
+                TextButton(
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    userTermsDecision.complete(
+                      TermsAndConditionsState.rejected,
+                    );
+                    await PreferencesController.setTermsAndConditionsAcceptance(
+                      areAccepted: false,
+                    );
+                  },
+                  child: Text(
+                    S.of(context).reject,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    userTermsDecision.complete(
+                      TermsAndConditionsState.accepted,
+                    );
+                    await PreferencesController.setTermsAndConditionsAcceptance(
+                      areAccepted: true,
+                    );
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.onSecondary,
+                  ),
+                  child: Text(
+                    S.of(context).accept,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.secondary,
                     ),
                   ),
-                  const SizedBox(width: 20),
-                  FilledButton(
-                    onPressed: () async {
-                      Navigator.of(context).pop();
-                      userTermsDecision.complete(
-                        TermsAndConditionsState.rejected,
-                      );
-                      await PreferencesController.setTermsAndConditionsAcceptance(
-                        areAccepted: false,
-                      );
-                    },
-                    child: Text(
-                      S.of(context).reject,
-                      style: const TextStyle(fontSize: 12, color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         );
       },
     );

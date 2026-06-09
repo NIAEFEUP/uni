@@ -45,6 +45,9 @@ class _CourseUnitsViewState extends ConsumerState<CourseUnitsView> {
                 Padding(
                   padding: const EdgeInsets.only(left: 8, right: 8),
                   child: DropdownButton(
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    dropdownColor: Theme.of(context).colorScheme.secondary,
+                    borderRadius: BorderRadius.circular(8),
                     underline: Container(),
                     items: _getAvailableYears(courseUnits)
                         .map(
@@ -64,6 +67,9 @@ class _CourseUnitsViewState extends ConsumerState<CourseUnitsView> {
                   ),
                 ),
                 DropdownButton(
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  dropdownColor: Theme.of(context).colorScheme.secondary,
+                  borderRadius: BorderRadius.circular(8),
                   underline: Container(),
                   items: _getAvailableSemesters(courseUnits)
                       .map((semester) => _toDropdownMenuItem(semester, '1S+2S'))
@@ -78,7 +84,10 @@ class _CourseUnitsViewState extends ConsumerState<CourseUnitsView> {
                 ),
                 const Spacer(),
                 IconButton(
-                  icon: const UniIcon(UniIcons.list),
+                  icon: UniIcon(
+                    UniIcons.list,
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
                   onPressed: () {
                     setState(() {
                       isGrid = false;
@@ -87,7 +96,10 @@ class _CourseUnitsViewState extends ConsumerState<CourseUnitsView> {
                   },
                 ),
                 IconButton(
-                  icon: const UniIcon(UniIcons.grid),
+                  icon: UniIcon(
+                    UniIcons.grid,
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
                   onPressed: () {
                     setState(() {
                       isGrid = true;
