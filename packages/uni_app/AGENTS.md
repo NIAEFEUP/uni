@@ -270,3 +270,15 @@ Add strings to both `app_pt.arb` and `app_en.arb`, then regenerate. Never hardco
 7. **Changing entities without migration** → Always increment schema version
 8. **Committing `.env` or secrets** → Add to `.gitignore`
 9. **Skipping quality checks** → Run `dart fix && dart format && dart analyze && flutter test` before every push
+
+## UI & Design System
+
+UI components live in the `uni_ui` package. Key rules:
+
+- **Never hardcode colors, typography, or spacing** — use tokens from `uni_ui/lib/theme.dart`
+- **Before creating a new widget**, check if a component already exists in `uni_ui`
+- **Generic/reusable widgets** (no providers, data via parameters) → create in `uni_ui`
+- **Feature-specific widgets** (depend on providers, single screen) → create in `uni_app`
+- Import Material only in `uni_ui`, not directly in `uni_app`
+
+Available components: cards, modals, navbar, calendar, timeline, course widgets — see `uni_ui/lib/`
