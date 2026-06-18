@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uni/controller/fetchers/calendar_fetcher_json.dart';
+import 'package:uni/controller/fetchers/events_fetcher/calendar_fetcher_json.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/calendar_event.dart';
@@ -35,7 +35,7 @@ void main() {
     container = ProviderContainer(
       overrides: [
         calendarProvider.overrideWith(
-          () => CalendarNotifier(fetcher: fakeFetcher),
+          () => CalendarNotifier(jsonFetcher: fakeFetcher),
         ),
       ],
     );
