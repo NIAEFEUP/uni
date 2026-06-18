@@ -128,25 +128,6 @@ final profile = await ProfileFetcher().fetch(session);
 
 ---
 
-## Tech Stack
-
-| Component | Technology | Notes |
-|-----------|-----------|-------|
-| State Management | `flutter_riverpod` | Use `CachedAsyncNotifier<T>` for data with caching |
-| Local Cache | `objectbox` | NoSQL for high-performance entity storage |
-| Preferences | `shared_preferences` | Lightweight key-value storage (theme, locale, cache timestamps) |
-| Secure Storage | `flutter_secure_storage` | Encrypted storage for session/credentials (Keychain/Keystore) |
-| HTTP Client | `http` package | Wrapped with authentication + timeouts in `/http/client/` |
-| Analytics | `plausible_analytics` | Tracks events; configured via `.env` |
-| Error Tracking | `sentry_flutter` | Global error capture; filters out logs |
-| Background Tasks | `workmanager` | Periodic notifications & maintenance tasks |
-| Localization | `intl` | Auto-generated from `/l10n/*.arb` files |
-| Web Scraping | HTML Parsing | Extracts data from Sigarra responses via `/controller/parsers/` |
-
-Check versions in `pubspec.yaml` dependencies section.
-
----
-
 ## Project Structure
 
 Our working files are in `/lib` folder with the following architecture:
@@ -163,14 +144,6 @@ Our working files are in `/lib` folder with the following architecture:
 1. Add entry to `NavigationItem` enum in `utils/navigation_items.dart`
 2. Add route handler in `transitionFunctions` map in `main.dart`
 3. Use `Navigator.of(context).pushNamed('/my_route')`
-
----
-
-### `/session/` - Authentication & Session Management
-
-The app supports two authentication flows, both managed by `AuthenticationController`.
-
-**Session storage:** serialized to JSON and stored in `FlutterSecureStorage` (never SharedPreferences).
 
 ---
 
@@ -246,30 +219,6 @@ Each screen is a folder. Navigation via `Navigator.of(context).pushNamed()` with
 Key shared files: `widgets/` (common components), `pages_layouts/` (reusable layouts), `locale_notifier.dart`, `theme_notifier.dart`.
 
 ---
-
-### `/l10n/` - Localization
-
-Add strings to both `app_pt.arb` and `app_en.arb`, then regenerate. Never hardcode UI strings.
-
----
-
-### `/generated/` - Auto-Generated Code
-
-`l10n.dart` and `objectbox.g.dart` — **DO NOT EDIT**. Regenerate with build_runner / intl_utils.
-
----
-
-## Common Mistakes to Avoid
-
-1. **Fetchers directly in UI** → Use Riverpod providers
-2. **Hardcoded strings** → Add to `.arb` files, use `S.of(context)`
-3. **Hardcoded URLs** → Use `NetworkRouter` / `FacultyRequestOptions`
-4. **Raw HTTP requests** → Always use `authenticatedHttpClient`
-5. **Forgetting to cache** → Extend `CachedAsyncNotifier<T>`
-6. **Sensitive data in ObjectBox/SharedPreferences** → Use `flutter_secure_storage`
-7. **Changing entities without migration** → Always increment schema version
-8. **Committing `.env` or secrets** → Add to `.gitignore`
-9. **Skipping quality checks** → Run `dart fix && dart format && dart analyze && flutter test` before every push
 
 ## UI & Design System
 
