@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:email_validator/email_validator.dart';
+import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
+import 'package:uni/model/entities/course_units/course_unit_result.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/session/flows/base/session.dart';
@@ -212,4 +215,44 @@ Map<String, int> parseOccurences(http.Response response) {
     result[key] = id;
   }
   return result;
+}
+
+CourseUnitResult parseCourseUnitResults(http.Response response) {
+  final document = parse(response.body);
+
+  final title = document.querySelector('h2');
+  final titleParts = title?.text.split(' - ') ?? [];
+  final schoolYear = titleParts.length >= 3 ? titleParts[2].trim() : '';
+
+  // NOTE : there is always a hidden table. Seems to be the first one
+  // so we choose the second. If this stops working consider:
+  // - checking if style="display:none";
+  // - finding the one with first <tr> containing <th> with "Inscritos";
+  final table = document.querySelectorAll('table.dados')[1];
+  final cells = table.querySelectorAll('td.k.n');
+
+  final enrolled = int.parse(cells[0].text.trim());
+  final evaluated = int.parse(cells[1].text.trim());
+  final approved = int.parse(cells[2].text.trim());
+  final evaluatedEnrolledRatio = double.parse(
+    cells[3].text.trim().replaceFirst(',', '.'),
+  );
+  final approvedEnrolledRatio = double.parse(
+    cells[4].text.trim().replaceFirst(',', '.'),
+  );
+  final approvedEvaluatedRatio = double.parse(
+    cells[5].text.trim().replaceFirst(',', '.'),
+  );
+
+  return CourseUnitResult(
+    schoolYear: schoolYear,
+    enrolled: enrolled,
+    evaluated: evaluated,
+    approved: approved,
+    failed: evaluated - approved,
+    notEvaluated: enrolled - evaluated,
+    evaluatedEnrolledRatio: evaluatedEnrolledRatio,
+    approvedEnrolledRatio: approvedEnrolledRatio,
+    approvedEvaluatedRatio: approvedEvaluatedRatio,
+  );
 }
