@@ -1,233 +1,95 @@
-## Development Commands
+# CLAUDE.md
 
-### Setup & Dependencies
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Commands
+
 ```bash
-# Get all dependencies
+# Dependencies
 flutter pub get
-```
 
-### Code Quality & Formatting
-```bash
-# Auto-format code (required before commit)
-dart format .
-
-# Fix common issues automatically
-dart fix --apply
-
-# Run linter analysis (required before commit)
-dart analyze .
-
-# Run all quality checks
+# Code quality (run in this order before committing)
 dart fix --apply && dart format . && dart analyze .
-```
 
-### Code Generation
-```bash
-# Generate localization from .arb files
+# Tests
+flutter test
+flutter test test/path/to/test_file.dart   # single file
+
+# Code generation (ObjectBox, JsonSerializable, Mockito)
+dart pub run build_runner build --delete-conflicting-outputs
+
+# Localization — after editing .arb files in /l10n/
 dart pub global activate intl_utils 2.1.0
 dart pub global run intl_utils:generate
-
-# Generate ObjectBox ORM code (auto-run on pub get usually)
-dart pub run build_runner build --delete-conflicting-outputs
 ```
 
-### Testing & Debugging
-```bash
-# Run all unit and widget tests
-flutter test
+Linter: `leancode_lint` + `custom_lint`. Generated files (`**.g.dart`, `**.mocks.dart`, `**/generated/**`) are excluded from analysis and must be committed.
 
-# Run specific test file
-flutter test test/path/to/test_file.dart
+## Architecture
 
-# Run with coverage
-flutter test --coverage
+The app is a Flutter/Riverpod app that scrapes [SIGARRA](https://sigarra.up.pt/) (University of Porto's academic portal). It never calls a backend we own — all data comes from HTML scraping or OIDC.
+
+### Layer overview
+
+```
+view/          → Riverpod consumer widgets; never call fetchers or controllers directly
+model/
+  providers/   → CachedAsyncNotifier subclasses; reactive state + cache management
+  entities/    → ObjectBox @Entity models (pure data)
+controller/
+  fetchers/    → HTTP + HTML → entity; implement SessionDependantFetcher
+  parsers/     → HTML → entity (called by fetchers)
+  local_storage/ → ObjectBox DB, SharedPreferences, migrations
+  networking/  → NetworkRouter; builds Sigarra URLs from session
+http/client/   → AuthenticatedClient (cookie injection), TimeoutClient
+session/       → two auth flows (credentials vs federated OIDC)
+sigarra/       → typed Sigarra endpoint definitions
 ```
 
----
+### `CachedAsyncNotifier<T>`
 
-## Development Guidelines & Rules
+All network-backed providers extend this. On `build()`:
+1. Loads from ObjectBox (storage).
+2. If cache timestamp (in SharedPreferences) is expired or data is empty, fetches from network.
+3. On network failure, falls back to last known cached value.
 
-### Never Commit
-- `.env` files or any file with secrets (API keys, tokens, credentials)
-- Uncommented debug code (`print()` statements, debugPrint)
-- Code that fails format, linter, or test checks
-- Large test data files or binary assets
+Call `ref.watch(xyzProvider)` in widgets; `ref.refresh(xyzProvider)` to force reload; never instantiate fetchers from views.
 
-### Code Quality Standards
-**BEFORE COMMITTING - Run in order:**
-1. `dart fix --apply` — Auto-fix common issues
-2. `dart format .` — Format all code
-3. `dart analyze .` — Check for lint violations
-4. `flutter test` — Run all tests
-5. Verify all pass before pushing
+### Authentication flows (`/session/`)
 
-### Localization (Multi-Language Support)
-**Never hardcode strings for UI or error messages!**
+Two flows, both expose `Session` (immutable — use `copyWith` to update):
 
-**Pattern:**
-1. Add string to `/l10n/app_pt.arb` (Portuguese)
-2. Add corresponding string to `/l10n/app_en.arb` (English)
-3. Run: `dart pub global run intl_utils:generate`
-4. Use in code:
-```dart
-import 'package:uni/generated/l10n.dart';
+- **Credentials** (`flows/credentials/`): POST username/password to SIGARRA; parse HTML for success/failure; cookies injected via `CookieClient`.
+- **Federated** (`flows/federated/`): OIDC Authorization Code + PKCE against UP's IdP; exchanges access token for SIGARRA cookies via `SigarraOidc().token()`.
 
-// In widget build method
-Text(S.of(context).myStringKey);
-```
+Always pass cookies as a lambda `() => session.cookies` — not the value — so they're fresh after session refresh.
 
-### URLs & Endpoints
-**Never hardcode URLs or base paths!**
+### URL construction
 
-- Use `NetworkRouter.getUrls()` from `/controller/networking/network_router.dart`
-- See example in `fees_fetcher.dart`
-- URLs are automatically adjusted per faculty/session
-- Base URL pattern: `https://sigarra.up.pt/{faculty}/{language}/`
+Never hardcode SIGARRA URLs. Use `NetworkRouter.getBaseUrl(faculty)` or `NetworkRouter.getBaseUrlsFromSession(session)`. Pattern: `https://sigarra.up.pt/{faculty}/{language}/{endpoint}`.
 
-### Data Fetching Pattern
-**Never call fetchers directly from UI!**
+### Data persistence
 
-```dart
-// Correct — in a widget:
-ref.watch(profileProvider).whenData((profile) {
-  return ProfileWidget(profile);
-});
+| Data | Storage |
+|---|---|
+| Entity data (profiles, schedules, …) | ObjectBox (`Database()`) |
+| User preferences, cache timestamps | `SharedPreferences` via `PreferencesController` |
+| Credentials / session tokens | `flutter_secure_storage` |
+| Notification state | JSON file in `documents/` via `NotificationTimeoutStorage` |
+| Temporary files | `cache/` directory; auto-cleaned after 7 days |
 
-// To force refresh:
-ref.refresh(profileProvider);
+### Database schema migrations
 
-// Wrong — don't do this:
-final profile = await ProfileFetcher().fetch(session);
-```
+`MigrationController.runMigrations()` runs on launch. When changing an ObjectBox `@Entity`, add a migration step to `migrations/migrations.dart` and increment `MigrationController.currentPreferencesVersion`.
 
-### Data Persistence Rules
-- **User preferences** (theme, language) → `SharedPreferences` via `PreferencesController`
-- **Entity data** (profiles, schedules, etc.) → `ObjectBox` (auto-initialized)
-- **Session/credentials** → `FlutterSecureStorage` (Keychain on iOS, Keystore on Android — encrypted by the OS)
-- **Notification state** → JSON file in `getApplicationDocumentsDirectory()` via `NotificationTimeoutStorage`
-- **Temporary files** → `cache/` directory; auto-cleanup after 7 days via `cleanup.dart`
-- Never store sensitive data in ObjectBox or SharedPreferences — use `flutter_secure_storage`
+### Localization
 
-### Architecture Rules
-- **Controllers** call fetchers, manage business logic
-- **Providers** wrap controllers with caching & reactive state
-- **Views** only use providers (never call controllers directly)
-- **Models** contain entities, converters, services (pure data layer)
-- Use `CachedAsyncNotifier<T>` for all network-dependent data
+All UI strings go in `l10n/app_pt.arb` (Portuguese) and `l10n/app_en.arb` (English), then run `intl_utils:generate`. Use as `S.of(context).myKey` — never hardcode strings.
 
-### Adding Features Checklist
-- [ ] Add data model/entity if needed
-- [ ] Create fetcher if data comes from network
-- [ ] Create parser if scraping HTML responses
-- [ ] Wrap fetcher with Riverpod provider + caching
-- [ ] Add localized strings to `.arb` files
-- [ ] Create/update view screens
-- [ ] Add route to `utils/navigation_items.dart`
-- [ ] Run format, linter, analyze, tests
-- [ ] Create migration if database schema changed
+### Navigation
 
----
+Routes are declared in `NavigationItem` enum (`utils/navigation_items.dart`) and wired in `main.dart`'s `transitionFunctions` map. Navigate with `Navigator.of(context).pushNamed('/route')`. Some routes are faculty-gated via `NavigationItem.faculties`.
 
-## Project Structure
+### UI / Design system
 
-Our working files are in `/lib` folder with the following architecture:
-
-### `main.dart` - Application Entry Point
-
-- Loads `.env` for Plausible analytics (`PLAUSIBLE_URL`, `PLAUSIBLE_DOMAIN`)
-- Initializes `SharedPreferences`, runs `MigrationController`, initializes ObjectBox
-- Configures `Workmanager` for background tasks and `SentryFlutter` for error tracking
-- Wrapped in `ProviderScope` (Riverpod) and `SentryFlutter`
-- Initial route is `/splash` → resolves to `/area` (valid session) or `/login` (no session)
-
-**Adding a New Route:**
-1. Add entry to `NavigationItem` enum in `utils/navigation_items.dart`
-2. Add route handler in `transitionFunctions` map in `main.dart`
-3. Use `Navigator.of(context).pushNamed('/my_route')`
-
----
-
-### `/model` - Data Layer & State Management
-
-#### `/providers/riverpod/` - Riverpod State Providers
-Most extend `CachedAsyncNotifier<T>` — checks cache timestamp in SharedPreferences before fetching from network.
-
-Key providers:
-- `sessionProvider` — authentication state
-- `profileProvider` — user profile, courses, fees, print balance
-- `lectureProvider` — timetable
-- `examProvider` — exam schedule
-- `calendarProvider` — academic calendar
-- `restaurantProvider` — cafeteria menus
-- `connectivityProvider` — network status (sync)
-- `themeProvider` / `localeProvider` — UI preferences (sync)
-
-**Caching:** if cache expired (> `cacheDuration`), fetches from network and updates timestamp. On network failure, falls back to cached data.
-
-#### `/entities/` - ObjectBox Data Models
-All decorated with `@Entity()`. Core entities: `Profile`, `Course`, `CourseUnit`, `Lecture`, `Exam`, `CalendarEvent`, `Restaurant`, `Location`, `News`, `Bus`.
-
----
-
-### `/controller` - Business Logic & Data Fetching
-
-#### `/fetchers/` - Data Sources
-All Sigarra fetchers implement `SessionDependantFetcher`:
-```dart
-List<String> getEndpoints(Session session);
-```
-
-**Data flow:**
-1. Fetcher builds Sigarra URL from session (faculty, language)
-2. `AuthenticatedClient` injects cookies automatically
-3. HTML response parsed via corresponding parser in `/parsers/`
-4. Entity stored in ObjectBox; provider caches timestamp in SharedPreferences
-
-#### `/local_storage/` - Persistence Layer
-- `database/` — ObjectBox singleton (`Database().init()`)
-- `preferences_controller.dart` — SharedPreferences wrapper (theme, locale, cache timestamps, favorite widgets)
-- `migrations/` — Schema evolution scripts; run automatically on launch via `MigrationController`. **Always increment schema version when changing entities.**
-- `file_offline_storage.dart` — File cache in `cache/` directory; cleaned up after 7 days
-- `notification_timeout_storage.dart` — JSON file in `documents/` directory tracking last notification timestamps to prevent duplicate notifications
-
----
-
-### `/http/` - HTTP Client Configuration
-
-- `authenticated.dart` — Overrides `send()` to inject cookies on every request + handles 403/re-auth
-- `timeout.dart` — Enforces 30-second timeout
-- `cookie.dart` — Cookie storage and injection
-- `callback.dart` — Request/response lifecycle hooks
-- `utils.dart` — Cookie extraction from responses
-
-Always use `authenticatedHttpClient` for Sigarra requests — never raw `http.Client`.
-
----
-
-### `/sigarra/` - Sigarra Endpoint Definitions
-
-Typed wrappers for Sigarra endpoints. Base URL built from `FacultyRequestOptions`:
-- `SigarraHtml` — HTML endpoints (login, home, schedule, etc.)
-- `SigarraOidc` — OIDC token endpoint for FederatedSession refresh
-
----
-
-### `/view` - Presentation Layer
-
-Each screen is a folder. Navigation via `Navigator.of(context).pushNamed()` with `PageTransition` animations.
-
-Key shared files: `widgets/` (common components), `pages_layouts/` (reusable layouts), `locale_notifier.dart`, `theme_notifier.dart`.
-
----
-
-## UI & Design System
-
-UI components live in the `uni_ui` package. Key rules:
-
-- **Never hardcode colors, typography, or spacing** — use tokens from `uni_ui/lib/theme.dart`
-- **Before creating a new widget**, check if a component already exists in `uni_ui`
-- **Generic/reusable widgets** (no providers, data via parameters) → create in `uni_ui`
-- **Feature-specific widgets** (depend on providers, single screen) → create in `uni_app`
-- Import Material only in `uni_ui`, not directly in `uni_app`
-
-Available components: cards, modals, navbar, calendar, timeline, course widgets — see `uni_ui/lib/`
+Components live in the sibling `uni_ui` package. Use tokens from `uni_ui/lib/theme.dart` — no hardcoded colors, typography, or spacing. Generic reusable widgets (no providers) → `uni_ui`. Feature-specific widgets (depend on providers) → `uni_app`. Never import Material directly in `uni_app`.
