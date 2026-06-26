@@ -41,7 +41,7 @@ class MockExamNotifier extends ExamNotifier {
 
     for (var i = 0; i < 5; i++) {
       final examDay = examDays[i];
-      final start = DateTime(examDay.year, examDay.month, examDay.day, 14, 0);
+      final start = DateTime(examDay.year, examDay.month, examDay.day, 14);
       final finish = DateTime(examDay.year, examDay.month, examDay.day, 16, 30);
 
       exams.add(
