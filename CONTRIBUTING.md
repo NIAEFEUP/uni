@@ -1,57 +1,42 @@
-# Contributing to UNI
- 
-Want to make life easier for students at the University of Porto? Amazing! 
+# Contributing to uni
 
-We have a full guide on how to run UNI locally.
+Want to make life easier for students at the University of Porto? Amazing!
+
+**uni** is primarily developed and maintained by **[NIAEFEUP](https://niaefeup.pt/)**. However, we believe that the best tools are built by the community, and outside contributions are always welcome!
+
+### Important: University Account Required
+Please note that to contribute effectively and explore all of the app's features (such as schedules, grades, and private student data), **you must have a valid University of Porto (Sigarra) account**. Most of the app's core functionality relies on authenticated requests to university systems.
 
 ## Topics
 
-- [Project Structure](#project-structure)
+- [Documentation & Guides](#documentation--guides)
 - [Reporting Security Issues](#reporting-security-issues)
-- [Reporting other issues](#reporting-other-issues)
-- [How to contribute to UNI (guide)](#how-to-contribute-to-uni-guide)
+- [Reporting Other Issues](#reporting-other-issues)
+- [How to Contribute to uni](#how-to-contribute-to-uni)
 - [Conventions](#conventions)
-- [Useful commands](#useful-commands)
-- [UNI community guidelines](#uni-community-guidelines)
+- [Useful Commands](#useful-commands)
+- [uni Community Guidelines](#uni-community-guidelines)
 - [Coding Style](#coding-style)
+- [Community & Support](#community--support)
 
-## Project Structure
+## Documentation & Guides
 
-The UNI code base is divided into packages:
-```
-uni_ui/ -> UI components that can be reused and themes definitions
-uni_app/ -> Includes the main.dart file as well as all the views, providers and controllers
-uni_lint/ -> linter configurations
-```
+To keep our documentation fresh and accessible, our technical guides are at the **[Project Wiki](https://github.com/niaefeup/uni/wiki)**. Please consult the wiki before starting your development journey.
 
-When fixing bugs or creating new features, you will mostly work on uni_app
-
-### Layer overview of uni_app
-
-```
-view/          → Riverpod consumer widgets; never call fetchers or controllers directly
-model/
-  providers/   → CachedAsyncNotifier subclasses; reactive state + cache management
-  entities/    → ObjectBox @Entity models (pure data)
-controller/
-  fetchers/    → HTTP + HTML → entity; implement SessionDependantFetcher
-  parsers/     → HTML → entity (called by fetchers)
-  local_storage/ → ObjectBox DB, SharedPreferences, migrations
-  networking/  → NetworkRouter; builds Sigarra URLs from session
-http/client/   → AuthenticatedClient (cookie injection), TimeoutClient
-session/       → two auth flows (credentials vs federated OIDC)
-sigarra/       → typed Sigarra endpoint definitions
-```
+### Getting Started
+* **New to the project?** Start with the **[Development Setup](https://github.com/niaefeup/uni/wiki/Development-Setup)** guide.
+* **Need to run the app?** Check out **[Running the App](https://github.com/niaefeup/uni/wiki/Running-the-App)**.
+* **Want to understand the code?** Read the **[Architecture Overview](https://github.com/niaefeup/uni/wiki/Architecture-Overview)**.
 
 ## Reporting Security Issues
 We take the security of our users' data very seriously. If you found some security issue in the code please contact us right away!
 
 Please **DO NOT** file a public issue, instead contact us via Report bug page or via email to ni@aefeup.pt.
 
-## Reporting other issues
-Reporting issues is an amazing way to help build a better UNI.
+## Reporting Other Issues
+Reporting issues is an amazing way to help build a better uni.
 
-You can report bugs via Bug report page right on your UNI app and we receive it via Sentry, but if you wish you can check our open issues and add a new issue to the bug if not there yet.
+You can report bugs via Bug report page right on your uni app and we receive it via Sentry, but if you wish you can check our open issues and add a new issue to the bug if not there yet.
 
 When reporting a bug please try to be as specific as possible by:
 - write an extensive description of the bug
@@ -59,34 +44,22 @@ When reporting a bug please try to be as specific as possible by:
 - screenshots (if applicable)
 - Operating System and App version
 
-The more information you give, the easier it is to fix the bug and make UNI even better!
+The more information you give, the easier it is to fix the bug and make uni even better!
 
-## How to contribute to UNI (guide)
+## How to Contribute to uni
 
-1. Find an issue you really want to work with (make sure it's not already assigned to anyone) and assign yourself or ask a maintainer to do it for you.
+1.  **Find an Issue**: Browse our [open issues](https://github.com/niaefeup/uni/issues). If you have a new idea, open an issue first to discuss it with the team.
+2.  **Fork & Branch**: Create a feature branch from `develop` using our [Conventional Branching](https://github.com/niaefeup/uni/wiki/Branching-&-Commits) rules (e.g., `feat/add-new-widget`).
+3.  **Code & Lint**: Write your code and ensure it passes our linting checks. We use a [pre-commit hook](https://github.com/niaefeup/uni/wiki/Code-Formatting-&-Linting) to maintain code quality.
+4.  **Submit a Pull Request**: Open a PR against the `develop` branch. Ensure you fill out the PR template provided.
 
-2. Fork the UNI repository.
+### Pull Request Checklist
+- [ ] I have synced my branch with the latest `develop`.
+- [ ] My code follows the project's [linting and formatting](https://github.com/niaefeup/uni/wiki/Code-Formatting-&-Linting) rules.
+- [ ] I have run [build_runner](https://github.com/niaefeup/uni/wiki/Code-Generation) if I modified any database entities or providers.
+- [ ] I have tested the changes an emulator or device.
 
-3. Clone your forked repo to your machine.
-
-4. Make changes to the codebase and commit them.
-
-5. Go to your forked repo on GitHub and click on `Contribute` when opening a PR
-
-6. Wait for a maintainer to review and approve your code, or ask for changes
-
-## Conventions
-When creating a new issue or when pushing code make sure you follow the branch naming conventions:
-
-- feat/ or feature/ for new functionalities
-- fix/ or bugfix/ for error correction
-- hotfix/ for critical corrections in production
-- refactor/ for refactoring of existing code
-- docs/ for changes in the documentation
-- chore/ for maintenance tasks
-- test/ for creation or changes of tests
-
-## Useful commands
+## Useful Commands
 
 ```bash
 # Dependencies
@@ -109,10 +82,10 @@ dart pub global run intl_utils:generate
 
 Linter: `leancode_lint` + `custom_lint`. Generated files (`**.g.dart`, `**.mocks.dart`, `**/generated/**`) are excluded from analysis and must be committed.
 
-## UNI community guidelines
-We want to keep UNI community together and collaborative. To help us achieve that follow these simple rules:
+## uni Community Guidelines
+We want to keep uni community together and collaborative. To help us achieve that follow these simple rules:
 
-- Be nice: be respectful and nice to other collaborators and to maintainers. No type of discrimination will be tolerated.
+- Be nice: Be respectful and nice to other collaborators and to maintainers. No type of discrimination will be tolerated.
 
 - Keep it legal: Try not to get us in trouble. Make sure that the code you push is yours and not protected by any type of rights that might get us in trouble in the future.
 
@@ -129,3 +102,8 @@ All your code must:
 - Pass all the linter requirements
 - Follow our file naming convention
 - Be readable: keep variable names short and comment your code every time you feel it is not obvious to understand it
+
+## Community & Support
+
+Need help?
+* Reach out via our [socials](https://linktr.ee/niaefeup) or our [website](https://niaefeup.pt).
