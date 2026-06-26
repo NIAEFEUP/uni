@@ -110,6 +110,9 @@ class CurrentAccountPageViewState
     }
 
     if (currentAccount.hasError || accountOverview.hasError) {
+      final errorMsg = currentAccount.hasError
+          ? currentAccount.error.toString()
+          : accountOverview.error.toString();
       return LayoutBuilder(
         builder: (context, constraints) => SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -120,7 +123,8 @@ class CurrentAccountPageViewState
               child: EmptyStateWidget(
                 imagePath: 'assets/images/current_account.png',
                 title: S.of(context).no_info,
-                subtitle: S.of(context).no_current_account_info,
+                subtitle:
+                    '${S.of(context).no_current_account_info}\n\n$errorMsg',
               ),
             ),
           ),
