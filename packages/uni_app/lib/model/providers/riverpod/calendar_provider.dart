@@ -17,8 +17,8 @@ class CalendarNotifier extends CachedAsyncNotifier<LocalizedEvents> {
   CalendarNotifier({
     CalendarFetcherJson? jsonFetcher,
     EventFetcherNiddle? niddleFetcher,
-  })  : _jsonFetcher = jsonFetcher,
-        _niddleFetcher = niddleFetcher;
+  }) : _jsonFetcher = jsonFetcher,
+       _niddleFetcher = niddleFetcher;
 
   final CalendarFetcherJson? _jsonFetcher;
   final EventFetcherNiddle? _niddleFetcher;
@@ -68,5 +68,6 @@ class CalendarNotifier extends CachedAsyncNotifier<LocalizedEvents> {
     );
   }
 
-  int _getAcademicYear(DateTime date) => date.month < 9 ? date.year - 1 : date.year;
+  int _getAcademicYear(DateTime date) =>
+      date.month < 9 ? date.year - 1 : date.year;
 }

@@ -48,10 +48,7 @@ void main() {
         events.first.startDate,
         DateTime.parse('2024-12-23T00:00:00.000Z'),
       );
-      expect(
-        events.first.endDate,
-        DateTime.parse('2024-12-31T00:00:00.000Z'),
-      );
+      expect(events.first.endDate, DateTime.parse('2024-12-31T00:00:00.000Z'));
     });
 
     test('handles null dates gracefully', () async {
@@ -84,12 +81,7 @@ void main() {
       final client = _FakeHttpClient(
         200,
         json.encode([
-          {
-            'id': 3,
-            'name': 'Empty dates',
-            'startDate': '',
-            'endDate': '',
-          },
+          {'id': 3, 'name': 'Empty dates', 'startDate': '', 'endDate': ''},
         ]),
       );
 
@@ -109,10 +101,7 @@ void main() {
       final client = _FakeHttpClient(
         200,
         json.encode([
-          {
-            'id': 4,
-            'name': 'Minimal event',
-          },
+          {'id': 4, 'name': 'Minimal event'},
         ]),
       );
 
@@ -133,10 +122,7 @@ void main() {
       final client = _FakeHttpClient(
         200,
         json.encode([
-          {
-            'id': 5,
-            'name': null,
-          },
+          {'id': 5, 'name': null},
         ]),
       );
 
@@ -155,8 +141,8 @@ void main() {
       final client = _FakeHttpClient(404, 'Not Found');
 
       final fetcher = EventFetcherNiddle(httpClient: client);
-      expect(
-        () => fetcher.fetchEvents(year: 2024, facultyId: 1, courseId: 123),
+      await expectLater(
+        fetcher.fetchEvents(year: 2024, facultyId: 1, courseId: 123),
         throwsException,
       );
     });
@@ -165,8 +151,8 @@ void main() {
       final client = _FakeHttpClient(200, '');
 
       final fetcher = EventFetcherNiddle(httpClient: client);
-      expect(
-        () => fetcher.fetchEvents(year: 2024, facultyId: 1, courseId: 123),
+      await expectLater(
+        fetcher.fetchEvents(year: 2024, facultyId: 1, courseId: 123),
         throwsException,
       );
     });

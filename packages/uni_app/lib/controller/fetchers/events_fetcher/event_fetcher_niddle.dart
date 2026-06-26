@@ -44,7 +44,8 @@ class EventFetcherNiddle {
 
       final mapped = <String, dynamic>{
         'name': map['name'] ?? '',
-        'start_date': (startDateRaw != null && startDateRaw.toString().isNotEmpty)
+        'start_date':
+            (startDateRaw != null && startDateRaw.toString().isNotEmpty)
             ? startDateRaw.toString()
             : null,
         'end_date': (endDateRaw != null && endDateRaw.toString().isNotEmpty)
