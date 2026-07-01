@@ -611,5 +611,9 @@
   "snacks": "Snacks",
   "@snacks": {},
   "stores": "Stores",
-  "@stores": {}
+  "@stores": {},
+  "feedback_consent_title": "Consent to data collection",
+  "@feedback_consent_title": {},
+  "feedback_github_title_section": "Want to see how the app is built? Check out our GitHub",
+  "@feedback_github_title_section": {}
 }
