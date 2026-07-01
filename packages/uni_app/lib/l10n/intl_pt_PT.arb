@@ -614,8 +614,6 @@
   "@snacks": {},
   "stores": "Lojas",
   "@stores": {},
-  "feedback_consent_title": "Consentimento para recolha de dados",
-  "@feedback_consent_title": {},
   "feedback_github_title_section": "Queres ver como a app é feita? Explora o nosso GitHub",
   "@feedback_github_title_section": {}
 }
