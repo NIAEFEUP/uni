@@ -18,7 +18,7 @@ typedef FilesMap = Map<CourseUnit, List<CourseUnitFileDirectory>>;
 typedef ClassProfessorsMap = Map<CourseUnit, Map<String, List<Professor>>>;
 typedef LecturesMap = Map<CourseUnit, List<Lecture>>;
 typedef StatisticsMap = Map<CourseUnit, CourseUnitStatistics>;
-typedef   CourseUnitsInfoState = (
+typedef CourseUnitsInfoState = (
   SheetsMap,
   ClassesMap,
   FilesMap,
@@ -73,7 +73,8 @@ class CourseUnitsInfoNotifier
     );
   }
 
-  UnmodifiableMapView<CourseUnit, CourseUnitStatistics> get courseUnitsStatistics {
+  UnmodifiableMapView<CourseUnit, CourseUnitStatistics>
+  get courseUnitsStatistics {
     final currentState = state.value;
     return UnmodifiableMapView(
       currentState?.$6 ?? <CourseUnit, CourseUnitStatistics>{},
@@ -360,9 +361,8 @@ class CourseUnitsInfoNotifier
           <CourseUnit, List<Lecture>>{},
           <CourseUnit, CourseUnitStatistics>{},
         );
-    final updatedCourseUnitStatisticsMap = Map<CourseUnit, CourseUnitStatistics>.from(
-      currentState.$6,
-    );
+    final updatedCourseUnitStatisticsMap =
+        Map<CourseUnit, CourseUnitStatistics>.from(currentState.$6);
     updatedCourseUnitStatisticsMap[courseUnit] = statistics;
     updateState((
       currentState.$1,

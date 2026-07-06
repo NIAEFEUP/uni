@@ -46,8 +46,7 @@ class CourseUnitStatisticsView extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 8),
               child: Text(
                 '${S.of(context).enrolled}: ${statistics.enrolled}',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                ),
+                style: theme.textTheme.bodyMedium?.copyWith(),
               ),
             ),
             ClipRRect(
