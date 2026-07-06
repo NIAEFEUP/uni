@@ -622,6 +622,6 @@
   "@failed": {},
   "not_evaluated": "Not evaluated",
   "@not_evaluated": {},
-  "enrolled": "Enrolled",
+  "enrolled": "Total Enrolled",
   "@enrolled": {}
 }

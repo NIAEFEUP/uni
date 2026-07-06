@@ -6,10 +6,12 @@ import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart
 import 'package:uni/controller/fetchers/book_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/course_units/course_unit_statistics.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_statistics.dart';
 import 'package:uni/view/course_unit_info/widgets/modal_professor_info.dart';
 import 'package:uni/view/widgets/generic_animated_expandable.dart';
 import 'package:uni/view/widgets/generic_expandable.dart';
@@ -22,10 +24,16 @@ const double _horizontalSpacing = 8;
 const double _verticalSpacing = 8;
 
 class CourseUnitSheetView extends ConsumerWidget {
-  const CourseUnitSheetView(this.courseUnitSheet, this.exams, {super.key});
+  const CourseUnitSheetView(
+    this.courseUnitSheet,
+    this.exams,
+    this.courseUnitStatistics, {
+    super.key,
+  });
 
   final Sheet courseUnitSheet;
   final List<Exam> exams;
+  final CourseUnitStatistics? courseUnitStatistics;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -169,6 +177,8 @@ class CourseUnitSheetView extends ConsumerWidget {
             context: context,
           ),
         ),
+        if (courseUnitStatistics != null)
+          CourseUnitStatisticsView(courseUnitStatistics!),
         if (courseUnitSheet.books.isNotEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),

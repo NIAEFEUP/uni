@@ -2599,7 +2599,7 @@ class S {
 
   /// `Enrolled`
   String get enrolled {
-    return Intl.message('Enrolled', name: 'enrolled', desc: '', args: []);
+    return Intl.message('Total Enrolled', name: 'enrolled', desc: '', args: []);
   }
 }
 

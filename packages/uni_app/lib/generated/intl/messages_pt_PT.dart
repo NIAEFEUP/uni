@@ -202,7 +202,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "empty_text": MessageLookupByLibrary.simpleMessage(
       "Por favor preenche este campo",
     ),
-    "enrolled": MessageLookupByLibrary.simpleMessage("Inscritos"),
+    "enrolled": MessageLookupByLibrary.simpleMessage("Total Inscritos"),
     "evaluation": MessageLookupByLibrary.simpleMessage("Avaliação"),
     "exams": MessageLookupByLibrary.simpleMessage("Exames"),
     "exams_filter": MessageLookupByLibrary.simpleMessage(
