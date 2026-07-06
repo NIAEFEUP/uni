@@ -1,5 +1,5 @@
-class CourseUnitResult {
-  const CourseUnitResult({
+class CourseUnitStatistics {
+  const CourseUnitStatistics({
     required this.schoolYear,
     required this.enrolled,
     required this.approved,

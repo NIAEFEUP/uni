@@ -5,7 +5,7 @@ import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_f
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
-import 'package:uni/model/entities/course_units/course_unit_result.dart';
+import 'package:uni/model/entities/course_units/course_unit_statistics.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
@@ -17,14 +17,14 @@ typedef ClassesMap = Map<CourseUnit, List<CourseUnitClass>>;
 typedef FilesMap = Map<CourseUnit, List<CourseUnitFileDirectory>>;
 typedef ClassProfessorsMap = Map<CourseUnit, Map<String, List<Professor>>>;
 typedef LecturesMap = Map<CourseUnit, List<Lecture>>;
-typedef ResultsMap = Map<CourseUnit, CourseUnitResult>;
-typedef CourseUnitsInfoState = (
+typedef StatisticsMap = Map<CourseUnit, CourseUnitStatistics>;
+typedef   CourseUnitsInfoState = (
   SheetsMap,
   ClassesMap,
   FilesMap,
   ClassProfessorsMap,
   LecturesMap,
-  ResultsMap,
+  StatisticsMap,
 );
 
 final courseUnitsInfoProvider =
@@ -73,6 +73,13 @@ class CourseUnitsInfoNotifier
     );
   }
 
+  UnmodifiableMapView<CourseUnit, CourseUnitStatistics> get courseUnitsStatistics {
+    final currentState = state.value;
+    return UnmodifiableMapView(
+      currentState?.$6 ?? <CourseUnit, CourseUnitStatistics>{},
+    );
+  }
+
   @override
   Future<CourseUnitsInfoState?> loadFromStorage() async {
     return (
@@ -81,7 +88,7 @@ class CourseUnitsInfoNotifier
       <CourseUnit, List<CourseUnitFileDirectory>>{},
       <CourseUnit, Map<String, List<Professor>>>{},
       <CourseUnit, List<Lecture>>{},
-      <CourseUnit, CourseUnitResult>{},
+      <CourseUnit, CourseUnitStatistics>{},
     );
   }
 
@@ -93,7 +100,7 @@ class CourseUnitsInfoNotifier
       <CourseUnit, List<CourseUnitFileDirectory>>{},
       <CourseUnit, Map<String, List<Professor>>>{},
       <CourseUnit, List<Lecture>>{},
-      <CourseUnit, CourseUnitResult>{},
+      <CourseUnit, CourseUnitStatistics>{},
     );
   }
 
@@ -118,7 +125,7 @@ class CourseUnitsInfoNotifier
           <CourseUnit, List<CourseUnitFileDirectory>>{},
           <CourseUnit, Map<String, List<Professor>>>{},
           <CourseUnit, List<Lecture>>{},
-          <CourseUnit, CourseUnitResult>{},
+          <CourseUnit, CourseUnitStatistics>{},
         );
 
     final updatedSheetsMap = Map<CourseUnit, Sheet>.from(currentState.$1);
@@ -157,7 +164,7 @@ class CourseUnitsInfoNotifier
           <CourseUnit, List<CourseUnitFileDirectory>>{},
           <CourseUnit, Map<String, List<Professor>>>{},
           <CourseUnit, List<Lecture>>{},
-          <CourseUnit, CourseUnitResult>{},
+          <CourseUnit, CourseUnitStatistics>{},
         );
 
     final updatedClassesMap = Map<CourseUnit, List<CourseUnitClass>>.from(
@@ -198,7 +205,7 @@ class CourseUnitsInfoNotifier
           <CourseUnit, List<CourseUnitFileDirectory>>{},
           <CourseUnit, Map<String, List<Professor>>>{},
           <CourseUnit, List<Lecture>>{},
-          <CourseUnit, CourseUnitResult>{},
+          <CourseUnit, CourseUnitStatistics>{},
         );
 
     final updatedFilesMap = Map<CourseUnit, List<CourseUnitFileDirectory>>.from(
@@ -270,7 +277,7 @@ class CourseUnitsInfoNotifier
           <CourseUnit, List<CourseUnitFileDirectory>>{},
           <CourseUnit, Map<String, List<Professor>>>{},
           <CourseUnit, List<Lecture>>{},
-          <CourseUnit, CourseUnitResult>{},
+          <CourseUnit, CourseUnitStatistics>{},
         );
 
     final updatedClassProfessorsMap =
@@ -310,7 +317,7 @@ class CourseUnitsInfoNotifier
           <CourseUnit, List<CourseUnitFileDirectory>>{},
           <CourseUnit, Map<String, List<Professor>>>{},
           <CourseUnit, List<Lecture>>{},
-          <CourseUnit, CourseUnitResult>{},
+          <CourseUnit, CourseUnitStatistics>{},
         );
 
     final updatedCourseUnitLecturesMap = Map<CourseUnit, List<Lecture>>.from(
@@ -327,7 +334,7 @@ class CourseUnitsInfoNotifier
     ));
   }
 
-  Future<void> fetchCourseUnitResults(CourseUnit courseUnit) async {
+  Future<void> fetchCourseUnitStatistics(CourseUnit courseUnit) async {
     final session = await ref.read(sessionProvider.future);
     if (session == null) {
       return;
@@ -338,7 +345,7 @@ class CourseUnitsInfoNotifier
       return;
     }
 
-    final results = await CourseUnitsInfoFetcher().fetchCourseUnitResults(
+    final statistics = await CourseUnitsInfoFetcher().fetchCourseUnitStatistics(
       session,
       occurrId,
     );
@@ -351,19 +358,19 @@ class CourseUnitsInfoNotifier
           <CourseUnit, List<CourseUnitFileDirectory>>{},
           <CourseUnit, Map<String, List<Professor>>>{},
           <CourseUnit, List<Lecture>>{},
-          <CourseUnit, CourseUnitResult>{},
+          <CourseUnit, CourseUnitStatistics>{},
         );
-    final updatedCourseUnitResultsMap = Map<CourseUnit, CourseUnitResult>.from(
+    final updatedCourseUnitStatisticsMap = Map<CourseUnit, CourseUnitStatistics>.from(
       currentState.$6,
     );
-    updatedCourseUnitResultsMap[courseUnit] = results;
+    updatedCourseUnitStatisticsMap[courseUnit] = statistics;
     updateState((
       currentState.$1,
       currentState.$2,
       currentState.$3,
       currentState.$4,
       currentState.$5,
-      updatedCourseUnitResultsMap,
+      updatedCourseUnitStatisticsMap,
     ));
   }
 }

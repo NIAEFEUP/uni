@@ -1,15 +1,13 @@
 import 'dart:convert';
 
-import 'package:email_validator/email_validator.dart';
-import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
-import 'package:uni/model/entities/course_units/course_unit_result.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
+import 'package:uni/model/entities/course_units/course_unit_statistics.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/session/flows/base/session.dart';
 
@@ -217,7 +215,7 @@ Map<String, int> parseOccurences(http.Response response) {
   return result;
 }
 
-CourseUnitResult parseCourseUnitResults(http.Response response) {
+CourseUnitStatistics parseCourseUnitStatistics(http.Response response) {
   final document = parse(response.body);
 
   final title = document.querySelector('h2');
@@ -235,7 +233,7 @@ CourseUnitResult parseCourseUnitResults(http.Response response) {
   final evaluated = int.parse(cells[1].text.trim());
   final approved = int.parse(cells[2].text.trim());
 
-  return CourseUnitResult(
+  return CourseUnitStatistics(
     schoolYear: schoolYear,
     enrolled: enrolled,
     approved: approved,

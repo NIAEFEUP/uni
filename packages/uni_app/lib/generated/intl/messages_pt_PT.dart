@@ -65,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "allow": MessageLookupByLibrary.simpleMessage("Permitir"),
     "answer": MessageLookupByLibrary.simpleMessage("Responder"),
     "apply": MessageLookupByLibrary.simpleMessage("Aplicar"),
+    "approved": MessageLookupByLibrary.simpleMessage("Aprovados"),
     "assessments": MessageLookupByLibrary.simpleMessage("Avaliações"),
     "at_least_one_college": MessageLookupByLibrary.simpleMessage(
       "Seleciona pelo menos uma faculdade",
@@ -201,6 +202,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "empty_text": MessageLookupByLibrary.simpleMessage(
       "Por favor preenche este campo",
     ),
+    "enrolled": MessageLookupByLibrary.simpleMessage("Inscritos"),
     "evaluation": MessageLookupByLibrary.simpleMessage("Avaliação"),
     "exams": MessageLookupByLibrary.simpleMessage("Exames"),
     "exams_filter": MessageLookupByLibrary.simpleMessage(
@@ -218,6 +220,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fail_to_authenticate": MessageLookupByLibrary.simpleMessage(
       "Falha ao autenticar",
     ),
+    "failed": MessageLookupByLibrary.simpleMessage("Reprovados"),
     "failed_login": MessageLookupByLibrary.simpleMessage("O login falhou"),
     "failed_upload": MessageLookupByLibrary.simpleMessage(
       "Falha de carregamento",
@@ -486,6 +489,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_tuition_fees_sublabel": MessageLookupByLibrary.simpleMessage(
       "Os teus registos de propinas aparecerão aqui.",
     ),
+    "not_evaluated": MessageLookupByLibrary.simpleMessage("Não avaliados"),
     "notifications": MessageLookupByLibrary.simpleMessage("Notificações"),
     "notifications_intro_message": MessageLookupByLibrary.simpleMessage(
       "Queres receber alertas de eventos e informações importantes, incluindo o prazo limite de propinas?",
@@ -585,6 +589,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "some_error": MessageLookupByLibrary.simpleMessage("Algum erro!"),
     "spotted_an_error": MessageLookupByLibrary.simpleMessage(
       "Algo não está bem?",
+    ),
+    "statistics": MessageLookupByLibrary.simpleMessage("Estatísticas"),
+    "statistics_distribution_description": MessageLookupByLibrary.simpleMessage(
+      "Distribuição de aprovados, reprovados e não avaliados",
     ),
     "stcp_stops": MessageLookupByLibrary.simpleMessage(
       "STCP - Próximas Viagens",

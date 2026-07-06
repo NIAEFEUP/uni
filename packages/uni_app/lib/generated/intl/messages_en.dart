@@ -61,6 +61,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "allow": MessageLookupByLibrary.simpleMessage("Allow"),
     "answer": MessageLookupByLibrary.simpleMessage("Answer"),
     "apply": MessageLookupByLibrary.simpleMessage("Apply"),
+    "approved": MessageLookupByLibrary.simpleMessage("Approved"),
     "assessments": MessageLookupByLibrary.simpleMessage("Assessments"),
     "at_least_one_college": MessageLookupByLibrary.simpleMessage(
       "Select at least one college",
@@ -195,6 +196,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "empty_text": MessageLookupByLibrary.simpleMessage(
       "Please fill in this field",
     ),
+    "enrolled": MessageLookupByLibrary.simpleMessage("Enrolled"),
     "evaluation": MessageLookupByLibrary.simpleMessage("Evaluation"),
     "exams": MessageLookupByLibrary.simpleMessage("Exams"),
     "exams_filter": MessageLookupByLibrary.simpleMessage(
@@ -212,6 +214,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fail_to_authenticate": MessageLookupByLibrary.simpleMessage(
       "Failed to authenticate",
     ),
+    "failed": MessageLookupByLibrary.simpleMessage("Failed"),
     "failed_login": MessageLookupByLibrary.simpleMessage("Login failed"),
     "failed_upload": MessageLookupByLibrary.simpleMessage("Failed to upload"),
     "favorite_filter": MessageLookupByLibrary.simpleMessage("Favorites"),
@@ -466,6 +469,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_tuition_fees_sublabel": MessageLookupByLibrary.simpleMessage(
       "Your tuition fee records will appear here.",
     ),
+    "not_evaluated": MessageLookupByLibrary.simpleMessage("Not evaluated"),
     "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
     "notifications_intro_message": MessageLookupByLibrary.simpleMessage(
       "Would you like to receive notifications regarding important updates and alerts, including fee deadlines?",
@@ -563,6 +567,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "some_error": MessageLookupByLibrary.simpleMessage("Some error!"),
     "spotted_an_error": MessageLookupByLibrary.simpleMessage(
       "Something not right?",
+    ),
+    "statistics": MessageLookupByLibrary.simpleMessage("Statistics"),
+    "statistics_distribution_description": MessageLookupByLibrary.simpleMessage(
+      "Distribution of passed, failed, and not evaluated students",
     ),
     "stcp_stops": MessageLookupByLibrary.simpleMessage("STCP - Upcoming Trips"),
     "stores": MessageLookupByLibrary.simpleMessage("Stores"),

@@ -6,7 +6,7 @@ import 'package:uni/controller/parsers/parser_course_unit_info.dart';
 import 'package:uni/controller/parsers/schedule/new_api/parser.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
-import 'package:uni/model/entities/course_units/course_unit_result.dart';
+import 'package:uni/model/entities/course_units/course_unit_statistics.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/session/flows/base/session.dart';
@@ -188,7 +188,7 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     }
   }
 
-  Future<CourseUnitResult> fetchCourseUnitResults(
+  Future<CourseUnitStatistics> fetchCourseUnitStatistics(
     Session session,
     int occurrId,
   ) async {
@@ -201,7 +201,7 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
       }, session);
 
       if (response.statusCode != 200) {
-        return const CourseUnitResult(
+        return const CourseUnitStatistics(
           schoolYear: '',
           enrolled: 0,
           approved: 0,
@@ -210,9 +210,9 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
         );
       }
 
-      return parseCourseUnitResults(response);
+      return parseCourseUnitStatistics(response);
     } catch (_) {
-      return const CourseUnitResult(
+      return const CourseUnitStatistics(
         schoolYear: '',
         enrolled: 0,
         approved: 0,

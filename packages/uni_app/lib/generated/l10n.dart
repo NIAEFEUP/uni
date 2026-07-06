@@ -2561,6 +2561,46 @@ class S {
   String get stores {
     return Intl.message('Stores', name: 'stores', desc: '', args: []);
   }
+
+  /// `Statistics`
+  String get statistics {
+    return Intl.message('Statistics', name: 'statistics', desc: '', args: []);
+  }
+
+  /// `Distribution of passed, failed, and not evaluated students`
+  String get statistics_distribution_description {
+    return Intl.message(
+      'Distribution of passed, failed, and not evaluated students',
+      name: 'statistics_distribution_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Approved`
+  String get approved {
+    return Intl.message('Approved', name: 'approved', desc: '', args: []);
+  }
+
+  /// `Failed`
+  String get failed {
+    return Intl.message('Failed', name: 'failed', desc: '', args: []);
+  }
+
+  /// `Not evaluated`
+  String get not_evaluated {
+    return Intl.message(
+      'Not evaluated',
+      name: 'not_evaluated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enrolled`
+  String get enrolled {
+    return Intl.message('Enrolled', name: 'enrolled', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
