@@ -234,25 +234,12 @@ CourseUnitResult parseCourseUnitResults(http.Response response) {
   final enrolled = int.parse(cells[0].text.trim());
   final evaluated = int.parse(cells[1].text.trim());
   final approved = int.parse(cells[2].text.trim());
-  final evaluatedEnrolledRatio = double.parse(
-    cells[3].text.trim().replaceFirst(',', '.'),
-  );
-  final approvedEnrolledRatio = double.parse(
-    cells[4].text.trim().replaceFirst(',', '.'),
-  );
-  final approvedEvaluatedRatio = double.parse(
-    cells[5].text.trim().replaceFirst(',', '.'),
-  );
 
   return CourseUnitResult(
     schoolYear: schoolYear,
     enrolled: enrolled,
-    evaluated: evaluated,
     approved: approved,
     failed: evaluated - approved,
     notEvaluated: enrolled - evaluated,
-    evaluatedEnrolledRatio: evaluatedEnrolledRatio,
-    approvedEnrolledRatio: approvedEnrolledRatio,
-    approvedEvaluatedRatio: approvedEvaluatedRatio,
   );
 }
