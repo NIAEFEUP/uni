@@ -9,12 +9,17 @@ class ShimmerRestaurantPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Skeletonizer(
+      effect: ShimmerEffect(
+        baseColor: Theme.of(context).colorScheme.onSecondaryFixed,
+        highlightColor: Theme.of(context).colorScheme.onSecondary,
+        duration: const Duration(seconds: 3),
+      ),
       child: ListView.separated(
         itemCount: 4,
         itemBuilder: (context, index) {
           return RestaurantCard(
             name: BoneMock.name,
-            icon: const Icon(Icons.restaurant), // Dummy icon for skeletonizer
+            icon: const Icon(Icons.restaurant),
             isFavorite: false,
             onFavoriteToggle: () {},
             menuItems: List.generate(
