@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni_ui/cards/generic_card.dart';
 
 class TrackingBanner extends StatelessWidget {
   const TrackingBanner(this.onDismiss, {super.key});
@@ -8,25 +9,29 @@ class TrackingBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Theme.of(context).brightness == Brightness.light
-            ? Theme.of(context).primaryColor
-            : Theme.of(context).cardColor,
-      ),
-      margin: const EdgeInsets.only(top: 30, bottom: 10, left: 10, right: 10),
-      child: MaterialBanner(
-        padding: const EdgeInsets.all(15),
-        content: Text(
-          S.of(context).banner_info,
-          style: const TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.transparent,
-        actions: <Widget>[
+    return GenericCard(
+      tooltip: '',
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(
+              S.of(context).banner_info,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
           TextButton(
             onPressed: onDismiss,
-            child: const Text('OK', style: TextStyle(color: Colors.white)),
+            style: TextButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.onSecondary,
+            ),
+            child: Text(
+              'OK',
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            ),
           ),
         ],
       ),

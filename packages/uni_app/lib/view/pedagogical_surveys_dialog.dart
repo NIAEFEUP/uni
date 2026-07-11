@@ -52,15 +52,20 @@ class PedagogicalSurveysDialog {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.secondary,
           contentPadding: const EdgeInsets.fromLTRB(24, 20, 24, 8),
           title: Column(
             spacing: 8,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const UniIcon(UniIcons.chartBar, size: 64),
+              UniIcon(
+                UniIcons.chartBar,
+                size: 64,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
               Text(
                 S.of(context).pedagogical_surveys,
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: Theme.of(context).textTheme.headlineLarge,
               ),
             ],
           ),
@@ -95,6 +100,17 @@ class PedagogicalSurveysDialog {
                             child: Checkbox(
                               visualDensity: VisualDensity.compact,
                               value: dontShowAgain,
+                              activeColor: Theme.of(
+                                context,
+                              ).colorScheme.onSecondary,
+                              checkColor: Theme.of(
+                                context,
+                              ).colorScheme.secondary,
+                              side: BorderSide(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSecondary,
+                              ),
                               onChanged: (value) async {
                                 await PreferencesController.setPedagogicalSurveysDismissed(
                                   dismissed: value ?? false,
@@ -114,25 +130,19 @@ class PedagogicalSurveysDialog {
           ),
           actions: [
             Row(
-              spacing: 16,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Expanded(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      userSurveySeen.complete(PedagogicalSurveysState.seen);
-                    },
-                    child: Text(
-                      S.of(context).close,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    userSurveySeen.complete(PedagogicalSurveysState.seen);
+                  },
+                  child: Text(
+                    S.of(context).close,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
-                FilledButton(
+                TextButton(
                   onPressed: () async {
                     Navigator.of(context).pop();
                     userSurveySeen.complete(PedagogicalSurveysState.seen);
@@ -142,9 +152,14 @@ class PedagogicalSurveysDialog {
                       ),
                     );
                   },
+                  style: TextButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.onSecondary,
+                  ),
                   child: Text(
                     S.of(context).answer,
-                    style: const TextStyle(fontSize: 14, color: Colors.white),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
                   ),
                 ),
               ],

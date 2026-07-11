@@ -42,7 +42,7 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
       return null;
     }
 
-    //try to fetch all data from internet
+    // try to fetch all data from internet
     final profile = await _fetchUserInfo(session);
     if (profile == null) {
       return null;
@@ -71,7 +71,7 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
         PreferencesController.shouldShowPedagogicalSurveysDialog();
 
     // if successful save everything to cache
-    Database().saveProfile(profile);
+    await Database().saveProfile(profile);
 
     return profile;
   }
@@ -102,8 +102,8 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
         );
 
     if (allCourseUnits != null) {
-      Database().saveCourses(profile.courses);
-      Database().saveCourseUnits(allCourseUnits);
+      await Database().saveCourses(profile.courses);
+      await Database().saveCourseUnits(allCourseUnits);
     }
 
     return allCourseUnits;

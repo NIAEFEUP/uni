@@ -16,7 +16,7 @@ class LocationMarkerPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Theme.of(context).colorScheme.surface.withAlpha(204),
+      color: Theme.of(context).colorScheme.secondary,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -52,8 +52,6 @@ class Floor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fontColor = _getFontColor(context);
-
     final floorString =
         0 <= floor &&
             floor <=
@@ -67,34 +65,33 @@ class Floor extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
           child: Text(
             '${S.of(context).floor} $floorString',
-            style: TextStyle(color: fontColor),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
           decoration: BoxDecoration(
-            border: Border(left: BorderSide(color: fontColor)),
+            border: Border(
+              left: BorderSide(
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
+            ),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: locations
                 .map(
-                  (location) =>
-                      LocationRow(location: location, color: fontColor),
+                  (location) => LocationRow(
+                    location: location,
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
                 )
                 .toList(),
           ),
         ),
       ],
     );
-  }
-
-  // TODO(thePeras): Duplicated code
-  Color _getFontColor(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.light
-        ? Theme.of(context).colorScheme.primary
-        : Theme.of(context).colorScheme.tertiary;
   }
 }
 
@@ -107,7 +104,7 @@ class LocationRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      location.description(),
+      location.description(context),
       textAlign: TextAlign.left,
       overflow: TextOverflow.ellipsis,
       style: TextStyle(color: color),

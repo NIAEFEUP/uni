@@ -40,6 +40,13 @@ class AllServiceCardsState extends State<AllServiceCards> {
 
     final services = <Widget>[
       ServicesCard(
+        name: S.of(context).library,
+        openingHours: const ['8:30h - 19:30h'],
+        location: S.of(context).library_building,
+        telephone: '+351 225 081 442',
+        email: 'biblioteca@fe.up.pt',
+      ),
+      ServicesCard(
         name: S.of(context).goi,
         openingHours: const ['9:30h - 15:30h'],
         location: 'A210, A211a, A211b, A212, A276',
@@ -98,11 +105,17 @@ class AllServiceCardsState extends State<AllServiceCards> {
             const Spacer(),
             IconButton(
               onPressed: changeCardsToList,
-              icon: const UniIcon(UniIcons.list),
+              icon: UniIcon(
+                UniIcons.list,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
             ),
             IconButton(
               onPressed: changeCardsToGrid,
-              icon: const UniIcon(UniIcons.grid),
+              icon: UniIcon(
+                UniIcons.grid,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
             ),
           ],
         ),

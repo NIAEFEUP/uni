@@ -16,7 +16,7 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
   Widget build(BuildContext context) {
     final locations = locationGroup.floors.values.expand((x) => x).toList();
     return Card(
-      color: Theme.of(context).colorScheme.surface.withAlpha(204),
+      color: Theme.of(context).colorScheme.secondary,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -39,19 +39,12 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
     return locations
         .map(
           (location) => Text(
-            location.description(),
+            location.description(context),
             textAlign: TextAlign.left,
-            style: TextStyle(color: _getFontColor(context)),
+            style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
           ),
         )
         .toList();
-  }
-
-  // TODO(thePeras): Duplicated code
-  Color _getFontColor(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.light
-        ? Theme.of(context).colorScheme.primary
-        : Theme.of(context).colorScheme.tertiary;
   }
 }
 
@@ -62,16 +55,9 @@ class LocationRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      location.description(),
+      location.description(context),
       textAlign: TextAlign.left,
-      style: TextStyle(color: _getFontColor(context)),
+      style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
     );
-  }
-
-  // TODO(thePeras): Duplicated code
-  Color _getFontColor(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.light
-        ? Theme.of(context).colorScheme.primary
-        : Theme.of(context).colorScheme.tertiary;
   }
 }

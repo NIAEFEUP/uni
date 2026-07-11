@@ -399,6 +399,11 @@ class S {
     );
   }
 
+  /// `Contacts`
+  String get contacts {
+    return Intl.message('Contacts', name: 'contacts', desc: '', args: []);
+  }
+
   /// `Copy center`
   String get copy_center {
     return Intl.message('Copy center', name: 'copy_center', desc: '', args: []);
@@ -792,7 +797,7 @@ class S {
     );
   }
 
-  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} mapa{Map} faculdade{Faculty} other{Other}}`
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} mapa{Map} faculdade{Faculty} bug_report{Leave Feedback} conta_corrente{Current Account} other{Other}}`
   String nav_title(Object title) {
     return Intl.select(
       title,
@@ -809,6 +814,8 @@ class S {
         'percurso_academico': 'Academic Path',
         'mapa': 'Map',
         'faculdade': 'Faculty',
+        'bug_report': 'Leave Feedback',
+        'conta_corrente': 'Current Account',
         'other': 'Other',
       },
       name: 'nav_title',
@@ -902,6 +909,16 @@ class S {
     );
   }
 
+  /// `You don't have any more classes today.`
+  String get no_classes_today {
+    return Intl.message(
+      'You don\'t have any more classes today.',
+      name: 'no_classes_today',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `no college`
   String get no_college {
     return Intl.message('no college', name: 'no_college', desc: '', args: []);
@@ -930,6 +947,11 @@ class S {
   /// `No date`
   String get no_date {
     return Intl.message('No date', name: 'no_date', desc: '', args: []);
+  }
+
+  /// `Date`
+  String get date {
+    return Intl.message('Date', name: 'date', desc: '', args: []);
   }
 
   /// `No events found`
@@ -1472,6 +1494,16 @@ class S {
     return Intl.message('Unavailable', name: 'unavailable', desc: '', args: []);
   }
 
+  /// `Personal Information`
+  String get user_informations {
+    return Intl.message(
+      'Personal Information',
+      name: 'user_informations',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Please enter a valid email`
   String get valid_email {
     return Intl.message(
@@ -1502,9 +1534,9 @@ class S {
     return Intl.message('See more', name: 'see_more', desc: '', args: []);
   }
 
-  /// `Search`
-  String get search {
-    return Intl.message('Search', name: 'search', desc: '', args: []);
+  /// `Search here`
+  String get search_here {
+    return Intl.message('Search here', name: 'search_here', desc: '', args: []);
   }
 
   /// `Do you really want to log out? Your local data will be deleted and you will have to log in again.`
@@ -1860,6 +1892,16 @@ class S {
     return Intl.message('Library', name: 'library', desc: '', args: []);
   }
 
+  /// `Building C (Library)`
+  String get library_building {
+    return Intl.message(
+      'Building C (Library)',
+      name: 'library_building',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Restaurants`
   String get restaurants {
     return Intl.message('Restaurants', name: 'restaurants', desc: '', args: []);
@@ -1950,6 +1992,131 @@ class S {
     );
   }
 
+  /// `Map`
+  String get map {
+    return Intl.message('Map', name: 'map', desc: '', args: []);
+  }
+
+  /// `Stay always updated with your exams`
+  String get exams_intro_message {
+    return Intl.message(
+      'Stay always updated with your exams',
+      name: 'exams_intro_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keep track of your daily classes and activities`
+  String get schedule_intro_message {
+    return Intl.message(
+      'Keep track of your daily classes and activities',
+      name: 'schedule_intro_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discover campus dining options and menus`
+  String get restaurants_intro_message {
+    return Intl.message(
+      'Discover campus dining options and menus',
+      name: 'restaurants_intro_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Access various campus services at your fingertips`
+  String get services_intro_message {
+    return Intl.message(
+      'Access various campus services at your fingertips',
+      name: 'services_intro_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Explore the campus with our interactive map`
+  String get map_intro_message {
+    return Intl.message(
+      'Explore the campus with our interactive map',
+      name: 'map_intro_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Would you like to receive notifications regarding important updates and alerts, including fee deadlines?`
+  String get notifications_intro_message {
+    return Intl.message(
+      'Would you like to receive notifications regarding important updates and alerts, including fee deadlines?',
+      name: 'notifications_intro_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nationalities`
+  String get nationalities {
+    return Intl.message(
+      'Nationalities',
+      name: 'nationalities',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nationality`
+  String get nationality {
+    return Intl.message('Nationality', name: 'nationality', desc: '', args: []);
+  }
+
+  /// `Identification Documents`
+  String get identification_documents {
+    return Intl.message(
+      'Identification Documents',
+      name: 'identification_documents',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Addresses`
+  String get addresses {
+    return Intl.message('Addresses', name: 'addresses', desc: '', args: []);
+  }
+
+  /// `Try to refresh the page`
+  String get no_info_description {
+    return Intl.message(
+      'Try to refresh the page',
+      name: 'no_info_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `tomorrow:`
+  String get tomorrow {
+    return Intl.message('tomorrow:', name: 'tomorrow', desc: '', args: []);
+  }
+
+  /// `today:`
+  String get today {
+    return Intl.message('today:', name: 'today', desc: '', args: []);
+  }
+
+  /// `Here are your classes for `
+  String get nextclasses {
+    return Intl.message(
+      'Here are your classes for ',
+      name: 'nextclasses',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No classes have been assigned to this course unit yet`
   String get no_course_unit_classes {
     return Intl.message(
@@ -2030,9 +2197,369 @@ class S {
     );
   }
 
+  /// `Vending Machine`
+  String get vending_machine {
+    return Intl.message(
+      'Vending Machine',
+      name: 'vending_machine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coffee Machine`
+  String get coffee_machine {
+    return Intl.message(
+      'Coffee Machine',
+      name: 'coffee_machine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ATM`
+  String get atm {
+    return Intl.message('ATM', name: 'atm', desc: '', args: []);
+  }
+
+  /// `Printer`
+  String get printer {
+    return Intl.message('Printer', name: 'printer', desc: '', args: []);
+  }
+
+  /// `WC`
+  String get wc {
+    return Intl.message('WC', name: 'wc', desc: '', args: []);
+  }
+
+  /// `Parking`
+  String get parking {
+    return Intl.message('Parking', name: 'parking', desc: '', args: []);
+  }
+
+  /// `Shop`
+  String get shop {
+    return Intl.message('Shop', name: 'shop', desc: '', args: []);
+  }
+
+  /// `Current Account`
+  String get current_account {
+    return Intl.message(
+      'Current Account',
+      name: 'current_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Track your fees, due dates and payment history.`
+  String get current_account_description {
+    return Intl.message(
+      'Track your fees, due dates and payment history.',
+      name: 'current_account_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Overview`
+  String get overview {
+    return Intl.message('Overview', name: 'overview', desc: '', args: []);
+  }
+
+  /// `Upcoming Due`
+  String get upcoming_due {
+    return Intl.message(
+      'Upcoming Due',
+      name: 'upcoming_due',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transactions`
+  String get transactions {
+    return Intl.message(
+      'Transactions',
+      name: 'transactions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending`
+  String get pending {
+    return Intl.message('Pending', name: 'pending', desc: '', args: []);
+  }
+
+  /// `Tuition Fees`
+  String get tuition_fees {
+    return Intl.message(
+      'Tuition Fees',
+      name: 'tuition_fees',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `General History`
+  String get general_history {
+    return Intl.message(
+      'General History',
+      name: 'general_history',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your total outstanding balance`
+  String get balance_description {
+    return Intl.message(
+      'Your total outstanding balance',
+      name: 'balance_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Due date for your next payment`
+  String get fee_date_description {
+    return Intl.message(
+      'Due date for your next payment',
+      name: 'fee_date_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Funds for university printing services`
+  String get print_balance_description {
+    return Intl.message(
+      'Funds for university printing services',
+      name: 'print_balance_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Interest on late payments`
+  String get interest_on_late_payments {
+    return Intl.message(
+      'Interest on late payments',
+      name: 'interest_on_late_payments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Due in`
+  String get due_in {
+    return Intl.message('Due in', name: 'due_in', desc: '', args: []);
+  }
+
+  /// `No records`
+  String get no_records {
+    return Intl.message('No records', name: 'no_records', desc: '', args: []);
+  }
+
+  /// `Try refreshing the page or check back later.`
+  String get no_current_account_info {
+    return Intl.message(
+      'Try refreshing the page or check back later.',
+      name: 'no_current_account_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All caught up!`
+  String get no_pending_label {
+    return Intl.message(
+      'All caught up!',
+      name: 'no_pending_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have no pending payments.`
+  String get no_pending_sublabel {
+    return Intl.message(
+      'You have no pending payments.',
+      name: 'no_pending_sublabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nothing here yet`
+  String get no_history_label {
+    return Intl.message(
+      'Nothing here yet',
+      name: 'no_history_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your payment history will appear here.`
+  String get no_history_sublabel {
+    return Intl.message(
+      'Your payment history will appear here.',
+      name: 'no_history_sublabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No tuition fees found`
+  String get no_tuition_fees_label {
+    return Intl.message(
+      'No tuition fees found',
+      name: 'no_tuition_fees_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your tuition fee records will appear here.`
+  String get no_tuition_fees_sublabel {
+    return Intl.message(
+      'Your tuition fee records will appear here.',
+      name: 'no_tuition_fees_sublabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select the type of feedback`
+  String get feedback_type_title_section {
+    return Intl.message(
+      'Select the type of feedback',
+      name: 'feedback_type_title_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please choose the category that best describes your feedback to help us address it effectively.`
+  String get feedback_type_description_section {
+    return Intl.message(
+      'Please choose the category that best describes your feedback to help us address it effectively.',
+      name: 'feedback_type_description_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Provide a clear and concise title along with a detailed description of the issue or suggestion. The more information you provide, the better we can understand and address your feedback.`
+  String get feedback_description_section {
+    return Intl.message(
+      'Provide a clear and concise title along with a detailed description of the issue or suggestion. The more information you provide, the better we can understand and address your feedback.',
+      name: 'feedback_description_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Privacy and Consent`
+  String get feedback_privacy_section {
+    return Intl.message(
+      'Privacy and Consent',
+      name: 'feedback_privacy_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your privacy is important to us. You consent to the collection and use of your feedback and any attached images for the purpose of improving our app. You can choose to provide your email for follow-up, but it is not required.`
+  String get feedback_privacy_description_section {
+    return Intl.message(
+      'Your privacy is important to us. You consent to the collection and use of your feedback and any attached images for the purpose of improving our app. You can choose to provide your email for follow-up, but it is not required.',
+      name: 'feedback_privacy_description_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attach images`
+  String get feedback_images_title_section {
+    return Intl.message(
+      'Attach images',
+      name: 'feedback_images_title_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attached images will appear here.`
+  String get feedback_images_empty_section {
+    return Intl.message(
+      'Attached images will appear here.',
+      name: 'feedback_images_empty_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Consent to data collection`
+  String get feedback_consent_title {
+    return Intl.message(
+      'Consent to data collection',
+      name: 'feedback_consent_title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Edit`
   String get edit_homepage {
     return Intl.message('Edit', name: 'edit_homepage', desc: '', args: []);
+  }
+
+  /// `Pay`
+  String get pay {
+    return Intl.message('Pay', name: 'pay', desc: '', args: []);
+  }
+
+  /// `No records for this filter.`
+  String get no_records_for_filter {
+    return Intl.message(
+      'No records for this filter.',
+      name: 'no_records_for_filter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Session expired`
+  String get session_expired {
+    return Intl.message(
+      'Session expired',
+      name: 'session_expired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Skip`
+  String get skip {
+    return Intl.message('Skip', name: 'skip', desc: '', args: []);
+  }
+
+  /// `Allow`
+  String get allow {
+    return Intl.message('Allow', name: 'allow', desc: '', args: []);
+  }
+
+  /// `Snacks`
+  String get snacks {
+    return Intl.message('Snacks', name: 'snacks', desc: '', args: []);
+  }
+
+  /// `Stores`
+  String get stores {
+    return Intl.message('Stores', name: 'stores', desc: '', args: []);
   }
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni_ui/calendar/calendar_item_card.dart';
 
 class _CalendarItemDate extends StatelessWidget {
   const _CalendarItemDate({this.eventPeriod, this.endYear});
@@ -19,13 +20,7 @@ class _CalendarItemDate extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          Text(
-            endYear ?? '',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.outline,
-              fontSize: 11,
-            ),
-          ),
+          Text(endYear ?? '', style: Theme.of(context).textTheme.bodyMedium),
         ],
       );
     } else {
@@ -105,9 +100,11 @@ class CalendarItem extends StatelessWidget {
               height: 20,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isToday ? Theme.of(context).primaryColor : Colors.white,
+                color: isToday
+                    ? Theme.of(context).colorScheme.onSecondary
+                    : Colors.transparent,
                 border: Border.all(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.onSecondary,
                   width: 4.0,
                 ),
               ),
@@ -118,7 +115,10 @@ class CalendarItem extends StatelessWidget {
                         height: 20,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 3),
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.surface,
+                            width: 3,
+                          ),
                         ),
                       ),
                     )
@@ -133,50 +133,18 @@ class CalendarItem extends StatelessWidget {
                   bottomRight: Radius.circular(2),
                 ),
                 shape: BoxShape.rectangle,
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
             ),
           ],
         ),
-        GestureDetector(
-          onTap: onTap,
-          child: Container(
-            margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+        Container(
+          margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+          child: CalendarItemCard(
+            eventName: eventName,
+            isToday: isToday,
+            onTap: onTap,
             width: 140,
-            decoration: ShapeDecoration(
-              gradient: isToday
-                  ? RadialGradient(
-                      colors: [Color(0xFF280709), Color(0xFF511515)],
-                      center: Alignment.topLeft,
-                      radius: 1.5,
-                      stops: [0, 1],
-                    )
-                  : null,
-              color: isToday ? null : Theme.of(context).colorScheme.secondary,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              shadows: [
-                BoxShadow(
-                  color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
-                  blurRadius: 2,
-                ),
-              ],
-            ),
-            child: Text(
-              eventName,
-              maxLines: 4,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: isToday
-                    ? Theme.of(context).colorScheme.secondary
-                    : Theme.of(context).colorScheme.primary,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                height: 1,
-              ),
-            ),
           ),
         ),
       ],

@@ -13,9 +13,15 @@ class TabIcon extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          UniIcon(icon),
+          UniIcon(icon, color: Theme.of(context).colorScheme.onSecondary),
           const SizedBox(width: 4),
-          Flexible(child: Text(text, overflow: TextOverflow.ellipsis)),
+          Flexible(
+            child: Text(
+              text,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
         ],
       ),
     );

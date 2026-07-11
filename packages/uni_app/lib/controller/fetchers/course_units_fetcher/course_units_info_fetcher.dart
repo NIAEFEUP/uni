@@ -20,7 +20,7 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
   }
 
   Future<Sheet> fetchSheet(Session session, int occurId) async {
-    //TODO: Through this link we can't retrieve the sheet of a course unit in english
+    // TODO: Through this link we can't retrieve the sheet of a course unit in english
     final responses = await Future.wait(
       getEndpoints(session)
           .map(
@@ -164,5 +164,26 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     }
 
     return courseUnitClasses;
+  }
+
+  Future<Map<String, int>> fetchCourseUnitOccurences(
+    Session session,
+    int occurId,
+  ) async {
+    final url = '${getEndpoints(session)[0]}mob_ucurr_geral.outras_ocorrencias';
+
+    try {
+      final response = await NetworkRouter.getWithCookies(url, {
+        'pv_ocorrencia_id': occurId.toString(),
+      }, session);
+
+      if (response.statusCode != 200) {
+        return <String, int>{};
+      }
+
+      return parseOccurences(response);
+    } catch (_) {
+      return <String, int>{};
+    }
   }
 }

@@ -36,7 +36,7 @@ class ModalEnrollementInfo extends StatelessWidget {
                     ),
                     child: Text(
                       entry.value,
-                      style: Theme.of(context).textTheme.titleSmall,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
                 ],

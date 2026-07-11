@@ -7,7 +7,7 @@ class TimelineItem extends StatelessWidget {
     required this.card,
     this.isActive = false,
     this.titleWidth = 50,
-    this.lineHeight = 75,
+    this.titleTextAlign = TextAlign.start,
     super.key,
   });
 
@@ -16,35 +16,54 @@ class TimelineItem extends StatelessWidget {
   final Widget card;
   final bool isActive;
   final double titleWidth;
-  final double lineHeight;
+  final TextAlign titleTextAlign;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    final Color lineColor = Theme.of(context).colorScheme.onSecondary;
+
+    return Stack(
       children: [
-        Container(
-          width: titleWidth,
-          child: Column(
-            children: [
-              Text(title, style: Theme.of(context).textTheme.bodyLarge),
-              Text(subtitle, style: Theme.of(context).textTheme.labelLarge),
-            ],
+        Positioned(
+          left: titleWidth + 18.5,
+          top: 25,
+          bottom: 5,
+          child: Container(
+            width: 3,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              color: lineColor,
+            ),
           ),
         ),
-        Column(
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(
+              width: titleWidth,
+              child: Column(
+                children: [
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    textAlign: titleTextAlign,
+                  ),
+                  Text(
+                    subtitle,
+                    style: Theme.of(context).textTheme.labelLarge,
+                    textAlign: titleTextAlign,
+                  ),
+                ],
+              ),
+            ),
             Container(
-              margin: EdgeInsets.only(bottom: 5, left: 10, right: 10),
+              margin: const EdgeInsets.only(bottom: 5, left: 10, right: 10),
               width: 20,
               height: 20,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isActive ? Theme.of(context).primaryColor : Colors.white,
-                border: Border.all(
-                  color: Theme.of(context).primaryColor,
-                  width: 4.0,
-                ),
+                color: isActive ? lineColor : Colors.transparent,
+                border: Border.all(color: lineColor, width: 4.0),
               ),
               child: isActive
                   ? Center(
@@ -53,24 +72,18 @@ class TimelineItem extends StatelessWidget {
                         height: 20,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 3),
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.surface,
+                            width: 3,
+                          ),
                         ),
                       ),
                     )
                   : null,
             ),
-            Container(
-              margin: EdgeInsets.only(bottom: 5, left: 10, right: 10),
-              height: lineHeight,
-              width: 3,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
+            Expanded(child: card),
           ],
         ),
-        Expanded(child: card),
       ],
     );
   }
@@ -80,6 +93,7 @@ class CardTimeline extends StatelessWidget {
   const CardTimeline({required this.items, super.key});
 
   final List<TimelineItem> items;
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

@@ -27,11 +27,11 @@ class RestaurantNotifier extends CachedAsyncNotifier<List<Restaurant>?> {
       return null;
     }
 
-    //try to fetch from the internet
+    // try to fetch from the internet
     final restaurants = await RestaurantFetcher().getRestaurants(session);
 
-    //if success save to database
-    Database().saveRestaurants(restaurants);
+    // if success save to database
+    await Database().saveRestaurants(restaurants);
 
     return restaurants;
   }
