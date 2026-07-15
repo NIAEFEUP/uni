@@ -244,46 +244,6 @@ class S {
     );
   }
 
-  /// `Unable to get information`
-  String get bus_error {
-    return Intl.message(
-      'Unable to get information',
-      name: 'bus_error',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Personalize your buses here`
-  String get buses_personalize {
-    return Intl.message(
-      'Personalize your buses here',
-      name: 'buses_personalize',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Favorite buses will be displayed in the favorites 'Bus' widget. The remaining ones will only be displayed on the page.`
-  String get buses_text {
-    return Intl.message(
-      'Favorite buses will be displayed in the favorites \'Bus\' widget. The remaining ones will only be displayed on the page.',
-      name: 'buses_text',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Select the buses you want information about:`
-  String get bus_information {
-    return Intl.message(
-      'Select the buses you want information about:',
-      name: 'bus_information',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Cancel`
   String get cancel {
     return Intl.message('Cancel', name: 'cancel', desc: '', args: []);
@@ -362,16 +322,6 @@ class S {
   /// `Done`
   String get conclude {
     return Intl.message('Done', name: 'conclude', desc: '', args: []);
-  }
-
-  /// `Configured Buses`
-  String get configured_buses {
-    return Intl.message(
-      'Configured Buses',
-      name: 'configured_buses',
-      desc: '',
-      args: [],
-    );
   }
 
   /// `Confirm`
@@ -806,7 +756,6 @@ class S {
         'exames': 'Exams',
         'area': 'Personal Area',
         'cadeiras': 'Course Units',
-        'autocarros': 'Buses',
         'locais': 'Places',
         'restaurantes': 'Restaurants',
         'calendario': 'Calendar',
@@ -827,26 +776,6 @@ class S {
   /// `News`
   String get news {
     return Intl.message('News', name: 'news', desc: '', args: []);
-  }
-
-  /// `Don't miss any bus!`
-  String get no_bus {
-    return Intl.message(
-      'Don\'t miss any bus!',
-      name: 'no_bus',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `No configured stops`
-  String get no_bus_stops {
-    return Intl.message(
-      'No configured stops',
-      name: 'no_bus_stops',
-      desc: '',
-      args: [],
-    );
   }
 
   /// `There are no classes to display`
@@ -1402,16 +1331,6 @@ class S {
   /// `Some error!`
   String get some_error {
     return Intl.message('Some error!', name: 'some_error', desc: '', args: []);
-  }
-
-  /// `STCP - Upcoming Trips`
-  String get stcp_stops {
-    return Intl.message(
-      'STCP - Upcoming Trips',
-      name: 'stcp_stops',
-      desc: '',
-      args: [],
-    );
   }
 
   /// `Student Number`
@@ -2560,6 +2479,16 @@ class S {
   /// `Stores`
   String get stores {
     return Intl.message('Stores', name: 'stores', desc: '', args: []);
+  }
+
+  /// `Want to see how the app is built? Check out our code on GitHub`
+  String get feedback_github_title_section {
+    return Intl.message(
+      'Want to see how the app is built? Check out our GitHub',
+      name: 'feedback_github_title_section',
+      desc: '',
+      args: [],
+    );
   }
 }
 

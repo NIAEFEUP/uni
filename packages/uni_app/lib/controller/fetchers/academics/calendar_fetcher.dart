@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 
-class CalendarFetcherJson {
+class CalendarFetcher {
   /// Fetches the calendar events from the local JSON file.
   Future<List<CalendarEvent>> getCalendar(String locale) async {
     final filePath = 'assets/text/calendar/${locale}Calendar.json';
