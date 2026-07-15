@@ -613,5 +613,7 @@
   "snacks": "Snacks",
   "@snacks": {},
   "stores": "Lojas",
-  "@stores": {}
+  "@stores": {},
+  "feedback_github_title_section": "Queres ver como a app é feita? Explora o nosso GitHub",
+  "@feedback_github_title_section": {}
 }
