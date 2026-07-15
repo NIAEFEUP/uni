@@ -229,6 +229,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "feedback_description_section": MessageLookupByLibrary.simpleMessage(
       "Provide a clear and concise title along with a detailed description of the issue or suggestion. The more information you provide, the better we can understand and address your feedback.",
     ),
+    "feedback_github_title_section": MessageLookupByLibrary.simpleMessage(
+      "Want to see how the app is built? Check out our GitHub",
+    ),
     "feedback_images_empty_section": MessageLookupByLibrary.simpleMessage(
       "Attached images will appear here.",
     ),

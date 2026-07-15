@@ -2480,6 +2480,16 @@ class S {
   String get stores {
     return Intl.message('Stores', name: 'stores', desc: '', args: []);
   }
+
+  /// `Want to see how the app is built? Check out our code on GitHub`
+  String get feedback_github_title_section {
+    return Intl.message(
+      'Want to see how the app is built? Check out our GitHub',
+      name: 'feedback_github_title_section',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
