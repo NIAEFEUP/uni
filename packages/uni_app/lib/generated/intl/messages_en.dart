@@ -28,7 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "${Intl.plural(time, zero: 'Refreshed ${time} minutes ago', one: 'Refreshed ${time} minute ago', other: 'Refreshed ${time} minutes ago')}";
 
   static m3(title) =>
-      "${Intl.select(title, {'horario': 'Schedule', 'exames': 'Exams', 'area': 'Personal Area', 'cadeiras': 'Course Units', 'autocarros': 'Buses', 'locais': 'Places', 'restaurantes': 'Restaurants', 'calendario': 'Calendar', 'biblioteca': 'Library', 'percurso_academico': 'Academic Path', 'mapa': 'Map', 'faculdade': 'Faculty', 'bug_report': 'Leave Feedback', 'conta_corrente': 'Current Account', 'other': 'Other'})}";
+      "${Intl.select(title, {'horario': 'Schedule', 'exames': 'Exams', 'area': 'Personal Area', 'cadeiras': 'Course Units', 'locais': 'Places', 'restaurantes': 'Restaurants', 'calendario': 'Calendar', 'biblioteca': 'Library', 'percurso_academico': 'Academic Path', 'mapa': 'Map', 'faculdade': 'Faculty', 'bug_report': 'Leave Feedback', 'conta_corrente': 'Current Account', 'other': 'Other'})}";
 
   static m4(period) =>
       "${Intl.select(period, {'lunch': 'Lunch', 'dinner': 'Dinner', 'other': 'Other'})}";
@@ -340,8 +340,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_app": MessageLookupByLibrary.simpleMessage(
       "No app found to open the file",
     ),
-    "no_bus": MessageLookupByLibrary.simpleMessage("Don\'t miss any bus!"),
-    "no_bus_stops": MessageLookupByLibrary.simpleMessage("No configured stops"),
     "no_class": MessageLookupByLibrary.simpleMessage(
       "There are no classes to display",
     ),
@@ -567,7 +565,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "spotted_an_error": MessageLookupByLibrary.simpleMessage(
       "Something not right?",
     ),
-    "stcp_stops": MessageLookupByLibrary.simpleMessage("STCP - Upcoming Trips"),
     "stores": MessageLookupByLibrary.simpleMessage("Stores"),
     "student_number": MessageLookupByLibrary.simpleMessage("Student Number"),
     "success": MessageLookupByLibrary.simpleMessage("Sent with success"),

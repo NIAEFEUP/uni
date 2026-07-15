@@ -1,6 +1,6 @@
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
-import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
+import 'package:uni/controller/fetchers/core/session_dependent_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_course_unit_info.dart';
 import 'package:uni/controller/parsers/schedule/new_api/parser.dart';
@@ -10,7 +10,7 @@ import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/session/flows/base/session.dart';
 
-class CourseUnitsInfoFetcher implements SessionDependantFetcher {
+class CourseUnitsInfoFetcher implements SessionDependentFetcher {
   @override
   List<String> getEndpoints(Session session) {
     return NetworkRouter.getBaseUrlsFromSession(
