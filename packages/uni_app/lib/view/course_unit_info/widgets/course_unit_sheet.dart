@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:uni/controller/fetchers/book_fetcher.dart';
+import 'package:uni/controller/fetchers/campus/book_thumbnail_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit_statistics.dart';
@@ -191,7 +191,7 @@ class CourseUnitSheetView extends ConsumerWidget {
                   children: courseUnitSheet.books.map((book) {
                     return book.isbn.isNotEmpty
                         ? FutureBuilder<String?>(
-                            future: BookThumbFetcher().fetchBookThumb(
+                            future: BookThumbnailFetcher().fetchBookThumb(
                               book.isbn,
                             ),
                             builder: (context, snapshot) {

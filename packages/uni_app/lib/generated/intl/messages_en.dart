@@ -28,7 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "${Intl.plural(time, zero: 'Refreshed ${time} minutes ago', one: 'Refreshed ${time} minute ago', other: 'Refreshed ${time} minutes ago')}";
 
   static m3(title) =>
-      "${Intl.select(title, {'horario': 'Schedule', 'exames': 'Exams', 'area': 'Personal Area', 'cadeiras': 'Course Units', 'autocarros': 'Buses', 'locais': 'Places', 'restaurantes': 'Restaurants', 'calendario': 'Calendar', 'biblioteca': 'Library', 'percurso_academico': 'Academic Path', 'mapa': 'Map', 'faculdade': 'Faculty', 'bug_report': 'Leave Feedback', 'conta_corrente': 'Current Account', 'other': 'Other'})}";
+      "${Intl.select(title, {'horario': 'Schedule', 'exames': 'Exams', 'area': 'Personal Area', 'cadeiras': 'Course Units', 'locais': 'Places', 'restaurantes': 'Restaurants', 'calendario': 'Calendar', 'biblioteca': 'Library', 'percurso_academico': 'Academic Path', 'mapa': 'Map', 'faculdade': 'Faculty', 'bug_report': 'Leave Feedback', 'conta_corrente': 'Current Account', 'other': 'Other'})}";
 
   static m4(period) =>
       "${Intl.select(period, {'lunch': 'Lunch', 'dinner': 'Dinner', 'other': 'Other'})}";
@@ -99,18 +99,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "bug_description_visual_detail": MessageLookupByLibrary.simpleMessage(
       "Visual Detail",
     ),
-    "bus_error": MessageLookupByLibrary.simpleMessage(
-      "Unable to get information",
-    ),
-    "bus_information": MessageLookupByLibrary.simpleMessage(
-      "Select the buses you want information about:",
-    ),
-    "buses_personalize": MessageLookupByLibrary.simpleMessage(
-      "Personalize your buses here",
-    ),
-    "buses_text": MessageLookupByLibrary.simpleMessage(
-      "Favorite buses will be displayed in the favorites \'Bus\' widget. The remaining ones will only be displayed on the page.",
-    ),
     "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "change": MessageLookupByLibrary.simpleMessage("Change"),
@@ -135,9 +123,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "select your college(s)",
     ),
     "conclude": MessageLookupByLibrary.simpleMessage("Done"),
-    "configured_buses": MessageLookupByLibrary.simpleMessage(
-      "Configured Buses",
-    ),
     "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
     "confirm_logout": MessageLookupByLibrary.simpleMessage(
       "Do you really want to log out? Your local data will be deleted and you will have to log in again.",
@@ -231,6 +216,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "feedback_description_section": MessageLookupByLibrary.simpleMessage(
       "Provide a clear and concise title along with a detailed description of the issue or suggestion. The more information you provide, the better we can understand and address your feedback.",
+    ),
+    "feedback_github_title_section": MessageLookupByLibrary.simpleMessage(
+      "Want to see how the app is built? Checkout our GitHub",
     ),
     "feedback_images_empty_section": MessageLookupByLibrary.simpleMessage(
       "Attached images will appear here.",
@@ -340,8 +328,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_app": MessageLookupByLibrary.simpleMessage(
       "No app found to open the file",
     ),
-    "no_bus": MessageLookupByLibrary.simpleMessage("Don\'t miss any bus!"),
-    "no_bus_stops": MessageLookupByLibrary.simpleMessage("No configured stops"),
     "no_class": MessageLookupByLibrary.simpleMessage(
       "There are no classes to display",
     ),
@@ -572,7 +558,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "statistics_distribution_description": MessageLookupByLibrary.simpleMessage(
       "Distribution of passed, failed, and not evaluated students",
     ),
-    "stcp_stops": MessageLookupByLibrary.simpleMessage("STCP - Upcoming Trips"),
     "stores": MessageLookupByLibrary.simpleMessage("Stores"),
     "student_number": MessageLookupByLibrary.simpleMessage("Student Number"),
     "success": MessageLookupByLibrary.simpleMessage("Sent with success"),
