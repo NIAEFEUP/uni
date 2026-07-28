@@ -51,10 +51,15 @@ class RowFormat extends StatelessWidget {
       titleWidth: 90,
       isActive: isToday,
       titleTextAlign: TextAlign.center,
-      card: CalendarItemCard(
-        eventName: event.name,
-        isToday: isToday,
-        onTap: () => _popUp(context),
+      card: Column(
+        children: [
+          CalendarItemCard(
+            eventName: event.name,
+            isToday: isToday,
+            onTap: () => _popUp(context),
+          ),
+          const SizedBox(height: 20),
+        ],
       ),
     );
   }
