@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:openid_client/openid_client.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:uni/controller/fetchers/faculties_fetcher.dart';
+import 'package:uni/controller/fetchers/academics/faculties_fetcher.dart';
 import 'package:uni/session/exception.dart';
 import 'package:uni/session/flows/base/request.dart';
 import 'package:uni/session/flows/federated/client.dart';

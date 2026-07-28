@@ -74,7 +74,7 @@ class MarkerIcon extends StatelessWidget {
         location?.icon as IconData,
         color: Theme.of(context).colorScheme.secondary,
         size: 12,
-        opacity: 1,
+        opacity: 0.3,
       );
     }
 
@@ -82,7 +82,7 @@ class MarkerIcon extends StatelessWidget {
       Icons.device_unknown,
       color: Theme.of(context).colorScheme.primary,
       size: 12,
-      opacity: 1,
+      opacity: 0.3,
     );
   }
 }
