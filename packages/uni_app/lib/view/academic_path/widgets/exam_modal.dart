@@ -65,6 +65,14 @@ class ExamModal extends ConsumerWidget {
             color: Theme.of(context).colorScheme.onSecondary,
           ),
           onPressed: () async {
+            final status = await calendar.hasPermissions();
+            if (status != CalendarPermissionStatus.granted) {
+              final newStatus = await calendar.requestPermissions();
+              if (newStatus != CalendarPermissionStatus.granted) {
+                return;
+              }
+            }
+
             await calendar.showCreateEventModal(
               title: exam.subject,
               description: exam.examType,
