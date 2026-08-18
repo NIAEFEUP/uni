@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:uni/controller/networking/network_router.dart';
 
-class BookThumbFetcher {
+class BookThumbnailFetcher {
   Future<String?> fetchBookThumb(String isbn) async {
     final googleBooksFuture = _fetchFromGoogleBooks(isbn);
     final openLibraryFuture = _fetchFromOpenLibrary(isbn);

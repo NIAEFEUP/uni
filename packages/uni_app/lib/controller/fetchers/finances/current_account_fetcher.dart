@@ -1,11 +1,11 @@
 import 'package:http/http.dart';
-import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
+import 'package:uni/controller/fetchers/core/session_dependent_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_current_account.dart';
 import 'package:uni/model/entities/current_account.dart';
 import 'package:uni/session/flows/base/session.dart';
 
-class FeesFetcher implements SessionDependantFetcher {
+class CurrentAccountFetcher implements SessionDependentFetcher {
   @override
   List<String> getEndpoints(Session session) {
     // TO DO: Check balance on all faculties and discard if user is not enrolled

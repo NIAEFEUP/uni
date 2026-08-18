@@ -1,5 +1,5 @@
 import 'package:uni/session/flows/base/session.dart';
 
-abstract class SessionDependantFetcher {
+abstract class SessionDependentFetcher {
   List<String> getEndpoints(Session session);
 }

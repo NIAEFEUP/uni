@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uni/controller/fetchers/course_units_fetcher/all_course_units_fetcher.dart';
-import 'package:uni/controller/fetchers/course_units_fetcher/current_course_units_fetcher.dart';
-import 'package:uni/controller/fetchers/fees_fetcher.dart';
-import 'package:uni/controller/fetchers/print_fetcher.dart';
-import 'package:uni/controller/fetchers/profile_fetcher.dart';
+import 'package:uni/controller/fetchers/academics/course_units/all_course_units_fetcher.dart';
+import 'package:uni/controller/fetchers/academics/course_units/current_course_units_fetcher.dart';
+import 'package:uni/controller/fetchers/finances/current_account_fetcher.dart';
+import 'package:uni/controller/fetchers/finances/print_fetcher.dart';
+import 'package:uni/controller/fetchers/profile/profile_fetcher.dart';
 import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/controller/local_storage/file_offline_storage.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
@@ -110,7 +110,7 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
   }
 
   Future<(String, DateTime?)> _fetchFees(Session session) async {
-    final response = await FeesFetcher().getUserFeesResponse(session);
+    final response = await CurrentAccountFetcher().getUserFeesResponse(session);
     return (parseFeesBalance(response), parseFeesNextLimit(response));
   }
 

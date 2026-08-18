@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
+import 'package:uni/controller/fetchers/academics/course_units/course_units_info_fetcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';

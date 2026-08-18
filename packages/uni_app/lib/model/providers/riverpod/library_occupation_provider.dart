@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uni/controller/fetchers/library_occupation_fetcher.dart';
+import 'package:uni/controller/fetchers/campus/library_occupation_fetcher.dart';
 import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';

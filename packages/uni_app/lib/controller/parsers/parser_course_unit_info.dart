@@ -1,8 +1,9 @@
 import 'dart:convert';
 
+import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
-import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
+import 'package:uni/controller/fetchers/academics/course_units/course_units_info_fetcher.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
@@ -166,7 +167,8 @@ List<CourseUnitClass> parseCourseUnitClasses(
       final columns = row.querySelectorAll('td.k.t');
       final studentName = columns[0].children[0].innerHtml;
       final studentNumber = int.tryParse(columns[1].innerHtml.trim()) ?? 0;
-      final studentMail = columns[2].innerHtml;
+      final studentMail =
+          _extractStudentEmail(columns[2]) ?? studentNumber.toString();
 
       final studentPhoto = Uri.parse(
         '${baseUrl}fotografias_service.foto?pct_cod=$studentNumber',
@@ -212,4 +214,38 @@ Map<String, int> parseOccurences(http.Response response) {
     result[key] = id;
   }
   return result;
+}
+
+String? _decodeCloudflareEmail(String encodedHex) {
+  try {
+    final key = int.parse(encodedHex.substring(0, 2), radix: 16);
+    final buffer = StringBuffer();
+    for (var i = 2; i < encodedHex.length; i += 2) {
+      final charCode =
+          int.parse(encodedHex.substring(i, i + 2), radix: 16) ^ key;
+      buffer.writeCharCode(charCode);
+    }
+    final decoded = buffer.toString();
+    return decoded.contains('@') ? decoded : null;
+  } catch (_) {
+    return null;
+  }
+}
+
+String? _extractStudentEmail(dom.Element cell) {
+  final cfEl = cell.querySelector('[data-cfemail]');
+  final cfEncoded = cfEl?.attributes['data-cfemail'];
+  if (cfEncoded != null) {
+    final decoded = _decodeCloudflareEmail(cfEncoded);
+    if (decoded != null) {
+      return decoded;
+    }
+  }
+
+  final text = cell.text.trim();
+  if (text.contains('@')) {
+    return text;
+  }
+
+  return null;
 }

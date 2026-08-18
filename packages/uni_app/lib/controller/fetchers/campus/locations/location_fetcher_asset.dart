@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:uni/controller/fetchers/location_fetcher/location_fetcher.dart';
+import 'package:uni/controller/fetchers/campus/locations/location_fetcher.dart';
 import 'package:uni/model/entities/indoor_floor_plan.dart';
 import 'package:uni/model/entities/location_group.dart';
 

@@ -14,13 +14,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
 import 'package:uni/controller/cleanup.dart';
-import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
+import 'package:uni/controller/fetchers/core/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/migrations/migration_controller.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
+import 'package:uni/model/providers/mocks/mock_exam_provider.dart';
+import 'package:uni/model/providers/mocks/mock_lecture_provider.dart';
 import 'package:uni/model/providers/plausible/plausible_provider.dart';
+import 'package:uni/model/providers/riverpod/exam_provider.dart';
+import 'package:uni/model/providers/riverpod/lecture_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/theme_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
@@ -110,6 +114,9 @@ Future<void> main() async {
 
   const route = '/splash';
 
+  const useMockSchedule = bool.fromEnvironment('MOCK_SCHEDULE');
+  const useMockExams = bool.fromEnvironment('MOCK_EXAMS');
+
   await SentryFlutter.init(
     (options) {
       options.dsn =
@@ -118,6 +125,11 @@ Future<void> main() async {
     appRunner: () {
       runApp(
         ProviderScope(
+          overrides: [
+            if (useMockSchedule)
+              lectureProvider.overrideWith(MockLectureNotifier.new),
+            if (useMockExams) examProvider.overrideWith(MockExamNotifier.new),
+          ],
           child: PlausibleProvider(
             plausible: plausible,
             child: const Application(route),
