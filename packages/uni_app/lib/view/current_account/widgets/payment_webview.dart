@@ -36,9 +36,6 @@ class _PaymentWebViewState extends ConsumerState<PaymentWebView> {
     if (session == null) {
       isLoading = false;
     } else {
-      // S.of(context) can't be called this early (Flutter disallows
-      // inherited-widget lookups before the first frame), so defer to
-      // right after it.
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted && isLoading) {
           _startLoadingMessages();
@@ -118,8 +115,6 @@ class _PaymentWebViewState extends ConsumerState<PaymentWebView> {
 
   Future<void> _handleSessionExpired(InAppWebViewController controller) async {
     if (_hasRetriedAfterSessionExpiry) {
-      // Already retried once and sigarra bounced us to the login page
-      // again: something is genuinely wrong, not just a stale cookie.
       _failPayment(hasError: true);
       return;
     }
@@ -130,10 +125,6 @@ class _PaymentWebViewState extends ConsumerState<PaymentWebView> {
           .read(sessionProvider.notifier)
           .refreshSilently();
 
-      // A null session means the user is genuinely logged out. Getting the
-      // exact same session instance back means refreshSilently() swallowed
-      // a network error and kept serving the same already-rejected cookies
-      // -- either way, there's nothing new to retry with.
       if (refreshedSession == null || identical(refreshedSession, session)) {
         _failPayment(hasError: refreshedSession != null);
         return;
