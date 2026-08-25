@@ -2461,6 +2461,46 @@ class S {
     );
   }
 
+  /// `Fetching your information...`
+  String get payment_loading_fetching_user_info {
+    return Intl.message(
+      'Fetching your information...',
+      name: 'payment_loading_fetching_user_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Checking your debts...`
+  String get payment_loading_checking_debts {
+    return Intl.message(
+      'Checking your debts...',
+      name: 'payment_loading_checking_debts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connecting to Sigarra...`
+  String get payment_loading_connecting {
+    return Intl.message(
+      'Connecting to Sigarra...',
+      name: 'payment_loading_connecting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sorry, an unexpected error occurred.`
+  String get payment_unexpected_error {
+    return Intl.message(
+      'Sorry, an unexpected error occurred.',
+      name: 'payment_unexpected_error',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Skip`
   String get skip {
     return Intl.message('Skip', name: 'skip', desc: '', args: []);

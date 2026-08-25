@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/session/flows/base/session.dart';
@@ -21,24 +24,133 @@ class _PaymentWebViewState extends ConsumerState<PaymentWebView> {
   bool isLoading = true;
   Session? session;
   bool _hasEnteredGateway = false;
+  bool _hasRetriedAfterSessionExpiry = false;
+  bool _hasError = false;
+  String? _loadingMessage;
+  Timer? _loadingMessageTimer;
 
   @override
   void initState() {
     super.initState();
-    _refreshSession();
-  }
-
-  Future<void> _refreshSession() async {
-    final refreshedSession = await ref
-        .read(sessionProvider.notifier)
-        .refreshSilently();
-    if (mounted) {
-      setState(() {
-        session = refreshedSession;
-        if (session == null) {
-          isLoading = false;
+    session = ref.read(sessionProvider).value;
+    if (session == null) {
+      isLoading = false;
+    } else {
+      // S.of(context) can't be called this early (Flutter disallows
+      // inherited-widget lookups before the first frame), so defer to
+      // right after it.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && isLoading) {
+          _startLoadingMessages();
         }
       });
+    }
+  }
+
+  @override
+  void dispose() {
+    _loadingMessageTimer?.cancel();
+    super.dispose();
+  }
+
+  void _startLoadingMessages() {
+    if (_loadingMessageTimer != null) {
+      return;
+    }
+
+    final messages = [
+      S.of(context).payment_loading_fetching_user_info,
+      S.of(context).payment_loading_checking_debts,
+      S.of(context).payment_loading_connecting,
+    ];
+    var index = 0;
+
+    setState(() => _loadingMessage = messages[index]);
+    _loadingMessageTimer = Timer.periodic(const Duration(seconds: 2), (_) {
+      if (!mounted) {
+        return;
+      }
+      index = (index + 1) % messages.length;
+      setState(() => _loadingMessage = messages[index]);
+    });
+  }
+
+  void _stopLoadingMessages() {
+    _loadingMessageTimer?.cancel();
+    _loadingMessageTimer = null;
+    if (mounted) {
+      setState(() => _loadingMessage = null);
+    }
+  }
+
+  void _failPayment({required bool hasError}) {
+    _stopLoadingMessages();
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      session = null;
+      isLoading = false;
+      _hasError = hasError;
+    });
+  }
+
+  Future<void> _injectCookies(
+    InAppWebViewController controller,
+    Session session,
+  ) async {
+    final cookieManager = CookieManager.instance();
+    const baseUrl = 'https://sigarra.up.pt';
+
+    await Future.wait([
+      for (final cookie in session.cookies)
+        cookieManager.setCookie(
+          url: WebUri(baseUrl),
+          name: cookie.name,
+          value: cookie.value,
+          domain: cookie.domain ?? 'sigarra.up.pt',
+          path: cookie.path ?? '/',
+          isSecure: cookie.secure,
+          isHttpOnly: cookie.httpOnly,
+        ),
+    ]);
+  }
+
+  Future<void> _handleSessionExpired(InAppWebViewController controller) async {
+    if (_hasRetriedAfterSessionExpiry) {
+      // Already retried once and sigarra bounced us to the login page
+      // again: something is genuinely wrong, not just a stale cookie.
+      _failPayment(hasError: true);
+      return;
+    }
+    _hasRetriedAfterSessionExpiry = true;
+
+    try {
+      final refreshedSession = await ref
+          .read(sessionProvider.notifier)
+          .refreshSilently();
+
+      // A null session means the user is genuinely logged out. Getting the
+      // exact same session instance back means refreshSilently() swallowed
+      // a network error and kept serving the same already-rejected cookies
+      // -- either way, there's nothing new to retry with.
+      if (refreshedSession == null || identical(refreshedSession, session)) {
+        _failPayment(hasError: refreshedSession != null);
+        return;
+      }
+
+      session = refreshedSession;
+      await _injectCookies(controller, refreshedSession);
+      await controller.loadUrl(
+        urlRequest: URLRequest(url: WebUri(widget.url)),
+      );
+    } catch (err, st) {
+      Logger().e(
+        'Failed to refresh session while retrying a payment',
+        error: err,
+        stackTrace: st,
+      );
+      _failPayment(hasError: true);
     }
   }
 
@@ -70,25 +182,17 @@ class _PaymentWebViewState extends ConsumerState<PaymentWebView> {
                     ),
                   },
                   onWebViewCreated: (controller) async {
-                    final cookieManager = CookieManager.instance();
-                    const baseUrl = 'https://sigarra.up.pt';
-
-                    for (final cookie in session!.cookies) {
-                      await cookieManager.setCookie(
-                        url: WebUri(baseUrl),
-                        name: cookie.name,
-                        value: cookie.value,
-                        domain: cookie.domain ?? 'sigarra.up.pt',
-                        path: cookie.path ?? '/',
-                        isSecure: cookie.secure,
-                        isHttpOnly: cookie.httpOnly,
-                      );
-                    }
+                    await _injectCookies(controller, session!);
                   },
                   shouldOverrideUrlLoading:
                       (controller, navigationAction) async {
                         final url =
                             navigationAction.request.url?.toString() ?? '';
+
+                        if (url.contains('vld_validacao.validacao')) {
+                          await _handleSessionExpired(controller);
+                          return NavigationActionPolicy.CANCEL;
+                        }
 
                         if (url.contains('/payment-gateway/')) {
                           if (!_hasEnteredGateway) {
@@ -120,6 +224,7 @@ class _PaymentWebViewState extends ConsumerState<PaymentWebView> {
                     final urlString = url?.toString() ?? '';
 
                     if (urlString.contains('https://www.up')) {
+                      _stopLoadingMessages();
                       setState(() {
                         isLoading = false;
                       });
@@ -137,8 +242,21 @@ class _PaymentWebViewState extends ConsumerState<PaymentWebView> {
                 Container(
                   color: Theme.of(context).colorScheme.surface,
                   child: Center(
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).colorScheme.onSecondary,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CircularProgressIndicator(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                        ),
+                        if (_loadingMessage != null) ...[
+                          const SizedBox(height: 16),
+                          Text(
+                            _loadingMessage!,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
+                      ],
                     ),
                   ),
                 ),
@@ -147,7 +265,10 @@ class _PaymentWebViewState extends ConsumerState<PaymentWebView> {
                   color: Theme.of(context).colorScheme.surface,
                   child: Center(
                     child: Text(
-                      S.of(context).session_expired,
+                      _hasError
+                          ? S.of(context).payment_unexpected_error
+                          : S.of(context).session_expired,
+                      textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),

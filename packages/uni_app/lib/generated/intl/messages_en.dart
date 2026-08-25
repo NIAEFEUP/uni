@@ -487,6 +487,18 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
     "pay": MessageLookupByLibrary.simpleMessage("Pay"),
+    "payment_loading_checking_debts": MessageLookupByLibrary.simpleMessage(
+      "Checking your debts...",
+    ),
+    "payment_loading_connecting": MessageLookupByLibrary.simpleMessage(
+      "Connecting to Sigarra...",
+    ),
+    "payment_loading_fetching_user_info": MessageLookupByLibrary.simpleMessage(
+      "Fetching your information...",
+    ),
+    "payment_unexpected_error": MessageLookupByLibrary.simpleMessage(
+      "Sorry, an unexpected error occurred.",
+    ),
     "pedagogical_surveys": MessageLookupByLibrary.simpleMessage(
       "Pedagogical Surveys",
     ),

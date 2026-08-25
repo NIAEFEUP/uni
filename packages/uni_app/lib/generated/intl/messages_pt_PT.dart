@@ -509,6 +509,18 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "password": MessageLookupByLibrary.simpleMessage("Palavra-passe"),
     "pay": MessageLookupByLibrary.simpleMessage("Pagar"),
+    "payment_loading_checking_debts": MessageLookupByLibrary.simpleMessage(
+      "A verificar as suas dívidas...",
+    ),
+    "payment_loading_connecting": MessageLookupByLibrary.simpleMessage(
+      "A ligar ao Sigarra...",
+    ),
+    "payment_loading_fetching_user_info": MessageLookupByLibrary.simpleMessage(
+      "A obter a sua informação...",
+    ),
+    "payment_unexpected_error": MessageLookupByLibrary.simpleMessage(
+      "Ocorreu um erro inesperado.",
+    ),
     "pedagogical_surveys": MessageLookupByLibrary.simpleMessage(
       "Inquéritos Pedagógicos",
     ),
