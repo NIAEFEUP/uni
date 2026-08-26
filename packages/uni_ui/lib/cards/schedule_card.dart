@@ -15,6 +15,7 @@ class ScheduleCard extends StatelessWidget {
     this.teacherName,
     this.teacherPhoto,
     this.onTap,
+    this.onRoomTap,
   });
 
   final String name;
@@ -26,6 +27,7 @@ class ScheduleCard extends StatelessWidget {
   final String? teacherName;
   final Image? teacherPhoto;
   final VoidCallback? onTap;
+  final VoidCallback? onRoomTap;
 
   static const Map<String, Color> scheduleTypeColors = {
     'T': BadgeColors.t,
@@ -143,21 +145,31 @@ class ScheduleCard extends StatelessWidget {
           ),
           Column(
             children: [
-              PhosphorIcon(
-                PhosphorIcons.mapPin(PhosphorIconsStyle.duotone),
-                color: isActive
-                    ? Theme.of(context).colorScheme.onSurfaceVariant
-                    : Theme.of(context).colorScheme.onSecondary,
-                size: 35,
-              ),
-              Text(
-                room,
-                overflow: TextOverflow.ellipsis,
-                style: isActive
-                    ? Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      )
-                    : Theme.of(context).textTheme.bodyMedium,
+              InkWell(
+                onTap: onRoomTap,
+                borderRadius: BorderRadius.circular(8),
+                child: Column(
+                  children: [
+                    PhosphorIcon(
+                      PhosphorIcons.mapPin(PhosphorIconsStyle.duotone),
+                      color: isActive
+                          ? Theme.of(context).colorScheme.onSurfaceVariant
+                          : Theme.of(context).colorScheme.onSecondary,
+                      size: 35,
+                    ),
+                    Text(
+                      room,
+                      overflow: TextOverflow.ellipsis,
+                      style: isActive
+                          ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurfaceVariant,
+                            )
+                          : Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
