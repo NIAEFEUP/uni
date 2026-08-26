@@ -132,9 +132,7 @@ class _PaymentWebViewState extends ConsumerState<PaymentWebView> {
 
       session = refreshedSession;
       await _injectCookies(controller, refreshedSession);
-      await controller.loadUrl(
-        urlRequest: URLRequest(url: WebUri(widget.url)),
-      );
+      await controller.loadUrl(urlRequest: URLRequest(url: WebUri(widget.url)));
     } catch (err, st) {
       Logger().e(
         'Failed to refresh session while retrying a payment',
