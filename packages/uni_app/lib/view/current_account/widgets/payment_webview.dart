@@ -21,7 +21,9 @@ class PaymentWebView extends ConsumerStatefulWidget {
 }
 
 class _PaymentWebViewState extends ConsumerState<PaymentWebView> {
-  bool isLoading = true;
+  // DIAGNOSTIC: loading overlay disabled to observe the raw response from
+  // the payment link (checking for a Cloudflare block/challenge page).
+  bool isLoading = false;
   Session? session;
   bool _hasEnteredGateway = false;
   bool _hasRetriedAfterSessionExpiry = false;
@@ -33,15 +35,6 @@ class _PaymentWebViewState extends ConsumerState<PaymentWebView> {
   void initState() {
     super.initState();
     session = ref.read(sessionProvider).value;
-    if (session == null) {
-      isLoading = false;
-    } else {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted && isLoading) {
-          _startLoadingMessages();
-        }
-      });
-    }
   }
 
   @override
@@ -209,23 +202,9 @@ class _PaymentWebViewState extends ConsumerState<PaymentWebView> {
 
                         return NavigationActionPolicy.CANCEL;
                       },
-                  onLoadStop: (controller, url) async {
-                    final urlString = url?.toString() ?? '';
-
-                    if (urlString.contains('https://www.up')) {
-                      _stopLoadingMessages();
-                      setState(() {
-                        isLoading = false;
-                      });
-                    }
-
-                    await controller.evaluateJavascript(
-                      source: """
-                      const btn = document.getElementById('botao-mb');
-                      if (btn) btn.click();
-                    """,
-                    );
-                  },
+                  // DIAGNOSTIC: no auto-click script injected — observing
+                  // the page exactly as returned.
+                  onLoadStop: (controller, url) async {},
                 ),
               if (isLoading)
                 Container(
