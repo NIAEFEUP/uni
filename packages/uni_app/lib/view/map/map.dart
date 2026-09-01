@@ -7,7 +7,6 @@ import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:logger/logger.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/indoor_floor_plan.dart';
@@ -190,7 +189,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
       ...locationFloors,
       ...indoorFloors,
     }.where((f) => f != 7).toList()..sort((a, b) => b.compareTo(a));
-    
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: AppSystemOverlayStyles.base.copyWith(
         statusBarIconBrightness: Theme.of(context).brightness == Brightness.dark
@@ -229,9 +228,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
               urlTemplate: Theme.of(context).brightness == Brightness.dark
                   ? 'https://basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png?key={apiKey}'
                   : 'https://basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png?key={apiKey}',
-              additionalOptions: {
-                'apiKey': dotenv.env['CARTO_API_KEY'] ?? '',
-              },
+              additionalOptions: {'apiKey': dotenv.env['CARTO_API_KEY'] ?? ''},
               tileProvider: NetworkTileProvider(
                 cachingProvider:
                     BuiltInMapCachingProvider.getOrCreateInstance(),
