@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/providers/riverpod/current_account_provider.dart';
-import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/theme.dart';
