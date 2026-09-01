@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/riverpod/current_account_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
-import 'package:uni/view/current_account/widgets/payment_webview.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/theme.dart';
@@ -129,6 +128,8 @@ class Transaction extends ConsumerWidget {
                   ],
                 ],
               ),
+              /** 
+               * #TODO: FIGURE OUT WHAT SHOULD WE DO WITH THE PAYMENT LINK
               if (paymentLink != null)
                 FilledButton(
                   style: FilledButton.styleFrom(
@@ -181,6 +182,7 @@ class Transaction extends ConsumerWidget {
                     ),
                   ),
                 ),
+                */
             ],
           ),
         ],
