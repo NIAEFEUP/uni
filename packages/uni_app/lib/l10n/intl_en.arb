@@ -347,7 +347,7 @@
   "see_more": "See more",
   "@see_more": {},
   "search_here": "Search here",
-  "@search": {},
+  "@search_here": {},
   "confirm_logout": "Do you really want to log out? Your local data will be deleted and you will have to log in again.",
   "@confirm_logout": {},
   "collect_usage_stats": "Collect usage statistics",
@@ -596,6 +596,6 @@
   "@snacks": {},
   "stores": "Stores",
   "@stores": {},
-  "feedback_github_title_section": "Want to see how the app is built? Checkout our GitHub",
+  "feedback_github_title_section": "Want to see how the app is built? Check out our GitHub",
   "@feedback_github_title_section": {}
 }

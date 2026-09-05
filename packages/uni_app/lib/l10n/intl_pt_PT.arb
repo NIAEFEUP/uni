@@ -345,7 +345,7 @@
   "year": "Ano",
   "@year": {},
   "search_here": "Pesquisar aqui",
-  "@search": {},
+  "@search_here": {},
   "confirm_logout": "Tens a certeza de que queres terminar sessão? Os teus dados locais serão apagados e terás de iniciar sessão novamente.",
   "@confirm_logout": {},
   "collect_usage_stats": "Partilhar estatísticas de uso",

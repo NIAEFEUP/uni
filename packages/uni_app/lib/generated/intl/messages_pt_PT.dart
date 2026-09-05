@@ -102,18 +102,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "bug_description_visual_detail": MessageLookupByLibrary.simpleMessage(
       "Detalhe Visual",
     ),
-    "bus_error": MessageLookupByLibrary.simpleMessage(
-      "Não foi possível obter informação",
-    ),
-    "bus_information": MessageLookupByLibrary.simpleMessage(
-      "Seleciona os autocarros dos quais queres informação:",
-    ),
-    "buses_personalize": MessageLookupByLibrary.simpleMessage(
-      "Configura aqui os teus autocarros",
-    ),
-    "buses_text": MessageLookupByLibrary.simpleMessage(
-      "Os autocarros favoritos serão apresentados no widget \'Autocarros\' dos favoritos. Os restantes serão apresentados apenas na página.",
-    ),
     "calendar": MessageLookupByLibrary.simpleMessage("Calendário"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancelar"),
     "change": MessageLookupByLibrary.simpleMessage("Alterar"),
@@ -142,9 +130,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "seleciona a(s) tua(s) faculdade(s)",
     ),
     "conclude": MessageLookupByLibrary.simpleMessage("Concluído"),
-    "configured_buses": MessageLookupByLibrary.simpleMessage(
-      "Autocarros Configurados",
-    ),
     "confirm": MessageLookupByLibrary.simpleMessage("Confirmar"),
     "confirm_logout": MessageLookupByLibrary.simpleMessage(
       "Tens a certeza de que queres terminar sessão? Os teus dados locais serão apagados e terás de iniciar sessão novamente.",
@@ -351,12 +336,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "no_app": MessageLookupByLibrary.simpleMessage(
       "Nenhuma aplicação encontrada para abrir o ficheiro",
-    ),
-    "no_bus": MessageLookupByLibrary.simpleMessage(
-      "Não percas nenhum autocarro!",
-    ),
-    "no_bus_stops": MessageLookupByLibrary.simpleMessage(
-      "Não existe nenhuma paragem configurada",
     ),
     "no_class": MessageLookupByLibrary.simpleMessage(
       "Não existem turmas para apresentar",
@@ -588,9 +567,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "some_error": MessageLookupByLibrary.simpleMessage("Algum erro!"),
     "spotted_an_error": MessageLookupByLibrary.simpleMessage(
       "Algo não está bem?",
-    ),
-    "stcp_stops": MessageLookupByLibrary.simpleMessage(
-      "STCP - Próximas Viagens",
     ),
     "stores": MessageLookupByLibrary.simpleMessage("Lojas"),
     "student_number": MessageLookupByLibrary.simpleMessage(

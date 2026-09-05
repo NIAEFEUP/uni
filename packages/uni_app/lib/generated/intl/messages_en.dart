@@ -98,18 +98,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "bug_description_visual_detail": MessageLookupByLibrary.simpleMessage(
       "Visual Detail",
     ),
-    "bus_error": MessageLookupByLibrary.simpleMessage(
-      "Unable to get information",
-    ),
-    "bus_information": MessageLookupByLibrary.simpleMessage(
-      "Select the buses you want information about:",
-    ),
-    "buses_personalize": MessageLookupByLibrary.simpleMessage(
-      "Personalize your buses here",
-    ),
-    "buses_text": MessageLookupByLibrary.simpleMessage(
-      "Favorite buses will be displayed in the favorites \'Bus\' widget. The remaining ones will only be displayed on the page.",
-    ),
     "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "change": MessageLookupByLibrary.simpleMessage("Change"),
@@ -134,9 +122,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "select your college(s)",
     ),
     "conclude": MessageLookupByLibrary.simpleMessage("Done"),
-    "configured_buses": MessageLookupByLibrary.simpleMessage(
-      "Configured Buses",
-    ),
     "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
     "confirm_logout": MessageLookupByLibrary.simpleMessage(
       "Do you really want to log out? Your local data will be deleted and you will have to log in again.",
