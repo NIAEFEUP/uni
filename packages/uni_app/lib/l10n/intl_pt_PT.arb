@@ -598,6 +598,18 @@
   "@snacks": {},
   "stores": "Lojas",
   "@stores": {},
+  "statistics": "Estatísticas",
+  "@statistics": {},
+  "statistics_distribution_description": "Distribuição de aprovados, reprovados e não avaliados",
+  "@statistics_distribution_description": {},
+  "approved": "Aprovados",
+  "@approved": {},
+  "failed": "Reprovados",
+  "@failed": {},
+  "not_evaluated": "Não avaliados",
+  "@not_evaluated": {},
+  "enrolled": "Total Inscritos",
+  "@enrolled": {},
   "feedback_github_title_section": "Queres ver como a app é feita? Explora o nosso GitHub",
   "@feedback_github_title_section": {}
 }

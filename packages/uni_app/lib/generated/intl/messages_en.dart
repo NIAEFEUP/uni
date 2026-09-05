@@ -61,6 +61,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "allow": MessageLookupByLibrary.simpleMessage("Allow"),
     "answer": MessageLookupByLibrary.simpleMessage("Answer"),
     "apply": MessageLookupByLibrary.simpleMessage("Apply"),
+    "approved": MessageLookupByLibrary.simpleMessage("Approved"),
     "assessments": MessageLookupByLibrary.simpleMessage("Assessments"),
     "at_least_one_college": MessageLookupByLibrary.simpleMessage(
       "Select at least one college",
@@ -98,18 +99,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "bug_description_visual_detail": MessageLookupByLibrary.simpleMessage(
       "Visual Detail",
     ),
-    "bus_error": MessageLookupByLibrary.simpleMessage(
-      "Unable to get information",
-    ),
-    "bus_information": MessageLookupByLibrary.simpleMessage(
-      "Select the buses you want information about:",
-    ),
-    "buses_personalize": MessageLookupByLibrary.simpleMessage(
-      "Personalize your buses here",
-    ),
-    "buses_text": MessageLookupByLibrary.simpleMessage(
-      "Favorite buses will be displayed in the favorites \'Bus\' widget. The remaining ones will only be displayed on the page.",
-    ),
     "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "change": MessageLookupByLibrary.simpleMessage("Change"),
@@ -134,9 +123,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "select your college(s)",
     ),
     "conclude": MessageLookupByLibrary.simpleMessage("Done"),
-    "configured_buses": MessageLookupByLibrary.simpleMessage(
-      "Configured Buses",
-    ),
     "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
     "confirm_logout": MessageLookupByLibrary.simpleMessage(
       "Do you really want to log out? Your local data will be deleted and you will have to log in again.",
@@ -195,6 +181,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "empty_text": MessageLookupByLibrary.simpleMessage(
       "Please fill in this field",
     ),
+    "enrolled": MessageLookupByLibrary.simpleMessage("Total Enrolled"),
     "evaluation": MessageLookupByLibrary.simpleMessage("Evaluation"),
     "exams": MessageLookupByLibrary.simpleMessage("Exams"),
     "exams_filter": MessageLookupByLibrary.simpleMessage(
@@ -212,6 +199,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fail_to_authenticate": MessageLookupByLibrary.simpleMessage(
       "Failed to authenticate",
     ),
+    "failed": MessageLookupByLibrary.simpleMessage("Failed"),
     "failed_login": MessageLookupByLibrary.simpleMessage("Login failed"),
     "failed_upload": MessageLookupByLibrary.simpleMessage("Failed to upload"),
     "favorite_filter": MessageLookupByLibrary.simpleMessage("Favorites"),
@@ -230,7 +218,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Provide a clear and concise title along with a detailed description of the issue or suggestion. The more information you provide, the better we can understand and address your feedback.",
     ),
     "feedback_github_title_section": MessageLookupByLibrary.simpleMessage(
-      "Want to see how the app is built? Check out our GitHub",
+      "Want to see how the app is built? Checkout our GitHub",
     ),
     "feedback_images_empty_section": MessageLookupByLibrary.simpleMessage(
       "Attached images will appear here.",
@@ -467,6 +455,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_tuition_fees_sublabel": MessageLookupByLibrary.simpleMessage(
       "Your tuition fee records will appear here.",
     ),
+    "not_evaluated": MessageLookupByLibrary.simpleMessage("Not evaluated"),
     "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
     "notifications_intro_message": MessageLookupByLibrary.simpleMessage(
       "Would you like to receive notifications regarding important updates and alerts, including fee deadlines?",
@@ -564,6 +553,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "some_error": MessageLookupByLibrary.simpleMessage("Some error!"),
     "spotted_an_error": MessageLookupByLibrary.simpleMessage(
       "Something not right?",
+    ),
+    "statistics": MessageLookupByLibrary.simpleMessage("Statistics"),
+    "statistics_distribution_description": MessageLookupByLibrary.simpleMessage(
+      "Distribution of passed, failed, and not evaluated students",
     ),
     "stores": MessageLookupByLibrary.simpleMessage("Stores"),
     "student_number": MessageLookupByLibrary.simpleMessage("Student Number"),

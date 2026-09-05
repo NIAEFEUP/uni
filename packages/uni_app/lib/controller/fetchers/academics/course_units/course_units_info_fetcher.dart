@@ -6,6 +6,7 @@ import 'package:uni/controller/parsers/parser_course_unit_info.dart';
 import 'package:uni/controller/parsers/schedule/new_api/parser.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
+import 'package:uni/model/entities/course_units/course_unit_statistics.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/session/flows/base/session.dart';
@@ -184,6 +185,40 @@ class CourseUnitsInfoFetcher implements SessionDependentFetcher {
       return parseOccurences(response);
     } catch (_) {
       return <String, int>{};
+    }
+  }
+
+  Future<CourseUnitStatistics> fetchCourseUnitStatistics(
+    Session session,
+    int occurrId,
+  ) async {
+    final url = '${getEndpoints(session)[0]}est_geral.dist_result_ocorr';
+
+    // TODO : better error handling
+    try {
+      final response = await NetworkRouter.getWithCookies(url, {
+        'pv_ocorrencia_id': occurrId.toString(),
+      }, session);
+
+      if (response.statusCode != 200) {
+        return const CourseUnitStatistics(
+          schoolYear: '',
+          enrolled: 0,
+          approved: 0,
+          failed: 0,
+          notEvaluated: 0,
+        );
+      }
+
+      return parseCourseUnitStatistics(response);
+    } catch (_) {
+      return const CourseUnitStatistics(
+        schoolYear: '',
+        enrolled: 0,
+        approved: 0,
+        failed: 0,
+        notEvaluated: 0,
+      );
     }
   }
 }

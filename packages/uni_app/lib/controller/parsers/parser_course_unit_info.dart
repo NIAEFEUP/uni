@@ -8,6 +8,7 @@ import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
+import 'package:uni/model/entities/course_units/course_unit_statistics.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/session/flows/base/session.dart';
 
@@ -214,6 +215,33 @@ Map<String, int> parseOccurences(http.Response response) {
     result[key] = id;
   }
   return result;
+}
+
+CourseUnitStatistics parseCourseUnitStatistics(http.Response response) {
+  final document = parse(response.body);
+
+  final title = document.querySelector('h2');
+  final titleParts = title?.text.split(' - ') ?? [];
+  final schoolYear = titleParts.length >= 3 ? titleParts[2].trim() : '';
+
+  // NOTE : there is always a hidden table. Seems to be the first one
+  // so we choose the second. If this stops working consider:
+  // - checking if style="display:none";
+  // - finding the one with first <tr> containing <th> with "Inscritos";
+  final table = document.querySelectorAll('table.dados')[1];
+  final cells = table.querySelectorAll('td.k.n');
+
+  final enrolled = int.parse(cells[0].text.trim());
+  final evaluated = int.parse(cells[1].text.trim());
+  final approved = int.parse(cells[2].text.trim());
+
+  return CourseUnitStatistics(
+    schoolYear: schoolYear,
+    enrolled: enrolled,
+    approved: approved,
+    failed: evaluated - approved,
+    notEvaluated: enrolled - evaluated,
+  );
 }
 
 String? _decodeCloudflareEmail(String encodedHex) {

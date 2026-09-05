@@ -596,6 +596,18 @@
   "@snacks": {},
   "stores": "Stores",
   "@stores": {},
+  "statistics": "Statistics",
+  "@statistics": {},
+  "statistics_distribution_description": "Distribution of passed, failed, and not evaluated students",
+  "@statistics_distribution_description": {},
+  "approved": "Approved",
+  "@approved": {},
+  "failed": "Failed",
+  "@failed": {},
+  "not_evaluated": "Not evaluated",
+  "@not_evaluated": {},
+  "enrolled": "Total Enrolled",
+  "@enrolled": {},
   "feedback_github_title_section": "Want to see how the app is built? Checkout our GitHub",
   "@feedback_github_title_section": {}
 }

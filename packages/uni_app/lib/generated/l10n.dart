@@ -747,7 +747,7 @@ class S {
     );
   }
 
-  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} mapa{Map} faculdade{Faculty} bug_report{Leave Feedback} conta_corrente{Current Account} other{Other}}`
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} mapa{Map} faculdade{Faculty} bug_report{Leave Feedback} conta_corrente{Current Account} other{Other}}`
   String nav_title(Object title) {
     return Intl.select(
       title,
@@ -2481,10 +2481,50 @@ class S {
     return Intl.message('Stores', name: 'stores', desc: '', args: []);
   }
 
-  /// `Want to see how the app is built? Check out our code on GitHub`
+  /// `Statistics`
+  String get statistics {
+    return Intl.message('Statistics', name: 'statistics', desc: '', args: []);
+  }
+
+  /// `Distribution of passed, failed, and not evaluated students`
+  String get statistics_distribution_description {
+    return Intl.message(
+      'Distribution of passed, failed, and not evaluated students',
+      name: 'statistics_distribution_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Approved`
+  String get approved {
+    return Intl.message('Approved', name: 'approved', desc: '', args: []);
+  }
+
+  /// `Failed`
+  String get failed {
+    return Intl.message('Failed', name: 'failed', desc: '', args: []);
+  }
+
+  /// `Not evaluated`
+  String get not_evaluated {
+    return Intl.message(
+      'Not evaluated',
+      name: 'not_evaluated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Enrolled`
+  String get enrolled {
+    return Intl.message('Total Enrolled', name: 'enrolled', desc: '', args: []);
+  }
+
+  /// `Want to see how the app is built? Checkout our GitHub`
   String get feedback_github_title_section {
     return Intl.message(
-      'Want to see how the app is built? Check out our GitHub',
+      'Want to see how the app is built? Checkout our GitHub',
       name: 'feedback_github_title_section',
       desc: '',
       args: [],
