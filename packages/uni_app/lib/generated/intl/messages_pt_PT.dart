@@ -115,6 +115,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Os autocarros favoritos serão apresentados no widget \'Autocarros\' dos favoritos. Os restantes serão apresentados apenas na página.",
     ),
     "calendar": MessageLookupByLibrary.simpleMessage("Calendário"),
+    "calendar_view": MessageLookupByLibrary.simpleMessage("Calendário"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancelar"),
     "change": MessageLookupByLibrary.simpleMessage("Alterar"),
     "change_password": MessageLookupByLibrary.simpleMessage(
@@ -311,6 +312,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "library_occupation": MessageLookupByLibrary.simpleMessage(
       "Ocupação da Biblioteca",
     ),
+    "list_view": MessageLookupByLibrary.simpleMessage("Lista"),
     "load_error": MessageLookupByLibrary.simpleMessage(
       "Erro ao carregar a informação",
     ),

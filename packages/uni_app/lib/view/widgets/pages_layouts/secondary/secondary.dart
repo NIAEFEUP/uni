@@ -21,6 +21,7 @@ abstract class SecondaryPageViewState<T extends ConsumerStatefulWidget>
           header: getHeader(context),
           body: getBody(context),
         ),
+        floatingActionButton: getFloatingActionButton(context),
       ),
     );
   }

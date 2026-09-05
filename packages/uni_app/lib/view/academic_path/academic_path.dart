@@ -4,6 +4,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
 import 'package:uni/model/providers/riverpod/lecture_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
+import 'package:uni/model/providers/riverpod/schedule_view_mode_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/academic_path/courses_page.dart';
 import 'package:uni/view/academic_path/exam_page.dart';
@@ -38,12 +39,42 @@ class AcademicPathPageViewState
       length: 3,
       initialIndex: widget.initialTabIndex,
     );
+    tabController.addListener(() {
+      if (!tabController.indexIsChanging) {
+        setState(() {});
+      }
+    });
   }
 
   @override
   void dispose() {
     tabController.dispose();
     super.dispose();
+  }
+
+  @override
+  Widget? getFloatingActionButton(BuildContext context) {
+    if (tabController.index != 1) {
+      return null;
+    }
+
+    final ScheduleViewMode viewMode = ref.watch<ScheduleViewMode>(
+      scheduleViewModeProvider,
+    );
+
+    return FloatingActionButton(
+      onPressed: () {
+        ref
+            .read(scheduleViewModeProvider.notifier)
+            .state = viewMode == ScheduleViewMode.list
+            ? ScheduleViewMode.calendar
+            : ScheduleViewMode.list;
+      },
+      child: UniIcon(
+        viewMode == ScheduleViewMode.list ? UniIcons.calendar : UniIcons.list,
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
+      ),
+    );
   }
 
   @override
