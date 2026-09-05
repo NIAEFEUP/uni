@@ -202,6 +202,7 @@ class ApplicationState extends ConsumerState<Application> {
               final args = settings.arguments;
               final courseUnit = args is CourseUnit ? args : null;
               final professor = args is Professor ? args : null;
+              final room = args is String ? args : null;
               final transitionFunctions = <String, Route<dynamic> Function()>{
                 '/${NavigationItem.navSplash.route}': () =>
                     PageTransition.splashTransitionRoute(
@@ -225,7 +226,7 @@ class ApplicationState extends ConsumerState<Application> {
                     ),
                 '/${NavigationItem.navMap.route}': () =>
                     PageTransition.makePageTransition(
-                      page: const MapPage(),
+                      page: MapPage(initialSearchQuery: room),
                       settings: settings,
                     ),
                 '/${NavigationItem.navRestaurants.route}': () =>

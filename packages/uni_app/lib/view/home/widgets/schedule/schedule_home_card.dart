@@ -227,6 +227,12 @@ class ScheduleHomeCard extends GenericHomecard {
                   teacherPhoto: snapshot.hasData && snapshot.data != null
                       ? Image(image: FileImage(snapshot.data!))
                       : Image.asset('assets/images/profile_placeholder.png'),
+                  onRoomTap: () => Navigator.pushNamed(
+                    context,
+                    '/${NavigationItem.navMap.route}',
+                    arguments: element
+                        .room, // <- usa "element", que é o nome usado aqui
+                  ),
                 );
               },
             ),
