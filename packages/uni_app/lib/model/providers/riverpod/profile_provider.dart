@@ -32,6 +32,16 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
       ?..courses = Database().courses
       ..courseUnits = Database().courseUnits;
 
+    profile?.courses.sort((a, b) {
+      if (a.isAttending && !b.isAttending) {
+        return -1;
+      }
+      if (!a.isAttending && b.isAttending) {
+        return 1;
+      }
+      return 0;
+    });
+
     return profile;
   }
 

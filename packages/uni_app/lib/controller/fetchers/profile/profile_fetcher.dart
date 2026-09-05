@@ -46,6 +46,16 @@ class ProfileFetcher implements SessionDependentFetcher {
       profile.courses.add(course);
     }
 
+    profile.courses.sort((a, b) {
+      if (a.isAttending && !b.isAttending) {
+        return -1;
+      }
+      if (!a.isAttending && b.isAttending) {
+        return 1;
+      }
+      return 0;
+    });
+
     profile.answeredPedagogicalSurveys = parsePedagogicalSurveys(
       coursesResponses,
     );
