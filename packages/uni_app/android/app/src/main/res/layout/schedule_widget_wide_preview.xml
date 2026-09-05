@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/widget_background"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <!-- Lecture 1 Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="24dp"
+            android:gravity="end|center_vertical"
+            android:text="08:30"
+            android:textColor="@color/widget_accent"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:layout_width="22dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp">
+
+            <FrameLayout
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                android:background="@color/widget_accent" >
+
+                <FrameLayout
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/widget_accent" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="2.5dp"
+                android:background="@drawable/widget_timeline_dot" />
+        </FrameLayout>
+
+        <include
+            layout="@layout/widget_lecture_card"
+            android:theme="@style/Theme.Widget.Preview.Lecture1" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="12dp" />
+
+    <!-- Lecture 2 Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="24dp"
+            android:gravity="end|center_vertical"
+            android:text="10:30"
+            android:textColor="@color/widget_accent"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:layout_width="22dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp">
+
+            <FrameLayout
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                android:background="@color/widget_accent" />
+
+            <FrameLayout
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="3.5dp"
+                android:background="@drawable/widget_timeline_dot" />
+        </FrameLayout>
+
+        <include
+            layout="@layout/widget_lecture_card"
+            android:theme="@style/Theme.Widget.Preview.Lecture2" />
+    </LinearLayout>
+</LinearLayout>
