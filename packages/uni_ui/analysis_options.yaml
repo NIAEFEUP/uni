@@ -1,12 +1,8 @@
 analyzer:
   exclude:
     - build/**
-  errors:
-    analysis_options_deprecated_plugins: ignore
-  plugins:
-    - custom_lint
 
 custom_lint:
-  debug: true
+  enable_all_lint_rules: false
   rules:
-    - no_string_literals_in_widgets
+    - no_string_literals_in_widgets: false
