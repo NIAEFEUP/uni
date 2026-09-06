@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
+
+typedef UniIconData = Object;
 
 // A list of all available icons
 class UniIcons {
@@ -108,19 +109,14 @@ class UniIcons {
 // The same as default Icon class from material.dart but allowing to use PhosphorIcons duotone icons
 class UniIcon extends PhosphorIcon {
   const UniIcon(
-    IconData icon, {
+    super.icon, {
     super.key,
-    double size = 24,
-    Color? color,
-    String? semanticLabel,
-    TextDirection? textDirection,
+    super.size = 24,
+    super.color,
+    super.semanticLabel,
+    super.textDirection,
     double opacity = 0.2,
   }) : super(
-         icon,
-         size: size,
-         color: color,
-         semanticLabel: semanticLabel,
-         textDirection: textDirection,
          duotoneSecondaryOpacity: opacity,
        );
 }

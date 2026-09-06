@@ -3,7 +3,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni_ui/icons.dart';
 
-(String, Icon) formatDraggableTile(
+(String, Widget) formatDraggableTile(
   BuildContext context,
   FavoriteWidgetType favorite,
 ) {

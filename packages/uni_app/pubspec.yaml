@@ -12,7 +12,7 @@ resolution: workspace
 
 environment:
   sdk: ">=3.10.0 <4.0.0"
-  flutter: ">=3.41.0"
+  flutter: ">=3.44.0"
 
 dependencies:
   animations: ^2.0.11
@@ -45,7 +45,7 @@ dependencies:
     sdk: flutter
   flutter_map: ^8.2.2
   flutter_map_marker_popup: ^8.1.0
-  flutter_markdown: ^0.7.7+1
+  flutter_markdown_plus: ^1.0.12
   flutter_native_splash: ^2.4.6
   flutter_riverpod: ^3.0.3
   flutter_secure_storage: ^10.0.0
@@ -188,20 +188,3 @@ flutter_launcher_icons:
 
   android: "launcher_icon"
   # image_path_android: "assets/icon/icon.png"
-  min_sdk_android: 21 # android min sdk min:16, default 21
-  adaptive_icon_background: "assets/icon/adaptive_background.png"
-  adaptive_icon_foreground: "assets/icon/icon_dark.png"
-  adaptive_icon_monochrome: "assets/icon/icon_dark.png"
-
-  ios: true
-  # image_path_ios: "assets/icon/icon.png"
-  remove_alpha_ios: true
-  image_path_ios_dark_transparent: "assets/icon/icon_dark.png"
-  # image_path_ios_tinted_grayscale: "assets/icon/icon_tinted.png"
-  # desaturate_tinted_to_grayscale_ios: true
-
-flutter_native_splash:
-  color: "#280709"
-  android_12:
-    image: assets/images/blank_splash.png
-    color: "280709"

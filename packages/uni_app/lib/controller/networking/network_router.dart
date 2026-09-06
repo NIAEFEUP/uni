@@ -66,7 +66,7 @@ class NetworkRouter {
     for (final entry in query.entries) {
       final existingValue = allQueryParameters[entry.key];
       allQueryParameters[entry.key] = [
-        if (existingValue != null) ...existingValue,
+        ...?existingValue,
         entry.value,
       ];
     }
