@@ -65,10 +65,7 @@ class NetworkRouter {
     final allQueryParameters = {...parsedUrl.queryParametersAll};
     for (final entry in query.entries) {
       final existingValue = allQueryParameters[entry.key];
-      allQueryParameters[entry.key] = [
-        ...?existingValue,
-        entry.value,
-      ];
+      allQueryParameters[entry.key] = [...?existingValue, entry.value];
     }
 
     final requestUri = parsedUrl

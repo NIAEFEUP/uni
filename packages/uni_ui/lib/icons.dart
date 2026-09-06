@@ -116,7 +116,5 @@ class UniIcon extends PhosphorIcon {
     super.semanticLabel,
     super.textDirection,
     double opacity = 0.2,
-  }) : super(
-         duotoneSecondaryOpacity: opacity,
-       );
+  }) : super(duotoneSecondaryOpacity: opacity);
 }
