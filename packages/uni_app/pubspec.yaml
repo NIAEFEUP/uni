@@ -15,32 +15,29 @@ environment:
   flutter: ">=3.47.0"
 
 dependencies:
-  animations: ^2.0.11
+  animations: ^3.0.0
   app_links: ^7.0.0
-  app_settings:
-    git:
-      url: https://github.com/spencerccf/app_settings.git
-      ref: master
+  app_settings: ^9.0.0
   battery_plus: ^7.0.0
-  cached_network_image: ^3.4.1
+  cached_network_image: ^4.0.0
   collection: ^1.19.1
   connectivity_plus: ^7.0.0
   crypto: ^3.0.6
   cupertino_icons: ^1.0.8
   currency_text_input_formatter: ^2.3.0
-  device_calendar_plus: ^0.4.0
+  device_calendar_plus: ^0.8.0
   diacritic: ^0.1.6
   email_validator: ^3.0.0
   expandable: ^5.0.1
   expandable_page_view: ^1.0.17
   expansion_tile_card: ^3.0.0
-  file_picker: ^10.3.3
+  file_picker: ^12.2.0
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.4.1
   flutter_dotenv: ^6.0.0
-  flutter_inappwebview: ^6.0.0
-  flutter_local_notifications: ^20.0.0
+  flutter_inappwebview: 6.2.0-beta.3
+  flutter_local_notifications: ^22.3.0
   flutter_localizations:
     sdk: flutter
   flutter_map: ^8.2.2
@@ -48,7 +45,7 @@ dependencies:
   flutter_markdown_plus: ^1.0.12
   flutter_native_splash: ^2.4.6
   flutter_riverpod: ^3.0.3
-  flutter_secure_storage: ^10.0.0
+  flutter_secure_storage: ^11.0.0
   flutter_svg: ^2.2.1
   flutter_widget_from_html_core: ^0.17.0
   html: ^0.15.6
@@ -58,12 +55,12 @@ dependencies:
   intl: ^0.20.2
   json_annotation: ^4.9.0
   json_serializable: ^6.11.1
-  latlong2: ^0.9.1
+  latlong2: ^0.10.1
   logger: ^2.6.2
   material_design_icons_flutter: ^7.0.7296
   objectbox: ^5.1.0
   objectbox_flutter_libs: any
-  open_file: ^3.5.10
+  open_file: ^4.0.0
   openid_client:
     git:
       url: https://github.com/NIAEFEUP/openid_client.git
@@ -71,18 +68,18 @@ dependencies:
   path: ^1.9.1
   path_provider: ^2.1.5
   percent_indicator: ^4.2.5
-  permission_handler: ^12.0.1
+  permission_handler: ^13.0.2
   plausible_analytics: ^0.3.0
-  sentry_flutter: ^9.7.0
+  sentry_flutter: ^10.0.0-alpha.4
   shared_preferences: ^2.5.3
-  shimmer: ^3.0.0
-  smooth_page_indicator: ^2.0.1
+  shimmer: ^4.0.0
+  smooth_page_indicator: ^3.0.0
   synchronized: ^3.4.0
   timelines: ^0.1.0
   ua_client_hints: ^1.4.1
   uni_ui: ^1.0.0
   up_menus: ^1.0.1
-  upgrader: ^12.1.0
+  upgrader: ^13.7.0
   url_launcher: ^6.3.2
   workmanager:
     git:
@@ -100,7 +97,7 @@ dev_dependencies:
   leancode_lint: ^19.0.1
   mockito: ^5.5.0
   objectbox_generator: any
-  very_good_analysis: ^10.0.0
+  very_good_analysis: ^11.0.0
 
 flutter:
   generate: true
