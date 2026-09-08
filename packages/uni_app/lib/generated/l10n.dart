@@ -747,7 +747,7 @@ class S {
     );
   }
 
-  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} mapa{Map} faculdade{Faculty} bug_report{Leave Feedback} conta_corrente{Current Account} other{Other}}`
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} mapa{Map} faculdade{Faculty} bug_report{Leave Feedback} conta_corrente{Current Account} other{Other}}`
   String nav_title(Object title) {
     return Intl.select(
       title,
@@ -2481,11 +2481,31 @@ class S {
     return Intl.message('Stores', name: 'stores', desc: '', args: []);
   }
 
-  /// `Want to see how the app is built? Check out our code on GitHub`
+  /// `Want to see how the app is built? Checkout our GitHub`
   String get feedback_github_title_section {
     return Intl.message(
-      'Want to see how the app is built? Check out our GitHub',
+      'Want to see how the app is built? Checkout our GitHub',
       name: 'feedback_github_title_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome to university!`
+  String get welcome_title {
+    return Intl.message(
+      'Welcome to university!',
+      name: 'welcome_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The UNI team welcomes you and wishes you the best of luck on your course!`
+  String get welcome_message {
+    return Intl.message(
+      'The UNI team welcomes you and wishes you the best of luck on your course!',
+      name: 'welcome_message',
       desc: '',
       args: [],
     );

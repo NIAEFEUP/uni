@@ -15,9 +15,11 @@ import 'package:uni/model/providers/riverpod/news_provider.dart';
 import 'package:uni/model/providers/riverpod/pedagogical_surveys_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/restaurant_provider.dart';
+import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/utils/student_number_getter.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni/view/home/widgets/calendar/calendar_home_card.dart';
 import 'package:uni/view/home/widgets/connectivity_warning.dart';
@@ -29,6 +31,7 @@ import 'package:uni/view/home/widgets/restaurants/restaurant_home_card.dart';
 import 'package:uni/view/home/widgets/schedule/schedule_home_card.dart';
 import 'package:uni/view/home/widgets/tracking_banner.dart';
 import 'package:uni/view/home/widgets/uni_logo.dart';
+import 'package:uni/view/home/widgets/welcome_new_students.dart';
 import 'package:uni/view/widgets/general_error_view.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/profile_button.dart';
@@ -80,6 +83,12 @@ class HomePageViewState extends ConsumerState<HomePageView> {
     FavoriteWidgetType.news: newsProvider,
   };
 
+  bool get isWelcomeWindow {
+    final now = DateTime.now();
+    return now.isAfter(DateTime(2026, 9, 14)) &&
+        now.isBefore(DateTime(2026, 9, 28));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -124,6 +133,11 @@ class HomePageViewState extends ConsumerState<HomePageView> {
       FavoriteWidgetType.news: const NewsHomeCard(),
     };
 
+    final session = ref.watch(sessionProvider).value;
+    final isNewStudent =
+        session != null &&
+        getStudentNumber(session).toString().startsWith('2026');
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: AppSystemOverlayStyles.base.copyWith(
         statusBarColor: Colors.transparent,
@@ -136,53 +150,65 @@ class HomePageViewState extends ConsumerState<HomePageView> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: homeAppBar(context),
         bottomNavigationBar: const AppBottomNavbar(),
-        body: RefreshIndicator(
-          onRefresh: () => refreshPage(context),
-          color: Theme.of(context).colorScheme.onSecondary,
-          backgroundColor: Theme.of(context).colorScheme.secondary,
-          child: ListView.separated(
-            itemCount: favoriteCards.length + 2,
-            separatorBuilder: (_, _) => const SizedBox(height: 10),
-            itemBuilder: (_, index) {
-              if (index == 0) {
-                return Visibility(
-                  visible: !_isBannerViewed,
-                  child: TrackingBanner(setBannerViewed),
-                );
-              } else if (index == favoriteCards.length + 1) {
-                return Center(
-                  child: TextButton.icon(
-                    style: TextButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
-                      elevation: 2,
-                      shadowColor: Theme.of(context).colorScheme.shadow,
-                      shape: RoundedSuperellipseBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        '/${NavigationItem.navEditPersonalArea.route}',
+        body: Column(
+          children: [
+            if (isWelcomeWindow && isNewStudent) const WelcomeNewStudents(),
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: () => refreshPage(context),
+                color: Theme.of(context).colorScheme.onSecondary,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                child: ListView.separated(
+                  itemCount: favoriteCards.length + 2,
+                  separatorBuilder: (_, _) => const SizedBox(height: 10),
+                  itemBuilder: (_, index) {
+                    if (index == 0) {
+                      return Visibility(
+                        visible: !_isBannerViewed,
+                        child: TrackingBanner(setBannerViewed),
                       );
-                    },
-                    icon: UniIcon(
-                      UniIcons.edit,
-                      color: Theme.of(context).colorScheme.onSecondary,
-                    ),
-                    label: Text(
-                      S.of(context).edit_homepage,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.onSecondary,
-                      ),
-                    ),
-                  ),
-                );
-              } else {
-                return typeToCard[favoriteCards[index - 1]];
-              }
-            },
-          ),
+                    } else if (index == favoriteCards.length + 1) {
+                      return Center(
+                        child: TextButton.icon(
+                          style: TextButton.styleFrom(
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.secondary,
+                            elevation: 2,
+                            shadowColor: Theme.of(context).colorScheme.shadow,
+                            shape: RoundedSuperellipseBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              '/${NavigationItem.navEditPersonalArea.route}',
+                            );
+                          },
+                          icon: UniIcon(
+                            UniIcons.edit,
+                            color: Theme.of(context).colorScheme.onSecondary,
+                          ),
+                          label: Text(
+                            S.of(context).edit_homepage,
+                            style: Theme.of(context).textTheme.bodyLarge
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSecondary,
+                                ),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return typeToCard[favoriteCards[index - 1]];
+                    }
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -597,5 +597,9 @@
   "stores": "Stores",
   "@stores": {},
   "feedback_github_title_section": "Want to see how the app is built? Checkout our GitHub",
-  "@feedback_github_title_section": {}
+  "@feedback_github_title_section": {},
+  "welcome_title": "Welcome to university!",
+  "@welcome_title": {},
+  "welcome_message": "The UNI team welcomes you and wishes you the best of luck on your course!",
+  "@welcome_message": {}
 }
