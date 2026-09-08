@@ -618,7 +618,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "wc": MessageLookupByLibrary.simpleMessage("Casa de banho"),
     "welcome_message": MessageLookupByLibrary.simpleMessage(
-      "A equipa UNI dá-te as boas-vindas e deseja-te muita sorte no curso!",
+      "A equipa da UNI dá-te as boas-vindas e deseja-te muita sorte no curso!",
     ),
     "welcome_title": MessageLookupByLibrary.simpleMessage(
       "Bem-vindo à universidade!",
