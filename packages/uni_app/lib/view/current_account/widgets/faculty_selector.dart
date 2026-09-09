@@ -21,28 +21,36 @@ class FacultySelector extends ConsumerWidget {
     final selectedFaculty = NetworkRouter.resolveFaculty(session, preferred);
 
     // SingleChildScrollView + Row is used instead of ListView to prevent row
-    // from expanding vertically
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: session.faculties.map((faculty) {
-          return _FacultyCard(
-            faculty: faculty,
-            selected: faculty == selectedFaculty,
-            onTap: () {
-              if (faculty == selectedFaculty) {
-                return;
-              }
-              ref
-                  .read(selectedAccountFacultyProvider.notifier)
-                  .setFaculty(faculty);
-              ref
-                ..invalidate(currentAccountProvider)
-                ..invalidate(profileProvider);
-            },
-          );
-        }).toList(),
+    // from expanding vertically. LayoutBuilder + ConstrainedBox forces the
+    // Row to be at least as wide as the viewport, so mainAxisAlignment.center
+    // actually centers the cards when they don't fill the width; once they
+    // overflow it, the Row grows past minWidth and scrolling kicks in.
+    return LayoutBuilder(
+      builder: (context, constraints) => SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minWidth: constraints.maxWidth),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: session.faculties.map((faculty) {
+              return _FacultyCard(
+                faculty: faculty,
+                selected: faculty == selectedFaculty,
+                onTap: () {
+                  if (faculty == selectedFaculty) {
+                    return;
+                  }
+                  ref
+                      .read(selectedAccountFacultyProvider.notifier)
+                      .setFaculty(faculty);
+                  ref
+                    ..invalidate(currentAccountProvider)
+                    ..invalidate(profileProvider);
+                },
+              );
+            }).toList(),
+          ),
+        ),
       ),
     );
   }
