@@ -1911,6 +1911,16 @@ class S {
     );
   }
 
+  /// `List`
+  String get list_view {
+    return Intl.message('List', name: 'list_view', desc: '', args: []);
+  }
+
+  /// `Calendar`
+  String get calendar_view {
+    return Intl.message('Calendar', name: 'calendar_view', desc: '', args: []);
+  }
+
   /// `Map`
   String get map {
     return Intl.message('Map', name: 'map', desc: '', args: []);
