@@ -526,6 +526,8 @@
   "@current_account": {},
   "current_account_description": "Track your fees, due dates and payment history.",
   "@current_account_description": {},
+  "account_faculty": "Faculty",
+  "@account_faculty": {},
   "overview": "Overview",
   "@overview": {},
   "upcoming_due": "Upcoming Due",

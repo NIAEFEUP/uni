@@ -4,9 +4,11 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/current_account.dart';
 import 'package:uni/model/providers/riverpod/current_account_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
+import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/current_account/widgets/account_overview.dart';
 import 'package:uni/view/current_account/widgets/current_account_shimmers.dart';
+import 'package:uni/view/current_account/widgets/faculty_selector.dart';
 import 'package:uni/view/current_account/widgets/transaction.dart';
 import 'package:uni/view/current_account/widgets/transaction_filter_menu.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
@@ -103,6 +105,7 @@ class CurrentAccountPageViewState
   Widget getBody(BuildContext context) {
     final currentAccount = ref.watch(currentAccountProvider);
     final accountOverview = ref.watch(profileProvider);
+    final session = ref.watch(sessionProvider).value;
 
     if ((currentAccount.isLoading && !currentAccount.hasValue) ||
         (accountOverview.isLoading && !accountOverview.hasValue)) {
@@ -155,6 +158,18 @@ class CurrentAccountPageViewState
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 20),
       children: [
+        if (session != null && session.faculties.length > 1) ...[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              S.of(context).account_faculty,
+              style: Theme.of(context).textTheme.headlineLarge,
+            ),
+          ),
+          const SizedBox(height: 8),
+          FacultySelector(session: session),
+          const SizedBox(height: 22),
+        ],
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Text(

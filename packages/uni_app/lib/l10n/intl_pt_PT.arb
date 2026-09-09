@@ -528,6 +528,8 @@
   "@current_account": {},
   "current_account_description": "Acompanha as tuas propinas, prazos e histórico de pagamentos.",
   "@current_account_description": {},
+  "account_faculty": "Faculdade",
+  "@account_faculty": {},
   "overview": "Visão Geral",
   "@overview": {},
   "upcoming_due": "Próximo Vencimento",

@@ -43,6 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "account_card_title": MessageLookupByLibrary.simpleMessage(
       "Checking account",
     ),
+    "account_faculty": MessageLookupByLibrary.simpleMessage("Faculty"),
     "add": MessageLookupByLibrary.simpleMessage("Add"),
     "add_photo": MessageLookupByLibrary.simpleMessage("Add photo"),
     "add_quota": MessageLookupByLibrary.simpleMessage("Add quota"),

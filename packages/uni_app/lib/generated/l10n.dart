@@ -2181,6 +2181,11 @@ class S {
     );
   }
 
+  /// `Faculty`
+  String get account_faculty {
+    return Intl.message('Faculty', name: 'account_faculty', desc: '', args: []);
+  }
+
   /// `Overview`
   String get overview {
     return Intl.message('Overview', name: 'overview', desc: '', args: []);
