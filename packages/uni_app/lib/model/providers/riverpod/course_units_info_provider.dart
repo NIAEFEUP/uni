@@ -349,6 +349,7 @@ class CourseUnitsInfoNotifier
     final statistics = await CourseUnitsInfoFetcher().fetchCourseUnitStatistics(
       session,
       occurrId,
+      courseUnit.schoolYear,
     );
 
     final currentState =

@@ -224,16 +224,34 @@ CourseUnitStatistics parseCourseUnitStatistics(http.Response response) {
   final titleParts = title?.text.split(' - ') ?? [];
   final schoolYear = titleParts.length >= 3 ? titleParts[2].trim() : '';
 
-  // NOTE : there is always a hidden table. Seems to be the first one
-  // so we choose the second. If this stops working consider:
-  // - checking if style="display:none";
-  // - finding the one with first <tr> containing <th> with "Inscritos";
-  final table = document.querySelectorAll('table.dados')[1];
-  final cells = table.querySelectorAll('td.k.n');
+  // The page contains a hidden table used to render the chart and a visible
+  // one with the actual statistics. Instead of relying on ordering, find the
+  // visible table whose data row contains cells with the "k n" classes. If
+  // none exists (e.g. no data for the requested year), return empty values.
+  final tables = document
+      .querySelectorAll('table.dados')
+      .where(
+        (element) =>
+            !(element.attributes['style']?.contains('display:none') ?? false),
+      )
+      .where((element) => element.querySelectorAll('td.k.n').length >= 3)
+      .toList();
 
-  final enrolled = int.parse(cells[0].text.trim());
-  final evaluated = int.parse(cells[1].text.trim());
-  final approved = int.parse(cells[2].text.trim());
+  if (tables.isEmpty) {
+    return CourseUnitStatistics(
+      schoolYear: schoolYear,
+      enrolled: 0,
+      approved: 0,
+      failed: 0,
+      notEvaluated: 0,
+    );
+  }
+
+  final cells = tables.first.querySelectorAll('td.k.n');
+
+  final enrolled = _parseStatNumber(cells[0].text);
+  final evaluated = _parseStatNumber(cells[1].text);
+  final approved = _parseStatNumber(cells[2].text);
 
   return CourseUnitStatistics(
     schoolYear: schoolYear,
@@ -242,6 +260,10 @@ CourseUnitStatistics parseCourseUnitStatistics(http.Response response) {
     failed: evaluated - approved,
     notEvaluated: enrolled - evaluated,
   );
+}
+
+int _parseStatNumber(String text) {
+  return int.parse(text.replaceAll(RegExp(r'\s'), ''));
 }
 
 String? _decodeCloudflareEmail(String encodedHex) {

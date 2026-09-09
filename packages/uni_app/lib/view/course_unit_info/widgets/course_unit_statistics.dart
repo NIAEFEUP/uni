@@ -12,10 +12,7 @@ class CourseUnitStatisticsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final enrolled = statistics.enrolled;
-    final allZero =
-        statistics.approved == 0 &&
-        statistics.failed == 0 &&
-        statistics.notEvaluated == 0;
+    final hasNoEvaluations = statistics.isEvaluationEmpty;
 
     double pct(int value) {
       return enrolled > 0 ? value / enrolled * 100 : 0.0;
@@ -31,7 +28,9 @@ class CourseUnitStatisticsView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Text(
-                S.of(context).statistics,
+                statistics.schoolYear.isEmpty
+                    ? S.of(context).statistics
+                    : S.of(context).statistics_year(statistics.schoolYear),
                 style: theme.textTheme.headlineLarge,
               ),
             ),
@@ -49,15 +48,21 @@ class CourseUnitStatisticsView extends StatelessWidget {
                 style: theme.textTheme.bodyMedium?.copyWith(),
               ),
             ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: SizedBox(
-                height: 36,
-                child: Row(
-                  children: [
-                    if (allZero)
-                      Expanded(child: Container(color: BadgeColors.noEval))
-                    else ...[
+            if (hasNoEvaluations)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Text(
+                  S.of(context).statistics_not_found,
+                  style: theme.textTheme.bodyMedium,
+                ),
+              )
+            else ...[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: SizedBox(
+                  height: 36,
+                  child: Row(
+                    children: [
                       if (statistics.approved > 0)
                         Expanded(
                           flex: statistics.approved,
@@ -74,31 +79,31 @@ class CourseUnitStatisticsView extends StatelessWidget {
                           child: Container(color: BadgeColors.noEval),
                         ),
                     ],
-                  ],
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _LegendItem(
-                  color: BadgeColors.approved,
-                  label:
-                      '${statistics.approved} ${S.of(context).approved} (${pct(statistics.approved).toStringAsFixed(1)}%)',
-                ),
-                _LegendItem(
-                  color: BadgeColors.failed,
-                  label:
-                      '${statistics.failed} ${S.of(context).failed} (${pct(statistics.failed).toStringAsFixed(1)}%)',
-                ),
-                _LegendItem(
-                  color: BadgeColors.noEval,
-                  label:
-                      '${statistics.notEvaluated} ${S.of(context).not_evaluated} (${pct(statistics.notEvaluated).toStringAsFixed(1)}%)',
-                ),
-              ],
-            ),
+              const SizedBox(height: 12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _LegendItem(
+                    color: BadgeColors.approved,
+                    label:
+                        '${statistics.approved} ${S.of(context).approved} (${pct(statistics.approved).toStringAsFixed(1)}%)',
+                  ),
+                  _LegendItem(
+                    color: BadgeColors.failed,
+                    label:
+                        '${statistics.failed} ${S.of(context).failed} (${pct(statistics.failed).toStringAsFixed(1)}%)',
+                  ),
+                  _LegendItem(
+                    color: BadgeColors.noEval,
+                    label:
+                        '${statistics.notEvaluated} ${S.of(context).not_evaluated} (${pct(statistics.notEvaluated).toStringAsFixed(1)}%)',
+                  ),
+                ],
+              ),
+            ],
           ],
         ),
       ),

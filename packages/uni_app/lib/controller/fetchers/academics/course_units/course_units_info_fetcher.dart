@@ -191,34 +191,66 @@ class CourseUnitsInfoFetcher implements SessionDependentFetcher {
   Future<CourseUnitStatistics> fetchCourseUnitStatistics(
     Session session,
     int occurrId,
+    String? schoolYear,
   ) async {
-    final url = '${getEndpoints(session)[0]}est_geral.dist_result_ocorr';
+    final yearMatch = RegExp(r'^(\d{4})').firstMatch(schoolYear ?? '');
+    final currentYear = yearMatch != null
+        ? int.parse(yearMatch.group(1)!)
+        : null;
+    // If the requested year has no published results yet (e.g. a semester
+    // that is about to start), fall back to the previous year. This mirrors
+    // the website, which keeps the same occurrence id and only changes the
+    // year parameter.
+    final years = [currentYear, if (currentYear != null) currentYear - 1];
 
-    // TODO : better error handling
-    try {
-      final response = await NetworkRouter.getWithCookies(url, {
+    final candidates = getEndpoints(session);
+
+    CourseUnitStatistics? bestResult;
+
+    for (final year in years) {
+      final query = {
         'pv_ocorrencia_id': occurrId.toString(),
-      }, session);
+        if (year != null) 'pv_ano_letivo': year.toString(),
+      };
 
-      if (response.statusCode != 200) {
-        return const CourseUnitStatistics(
+      for (final base in candidates) {
+        final url = '${base}est_geral.dist_result_ocorr';
+        try {
+          final response = await NetworkRouter.getWithCookies(
+            url,
+            query,
+            session,
+          );
+
+          if (response.statusCode != 200) {
+            continue;
+          }
+
+          final result = parseCourseUnitStatistics(response);
+          bestResult ??= result;
+
+          if (!result.isEvaluationEmpty) {
+            // The page's <h2> shows the occurrence's own year, which can
+            // differ from the requested year (e.g. when we fall back to the
+            // previous year). Label the data with the year that was requested.
+            final stat = year != null
+                ? result.copyWith(schoolYear: '$year/${year + 1}')
+                : result;
+            return stat;
+          }
+        } catch (_) {
+          // Fall through to the next candidate.
+        }
+      }
+    }
+
+    return bestResult ??
+        const CourseUnitStatistics(
           schoolYear: '',
           enrolled: 0,
           approved: 0,
           failed: 0,
           notEvaluated: 0,
         );
-      }
-
-      return parseCourseUnitStatistics(response);
-    } catch (_) {
-      return const CourseUnitStatistics(
-        schoolYear: '',
-        enrolled: 0,
-        approved: 0,
-        failed: 0,
-        notEvaluated: 0,
-      );
-    }
   }
 }

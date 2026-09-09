@@ -2486,11 +2486,31 @@ class S {
     return Intl.message('Statistics', name: 'statistics', desc: '', args: []);
   }
 
+  /// `Statistics {year}`
+  String statistics_year(Object year) {
+    return Intl.message(
+      'Statistics $year',
+      name: 'statistics_year',
+      desc: '',
+      args: [year],
+    );
+  }
+
   /// `Distribution of passed, failed, and not evaluated students`
   String get statistics_distribution_description {
     return Intl.message(
       'Distribution of passed, failed, and not evaluated students',
       name: 'statistics_distribution_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No statistics were found for this year or the previous year.`
+  String get statistics_not_found {
+    return Intl.message(
+      'No statistics were found for this year or the previous year.',
+      name: 'statistics_not_found',
       desc: '',
       args: [],
     );
