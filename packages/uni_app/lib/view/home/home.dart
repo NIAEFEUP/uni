@@ -85,8 +85,8 @@ class HomePageViewState extends ConsumerState<HomePageView> {
 
   bool get isWelcomeWindow {
     final now = DateTime.now();
-    return now.isAfter(DateTime(2026, 9, 14)) &&
-        now.isBefore(DateTime(2026, 9, 28));
+    return now.isAfter(DateTime(now.year, 9)) &&
+        now.isBefore(DateTime(now.year, 9, 30));
   }
 
   @override
@@ -136,7 +136,9 @@ class HomePageViewState extends ConsumerState<HomePageView> {
     final session = ref.watch(sessionProvider).value;
     final isNewStudent =
         session != null &&
-        getStudentNumber(session).toString().startsWith('2026');
+        getStudentNumber(
+          session,
+        ).toString().startsWith(DateTime.now().year.toString());
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: AppSystemOverlayStyles.base.copyWith(
