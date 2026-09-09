@@ -1,6 +1,7 @@
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -225,8 +226,9 @@ class MapPageStateView extends ConsumerState<MapPage> {
           children: <Widget>[
             TileLayer(
               urlTemplate: Theme.of(context).brightness == Brightness.dark
-                  ? 'https://basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png'
-                  : 'https://basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
+                  ? 'https://basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png?key={apiKey}'
+                  : 'https://basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png?key={apiKey}',
+              additionalOptions: {'apiKey': dotenv.env['CARTO_API_KEY'] ?? ''},
               tileProvider: NetworkTileProvider(
                 cachingProvider:
                     BuiltInMapCachingProvider.getOrCreateInstance(),
