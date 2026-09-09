@@ -57,6 +57,10 @@
 	<true/>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Exportar exames e eventos para o calendário</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>Exportar exames e eventos para o calendário</string>
+	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+	<string>Exportar exames e eventos para o calendário</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Possibilidade de adicionar prints a um bug report</string>
 	<key>UIApplicationSceneManifest</key>

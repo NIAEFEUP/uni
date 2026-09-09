@@ -15,7 +15,6 @@ environment:
   flutter: ">=3.41.0"
 
 dependencies:
-  add_2_calendar_new: ^1.0.4
   animations: ^2.0.11
   app_links: ^7.0.0
   app_settings:
@@ -29,6 +28,7 @@ dependencies:
   crypto: ^3.0.6
   cupertino_icons: ^1.0.8
   currency_text_input_formatter: ^2.3.0
+  device_calendar_plus: ^0.4.0
   diacritic: ^0.1.6
   email_validator: ^3.0.0
   expandable: ^5.0.1
