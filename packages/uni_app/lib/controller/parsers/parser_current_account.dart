@@ -1,6 +1,7 @@
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/current_account.dart';
 import 'package:uni/session/flows/base/session.dart';
@@ -69,9 +70,11 @@ class CurrentAccountParser {
         String? paymentLink;
         final currentSession = session;
         if (relativeLink != null && currentSession != null) {
-          paymentLink =
-              '${NetworkRouter.getBaseUrlsFromSession(currentSession)[0]}'
-              '$relativeLink';
+          final faculty = NetworkRouter.resolveFaculty(
+            currentSession,
+            PreferencesController.getSelectedAccountFaculty(),
+          );
+          paymentLink = '${NetworkRouter.getBaseUrl(faculty)}$relativeLink';
         }
 
         final interest = cells[9].text.trim();
