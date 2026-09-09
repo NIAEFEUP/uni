@@ -8,8 +8,6 @@ import 'package:uni/session/flows/base/session.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/icons.dart';
 
-/// Lets the user pick which of their faculties' accounts (fees,
-/// transactions, payment links) is shown on the Current Account page.
 class FacultySelector extends ConsumerWidget {
   const FacultySelector({super.key, required this.session});
 
@@ -20,11 +18,6 @@ class FacultySelector extends ConsumerWidget {
     final preferred = ref.watch(selectedAccountFacultyProvider);
     final selectedFaculty = NetworkRouter.resolveFaculty(session, preferred);
 
-    // SingleChildScrollView + Row is used instead of ListView to prevent row
-    // from expanding vertically. LayoutBuilder + ConstrainedBox forces the
-    // Row to be at least as wide as the viewport, so mainAxisAlignment.center
-    // actually centers the cards when they don't fill the width; once they
-    // overflow it, the Row grows past minWidth and scrolling kicks in.
     return LayoutBuilder(
       builder: (context, constraints) => SingleChildScrollView(
         scrollDirection: Axis.horizontal,
