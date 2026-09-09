@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
+import 'package:uni/controller/fetchers/core/session_dependent_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/session/flows/base/session.dart';
 
-class CurrentCourseUnitsFetcher implements SessionDependantFetcher {
+class CurrentCourseUnitsFetcher implements SessionDependentFetcher {
   @override
   List<String> getEndpoints(Session session) {
     // all faculties list user course units on all faculties

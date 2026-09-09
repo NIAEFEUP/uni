@@ -1,9 +1,9 @@
 import 'package:http/http.dart' as http;
-import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
+import 'package:uni/controller/fetchers/core/session_dependent_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/session/flows/base/session.dart';
 
-class PrintFetcher implements SessionDependantFetcher {
+class PrintFetcher implements SessionDependentFetcher {
   @override
   List<String> getEndpoints(Session session) {
     final url = '${NetworkRouter.getBaseUrl('feup')}imp4_impressoes.atribs';

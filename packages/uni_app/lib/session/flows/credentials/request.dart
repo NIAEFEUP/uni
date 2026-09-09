@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:uni/controller/fetchers/faculties_fetcher.dart';
+import 'package:uni/controller/fetchers/academics/faculties_fetcher.dart';
 import 'package:uni/http/client/cookie.dart';
 import 'package:uni/session/exception.dart';
 import 'package:uni/session/flows/base/request.dart';

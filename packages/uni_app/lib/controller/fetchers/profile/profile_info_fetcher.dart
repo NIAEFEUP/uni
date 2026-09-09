@@ -1,10 +1,10 @@
-import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
+import 'package:uni/controller/fetchers/core/session_dependent_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_profile_info.dart';
 import 'package:uni/model/entities/profile_info.dart';
 import 'package:uni/session/flows/base/session.dart';
 
-class ProfileInfoFetcher implements SessionDependantFetcher {
+class ProfileInfoFetcher implements SessionDependentFetcher {
   @override
   List<String> getEndpoints(Session session) {
     final url = NetworkRouter.getBaseUrlsFromSession(

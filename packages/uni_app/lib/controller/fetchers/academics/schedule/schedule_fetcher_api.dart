@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
+import 'package:uni/controller/fetchers/academics/schedule/schedule_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/schedule/api/parser.dart';
 import 'package:uni/model/entities/lecture.dart';
