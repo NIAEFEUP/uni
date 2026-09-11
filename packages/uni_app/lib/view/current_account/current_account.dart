@@ -159,14 +159,6 @@ class CurrentAccountPageViewState
       padding: const EdgeInsets.symmetric(vertical: 20),
       children: [
         if (session != null && session.faculties.length > 1) ...[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              S.of(context).account_faculty,
-              style: Theme.of(context).textTheme.headlineLarge,
-            ),
-          ),
-          const SizedBox(height: 8),
           FacultySelector(session: session),
           const SizedBox(height: 22),
         ],
