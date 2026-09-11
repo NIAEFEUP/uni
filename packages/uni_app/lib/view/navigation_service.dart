@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:uni/controller/cleanup.dart';
 import 'package:uni/main.dart';
@@ -15,14 +13,12 @@ class NavigationService {
       return;
     }
 
-    unawaited(
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute<LoginPageView>(
-          builder: (context) => const LoginPageView(),
-        ),
-        (route) => false,
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute<LoginPageView>(
+        builder: (context) => const LoginPageView(),
       ),
+      (route) => false,
     );
   }
 
