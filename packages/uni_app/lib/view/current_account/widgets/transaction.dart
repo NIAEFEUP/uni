@@ -92,13 +92,13 @@ class Transaction extends ConsumerWidget {
               Row(
                 spacing: 8,
                 children: [
-                  Icon(
+                  UniIcon(
                     UniIcons.coins,
                     color: Theme.of(context).colorScheme.onSecondary,
                     size: 18,
                   ),
                   Text(
-                    '${(value / 100).toStringAsFixed(2)} €',
+                    '${(value / 100).toStringAsFixed(2)} \u20ac',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   if (status == PaymentStatus.pending &&
@@ -107,7 +107,7 @@ class Transaction extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '+ ${(interestOnLatePayment! / 100).toStringAsFixed(2)} €',
+                          '+ ${(interestOnLatePayment! / 100).toStringAsFixed(2)} \u20ac',
                           style: Theme.of(context).textTheme.labelLarge!
                               .copyWith(
                                 color: Theme.of(
