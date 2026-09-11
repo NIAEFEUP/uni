@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/src/phosphor_icon_data.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:uni_ui/common_widgets/pulse_animation.dart';
 import 'package:uni_ui/icons.dart';
 
