@@ -55,9 +55,12 @@ class GenericCard extends StatelessWidget {
                 color: color ?? theme.colorScheme.secondary,
                 gradient: gradient,
               ),
-              child: Padding(
-                padding: padding ?? const EdgeInsets.all(10),
-                child: child,
+              child: Material(
+                type: MaterialType.transparency,
+                child: Padding(
+                  padding: padding ?? const EdgeInsets.all(10),
+                  child: child,
+                ),
               ),
             ),
           ),

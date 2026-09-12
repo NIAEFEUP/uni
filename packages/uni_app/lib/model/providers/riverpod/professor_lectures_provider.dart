@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_new_api.dart';
+import 'package:uni/controller/fetchers/academics/schedule/schedule_fetcher_new_api.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';

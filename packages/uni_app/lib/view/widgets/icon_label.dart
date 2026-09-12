@@ -11,7 +11,7 @@ class IconLabel extends StatelessWidget {
     this.iconSize = 25.0, // Default icon size
   });
 
-  final Icon icon;
+  final Widget icon;
   final String label;
   final TextStyle? labelTextStyle;
   final String sublabel;

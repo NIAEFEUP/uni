@@ -159,7 +159,7 @@ jobs:
           packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
           releaseFiles: app-release.aab
           whatsNewDirectory: whatsnew
-          track: beta
+          tracks: beta
           status: completed
 
       - name: Release app to production track
@@ -170,7 +170,7 @@ jobs:
           packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
           releaseFiles: app-release.aab
           whatsNewDirectory: whatsnew
-          track: production
+          tracks: production
           status: completed
 
       - name: Propagate version to develop

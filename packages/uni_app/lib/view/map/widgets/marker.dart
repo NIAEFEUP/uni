@@ -69,12 +69,12 @@ class MarkerIcon extends StatelessWidget {
   }
 
   Widget _buildLocationIcon(BuildContext context) {
-    if (location?.icon is IconData) {
+    if (location?.icon != null) {
       return UniIcon(
-        location?.icon as IconData,
+        location!.icon as UniIconData,
         color: Theme.of(context).colorScheme.secondary,
         size: 12,
-        opacity: 1,
+        opacity: 0.3,
       );
     }
 
@@ -82,7 +82,7 @@ class MarkerIcon extends StatelessWidget {
       Icons.device_unknown,
       color: Theme.of(context).colorScheme.primary,
       size: 12,
-      opacity: 1,
+      opacity: 0.3,
     );
   }
 }
