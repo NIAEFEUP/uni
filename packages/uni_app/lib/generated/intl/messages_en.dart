@@ -98,18 +98,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "bug_description_visual_detail": MessageLookupByLibrary.simpleMessage(
       "Visual Detail",
     ),
-    "bus_error": MessageLookupByLibrary.simpleMessage(
-      "Unable to get information",
-    ),
-    "bus_information": MessageLookupByLibrary.simpleMessage(
-      "Select the buses you want information about:",
-    ),
-    "buses_personalize": MessageLookupByLibrary.simpleMessage(
-      "Personalize your buses here",
-    ),
-    "buses_text": MessageLookupByLibrary.simpleMessage(
-      "Favorite buses will be displayed in the favorites \'Bus\' widget. The remaining ones will only be displayed on the page.",
-    ),
     "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "change": MessageLookupByLibrary.simpleMessage("Change"),
@@ -134,9 +122,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "select your college(s)",
     ),
     "conclude": MessageLookupByLibrary.simpleMessage("Done"),
-    "configured_buses": MessageLookupByLibrary.simpleMessage(
-      "Configured Buses",
-    ),
     "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
     "confirm_logout": MessageLookupByLibrary.simpleMessage(
       "Do you really want to log out? Your local data will be deleted and you will have to log in again.",
@@ -230,7 +215,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Provide a clear and concise title along with a detailed description of the issue or suggestion. The more information you provide, the better we can understand and address your feedback.",
     ),
     "feedback_github_title_section": MessageLookupByLibrary.simpleMessage(
-      "Want to see how the app is built? Check out our GitHub",
+      "Want to see how the app is built? Checkout our GitHub",
     ),
     "feedback_images_empty_section": MessageLookupByLibrary.simpleMessage(
       "Attached images will appear here.",
@@ -266,7 +251,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "General Registration",
     ),
     "goi": MessageLookupByLibrary.simpleMessage(
-      "Orientation and Integration Office",
+      "Psychology and Guidance Service",
     ),
     "identification_documents": MessageLookupByLibrary.simpleMessage(
       "Identification Documents",
