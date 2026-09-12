@@ -344,6 +344,7 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
                         child: FLoginButton(onPressed: _falogin),
                       ),
                     ),
+                  if (!_loggingIn)
                   Align(
                     alignment: const Alignment(0, 0.51),
                     child: RememberMeCheckBox(
