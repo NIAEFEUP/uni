@@ -8,6 +8,7 @@ import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
+import 'package:uni/model/entities/course_units/course_unit_statistics.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/session/flows/base/session.dart';
 
@@ -214,6 +215,55 @@ Map<String, int> parseOccurences(http.Response response) {
     result[key] = id;
   }
   return result;
+}
+
+CourseUnitStatistics parseCourseUnitStatistics(http.Response response) {
+  final document = parse(response.body);
+
+  final title = document.querySelector('h2');
+  final titleParts = title?.text.split(' - ') ?? [];
+  final schoolYear = titleParts.length >= 3 ? titleParts[2].trim() : '';
+
+  // The page contains a hidden table used to render the chart and a visible
+  // one with the actual statistics. Instead of relying on ordering, find the
+  // visible table whose data row contains cells with the "k n" classes. If
+  // none exists (e.g. no data for the requested year), return empty values.
+  final tables = document
+      .querySelectorAll('table.dados')
+      .where(
+        (element) =>
+            !(element.attributes['style']?.contains('display:none') ?? false),
+      )
+      .where((element) => element.querySelectorAll('td.k.n').length >= 3)
+      .toList();
+
+  if (tables.isEmpty) {
+    return CourseUnitStatistics(
+      schoolYear: schoolYear,
+      enrolled: 0,
+      approved: 0,
+      failed: 0,
+      notEvaluated: 0,
+    );
+  }
+
+  final cells = tables.first.querySelectorAll('td.k.n');
+
+  final enrolled = _parseStatNumber(cells[0].text);
+  final evaluated = _parseStatNumber(cells[1].text);
+  final approved = _parseStatNumber(cells[2].text);
+
+  return CourseUnitStatistics(
+    schoolYear: schoolYear,
+    enrolled: enrolled,
+    approved: approved,
+    failed: evaluated - approved,
+    notEvaluated: enrolled - evaluated,
+  );
+}
+
+int _parseStatNumber(String text) {
+  return int.parse(text.replaceAll(RegExp(r'\s'), ''));
 }
 
 String? _decodeCloudflareEmail(String encodedHex) {

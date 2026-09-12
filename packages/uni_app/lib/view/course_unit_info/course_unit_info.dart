@@ -84,6 +84,12 @@ class CourseUnitDetailPageViewState
     if (courseUnitFiles == null || force) {
       await courseUnitsProvider.fetchCourseUnitFiles(widget.courseUnit);
     }
+
+    final courseUnitStatistics =
+        courseUnitsProvider.courseUnitsStatistics[widget.courseUnit];
+    if (courseUnitStatistics == null || force) {
+      await courseUnitsProvider.fetchCourseUnitStatistics(widget.courseUnit);
+    }
   }
 
   Future<void> loadClasses({required bool force}) async {
@@ -166,6 +172,10 @@ class CourseUnitDetailPageViewState
             .watch(courseUnitsInfoProvider.notifier)
             .courseUnitsSheets[widget.courseUnit];
 
+        final statistics = ref
+            .watch(courseUnitsInfoProvider.notifier)
+            .courseUnitsStatistics[widget.courseUnit];
+
         final exams = ref.watch(examProvider);
 
         final courseExams = exams.maybeWhen(
@@ -208,7 +218,7 @@ class CourseUnitDetailPageViewState
           );
         }
 
-        return CourseUnitSheetView(sheet, courseExams);
+        return CourseUnitSheetView(sheet, courseExams, statistics);
       },
     );
   }
