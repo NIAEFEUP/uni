@@ -1901,10 +1901,10 @@ class S {
     return Intl.message('Services', name: 'services', desc: '', args: []);
   }
 
-  /// `Orientation and Integration Office`
+  /// `Psychology and Guidance Service`
   String get goi {
     return Intl.message(
-      'Orientation and Integration Office',
+      'Psychology and Guidance Service',
       name: 'goi',
       desc: '',
       args: [],

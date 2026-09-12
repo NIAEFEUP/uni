@@ -263,7 +263,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Inscrição Geral",
     ),
     "goi": MessageLookupByLibrary.simpleMessage(
-      "Gabinete de Orientação e Integração",
+      "Serviço de Psicologia e Orientação",
     ),
     "identification_documents": MessageLookupByLibrary.simpleMessage(
       "Documentos de Identificação",
