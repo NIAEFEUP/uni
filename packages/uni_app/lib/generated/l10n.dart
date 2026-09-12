@@ -2181,6 +2181,11 @@ class S {
     );
   }
 
+  /// `Faculty`
+  String get account_faculty {
+    return Intl.message('Faculty', name: 'account_faculty', desc: '', args: []);
+  }
+
   /// `Overview`
   String get overview {
     return Intl.message('Overview', name: 'overview', desc: '', args: []);
@@ -2481,10 +2486,10 @@ class S {
     return Intl.message('Stores', name: 'stores', desc: '', args: []);
   }
 
-  /// `Want to see how the app is built? Checkout our GitHub`
+  /// `Want to see how the app is built? Check out our GitHub`
   String get feedback_github_title_section {
     return Intl.message(
-      'Want to see how the app is built? Checkout our GitHub',
+      'Want to see how the app is built? Check out our GitHub',
       name: 'feedback_github_title_section',
       desc: '',
       args: [],
