@@ -7,9 +7,12 @@ FILES="\$(git diff --diff-filter=d --name-only --cached | grep .*\.dart | grep -
 
 [ -z "\$FILES" ] && exit 0
 
+dart fix --apply .
 
 echo "\$FILES" | xargs dart format
-echo "\$FILES" | xargs git add 
+echo "\$FILES" | xargs git add
+
+flutter analyze . || exit 1
 EOF
 
 chmod +x .git/hooks/pre-commit
