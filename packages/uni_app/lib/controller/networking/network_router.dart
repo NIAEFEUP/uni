@@ -47,6 +47,13 @@ class NetworkRouter {
         .toList();
   }
 
+  static String resolveFaculty(Session session, String? preferred) {
+    if (preferred != null && session.faculties.contains(preferred)) {
+      return preferred;
+    }
+    return session.faculties.first;
+  }
+
   static Future<http.Response> getWithCookies(
     String url,
     Map<String, String> query,

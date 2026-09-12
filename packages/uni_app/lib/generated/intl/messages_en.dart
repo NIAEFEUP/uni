@@ -43,6 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "account_card_title": MessageLookupByLibrary.simpleMessage(
       "Checking account",
     ),
+    "account_faculty": MessageLookupByLibrary.simpleMessage("Faculty"),
     "add": MessageLookupByLibrary.simpleMessage("Add"),
     "add_photo": MessageLookupByLibrary.simpleMessage("Add photo"),
     "add_quota": MessageLookupByLibrary.simpleMessage("Add quota"),
@@ -215,7 +216,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Provide a clear and concise title along with a detailed description of the issue or suggestion. The more information you provide, the better we can understand and address your feedback.",
     ),
     "feedback_github_title_section": MessageLookupByLibrary.simpleMessage(
-      "Want to see how the app is built? Checkout our GitHub",
+      "Want to see how the app is built? Check out our GitHub",
     ),
     "feedback_images_empty_section": MessageLookupByLibrary.simpleMessage(
       "Attached images will appear here.",
