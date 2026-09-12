@@ -458,7 +458,7 @@
   "@until": {},
   "services": "Serviços",
   "@services": {},
-  "goi": "Gabinete de Orientação e Integração",
+  "goi": "Serviço de Psicologia e Orientação",
   "@goi": {},
   "map": "Mapa",
   "@map": {},
@@ -601,5 +601,9 @@
   "stores": "Lojas",
   "@stores": {},
   "feedback_github_title_section": "Queres ver como a app é feita? Explora o nosso GitHub",
-  "@feedback_github_title_section": {}
+  "@feedback_github_title_section": {},
+  "welcome_title": "Bem-vindo à universidade!",
+  "@welcome_title": {},
+  "welcome_message": "A equipa da UNI dá-te as boas-vindas e deseja-te muita sorte no curso!",
+  "@welcome_message": {}
 }

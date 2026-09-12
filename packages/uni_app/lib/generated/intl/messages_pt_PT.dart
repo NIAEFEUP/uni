@@ -264,7 +264,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Inscrição Geral",
     ),
     "goi": MessageLookupByLibrary.simpleMessage(
-      "Gabinete de Orientação e Integração",
+      "Serviço de Psicologia e Orientação",
     ),
     "identification_documents": MessageLookupByLibrary.simpleMessage(
       "Documentos de Identificação",
@@ -618,6 +618,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ver detalhes da Unidade Curricular",
     ),
     "wc": MessageLookupByLibrary.simpleMessage("Casa de banho"),
+    "welcome_message": MessageLookupByLibrary.simpleMessage(
+      "A equipa da UNI dá-te as boas-vindas e deseja-te muita sorte no curso!",
+    ),
+    "welcome_title": MessageLookupByLibrary.simpleMessage(
+      "Bem-vindo à universidade!",
+    ),
     "widget_prompt": MessageLookupByLibrary.simpleMessage(
       "Escolhe um widget para adicionares à tua área pessoal:",
     ),

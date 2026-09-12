@@ -104,6 +104,8 @@ class UniIcons {
   static const calendarDots = PhosphorIconsDuotone.calendarDots;
   static const bank = PhosphorIconsDuotone.bank;
   static const coins = PhosphorIconsDuotone.coins;
+
+  static const confetti = PhosphorIconsDuotone.confetti;
 }
 
 // The same as default Icon class from material.dart but allowing to use PhosphorIcons duotone icons

@@ -1901,10 +1901,10 @@ class S {
     return Intl.message('Services', name: 'services', desc: '', args: []);
   }
 
-  /// `Orientation and Integration Office`
+  /// `Psychology and Guidance Service`
   String get goi {
     return Intl.message(
-      'Orientation and Integration Office',
+      'Psychology and Guidance Service',
       name: 'goi',
       desc: '',
       args: [],
@@ -2491,6 +2491,26 @@ class S {
     return Intl.message(
       'Want to see how the app is built? Check out our GitHub',
       name: 'feedback_github_title_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome to university!`
+  String get welcome_title {
+    return Intl.message(
+      'Welcome to university!',
+      name: 'welcome_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The UNI team welcomes you and wishes you the best of luck on your course!`
+  String get welcome_message {
+    return Intl.message(
+      'The UNI team welcomes you and wishes you the best of luck on your course!',
+      name: 'welcome_message',
       desc: '',
       args: [],
     );
