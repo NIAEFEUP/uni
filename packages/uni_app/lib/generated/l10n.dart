@@ -2490,6 +2490,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Welcome to university!`
+  String get welcome_title {
+    return Intl.message(
+      'Welcome to university!',
+      name: 'welcome_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The UNI team welcomes you and wishes you the best of luck on your course!`
+  String get welcome_message {
+    return Intl.message(
+      'The UNI team welcomes you and wishes you the best of luck on your course!',
+      name: 'welcome_message',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
