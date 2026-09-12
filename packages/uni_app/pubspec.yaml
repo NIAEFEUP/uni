@@ -61,10 +61,7 @@ dependencies:
   objectbox: ^5.1.0
   objectbox_flutter_libs: any
   open_file: ^4.0.0
-  openid_client:
-    git:
-      url: https://github.com/NIAEFEUP/openid_client.git
-      ref: v0.5.0
+  openid_client: ^0.4.10
   path: ^1.9.1
   path_provider: ^2.1.5
   percent_indicator: ^4.2.5
@@ -81,11 +78,7 @@ dependencies:
   up_menus: ^1.0.1
   upgrader: ^13.7.0
   url_launcher: ^6.3.2
-  workmanager:
-    git:
-      url: https://github.com/fluttercommunity/flutter_workmanager.git
-      path: workmanager
-      ref: "4ce065"
+  workmanager: ^0.10.10
 
 
 dev_dependencies:
