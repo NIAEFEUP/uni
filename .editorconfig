@@ -1,0 +1,12 @@
+root = true
+
+[*.{kt,kts}]
+# Composable functions are conventionally PascalCase (Jetpack Compose
+# convention), which otherwise conflicts with ktlint's standard function
+# naming rule.
+ktlint_function_naming_ignore_when_annotated_with = Composable
+
+# Generated code (e.g. Compose Multiplatform's resource generator writes
+# into build/generated) isn't source we wrote or maintain — don't lint it.
+[**/build/**/*.kt]
+ktlint = disabled

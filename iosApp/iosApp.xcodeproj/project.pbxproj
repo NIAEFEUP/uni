@@ -72,6 +72,7 @@
 			buildConfigurationList = 2EDCAA028C26BF802450CF71 /* Build configuration list for PBXNativeTarget "iosApp" */;
 			buildPhases = (
 				A85CE769BC9D4CA4A11E447B /* Compile Kotlin Framework */,
+				CCF351BD305709D200F376AD /* ShellScript */,
 				20EA74AFEC46911D4ED1661B /* Sources */,
 				D3B66825755F3FF1D5C5DB7C /* Frameworks */,
 				854B3E6217613D0D38295A5F /* Resources */,
@@ -153,6 +154,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :sharedLogic:embedAndSignAppleFrameworkForXcode\n";
+		};
+		CCF351BD305709D200F376AD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -1,0 +1,11 @@
+reporter: "xcode"
+
+excluded:
+  - Pods
+
+type_name:
+  # Apple's own template names the app entry point "iOSApp" (matching
+  # Apple's own "iOS"/"iPhone" capitalization convention), which otherwise
+  # conflicts with SwiftLint's default type-naming rule.
+  excluded:
+    - iOSApp

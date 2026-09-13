@@ -5,31 +5,38 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.ktlint)
 }
 
 kotlin {
-    
+
     android {
-       namespace = "pt.up.fe.ni.uni.sharedUI"
-       compileSdk = libs.versions.android.compileSdk.get().toInt()
-       minSdk = libs.versions.android.minSdk.get().toInt()
-    
-       compilerOptions {
-           jvmTarget = JvmTarget.JVM_11
-       }
-       androidResources {
-           enable = true
-       }
-       withHostTest {
-           isIncludeAndroidResources = true
-       }
-       withDeviceTestBuilder {
-           sourceSetTreeName = "test"
-       }.configure {
-           instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-       }
+        namespace = "pt.up.fe.ni.uni.sharedUI"
+        compileSdk =
+            libs.versions.android.compileSdk
+                .get()
+                .toInt()
+        minSdk =
+            libs.versions.android.minSdk
+                .get()
+                .toInt()
+
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_11
+        }
+        androidResources {
+            enable = true
+        }
+        withHostTest {
+            isIncludeAndroidResources = true
+        }
+        withDeviceTestBuilder {
+            sourceSetTreeName = "test"
+        }.configure {
+            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        }
     }
-    
+
     sourceSets {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)

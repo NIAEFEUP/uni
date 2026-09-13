@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.ktlint)
 }
 
 kotlin {
@@ -21,12 +22,21 @@ dependencies {
 
 android {
     namespace = "pt.up.fe.ni.uni"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk =
+        libs.versions.android.compileSdk
+            .get()
+            .toInt()
 
     defaultConfig {
         applicationId = "pt.up.fe.ni.uni"
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        minSdk =
+            libs.versions.android.minSdk
+                .get()
+                .toInt()
+        targetSdk =
+            libs.versions.android.targetSdk
+                .get()
+                .toInt()
         versionCode = 530
         versionName = "3.0"
     }
@@ -40,7 +50,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
