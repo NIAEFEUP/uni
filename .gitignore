@@ -35,6 +35,7 @@ iosApp/**/*.dSYM
 *.mobileprovision
 *.certSigningRequest
 *.pem
+iosApp/**/Local.xcconfig
 
 # --- Kotlin/Native / KMP ---
 *.kotlin_module

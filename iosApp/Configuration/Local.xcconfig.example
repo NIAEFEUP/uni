@@ -1,0 +1,15 @@
+// Copy this file to Local.xcconfig (same folder) and fill in your own values.
+// Local.xcconfig is gitignored — it never gets committed, so everyone can
+// build/run locally with their own Apple ID without touching Config.xcconfig.
+
+// Required: your Apple Developer Team ID (Membership tab on
+// developer.apple.com, or Xcode > Settings > Accounts).
+// If you're on the team's paid account, use its Team ID so you can build
+// with the real bundle identifier.
+TEAM_ID=
+
+// Optional: only needed if you're signing with a personal/free Apple ID
+// that isn't part of the team's account. Free accounts can't sign the
+// team's registered bundle identifier, so give yourself a unique suffix,
+// e.g. ".yourname.dev"
+BUNDLE_ID_SUFFIX=

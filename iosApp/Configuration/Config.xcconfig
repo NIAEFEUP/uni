@@ -1,7 +1,13 @@
 TEAM_ID=
+BUNDLE_ID_SUFFIX=
 
 PRODUCT_NAME=uni
-PRODUCT_BUNDLE_IDENTIFIER=pt.up.fe.ni.uni
+PRODUCT_BUNDLE_IDENTIFIER=pt.up.fe.ni.uni$(BUNDLE_ID_SUFFIX)
 
 CURRENT_PROJECT_VERSION=1
 MARKETING_VERSION=1.0
+
+// Personal, machine-specific overrides (TEAM_ID, optionally BUNDLE_ID_SUFFIX
+// for personal/free Apple accounts) go in Local.xcconfig, which is gitignored.
+// Copy Local.xcconfig.example to get started.
+#include? "Local.xcconfig"
