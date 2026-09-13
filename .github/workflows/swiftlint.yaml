@@ -2,19 +2,30 @@ name: SwiftLint
 
 on:
   pull_request:
-    paths:
-      - "iosApp/**"
-      - ".github/workflows/swiftlint.yaml"
   push:
     branches:
       - develop-native
-    paths:
-      - "iosApp/**"
-      - ".github/workflows/swiftlint.yaml"
 
 jobs:
+  changes:
+    name: Detect Swift changes
+    runs-on: ubuntu-latest
+    outputs:
+      swift: ${{ steps.filter.outputs.swift }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            swift:
+              - "iosApp/**"
+              - ".github/workflows/swiftlint.yaml"
+
   swiftlint:
     name: Swift (SwiftLint)
+    needs: changes
+    if: needs.changes.outputs.swift == 'true'
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/realm/swiftlint:latest

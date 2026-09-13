@@ -2,33 +2,37 @@ name: ktlint
 
 on:
   pull_request:
-    paths:
-      - "androidApp/**"
-      - "sharedLogic/**"
-      - "sharedUI/**"
-      - "gradle/**"
-      - "build.gradle.kts"
-      - "settings.gradle.kts"
-      - "gradle.properties"
-      - ".editorconfig"
-      - ".github/workflows/ktlint.yaml"
   push:
     branches:
       - develop-native
-    paths:
-      - "androidApp/**"
-      - "sharedLogic/**"
-      - "sharedUI/**"
-      - "gradle/**"
-      - "build.gradle.kts"
-      - "settings.gradle.kts"
-      - "gradle.properties"
-      - ".editorconfig"
-      - ".github/workflows/ktlint.yaml"
 
 jobs:
+  changes:
+    name: Detect Kotlin changes
+    runs-on: ubuntu-latest
+    outputs:
+      kotlin: ${{ steps.filter.outputs.kotlin }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            kotlin:
+              - "androidApp/**"
+              - "sharedLogic/**"
+              - "sharedUI/**"
+              - "gradle/**"
+              - "build.gradle.kts"
+              - "settings.gradle.kts"
+              - "gradle.properties"
+              - ".editorconfig"
+              - ".github/workflows/ktlint.yaml"
+
   ktlint:
     name: Kotlin (ktlint)
+    needs: changes
+    if: needs.changes.outputs.kotlin == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
