@@ -19,3 +19,11 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# --- Added for WorkManager / Room Release Crash ---
+# R8 aggressive shrinking strips the generated WorkDatabase_Impl class.
+# We must keep WorkManager and Room classes to prevent startup crashes in Release mode.
+-keep class androidx.work.** { *; }
+-keep class androidx.room.** { *; }
+-keep class * extends androidx.room.RoomDatabase { *; }
+-keep class androidx.work.impl.WorkDatabase_Impl { *; }
