@@ -1,0 +1,3 @@
+# Never let git rewrite line endings in Xcode's project file — it doesn't
+# need CRLF/LF normalization, and doing it anyway just creates noise diffs.
+*.pbxproj -text
