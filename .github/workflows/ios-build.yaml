@@ -1,0 +1,61 @@
+name: iOS Build
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches:
+      - develop-native
+
+concurrency:
+  group: ios-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    name: Detect Swift changes
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    outputs:
+      swift: ${{ steps.filter.outputs.swift }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            swift:
+              - "iosApp/**"
+              - "sharedLogic/**"
+              - "sharedUI/**"
+              - "gradle/**"
+              - "build.gradle.kts"
+              - "settings.gradle.kts"
+              - "gradle.properties"
+              - ".github/workflows/ios-build.yaml"
+
+  build:
+    name: iOS
+    needs: changes
+    if: needs.changes.outputs.swift == 'true'
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The "Compile Kotlin Framework" Xcode build phase shells out to
+      # Gradle to build sharedLogic, so we need a JDK here too.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build
+        working-directory: iosApp
+        run: |
+          xcodebuild build \
+            -project iosApp.xcodeproj \
+            -scheme iosApp \
+            -destination "generic/platform=iOS Simulator" \
+            CODE_SIGNING_ALLOWED=NO
