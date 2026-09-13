@@ -30,7 +30,7 @@ jobs:
               - ".github/workflows/ktlint.yaml"
 
   ktlint:
-    name: Kotlin (ktlint)
+    name: Kotlin
     needs: changes
     if: needs.changes.outputs.kotlin == 'true'
     runs-on: ubuntu-latest

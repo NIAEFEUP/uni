@@ -23,7 +23,7 @@ jobs:
               - ".github/workflows/swiftlint.yaml"
 
   swiftlint:
-    name: Swift (SwiftLint)
+    name: Swift
     needs: changes
     if: needs.changes.outputs.swift == 'true'
     runs-on: ubuntu-latest
