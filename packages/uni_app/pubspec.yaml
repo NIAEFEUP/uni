@@ -81,11 +81,7 @@ dependencies:
   up_menus: ^1.0.1
   upgrader: ^13.7.0
   url_launcher: ^6.3.2
-  workmanager:
-    git:
-      url: https://github.com/fluttercommunity/flutter_workmanager.git
-      path: workmanager
-      ref: "4ce065"
+  workmanager: ^0.10.10
 
 
 dev_dependencies:
