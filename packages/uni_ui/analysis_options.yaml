@@ -1,8 +1,0 @@
-analyzer:
-  exclude:
-    - build/**
-
-custom_lint:
-  enable_all_lint_rules: false
-  rules:
-    - no_string_literals_in_widgets: false

@@ -1,29 +1,55 @@
-# See https://www.dartlang.org/guides/libraries/private-files
-
-# Files and directories created by pub
-.dart_tool/
-.packages
-.pub/
-build/
-*.bin
-.flutter-plugins*
-packages/uni_ui/pubspec.lock
-packages/uni_lint/pubspec.lock
-
-# IDE files
-.DS_Store
-.atom/
-.vscode/
-.idea/
+# --- Gradle / Kotlin / Android ---
 .gradle/
+.kotlin/
+build/
+*/build/
+local.properties
+.idea/
+*.iml
+*.hprof
+captures/
+.cxx/
+.externalNativeBuild/
 
-# Key properties
-uni/android/key.properties
-**.jks
+# --- Android signing ---
+*.jks
+*.keystore
+key.properties
+keystore.properties
 
-# Custom Lint log
-custom_lint.log
+# --- Xcode / iOS ---
+iosApp/**/build/
+iosApp/**/DerivedData/
+iosApp/**/*.xcuserstate
+iosApp/**/xcuserdata/
+iosApp/**/*.xcworkspace/xcuserdata/
+iosApp/**/Pods/
+iosApp/**/*.ipa
+iosApp/**/*.dSYM.zip
+iosApp/**/*.dSYM
+.build/
 
-# FVM Version Cache
-.fvm/
-.direnv/
+# --- iOS signing / certificates ---
+*.p12
+*.cer
+*.mobileprovision
+*.certSigningRequest
+*.pem
+
+# --- Kotlin/Native / KMP ---
+*.kotlin_module
+kotlin-js-store/
+
+# --- macOS ---
+.DS_Store
+
+# --- Firebase (se vierem a usar) ---
+google-services.json
+GoogleService-Info.plist
+
+# --- Fastlane (se vierem a usar) ---
+iosApp/**/fastlane/report.xml
+iosApp/**/fastlane/Preview.html
+iosApp/**/fastlane/screenshots/**/*.png
+iosApp/**/fastlane/test_output
+local.properties
