@@ -1,0 +1,43 @@
+name: ktlint
+
+on:
+  pull_request:
+    paths:
+      - "androidApp/**"
+      - "sharedLogic/**"
+      - "sharedUI/**"
+      - "gradle/**"
+      - "build.gradle.kts"
+      - "settings.gradle.kts"
+      - "gradle.properties"
+      - ".editorconfig"
+      - ".github/workflows/ktlint.yaml"
+  push:
+    branches:
+      - develop-native
+    paths:
+      - "androidApp/**"
+      - "sharedLogic/**"
+      - "sharedUI/**"
+      - "gradle/**"
+      - "build.gradle.kts"
+      - "settings.gradle.kts"
+      - "gradle.properties"
+      - ".editorconfig"
+      - ".github/workflows/ktlint.yaml"
+
+jobs:
+  ktlint:
+    name: Kotlin (ktlint)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - run: ./gradlew ktlintCheck

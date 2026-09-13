@@ -1,0 +1,25 @@
+name: SwiftLint
+
+on:
+  pull_request:
+    paths:
+      - "iosApp/**"
+      - ".github/workflows/swiftlint.yaml"
+  push:
+    branches:
+      - develop-native
+    paths:
+      - "iosApp/**"
+      - ".github/workflows/swiftlint.yaml"
+
+jobs:
+  swiftlint:
+    name: Swift (SwiftLint)
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/realm/swiftlint:latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - working-directory: iosApp
+        run: swiftlint lint --strict
