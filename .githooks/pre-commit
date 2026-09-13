@@ -1,0 +1,23 @@
+#!/bin/sh
+# Formats and lints Kotlin (ktlint) and Swift (SwiftLint) before every commit.
+# Enable once per clone with: git config core.hooksPath .githooks
+#
+# Runs project-wide (not just staged files) for simplicity — this repo is
+# small enough that it's fast, and as long as everyone commits through this
+# hook, style drift never has a chance to accumulate in the first place.
+
+set -e
+
+echo "==> ktlint"
+./gradlew ktlintFormat -q
+
+echo "==> SwiftLint"
+if command -v swiftlint >/dev/null 2>&1; then
+    (cd iosApp && swiftlint lint --fix --quiet)
+    (cd iosApp && swiftlint lint --strict --quiet)
+else
+    echo "warning: swiftlint not installed (brew install swiftlint) — skipping Swift lint"
+fi
+
+# Re-stage anything the formatters fixed
+git add -u
