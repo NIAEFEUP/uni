@@ -5,7 +5,7 @@ description: A UP no teu bolso.
 # To change it manually, override the value in app_version.txt.
 # The app version code is automatically also bumped by CI.
 # Do not change it manually.
-version: 2.4.0+516
+version: 2.5.0-beta.2+519
 
 publish_to: "none" # We do not publish to pub.dev
 resolution: workspace
@@ -81,11 +81,7 @@ dependencies:
   up_menus: ^1.0.1
   upgrader: ^13.7.0
   url_launcher: ^6.3.2
-  workmanager:
-    git:
-      url: https://github.com/fluttercommunity/flutter_workmanager.git
-      path: workmanager
-      ref: "4ce065"
+  workmanager: ^0.10.10
 
 
 dev_dependencies:
