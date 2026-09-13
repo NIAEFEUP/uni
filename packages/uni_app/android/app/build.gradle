@@ -83,6 +83,17 @@ android {
             applicationIdSuffix ".profile"
         }
     }
+
+    packaging {
+        jniLibs {
+            // datastore_shared_counter is only used by multi-process datastore;
+            // shared_preferences only uses single-process datastore, so the lib is unused.
+            // excluding it removes the 16 kb page-size ndk warning in play console.
+            excludes += [
+                '**/libdatastore_shared_counter.so',
+            ]
+        }
+    }
 }
 
 flutter {
