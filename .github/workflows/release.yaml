@@ -37,13 +37,14 @@ jobs:
           # Since develop always receives beta builds, it will always have the highest build number.
           git fetch origin develop
           DEVELOP_VERSION=$(git show origin/develop:packages/uni_app/pubspec.yaml | grep '^version: ' | awk '{print $2}')
-          HIGHEST_BUILD_NUMBER=$(echo $DEVELOP_VERSION | cut -d'+' -f2)
+          HIGHEST_BUILD_NUMBER=$(echo "$DEVELOP_VERSION" | cut -s -d'+' -f2)
+          if [ -z "$HIGHEST_BUILD_NUMBER" ]; then HIGHEST_BUILD_NUMBER=0; fi
 
           # Extract current version details from the branch we are currently on
           CURRENT_VERSION=$(grep '^version: ' pubspec.yaml | awk '{print $2}')
-          BASE_VERSION=$(echo $CURRENT_VERSION | cut -d'+' -f1)
+          BASE_VERSION=$(echo "$CURRENT_VERSION" | cut -d'+' -f1)
           # Clean any trailing -beta.X suffixes that might still exist
-          BASE_VERSION_CLEAN=$(echo $BASE_VERSION | cut -d'-' -f1)
+          BASE_VERSION_CLEAN=$(echo "$BASE_VERSION" | cut -d'-' -f1)
 
           IFS='.' read -r major minor patch <<< "$BASE_VERSION_CLEAN"
           
@@ -54,7 +55,7 @@ jobs:
               BUMP_TYPE="hotfix"
             else
               # Use GitHub CLI to fetch labels of the PR associated with this merge commit
-              PR_LABELS=$(gh pr list --state merged --search "commit:${{ github.sha }}" --json labels --jq '.[0].labels[].name' || true)
+              PR_LABELS=$(gh pr list --state merged --search "commit:${{ github.sha }}" --json labels --jq '.[0].labels[].name?' || true)
               
               if echo "$PR_LABELS" | grep -qw "major"; then
                 BUMP_TYPE="major"
@@ -101,7 +102,7 @@ jobs:
         run: |
           git fetch origin develop
           git checkout develop
-          git checkout origin/master -- packages/uni_app/pubspec.yaml
+          git checkout master -- packages/uni_app/pubspec.yaml
           git add packages/uni_app/pubspec.yaml
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -134,6 +135,8 @@ jobs:
           cache: true
 
       - name: Prepare Keystore & Env
+        env:
+          UNI_ENV_FILE: ${{ vars.UNI_ENV_FILE }}
         run: |
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > /tmp/key.jks
           mkdir -p android
@@ -143,7 +146,7 @@ jobs:
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
           
           mkdir -p assets/env
-          echo "${{vars.UNI_ENV_FILE}}" > assets/env/.env
+          echo "$UNI_ENV_FILE" > assets/env/.env
 
       - name: Build Android App Bundle
         run: |
@@ -212,6 +215,7 @@ jobs:
 
           # Import certificate to keychain
           security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
           security list-keychain -d user -s $KEYCHAIN_PATH
 
           # Apply provisioning profile
@@ -219,9 +223,11 @@ jobs:
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
           
       - name: Prepare Env
+        env:
+          UNI_ENV_FILE: ${{ vars.UNI_ENV_FILE }}
         run: |
           mkdir -p assets/env
-          echo "${{vars.UNI_ENV_FILE}}" > assets/env/.env
+          echo "$UNI_ENV_FILE" > assets/env/.env
 
       - name: Build iOS IPA
         run: |
