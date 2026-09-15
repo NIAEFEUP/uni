@@ -1,0 +1,132 @@
+name: Android Deploy
+
+on:
+  push:
+    branches:
+      - develop-native
+  workflow_dispatch:
+
+concurrency:
+  group: android-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    name: Detect Kotlin changes
+    runs-on: ubuntu-latest
+    outputs:
+      kotlin: ${{ steps.filter.outputs.kotlin }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            kotlin:
+              - "androidApp/**"
+              - "sharedLogic/**"
+              - "sharedUI/**"
+              - "gradle/**"
+              - "build.gradle.kts"
+              - "settings.gradle.kts"
+              - "gradle.properties"
+              - "version.txt"
+              - ".github/workflows/android-deploy.yaml"
+
+  build:
+    name: Build and sign
+    needs: changes
+    if: needs.changes.outputs.kotlin == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to Google Play
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          token_format: access_token
+          access_token_scopes: https://www.googleapis.com/auth/androidpublisher
+
+      - name: Compute next version code
+        id: next-version
+        env:
+          ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
+          ANDROID_PACKAGE_NAME: ${{ secrets.ANDROID_PACKAGE_NAME }}
+        run: |
+          # versionCode is global to the whole Play Store listing, shared with the
+          # Flutter app - it must be higher than the max across every track, not
+          # just the "uni-native" one this workflow publishes to.
+          BASE="https://androidpublisher.googleapis.com/androidpublisher/v3/applications/${ANDROID_PACKAGE_NAME}"
+
+          EDIT_ID=$(curl -s -X POST -H "Authorization: Bearer ${ACCESS_TOKEN}" "${BASE}/edits" | jq -r '.id')
+
+          MAX=0
+          for TRACK in internal beta production uni-native; do
+            RESPONSE=$(curl -s -w '\n%{http_code}' -H "Authorization: Bearer ${ACCESS_TOKEN}" "${BASE}/edits/${EDIT_ID}/tracks/${TRACK}")
+            HTTP_CODE=$(echo "${RESPONSE}" | tail -n1)
+            BODY=$(echo "${RESPONSE}" | sed '$d')
+            if [ "${HTTP_CODE}" = "200" ]; then
+              CODE=$(echo "${BODY}" | jq -r '[.releases[]?.versionCodes[]? // empty | tonumber] | max // 0')
+            else
+              # Expected on the very first run(s): "uni-native" has no releases yet.
+              echo "::warning::Could not read track '${TRACK}' (HTTP ${HTTP_CODE}), treating as 0"
+              CODE=0
+            fi
+            if [ "${CODE}" -gt "${MAX}" ]; then
+              MAX=${CODE}
+            fi
+          done
+
+          curl -s -X POST -H "Authorization: Bearer ${ACCESS_TOKEN}" "${BASE}/edits/${EDIT_ID}:delete" > /dev/null
+
+          echo "version_code=$((MAX + 1))" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Download Android keystore
+        run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > /tmp/key.jks
+
+      - name: Create key.properties
+        run: |
+          rm -f -- androidApp/key.properties
+          touch androidApp/key.properties
+          echo "storeFile=/tmp/key.jks" >> androidApp/key.properties
+          echo "storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> androidApp/key.properties
+          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> androidApp/key.properties
+          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> androidApp/key.properties
+
+      - name: Build release App Bundle
+        run: ./gradlew :androidApp:bundleRelease -PandroidVersionCode=${{ steps.next-version.outputs.version_code }}
+
+      - name: Upload App Bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-app-bundle
+          if-no-files-found: error
+          path: androidApp/build/outputs/bundle/release/androidApp-release.aab
+
+  deploy:
+    name: Deploy to Play Store (uni-native track)
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get App Bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: android-app-bundle
+
+      - name: Release to uni-native track
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
+          releaseFiles: androidApp-release.aab
+          track: uni-native
+          status: completed
