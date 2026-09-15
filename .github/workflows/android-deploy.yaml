@@ -41,20 +41,36 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Authenticate to Google Play
-        id: auth
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-          token_format: access_token
-          access_token_scopes: https://www.googleapis.com/auth/androidpublisher
-
       - name: Compute next version code
         id: next-version
         env:
-          ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           ANDROID_PACKAGE_NAME: ${{ secrets.ANDROID_PACKAGE_NAME }}
         run: |
+          # Exchange the service account key for an access token ourselves
+          # (JWT-bearer flow, RFC 7523) instead of using google-github-actions/auth's
+          # token_format:access_token, which impersonates the service account via the
+          # IAM Service Account Credentials API - a separate GCP API that isn't
+          # enabled on this project and would need extra Google Cloud Console access
+          # to turn on. Signing the JWT ourselves with the key we already have avoids
+          # that dependency entirely.
+          b64url() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+
+          CLIENT_EMAIL=$(echo "${GOOGLE_SERVICE_ACCOUNT_JSON}" | jq -r '.client_email')
+          PRIVATE_KEY=$(echo "${GOOGLE_SERVICE_ACCOUNT_JSON}" | jq -r '.private_key')
+
+          NOW=$(date +%s)
+          EXP=$((NOW + 3600))
+          HEADER=$(printf '%s' '{"alg":"RS256","typ":"JWT"}' | b64url)
+          CLAIM=$(printf '%s' "{\"iss\":\"${CLIENT_EMAIL}\",\"scope\":\"https://www.googleapis.com/auth/androidpublisher\",\"aud\":\"https://oauth2.googleapis.com/token\",\"exp\":${EXP},\"iat\":${NOW}}" | b64url)
+          UNSIGNED="${HEADER}.${CLAIM}"
+          SIGNATURE=$(printf '%s' "${UNSIGNED}" | openssl dgst -sha256 -sign <(printf '%s' "${PRIVATE_KEY}") | b64url)
+          JWT="${UNSIGNED}.${SIGNATURE}"
+
+          ACCESS_TOKEN=$(curl -s -X POST https://oauth2.googleapis.com/token \
+            -d "grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer" \
+            -d "assertion=${JWT}" | jq -r '.access_token')
+
           # versionCode is global to the whole Play Store listing, shared with the
           # Flutter app - it must be higher than the max across every track, not
           # just the "uni-native" one this workflow publishes to.
