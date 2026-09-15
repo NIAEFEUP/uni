@@ -33,12 +33,17 @@ jobs:
         run: |
           cd packages/uni_app
           
-          # Extract current version details from pubspec.yaml
+          # We need to find the absolute highest build number across the repo.
+          # Since develop always receives beta builds, it will always have the highest build number.
+          git fetch origin develop
+          DEVELOP_VERSION=$(git show origin/develop:packages/uni_app/pubspec.yaml | grep '^version: ' | awk '{print $2}')
+          HIGHEST_BUILD_NUMBER=$(echo $DEVELOP_VERSION | cut -d'+' -f2)
+
+          # Extract current version details from the branch we are currently on
           CURRENT_VERSION=$(grep '^version: ' pubspec.yaml | awk '{print $2}')
           BASE_VERSION=$(echo $CURRENT_VERSION | cut -d'+' -f1)
           # Clean any trailing -beta.X suffixes that might still exist
           BASE_VERSION_CLEAN=$(echo $BASE_VERSION | cut -d'-' -f1)
-          BUILD_NUMBER=$(echo $CURRENT_VERSION | cut -d'+' -f2)
 
           IFS='.' read -r major minor patch <<< "$BASE_VERSION_CLEAN"
           
@@ -76,8 +81,8 @@ jobs:
             fi
           fi
           
-          # Always increment build number regardless of branch
-          BUILD_NUMBER=$((BUILD_NUMBER + 1))
+          # Always increment build number from the absolute highest known number
+          BUILD_NUMBER=$((HIGHEST_BUILD_NUMBER + 1))
           NEW_VERSION="${major}.${minor}.${patch}+${BUILD_NUMBER}"
           
           echo "Bumping version from $CURRENT_VERSION to $NEW_VERSION"
