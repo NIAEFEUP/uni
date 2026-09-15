@@ -1,6 +1,6 @@
 import UIKit
 import Flutter
-import workmanager
+import workmanager_apple
 import flutter_local_notifications
 import app_links
 
@@ -13,7 +13,7 @@ import app_links
     GeneratedPluginRegistrant.register(with: self)
       
     // Notifications
-    WorkmanagerPlugin.registerTask(withIdentifier:"pt.up.fe.ni.uni.notificationworker")
+    WorkmanagerPlugin.registerPeriodicTask(withIdentifier: "pt.up.fe.ni.uni.notificationworker")
     UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(60*15))
     //in case we have a notification with actions 
     FlutterLocalNotificationsPlugin.setPluginRegistrantCallback { (registry) in
