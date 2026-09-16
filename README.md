@@ -94,4 +94,4 @@ This app is an independent project and is not officially affiliated with the Uni
 
 ## Contributing
 
-We highly value community contributions, which can be submitted via a pull request. Please be aware, though, that a university account is necessary to utilize the majority of the app's functionalities.
+We highly value community contributions, which can be submitted via a pull request. See [CONTRIBUTING.md](./.github/CONTRIBUTING.md) for the full workflow, PR checklist, and other details.

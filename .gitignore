@@ -54,3 +54,8 @@ iosApp/**/fastlane/Preview.html
 iosApp/**/fastlane/screenshots/**/*.png
 iosApp/**/fastlane/test_output
 local.properties
+
+# --- Flutter not verioned files (temporary) ---
+.fvm
+.dart_tool/
+packages/
