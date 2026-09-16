@@ -75,3 +75,17 @@ class ScheduleFetcherNewApiProfessor extends ScheduleFetcherNewApiBase {
     'pv_doc_codigo': professorCode,
   };
 }
+
+/// Class for fetching professor lectures from the schedule's HTML page.
+class ScheduleFetcherNewApiStudent extends ScheduleFetcherNewApiBase {
+  ScheduleFetcherNewApiStudent({required this.studentNumber});
+  final String studentNumber;
+
+  @override
+  String getEndpointView() => 'estudantes_view';
+
+  @override
+  Map<String, String> getQueryParams(Session session) => {
+    'pv_num_unico': studentNumber,
+  };
+}

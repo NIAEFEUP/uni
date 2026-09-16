@@ -10,10 +10,13 @@ import 'package:uni/model/entities/lecture.dart';
 /// This function parses the schedule's HTML page.
 String? getScheduleApiUrlFromHtml(http.Response response) {
   final document = parse(response.body);
+  print(document);
 
   final scheduleElement = document.querySelector('#cal-shadow-container');
+  print(scheduleElement);
   final apiUrl = scheduleElement?.attributes['data-evt-source-url'];
 
+  print(apiUrl);
   if (apiUrl == null) {
     return null;
   }
