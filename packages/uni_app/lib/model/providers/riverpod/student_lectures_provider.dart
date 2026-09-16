@@ -23,6 +23,5 @@ final studentLecturesProvider = FutureProvider.autoDispose
 
       // Use the same deduplication as lectureProvider: convert to Set and back
       // This relies on Lecture's equality implementation
-      print(lectures.toSet().toList());
       return lectures.toSet().toList();
     });

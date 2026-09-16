@@ -76,7 +76,7 @@ class ScheduleFetcherNewApiProfessor extends ScheduleFetcherNewApiBase {
   };
 }
 
-/// Class for fetching professor lectures from the schedule's HTML page.
+/// Class for fetching student lectures from the schedule's HTML page.
 class ScheduleFetcherNewApiStudent extends ScheduleFetcherNewApiBase {
   ScheduleFetcherNewApiStudent({required this.studentNumber});
   final String studentNumber;
