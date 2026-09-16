@@ -4,7 +4,7 @@ import 'package:uni_ui/icons.dart';
 class TabIcon extends StatelessWidget {
   const TabIcon({super.key, required this.icon, required this.text});
 
-  final IconData icon;
+  final UniIconData icon;
   final String text;
 
   @override

@@ -1,6 +1,7 @@
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/current_account.dart';
 import 'package:uni/session/flows/base/session.dart';
@@ -38,13 +39,28 @@ class CurrentAccountParser {
 
       for (final row in rows) {
         final cells = row.querySelectorAll('td');
+        if (cells.length < 10) {
+          continue;
+        }
+
         final description = cells[2].text.trim();
 
-        final date = DateTime.parse(cells[3].text.trim());
+        DateTime date;
+        try {
+          date = DateTime.parse(cells[3].text.trim());
+        } catch (err) {
+          continue;
+        }
 
-        final deadline = cells[4].text.trim().isEmpty
-            ? null
-            : DateTime.parse(cells[4].text.trim());
+        DateTime? deadline;
+        if (cells[4].text.trim().isNotEmpty) {
+          try {
+            deadline = DateTime.parse(cells[4].text.trim());
+          } catch (err) {
+            // ignore unparseable deadline
+          }
+        }
+
         final value = parseAmount(cells[5].text.trim()) ?? 0;
         final amountDue = parseAmount(cells[7].text.trim()) ?? 0;
 
@@ -54,9 +70,11 @@ class CurrentAccountParser {
         String? paymentLink;
         final currentSession = session;
         if (relativeLink != null && currentSession != null) {
-          paymentLink =
-              '${NetworkRouter.getBaseUrlsFromSession(currentSession)[0]}'
-              '$relativeLink';
+          final faculty = NetworkRouter.resolveFaculty(
+            currentSession,
+            PreferencesController.getSelectedAccountFaculty(),
+          );
+          paymentLink = '${NetworkRouter.getBaseUrl(faculty)}$relativeLink';
         }
 
         final interest = cells[9].text.trim();
@@ -97,20 +115,34 @@ class CurrentAccountParser {
 
       for (final row in rows) {
         final cells = row.querySelectorAll('td');
-        final description = cells[0].text.trim();
-
-        final date = DateTime.parse(cells[1].text.trim());
-        final credit = parseAmount(cells[3].text.trim());
-
-        if (credit != null) {
-          data.add(
-            AccountStatement(
-              description: description,
-              date: date,
-              credit: credit,
-            ),
-          );
+        if (cells.length < 4) {
+          continue;
         }
+
+        final description = cells[0].text.trim();
+        if (description.isEmpty) {
+          continue;
+        }
+
+        DateTime date;
+        try {
+          date = DateTime.parse(cells[1].text.trim());
+        } catch (err) {
+          continue;
+        }
+
+        final credit = parseAmount(cells[3].text.trim());
+        if (credit == null) {
+          continue;
+        }
+
+        data.add(
+          AccountStatement(
+            description: description,
+            date: date,
+            credit: credit,
+          ),
+        );
       }
     }
 

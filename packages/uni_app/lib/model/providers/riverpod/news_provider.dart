@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uni/controller/fetchers/news_fetcher.dart';
+import 'package:uni/controller/fetchers/campus/news_fetcher.dart';
 import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/model/entities/news.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';

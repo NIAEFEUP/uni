@@ -51,7 +51,7 @@ class AllServiceCardsState extends State<AllServiceCards> {
         openingHours: const ['9:30h - 15:30h'],
         location: 'A210, A211a, A211b, A212, A276',
         telephone: '+351 220 413 578',
-        email: 'goi@fe.up.pt',
+        email: 'spo@fe.up.pt',
       ),
       ServicesCard(
         name: 'FEUP ${S.of(context).copy_center}',
