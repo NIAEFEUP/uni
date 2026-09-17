@@ -16,6 +16,8 @@ permissions:
 jobs:
   version_bump:
     name: Bump Version
+    # FOR TESTING: Disabled this job. REVERT THIS (delete the if: false line) BEFORE MERGING!
+    if: false
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -114,6 +116,8 @@ jobs:
 
   release_android:
     name: Build & Deploy Android
+    # FOR TESTING: Disabled this job. REVERT THIS (delete the if: false line) BEFORE MERGING!
+    if: false
     needs: version_bump
     runs-on: ubuntu-latest
     defaults:
@@ -180,7 +184,7 @@ jobs:
 
   release_ios:
     name: Build & Deploy iOS
-    needs: version_bump
+    # FOR TESTING: Removed `needs: version_bump`. ADD IT BACK BEFORE MERGING!
     runs-on: macos-latest
     defaults:
       run:
@@ -222,18 +226,20 @@ jobs:
           # Import certificate to keychain
           security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          security list-keychain -d user -s $KEYCHAIN_PATH
+          security list-keychains -d user -s $KEYCHAIN_PATH $(security list-keychains -d user | tr -d '"')
 
-          # Extract UUID and Name from the provisioning profile
+          # Extract UUID, Name, and Team ID from the provisioning profile
           PROFILE_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< $(security cms -D -i $PP_PATH))
           PROFILE_NAME=$(/usr/libexec/PlistBuddy -c "Print Name" /dev/stdin <<< $(security cms -D -i $PP_PATH))
+          TEAM_ID=$(/usr/libexec/PlistBuddy -c "Print TeamIdentifier:0" /dev/stdin <<< $(security cms -D -i $PP_PATH))
           
           # Apply provisioning profile with the correct UUID filename required by Xcode
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles/$PROFILE_UUID.mobileprovision
           
-          # Save PROFILE_NAME to environment for the build step
+          # Save PROFILE_NAME and TEAM_ID to environment for the build step
           echo "PROFILE_NAME=$PROFILE_NAME" >> $GITHUB_ENV
+          echo "TEAM_ID=$TEAM_ID" >> $GITHUB_ENV
           
       - name: Prepare Env
         env:
@@ -249,7 +255,7 @@ jobs:
           # Disable Automatic Code Signing and force explicit manual signing with Distribution certificates
           sed -i '' 's/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g' ios/Runner.xcodeproj/project.pbxproj
           sed -i '' 's/"CODE_SIGN_IDENTITY\[sdk=iphoneos\*\]" = "iPhone Developer";/"CODE_SIGN_IDENTITY\[sdk=iphoneos\*\]" = "Apple Distribution";/g' ios/Runner.xcodeproj/project.pbxproj
-          sed -i '' "s/DEVELOPMENT_TEAM = [A-Z0-9]*;/PROVISIONING_PROFILE_SPECIFIER = \"$PROFILE_NAME\";/g" ios/Runner.xcodeproj/project.pbxproj
+          sed -i '' "s/DEVELOPMENT_TEAM = [A-Z0-9]*;/DEVELOPMENT_TEAM = $TEAM_ID; PROVISIONING_PROFILE_SPECIFIER = \"$PROFILE_NAME\";/g" ios/Runner.xcodeproj/project.pbxproj
           
           # ExportOptions.plist with explicit manual signing mapping
           cat <<EOF > ios/ExportOptions.plist
@@ -261,6 +267,8 @@ jobs:
               <string>app-store</string>
               <key>signingStyle</key>
               <string>manual</string>
+              <key>teamID</key>
+              <string>$TEAM_ID</string>
               <key>provisioningProfiles</key>
               <dict>
                   <key>pt.up.fe.ni.uni</key>
