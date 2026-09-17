@@ -2,7 +2,7 @@ name: Release Pipeline
 
 on:
   push:
-    branches: [master, develop]
+    branches: [master, develop, refactor/actions]
   workflow_dispatch:
 
 concurrency:
@@ -158,7 +158,7 @@ jobs:
           flutter build appbundle
 
       - name: Upload to Play Store (Beta)
-        if: github.ref == 'refs/heads/develop'
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/refactor/actions'
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
