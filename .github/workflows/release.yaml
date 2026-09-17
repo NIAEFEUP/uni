@@ -35,17 +35,25 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd packages/uni_app
+          # We need to find the absolute highest build number across the repo.
           
-          # We need to find the absolute highest build number across the repo.
-          # We need to find the absolute highest build number across the repo.
-          # Since develop always receives beta builds, it will always have the highest build number.
           git fetch origin develop
           DEVELOP_VERSION=$(git show origin/develop:packages/uni_app/pubspec.yaml | grep '^version: ' | awk '{print $2}')
-          HIGHEST_BUILD_NUMBER=$(echo "$DEVELOP_VERSION" | cut -s -d'+' -f2)
-          if [ -z "$HIGHEST_BUILD_NUMBER" ]; then HIGHEST_BUILD_NUMBER=0; fi
+          DEVELOP_BUILD_NUMBER=$(echo "$DEVELOP_VERSION" | cut -s -d'+' -f2)
+          if [ -z "$DEVELOP_BUILD_NUMBER" ]; then DEVELOP_BUILD_NUMBER=0; fi
 
           # Extract current version details from the branch we are currently on
           CURRENT_VERSION=$(grep '^version: ' pubspec.yaml | awk '{print $2}')
+          CURRENT_BUILD_NUMBER=$(echo "$CURRENT_VERSION" | cut -s -d'+' -f2)
+          if [ -z "$CURRENT_BUILD_NUMBER" ]; then CURRENT_BUILD_NUMBER=0; fi
+
+          # Use the maximum build number to prevent store rejections
+          if [ "$DEVELOP_BUILD_NUMBER" -gt "$CURRENT_BUILD_NUMBER" ]; then
+            HIGHEST_BUILD_NUMBER=$DEVELOP_BUILD_NUMBER
+          else
+            HIGHEST_BUILD_NUMBER=$CURRENT_BUILD_NUMBER
+          fi
+
           BASE_VERSION=$(echo "$CURRENT_VERSION" | cut -d'+' -f1)
           # Clean any trailing -beta.X suffixes that might still exist
           BASE_VERSION_CLEAN=$(echo "$BASE_VERSION" | cut -d'-' -f1)
