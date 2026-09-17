@@ -246,9 +246,10 @@ jobs:
         run: |
           flutter pub get
           
-          # Disable Automatic Code Signing to prevent "No Accounts" errors on the headless runner
-          sed -i '' 's/ProvisioningStyle = Automatic;/ProvisioningStyle = Manual;/g' ios/Runner.xcodeproj/project.pbxproj
+          # Disable Automatic Code Signing and force explicit manual signing with Distribution certificates
           sed -i '' 's/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g' ios/Runner.xcodeproj/project.pbxproj
+          sed -i '' 's/"CODE_SIGN_IDENTITY\[sdk=iphoneos\*\]" = "iPhone Developer";/"CODE_SIGN_IDENTITY\[sdk=iphoneos\*\]" = "Apple Distribution";/g' ios/Runner.xcodeproj/project.pbxproj
+          sed -i '' "s/DEVELOPMENT_TEAM = [A-Z0-9]*;/PROVISIONING_PROFILE_SPECIFIER = \"$PROFILE_NAME\";/g" ios/Runner.xcodeproj/project.pbxproj
           
           # ExportOptions.plist with explicit manual signing mapping
           cat <<EOF > ios/ExportOptions.plist
