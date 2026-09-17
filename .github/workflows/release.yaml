@@ -2,7 +2,7 @@ name: Release Pipeline
 
 on:
   push:
-    branches: [master, develop, refactor/actions] # FOR TESTING: Remove 'refactor/actions' before merging
+    branches: [master, develop]
   workflow_dispatch:
 
 concurrency:
@@ -16,8 +16,6 @@ permissions:
 jobs:
   version_bump:
     name: Bump Version
-    # FOR TESTING: Disabled this job. REVERT THIS (delete the if: false line) BEFORE MERGING!
-    if: false
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -39,9 +37,10 @@ jobs:
           cd packages/uni_app
           
           # We need to find the absolute highest build number across the repo.
-          # FOR TESTING: Fetching from refactor/actions instead of develop. REVERT THIS TO 'develop' BEFORE MERGING!
-          git fetch origin refactor/actions
-          DEVELOP_VERSION=$(git show origin/refactor/actions:packages/uni_app/pubspec.yaml | grep '^version: ' | awk '{print $2}')
+          # We need to find the absolute highest build number across the repo.
+          # Since develop always receives beta builds, it will always have the highest build number.
+          git fetch origin develop
+          DEVELOP_VERSION=$(git show origin/develop:packages/uni_app/pubspec.yaml | grep '^version: ' | awk '{print $2}')
           HIGHEST_BUILD_NUMBER=$(echo "$DEVELOP_VERSION" | cut -s -d'+' -f2)
           if [ -z "$HIGHEST_BUILD_NUMBER" ]; then HIGHEST_BUILD_NUMBER=0; fi
 
@@ -116,8 +115,6 @@ jobs:
 
   release_android:
     name: Build & Deploy Android
-    # FOR TESTING: Disabled this job. REVERT THIS (delete the if: false line) BEFORE MERGING!
-    if: false
     needs: version_bump
     runs-on: ubuntu-latest
     defaults:
@@ -162,8 +159,7 @@ jobs:
           flutter build appbundle
 
       - name: Upload to Play Store (Beta)
-        # FOR TESTING: Added refactor/actions to the condition. REVERT THIS BEFORE MERGING!
-        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/refactor/actions'
+        if: github.ref == 'refs/heads/develop'
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
@@ -184,7 +180,7 @@ jobs:
 
   release_ios:
     name: Build & Deploy iOS
-    # FOR TESTING: Removed `needs: version_bump`. ADD IT BACK BEFORE MERGING!
+    needs: version_bump
     runs-on: macos-latest
     defaults:
       run:
