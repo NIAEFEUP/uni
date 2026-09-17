@@ -223,9 +223,16 @@ jobs:
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
           security list-keychain -d user -s $KEYCHAIN_PATH
 
-          # Apply provisioning profile
+          # Extract UUID and Name from the provisioning profile
+          PROFILE_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< $(security cms -D -i $PP_PATH))
+          PROFILE_NAME=$(/usr/libexec/PlistBuddy -c "Print Name" /dev/stdin <<< $(security cms -D -i $PP_PATH))
+          
+          # Apply provisioning profile with the correct UUID filename required by Xcode
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles/$PROFILE_UUID.mobileprovision
+          
+          # Save PROFILE_NAME to environment for the build step
+          echo "PROFILE_NAME=$PROFILE_NAME" >> $GITHUB_ENV
           
       - name: Prepare Env
         env:
@@ -237,7 +244,12 @@ jobs:
       - name: Build iOS IPA
         run: |
           flutter pub get
-          # ExportOptions.plist is required for an IPA build for the App Store
+          
+          # Disable Automatic Code Signing to prevent "No Accounts" errors on the headless runner
+          sed -i '' 's/ProvisioningStyle = Automatic;/ProvisioningStyle = Manual;/g' ios/Runner.xcodeproj/project.pbxproj
+          sed -i '' 's/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g' ios/Runner.xcodeproj/project.pbxproj
+          
+          # ExportOptions.plist with explicit manual signing mapping
           cat <<EOF > ios/ExportOptions.plist
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -245,6 +257,13 @@ jobs:
           <dict>
               <key>method</key>
               <string>app-store</string>
+              <key>signingStyle</key>
+              <string>manual</string>
+              <key>provisioningProfiles</key>
+              <dict>
+                  <key>pt.up.fe.ni.uni</key>
+                  <string>$PROFILE_NAME</string>
+              </dict>
           </dict>
           </plist>
           EOF
