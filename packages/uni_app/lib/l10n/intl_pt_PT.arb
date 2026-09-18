@@ -605,5 +605,21 @@
   "welcome_title": "Bem-vindo à universidade!",
   "@welcome_title": {},
   "welcome_message": "A equipa da UNI dá-te as boas-vindas e deseja-te muita sorte no curso!",
-  "@welcome_message": {}
+  "@welcome_message": {},
+  "open": "Aberto",
+  "@open": {},
+  "closed": "Fechado",
+  "@closed": {},
+  "closes_at": "Fecha às {time}",
+  "@closes_at": {
+    "placeholders": {
+      "time": {}
+    }
+  },
+  "opens_at": "Abre às {time}",
+  "@opens_at": {
+    "placeholders": {
+      "time": {}
+    }
+  }
 }

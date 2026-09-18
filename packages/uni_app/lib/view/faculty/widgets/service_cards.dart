@@ -36,8 +36,6 @@ class AllServiceCardsState extends State<AllServiceCards> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
     final services = <Widget>[
       ServicesCard(
         name: S.of(context).library,
@@ -120,18 +118,37 @@ class AllServiceCardsState extends State<AllServiceCards> {
           ],
         ),
         const SizedBox(height: 7),
-        GridView.count(
-          crossAxisCount: isGrid ? 2 : 1,
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          childAspectRatio: isGrid
-              ? (width - 40) / (width * 3.25) * 5
-              : (width - 32) / width * 3.25,
-          // Calculate aspect ratio, to avoid inconsistencies between grid and list view
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 8,
-          children: services,
-        ),
+        if (isGrid)
+          Column(
+            children: [
+              for (var i = 0; i < services.length; i += 2) ...[
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(child: services[i]),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: i + 1 < services.length
+                          ? services[i + 1]
+                          : const SizedBox(),
+                    ),
+                  ],
+                ),
+                if (i + 1 < services.length - 1) const SizedBox(height: 8),
+              ],
+            ],
+          )
+        else
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (var i = 0; i < services.length; i++) ...[
+                services[i],
+                if (i < services.length - 1) const SizedBox(height: 8),
+              ],
+            ],
+          ),
+        const SizedBox(height: 120),
       ],
     );
   }
