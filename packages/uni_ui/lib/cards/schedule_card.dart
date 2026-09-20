@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/theme.dart';
 
@@ -66,7 +66,7 @@ class ScheduleCard extends StatelessWidget {
                   children: [
                     if (isActive) ...[
                       PhosphorIcon(
-                        PhosphorIcons.clock(PhosphorIconsStyle.duotone),
+                        PhosphorIconsDuotone.clock,
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                         size: 20,
                       ),
@@ -144,7 +144,7 @@ class ScheduleCard extends StatelessWidget {
           Column(
             children: [
               PhosphorIcon(
-                PhosphorIcons.mapPin(PhosphorIconsStyle.duotone),
+                PhosphorIconsDuotone.mapPin,
                 color: isActive
                     ? Theme.of(context).colorScheme.onSurfaceVariant
                     : Theme.of(context).colorScheme.onSecondary,

@@ -60,6 +60,7 @@ class PreferencesController {
   static const _selectedCampusFilter = 'selected_campus';
   static const _isRestaurantReminderDismissed =
       'is_restaurant_reminder_dismissed';
+  static const _selectedAccountFaculty = 'selected_account_faculty';
 
   static final _statsToggleStreamController =
       StreamController<bool>.broadcast();
@@ -402,5 +403,17 @@ class PreferencesController {
 
   static bool isRestaurantReminderDismissed() {
     return prefs.getBool(_isRestaurantReminderDismissed) ?? false;
+  }
+
+  static Future<void> setSelectedAccountFaculty(String? value) async {
+    if (value == null) {
+      await prefs.remove(_selectedAccountFaculty);
+    } else {
+      await prefs.setString(_selectedAccountFaculty, value);
+    }
+  }
+
+  static String? getSelectedAccountFaculty() {
+    return prefs.getString(_selectedAccountFaculty);
   }
 }
