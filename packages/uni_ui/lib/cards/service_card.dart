@@ -36,9 +36,9 @@ class ServiceCard extends StatelessWidget {
                 width: double.infinity,
                 child: Text(
                   ' \n ', // reserve 2 lines of space for the title
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: Colors.transparent,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(color: Colors.transparent),
                 ),
               ),
               Text(
