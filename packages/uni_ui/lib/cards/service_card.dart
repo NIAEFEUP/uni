@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:uni_ui/cards/generic_card.dart';
-import 'package:uni_ui/icons.dart';
 
 class ServiceCard extends StatelessWidget {
   const ServiceCard({
