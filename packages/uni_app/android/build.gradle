@@ -14,6 +14,38 @@ rootProject.buildDir = "../build"
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
+
+subprojects {
+    configurations.all {
+        resolutionStrategy {
+            force "androidx.datastore:datastore:1.1.1"
+            force "androidx.datastore:datastore-core:1.1.1"
+            force "androidx.datastore:datastore-preferences:1.1.1"
+            force "androidx.datastore:datastore-preferences-core:1.1.1"
+        }
+    }
+}
+
+subprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty('android')) {
+            project.android {
+                if (namespace == null) {
+                    namespace project.group
+                }
+                compileSdkVersion 37
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_17
+                    targetCompatibility JavaVersion.VERSION_17
+                }
+                kotlinOptions {
+                    jvmTarget = '17'
+                }
+            }
+        }
+    }
+}
+
 subprojects {
     project.evaluationDependsOn(":app")
 }
