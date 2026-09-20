@@ -8,7 +8,7 @@ import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/controller/background_workers/notifications/tuition_notification.dart';
-import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_new_api.dart';
+import 'package:uni/controller/fetchers/academics/schedule/schedule_fetcher_new_api.dart';
 import 'package:uni/controller/local_storage/notification_timeout_storage.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/services/widget_service.dart';
