@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uni/controller/fetchers/calendar_fetcher_json.dart';
+import 'package:uni/controller/fetchers/academics/calendar_fetcher.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/localized_events.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
@@ -10,11 +10,11 @@ final calendarProvider =
     );
 
 class CalendarNotifier extends CachedAsyncNotifier<LocalizedEvents> {
-  CalendarNotifier({CalendarFetcherJson? fetcher}) : _fetcher = fetcher;
+  CalendarNotifier({CalendarFetcher? fetcher}) : _fetcher = fetcher;
 
-  final CalendarFetcherJson? _fetcher;
+  final CalendarFetcher? _fetcher;
 
-  CalendarFetcherJson get fetcher => _fetcher ?? CalendarFetcherJson();
+  CalendarFetcher get fetcher => _fetcher ?? CalendarFetcher();
 
   @override
   Duration? get cacheDuration => const Duration(days: 30);

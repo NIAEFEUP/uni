@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:uni/controller/fetchers/faculties_fetcher.dart';
+import 'package:uni/controller/fetchers/academics/faculties_fetcher.dart';
 import 'package:uni/http/client/cookie.dart';
 import 'package:uni/session/exception.dart';
 import 'package:uni/session/flows/base/request.dart';
@@ -80,7 +80,7 @@ class CredentialsSessionRequest extends SessionRequest {
   Never _handleLoginFailure(LoginFailedResponse response) {
     final failureReason = response.reason;
 
-    // FIXME(limwa): convey the reason to the user
+    // TODO(limwa): convey the reason to the user
     if (failureReason == LoginFailureReason.expiredCredentials) {
       throw const AuthenticationException(
         'Failed to authenticate user',

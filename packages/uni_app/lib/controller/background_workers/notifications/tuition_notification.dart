@@ -1,6 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
-import 'package:uni/controller/fetchers/fees_fetcher.dart';
+import 'package:uni/controller/fetchers/finances/current_account_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/session/flows/base/session.dart';
@@ -54,7 +54,7 @@ class TuitionNotification extends Notification {
     if (notificationsAreDisabled) {
       return false;
     }
-    final feesFetcher = FeesFetcher();
+    final feesFetcher = CurrentAccountFetcher();
     DateTime? dueDate;
     try {
       dueDate = parseFeesNextLimit(

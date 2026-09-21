@@ -17,7 +17,7 @@ class RestaurantCard extends StatelessWidget {
   });
 
   final String name;
-  final Icon icon;
+  final Widget icon;
   final List<RestaurantMenuItem> menuItems;
   final bool isFavorite;
   final VoidCallback onFavoriteToggle;
@@ -64,7 +64,7 @@ class RestaurantCardHeader extends StatelessWidget {
   });
 
   final String name;
-  final Icon icon;
+  final Widget icon;
   final bool isFavorite;
   final VoidCallback onFavoriteToggle;
   final bool showFavoriteButton;
