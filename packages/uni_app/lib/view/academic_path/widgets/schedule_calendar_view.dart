@@ -35,14 +35,15 @@ class ScheduleCalendarView extends ConsumerWidget {
       child: Theme(
         data: Theme.of(context).copyWith(
           extensions: [
-            Theme.of(context).brightness == Brightness.light
-                ? WeekViewThemeData.light().copyWith(
-                    borderColor: Colors.transparent,
-                    weekDayTextColor: Theme.of(context).colorScheme.onSecondary,
-                  )
-                : WeekViewThemeData.dark().copyWith(
-                    borderColor: Colors.transparent,
-                  ),
+            if (Theme.of(context).brightness == Brightness.light)
+              WeekViewThemeData.light().copyWith(
+                borderColor: Colors.transparent,
+                weekDayTextColor: Theme.of(context).colorScheme.onSecondary,
+              )
+            else
+              WeekViewThemeData.dark().copyWith(
+                borderColor: Colors.transparent,
+              ),
           ],
         ),
         child: CalendarControllerProvider(
