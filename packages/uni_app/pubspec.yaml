@@ -1,9 +1,7 @@
 name: uni
 description: A UP no teu bolso.
 
-# The app version name is automatically bumped by CI.
-# To change it manually, override the value in app_version.txt.
-# The app version code is automatically also bumped by CI.
+# The app version is automatically bumped by CI.
 # Do not change it manually.
 version: 2.6.0+529
 
