@@ -2,11 +2,15 @@ import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/dynamic_webmail.dart';
 
-List<MailAttachment> parseMailAttachments(http.Response response) {
+List<MailAttachment> parseMailAttachments(
+  http.Response response, {
+  required String baseUrl,
+}) {
   final document = parse(response.body);
   final attachments = <MailAttachment>[];
 
   final rows = document.querySelectorAll('table.tabela tbody tr');
+  final baseUri = Uri.parse(baseUrl);
 
   for (final row in rows) {
     final cells = row.querySelectorAll('td');
@@ -17,18 +21,19 @@ List<MailAttachment> parseMailAttachments(http.Response response) {
 
     final link = cells[0].querySelector('a');
     final fileName = link?.text.trim() ?? '';
-    final downloadUrl = link?.attributes['href'] ?? '';
+    final rawHref = link?.attributes['href'] ?? '';
+
+    if (fileName.isEmpty || rawHref.isEmpty) {
+      continue;
+    }
+
+    final downloadUrl = baseUri.resolve(rawHref).toString();
 
     final size = cells[1].text.trim();
     final subject = cells[2].text.trim();
     final dateText = cells[3].text.trim();
 
-    if (fileName.isEmpty || downloadUrl.isEmpty) {
-      continue;
-    }
-
     final date = DateTime.tryParse(dateText);
-
     if (date == null) {
       continue;
     }

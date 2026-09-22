@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:uni/controller/fetchers/core/session_dependent_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_sigarra_webmail.dart';
@@ -12,20 +13,33 @@ class MailAttachmentsFetcher implements SessionDependentFetcher {
     ).map((url) => '${url}mail_dinamico.ficheiros').toList();
   }
 
-  /// Returns the [MailAttachment]'s information.
-  static Future<List<MailAttachment>?> fetchMailAttachments(
+  static Future<List<MailAttachment>> fetchMailAttachments(
     Session session,
   ) async {
-    final url =
-        '${NetworkRouter.getBaseUrlsFromSession(session)[0]}'
-        'mail_dinamico.ficheiros';
+    final baseUrls = NetworkRouter.getBaseUrlsFromSession(session);
+    final attachments = <MailAttachment>[];
 
-    final response = await NetworkRouter.getWithCookies(url, {}, session);
+    for (final baseUrl in baseUrls) {
+      final url = '${baseUrl}mail_dinamico.ficheiros';
 
-    if (response.statusCode != 200) {
-      return null;
+      try {
+        final response = await NetworkRouter.getWithCookies(url, {}, session);
+
+        if (response.statusCode != 200) {
+          debugPrint(
+            'MailAttachmentsFetcher: HTTP ${response.statusCode} em $url',
+          );
+          continue;
+        }
+
+        attachments.addAll(parseMailAttachments(response, baseUrl: baseUrl));
+      } catch (e) {
+        debugPrint('MailAttachmentsFetcher: erro ao obter $url — $e');
+      }
     }
 
-    return parseMailAttachments(response);
+    attachments.sort((a, b) => b.date.compareTo(a.date));
+
+    return attachments;
   }
 }
