@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/courses/course_info.dart';
 import 'package:uni_ui/icons.dart';
@@ -78,18 +78,20 @@ class CourseCard extends StatelessWidget {
     );
   }
 
-  static PhosphorIconData _getIconData(String abbreviation, bool selected) {
-    final iconStyle = selected
-        ? PhosphorIconsStyle.duotone
-        : PhosphorIconsStyle.regular;
-
+  static Object _getIconData(String abbreviation, bool selected) {
     switch (abbreviation[0]) {
       case 'L':
-        return PhosphorIcons.graduationCap(iconStyle);
+        return selected
+            ? PhosphorIconsDuotone.graduationCap
+            : PhosphorIconsRegular.graduationCap;
       case 'P':
-        return PhosphorIcons.student(iconStyle);
+        return selected
+            ? PhosphorIconsDuotone.student
+            : PhosphorIconsRegular.student;
       default:
-        return PhosphorIcons.certificate(iconStyle);
+        return selected
+            ? PhosphorIconsDuotone.certificate
+            : PhosphorIconsRegular.certificate;
     }
   }
 }

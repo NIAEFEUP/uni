@@ -1,5 +1,6 @@
 import 'package:http/http.dart';
 import 'package:uni/controller/fetchers/core/session_dependent_fetcher.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_current_account.dart';
 import 'package:uni/model/entities/current_account.dart';
@@ -8,10 +9,12 @@ import 'package:uni/session/flows/base/session.dart';
 class CurrentAccountFetcher implements SessionDependentFetcher {
   @override
   List<String> getEndpoints(Session session) {
-    // TO DO: Check balance on all faculties and discard if user is not enrolled
-    // Some shared courses (such as L.EIC) do not put fees on both faculties
+    final faculty = NetworkRouter.resolveFaculty(
+      session,
+      PreferencesController.getSelectedAccountFaculty(),
+    );
     final url =
-        '${NetworkRouter.getBaseUrlsFromSession(session)[0]}'
+        '${NetworkRouter.getBaseUrl(faculty)}'
         'gpag_ccorrente_geral.conta_corrente_view';
     return [url];
   }

@@ -6,9 +6,17 @@ analyzer:
     - "**.g.dart"
     - "**.mocks.dart"
     - "**generated/**"
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
   errors:
     # Remove when declaration-site variance is supported in Dart
     # https://github.com/dart-lang/language/issues/524
     unsafe_variance: ignore
+    analysis_options_deprecated_plugins: ignore
   plugins:
     - custom_lint

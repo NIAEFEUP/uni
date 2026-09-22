@@ -15,10 +15,13 @@ class ModalDialog extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(20.0),
           color: Theme.of(context).colorScheme.secondary,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: children,
+          child: Material(
+            type: MaterialType.transparency,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: children,
+            ),
           ),
         ),
       ),

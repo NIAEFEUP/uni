@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni_ui/icons.dart';
 
@@ -11,7 +10,7 @@ enum NavbarItem {
 
   const NavbarItem(this.icon, this.item);
 
-  final IconData icon;
+  final UniIconData icon;
   final NavigationItem item;
 
   String get route {

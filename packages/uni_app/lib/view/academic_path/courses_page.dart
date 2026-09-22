@@ -89,7 +89,7 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
       return null;
     }
 
-    final matches = RegExp(r'(19|20)\\d{2}').allMatches(state);
+    final matches = RegExp(r'(19|20)\d{2}').allMatches(state);
     if (matches.isEmpty) {
       return null;
     }
