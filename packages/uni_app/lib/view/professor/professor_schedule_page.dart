@@ -5,10 +5,12 @@ import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/professor_lectures_provider.dart';
+import 'package:uni/model/providers/riverpod/schedule_view_mode_provider.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_shimmer.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_view.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni_ui/common_widgets/empty_state_widget.dart';
+import 'package:uni_ui/icons.dart';
 
 class ProfessorSchedulePage extends ConsumerWidget {
   ProfessorSchedulePage({super.key, required this.professor, DateTime? now})
@@ -99,6 +101,27 @@ class _ProfessorSchedulePageViewState
 
   @override
   String? getTitle() => widget.professor.name;
+
+  @override
+  Widget? getFloatingActionButton(BuildContext context) {
+    final ScheduleViewMode viewMode = ref.watch<ScheduleViewMode>(
+      scheduleViewModeProvider,
+    );
+
+    return FloatingActionButton(
+      onPressed: () {
+        ref
+            .read(scheduleViewModeProvider.notifier)
+            .state = viewMode == ScheduleViewMode.list
+            ? ScheduleViewMode.calendar
+            : ScheduleViewMode.list;
+      },
+      child: UniIcon(
+        viewMode == ScheduleViewMode.list ? UniIcons.calendar : UniIcons.list,
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
+      ),
+    );
+  }
 
   @override
   Widget getBody(BuildContext context) {
