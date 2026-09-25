@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:uni_ui/cards/generic_card.dart';
-import 'package:uni_ui/icons.dart';
 
 class ServiceCard extends StatelessWidget {
   const ServiceCard({
     super.key,
     required this.name,
-    required this.openingHours,
+    this.statusWidget,
     required this.tooltip,
     this.function,
   });
 
   final void Function(BuildContext)? function;
   final String name;
-  final List<String> openingHours;
+  final Widget? statusWidget;
   final String tooltip;
 
   @override
@@ -30,51 +29,30 @@ class ServiceCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 6),
-          Row(
-            mainAxisAlignment: openingHours.length == 0
-                ? MainAxisAlignment.center
-                : MainAxisAlignment.start,
+          Stack(
             children: [
-              Flexible(
+              SizedBox(
+                width: double.infinity,
                 child: Text(
-                  name,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.titleLarge!,
-                  maxLines: openingHours.length < 2 ? 2 : 1,
+                  ' \n ', // reserve 2 lines of space for the title
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(color: Colors.transparent),
                 ),
+              ),
+              Text(
+                name,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.titleLarge,
+                maxLines: 2,
               ),
             ],
           ),
-          Column(
-            children: openingHours.length == 0
-                ? []
-                : [
-                    const SizedBox(height: 15),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        UniIcon(
-                          UniIcons.clock,
-                          color: Theme.of(context).colorScheme.onSecondary,
-                        ),
-                        const SizedBox(width: 5),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: openingHours.map((hour) {
-                              return Text(
-                                hour,
-                                style: Theme.of(context).textTheme.bodyLarge,
-                                overflow: TextOverflow.ellipsis,
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 5),
-                  ],
-          ),
+          if (statusWidget != null) ...[
+            const SizedBox(height: 10),
+            statusWidget!,
+            const SizedBox(height: 5),
+          ],
         ],
       ),
     );
