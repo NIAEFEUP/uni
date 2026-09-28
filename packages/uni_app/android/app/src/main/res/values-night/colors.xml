@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="pin_color">#FF2F0A0C</color>
+
+    <!-- Widget Colors -->
+    <color name="widget_background">#2F0A0C</color>
+    <color name="widget_primary_text">#FFFFFF</color>
+    <color name="widget_secondary_text">#E5C8C7</color>
+    <color name="widget_accent">#E5C8C7</color>
+    <color name="widget_card_background">#4E3636</color>
+</resources>

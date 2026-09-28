@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ic_launcher_background">#00FF00</color>
+    <color name="pin_color">#FFF8E8E3</color>
+
+    <!-- Widget Colors -->
+    <color name="widget_background">#FFF5F3</color>
+    <color name="widget_primary_text">#000000</color>
+    <color name="widget_secondary_text">#888888</color>
+    <color name="widget_accent">#6B1B1B</color>
+    <color name="widget_card_background">#F2E9E7</color>
+    <color name="widget_badge_tp">#D3944C</color>
+    <color name="widget_badge_t">#FBC11F</color>
 </resources>
