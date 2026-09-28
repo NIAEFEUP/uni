@@ -3,12 +3,17 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/utils/string_formatter.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
+import 'package:uni_ui/cards/schedule_calendar_tile.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/modal/modal.dart';
+import 'package:uni_ui/modal/widgets/header_info.dart';
+import 'package:uni_ui/modal/widgets/info_row.dart';
 import 'package:uni_ui/theme.dart';
 
 class ScheduleCalendarView extends ConsumerWidget {
@@ -147,22 +152,67 @@ class ScheduleCalendarView extends ConsumerWidget {
     }
 
     final profile = ref.read(profileProvider).value;
-    if (profile == null) {
-      return;
-    }
-
-    final courseUnit = profile.courseUnits.firstWhereOrNull(
+    final courseUnit = profile?.courseUnits.firstWhereOrNull(
       (unit) => unit.occurrId == lecture.occurrId,
     );
 
-    if (courseUnit != null && courseUnit.occurrId != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute<CourseUnitDetailPageView>(
-          builder: (context) => CourseUnitDetailPageView(courseUnit),
-        ),
-      );
-    }
+    showDialog(
+      context: context,
+      builder: (context) {
+        return ModalDialog(
+          children: [
+            ModalHeader(
+              name: lecture.subject,
+              durations: [
+                '${_formatTime(lecture.startTime)} - ${_formatTime(lecture.endTime)}',
+              ],
+            ),
+            ModalInfoRow(
+              title: S.of(context).location,
+              description: lecture.room,
+              icon: UniIcons.mapPin,
+            ),
+            ModalInfoRow(
+              title: 'Teacher',
+              description: lecture.teacherName,
+              icon: UniIcons.userIcon,
+            ),
+            ModalInfoRow(
+              title: S.of(context).course_class,
+              description: lecture.classNumber,
+              icon: UniIcons.classes,
+            ),
+            ModalInfoRow(
+              title: 'Type',
+              description: lecture.typeClass,
+              icon: UniIcons.lecture,
+            ),
+            if (courseUnit != null && courseUnit.occurrId != null)
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<CourseUnitDetailPageView>(
+                      builder: (context) =>
+                          CourseUnitDetailPageView(courseUnit),
+                    ),
+                  );
+                },
+                child: ModalInfoRow(
+                  title: S.of(context).course_info,
+                  description: lecture.subject,
+                  icon: UniIcons.courseUnit,
+                  trailing: UniIcon(
+                    UniIcons.caretRight,
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _buildTimeLineMark(BuildContext context, DateTime date) {
@@ -192,111 +242,14 @@ class ScheduleCalendarView extends ConsumerWidget {
     final isCurrent =
         now.isAfter(lecture.startTime) && now.isBefore(lecture.endTime);
 
-    final tileColor = isCurrent
-        ? Theme.of(context).colorScheme.tertiary
-        : Theme.of(context).colorScheme.secondary;
-
-    return Container(
-      margin: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: tileColor,
-        gradient: isCurrent ? _getCurrentClassGradient(context) : null,
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
-            blurRadius: 2,
-          ),
-        ],
-      ),
-      child: _buildEventTileContent(context, lecture, isCurrent),
-    );
-  }
-
-  Gradient _getCurrentClassGradient(BuildContext context) {
-    return RadialGradient(
-      colors: [
-        Theme.of(context).colorScheme.onTertiary,
-        Theme.of(context).colorScheme.tertiary,
-      ],
-      center: Alignment.topLeft,
-      radius: 2,
-      stops: const [0, 1],
-    );
-  }
-
-  Widget _buildEventTileContent(
-    BuildContext context,
-    Lecture lecture,
-    bool isCurrent,
-  ) {
-    final textColor = isCurrent
-        ? Theme.of(context).colorScheme.onSurfaceVariant
-        : Theme.of(context).colorScheme.onSecondary;
-
-    return Padding(
-      padding: const EdgeInsets.all(4),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            children: [
-              Text(
-                lecture.acronym,
-                style: TextStyle(
-                  color: textColor,
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 1),
-              Badge(
-                label: Text(lecture.typeClass),
-                backgroundColor: _getTypeClassColor(lecture.typeClass),
-                textColor: Theme.of(context).colorScheme.primary,
-              ),
-              Text(
-                '${_formatTime(lecture.startTime)} - ${_formatTime(lecture.endTime)}',
-                style: TextStyle(color: textColor, fontSize: 9),
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              Text(
-                lecture.teacher,
-                style: TextStyle(color: textColor, fontSize: 9),
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
-          _buildLocationRow(context, lecture.room, textColor),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildLocationRow(BuildContext context, String room, Color color) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        UniIcon(UniIcons.mapPin, color: color, size: 12),
-        const SizedBox(width: 3),
-        Flexible(
-          child: Text(
-            room,
-            style: TextStyle(color: color, fontSize: 10),
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
+    return ScheduleCalendarTile(
+      acronym: lecture.acronym,
+      typeClass: lecture.typeClass,
+      room: lecture.room,
+      timeRange:
+          '${_formatTime(lecture.startTime)} - ${_formatTime(lecture.endTime)}',
+      teacherName: lecture.teacherName,
+      isCurrent: isCurrent,
     );
   }
 
@@ -308,17 +261,5 @@ class ScheduleCalendarView extends ConsumerWidget {
 
   String _formatTime(DateTime date) {
     return DateFormat.Hm().format(date);
-  }
-
-  Color _getTypeClassColor(String type) {
-    const scheduleTypeColors = {
-      'T': BadgeColors.t,
-      'TP': BadgeColors.tp,
-      'P': BadgeColors.p,
-      'PL': BadgeColors.pl,
-      'OT': BadgeColors.ot,
-      'TC': BadgeColors.tc,
-    };
-    return scheduleTypeColors[type] ?? BadgeColors.t;
   }
 }
