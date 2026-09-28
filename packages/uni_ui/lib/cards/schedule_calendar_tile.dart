@@ -126,8 +126,8 @@ class ScheduleCalendarTile extends StatelessWidget {
   Gradient _getCurrentClassGradient(BuildContext context) {
     return RadialGradient(
       colors: [
-        Theme.of(context).colorScheme.onTertiary,
-        Theme.of(context).colorScheme.tertiary,
+        Theme.of(context).colorScheme.onPrimary,
+        Theme.of(context).colorScheme.primary,
       ],
       center: Alignment.topLeft,
       radius: 2,
