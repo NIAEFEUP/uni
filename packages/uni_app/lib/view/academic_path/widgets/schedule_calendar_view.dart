@@ -173,7 +173,7 @@ class ScheduleCalendarView extends ConsumerWidget {
               icon: UniIcons.mapPin,
             ),
             ModalInfoRow(
-              title: 'Teacher',
+              title: S.of(context).instructor,
               description: lecture.teacherName,
               icon: UniIcons.userIcon,
             ),
@@ -183,7 +183,7 @@ class ScheduleCalendarView extends ConsumerWidget {
               icon: UniIcons.classes,
             ),
             ModalInfoRow(
-              title: 'Type',
+              title: S.of(context).type,
               description: lecture.typeClass,
               icon: UniIcons.lecture,
             ),
