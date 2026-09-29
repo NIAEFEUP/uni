@@ -108,7 +108,6 @@ class ShimmerSchedulePage extends ConsumerWidget {
             (index) => Padding(
               padding: const EdgeInsets.only(bottom: 50),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
                     width: 30,

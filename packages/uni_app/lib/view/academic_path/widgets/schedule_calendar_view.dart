@@ -14,7 +14,6 @@ import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/modal/widgets/header_info.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
-import 'package:uni_ui/theme.dart';
 
 class ScheduleCalendarView extends ConsumerWidget {
   ScheduleCalendarView(
