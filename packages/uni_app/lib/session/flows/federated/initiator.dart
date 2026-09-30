@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'package:openid_client/openid_client.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/session/exception.dart';
@@ -54,7 +55,10 @@ class FederatedSessionInitiator extends SessionInitiator {
       ],
     );
 
+    Logger().i('🔑 [OpenID Flow] Requesting authorization with scopes: ${flow.scopes}');
+
     final uri = await performAuthentication(flow);
+    Logger().i('🔄 [OpenID Flow] Received callback with parameters: ${uri.queryParameters.keys.toList()}');
     final credential = await _handleOpenIdExceptions(
       flow.callback(uri.queryParameters),
       onError: const AuthenticationException('Failed to execute flow callback'),

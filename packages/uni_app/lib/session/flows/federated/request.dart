@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'package:openid_client/openid_client.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/fetchers/academics/faculties_fetcher.dart';
@@ -115,7 +117,25 @@ class FederatedSessionRequest extends SessionRequest {
       throw const AuthenticationException('Failed to get OIDC token');
     }
 
-    final userInfo = FederatedSessionUserInfo(await credential.getUserInfo());
+    final rawUserInfo = await credential.getUserInfo();
+    final userInfo = FederatedSessionUserInfo(rawUserInfo);
+
+    const prettyEncoder = JsonEncoder.withIndent('  ');
+    Logger().i(
+      '''
+==================== [OpenID Login Info] ====================
+• Granted Scopes: ${credential.response?['scope'] ?? 'N/A'}
+• Token Type: ${credential.response?['token_type'] ?? 'N/A'}
+• Expires In: ${credential.response?['expires_in'] ?? 'N/A'}s
+• Has Refresh Token: ${credential.refreshToken != null}
+• ID Token Claims:
+${prettyEncoder.convert(credential.idToken.claims.toJson())}
+• UserInfo Claims:
+${prettyEncoder.convert(rawUserInfo.toJson())}
+• Resolved Username: ${userInfo.username}
+• Resolved Faculties from Claims: ${userInfo.faculties}
+=============================================================''',
+    );
     final successfulResponse = response.asSuccessful();
 
     final tempSession = FederatedSession(
