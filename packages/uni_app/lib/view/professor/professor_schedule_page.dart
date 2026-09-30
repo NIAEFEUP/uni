@@ -34,6 +34,7 @@ class ProfessorSchedulePage extends ConsumerWidget {
             startOfWeek: startOfWeek,
             now: now,
             showClassNumber: true,
+            bottomPadding: 80,
           );
         },
         nullContentWidget: LayoutBuilder(
@@ -41,7 +42,7 @@ class ProfessorSchedulePage extends ConsumerWidget {
             physics: const AlwaysScrollableScrollPhysics(),
             child: Container(
               height: constraints.maxHeight,
-              padding: const EdgeInsets.only(bottom: 120),
+              padding: const EdgeInsets.only(bottom: 80),
               child: Center(
                 child: EmptyStateWidget(
                   imagePath: 'assets/images/school.png',

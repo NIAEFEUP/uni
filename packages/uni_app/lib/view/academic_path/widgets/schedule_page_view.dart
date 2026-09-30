@@ -12,6 +12,7 @@ class SchedulePageView extends ConsumerWidget {
     required this.now,
     required DateTime startOfWeek,
     this.showClassNumber = false,
+    this.bottomPadding = 120,
     super.key,
   }) : currentWeek = Week(start: startOfWeek);
 
@@ -19,6 +20,7 @@ class SchedulePageView extends ConsumerWidget {
   final List<Lecture> lectures;
   final Week currentWeek;
   final bool showClassNumber;
+  final double bottomPadding;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,6 +39,7 @@ class SchedulePageView extends ConsumerWidget {
             lectures,
             startOfWeek: currentWeek.start,
             now: now,
+            bottomPadding: bottomPadding,
           );
   }
 }

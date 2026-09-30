@@ -20,12 +20,14 @@ class ScheduleCalendarView extends ConsumerWidget {
     this.lectures, {
     required this.now,
     required DateTime startOfWeek,
+    this.bottomPadding = 120,
     super.key,
   }) : currentWeek = Week(start: startOfWeek);
 
   final DateTime now;
   final List<Lecture> lectures;
   final Week currentWeek;
+  final double bottomPadding;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,7 +37,7 @@ class ScheduleCalendarView extends ConsumerWidget {
     final latestClass = _getLatestClassTime();
 
     return Padding(
-      padding: const EdgeInsets.only(top: 12, bottom: 120),
+      padding: EdgeInsets.only(top: 12, bottom: bottomPadding),
       child: Theme(
         data: Theme.of(context).copyWith(
           extensions: [
@@ -114,8 +116,16 @@ class ScheduleCalendarView extends ConsumerWidget {
       (l) => l.startTime.weekday == DateTime.saturday,
     );
 
+    final hasSundayLectures = lectures.any(
+      (l) => l.startTime.weekday == DateTime.sunday,
+    );
+
     if (hasSaturdayLectures) {
       days.add(WeekDays.saturday);
+    }
+
+    if (hasSundayLectures) {
+      days.add(WeekDays.sunday);
     }
 
     return days;
