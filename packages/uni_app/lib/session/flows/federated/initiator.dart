@@ -50,7 +50,6 @@ class FederatedSessionInitiator extends SessionInitiator {
         'profile',
         'email',
         'offline_access',
-        'audience',
         'uporto_data',
       ],
     );

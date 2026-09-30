@@ -289,7 +289,15 @@ class ApplicationState extends ConsumerState<Application> {
                     ),
               };
 
-              final builder = transitionFunctions[settings.name];
+              final routeUri = Uri.tryParse(settings.name ?? '');
+              final cleanPath = routeUri != null && routeUri.path.isNotEmpty
+                  ? (routeUri.path.startsWith('/')
+                      ? routeUri.path
+                      : '/${routeUri.path}')
+                  : settings.name;
+
+              final builder = transitionFunctions[cleanPath] ??
+                  transitionFunctions[settings.name];
               return builder != null ? builder() : null;
             },
           ),

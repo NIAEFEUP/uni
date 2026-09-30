@@ -21,7 +21,19 @@ class FederatedSessionUserInfo {
   final List<String> faculties;
 
   static String _extractUsername(UserInfo userInfo) {
-    return userInfo.getTyped<String>('nmec')!;
+    final nmec = userInfo.getTyped<String>('nmec');
+    if (nmec != null && nmec.isNotEmpty) {
+      return nmec;
+    }
+    final preferred = userInfo.preferredUsername;
+    if (preferred != null && preferred.isNotEmpty) {
+      return preferred;
+    }
+    final email = userInfo.email;
+    if (email != null && email.isNotEmpty) {
+      return email.split('@').first;
+    }
+    return userInfo.subject;
   }
 
   static List<String> _extractFaculties(UserInfo userInfo) {
@@ -113,7 +125,16 @@ class FederatedSessionRequest extends SessionRequest {
       credential: credential,
     );
 
-    final faculties = await getStudentFaculties(tempSession, httpClient);
+    List<String> faculties = userInfo.faculties;
+    try {
+      final remoteFaculties =
+          await getStudentFaculties(tempSession, httpClient);
+      if (remoteFaculties.isNotEmpty) {
+        faculties = remoteFaculties;
+      }
+    } catch (err, st) {
+      unawaited(Sentry.captureException(err, stackTrace: st));
+    }
 
     return FederatedSession(
       username: userInfo.username,
