@@ -155,7 +155,7 @@ class ScheduleCalendarView extends ConsumerWidget {
       (unit) => unit.occurrId == lecture.occurrId,
     );
 
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) {
         return ModalDialog(
