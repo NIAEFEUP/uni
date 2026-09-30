@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/providers/riverpod/current_account_provider.dart';
-import 'package:uni/model/providers/riverpod/profile_provider.dart';
-import 'package:uni/view/current_account/widgets/payment_webview.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/theme.dart';
@@ -92,13 +89,13 @@ class Transaction extends ConsumerWidget {
               Row(
                 spacing: 8,
                 children: [
-                  Icon(
+                  UniIcon(
                     UniIcons.coins,
                     color: Theme.of(context).colorScheme.onSecondary,
                     size: 18,
                   ),
                   Text(
-                    '${(value / 100).toStringAsFixed(2)} €',
+                    '${(value / 100).toStringAsFixed(2)} \u20ac',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   if (status == PaymentStatus.pending &&
@@ -107,7 +104,7 @@ class Transaction extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '+ ${(interestOnLatePayment! / 100).toStringAsFixed(2)} €',
+                          '+ ${(interestOnLatePayment! / 100).toStringAsFixed(2)} \u20ac',
                           style: Theme.of(context).textTheme.labelLarge!
                               .copyWith(
                                 color: Theme.of(
@@ -129,6 +126,8 @@ class Transaction extends ConsumerWidget {
                   ],
                 ],
               ),
+              /** 
+               * #TODO: FIGURE OUT WHAT SHOULD WE DO WITH THE PAYMENT LINK
               if (paymentLink != null)
                 FilledButton(
                   style: FilledButton.styleFrom(
@@ -181,6 +180,7 @@ class Transaction extends ConsumerWidget {
                     ),
                   ),
                 ),
+                */
             ],
           ),
         ],

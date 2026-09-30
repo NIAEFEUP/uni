@@ -1,0 +1,299 @@
+name: Release Pipeline
+
+on:
+  push:
+    branches: [master, develop]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-version-allocation
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  version_bump:
+    name: Bump Version
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+    outputs:
+      new_version: ${{ steps.bump.outputs.new_version }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.NIAEFEUPBOT_PAT }}
+          fetch-depth: 0 # full history needed to commit and push back to remote branches
+
+      - name: Calculate & Bump Version
+        id: bump
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd packages/uni_app
+          # We need to find the absolute highest build number across the repo.
+          
+          git fetch origin develop
+          DEVELOP_VERSION=$(git show origin/develop:packages/uni_app/pubspec.yaml | grep '^version: ' | awk '{print $2}')
+          DEVELOP_BUILD_NUMBER=$(echo "$DEVELOP_VERSION" | cut -s -d'+' -f2)
+          if [ -z "$DEVELOP_BUILD_NUMBER" ]; then DEVELOP_BUILD_NUMBER=0; fi
+
+          # Extract current version details from the branch we are currently on
+          CURRENT_VERSION=$(grep '^version: ' pubspec.yaml | awk '{print $2}')
+          CURRENT_BUILD_NUMBER=$(echo "$CURRENT_VERSION" | cut -s -d'+' -f2)
+          if [ -z "$CURRENT_BUILD_NUMBER" ]; then CURRENT_BUILD_NUMBER=0; fi
+
+          # Use the maximum build number to prevent store rejections
+          if [ "$DEVELOP_BUILD_NUMBER" -gt "$CURRENT_BUILD_NUMBER" ]; then
+            HIGHEST_BUILD_NUMBER=$DEVELOP_BUILD_NUMBER
+          else
+            HIGHEST_BUILD_NUMBER=$CURRENT_BUILD_NUMBER
+          fi
+
+          BASE_VERSION=$(echo "$CURRENT_VERSION" | cut -d'+' -f1)
+          # Clean any trailing -beta.X suffixes that might still exist
+          BASE_VERSION_CLEAN=$(echo "$BASE_VERSION" | cut -d'-' -f1)
+
+          IFS='.' read -r major minor patch <<< "$BASE_VERSION_CLEAN"
+          
+          if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
+            # We are on master, find the merged PR to get the release label
+            if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+              echo "Manual dispatch on master. Defaulting to hotfix bump."
+              BUMP_TYPE="hotfix"
+            else
+              # Use GitHub CLI to fetch labels of the PR associated with this merge commit
+              PR_LABELS=$(gh pr list --state merged --search "commit:${{ github.sha }}" --json labels --jq '.[0].labels[].name?' || true)
+              
+              if echo "$PR_LABELS" | grep -qw "major"; then
+                BUMP_TYPE="major"
+              elif echo "$PR_LABELS" | grep -qw "minor"; then
+                BUMP_TYPE="minor"
+              elif echo "$PR_LABELS" | grep -qw "hotfix"; then
+                BUMP_TYPE="hotfix"
+              else
+                echo "ERROR: No release label (major, minor, hotfix) found on the merged PR. Workflow cannot continue."
+                exit 1
+              fi
+            fi
+            
+            # Apply the semver bump based on the label
+            if [ "$BUMP_TYPE" == "major" ]; then
+              major=$((major + 1))
+              minor=0
+              patch=0
+            elif [ "$BUMP_TYPE" == "minor" ]; then
+              minor=$((minor + 1))
+              patch=0
+            elif [ "$BUMP_TYPE" == "hotfix" ]; then
+              patch=$((patch + 1))
+            fi
+          fi
+          
+          # Always increment build number from the absolute highest known number
+          BUILD_NUMBER=$((HIGHEST_BUILD_NUMBER + 1))
+          NEW_VERSION="${major}.${minor}.${patch}+${BUILD_NUMBER}"
+          
+          echo "Bumping version from $CURRENT_VERSION to $NEW_VERSION"
+          sed -i -e "s/^version: .*/version: $NEW_VERSION/" pubspec.yaml
+          
+          # Export to step outputs so subsequent jobs can use it
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Commit version bump
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Bump app version to ${{ steps.bump.outputs.new_version }} [no ci]"
+
+      - name: Sync version back to develop
+        if: github.ref == 'refs/heads/master'
+        run: |
+          git fetch origin develop
+          git checkout develop
+          git checkout master -- packages/uni_app/pubspec.yaml
+          git add packages/uni_app/pubspec.yaml
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "Sync version from master [no ci]" || echo "No changes to sync"
+          git push origin develop
+
+  release_android:
+    name: Build & Deploy Android
+    needs: version_bump
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+    defaults:
+      run:
+        working-directory: ./packages/uni_app
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }} # Fetch the newly committed version
+          persist-credentials: false
+          
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21.x
+          distribution: "zulu"
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: .fvmrc
+          cache: true
+
+      - name: Prepare Keystore & Env
+        env:
+          UNI_ENV_FILE: ${{ vars.UNI_ENV_FILE }}
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > /tmp/key.jks
+          mkdir -p android
+          echo "storeFile=/tmp/key.jks" > android/key.properties
+          echo "storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
+          
+          mkdir -p assets/env
+          echo "$UNI_ENV_FILE" > assets/env/.env
+
+      - name: Build Android App Bundle
+        run: |
+          flutter pub get
+          flutter build appbundle
+
+      - name: Upload to Play Store (Beta)
+        if: github.ref == 'refs/heads/develop'
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
+          releaseFiles: packages/uni_app/build/app/outputs/bundle/release/app-release.aab
+          tracks: beta
+          status: completed
+
+      - name: Upload to Play Store (Production)
+        if: github.ref == 'refs/heads/master'
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
+          releaseFiles: packages/uni_app/build/app/outputs/bundle/release/app-release.aab
+          tracks: production
+          status: completed
+
+  release_ios:
+    name: Build & Deploy iOS
+    needs: version_bump
+    runs-on: macos-latest
+    environment: ${{ github.ref_name }}
+    defaults:
+      run:
+        working-directory: ./packages/uni_app
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }} # Fetch the newly committed version
+          persist-credentials: false
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: .fvmrc
+          cache: true
+
+      - name: Install Apple Certificate and Provisioning Profile
+        env:
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
+          P12_PASSWORD: ${{ secrets.IOS_P12_PASSWORD }}
+          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.IOS_PROVISION_PROFILE_BASE64 }}
+          KEYCHAIN_PASSWORD: ${{ secrets.IOS_KEYCHAIN_PASSWORD }}
+        run: |
+          # Create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+
+          # Import certificate and provisioning profile from secrets
+          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
+          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode -o $PP_PATH
+
+          # Create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # Import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security list-keychains -d user -s $KEYCHAIN_PATH $(security list-keychains -d user | tr -d '"')
+
+          # Extract UUID, Name, and Team ID from the provisioning profile
+          PROFILE_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< $(security cms -D -i $PP_PATH))
+          PROFILE_NAME=$(/usr/libexec/PlistBuddy -c "Print Name" /dev/stdin <<< $(security cms -D -i $PP_PATH))
+          TEAM_ID=$(/usr/libexec/PlistBuddy -c "Print TeamIdentifier:0" /dev/stdin <<< $(security cms -D -i $PP_PATH))
+          
+          # Apply provisioning profile with the correct UUID filename required by Xcode
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles/$PROFILE_UUID.mobileprovision
+          
+          # Save PROFILE_NAME and TEAM_ID to environment for the build step
+          echo "PROFILE_NAME=$PROFILE_NAME" >> $GITHUB_ENV
+          echo "TEAM_ID=$TEAM_ID" >> $GITHUB_ENV
+          
+      - name: Prepare Env
+        env:
+          UNI_ENV_FILE: ${{ vars.UNI_ENV_FILE }}
+        run: |
+          mkdir -p assets/env
+          echo "$UNI_ENV_FILE" > assets/env/.env
+
+      - name: Build iOS IPA
+        run: |
+          flutter pub get
+          
+          # Disable Automatic Code Signing and force explicit manual signing with Distribution certificates
+          sed -i '' 's/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g' ios/Runner.xcodeproj/project.pbxproj
+          sed -i '' 's/"CODE_SIGN_IDENTITY\[sdk=iphoneos\*\]" = "iPhone Developer";/"CODE_SIGN_IDENTITY\[sdk=iphoneos\*\]" = "Apple Distribution";/g' ios/Runner.xcodeproj/project.pbxproj
+          sed -i '' "s/DEVELOPMENT_TEAM = [A-Z0-9]*;/DEVELOPMENT_TEAM = $TEAM_ID; PROVISIONING_PROFILE_SPECIFIER = \"$PROFILE_NAME\";/g" ios/Runner.xcodeproj/project.pbxproj
+          
+          # ExportOptions.plist with explicit manual signing mapping
+          cat <<EOF > ios/ExportOptions.plist
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>method</key>
+              <string>app-store</string>
+              <key>signingStyle</key>
+              <string>manual</string>
+              <key>teamID</key>
+              <string>$TEAM_ID</string>
+              <key>provisioningProfiles</key>
+              <dict>
+                  <key>pt.up.fe.ni.uni</key>
+                  <string>$PROFILE_NAME</string>
+              </dict>
+          </dict>
+          </plist>
+          EOF
+          
+          flutter build ipa --export-options-plist=ios/ExportOptions.plist
+
+      - name: Find IPA path
+        id: find_ipa
+        run: echo "ipa_path=$(find build/ios/ipa -name '*.ipa' | head -n 1)" >> $GITHUB_OUTPUT
+
+      - name: Upload to App Store Connect (TestFlight)
+        uses: apple-actions/upload-testflight-build@v1
+        with:
+          app-path: packages/uni_app/${{ steps.find_ipa.outputs.ipa_path }}
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}

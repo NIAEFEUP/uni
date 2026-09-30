@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -72,13 +70,13 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
   }
 
   Future<void> _startAnimations() async {
-    unawaited(_logoController.forward());
+    _logoController.forward();
 
-    unawaited(Future<void>.delayed(const Duration(milliseconds: 300)));
-    unawaited(_image1Controller.forward());
+    await Future<void>.delayed(const Duration(milliseconds: 300));
+    _image1Controller.forward();
 
-    unawaited(Future<void>.delayed(const Duration(milliseconds: 200)));
-    unawaited(_image2Controller.forward());
+    await Future<void>.delayed(const Duration(milliseconds: 200));
+    _image2Controller.forward();
   }
 
   @override

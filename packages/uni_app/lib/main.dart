@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -78,10 +77,7 @@ Future<void> main() async {
   unawaited(cleanupCachedFiles());
 
   // Initialize WorkManager for background tasks
-  await Workmanager().initialize(
-    workerStartCallback,
-    isInDebugMode: !kReleaseMode,
-  );
+  await Workmanager().initialize(workerStartCallback);
 
   // NoSQL database initialization
   await Database().init();

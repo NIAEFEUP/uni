@@ -8,7 +8,7 @@ class BottomNavbarItem {
     required this.onTap,
   });
 
-  final IconData icon;
+  final UniIconData icon;
   final bool Function() isSelected;
   final void Function() onTap;
 

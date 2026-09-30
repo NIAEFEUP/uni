@@ -35,9 +35,6 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m5(year) => "Estatísticas ${year}";
 
-  static m6() =>
-      "Não foram encontradas estatísticas para este ano letivo nem para o anterior.";
-
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("Sobre nós"),
@@ -48,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "account_card_title": MessageLookupByLibrary.simpleMessage(
       "Conta Corrente",
     ),
+    "account_faculty": MessageLookupByLibrary.simpleMessage("Faculdade"),
     "add": MessageLookupByLibrary.simpleMessage("Adicionar"),
     "add_photo": MessageLookupByLibrary.simpleMessage("Adicionar foto"),
     "add_quota": MessageLookupByLibrary.simpleMessage("Adicionar quota"),
@@ -271,7 +269,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Inscrição Geral",
     ),
     "goi": MessageLookupByLibrary.simpleMessage(
-      "Gabinete de Orientação e Integração",
+      "Serviço de Psicologia e Orientação",
     ),
     "identification_documents": MessageLookupByLibrary.simpleMessage(
       "Documentos de Identificação",
@@ -581,7 +579,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "statistics_distribution_description": MessageLookupByLibrary.simpleMessage(
       "Distribuição de aprovados, reprovados e não avaliados",
     ),
-    "statistics_not_found": m6,
+    "statistics_not_found": MessageLookupByLibrary.simpleMessage(
+      "Não foram encontradas estatísticas para este ano letivo nem para o anterior.",
+    ),
     "statistics_year": m5,
     "stores": MessageLookupByLibrary.simpleMessage("Lojas"),
     "student_number": MessageLookupByLibrary.simpleMessage(
@@ -632,6 +632,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ver detalhes da Unidade Curricular",
     ),
     "wc": MessageLookupByLibrary.simpleMessage("Casa de banho"),
+    "welcome_message": MessageLookupByLibrary.simpleMessage(
+      "A equipa da UNI dá-te as boas-vindas e deseja-te muita sorte no curso!",
+    ),
+    "welcome_title": MessageLookupByLibrary.simpleMessage(
+      "Bem-vindo à universidade!",
+    ),
     "widget_prompt": MessageLookupByLibrary.simpleMessage(
       "Escolhe um widget para adicionares à tua área pessoal:",
     ),

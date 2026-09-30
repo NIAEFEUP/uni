@@ -42,9 +42,9 @@
         androidComposition = pkgs.androidenv.composeAndroidPackages {
           includeNDK = "if-supported";
 
-          buildToolsVersions = ["35.0.0"];
+          buildToolsVersions = ["36.0.0"];
           cmakeVersions = ["3.22.1"];
-          platformVersions = ["36" "35" "34"];
+          platformVersions = ["37" "36" "35" "34"];
           ndkVersions = ["28.2.13676358"];
         };
 

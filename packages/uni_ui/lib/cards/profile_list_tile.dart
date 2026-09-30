@@ -11,7 +11,7 @@ class ProfileListTile extends StatelessWidget {
     this.onTap,
   });
 
-  final IconData icon;
+  final UniIconData icon;
   final String title;
   final String? subtitle;
   final VoidCallback? onTap;

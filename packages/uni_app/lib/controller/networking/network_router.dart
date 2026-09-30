@@ -47,6 +47,13 @@ class NetworkRouter {
         .toList();
   }
 
+  static String resolveFaculty(Session session, String? preferred) {
+    if (preferred != null && session.faculties.contains(preferred)) {
+      return preferred;
+    }
+    return session.faculties.first;
+  }
+
   static Future<http.Response> getWithCookies(
     String url,
     Map<String, String> query,
@@ -65,10 +72,7 @@ class NetworkRouter {
     final allQueryParameters = {...parsedUrl.queryParametersAll};
     for (final entry in query.entries) {
       final existingValue = allQueryParameters[entry.key];
-      allQueryParameters[entry.key] = [
-        if (existingValue != null) ...existingValue,
-        entry.value,
-      ];
+      allQueryParameters[entry.key] = [...?existingValue, entry.value];
     }
 
     final requestUri = parsedUrl

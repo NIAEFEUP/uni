@@ -35,8 +35,6 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m5(year) => "Statistics ${year}";
 
-  static m6() => "No statistics were found for this year or the previous year.";
-
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("About us"),
@@ -47,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "account_card_title": MessageLookupByLibrary.simpleMessage(
       "Checking account",
     ),
+    "account_faculty": MessageLookupByLibrary.simpleMessage("Faculty"),
     "add": MessageLookupByLibrary.simpleMessage("Add"),
     "add_photo": MessageLookupByLibrary.simpleMessage("Add photo"),
     "add_quota": MessageLookupByLibrary.simpleMessage("Add quota"),
@@ -222,7 +221,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Provide a clear and concise title along with a detailed description of the issue or suggestion. The more information you provide, the better we can understand and address your feedback.",
     ),
     "feedback_github_title_section": MessageLookupByLibrary.simpleMessage(
-      "Want to see how the app is built? Checkout our GitHub",
+      "Want to see how the app is built? Check out our GitHub",
     ),
     "feedback_images_empty_section": MessageLookupByLibrary.simpleMessage(
       "Attached images will appear here.",
@@ -258,7 +257,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "General Registration",
     ),
     "goi": MessageLookupByLibrary.simpleMessage(
-      "Orientation and Integration Office",
+      "Psychology and Guidance Service",
     ),
     "identification_documents": MessageLookupByLibrary.simpleMessage(
       "Identification Documents",
@@ -562,7 +561,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "statistics_distribution_description": MessageLookupByLibrary.simpleMessage(
       "Distribution of passed, failed, and not evaluated students",
     ),
-    "statistics_not_found": m6,
+    "statistics_not_found": MessageLookupByLibrary.simpleMessage(
+      "No statistics were found for this year or the previous year.",
+    ),
     "statistics_year": m5,
     "stores": MessageLookupByLibrary.simpleMessage("Stores"),
     "student_number": MessageLookupByLibrary.simpleMessage("Student Number"),
@@ -611,6 +612,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "View course details",
     ),
     "wc": MessageLookupByLibrary.simpleMessage("WC"),
+    "welcome_message": MessageLookupByLibrary.simpleMessage(
+      "The UNI team welcomes you and wishes you the best of luck on your course!",
+    ),
+    "welcome_title": MessageLookupByLibrary.simpleMessage(
+      "Welcome to university!",
+    ),
     "widget_prompt": MessageLookupByLibrary.simpleMessage(
       "Choose a widget to add to your personal area:",
     ),

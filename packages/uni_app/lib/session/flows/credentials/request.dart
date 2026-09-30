@@ -80,7 +80,7 @@ class CredentialsSessionRequest extends SessionRequest {
   Never _handleLoginFailure(LoginFailedResponse response) {
     final failureReason = response.reason;
 
-    // FIXME(limwa): convey the reason to the user
+    // TODO(limwa): convey the reason to the user
     if (failureReason == LoginFailureReason.expiredCredentials) {
       throw const AuthenticationException(
         'Failed to authenticate user',
