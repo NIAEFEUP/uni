@@ -46,19 +46,17 @@ class FederatedSessionInitiator extends SessionInitiator {
     final client = Client(issuer, clientId, httpClient: httpClient);
     final flow = Flow.authorizationCodeWithPKCE(
       client,
-      scopes: [
-        'openid',
-        'profile',
-        'email',
-        'offline_access',
-        'uporto_data',
-      ],
+      scopes: ['openid', 'profile', 'email', 'offline_access', 'uporto_data'],
     );
 
-    Logger().i('🔑 [OpenID Flow] Requesting authorization with scopes: ${flow.scopes}');
+    Logger().i(
+      '🔑 [OpenID Flow] Requesting authorization with scopes: ${flow.scopes}',
+    );
 
     final uri = await performAuthentication(flow);
-    Logger().i('🔄 [OpenID Flow] Received callback with parameters: ${uri.queryParameters.keys.toList()}');
+    Logger().i(
+      '🔄 [OpenID Flow] Received callback with parameters: ${uri.queryParameters.keys.toList()}',
+    );
     final credential = await _handleOpenIdExceptions(
       flow.callback(uri.queryParameters),
       onError: const AuthenticationException('Failed to execute flow callback'),

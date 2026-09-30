@@ -29,20 +29,21 @@ void main() {
       expect(info.username, equals('up202609999'));
     });
 
-    test('falls back to email prefix when nmec and preferred_username are absent', () {
-      final userInfo = UserInfo.fromJson({
-        'sub': 'user-uuid-9999',
-        'email': 'mairadomingos108@gmail.com',
-      });
+    test(
+      'falls back to email prefix when nmec and preferred_username are absent',
+      () {
+        final userInfo = UserInfo.fromJson({
+          'sub': 'user-uuid-9999',
+          'email': 'mairadomingos108@gmail.com',
+        });
 
-      final info = FederatedSessionUserInfo(userInfo);
-      expect(info.username, equals('mairadomingos108'));
-    });
+        final info = FederatedSessionUserInfo(userInfo);
+        expect(info.username, equals('mairadomingos108'));
+      },
+    );
 
     test('falls back to sub when all other identifiers are absent', () {
-      final userInfo = UserInfo.fromJson({
-        'sub': 'user-uuid-9999',
-      });
+      final userInfo = UserInfo.fromJson({'sub': 'user-uuid-9999'});
 
       final info = FederatedSessionUserInfo(userInfo);
       expect(info.username, equals('user-uuid-9999'));

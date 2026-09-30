@@ -121,8 +121,7 @@ class FederatedSessionRequest extends SessionRequest {
     final userInfo = FederatedSessionUserInfo(rawUserInfo);
 
     const prettyEncoder = JsonEncoder.withIndent('  ');
-    Logger().i(
-      '''
+    Logger().i('''
 ==================== [OpenID Login Info] ====================
 • Granted Scopes: ${credential.response?['scope'] ?? 'N/A'}
 • Token Type: ${credential.response?['token_type'] ?? 'N/A'}
@@ -134,8 +133,7 @@ ${prettyEncoder.convert(credential.idToken.claims.toJson())}
 ${prettyEncoder.convert(rawUserInfo.toJson())}
 • Resolved Username: ${userInfo.username}
 • Resolved Faculties from Claims: ${userInfo.faculties}
-=============================================================''',
-    );
+=============================================================''');
     final successfulResponse = response.asSuccessful();
 
     final tempSession = FederatedSession(
@@ -147,8 +145,10 @@ ${prettyEncoder.convert(rawUserInfo.toJson())}
 
     List<String> faculties = userInfo.faculties;
     try {
-      final remoteFaculties =
-          await getStudentFaculties(tempSession, httpClient);
+      final remoteFaculties = await getStudentFaculties(
+        tempSession,
+        httpClient,
+      );
       if (remoteFaculties.isNotEmpty) {
         faculties = remoteFaculties;
       }
