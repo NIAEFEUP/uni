@@ -460,6 +460,10 @@
   "@services": {},
   "goi": "Serviço de Psicologia e Orientação",
   "@goi": {},
+  "list_view": "Lista",
+  "@list_view": {},
+  "calendar_view": "Calendário",
+  "@calendar_view": {},
   "map": "Mapa",
   "@map": {},
   "exams_intro_message": "Mantém-te sempre atualizado com os teus exames",
@@ -605,5 +609,7 @@
   "welcome_title": "Bem-vindo à universidade!",
   "@welcome_title": {},
   "welcome_message": "A equipa da UNI dá-te as boas-vindas e deseja-te muita sorte no curso!",
-  "@welcome_message": {}
+  "@welcome_message": {},
+  "type": "Tipo",
+  "@type": {}
 }

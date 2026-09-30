@@ -47,6 +47,11 @@ abstract class GeneralPageViewState<T extends ConsumerStatefulWidget>
   // The content of the page
   Widget getBody(BuildContext context);
 
+  // Floating action button
+  Widget? getFloatingActionButton(BuildContext context) {
+    return null;
+  }
+
   //
   bool getResizeToAvoidBottomInset() => true;
 
@@ -124,6 +129,7 @@ abstract class GeneralPageViewState<T extends ConsumerStatefulWidget>
           header: getHeader(context),
           body: body,
         ),
+        floatingActionButton: getFloatingActionButton(context),
         resizeToAvoidBottomInset: getResizeToAvoidBottomInset(),
       ),
     );
