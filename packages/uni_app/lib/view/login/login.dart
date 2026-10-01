@@ -132,7 +132,16 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
               );
             default:
               Logger().e(err, stackTrace: st);
-              unawaited(Sentry.captureException(err, stackTrace: st));
+              unawaited(
+                Sentry.captureException(
+                  err,
+                  stackTrace: st,
+                  withScope: (s) {
+                    s.setTag('feature', 'login');
+                    s.setTag('action', 'credentials_login');
+                  },
+                ),
+              );
               unawaited(
                 ToastMessage.error(context, S.of(context).failed_login),
               );
@@ -140,7 +149,16 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
         } else {
           // Not mounted: log and capture the error but avoid UI calls
           Logger().e(err, stackTrace: st);
-          unawaited(Sentry.captureException(err, stackTrace: st));
+          unawaited(
+            Sentry.captureException(
+              err,
+              stackTrace: st,
+              withScope: (s) {
+                s.setTag('feature', 'login');
+                s.setTag('action', 'credentials_login');
+              },
+            ),
+          );
         }
       }
       // Handles other unexpected exceptions
@@ -150,12 +168,30 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
             _loggingIn = false;
           });
           Logger().e(err, stackTrace: st);
-          unawaited(Sentry.captureException(err, stackTrace: st));
+          unawaited(
+            Sentry.captureException(
+              err,
+              stackTrace: st,
+              withScope: (s) {
+                s.setTag('feature', 'login');
+                s.setTag('action', 'credentials_login');
+              },
+            ),
+          );
           unawaited(ToastMessage.error(context, S.of(context).failed_login));
         } else {
           // Not mounted: log and capture, avoid UI calls
           Logger().e(err, stackTrace: st);
-          unawaited(Sentry.captureException(err, stackTrace: st));
+          unawaited(
+            Sentry.captureException(
+              err,
+              stackTrace: st,
+              withScope: (s) {
+                s.setTag('feature', 'login');
+                s.setTag('action', 'credentials_login');
+              },
+            ),
+          );
         }
       }
     }
@@ -223,7 +259,14 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
         });
       }
     } catch (err, st) {
-      await Sentry.captureException(err, stackTrace: st);
+      await Sentry.captureException(
+        err,
+        stackTrace: st,
+        withScope: (s) {
+          s.setTag('feature', 'login');
+          s.setTag('action', 'federated_login');
+        },
+      );
       await closeInAppWebView();
       if (mounted) {
         setState(() {

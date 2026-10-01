@@ -73,7 +73,15 @@ abstract class GeneralPageViewState<T extends ConsumerStatefulWidget>
           });
         } else {
           Logger().e('Failed to load page info: $err\n$st');
-          await Sentry.captureException(err, stackTrace: st);
+          await Sentry.captureException(
+            err,
+            stackTrace: st,
+            withScope: (s) {
+              s.setTag('feature', 'general_page_layout');
+              s.setTag('action', 'onLoad');
+              s.setTag('page_title', getTitle() ?? 'unknown');
+            },
+          );
         }
       }
 

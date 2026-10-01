@@ -49,7 +49,16 @@ class _PlausibleProviderState extends ConsumerState<PlausibleProvider> {
             .then((_) => _updateConnectivityState())
             .then((_) => _updateUsageStatsState())
             .onError((error, stackTrace) {
-              unawaited(Sentry.captureException(error, stackTrace: stackTrace));
+              unawaited(
+                Sentry.captureException(
+                  error,
+                  stackTrace: stackTrace,
+                  withScope: (s) {
+                    s.setTag('feature', 'plausible');
+                    s.setTag('action', 'startListeners');
+                  },
+                ),
+              );
               Logger().e(
                 'Error initializing plausible: $error',
                 stackTrace: stackTrace,

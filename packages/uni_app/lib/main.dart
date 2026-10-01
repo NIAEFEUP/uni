@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:plausible_analytics/navigator_observer.dart';
@@ -52,10 +54,6 @@ import 'package:workmanager/workmanager.dart';
 
 import 'controller/local_storage/database/database.dart';
 
-SentryEvent? beforeSend(SentryEvent event) {
-  return event.level == SentryLevel.info ? event : null;
-}
-
 Future<String> firstRoute() async {
   final savedSession = await PreferencesController.getSavedSession();
 
@@ -87,7 +85,14 @@ Future<void> main() async {
     error,
     stackTrace,
   ) {
-    Sentry.captureException(error, stackTrace: stackTrace);
+    Sentry.captureException(
+      error,
+      stackTrace: stackTrace,
+      withScope: (s) {
+        s.setTag('feature', 'env_loader');
+        s.setTag('action', 'load_dotenv');
+      },
+    );
     Logger().e(
       'Error loading .env file: $error',
       error: error,
@@ -117,6 +122,19 @@ Future<void> main() async {
     (options) {
       options.dsn =
           'https://a2661645df1c4992b24161010c5e0ecb@o553498.ingest.sentry.io/5680848';
+      options.tracesSampleRate = 0.1;
+      options.sendDefaultPii = false;
+      options.environment = kReleaseMode ? 'production' : 'debug';
+      options.beforeSend = (event, hint) {
+        final throwable = event.throwable;
+        if (throwable is SocketException ||
+            throwable is OSError ||
+            throwable is TimeoutException ||
+            throwable is HttpException) {
+          return null;
+        }
+        return event;
+      };
     },
     appRunner: () {
       runApp(
@@ -157,6 +175,8 @@ class ApplicationState extends ConsumerState<Application> {
   @override
   void initState() {
     super.initState();
+
+    navigatorObservers.add(SentryNavigatorObserver());
 
     final plausible = ref.read(plausibleProvider);
     if (plausible != null) {

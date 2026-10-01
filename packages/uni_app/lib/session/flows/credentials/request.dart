@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/fetchers/academics/faculties_fetcher.dart';
 import 'package:uni/http/client/cookie.dart';
 import 'package:uni/session/exception.dart';
@@ -26,7 +27,7 @@ class CredentialsSessionRequest extends SessionRequest {
 
   @override
   Future<CredentialsSession> perform([http.Client? httpClient]) async {
-    final client = httpClient ?? http.Client();
+    final client = httpClient ?? SentryHttpClient();
 
     // We need to login to fetch the username and faculties,
     // so perform a temporary login.

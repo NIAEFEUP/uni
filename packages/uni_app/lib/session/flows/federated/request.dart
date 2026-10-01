@@ -82,7 +82,16 @@ class FederatedSessionRequest extends SessionRequest {
     E error,
     StackTrace st,
   ) {
-    unawaited(Sentry.captureException(error, stackTrace: st));
+    unawaited(
+      Sentry.captureException(
+        error,
+        stackTrace: st,
+        withScope: (s) {
+          s.setTag('feature', 'federated_login');
+          s.setTag('action', 'token_request_exception');
+        },
+      ),
+    );
     return const TokenFailedResponse();
   }
 
