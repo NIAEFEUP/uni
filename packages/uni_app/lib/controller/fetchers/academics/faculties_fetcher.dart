@@ -1,7 +1,8 @@
 import 'dart:async';
-import 'package:sentry_flutter/sentry_flutter.dart';
+
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/http/client/cookie.dart';
 import 'package:uni/session/flows/base/session.dart';
 
