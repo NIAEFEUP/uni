@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/fetchers/academics/schedule/schedule_fetcher_new_api.dart';
 import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/model/entities/lecture.dart';
@@ -33,6 +36,17 @@ class LectureNotifier extends CachedAsyncNotifier<List<Lecture>> {
     try {
       await Database().saveLectures(lectures);
     } catch (err, st) {
+      unawaited(
+        Sentry.captureException(
+          err,
+          stackTrace: st,
+          withScope: (s) {
+            s
+              ..setTag('feature', 'lecture_provider')
+              ..setTag('action', 'save_lectures');
+          },
+        ),
+      );
       Logger().e(
         'Failed to save lectures to local database',
         error: err,

@@ -70,12 +70,21 @@ class Login extends Endpoint<LoginResponse> {
       throw Exception('Could not find failure reason');
     } catch (err, st) {
       unawaited(
-        Sentry.captureEvent(
-          SentryEvent(
-            throwable: err,
-            request: SentryRequest(data: document.outerHtml),
-          ),
+        Sentry.captureException(
+          err,
           stackTrace: st,
+          withScope: (scope) {
+            scope
+              ..setTag('feature', 'login')
+              ..setTag('action', 'parse_failure_reason');
+            final text = document.body?.text
+                .replaceAll(RegExp(r'\s+'), ' ')
+                .trim();
+            final snippet = text != null && text.length > 200
+                ? text.substring(0, 200)
+                : text;
+            scope.setContexts('body_snippet', snippet);
+          },
         ),
       );
 

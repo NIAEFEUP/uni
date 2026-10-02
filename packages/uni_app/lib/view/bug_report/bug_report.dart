@@ -410,7 +410,15 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
         await ToastMessage.success(context, S.of(context).success);
       }
     } catch (err, st) {
-      await Sentry.captureException(err, stackTrace: st);
+      await Sentry.captureException(
+        err,
+        stackTrace: st,
+        withScope: (s) {
+          s
+            ..setTag('feature', 'bug_report')
+            ..setTag('action', 'submit');
+        },
+      );
       Logger().e('Error while posting bug report:$err');
       if (mounted) {
         await ToastMessage.error(context, S.of(context).sent_error);
