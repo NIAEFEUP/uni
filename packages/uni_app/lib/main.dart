@@ -89,8 +89,9 @@ Future<void> main() async {
       error,
       stackTrace: stackTrace,
       withScope: (s) {
-        s.setTag('feature', 'env_loader');
-        s.setTag('action', 'load_dotenv');
+        s
+          ..setTag('feature', 'env_loader')
+          ..setTag('action', 'load_dotenv');
       },
     );
     Logger().e(
@@ -120,21 +121,22 @@ Future<void> main() async {
 
   await SentryFlutter.init(
     (options) {
-      options.dsn =
-          'https://a2661645df1c4992b24161010c5e0ecb@o553498.ingest.sentry.io/5680848';
-      options.tracesSampleRate = 0.1;
-      options.sendDefaultPii = false;
-      options.environment = kReleaseMode ? 'production' : 'debug';
-      options.beforeSend = (event, hint) {
-        final throwable = event.throwable;
-        if (throwable is SocketException ||
-            throwable is OSError ||
-            throwable is TimeoutException ||
-            throwable is HttpException) {
-          return null;
-        }
-        return event;
-      };
+      options
+        ..dsn =
+            'https://a2661645df1c4992b24161010c5e0ecb@o553498.ingest.sentry.io/5680848'
+        ..tracesSampleRate = 0.1
+        ..sendDefaultPii = false
+        ..environment = kReleaseMode ? 'production' : 'debug'
+        ..beforeSend = (event, hint) {
+          final throwable = event.throwable;
+          if (throwable is SocketException ||
+              throwable is OSError ||
+              throwable is TimeoutException ||
+              throwable is HttpException) {
+            return null;
+          }
+          return event;
+        };
     },
     appRunner: () {
       runApp(

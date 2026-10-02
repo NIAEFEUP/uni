@@ -74,15 +74,16 @@ class Login extends Endpoint<LoginResponse> {
           err,
           stackTrace: st,
           withScope: (scope) {
-            scope.setTag('feature', 'login');
-            scope.setTag('action', 'parse_failure_reason');
+            scope
+              ..setTag('feature', 'login')
+              ..setTag('action', 'parse_failure_reason');
             final text = document.body?.text
                 .replaceAll(RegExp(r'\s+'), ' ')
                 .trim();
             final snippet = text != null && text.length > 200
                 ? text.substring(0, 200)
                 : text;
-            scope.setExtra('body_snippet', snippet);
+            scope.setContexts('body_snippet', snippet);
           },
         ),
       );

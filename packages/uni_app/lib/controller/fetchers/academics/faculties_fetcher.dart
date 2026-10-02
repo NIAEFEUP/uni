@@ -50,12 +50,13 @@ Future<List<String>> getStudentFaculties(
         err,
         stackTrace: st,
         withScope: (s) {
-          s.setTag('feature', 'faculties_fetcher');
-          s.setTag('action', 'parse_faculties');
+          s
+            ..setTag('feature', 'faculties_fetcher')
+            ..setTag('action', 'parse_faculties');
 
           final text = response.body.replaceAll(RegExp(r'\s+'), ' ').trim();
           final snippet = text.length > 300 ? text.substring(0, 300) : text;
-          s.setExtra('response_snippet', snippet);
+          s.setContexts('response_snippet', snippet);
         },
       ),
     );

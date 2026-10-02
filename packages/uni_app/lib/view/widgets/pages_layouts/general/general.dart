@@ -77,9 +77,10 @@ abstract class GeneralPageViewState<T extends ConsumerStatefulWidget>
             err,
             stackTrace: st,
             withScope: (s) {
-              s.setTag('feature', 'general_page_layout');
-              s.setTag('action', 'onLoad');
-              s.setTag('page_title', getTitle() ?? 'unknown');
+              s
+                ..setTag('feature', 'general_page_layout')
+                ..setTag('action', 'onLoad')
+                ..setTag('page_title', getTitle() ?? 'unknown');
             },
           );
         }

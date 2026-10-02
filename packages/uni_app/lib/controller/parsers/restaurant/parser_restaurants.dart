@@ -99,12 +99,13 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
         err,
         stackTrace: st,
         withScope: (s) {
-          s.setTag('feature', 'parser_restaurants');
-          s.setTag('action', 'parse_sigarra_restaurants');
+          s
+            ..setTag('feature', 'parser_restaurants')
+            ..setTag('action', 'parse_sigarra_restaurants');
 
           final text = response.body.replaceAll(RegExp(r'\s+'), ' ').trim();
           final snippet = text.length > 300 ? text.substring(0, 300) : text;
-          s.setExtra('response_snippet', snippet);
+          s.setContexts('response_snippet', snippet);
         },
       ),
     );

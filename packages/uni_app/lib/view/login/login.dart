@@ -137,8 +137,9 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
                   err,
                   stackTrace: st,
                   withScope: (s) {
-                    s.setTag('feature', 'login');
-                    s.setTag('action', 'credentials_login');
+                    s
+                      ..setTag('feature', 'login')
+                      ..setTag('action', 'credentials_login');
                   },
                 ),
               );
@@ -154,8 +155,9 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
               err,
               stackTrace: st,
               withScope: (s) {
-                s.setTag('feature', 'login');
-                s.setTag('action', 'credentials_login');
+                s
+                  ..setTag('feature', 'login')
+                  ..setTag('action', 'credentials_login');
               },
             ),
           );
@@ -173,8 +175,9 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
               err,
               stackTrace: st,
               withScope: (s) {
-                s.setTag('feature', 'login');
-                s.setTag('action', 'credentials_login');
+                s
+                  ..setTag('feature', 'login')
+                  ..setTag('action', 'credentials_login');
               },
             ),
           );
@@ -187,8 +190,9 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
               err,
               stackTrace: st,
               withScope: (s) {
-                s.setTag('feature', 'login');
-                s.setTag('action', 'credentials_login');
+                s
+                  ..setTag('feature', 'login')
+                  ..setTag('action', 'credentials_login');
               },
             ),
           );
@@ -263,8 +267,9 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
         err,
         stackTrace: st,
         withScope: (s) {
-          s.setTag('feature', 'login');
-          s.setTag('action', 'federated_login');
+          s
+            ..setTag('feature', 'login')
+            ..setTag('action', 'federated_login');
         },
       );
       await closeInAppWebView();

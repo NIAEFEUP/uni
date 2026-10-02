@@ -414,8 +414,9 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
         err,
         stackTrace: st,
         withScope: (s) {
-          s.setTag('feature', 'bug_report');
-          s.setTag('action', 'submit');
+          s
+            ..setTag('feature', 'bug_report')
+            ..setTag('action', 'submit');
         },
       );
       Logger().e('Error while posting bug report:$err');

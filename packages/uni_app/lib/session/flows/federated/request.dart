@@ -87,8 +87,9 @@ class FederatedSessionRequest extends SessionRequest {
         error,
         stackTrace: st,
         withScope: (s) {
-          s.setTag('feature', 'federated_login');
-          s.setTag('action', 'token_request_exception');
+          s
+            ..setTag('feature', 'federated_login')
+            ..setTag('action', 'token_request_exception');
         },
       ),
     );

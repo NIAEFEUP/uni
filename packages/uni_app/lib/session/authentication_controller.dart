@@ -117,8 +117,9 @@ class AuthenticationController {
             err,
             stackTrace: st,
             withScope: (scope) {
-              scope.setTag('feature', 'authentication');
-              scope.setTag('action', 'reauthenticate');
+              scope
+                ..setTag('feature', 'authentication')
+                ..setTag('action', 'reauthenticate');
             },
           ),
         );

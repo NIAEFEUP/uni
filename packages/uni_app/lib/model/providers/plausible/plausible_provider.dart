@@ -54,8 +54,9 @@ class _PlausibleProviderState extends ConsumerState<PlausibleProvider> {
                   error,
                   stackTrace: stackTrace,
                   withScope: (s) {
-                    s.setTag('feature', 'plausible');
-                    s.setTag('action', 'startListeners');
+                    s
+                      ..setTag('feature', 'plausible')
+                      ..setTag('action', 'startListeners');
                   },
                 ),
               );

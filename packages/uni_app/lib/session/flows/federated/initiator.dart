@@ -29,8 +29,9 @@ class FederatedSessionInitiator extends SessionInitiator {
           error,
           stackTrace: st,
           withScope: (s) {
-            s.setTag('feature', 'federated_login');
-            s.setTag('action', 'openid_exception');
+            s
+              ..setTag('feature', 'federated_login')
+              ..setTag('action', 'openid_exception');
           },
         ),
       );
