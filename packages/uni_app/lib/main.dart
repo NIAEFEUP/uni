@@ -77,9 +77,6 @@ Future<void> main() async {
   // Initialize WorkManager for background tasks
   await Workmanager().initialize(workerStartCallback);
 
-  // NoSQL database initialization
-  await Database().init();
-
   // Read environment, which may include app tokens
   await dotenv.load(fileName: 'assets/env/.env', isOptional: true).onError((
     error,
@@ -122,8 +119,7 @@ Future<void> main() async {
   await SentryFlutter.init(
     (options) {
       options
-        ..dsn =
-            'https://a2661645df1c4992b24161010c5e0ecb@o553498.ingest.sentry.io/5680848'
+        ..dsn = 'https://a2661645df1c4992b24161010c5e0ecb@o553498.ingest.sentry.io/5680848'
         ..tracesSampleRate = 0.1
         ..sendDefaultPii = false
         ..environment = kReleaseMode ? 'production' : 'debug'
@@ -138,7 +134,10 @@ Future<void> main() async {
           return event;
         };
     },
-    appRunner: () {
+    appRunner: () async {
+      // NoSQL database initialization
+      await Database().init();
+
       runApp(
         ProviderScope(
           overrides: [
