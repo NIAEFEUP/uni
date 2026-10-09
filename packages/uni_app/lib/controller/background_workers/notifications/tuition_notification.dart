@@ -1,4 +1,3 @@
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/controller/fetchers/finances/current_account_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
@@ -7,12 +6,58 @@ import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/utils/duration_string_formatter.dart';
 
 class TuitionNotification extends Notification {
-  TuitionNotification()
-    : super('tuition-notification', const Duration(hours: 12));
+  TuitionNotification();
+
   late DateTime _dueDate;
 
   @override
-  Future<(String, String)> buildNotificationContent(Session session) async {
+  String get uniqueID => 'tuition-notification';
+
+  @override
+  String get prefsToggleKey => 'tuition_notification_toogle';
+
+  @override
+  bool get defaultEnabled => true;
+
+  @override
+  NotificationChannel get channel => const NotificationChannel(
+    androidId: 'propinas-notificacao',
+    androidName: 'propinas-notificacao',
+  );
+
+  @override
+  NotificationIdStrategy get idStrategy => const FixedNotificationId(2);
+
+  @override
+  NotificationTrigger get trigger =>
+      PollTrigger(throttle: const Duration(hours: 12), shouldFire: _shouldFire);
+
+  Future<bool> _shouldFire(Session session, DateTime now) async {
+    final notificationsAreDisabled =
+        !PreferencesController.getTuitionNotificationToggle();
+    if (notificationsAreDisabled) {
+      return false;
+    }
+    final feesFetcher = CurrentAccountFetcher();
+    DateTime? dueDate;
+    try {
+      dueDate = parseFeesNextLimit(
+        await feesFetcher.getUserFeesResponse(session),
+      );
+    } catch (_) {
+      return false;
+    }
+
+    if (dueDate == null) {
+      return false;
+    }
+
+    _dueDate = dueDate;
+    return now.difference(_dueDate).inDays >= -3;
+  }
+
+  @override
+  Future<(String, String)> buildContent(Session session) async {
     // We must add one day because the time limit is actually at 23:59 and
     // not at 00:00 of the same day
     if (_dueDate.add(const Duration(days: 1)).isBefore(DateTime.now())) {
@@ -44,62 +89,6 @@ class TuitionNotification extends Notification {
         'Falta {} para a data limite',
         'Faltam {} para a data limite',
       ),
-    );
-  }
-
-  @override
-  Future<bool> shouldDisplay(Session session) async {
-    final notificationsAreDisabled =
-        !PreferencesController.getTuitionNotificationToggle();
-    if (notificationsAreDisabled) {
-      return false;
-    }
-    final feesFetcher = CurrentAccountFetcher();
-    DateTime? dueDate;
-    try {
-      dueDate = parseFeesNextLimit(
-        await feesFetcher.getUserFeesResponse(session),
-      );
-    } catch (_) {
-      return false;
-    }
-
-    if (dueDate == null) {
-      return false;
-    }
-
-    _dueDate = dueDate;
-    return DateTime.now().difference(_dueDate).inDays >= -3;
-  }
-
-  @override
-  void displayNotification(
-    (String, String) content,
-    FlutterLocalNotificationsPlugin localNotificationsPlugin,
-  ) {
-    const androidNotificationDetails = AndroidNotificationDetails(
-      'propinas-notificacao',
-      'propinas-notificacao',
-      importance: Importance.high,
-    );
-
-    const darwinNotificationDetails = DarwinNotificationDetails(
-      presentAlert: true,
-      presentBadge: true,
-      interruptionLevel: InterruptionLevel.active,
-    );
-
-    const notificationDetails = NotificationDetails(
-      android: androidNotificationDetails,
-      iOS: darwinNotificationDetails,
-      macOS: darwinNotificationDetails,
-    );
-
-    localNotificationsPlugin.show(
-      id: 2,
-      title: content.$1,
-      body: content.$2,
-      notificationDetails: notificationDetails,
     );
   }
 }

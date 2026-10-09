@@ -74,6 +74,7 @@ dependencies:
   smooth_page_indicator: ^3.0.0
   synchronized: ^3.4.0
   timelines: ^0.1.0
+  timezone: ^0.11.1
   ua_client_hints: ^1.4.1
   uni_ui: ^1.0.0
   up_menus: ^1.0.1
