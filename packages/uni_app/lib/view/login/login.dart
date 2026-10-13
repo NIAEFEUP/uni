@@ -344,21 +344,22 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
                         child: FLoginButton(onPressed: _falogin),
                       ),
                     ),
-                  Align(
-                    alignment: const Alignment(0, 0.51),
-                    child: RememberMeCheckBox(
-                      keepSignedIn: _keepSignedIn,
-                      onToggle: () {
-                        setState(() {
-                          _keepSignedIn = !_keepSignedIn;
-                        });
-                      },
-                      padding: const EdgeInsets.symmetric(horizontal: 37),
-                      theme: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  if (!_loggingIn)
+                    Align(
+                      alignment: const Alignment(0, 0.51),
+                      child: RememberMeCheckBox(
+                        keepSignedIn: _keepSignedIn,
+                        onToggle: () {
+                          setState(() {
+                            _keepSignedIn = !_keepSignedIn;
+                          });
+                        },
+                        padding: const EdgeInsets.symmetric(horizontal: 37),
+                        theme: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                       ),
                     ),
-                  ),
                   Align(
                     alignment: const Alignment(0, 0.58),
                     child: Padding(
