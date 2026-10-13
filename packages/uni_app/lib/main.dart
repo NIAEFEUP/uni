@@ -18,6 +18,7 @@ import 'package:uni/controller/local_storage/migrations/migration_controller.dar
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
+import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/providers/mocks/mock_exam_provider.dart';
 import 'package:uni/model/providers/mocks/mock_lecture_provider.dart';
@@ -45,6 +46,7 @@ import 'package:uni/view/profile/profile.dart';
 import 'package:uni/view/profile_info/profile_info.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/splash/splash.dart';
+import 'package:uni/view/student/student_schedule_page.dart';
 import 'package:uni/view/widgets/page_transition.dart';
 import 'package:uni_ui/theme.dart';
 import 'package:upgrader/upgrader.dart';
@@ -198,6 +200,7 @@ class ApplicationState extends ConsumerState<Application> {
               final args = settings.arguments;
               final courseUnit = args is CourseUnit ? args : null;
               final professor = args is Professor ? args : null;
+              final student = args is CourseUnitStudent ? args : null;
               final transitionFunctions = <String, Route<dynamic> Function()>{
                 '/${NavigationItem.navSplash.route}': () =>
                     PageTransition.splashTransitionRoute(
@@ -280,6 +283,11 @@ class ApplicationState extends ConsumerState<Application> {
                 '/${NavigationItem.navProfessorSchedule.route}': () =>
                     PageTransition.makePageTransition(
                       page: ProfessorSchedulePageView(professor!),
+                      settings: settings,
+                    ),
+                '/${NavigationItem.navStudentSchedule.route}': () =>
+                    PageTransition.makePageTransition(
+                      page: StudentSchedulePageView(student!),
                       settings: settings,
                     ),
                 '/${NavigationItem.navCurrentAccount.route}': () =>
