@@ -255,8 +255,7 @@ class ScheduleCalendarView extends ConsumerWidget {
       acronym: lecture.acronym,
       typeClass: lecture.typeClass,
       room: lecture.room,
-      timeRange:
-          '${_formatTime(lecture.startTime)} - ${_formatTime(lecture.endTime)}',
+      duration: _formatDuration(lecture.endTime.difference(lecture.startTime)),
       teacherName: lecture.teacherName,
       isCurrent: isCurrent,
     );
@@ -270,5 +269,14 @@ class ScheduleCalendarView extends ConsumerWidget {
 
   String _formatTime(DateTime date) {
     return DateFormat.Hm().format(date);
+  }
+
+  String _formatDuration(Duration duration) {
+    final hours = duration.inHours;
+    final minutes = duration.inMinutes.remainder(60);
+
+    if (hours == 0) return '${minutes}m';
+    if (minutes == 0) return '${hours}h';
+    return '${hours}h ${minutes}m';
   }
 }

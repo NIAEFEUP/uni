@@ -9,7 +9,7 @@ class ScheduleCalendarTile extends StatelessWidget {
     required this.acronym,
     required this.typeClass,
     required this.room,
-    required this.timeRange,
+    required this.duration,
     required this.teacherName,
     this.isCurrent = false,
   });
@@ -17,7 +17,7 @@ class ScheduleCalendarTile extends StatelessWidget {
   final String acronym;
   final String typeClass;
   final String room;
-  final String timeRange;
+  final String duration;
   final String teacherName;
   final bool isCurrent;
 
@@ -85,18 +85,9 @@ class ScheduleCalendarTile extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          if (showBadge) const SizedBox(height: 1),
-                          if (showBadge)
-                            Badge(
-                              label: Text(typeClass),
-                              backgroundColor:
-                                  ScheduleCard.scheduleTypeColors[typeClass] ??
-                                  BadgeColors.t,
-                              textColor: Theme.of(context).colorScheme.primary,
-                            ),
                           if (showTime)
                             Text(
-                              timeRange,
+                              duration,
                               style: TextStyle(color: textColor, fontSize: 9),
                               textAlign: TextAlign.center,
                               maxLines: 1,
@@ -113,7 +104,22 @@ class ScheduleCalendarTile extends StatelessWidget {
                         ],
                       ),
                     ),
-                  if (showRoom) _buildLocationRow(room, textColor),
+                  if (showBadge || showRoom)
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (showBadge)
+                          Badge(
+                            label: Text(typeClass),
+                            backgroundColor:
+                                ScheduleCard.scheduleTypeColors[typeClass] ??
+                                BadgeColors.t,
+                            textColor: Theme.of(context).colorScheme.primary,
+                          ),
+                        if (showBadge && showRoom) const SizedBox(height: 1),
+                        if (showRoom) _buildLocationRow(room, textColor),
+                      ],
+                    ),
                 ],
               ),
             ),
