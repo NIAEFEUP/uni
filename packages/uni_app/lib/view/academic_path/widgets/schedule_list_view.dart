@@ -101,9 +101,7 @@ class ScheduleListView extends ConsumerWidget {
                 lectures: _lecturesOfDay(lectures, date),
                 showClassNumber: showClassNumber,
                 onLectureTap: (lecture) {
-                  final profile = ref.watch(
-                    profileProvider.select((value) => value.value),
-                  );
+                  final profile = ref.read(profileProvider).value;
 
                   if (profile != null) {
                     final ocorrenciasUnits = profile.courseUnits
