@@ -17,19 +17,29 @@ class LocationMarker extends Marker {
          width: 20,
          point: latlng,
          child: Builder(
-           builder: (context) => DecoratedBox(
-             decoration: BoxDecoration(
-               color: Theme.of(context).colorScheme.onSecondary,
-               border: Border.all(
-                 color: Theme.of(context).colorScheme.onSecondary,
+           builder: (context) {
+            final colorScheme = Theme.of(context).colorScheme;
+            final isDark = Theme.of(context).brightness == Brightness.dark;
+
+            final markerColor = isDark
+              ? Color.alphaBlend(
+                  Colors.white.withOpacity(0.35),
+                  colorScheme.onSecondary,
+                )
+              : colorScheme.onSecondary;
+
+            return DecoratedBox(
+               decoration: BoxDecoration(
+                 color: markerColor,
+                 border: Border.all(color: markerColor),
+                 borderRadius: const BorderRadius.all(Radius.circular(20)),
                ),
-               borderRadius: const BorderRadius.all(Radius.circular(20)),
-             ),
-             child: MarkerIcon(
-               location: locationGroup.getLocationForFloor(selectedFloor),
-               additionalCount: additionalCount,
-             ),
-           ),
+               child: MarkerIcon(
+                 location: locationGroup.getLocationForFloor(selectedFloor),
+                 additionalCount: additionalCount,
+               ),
+             );
+           },
          ),
        );
   final LocationGroup locationGroup;
@@ -69,12 +79,15 @@ class MarkerIcon extends StatelessWidget {
   }
 
   Widget _buildLocationIcon(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final opacity = isDark ? 0.6 : 0.3;
+
     if (location?.icon != null) {
       return UniIcon(
         location!.icon as UniIconData,
         color: Theme.of(context).colorScheme.secondary,
         size: 12,
-        opacity: 0.3,
+        opacity: opacity,
       );
     }
 
@@ -82,7 +95,7 @@ class MarkerIcon extends StatelessWidget {
       Icons.device_unknown,
       color: Theme.of(context).colorScheme.primary,
       size: 12,
-      opacity: 0.3,
+      opacity: opacity,
     );
   }
 }
