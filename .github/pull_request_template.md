@@ -21,4 +21,4 @@ Include steps to replicate the behavior and screenshots if UI is updated.
 
 - [ ] No helper functions to return widgets are added. New widgets are created instead.
 - [ ] Used ListView.builder for Long Lists.
-- [ ] Controllers (TextEditingController, ...) are beeing  disposed of in dispose() method.
+- [ ] Controllers (TextEditingController, ...) are being disposed of in dispose() method.

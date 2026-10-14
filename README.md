@@ -5,7 +5,7 @@
 <h3>uni, by NIAEFEUP</h3>
 
 [![Build badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/uni/format_lint_test.yaml?branch=develop)](https://github.com/NIAEFEUP/uni/actions)
-[![Deploy badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/uni/deploy.yaml?label=deploy&branch=develop)](https://github.com/NIAEFEUP/uni/actions)
+[![Deploy badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/uni/release.yaml?label=deploy&branch=develop)](https://github.com/NIAEFEUP/uni/actions)
 
 [![style: very good analysis](https://img.shields.io/badge/style-very_good_analysis-B22C89.svg)](https://pub.dev/packages/very_good_analysis)
 [![License badge](https://img.shields.io/github/license/NIAEFEUP/uni)](https://github.com/NIAEFEUP/uni/blob/develop/LICENSE)
