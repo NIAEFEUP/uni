@@ -18,17 +18,17 @@ class LocationMarker extends Marker {
          point: latlng,
          child: Builder(
            builder: (context) {
-            final colorScheme = Theme.of(context).colorScheme;
-            final isDark = Theme.of(context).brightness == Brightness.dark;
+             final colorScheme = Theme.of(context).colorScheme;
+             final isDark = Theme.of(context).brightness == Brightness.dark;
 
-            final markerColor = isDark
-              ? Color.alphaBlend(
-                  Colors.white.withOpacity(0.35),
-                  colorScheme.onSecondary,
-                )
-              : colorScheme.onSecondary;
+             final markerColor = isDark
+                 ? Color.alphaBlend(
+                     Colors.white.withOpacity(0.35),
+                     colorScheme.onSecondary,
+                   )
+                 : colorScheme.onSecondary;
 
-            return DecoratedBox(
+             return DecoratedBox(
                decoration: BoxDecoration(
                  color: markerColor,
                  border: Border.all(color: markerColor),
