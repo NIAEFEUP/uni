@@ -24,7 +24,14 @@ class ProfilePageView extends ConsumerStatefulWidget {
 class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
   @override
   Widget getBody(BuildContext context) {
+    // The bottom padding is removed from the MediaQuery further up the tree,
+    // so read the system navigation bar height from the view itself.
+    final bottomPadding = MediaQueryData.fromView(
+      View.of(context),
+    ).viewPadding.bottom;
+
     return ListView(
+      padding: EdgeInsets.only(bottom: bottomPadding),
       children: [
         DefaultConsumer<Profile>(
           provider: profileProvider,
