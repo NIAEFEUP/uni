@@ -5,6 +5,13 @@ import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni_ui/icons.dart';
 
+Color _darken(Color color, [double amount = 0.1]) {
+  final hsl = HSLColor.fromColor(color);
+  return hsl
+      .withLightness((hsl.lightness - amount).clamp(0.0, 1.0))
+      .toColor();
+}
+
 class LocationMarker extends Marker {
   LocationMarker(
     this.latlng,
@@ -22,11 +29,8 @@ class LocationMarker extends Marker {
             final isDark = Theme.of(context).brightness == Brightness.dark;
 
             final markerColor = isDark
-              ? Color.alphaBlend(
-                  Colors.white.withOpacity(0.35),
-                  colorScheme.onSecondary,
-                )
-              : colorScheme.onSecondary;
+                ? _darken(colorScheme.onSecondary, 0.2)
+                : colorScheme.onSecondary;
 
             return DecoratedBox(
                decoration: BoxDecoration(
@@ -80,7 +84,7 @@ class MarkerIcon extends StatelessWidget {
 
   Widget _buildLocationIcon(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final opacity = isDark ? 0.6 : 0.3;
+    final opacity = isDark ? 0.65 : 0.3;
 
     if (location?.icon != null) {
       return UniIcon(
