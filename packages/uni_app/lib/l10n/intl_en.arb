@@ -603,5 +603,12 @@
   "welcome_title": "Welcome to university!",
   "@welcome_title": {},
   "welcome_message": "The UNI team welcomes you and wishes you the best of luck on your course!",
-  "@welcome_message": {}
+  "@welcome_message": {},
+  "version_info": "You are using uni {version} ({build})",
+  "@version_info": {
+    "placeholders": {
+      "version": {},
+      "build": {}
+    }
+  }
 }
