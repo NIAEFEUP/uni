@@ -19,9 +19,9 @@ class LocationMarker extends Marker {
          point: latlng,
          child: Builder(
            builder: (context) {
-            final markerColor = lightTheme.colorScheme.onSecondary;
+             final markerColor = lightTheme.colorScheme.onSecondary;
 
-            return DecoratedBox(
+             return DecoratedBox(
                decoration: BoxDecoration(
                  color: markerColor,
                  border: Border.all(color: markerColor),
@@ -80,7 +80,6 @@ class MarkerIcon extends StatelessWidget {
         color: lightTheme.colorScheme.secondary,
         size: 12,
         opacity: opacity,
-        opacity: opacity,
       );
     }
 
@@ -88,7 +87,6 @@ class MarkerIcon extends StatelessWidget {
       Icons.device_unknown,
       color: lightTheme.colorScheme.primary,
       size: 12,
-      opacity: opacity,
       opacity: opacity,
     );
   }
