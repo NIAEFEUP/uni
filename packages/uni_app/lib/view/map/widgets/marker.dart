@@ -4,13 +4,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni_ui/icons.dart';
-
-Color _darken(Color color, [double amount = 0.1]) {
-  final hsl = HSLColor.fromColor(color);
-  return hsl
-      .withLightness((hsl.lightness - amount).clamp(0.0, 1.0))
-      .toColor();
-}
+import 'package:uni_ui/theme.dart' show lightTheme;
 
 class LocationMarker extends Marker {
   LocationMarker(
@@ -25,12 +19,7 @@ class LocationMarker extends Marker {
          point: latlng,
          child: Builder(
            builder: (context) {
-            final colorScheme = Theme.of(context).colorScheme;
-            final isDark = Theme.of(context).brightness == Brightness.dark;
-
-            final markerColor = isDark
-                ? _darken(colorScheme.onSecondary, 0.2)
-                : colorScheme.onSecondary;
+            final markerColor = lightTheme.colorScheme.onSecondary;
 
             return DecoratedBox(
                decoration: BoxDecoration(
@@ -83,13 +72,12 @@ class MarkerIcon extends StatelessWidget {
   }
 
   Widget _buildLocationIcon(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final opacity = isDark ? 0.65 : 0.3;
+    const opacity = 0.3;
 
     if (location?.icon != null) {
       return UniIcon(
         location!.icon as UniIconData,
-        color: Theme.of(context).colorScheme.secondary,
+        color: lightTheme.colorScheme.secondary,
         size: 12,
         opacity: opacity,
       );
@@ -97,7 +85,7 @@ class MarkerIcon extends StatelessWidget {
 
     return UniIcon(
       Icons.device_unknown,
-      color: Theme.of(context).colorScheme.primary,
+      color: lightTheme.colorScheme.primary,
       size: 12,
       opacity: opacity,
     );

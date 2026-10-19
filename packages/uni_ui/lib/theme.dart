@@ -141,7 +141,7 @@ final TextTheme _darkTextTheme = const TextTheme(
   ),
 
   bodyLarge: TextStyle(
-    fontSize: 12,
+    fontSize: 12, 
     fontWeight: FontWeight.w500,
     color: _darkTextColor,
   ),
