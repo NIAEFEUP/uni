@@ -80,6 +80,7 @@ class MarkerIcon extends StatelessWidget {
         color: lightTheme.colorScheme.secondary,
         size: 12,
         opacity: opacity,
+        opacity: opacity,
       );
     }
 
@@ -87,6 +88,7 @@ class MarkerIcon extends StatelessWidget {
       Icons.device_unknown,
       color: lightTheme.colorScheme.primary,
       size: 12,
+      opacity: opacity,
       opacity: opacity,
     );
   }
