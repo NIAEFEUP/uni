@@ -9,10 +9,6 @@ class LiveStatusLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (openingHours.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
     final status = ServiceStatus.getLiveStatus(openingHours);
     if (status == null) {
       return const SizedBox.shrink();

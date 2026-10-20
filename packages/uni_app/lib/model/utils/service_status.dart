@@ -1,43 +1,40 @@
-import 'package:flutter/material.dart';
-
 class ServiceStatus {
   ServiceStatus._();
+
   static ({bool isOpen, String timeString})? getLiveStatus(
-    List<String> openingHours,
-  ) {
+    List<String> openingHours, {
+    DateTime? now,
+  }) {
     if (openingHours.isEmpty) {
       return null;
     }
 
-    final now = TimeOfDay.now();
+    now ??= DateTime.now();
     final nowMinutes = now.hour * 60 + now.minute;
+    final isWeekend =
+        now.weekday == DateTime.saturday || now.weekday == DateTime.sunday;
 
-    for (var i = 0; i < openingHours.length; i++) {
-      final hours = openingHours[i];
-      final parts = hours.split(' - ');
-      if (parts.length != 2) {
-        continue;
-      }
+    if (!isWeekend) {
+      for (final hours in openingHours) {
+        final parts = hours.split(' - ');
+        if (parts.length != 2) {
+          continue;
+        }
 
-      final openTimeStr = parts[0].replaceAll('h', '').trim();
-      final closeTimeStr = parts[1].replaceAll('h', '').trim();
+        final openMinutes = _toMinutes(parts[0]);
+        final closeMinutes = _toMinutes(parts[1]);
 
-      final openTime = _parseTime(openTimeStr);
-      final closeTime = _parseTime(closeTimeStr);
+        if (nowMinutes >= openMinutes && nowMinutes < closeMinutes) {
+          return (isOpen: true, timeString: parts[1].trim());
+        }
 
-      final openMinutes = openTime.hour * 60 + openTime.minute;
-      final closeMinutes = closeTime.hour * 60 + closeTime.minute;
-
-      if (nowMinutes >= openMinutes && nowMinutes < closeMinutes) {
-        return (isOpen: true, timeString: parts[1].trim());
-      }
-
-      if (nowMinutes < openMinutes) {
-        return (isOpen: false, timeString: parts[0].trim());
+        if (nowMinutes < openMinutes) {
+          return (isOpen: false, timeString: parts[0].trim());
+        }
       }
     }
 
-    // service opens at the first interval next day
+    // service opens at the first interval of the next working day
     final firstParts = openingHours[0].split(' - ');
     if (firstParts.length == 2) {
       return (isOpen: false, timeString: firstParts[0].trim());
@@ -46,14 +43,11 @@ class ServiceStatus {
     return null;
   }
 
-  static TimeOfDay _parseTime(String timeStr) {
-    final parts = timeStr.split(':');
-    if (parts.length == 2) {
-      return TimeOfDay(
-        hour: int.tryParse(parts[0]) ?? 0,
-        minute: int.tryParse(parts[1]) ?? 0,
-      );
+  static int _toMinutes(String time) {
+    final parts = time.replaceAll('h', '').trim().split(':');
+    if (parts.length != 2) {
+      return 0;
     }
-    return const TimeOfDay(hour: 0, minute: 0);
+    return (int.tryParse(parts[0]) ?? 0) * 60 + (int.tryParse(parts[1]) ?? 0);
   }
 }
