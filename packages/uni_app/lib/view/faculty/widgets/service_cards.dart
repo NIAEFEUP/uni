@@ -118,36 +118,21 @@ class AllServiceCardsState extends State<AllServiceCards> {
           ],
         ),
         const SizedBox(height: 7),
-        if (isGrid)
-          Column(
-            children: [
-              for (var i = 0; i < services.length; i += 2) ...[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(child: services[i]),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: i + 1 < services.length
-                          ? services[i + 1]
-                          : const SizedBox(),
-                    ),
-                  ],
-                ),
-                if (i + 1 < services.length - 1) const SizedBox(height: 8),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final cardWidth = isGrid
+                ? (constraints.maxWidth - 8) / 2
+                : constraints.maxWidth;
+            return Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final service in services)
+                  SizedBox(width: cardWidth, child: service),
               ],
-            ],
-          )
-        else
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              for (var i = 0; i < services.length; i++) ...[
-                services[i],
-                if (i < services.length - 1) const SizedBox(height: 8),
-              ],
-            ],
-          ),
+            );
+          },
+        ),
         const SizedBox(height: 120),
       ],
     );

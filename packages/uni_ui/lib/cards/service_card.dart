@@ -17,6 +17,8 @@ class ServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final titleStyle = Theme.of(context).textTheme.titleLarge;
+
     return GenericCard(
       margin: EdgeInsets.zero,
       shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
@@ -35,15 +37,13 @@ class ServiceCard extends StatelessWidget {
                 width: double.infinity,
                 child: Text(
                   ' \n ', // reserve 2 lines of space for the title
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleLarge?.copyWith(color: Colors.transparent),
+                  style: titleStyle?.copyWith(color: Colors.transparent),
                 ),
               ),
               Text(
                 name,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleLarge,
+                style: titleStyle,
                 maxLines: 2,
               ),
             ],
