@@ -24,17 +24,13 @@ class ServicesCard extends StatelessWidget {
   final String? email;
   final String? location;
 
-  void onClick(BuildContext context) {
-    popUp(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     return ServiceCard(
       name: name,
       statusWidget: LiveStatusLabel(openingHours: openingHours),
       tooltip: '',
-      function: onClick,
+      function: popUp,
     );
   }
 

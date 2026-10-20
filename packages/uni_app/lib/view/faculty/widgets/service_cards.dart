@@ -20,17 +20,10 @@ class AllServiceCardsState extends State<AllServiceCards> {
     isGrid = PreferencesController.getServiceCardsIsGrid();
   }
 
-  void changeCardsToGrid() {
+  void setGrid({required bool value}) {
     setState(() {
-      PreferencesController.setServiceCardsIsGrid(true);
-      isGrid = true;
-    });
-  }
-
-  void changeCardsToList() {
-    setState(() {
-      PreferencesController.setServiceCardsIsGrid(false);
-      isGrid = false;
+      PreferencesController.setServiceCardsIsGrid(value);
+      isGrid = value;
     });
   }
 
@@ -102,14 +95,14 @@ class AllServiceCardsState extends State<AllServiceCards> {
             ),
             const Spacer(),
             IconButton(
-              onPressed: changeCardsToList,
+              onPressed: () => setGrid(value: false),
               icon: UniIcon(
                 UniIcons.list,
                 color: Theme.of(context).colorScheme.onSecondary,
               ),
             ),
             IconButton(
-              onPressed: changeCardsToGrid,
+              onPressed: () => setGrid(value: true),
               icon: UniIcon(
                 UniIcons.grid,
                 color: Theme.of(context).colorScheme.onSecondary,
@@ -133,7 +126,6 @@ class AllServiceCardsState extends State<AllServiceCards> {
             );
           },
         ),
-        const SizedBox(height: 120),
       ],
     );
   }

@@ -23,11 +23,9 @@ class ServiceCard extends StatelessWidget {
       margin: EdgeInsets.zero,
       shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
       blurRadius: 2,
-      key: key,
       tooltip: tooltip,
       onClick: () => function?.call(context),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 6),
