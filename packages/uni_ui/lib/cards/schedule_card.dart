@@ -145,50 +145,30 @@ class ScheduleCard extends StatelessWidget {
           ),
           Column(
             children: [
-<<<<<<< HEAD
-              PhosphorIcon(
-                PhosphorIconsDuotone.mapPin,
-                color: isActive
-                    ? Theme.of(context).colorScheme.onSurfaceVariant
-                    : Theme.of(context).colorScheme.onSecondary,
-                size: 35,
-              ),
-              Text(
-                room,
-                overflow: TextOverflow.ellipsis,
-                style: isActive
-                    ? Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      )
-                    : Theme.of(context).textTheme.bodyMedium,
-=======
-              InkWell(
-                onTap: onRoomTap,
-                borderRadius: BorderRadius.circular(8),
-                child: Column(
-                  children: [
-                    PhosphorIcon(
-                      PhosphorIcons.mapPin(PhosphorIconsStyle.duotone),
-                      color: isActive
-                          ? Theme.of(context).colorScheme.onSurfaceVariant
-                          : Theme.of(context).colorScheme.onSecondary,
-                      size: 35,
-                    ),
-                    Text(
-                      room,
-                      overflow: TextOverflow.ellipsis,
-                      style: isActive
-                          ? Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onSurfaceVariant,
-                            )
-                          : Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ],
+            
+                                  GestureDetector(
+            onTap: onRoomTap,
+            child: Column(
+              children: [
+                PhosphorIcon(
+                  PhosphorIconsDuotone.mapPin,
+                  color: isActive
+                      ? Theme.of(context).colorScheme.onSurfaceVariant
+                      : Theme.of(context).colorScheme.onSecondary,
+                  size: 35,
                 ),
->>>>>>> 667673e2 (added link to room)
-              ),
+                Text(
+                  room,
+                  overflow: TextOverflow.ellipsis,
+                  style: isActive
+                      ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )
+                      : Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],
+            ),
+          ),
             ],
           ),
         ],
