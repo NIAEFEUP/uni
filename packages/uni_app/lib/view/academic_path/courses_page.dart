@@ -61,9 +61,7 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
     }
 
     final state = course.state!;
-    final bool isAttending =
-        state.toLowerCase().contains('frequent') ||
-        state.toLowerCase().contains('attend');
+    final bool isAttending = course.isAttending;
     final bool isConcluded = state.toLowerCase().contains('concl');
 
     if (!isAttending && !isConcluded) {
@@ -84,8 +82,7 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
     }
 
     final state = course.state!;
-    if (state.toLowerCase().contains('frequent') ||
-        state.toLowerCase().contains('attend')) {
+    if (course.isAttending) {
       return null;
     }
 
