@@ -5,6 +5,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/profile/widgets/locale_switch_button.dart';
 import 'package:uni/view/profile/widgets/notifications_dialog.dart';
+import 'package:uni/view/profile/widgets/test_notification_debug_button.dart';
 import 'package:uni/view/profile/widgets/theme_switch_button.dart';
 import 'package:uni/view/profile/widgets/usage_stats_switch.dart';
 import 'package:uni_ui/cards/generic_card.dart';
@@ -55,6 +56,7 @@ class Settings extends StatelessWidget {
                     );
                   },
                 ),
+                const TestNotificationDebugButton(),
               ],
             ),
           ),
