@@ -12,6 +12,7 @@ import 'package:uni/view/bug_report/widgets/text_field.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/widgets/toast_message.dart';
 import 'package:uni_ui/cards/generic_card.dart';
+import 'package:uni_ui/cards/link_card.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -252,61 +253,17 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
                   ),
                 ),
               ),
-              GenericCard(
+              LinkCard(
+                icon: UniIcons.github,
+                title: S.of(context).feedback_github_title_section,
+                subtitle: 'github.com/NIAEFEUP/uni',
                 tooltip: S.of(context).feedback_github_title_section,
-                margin: EdgeInsets.zero,
-                child: InkWell(
-                  onTap: () async {
-                    final uri = Uri.parse('https://github.com/NIAEFEUP/uni');
-                    if (await canLaunchUrl(uri)) {
-                      await launchUrl(
-                        uri,
-                        mode: LaunchMode.externalApplication,
-                      );
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    child: Row(
-                      children: [
-                        UniIcon(
-                          UniIcons.github,
-                          size: 30,
-                          color: Theme.of(context).colorScheme.onSecondary,
-                        ),
-                        const SizedBox(width: 25),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                S.of(context).feedback_github_title_section,
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                              Text(
-                                'github.com/NIAEFEUP/uni',
-                                style: Theme.of(context).textTheme.bodyMedium
-                                    ?.copyWith(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onSecondary,
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Icon(
-                          Icons.open_in_new,
-                          size: 25,
-                          color: Theme.of(context).colorScheme.onSecondary,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                onTap: () async {
+                  final uri = Uri.parse('https://github.com/NIAEFEUP/uni');
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri, mode: LaunchMode.externalApplication);
+                  }
+                },
               ),
               SizedBox(
                 width: double.infinity,
