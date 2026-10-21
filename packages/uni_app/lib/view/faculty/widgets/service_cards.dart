@@ -20,24 +20,15 @@ class AllServiceCardsState extends State<AllServiceCards> {
     isGrid = PreferencesController.getServiceCardsIsGrid();
   }
 
-  void changeCardsToGrid() {
+  void setGrid({required bool value}) {
     setState(() {
-      PreferencesController.setServiceCardsIsGrid(true);
-      isGrid = true;
-    });
-  }
-
-  void changeCardsToList() {
-    setState(() {
-      PreferencesController.setServiceCardsIsGrid(false);
-      isGrid = false;
+      PreferencesController.setServiceCardsIsGrid(value);
+      isGrid = value;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
     final services = <Widget>[
       ServicesCard(
         name: S.of(context).library,
@@ -104,14 +95,14 @@ class AllServiceCardsState extends State<AllServiceCards> {
             ),
             const Spacer(),
             IconButton(
-              onPressed: changeCardsToList,
+              onPressed: () => setGrid(value: false),
               icon: UniIcon(
                 UniIcons.list,
                 color: Theme.of(context).colorScheme.onSecondary,
               ),
             ),
             IconButton(
-              onPressed: changeCardsToGrid,
+              onPressed: () => setGrid(value: true),
               icon: UniIcon(
                 UniIcons.grid,
                 color: Theme.of(context).colorScheme.onSecondary,
@@ -120,17 +111,20 @@ class AllServiceCardsState extends State<AllServiceCards> {
           ],
         ),
         const SizedBox(height: 7),
-        GridView.count(
-          crossAxisCount: isGrid ? 2 : 1,
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          childAspectRatio: isGrid
-              ? (width - 40) / (width * 3.25) * 5
-              : (width - 32) / width * 3.25,
-          // Calculate aspect ratio, to avoid inconsistencies between grid and list view
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 8,
-          children: services,
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final cardWidth = isGrid
+                ? (constraints.maxWidth - 8) / 2
+                : constraints.maxWidth;
+            return Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final service in services)
+                  SizedBox(width: cardWidth, child: service),
+              ],
+            );
+          },
         ),
       ],
     );
