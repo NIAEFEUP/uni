@@ -460,6 +460,10 @@
   "@services": {},
   "goi": "Psychology and Guidance Service",
   "@goi": {},
+  "list_view": "List",
+  "@list_view": {},
+  "calendar_view": "Calendar",
+  "@calendar_view": {},
   "map": "Map",
   "@map": {},
   "exams_intro_message": "Stay always updated with your exams",
@@ -603,5 +607,7 @@
   "welcome_title": "Welcome to university!",
   "@welcome_title": {},
   "welcome_message": "The UNI team welcomes you and wishes you the best of luck on your course!",
-  "@welcome_message": {}
+  "@welcome_message": {},
+  "type": "Type",
+  "@type": {}
 }

@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -10,7 +11,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
 
 class S {
   S();
@@ -1911,6 +1912,16 @@ class S {
     );
   }
 
+  /// `List`
+  String get list_view {
+    return Intl.message('List', name: 'list_view', desc: '', args: []);
+  }
+
+  /// `Calendar`
+  String get calendar_view {
+    return Intl.message('Calendar', name: 'calendar_view', desc: '', args: []);
+  }
+
   /// `Map`
   String get map {
     return Intl.message('Map', name: 'map', desc: '', args: []);
@@ -2514,6 +2525,11 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Type`
+  String get type {
+    return Intl.message('Type', name: 'type', desc: '', args: []);
   }
 }
 
