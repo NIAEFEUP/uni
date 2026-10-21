@@ -46,7 +46,10 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
         _lastUpdateTime!,
       );
     }
+    onStateChanged(newState);
   }
+
+  void onStateChanged(T? newState) {}
 
   void _updateError(Object error, [StackTrace? stackTrace]) {
     if (!ref.mounted) {

@@ -19,4 +19,32 @@
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
+
+    <!-- Widget Preview Styles -->
+    <style name="Theme.Widget.Preview" parent="">
+        <item name="lectureTime"></item>
+        <item name="lectureAcronym"></item>
+        <item name="lectureSubject"></item>
+        <item name="lectureTypeClass"></item>
+        <item name="lectureRoom"></item>
+        <item name="lectureBadgeColor">@color/widget_badge_tp</item>
+    </style>
+
+    <style name="Theme.Widget.Preview.Lecture1">
+        <item name="lectureTime">08:30</item>
+        <item name="lectureAcronym">C</item>
+        <item name="lectureSubject">Compiladores</item>
+        <item name="lectureTypeClass">TP</item>
+        <item name="lectureRoom">B310</item>
+        <item name="lectureBadgeColor">@color/widget_badge_tp</item>
+    </style>
+
+    <style name="Theme.Widget.Preview.Lecture2">
+        <item name="lectureTime">10:30</item>
+        <item name="lectureAcronym">IA</item>
+        <item name="lectureSubject">Inteligencia Artificial</item>
+        <item name="lectureTypeClass">T</item>
+        <item name="lectureRoom">B301</item>
+        <item name="lectureBadgeColor">@color/widget_badge_t</item>
+    </style>
 </resources>
