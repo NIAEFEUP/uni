@@ -5,8 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
-import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/utils/date_time_formatter.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/utils/string_formatter.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -84,33 +84,60 @@ class ExamModal extends ConsumerWidget {
           },
         ),
         ModalInfoRow(
-  title: S.of(context).room,
-  icon: UniIcons.mapPin,
-  descriptionWidget: Wrap(
-    spacing: 6,
-    children: [
-      for (final (index, room) in exam.rooms.indexed)
-        GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(
-              context,
-              '/${NavigationItem.navMap.route}',
-              arguments: room,
+          title: S.of(context).view_course_details,
+          icon: UniIcons.courseUnit,
+          trailing: UniIcon(
+            UniIcons.caretRight,
+            color: Theme.of(context).colorScheme.onSecondary,
+          ),
+          onPressed: () {
+            final profile = ref.watch(
+              profileProvider.select((value) => value.value),
             );
+
+            if (profile != null) {
+              final courseUnit = profile.courseUnits.firstWhereOrNull(
+                (unit) => unit.abbreviation == exam.subjectAcronym,
+              );
+              if (courseUnit != null && courseUnit.occurrId != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<CourseUnitDetailPageView>(
+                    builder: (context) => CourseUnitDetailPageView(courseUnit),
+                  ),
+                );
+              }
+            }
           },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Text(
-              index < exam.rooms.length - 1 ? '$room,' : room,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
+        ),
+        ModalInfoRow(
+          title: S.of(context).room,
+          icon: UniIcons.mapPin,
+          descriptionWidget: Wrap(
+            spacing: 6,
+            children: [
+              for (final (index, room) in exam.rooms.indexed)
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(
+                      context,
+                      '/${NavigationItem.navMap.route}',
+                      arguments: room,
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Text(
+                      index < exam.rooms.length - 1 ? '$room,' : room,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                ),
+            ],
           ),
         ),
-    ],
-  ),
-),
       ],
     );
   }
