@@ -6,11 +6,11 @@ class ModalInfoRow extends StatelessWidget {
     super.key,
     required this.title,
     this.description,
-    this.descriptionWidget,   // novo
+    this.descriptionWidget, // novo
     required this.icon,
     this.trailing = const SizedBox(),
     this.onPressed,
-});
+  });
 
   final String title;
   final String? description;
@@ -42,10 +42,14 @@ class ModalInfoRow extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        subtitle: descriptionWidget ??
-    (description != null
-        ? Text(description!, style: Theme.of(context).textTheme.bodyMedium)
-        : null),
+        subtitle:
+            descriptionWidget ??
+            (description != null
+                ? Text(
+                    description!,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  )
+                : null),
         trailing: trailing,
         onTap: onPressed,
       ),

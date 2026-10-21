@@ -145,30 +145,31 @@ class ScheduleCard extends StatelessWidget {
           ),
           Column(
             children: [
-            
-                                  GestureDetector(
-            onTap: onRoomTap,
-            child: Column(
-              children: [
-                PhosphorIcon(
-                  PhosphorIconsDuotone.mapPin,
-                  color: isActive
-                      ? Theme.of(context).colorScheme.onSurfaceVariant
-                      : Theme.of(context).colorScheme.onSecondary,
-                  size: 35,
+              GestureDetector(
+                onTap: onRoomTap,
+                child: Column(
+                  children: [
+                    PhosphorIcon(
+                      PhosphorIconsDuotone.mapPin,
+                      color: isActive
+                          ? Theme.of(context).colorScheme.onSurfaceVariant
+                          : Theme.of(context).colorScheme.onSecondary,
+                      size: 35,
+                    ),
+                    Text(
+                      room,
+                      overflow: TextOverflow.ellipsis,
+                      style: isActive
+                          ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurfaceVariant,
+                            )
+                          : Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ],
                 ),
-                Text(
-                  room,
-                  overflow: TextOverflow.ellipsis,
-                  style: isActive
-                      ? Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        )
-                      : Theme.of(context).textTheme.bodyMedium,
-                ),
-              ],
-            ),
-          ),
+              ),
             ],
           ),
         ],
