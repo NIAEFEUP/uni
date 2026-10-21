@@ -108,7 +108,7 @@ adb forward tcp:8090 tcp:8090
 
 The project follows formatting rules and so, you must commit formatted files.
 You can manually format files using `dart format` or by enabling _formatting on save_ using your IDE ([VSCode or IntelliJ](https://docs.flutter.dev/tools/formatting)).
-Alternatively, you can install the git pre-commit hook that formats your changed files when you make a commit.
+Alternatively, you can install the git pre-commit hook that applies `dart fix`, formats your changed files, and runs `flutter analyze` (blocking the commit on errors) when you make a commit.
 Install the hook by writing the following command at the **root directory of the repository**:
 
 ``` bash
