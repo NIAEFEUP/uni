@@ -2486,6 +2486,66 @@ class S {
     return Intl.message('Stores', name: 'stores', desc: '', args: []);
   }
 
+  /// `Statistics`
+  String get statistics {
+    return Intl.message('Statistics', name: 'statistics', desc: '', args: []);
+  }
+
+  /// `Statistics {year}`
+  String statistics_year(Object year) {
+    return Intl.message(
+      'Statistics $year',
+      name: 'statistics_year',
+      desc: '',
+      args: [year],
+    );
+  }
+
+  /// `Distribution of passed, failed, and not evaluated students`
+  String get statistics_distribution_description {
+    return Intl.message(
+      'Distribution of passed, failed, and not evaluated students',
+      name: 'statistics_distribution_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No statistics were found for this year or the previous year.`
+  String get statistics_not_found {
+    return Intl.message(
+      'No statistics were found for this year or the previous year.',
+      name: 'statistics_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Approved`
+  String get approved {
+    return Intl.message('Approved', name: 'approved', desc: '', args: []);
+  }
+
+  /// `Failed`
+  String get failed {
+    return Intl.message('Failed', name: 'failed', desc: '', args: []);
+  }
+
+  /// `Not evaluated`
+  String get not_evaluated {
+    return Intl.message(
+      'Not evaluated',
+      name: 'not_evaluated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Enrolled`
+  String get enrolled {
+    return Intl.message('Total Enrolled', name: 'enrolled', desc: '', args: []);
+  }
+
   /// `Want to see how the app is built? Check out our GitHub`
   String get feedback_github_title_section {
     return Intl.message(
