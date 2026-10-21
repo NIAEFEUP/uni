@@ -24,7 +24,17 @@ class FederatedSessionInitiator extends SessionInitiator {
     required AuthenticationException onError,
   }) {
     T reportExceptionAndFail<E extends Object>(E error, StackTrace st) {
-      unawaited(Sentry.captureException(error, stackTrace: st));
+      unawaited(
+        Sentry.captureException(
+          error,
+          stackTrace: st,
+          withScope: (s) {
+            s
+              ..setTag('feature', 'federated_login')
+              ..setTag('action', 'openid_exception');
+          },
+        ),
+      );
       throw onError;
     }
 

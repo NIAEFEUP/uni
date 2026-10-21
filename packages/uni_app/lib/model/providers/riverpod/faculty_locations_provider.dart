@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/fetchers/campus/locations/location_fetcher_asset.dart';
 import 'package:uni/controller/fetchers/campus/locations/location_fetcher_osm.dart';
 import 'package:uni/model/entities/faculty_config.dart';
@@ -44,7 +47,18 @@ class FacultyLocationsNotifier
       if (osmData.isNotEmpty) {
         return osmData;
       }
-    } catch (err) {
+    } catch (err, st) {
+      unawaited(
+        Sentry.captureException(
+          err,
+          stackTrace: st,
+          withScope: (s) {
+            s
+              ..setTag('feature', 'faculty_locations_provider')
+              ..setTag('action', 'fetch_osm');
+          },
+        ),
+      );
       // not fetching from cache yet, ignore error and fall back to asset.
     }
     return LocationFetcherAsset(_faculty).getLocations();
@@ -71,7 +85,18 @@ class IndoorFloorPlansNotifier
   Future<List<IndoorFloorPlan>> loadFromRemote() async {
     try {
       return await ref.read(_osmFetcherProvider).getIndoorFloorPlans();
-    } catch (err) {
+    } catch (err, st) {
+      unawaited(
+        Sentry.captureException(
+          err,
+          stackTrace: st,
+          withScope: (s) {
+            s
+              ..setTag('feature', 'indoor_floor_plans_provider')
+              ..setTag('action', 'fetch_osm');
+          },
+        ),
+      );
       return loadFromStorage();
     }
   }

@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 class NotificationTimeoutStorage {
   NotificationTimeoutStorage._create();
@@ -21,7 +23,18 @@ class NotificationTimeoutStorage {
   Map<String, dynamic> _readContentsFile(File file) {
     try {
       return jsonDecode(file.readAsStringSync()) as Map<String, dynamic>;
-    } on FormatException catch (_) {
+    } on FormatException catch (err, st) {
+      unawaited(
+        Sentry.captureException(
+          err,
+          stackTrace: st,
+          withScope: (s) {
+            s
+              ..setTag('feature', 'local_storage')
+              ..setTag('action', 'decode_notification_timeout');
+          },
+        ),
+      );
       return <String, dynamic>{};
     }
   }
