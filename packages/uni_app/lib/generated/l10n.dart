@@ -2515,6 +2515,16 @@ class S {
       args: [],
     );
   }
+
+  /// `You are using uni {version} ({build})`
+  String version_info(Object version, Object build) {
+    return Intl.message(
+      'You are using uni $version ($build)',
+      name: 'version_info',
+      desc: '',
+      args: [version, build],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
