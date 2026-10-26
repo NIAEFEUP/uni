@@ -2,9 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
@@ -47,6 +49,19 @@ class StudentInfoModal extends ConsumerWidget {
                   ),
                 ),
               ),
+            ModalInfoRow(
+              title: S.of(context).schedule,
+              icon: UniIcons.lecture,
+              trailing: UniIcon(
+                UniIcons.caretRight,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
+              onPressed: () => Navigator.pushNamed(
+                context,
+                '/${NavigationItem.navStudentSchedule.route}',
+                arguments: student,
+              ),
+            ),
           ],
         ),
       ],
