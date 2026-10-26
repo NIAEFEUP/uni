@@ -28,7 +28,7 @@ class LectureNotifier extends CachedAsyncNotifier<List<Lecture>> {
       return null;
     }
 
-    final lectures = (await _getLectures(session)).toSet().toList();
+    final lectures = (await _getLectures(session, null)).toSet().toList();
 
     try {
       await Database().saveLectures(lectures);
@@ -44,7 +44,9 @@ class LectureNotifier extends CachedAsyncNotifier<List<Lecture>> {
   }
 
   // TODO: delete fallback fetcher code.
-  Future<List<Lecture>> _getLectures(Session session) {
-    return ScheduleFetcherNewApi().getLectures(session);
+  Future<List<Lecture>> _getLectures(Session session, String? studentNumber) {
+    return ScheduleFetcherNewApiStudent(
+      studentNumber: studentNumber ?? session.username,
+    ).getLectures(session);
   }
 }

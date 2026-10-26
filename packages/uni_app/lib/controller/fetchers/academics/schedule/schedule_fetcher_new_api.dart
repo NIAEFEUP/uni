@@ -52,13 +52,16 @@ abstract class ScheduleFetcherNewApiBase extends ScheduleFetcher {
 }
 
 /// Class for fetching student lectures from the schedule's HTML page.
-class ScheduleFetcherNewApi extends ScheduleFetcherNewApiBase {
+class ScheduleFetcherNewApiStudent extends ScheduleFetcherNewApiBase {
+  ScheduleFetcherNewApiStudent({required this.studentNumber});
+  final String studentNumber;
+
   @override
   String getEndpointView() => 'estudantes_view';
 
   @override
   Map<String, String> getQueryParams(Session session) => {
-    'pv_num_unico': session.username,
+    'pv_num_unico': studentNumber,
   };
 }
 
@@ -73,19 +76,5 @@ class ScheduleFetcherNewApiProfessor extends ScheduleFetcherNewApiBase {
   @override
   Map<String, String> getQueryParams(Session session) => {
     'pv_doc_codigo': professorCode,
-  };
-}
-
-/// Class for fetching student lectures from the schedule's HTML page.
-class ScheduleFetcherNewApiStudent extends ScheduleFetcherNewApiBase {
-  ScheduleFetcherNewApiStudent({required this.studentNumber});
-  final String studentNumber;
-
-  @override
-  String getEndpointView() => 'estudantes_view';
-
-  @override
-  Map<String, String> getQueryParams(Session session) => {
-    'pv_num_unico': studentNumber,
   };
 }
