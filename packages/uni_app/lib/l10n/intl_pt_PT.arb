@@ -606,7 +606,7 @@
   "@welcome_title": {},
   "welcome_message": "A equipa da UNI dá-te as boas-vindas e deseja-te muita sorte no curso!",
   "@welcome_message": {},
-  "hide_sensitive_data": "Ocultar dados sensíveis",
+  "hide_sensitive_data": "Ocultar média e ECTS",
   "@hide_sensitive_data": {},
   "hidden_value": "Oculto",
   "@hidden_value": {},

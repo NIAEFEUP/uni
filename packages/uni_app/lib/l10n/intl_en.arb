@@ -604,7 +604,7 @@
   "@welcome_title": {},
   "welcome_message": "The UNI team welcomes you and wishes you the best of luck on your course!",
   "@welcome_message": {},
-  "hide_sensitive_data": "Hide sensitive data",
+  "hide_sensitive_data": "Hide average and ECTS",
   "@hide_sensitive_data": {},
   "hidden_value": "Hidden",
   "@hidden_value": {},
