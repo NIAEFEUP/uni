@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni_ui/icons.dart';
 
@@ -22,8 +23,13 @@ class RoomGroupLocation implements Location {
   final int? locationGroupId;
 
   @override
-  String description() {
+  String description(BuildContext context) {
     return '''$firstRoomNumber -> $secondRoomNumber''';
+  }
+
+  @override
+  String dedupKey() {
+    return 'room_group|$floor|${firstRoomNumber.trim().toLowerCase()}|${secondRoomNumber.trim().toLowerCase()}';
   }
 
   @override

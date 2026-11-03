@@ -29,15 +29,22 @@ class Professor {
     required this.code,
     required this.name,
     required this.classes,
+    this.institutionalEmail,
+    this.rooms = const [],
     this.picture,
     this.isRegent = false,
   });
 
-  factory Professor.fromJson(Map<String, dynamic> json) {
+  factory Professor.fromJson(
+    Map<String, dynamic> json, {
+    List<String> classes = const [],
+    bool isRegent = false,
+  }) {
     return Professor(
-      code: json['codigo'].toString(),
+      code: (json['codigo'] ?? json['doc_codigo']).toString(),
       name: shortName(json['nome'].toString()),
-      classes: [],
+      classes: classes,
+      isRegent: isRegent,
     );
   }
 
@@ -45,6 +52,8 @@ class Professor {
   String code;
   String name;
   List<String> classes;
+  String? institutionalEmail;
+  List<String> rooms;
   bool isRegent;
 
   @override

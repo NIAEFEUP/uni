@@ -1,5 +1,7 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/view/pedagogical_surveys_dialog.dart';
 import 'package:uni/view/terms_and_condition_dialog.dart';
 
 /// Transition used between pages
@@ -12,6 +14,7 @@ class PageTransition {
     required RouteSettings settings,
     bool maintainState = true,
     bool checkTermsAndConditions = true,
+    bool checkPedagogicalSurveys = true,
   }) {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) {
@@ -20,6 +23,11 @@ class PageTransition {
           if (checkTermsAndConditions) {
             WidgetsBinding.instance.addPostFrameCallback(
               (_) => requestTermsAndConditionsAcceptanceIfNeeded(context),
+            );
+          }
+          if (checkPedagogicalSurveys) {
+            WidgetsBinding.instance.addPostFrameCallback(
+              (_) => requestPedagogicalSurveysIfNeeded(context),
             );
           }
         }
@@ -50,6 +58,26 @@ class PageTransition {
     );
   }
 
+  static Route<Widget> introductionTransitionRoute({
+    required Widget page,
+    required RouteSettings settings,
+    bool maintainState = true,
+  }) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      settings: settings,
+      maintainState: maintainState,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SharedAxisTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          transitionType: SharedAxisTransitionType.vertical,
+          child: child,
+        );
+      },
+    );
+  }
+
   static Future<void> requestTermsAndConditionsAcceptanceIfNeeded(
     BuildContext context,
   ) async {
@@ -63,6 +91,24 @@ class PageTransition {
           return;
         case TermsAndConditionsState.rejected:
           await NetworkRouter.authenticationController?.close();
+      }
+    }
+  }
+
+  static Future<void> requestPedagogicalSurveysIfNeeded(
+    BuildContext context,
+  ) async {
+    if (context.mounted) {
+      final pedagogicalSurveysState =
+          await PedagogicalSurveysDialog.buildIfPedagogicalSurveysUnseen(
+            context,
+          );
+
+      switch (pedagogicalSurveysState) {
+        case PedagogicalSurveysState.seen:
+          return;
+        case PedagogicalSurveysState.unseen:
+          return;
       }
     }
   }

@@ -4,7 +4,7 @@ class RestaurantMenuItem extends StatelessWidget {
   const RestaurantMenuItem({super.key, required this.name, required this.icon});
 
   final String name;
-  final Icon icon;
+  final Widget icon;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class RestaurantMenuItem extends StatelessWidget {
               padding: const EdgeInsets.only(right: 32.0),
               child: Text(
                 name,
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.bodyMedium,
                 softWrap: true,
               ),
             ),

@@ -15,16 +15,11 @@ class NoRestaurantsHomeCard extends StatelessWidget {
         ElevatedButton(
           onPressed: () => onClick(context),
           style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
+            backgroundColor: Theme.of(context).colorScheme.secondary,
           ),
           child: Text(
             S.of(context).add_restaurants,
-            style: TextStyle(
-              fontSize: 17,
-              color: Theme.of(context).colorScheme.primary,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
         ),
       ],

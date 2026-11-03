@@ -2,7 +2,7 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:uni/controller/fetchers/print_fetcher.dart';
+import 'package:uni/controller/fetchers/finances/print_fetcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/view/widgets/toast_message.dart';
@@ -38,7 +38,7 @@ Future<void> addMoneyDialog(BuildContext context) {
                     child: Text(
                       S.of(context).reference_sigarra_help,
                       textAlign: TextAlign.start,
-                      style: Theme.of(context).textTheme.titleSmall,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
                   Row(
@@ -103,7 +103,7 @@ Future<void> addMoneyDialog(BuildContext context) {
             ),
             title: Text(
               S.of(context).add_quota,
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             actions: [
               TextButton(

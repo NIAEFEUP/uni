@@ -25,11 +25,10 @@ class BookCard extends StatelessWidget {
             width: _bookCardWidth,
             height: _bookCardHeight,
             child: Image(
-              image:
-                  imageUrl != null
-                      ? NetworkImage(imageUrl!)
-                      : const AssetImage('assets/images/book_placeholder.png')
-                          as ImageProvider,
+              image: imageUrl != null
+                  ? NetworkImage(imageUrl!)
+                  : const AssetImage('assets/images/book_placeholder.png')
+                        as ImageProvider,
             ),
           ),
           SizedBox(

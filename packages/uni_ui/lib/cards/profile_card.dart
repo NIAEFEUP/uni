@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 
 class ProfileCard extends StatelessWidget {
@@ -29,12 +29,12 @@ class ProfileCard extends StatelessWidget {
               Text(
                 label,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.headlineSmall!,
+                style: Theme.of(context).textTheme.titleLarge!,
               ),
               Text(
                 content,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodyLarge!,
+                style: Theme.of(context).textTheme.bodyMedium!,
               ),
             ],
           ),
@@ -47,14 +47,14 @@ class ProfileCard extends StatelessWidget {
               onTap: onClick,
               child: Container(
                 child: PhosphorIcon(
-                  PhosphorIcons.plus(PhosphorIconsStyle.light),
-                  color: Colors.white,
+                  PhosphorIconsLight.plus,
+                  color: Theme.of(context).colorScheme.secondary,
                   size: 14,
                 ),
                 padding: EdgeInsets.all(3.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.onSecondary,
                 ),
               ),
             ),

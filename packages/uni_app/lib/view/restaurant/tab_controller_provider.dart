@@ -1,12 +1,23 @@
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:uni/model/utils/day_of_week.dart';
+import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
 
 final tabControllerProvider = StateNotifierProvider<TabControllerProvider, int>(
   (ref) => TabControllerProvider(),
 );
 
 class TabControllerProvider extends StateNotifier<int> {
-  TabControllerProvider() : super(DateTime.now().weekday - 1);
+  TabControllerProvider() : super(_getInitialIndex());
+
+  static int _getInitialIndex() {
+    final now = DateTime.now();
+
+    if (RestaurantUtils.shouldShowTomorrowMenu(now)) {
+      return 1;
+    }
+
+    return 0;
+  }
 
   void setTabIndex(int index) {
     if (index >= 0 && index < DayOfWeek.values.length) {

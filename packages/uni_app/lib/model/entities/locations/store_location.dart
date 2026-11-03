@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni_ui/icons.dart';
 
@@ -16,8 +18,16 @@ class StoreLocation implements Location {
   final int? locationGroupId;
 
   @override
-  String description() {
+  String description(BuildContext context) {
+    if (name.toLowerCase() == 'shop') {
+      return S.of(context).shop;
+    }
     return name;
+  }
+
+  @override
+  String dedupKey() {
+    return 'store|$floor|${name.trim().toLowerCase()}';
   }
 
   @override

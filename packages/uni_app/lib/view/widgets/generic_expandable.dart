@@ -31,6 +31,14 @@ class _GenericExpandableState extends State<GenericExpandable> {
       behavior: HitTestBehavior.translucent,
       child: ExpandablePanel(
         controller: _controller,
+        theme: ExpandableThemeData(
+          hasIcon: true,
+          tapHeaderToExpand: true,
+          tapBodyToExpand: false,
+          tapBodyToCollapse: false,
+          headerAlignment: ExpandablePanelHeaderAlignment.center,
+          iconColor: Theme.of(context).colorScheme.onSecondary,
+        ),
         header: Align(
           alignment: Alignment.centerLeft,
           child: Text(
@@ -39,13 +47,12 @@ class _GenericExpandableState extends State<GenericExpandable> {
           ),
         ),
         collapsed: ShaderMask(
-          shaderCallback:
-              (bounds) => const LinearGradient(
-                colors: [Colors.black, Colors.transparent],
-                stops: [0.7, 1.0],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ).createShader(bounds),
+          shaderCallback: (bounds) => const LinearGradient(
+            colors: [Colors.black, Colors.transparent],
+            stops: [0.7, 1.0],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ).createShader(bounds),
           blendMode: BlendMode.dstIn,
           child: ClipRect(
             child: Align(

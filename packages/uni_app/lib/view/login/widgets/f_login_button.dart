@@ -12,19 +12,22 @@ class FLoginButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.all(18),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        backgroundColor: const Color(0xFFFFF5F3),
       ),
       onPressed: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SvgPicture.asset('assets/images/AAI.svg', height: 26),
+          SvgPicture.asset('assets/images/AAI.svg', height: 24),
           const SizedBox(width: 16),
           Text(
             S.of(context).login,
             style: Theme.of(
               context,
-            ).textTheme.headlineSmall?.copyWith(color: const Color(0xFF303030)),
+            ).textTheme.titleLarge?.copyWith(color: const Color(0xFF0F0607)),
             textAlign: TextAlign.left,
           ),
         ],

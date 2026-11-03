@@ -4,7 +4,7 @@ import 'package:uni_ui/icons.dart';
 class TabIcon extends StatelessWidget {
   const TabIcon({super.key, required this.icon, required this.text});
 
-  final IconData icon;
+  final UniIconData icon;
   final String text;
 
   @override
@@ -13,9 +13,15 @@ class TabIcon extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          UniIcon(icon),
+          UniIcon(icon, color: Theme.of(context).colorScheme.onSecondary),
           const SizedBox(width: 4),
-          Flexible(child: Text(text, overflow: TextOverflow.ellipsis)),
+          Flexible(
+            child: Text(
+              text,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
         ],
       ),
     );

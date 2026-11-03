@@ -18,7 +18,7 @@ class LinkButton extends StatelessWidget {
               child: InkWell(
                 child: Text(
                   title,
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                     decoration: TextDecoration.underline,
                   ),
                 ),

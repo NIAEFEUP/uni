@@ -35,8 +35,9 @@ class Home extends Endpoint<HomeResponse> {
     }
 
     final photo = authenticatedHeader.querySelector('.fotografia img');
-    final photoUrl =
-        photo == null ? null : Uri.tryParse(photo.attributes['src'] ?? '');
+    final photoUrl = photo == null
+        ? null
+        : Uri.tryParse(photo.attributes['src'] ?? '');
 
     return HomeAuthenticatedResponse(photoUrl: photoUrl);
   }

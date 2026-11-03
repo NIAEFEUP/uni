@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uni/controller/fetchers/restaurant_fetcher.dart';
+import 'package:uni/controller/fetchers/campus/restaurant_fetcher.dart';
 import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
@@ -27,9 +27,11 @@ class RestaurantNotifier extends CachedAsyncNotifier<List<Restaurant>?> {
       return null;
     }
 
+    // try to fetch from the internet
     final restaurants = await RestaurantFetcher().getRestaurants(session);
 
-    Database().saveRestaurants(restaurants);
+    // if success save to database
+    await Database().saveRestaurants(restaurants);
 
     return restaurants;
   }

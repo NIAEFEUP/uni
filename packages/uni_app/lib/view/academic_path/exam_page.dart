@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
 import 'package:uni/view/academic_path/widgets/exams_page_view.dart';
-import 'package:uni/view/academic_path/widgets/no_exams_widget.dart';
+import 'package:uni/view/academic_path/widgets/schedule_page_shimmer.dart';
+import 'package:uni_ui/common_widgets/empty_state_widget.dart';
 
 class ExamsPage extends ConsumerStatefulWidget {
   const ExamsPage({super.key});
@@ -49,16 +51,22 @@ class _ExamsPageState extends ConsumerState<ExamsPage> {
         hasContent: (exams) => exams.isNotEmpty,
         nullContentWidget: LayoutBuilder(
           // Band-aid for allowing refresh on null content
-          builder:
-              (context, constraints) => SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Container(
-                  height: constraints.maxHeight, // Height of bottom navbar
-                  padding: const EdgeInsets.only(bottom: 120),
-                  child: const Center(child: NoExamsWidget()),
+          builder: (context, constraints) => SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Container(
+              height: constraints.maxHeight, // Height of bottom navbar
+              padding: const EdgeInsets.only(bottom: 120),
+              child: Center(
+                child: EmptyStateWidget(
+                  imagePath: 'assets/images/vacation.png',
+                  title: S.of(context).no_exams_label,
+                  subtitle: S.of(context).no_exams,
                 ),
               ),
+            ),
+          ),
         ),
+        loadingWidget: const ShimmerSchedulePage(),
       ),
     );
   }

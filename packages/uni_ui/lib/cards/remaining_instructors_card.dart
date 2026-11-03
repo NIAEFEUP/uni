@@ -71,15 +71,18 @@ class RemainingInstructorsCard extends StatelessWidget {
                             ),
                             child: CircleAvatar(
                               radius: _avatarRadius,
-                              backgroundColor: CardTheme.of(context).color,
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.secondary,
                               child: FittedBox(
                                 fit: BoxFit.scaleDown,
                                 child: Padding(
                                   padding: const EdgeInsets.all(4.0),
                                   child: Text(
                                     '+$remainingCount',
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.titleMedium,
                                   ),
                                 ),
                               ),

@@ -50,7 +50,10 @@ class AcademicPathPageViewState
   Widget? getHeader(BuildContext context) {
     return TabBar(
       controller: tabController,
-      dividerHeight: 1,
+      indicatorColor: Theme.of(context).colorScheme.onSecondary,
+      splashFactory: NoSplash.splashFactory,
+      overlayColor: WidgetStateProperty.all(Colors.transparent),
+      dividerHeight: 0,
       tabs: [
         TabIcon(icon: UniIcons.courses, text: S.of(context).courses),
         TabIcon(icon: UniIcons.lecture, text: S.of(context).lectures),
@@ -72,10 +75,13 @@ class AcademicPathPageViewState
     switch (tabController.index) {
       case 0:
         await ref.read(profileProvider.notifier).refreshRemote();
+        return;
       case 1:
         await ref.read(lectureProvider.notifier).refreshRemote();
+        return;
       case 2:
         await ref.read(examProvider.notifier).refreshRemote();
+        return;
     }
   }
 }

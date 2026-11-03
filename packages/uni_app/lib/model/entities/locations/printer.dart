@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni_ui/icons.dart';
 
@@ -15,8 +17,13 @@ class Printer implements Location {
   final int? locationGroupId;
 
   @override
-  String description() {
-    return 'Impressora';
+  String description(BuildContext context) {
+    return S.of(context).printer;
+  }
+
+  @override
+  String dedupKey() {
+    return 'printer|$floor';
   }
 
   @override

@@ -27,12 +27,11 @@ class NoStringLiteralsInWidgetsLint extends DartLintRule {
     CustomLintContext context,
   ) {
     context.registry.addStringLiteral((node) {
-      final fileUri =
-          node
-              .thisOrAncestorOfType<CompilationUnit>()
-              ?.declaredFragment
-              ?.source
-              .uri;
+      final fileUri = node
+          .thisOrAncestorOfType<CompilationUnit>()
+          ?.declaredFragment
+          ?.source
+          .uri;
       final fileName = fileUri?.pathSegments.last;
       if (isInsideWidgetClass(node) && fileName != "main.dart") {
         reporter.atNode(node, code);

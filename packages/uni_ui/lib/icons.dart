@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
+
+typedef UniIconData = Object;
 
 // A list of all available icons
 class UniIcons {
@@ -43,10 +44,11 @@ class UniIcons {
   static const more = PhosphorIconsDuotone.dotsThreeOutlineVertical;
 
   static const password = PhosphorIconsDuotone.password;
-
+  static const github = PhosphorIconsDuotone.githubLogo;
   // Locations pins icons
   static const money = PhosphorIconsDuotone.money;
   static const coffee = PhosphorIconsDuotone.coffee;
+  static const cookie = PhosphorIconsDuotone.cookie;
   static const printer = PhosphorIconsDuotone.printer;
   static const lockers = PhosphorIconsDuotone.lockers;
   static const bookOpen = PhosphorIconsDuotone.bookOpen;
@@ -55,6 +57,7 @@ class UniIcons {
   static const storefront = PhosphorIconsDuotone.storefront;
   static const questionMark = PhosphorIconsDuotone.questionMark;
   static const toilet = PhosphorIconsDuotone.toiletPaper;
+  static const carPark = PhosphorIconsDuotone.letterCircleP;
 
   // Restaurants icons
   static const canteen = PhosphorIconsDuotone.cookingPot;
@@ -87,26 +90,33 @@ class UniIcons {
   static const beer = PhosphorIconsDuotone.beerStein;
 
   static const phone = PhosphorIconsDuotone.phone;
+  static const noWifi = PhosphorIconsDuotone.wifiSlash;
+
+  static const news = PhosphorIconsDuotone.newspaper;
 
   static const courseUnit = PhosphorIconsDuotone.chalkboardTeacher;
+
+  static const userIcon = PhosphorIconsDuotone.userCircle;
+  static const warning = PhosphorIconsDuotone.warningOctagon;
+
+  // current account icons
+  static const piggyBank = PhosphorIconsDuotone.piggyBank;
+  static const calendarDots = PhosphorIconsDuotone.calendarDots;
+  static const bank = PhosphorIconsDuotone.bank;
+  static const coins = PhosphorIconsDuotone.coins;
+
+  static const confetti = PhosphorIconsDuotone.confetti;
 }
 
 // The same as default Icon class from material.dart but allowing to use PhosphorIcons duotone icons
 class UniIcon extends PhosphorIcon {
   const UniIcon(
-    IconData icon, {
+    super.icon, {
     super.key,
-    double size = 24,
-    Color? color,
-    String? semanticLabel,
-    TextDirection? textDirection,
-    bool solid = false,
-  }) : super(
-         icon,
-         size: size,
-         color: color,
-         semanticLabel: semanticLabel,
-         textDirection: textDirection,
-         duotoneSecondaryOpacity: solid ? 1 : 0.20,
-       );
+    super.size = 24,
+    super.color,
+    super.semanticLabel,
+    super.textDirection,
+    double opacity = 0.2,
+  }) : super(duotoneSecondaryOpacity: opacity);
 }

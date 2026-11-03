@@ -14,6 +14,13 @@ class SplashScreenView extends StatefulWidget {
 class _SplashScreenViewState extends State<SplashScreenView> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+      ),
+    );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     Future.delayed(const Duration(milliseconds: 1500), () async {
       if (mounted) {
         final route = await firstRoute();
@@ -40,29 +47,30 @@ class _SplashScreenViewState extends State<SplashScreenView> {
                 children: [
                   Hero(
                     tag: 'logo',
-                    flightShuttleBuilder: (
-                      flightContext,
-                      animation,
-                      flightDirection,
-                      fromHeroContext,
-                      toHeroContext,
-                    ) {
-                      return ScaleTransition(
-                        scale: animation.drive(
-                          Tween<double>(
-                            begin: 0,
-                            end: 1,
-                          ).chain(CurveTween(curve: Curves.easeInOut)),
-                        ),
-                        child: SvgPicture.asset(
-                          'assets/images/logo_dark.svg',
-                          colorFilter: const ColorFilter.mode(
-                            Color(0xFFFFF5F3),
-                            BlendMode.srcIn,
-                          ),
-                        ),
-                      );
-                    },
+                    flightShuttleBuilder:
+                        (
+                          flightContext,
+                          animation,
+                          flightDirection,
+                          fromHeroContext,
+                          toHeroContext,
+                        ) {
+                          return ScaleTransition(
+                            scale: animation.drive(
+                              Tween<double>(
+                                begin: 0,
+                                end: 1,
+                              ).chain(CurveTween(curve: Curves.easeInOut)),
+                            ),
+                            child: SvgPicture.asset(
+                              'assets/images/logo_dark.svg',
+                              colorFilter: const ColorFilter.mode(
+                                Color(0xFFFFF5F3),
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                          );
+                        },
                     child: SvgPicture.asset(
                       'assets/images/logo_dark.svg',
                       colorFilter: const ColorFilter.mode(

@@ -27,7 +27,7 @@ class Exam {
     this.subject,
     this.rooms,
     this.examType,
-    this.faculty,
+    this.occurrId,
   );
 
   factory Exam.fromJson(Map<String, dynamic> json) => _$ExamFromJson(json);
@@ -40,7 +40,7 @@ class Exam {
     this.finish,
     String rooms,
     this.examType,
-    this.faculty,
+    this.occurrId,
   ) : rooms = rooms.split(',');
 
   final DateTime start;
@@ -50,7 +50,7 @@ class Exam {
   final String subject;
   final List<String> rooms;
   final String examType;
-  final String faculty;
+  final String occurrId;
 
   @Id()
   int? dbId;

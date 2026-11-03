@@ -22,6 +22,10 @@ class PreferencesController {
   static const _userSession = 'user_session';
   static const _termsAndConditions = 'terms_and_conditions';
   static const _areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
+  static const _pedagogicalSurveysDismissedKey =
+      'pedagogical_surveys_dismissed';
+  static const _pedagogicalSurveysShowDialogKey =
+      'pedagogical_surveys_show_dialog';
   static const _tuitionNotificationsToggleKey = 'tuition_notification_toogle';
   static const _hideSensitiveInfoToggleKey = 'hide_sensitive_info_toggle';
   static const _usageStatsToggleKey = 'usage_stats_toogle';
@@ -51,13 +55,13 @@ class PreferencesController {
     'salads',
     'diet_dishes',
     'dishes_of_the_day',
-    'closed',
   };
   static const _isFavoriteRestaurantsFilterOn =
       'is_favorite_restaurant_filter_on';
   static const _selectedCampusFilter = 'selected_campus';
   static const _isRestaurantReminderDismissed =
       'is_restaurant_reminder_dismissed';
+  static const _selectedAccountFaculty = 'selected_account_faculty';
 
   static final _statsToggleStreamController =
       StreamController<bool>.broadcast();
@@ -92,6 +96,11 @@ class PreferencesController {
     );
   }
 
+  static Future<void> clearMapCache() async {
+    await prefs.remove('FacultyLocationsNotifier$_lastUpdateTimeKeySuffix');
+    await prefs.remove('IndoorFloorPlansNotifier$_lastUpdateTimeKeySuffix');
+  }
+
   /// Saves the user's student number, password and faculties.
   static const _secureStorage = FlutterSecureStorage();
   static Future<void> saveSession(Session session) async {
@@ -102,7 +111,15 @@ class PreferencesController {
   }
 
   static Future<Session?> getSavedSession() async {
-    final value = await _secureStorage.read(key: _userSession);
+    String? value;
+
+    try {
+      value = await _secureStorage.read(key: _userSession);
+    } catch (err) {
+      await _secureStorage.deleteAll();
+      return null;
+    }
+
     if (value == null) {
       return null;
     }
@@ -125,6 +142,30 @@ class PreferencesController {
   /// Returns whether or not the Terms and Conditions have been accepted.
   static bool areTermsAndConditionsAccepted() {
     return prefs.getBool(_areTermsAndConditionsAcceptedKey) ?? false;
+  }
+
+  /// Sets whether or not the Pedagogical Surveys have been dismissed.
+  static Future<void> setPedagogicalSurveysDismissed({
+    required bool dismissed,
+  }) async {
+    await prefs.setBool(_pedagogicalSurveysDismissedKey, dismissed);
+  }
+
+  /// Returns whether or not the Pedagogical Surveys have been dismissed.
+  static bool isPedagogicalSurveysDismissed() {
+    return prefs.getBool(_pedagogicalSurveysDismissedKey) ?? false;
+  }
+
+  /// Sets whether or not the Pedagogical Surveys dialog should be shown.
+  static Future<void> setPedagogicalSurveysShowDialog({
+    required bool show,
+  }) async {
+    await prefs.setBool(_pedagogicalSurveysShowDialogKey, show);
+  }
+
+  /// Returns whether or not the Pedagogical Surveys dialog should be shown.
+  static bool shouldShowPedagogicalSurveysDialog() {
+    return prefs.getBool(_pedagogicalSurveysShowDialogKey) ?? false;
   }
 
   static Future<void> setDataCollectionBannerViewed({
@@ -258,10 +299,9 @@ class PreferencesController {
   static Future<void> saveFilteredExams(
     Map<String, bool> newFilteredExamTypes,
   ) async {
-    final newTypes =
-        newFilteredExamTypes.keys
-            .where((type) => newFilteredExamTypes[type] ?? false)
-            .toList();
+    final newTypes = newFilteredExamTypes.keys
+        .where((type) => newFilteredExamTypes[type] ?? false)
+        .toList();
     await prefs.setStringList(_filteredExamsTypes, newTypes);
   }
 
@@ -373,5 +413,17 @@ class PreferencesController {
 
   static bool isRestaurantReminderDismissed() {
     return prefs.getBool(_isRestaurantReminderDismissed) ?? false;
+  }
+
+  static Future<void> setSelectedAccountFaculty(String? value) async {
+    if (value == null) {
+      await prefs.remove(_selectedAccountFaculty);
+    } else {
+      await prefs.setString(_selectedAccountFaculty, value);
+    }
+  }
+
+  static String? getSelectedAccountFaculty() {
+    return prefs.getString(_selectedAccountFaculty);
   }
 }

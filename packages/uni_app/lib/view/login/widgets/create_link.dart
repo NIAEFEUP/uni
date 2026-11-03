@@ -19,18 +19,17 @@ class LinkWidget extends StatelessWidget {
       textAlign: TextAlign.center,
       text: TextSpan(
         text: textStart,
-        style: Theme.of(
-          context,
-        ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
         children: [
           const TextSpan(text: ' '),
           TextSpan(
             text: textEnd,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
               decoration: TextDecoration.underline,
-              decorationColor: Colors.white,
+              decorationColor: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
             recognizer: recognizer,
           ),

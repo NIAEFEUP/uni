@@ -18,14 +18,16 @@ class LocaleSwitchButton extends ConsumerWidget {
         child: ElevatedButton(
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all(
-              Theme.of(context).colorScheme.primary,
+              Theme.of(context).colorScheme.onSecondary,
             ),
             padding: WidgetStateProperty.all(EdgeInsets.zero),
           ),
           onPressed: localeNotifier.setNextLocale,
           child: Text(
             locale.localeCode.languageCode.toUpperCase(),
-            style: Theme.of(context).textTheme.titleSmall,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: Theme.of(context).colorScheme.secondary,
+            ),
           ),
         ),
       ),

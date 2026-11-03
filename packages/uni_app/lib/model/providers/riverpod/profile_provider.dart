@@ -1,18 +1,20 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uni/controller/fetchers/course_units_fetcher/all_course_units_fetcher.dart';
-import 'package:uni/controller/fetchers/course_units_fetcher/current_course_units_fetcher.dart';
-import 'package:uni/controller/fetchers/fees_fetcher.dart';
-import 'package:uni/controller/fetchers/print_fetcher.dart';
-import 'package:uni/controller/fetchers/profile_fetcher.dart';
+import 'package:uni/controller/fetchers/academics/course_units/all_course_units_fetcher.dart';
+import 'package:uni/controller/fetchers/academics/course_units/current_course_units_fetcher.dart';
+import 'package:uni/controller/fetchers/finances/current_account_fetcher.dart';
+import 'package:uni/controller/fetchers/finances/print_fetcher.dart';
+import 'package:uni/controller/fetchers/profile/profile_fetcher.dart';
 import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/controller/local_storage/file_offline_storage.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
+import 'package:uni/model/providers/riverpod/pedagogical_surveys_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/session/flows/base/session.dart';
 
@@ -26,10 +28,9 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
 
   @override
   Future<Profile?> loadFromStorage() async {
-    final profile =
-        Database().profile
-          ?..courses = Database().courses
-          ..courseUnits = Database().courseUnits;
+    final profile = Database().profile
+      ?..courses = Database().courses
+      ..courseUnits = Database().courseUnits;
 
     return profile;
   }
@@ -41,6 +42,7 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
       return null;
     }
 
+    // try to fetch all data from internet
     final profile = await _fetchUserInfo(session);
     if (profile == null) {
       return null;
@@ -56,7 +58,20 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
       ..feesLimit = feesLimit
       ..printBalance = printBalance;
 
-    Database().saveProfile(profile);
+    if (profile.answeredPedagogicalSurveys) {
+      await PreferencesController.setPedagogicalSurveysShowDialog(show: false);
+      await PreferencesController.setPedagogicalSurveysDismissed(
+        dismissed: false,
+      );
+    } else {
+      await PreferencesController.setPedagogicalSurveysShowDialog(show: true);
+    }
+
+    ref.read(pedagogicalSurveysProvider.notifier).state =
+        PreferencesController.shouldShowPedagogicalSurveysDialog();
+
+    // if successful save everything to cache
+    await Database().saveProfile(profile);
 
     return profile;
   }
@@ -87,15 +102,15 @@ class ProfileNotifier extends CachedAsyncNotifier<Profile?> {
         );
 
     if (allCourseUnits != null) {
-      Database().saveCourses(profile.courses);
-      Database().saveCourseUnits(allCourseUnits);
+      await Database().saveCourses(profile.courses);
+      await Database().saveCourseUnits(allCourseUnits);
     }
 
     return allCourseUnits;
   }
 
   Future<(String, DateTime?)> _fetchFees(Session session) async {
-    final response = await FeesFetcher().getUserFeesResponse(session);
+    final response = await CurrentAccountFetcher().getUserFeesResponse(session);
     return (parseFeesBalance(response), parseFeesNextLimit(response));
   }
 

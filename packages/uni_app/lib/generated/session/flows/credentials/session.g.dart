@@ -9,12 +9,12 @@ part of '../../../../session/flows/credentials/session.dart';
 CredentialsSession _$CredentialsSessionFromJson(Map<String, dynamic> json) =>
     CredentialsSession(
       username: json['username'] as String,
-      cookies:
-          (json['cookies'] as List<dynamic>)
-              .map((e) => const CookieConverter().fromJson(e as String))
-              .toList(),
-      faculties:
-          (json['faculties'] as List<dynamic>).map((e) => e as String).toList(),
+      cookies: (json['cookies'] as List<dynamic>)
+          .map((e) => const CookieConverter().fromJson(e as String))
+          .toList(),
+      faculties: (json['faculties'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       password: json['password'] as String,
     );
 

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/exam_provider.dart';
@@ -39,22 +41,28 @@ class ExamHomeCard extends GenericHomecard {
         return DefaultConsumer<List<Exam>>(
           provider: examProvider,
           builder: (context, ref, allExams) {
-            final visibleExams =
-                getVisibleExams(allExams, hiddenExams).toList();
-            final items = buildTimelineItems(ref, visibleExams).take(2);
+            final appLocale = ref.watch(
+              localeProvider.select((value) => value),
+            );
+            final visibleExams = getVisibleExams(
+              allExams,
+              hiddenExams,
+            ).take(2).toList();
+            final items = buildTimelineItems(ref, visibleExams, appLocale);
 
             return CardTimeline(items: items.toList());
           },
-          hasContent:
-              (allExams) => getVisibleExams(allExams, hiddenExams).isNotEmpty,
+          hasContent: (allExams) =>
+              getVisibleExams(allExams, hiddenExams).isNotEmpty,
           nullContentWidget: Center(
             child: IconLabel(
-              icon: const UniIcon(UniIcons.island, size: 45),
-              label: S.of(context).no_exams,
-              labelTextStyle: TextStyle(
-                fontSize: 14,
-                color: Theme.of(context).colorScheme.primary,
+              icon: UniIcon(
+                size: 45,
+                UniIcons.island,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
+              label: S.of(context).no_exams,
+              labelTextStyle: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
           loadingWidget: const ShimmerCardTimeline(),
@@ -71,28 +79,60 @@ class ExamHomeCard extends GenericHomecard {
     return allExams.where((exam) => !hiddenExamsSet.contains(exam.id));
   }
 
-  List<TimelineItem> buildTimelineItems(WidgetRef ref, List<Exam> exams) {
+  List<TimelineItem> buildTimelineItems(
+    WidgetRef ref,
+    List<Exam> exams,
+    AppLocale appLocale,
+  ) {
     final locale = ref.watch(localeProvider);
+    final groups = _groupExamsByDay(exams);
 
-    final items =
-        exams
-            .map(
-              (exam) => TimelineItem(
-                title: exam.start.day.toString(),
-                subtitle: exam.start.shortMonth(locale).capitalize(),
-                card: ExamCard(
-                  showIcon: false,
-                  name: exam.subject,
-                  acronym: exam.subjectAcronym,
-                  rooms: exam.rooms,
-                  type: exam.examType,
-                  startTime: exam.startTime,
-                ),
-              ),
-            )
-            .toList();
+    return groups.map((group) {
+      final firstExam = group.first;
 
-    return items;
+      return TimelineItem(
+        title:
+            '${_formatWeekday(firstExam.start, appLocale)} ${firstExam.start.day}',
+        subtitle: firstExam.start.shortMonth(locale).capitalize(),
+        card: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: group.map((exam) {
+            return ExamCard(
+              showIcon: false,
+              name: exam.subject,
+              acronym: exam.subjectAcronym,
+              rooms: exam.rooms,
+              type: exam.examType,
+              startTime: exam.startTime,
+            );
+          }).toList(),
+        ),
+      );
+    }).toList();
+  }
+
+  List<List<Exam>> _groupExamsByDay(List<Exam> exams) {
+    if (exams.isEmpty) {
+      return [];
+    }
+    final sorted = [...exams]..sort((a, b) => a.start.compareTo(b.start));
+
+    final groups = <List<Exam>>[];
+    var currentGroup = [sorted.first];
+    var currentDay = sorted.first.start.day;
+
+    for (final exam in sorted.skip(1)) {
+      if (exam.start.day == currentDay) {
+        currentGroup.add(exam);
+      } else {
+        groups.add(currentGroup);
+        currentGroup = [exam];
+        currentDay = exam.start.day;
+      }
+    }
+    groups.add(currentGroup);
+
+    return groups;
   }
 
   @override
@@ -102,5 +142,10 @@ class ExamHomeCard extends GenericHomecard {
       '/${NavigationItem.navAcademicPath.route}',
       arguments: 2,
     );
+  }
+
+  String _formatWeekday(DateTime date, AppLocale locale) {
+    final weekday = DateFormat.E(locale.localeCode.languageCode).format(date);
+    return weekday[0].toUpperCase() + weekday.substring(1).toLowerCase();
   }
 }

@@ -23,3 +23,7 @@ uni/android/key.properties
 
 # Custom Lint log
 custom_lint.log
+
+# FVM Version Cache
+.fvm/
+.direnv/

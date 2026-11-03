@@ -7,7 +7,10 @@ import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/floor_occupation.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/entities/meal.dart';
+import 'package:uni/model/entities/news.dart';
 import 'package:uni/model/entities/profile.dart';
+import 'package:uni/model/entities/profile_info.dart';
 import 'package:uni/model/entities/reference.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/objectbox.g.dart';
@@ -30,41 +33,53 @@ class Database {
   late final Box<FloorOccupation> _libraryOccupationBox;
   late final Box<Reference> _referenceBox;
   late final Box<Restaurant> _restaurantBox;
+  late final Box<Meal> _mealBox;
+  late final Box<News> _newsBox;
   late final Box<Profile> _profileBox;
+  late final Box<ProfileInfo> _profileInfoBox;
 
   List<Exam> get exams => _examBox.getAll();
-  void saveExams(List<Exam> exams) => saveEntities(_examBox, exams);
+  Future<void> saveExams(List<Exam> exams) => saveEntities(_examBox, exams);
+
+  List<News> get news => _newsBox.getAll();
+  Future<void> saveNews(List<News> news) => saveEntities(_newsBox, news);
 
   List<Lecture> get lectures => _lectureBox.getAll();
-  void saveLectures(List<Lecture> lectures) =>
+  Future<void> saveLectures(List<Lecture> lectures) =>
       saveEntities(_lectureBox, lectures);
 
   List<CalendarEvent> get calendarEvents => _calendarBox.getAll();
-  void saveCalendarEvents(List<CalendarEvent> calendarEvents) =>
+  Future<void> saveCalendarEvents(List<CalendarEvent> calendarEvents) =>
       saveEntities(_calendarBox, calendarEvents);
 
   List<CourseUnit> get courseUnits => _courseUnitBox.getAll();
-  void saveCourseUnits(List<CourseUnit> courseUnits) =>
+  Future<void> saveCourseUnits(List<CourseUnit> courseUnits) =>
       saveEntities(_courseUnitBox, courseUnits);
 
   List<Course> get courses => _courseBox.getAll();
-  void saveCourses(List<Course> courses) => saveEntities(_courseBox, courses);
+  Future<void> saveCourses(List<Course> courses) =>
+      saveEntities(_courseBox, courses);
 
   List<FloorOccupation> get libraryOccupations =>
       _libraryOccupationBox.getAll();
-  void saveLibraryOccupations(List<FloorOccupation> libraryOccupations) =>
-      saveEntities(_libraryOccupationBox, libraryOccupations);
+  Future<void> saveLibraryOccupations(
+    List<FloorOccupation> libraryOccupations,
+  ) => saveEntities(_libraryOccupationBox, libraryOccupations);
 
   List<Reference> get references => _referenceBox.getAll();
-  void saveReferences(List<Reference> references) =>
+  Future<void> saveReferences(List<Reference> references) =>
       saveEntities(_referenceBox, references);
 
   List<Restaurant> get restaurants => _restaurantBox.getAll();
-  void saveRestaurants(List<Restaurant> restaurants) =>
+  Future<void> saveRestaurants(List<Restaurant> restaurants) =>
       saveEntities(_restaurantBox, restaurants);
 
   Profile? get profile => _profileBox.getAll().firstOrNull;
-  void saveProfile(Profile profile) => saveEntity(_profileBox, profile);
+  Future<void> saveProfile(Profile profile) => saveEntity(_profileBox, profile);
+
+  ProfileInfo? get profileInfo => _profileInfoBox.getAll().firstOrNull;
+  Future<void> saveProfileInfo(ProfileInfo profileInfo) =>
+      saveEntity(_profileInfoBox, profileInfo);
 
   /// Whether the session is persistent or not.
   bool? _persistentSession;
@@ -112,6 +127,7 @@ class Database {
 
   void _boxesInitialization() {
     _profileBox = _store.box<Profile>();
+    _profileInfoBox = _store.box<ProfileInfo>();
     _examBox = _store.box<Exam>();
     _lectureBox = _store.box<Lecture>();
     _calendarBox = _store.box<CalendarEvent>();
@@ -120,10 +136,13 @@ class Database {
     _libraryOccupationBox = _store.box<FloorOccupation>();
     _referenceBox = _store.box<Reference>();
     _restaurantBox = _store.box<Restaurant>();
+    _mealBox = _store.box<Meal>();
+    _newsBox = _store.box<News>();
   }
 
   void clear() {
     _profileBox.removeAll();
+    _profileInfoBox.removeAll();
     _examBox.removeAll();
     _lectureBox.removeAll();
     _calendarBox.removeAll();
@@ -132,6 +151,9 @@ class Database {
     _libraryOccupationBox.removeAll();
     _referenceBox.removeAll();
     _restaurantBox.removeAll();
+    _mealBox.removeAll();
+    _newsBox.removeAll();
+    _persistentSession = null;
   }
 
   void close() {

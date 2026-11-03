@@ -15,14 +15,16 @@ import 'package:uni/view/restaurant/tab_controller_provider.dart';
 import 'package:uni/view/restaurant/widgets/days_of_week_tab_bar.dart';
 import 'package:uni/view/restaurant/widgets/dish_type_checkbox_menu.dart';
 import 'package:uni/view/restaurant/widgets/favorite_restaurants_button.dart';
+import 'package:uni/view/restaurant/widgets/restaurant_page_view_shimmer.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_utils.dart';
 import 'package:uni/view/widgets/pages_layouts/general/general.dart';
 import 'package:uni_ui/cards/restaurant_card.dart';
 import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
+import 'package:uni_ui/common_widgets/empty_state_widget.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
+import 'package:uni_ui/modal/widgets/header_info.dart';
 import 'package:uni_ui/modal/widgets/info_row.dart';
-import 'package:uni_ui/modal/widgets/service_info.dart';
 
 class RestaurantPageView extends ConsumerStatefulWidget {
   const RestaurantPageView({super.key});
@@ -48,7 +50,6 @@ class _RestaurantPageViewState
     'salads',
     'diet_dishes',
     'dishes_of_the_day',
-    'closed',
   ];
 
   @override
@@ -93,6 +94,9 @@ class _RestaurantPageViewState
       alignment: Alignment.bottomCenter,
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
+          style: Theme.of(context).textTheme.bodyLarge,
+          dropdownColor: Theme.of(context).colorScheme.secondary,
+          borderRadius: BorderRadius.circular(8),
           value: campus[selectedCampus],
           elevation: 16,
           onChanged: (value) {
@@ -102,10 +106,9 @@ class _RestaurantPageViewState
               PreferencesController.setSelectedCampus(campusId);
             });
           },
-          items:
-              campus.map((item) {
-                return DropdownMenuItem<String>(value: item, child: Text(item));
-              }).toList(),
+          items: campus.map((item) {
+            return DropdownMenuItem<String>(value: item, child: Text(item));
+          }).toList(),
         ),
       ),
     );
@@ -161,13 +164,24 @@ class _RestaurantPageViewState
       child: DefaultConsumer<List<Restaurant>>(
         provider: restaurantProvider,
         builder: _createTabViewBuilder,
-        nullContentWidget: Center(
-          child: Text(
-            S.of(context).no_menus,
-            style: Theme.of(context).textTheme.titleMedium,
+        nullContentWidget: LayoutBuilder(
+          builder: (context, constraints) => SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Container(
+              height: constraints.maxHeight,
+              padding: const EdgeInsets.only(bottom: 120),
+              child: Center(
+                child: EmptyStateWidget(
+                  imagePath: 'assets/images/chef.png',
+                  title: S.of(context).no_restaurants_available,
+                  subtitle: S.of(context).no_restaurants_available_sublabel,
+                ),
+              ),
+            ),
           ),
         ),
         hasContent: (restaurants) => restaurants.isNotEmpty,
+        loadingWidget: const ShimmerRestaurantPageView(),
       ),
     );
   }
@@ -203,8 +217,8 @@ class _RestaurantPageViewState
     final locale = ref.watch(localeProvider);
     final selectedTabIndex = ref.watch(tabControllerProvider);
 
-    const daysOfTheWeek = DayOfWeek.values;
-    final selectedDayOfWeek = daysOfTheWeek[selectedTabIndex];
+    final selectedDate = DateTime.now().add(Duration(days: selectedTabIndex));
+    final selectedDayOfWeek = parseDateTime(selectedDate);
 
     final restaurantsWidgets =
         restaurants
@@ -251,7 +265,7 @@ class _RestaurantPageViewState
       return Center(
         child: Text(
           S.of(context).no_menus,
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
       );
     }
@@ -275,60 +289,65 @@ class _RestaurantPageViewState
     AppLocale locale,
   ) {
     final menuItems =
-        _getRestaurantMenuItems(dayOfWeek, restaurant, locale) ?? [];
+        _getRestaurantMenuItems(context, dayOfWeek, restaurant, locale) ?? [];
     return menuItems.isNotEmpty
         ? RestaurantCard(
-          name: RestaurantUtils.getRestaurantName(
-            context,
-            locale,
-            restaurant.namePt,
-            restaurant.namePt,
-            restaurant.period,
-          ),
-          icon: RestaurantUtils.getIcon(restaurant.typeEn ?? restaurant.typePt),
-          isFavorite: PreferencesController.getFavoriteRestaurants().contains(
-            restaurant.namePt + restaurant.period,
-          ),
-          onFavoriteToggle: () {
-            return _toggleFavorite(restaurant.namePt, restaurant.period);
-          },
-          menuItems: menuItems,
-          onClick: () {
-            if (restaurant.openingHours.isNotEmpty) {
-              showDialog<ModalDialog>(
-                context: context,
-                builder: (context) {
-                  return ModalDialog(
-                    children: [
-                      ModalServiceInfo(
-                        name: restaurant.namePt,
-                        durations:
-                            restaurant.openingHours
-                              ..sort((a, b) => a.compareTo(b)),
-                      ),
-                      if (restaurant.email != '')
-                        ModalInfoRow(
-                          title: S.of(context).email,
-                          description: restaurant.email,
-                          onPressed:
-                              () => launchUrlWithToast(
-                                context,
-                                'mailto:${restaurant.email}',
-                              ),
-                          icon: UniIcons.email,
-                          trailing: const UniIcon(UniIcons.caretRight),
+            name: RestaurantUtils.getRestaurantName(
+              context,
+              locale,
+              restaurant.namePt,
+              restaurant.namePt,
+              restaurant.period,
+            ),
+            icon: RestaurantUtils.getIcon(
+              restaurant.typeEn ?? restaurant.typePt,
+              color: Theme.of(context).colorScheme.onSecondary,
+            ),
+            isFavorite: PreferencesController.getFavoriteRestaurants().contains(
+              restaurant.namePt + restaurant.period,
+            ),
+            onFavoriteToggle: () {
+              return _toggleFavorite(restaurant.namePt, restaurant.period);
+            },
+            menuItems: menuItems,
+            onClick: () {
+              if (restaurant.openingHours.isNotEmpty) {
+                showDialog<ModalDialog>(
+                  context: context,
+                  builder: (context) {
+                    return ModalDialog(
+                      children: [
+                        ModalHeader(
+                          name: restaurant.namePt,
+                          durations: restaurant.openingHours
+                            ..sort((a, b) => a.compareTo(b)),
                         ),
-                    ],
-                  );
-                },
-              );
-            }
-          },
-        )
+                        if (restaurant.email != '')
+                          ModalInfoRow(
+                            title: S.of(context).email,
+                            description: restaurant.email,
+                            onPressed: () => launchUrlWithToast(
+                              context,
+                              'mailto:${restaurant.email}',
+                            ),
+                            icon: UniIcons.email,
+                            trailing: UniIcon(
+                              UniIcons.caretRight,
+                              color: Theme.of(context).colorScheme.onSecondary,
+                            ),
+                          ),
+                      ],
+                    );
+                  },
+                );
+              }
+            },
+          )
         : null;
   }
 
   List<RestaurantMenuItem>? _getRestaurantMenuItems(
+    BuildContext context,
     DayOfWeek dayOfWeek,
     Restaurant restaurant,
     AppLocale locale,
@@ -346,7 +365,10 @@ class _RestaurantPageViewState
               meal.namePt,
               meal.nameEn,
             ),
-            icon: RestaurantUtils.getIcon(meal.type),
+            icon: RestaurantUtils.getIcon(
+              meal.type,
+              color: Theme.of(context).colorScheme.onSecondary,
+            ),
           ),
         );
       }
@@ -362,28 +384,53 @@ class _RestaurantPageViewState
   ) {
     showDialog<void>(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: Text(S.of(context).restaurant_main_page),
-            actions: <Widget>[
-              ElevatedButton(
+      builder: (context) => ModalDialog(
+        children: [
+          Text(
+            S.of(context).restaurant_main_page,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            spacing: 8,
+            children: [
+              TextButton(
                 onPressed: () {
                   PreferencesController.setRestaurantReminderDismissed(true);
                   Navigator.of(context).pop();
                 },
-                child: Text(S.of(context).no),
+                style: TextButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.onSecondary,
+                ),
+                child: Text(
+                  S.of(context).no,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
               ),
-              ElevatedButton(
+              TextButton(
                 onPressed: () {
                   updateHomePage(
                     favoriteCardTypes + [FavoriteWidgetType.restaurants],
                   );
                   Navigator.of(context).pop();
                 },
-                child: Text(S.of(context).yes),
+                style: TextButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.onSecondary,
+                ),
+                child: Text(
+                  S.of(context).yes,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
               ),
             ],
           ),
+        ],
+      ),
     );
   }
 }

@@ -38,21 +38,26 @@ class _TimelineState extends State<Timeline> {
 
     _tabKeys.addAll(List.generate(widget.tabs.length, (index) => GlobalKey()));
 
+    _tabScrollController.addListener(() {
+      setState(() {});
+    });
+
     _itemPositionsListener.itemPositions.addListener(() {
       if (!_didInitialScroll) return;
 
       final positions = _itemPositionsListener.itemPositions.value;
-      if (positions.isNotEmpty) {
-        final firstVisibleIndex =
-            positions
-                .where((ItemPosition position) => position.itemLeadingEdge >= 0)
-                .reduce(
-                  (ItemPosition current, ItemPosition next) =>
-                      current.itemLeadingEdge < next.itemLeadingEdge
-                          ? current
-                          : next,
-                )
-                .index;
+      final visiblePositions = positions.where(
+        (ItemPosition position) => position.itemLeadingEdge >= 0,
+      );
+      if (visiblePositions.isNotEmpty) {
+        final firstVisibleIndex = visiblePositions
+            .reduce(
+              (ItemPosition current, ItemPosition next) =>
+                  current.itemLeadingEdge < next.itemLeadingEdge
+                  ? current
+                  : next,
+            )
+            .index;
 
         if (_currentIndex != firstVisibleIndex) {
           setState(() {
@@ -164,97 +169,103 @@ class _TimelineState extends State<Timeline> {
                 controller: _tabScrollController,
                 child: Row(
                   key: _tabsRowKey,
-                  children:
-                      widget.tabs.asMap().entries.map((entry) {
-                        int index = entry.key;
-                        Widget tab = entry.value;
-                        bool isSelected = _currentIndex == index;
-                        TextStyle textStyle =
-                            Theme.of(context).textTheme.bodySmall!;
-                        return GestureDetector(
-                          onTap: () => _onTabTapped(index),
-                          child: Padding(
+                  children: widget.tabs.asMap().entries.map((entry) {
+                    int index = entry.key;
+                    Widget tab = entry.value;
+                    bool isSelected = _currentIndex == index;
+                    TextStyle textStyle = Theme.of(
+                      context,
+                    ).textTheme.bodyMedium!;
+                    return GestureDetector(
+                      onTap: () => _onTabTapped(index),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 5.0,
+                        ),
+                        child: GenericSquircle(
+                          borderRadius: 10,
+                          child: Container(
+                            key: _tabKeys[index],
                             padding: const EdgeInsets.symmetric(
-                              vertical: 10.0,
-                              horizontal: 5.0,
+                              vertical: 9.0,
+                              horizontal: 8.0,
                             ),
-                            child: GenericSquircle(
-                              borderRadius: 10,
-                              child: Container(
-                                key: _tabKeys[index],
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 9.0,
-                                  horizontal: 8.0,
-                                ),
-                                color:
-                                    isSelected
-                                        ? Theme.of(context).colorScheme.tertiary
-                                            .withValues(alpha: 0.25)
-                                        : Colors.transparent,
-                                child: DefaultTextStyle(
-                                  style: textStyle.copyWith(
-                                    color:
-                                        widget.tabEnabled[index]
-                                            ? (isSelected
-                                                ? Theme.of(
-                                                  context,
-                                                ).colorScheme.primary
-                                                : Colors.black)
-                                            : Colors.grey,
-                                  ),
-                                  child: tab,
-                                ),
+                            color: isSelected
+                                ? Theme.of(context).colorScheme.secondary
+                                : Colors.transparent,
+                            child: DefaultTextStyle(
+                              style: textStyle.copyWith(
+                                color: widget.tabEnabled[index]
+                                    ? (isSelected
+                                          ? Theme.of(
+                                              context,
+                                            ).colorScheme.onSecondary
+                                          : Theme.of(
+                                              context,
+                                            ).colorScheme.onSecondary)
+                                    : Theme.of(context).disabledColor,
                               ),
+                              child: tab,
                             ),
                           ),
-                        );
-                      }).toList(),
+                        ),
+                      ),
+                    );
+                  }).toList(),
                 ),
               ),
-              Positioned(
-                left: 0,
-                top: 0,
-                bottom: 0,
-                width: 32,
-                child: IgnorePointer(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [
-                          Theme.of(context).scaffoldBackgroundColor,
-                          Theme.of(
-                            context,
-                          ).scaffoldBackgroundColor.withAlpha(0),
-                        ],
+              if (!(_currentIndex == 0 &&
+                  _tabScrollController.hasClients &&
+                  _tabScrollController.offset <= 0))
+                Positioned(
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  width: 32,
+                  child: IgnorePointer(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            Theme.of(context).scaffoldBackgroundColor,
+                            Theme.of(
+                              context,
+                            ).scaffoldBackgroundColor.withAlpha(0),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                right: 0,
-                top: 0,
-                bottom: 0,
-                width: 32,
-                child: IgnorePointer(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.centerRight,
-                        end: Alignment.centerLeft,
-                        colors: [
-                          Theme.of(context).scaffoldBackgroundColor,
-                          Theme.of(
-                            context,
-                          ).scaffoldBackgroundColor.withAlpha(0),
-                        ],
+              if (!(_currentIndex == widget.tabs.length - 1 &&
+                  _tabScrollController.hasClients &&
+                  _tabScrollController.offset >=
+                      _tabScrollController.position.maxScrollExtent))
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  width: 32,
+                  child: IgnorePointer(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerRight,
+                          end: Alignment.centerLeft,
+                          colors: [
+                            Theme.of(context).scaffoldBackgroundColor,
+                            Theme.of(
+                              context,
+                            ).scaffoldBackgroundColor.withAlpha(0),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
             ],
           ),
         ),

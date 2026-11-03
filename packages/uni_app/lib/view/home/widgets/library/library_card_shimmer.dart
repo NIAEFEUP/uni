@@ -8,8 +8,8 @@ class ShimmerLibraryHomeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
+      baseColor: Theme.of(context).disabledColor.withAlpha(0x7f),
+      highlightColor: Theme.of(context).disabledColor,
       child: GenericSquircle(
         child: Container(
           height: 200,

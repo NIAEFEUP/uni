@@ -59,6 +59,31 @@ class MessageToast extends StatelessWidget {
   }
 }
 
+class _AutoDismissToast extends StatefulWidget {
+  const _AutoDismissToast({required this.child});
+  final Widget child;
+
+  @override
+  State<_AutoDismissToast> createState() => _AutoDismissToastState();
+}
+
+class _AutoDismissToastState extends State<_AutoDismissToast> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 2000), () {
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
+  }
+}
+
 class ToastMessage {
   static const toastErrorIconColor = Color.fromARGB(255, 241, 77, 98);
   static const toastErrorColor = Color.fromARGB(255, 252, 237, 238);
@@ -75,13 +100,7 @@ class ToastMessage {
       barrierColor: Colors.white.withAlpha(0),
       context: context,
       builder: (toastContext) {
-        Future.delayed(const Duration(milliseconds: 2000), () {
-          if (toastContext.mounted) {
-            Navigator.of(toastContext).pop();
-          }
-        });
-
-        return mToast;
+        return _AutoDismissToast(child: mToast);
       },
     );
   }

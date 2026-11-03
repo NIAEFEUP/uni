@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/courses/course_info.dart';
 import 'package:uni_ui/icons.dart';
-import 'package:uni_ui/theme.dart';
 
 class CourseCard extends StatelessWidget {
   const CourseCard({
@@ -36,10 +35,10 @@ class CourseCard extends StatelessWidget {
     return GenericCard(
       key: key,
       onClick: onTap,
-      color:
-          selected
-              ? Theme.of(context).colorScheme.surfaceContainerLow
-              : grayLight,
+      color: selected
+          ? null
+          : Theme.of(context).colorScheme.secondary.withAlpha(120),
+      shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
       tooltip: '',
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -51,49 +50,48 @@ class CourseCard extends StatelessWidget {
               UniIcon(
                 _getIconData(courseInfo.abbreviation, selected),
                 size: 32,
-                color:
-                    selected
-                        ? Theme.of(context).colorScheme.primary
-                        : grayMiddle,
+                color: selected
+                    ? Theme.of(context).colorScheme.onSecondary
+                    : Theme.of(context).colorScheme.onSecondary,
               ),
               Text(
                 courseInfo.abbreviation,
                 style: Theme.of(context).textTheme.titleLarge?.apply(
-                  color:
-                      selected
-                          ? Theme.of(context).colorScheme.primary
-                          : grayMiddle,
+                  color: selected
+                      ? Theme.of(context).colorScheme.onSecondary
+                      : Theme.of(context).colorScheme.onSecondary,
                 ),
               ),
               Text(
                 _getYearText(),
-                style: Theme.of(context).textTheme.bodySmall?.apply(
-                  color:
-                      selected
-                          ? Theme.of(context).colorScheme.primary
-                          : grayMiddle,
+                style: Theme.of(context).textTheme.bodyMedium?.apply(
+                  color: selected
+                      ? Theme.of(context).colorScheme.onSecondary
+                      : Theme.of(context).colorScheme.onSecondary,
                 ),
               ),
             ],
           ),
         ),
       ),
-      shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
       blurRadius: 2,
     );
   }
 
-  static PhosphorIconData _getIconData(String abbreviation, bool selected) {
-    final iconStyle =
-        selected ? PhosphorIconsStyle.duotone : PhosphorIconsStyle.regular;
-
+  static Object _getIconData(String abbreviation, bool selected) {
     switch (abbreviation[0]) {
       case 'L':
-        return PhosphorIcons.graduationCap(iconStyle);
+        return selected
+            ? PhosphorIconsDuotone.graduationCap
+            : PhosphorIconsRegular.graduationCap;
       case 'P':
-        return PhosphorIcons.student(iconStyle);
+        return selected
+            ? PhosphorIconsDuotone.student
+            : PhosphorIconsRegular.student;
       default:
-        return PhosphorIcons.certificate(iconStyle);
+        return selected
+            ? PhosphorIconsDuotone.certificate
+            : PhosphorIconsRegular.certificate;
     }
   }
 }

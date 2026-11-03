@@ -26,7 +26,7 @@ class DraggableElement<T extends Object> extends StatelessWidget {
       feedback: Transform.translate(
         offset: -feedbackSize / 2,
         child: ClipRSuperellipse(
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(20),
           child: _feedbackBuilder(context, data),
         ),
       ),
@@ -37,7 +37,7 @@ class DraggableElement<T extends Object> extends StatelessWidget {
         }
       },
       child: ClipRSuperellipse(
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(20),
         child: _childBuilder(context, data),
       ),
     );

@@ -1,8 +1,9 @@
 import 'dart:convert';
 
+import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
-import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
+import 'package:uni/controller/fetchers/academics/course_units/course_units_info_fetcher.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
@@ -55,34 +56,33 @@ Future<Sheet> parseSheet(http.Response response) async {
         .toList(),
   );
 
-  final regents =
-      (json['responsabilidades'] as List).map((element) {
-        return Professor.fromJson(element as Map<String, dynamic>);
-      }).toList();
+  final regents = (json['responsabilidades'] as List).map((element) {
+    return Professor.fromJson(element as Map<String, dynamic>, isRegent: true);
+  }).toList();
 
   for (final regent in regents) {
     professors
-        .firstWhere(
-          (professor) => professor.code == regent.code,
-          orElse: () {
-            regent.isRegent = true;
-            professors.add(regent);
-            return regent;
-          },
-        )
-        .isRegent = true;
+            .firstWhere(
+              (professor) => professor.code == regent.code,
+              orElse: () {
+                regent.isRegent = true;
+                professors.add(regent);
+                return regent;
+              },
+            )
+            .isRegent =
+        true;
   }
 
-  final books =
-      (json['bibliografia'] as List? ?? [])
-          .map((element) => element as Map<String, dynamic>)
-          .map<Book>((element) {
-            return Book(
-              title: element['titulo'].toString(),
-              isbn: element['isbn'].toString(),
-            );
-          })
-          .toList();
+  final books = (json['bibliografia'] as List? ?? [])
+      .map((element) => element as Map<String, dynamic>)
+      .map<Book>((element) {
+        return Book(
+          title: element['titulo'].toString(),
+          isbn: element['isbn'].toString(),
+        );
+      })
+      .toList();
 
   return Sheet(
     professors: professors,
@@ -97,15 +97,18 @@ List<Professor> getCourseUnitProfessors(List<Map<String, dynamic>> ds) {
   final professors = <Professor>[];
   for (final map in ds) {
     for (final docente in map['docentes'] as List<dynamic>) {
-      final professor = Professor(
-        code: (docente as Map<String, dynamic>)['doc_codigo'].toString(),
-        name: shortName(docente['nome'].toString()),
+      final professor = Professor.fromJson(
+        docente as Map<String, dynamic>,
         classes: [map['tipo'].toString()],
       );
+
       if (professors.contains(professor)) {
-        professors[professors.indexWhere((element) => element == professor)]
-            .classes
-            .add(map['tipo'].toString());
+        final existingProfessor =
+            professors[professors.indexWhere(
+              (element) => element == professor,
+            )];
+
+        existingProfessor.classes.add(map['tipo'].toString());
       } else {
         professors.add(professor);
       }
@@ -164,7 +167,8 @@ List<CourseUnitClass> parseCourseUnitClasses(
       final columns = row.querySelectorAll('td.k.t');
       final studentName = columns[0].children[0].innerHtml;
       final studentNumber = int.tryParse(columns[1].innerHtml.trim()) ?? 0;
-      final studentMail = columns[2].innerHtml;
+      final studentMail =
+          _extractStudentEmail(columns[2]) ?? studentNumber.toString();
 
       final studentPhoto = Uri.parse(
         '${baseUrl}fotografias_service.foto?pct_cod=$studentNumber',
@@ -197,4 +201,51 @@ String _htmlAfterElement(String body, String elementOuterHtml) {
 String shortName(String name) {
   final splitName = name.split(' ');
   return '${splitName.first} ${splitName.last}';
+}
+
+Map<String, int> parseOccurences(http.Response response) {
+  final data = jsonDecode(response.body) as List<dynamic>;
+  final result = <String, int>{};
+  for (var occur in data) {
+    occur = occur as Map<String, dynamic>;
+    final year = occur['ano_letivo'] as int;
+    final id = occur['id'] as int;
+    final key = '$year/${year + 1}';
+    result[key] = id;
+  }
+  return result;
+}
+
+String? _decodeCloudflareEmail(String encodedHex) {
+  try {
+    final key = int.parse(encodedHex.substring(0, 2), radix: 16);
+    final buffer = StringBuffer();
+    for (var i = 2; i < encodedHex.length; i += 2) {
+      final charCode =
+          int.parse(encodedHex.substring(i, i + 2), radix: 16) ^ key;
+      buffer.writeCharCode(charCode);
+    }
+    final decoded = buffer.toString();
+    return decoded.contains('@') ? decoded : null;
+  } catch (_) {
+    return null;
+  }
+}
+
+String? _extractStudentEmail(dom.Element cell) {
+  final cfEl = cell.querySelector('[data-cfemail]');
+  final cfEncoded = cfEl?.attributes['data-cfemail'];
+  if (cfEncoded != null) {
+    final decoded = _decodeCloudflareEmail(cfEncoded);
+    if (decoded != null) {
+      return decoded;
+    }
+  }
+
+  final text = cell.text.trim();
+  if (text.contains('@')) {
+    return text;
+  }
+
+  return null;
 }

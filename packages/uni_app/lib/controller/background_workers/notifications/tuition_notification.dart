@@ -1,6 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
-import 'package:uni/controller/fetchers/fees_fetcher.dart';
+import 'package:uni/controller/fetchers/finances/current_account_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/session/flows/base/session.dart';
@@ -54,10 +54,15 @@ class TuitionNotification extends Notification {
     if (notificationsAreDisabled) {
       return false;
     }
-    final feesFetcher = FeesFetcher();
-    final dueDate = parseFeesNextLimit(
-      await feesFetcher.getUserFeesResponse(session),
-    );
+    final feesFetcher = CurrentAccountFetcher();
+    DateTime? dueDate;
+    try {
+      dueDate = parseFeesNextLimit(
+        await feesFetcher.getUserFeesResponse(session),
+      );
+    } catch (_) {
+      return false;
+    }
 
     if (dueDate == null) {
       return false;
@@ -91,10 +96,10 @@ class TuitionNotification extends Notification {
     );
 
     localNotificationsPlugin.show(
-      2,
-      content.$1,
-      content.$2,
-      notificationDetails,
+      id: 2,
+      title: content.$1,
+      body: content.$2,
+      notificationDetails: notificationDetails,
     );
   }
 }

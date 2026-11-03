@@ -14,10 +14,49 @@ String? getScheduleApiUrlFromHtml(http.Response response) {
   final scheduleElement = document.querySelector('#cal-shadow-container');
   final apiUrl = scheduleElement?.attributes['data-evt-source-url'];
 
+  if (apiUrl == null) {
+    return null;
+  }
+
+  final uri = Uri.parse(apiUrl);
+  if (!uri.hasScheme) {
+    throw FormatException('Invalid schedule API URL: $apiUrl');
+  }
+
   return apiUrl;
 }
 
 List<Lecture> getLecturesFromApiResponse(http.Response response) {
+  final json = jsonDecode(response.body) as Map<String, dynamic>;
+  final data = json['data'] as List<dynamic>;
+
+  return data
+      .cast<Map<String, dynamic>>()
+      .map(ResponseLecture.fromJson)
+      .expand(
+        (lecture) => lecture.classes.map(
+          (lectureClass) => Lecture(
+            lecture.units.first.acronym,
+            _filterSubjectName(lecture.units.first.name),
+            lecture.typology.acronym,
+            lecture.start,
+            lecture.end,
+            lecture.rooms.first.name,
+            lecture.persons.map((person) => person.acronym).join('+'),
+            _filterTeacherName(lecture.persons.first.name),
+            _filterTeacherCode(lecture.persons.first.name),
+            lectureClass.acronym,
+            lecture.units.first.sigarraId,
+          ),
+        ),
+      )
+      .toList();
+}
+
+/// Returns one [Lecture] per unique time slot, without expanding across
+/// classes. This avoids creating duplicate objects for lectures (e.g.
+/// theoretical classes) that are shared by multiple class groups.
+List<Lecture> getUniqueLecturesFromApiResponse(http.Response response) {
   final json = jsonDecode(response.body) as Map<String, dynamic>;
   final data = json['data'] as List<dynamic>;
 
@@ -35,9 +74,7 @@ List<Lecture> getLecturesFromApiResponse(http.Response response) {
           lecture.persons.map((person) => person.acronym).join('+'),
           _filterTeacherName(lecture.persons.first.name),
           _filterTeacherCode(lecture.persons.first.name),
-          lecture.classes.length > 1
-              ? '${lecture.classes.first.acronym} + ${lecture.classes.length - 1}'
-              : lecture.classes.first.acronym,
+          lecture.classes.first.acronym,
           lecture.units.first.sigarraId,
         ),
       )

@@ -14,10 +14,9 @@ class LocationGroup {
     List<Location>? locations,
     this.isFloorless = false,
     this.id,
-  }) : floors =
-           locations != null
-               ? groupBy(locations, (location) => location.floor)
-               : Map.identity();
+  }) : floors = locations != null
+           ? groupBy(locations, (location) => location.floor)
+           : Map.identity();
 
   factory LocationGroup.fromJson(Map<String, dynamic> json) =>
       _$LocationGroupFromJson(json);
@@ -32,6 +31,13 @@ class LocationGroup {
     return allLocations.reduce(
       (current, next) => current.weight > next.weight ? current : next,
     );
+  }
+
+  Location? getLocationForFloor(int? floor) {
+    if (floor != null && floors.containsKey(floor)) {
+      return floors[floor]!.reduce((a, b) => a.weight > b.weight ? a : b);
+    }
+    return getLocationWithMostWeight();
   }
 
   Map<String, dynamic> toJson() => _$LocationGroupToJson(this);

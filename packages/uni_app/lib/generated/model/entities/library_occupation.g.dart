@@ -11,10 +11,9 @@ LibraryOccupation _$LibraryOccupationFromJson(Map<String, dynamic> json) =>
         (json['occupation'] as num).toInt(),
         (json['capacity'] as num).toInt(),
       )
-      ..floors =
-          (json['floors'] as List<dynamic>)
-              .map((e) => FloorOccupation.fromJson(e as Map<String, dynamic>))
-              .toList();
+      ..floors = (json['floors'] as List<dynamic>)
+          .map((e) => FloorOccupation.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$LibraryOccupationToJson(LibraryOccupation instance) =>
     <String, dynamic>{

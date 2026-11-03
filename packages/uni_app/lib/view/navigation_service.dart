@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:uni/controller/cleanup.dart';
 import 'package:uni/main.dart';
@@ -7,9 +5,13 @@ import 'package:uni/view/login/login.dart';
 
 /// Manages the navigation logic
 class NavigationService {
-  static void logoutAndPopHistory() {
+  static Future<void> logoutAndPopHistory() async {
     final context = Application.navigatorKey.currentContext!;
-    unawaited(cleanupStoredData(context));
+    await cleanupStoredData(context);
+
+    if (!context.mounted) {
+      return;
+    }
 
     Navigator.pushAndRemoveUntil(
       context,

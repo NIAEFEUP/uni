@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/src/phosphor_icon_data.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:uni_ui/common_widgets/pulse_animation.dart';
 import 'package:uni_ui/icons.dart';
 
@@ -60,9 +60,11 @@ class _FileCardState extends State<FileCard>
   }
 
   void stopAnimation() {
-    _controller
-      ..stop()
-      ..reset();
+    if (mounted) {
+      _controller
+        ..stop()
+        ..reset();
+    }
   }
 
   PhosphorDuotoneIconData getIconForExtension(String extension) {
@@ -106,10 +108,14 @@ class _FileCardState extends State<FileCard>
         controller: _controller,
         child: ListTile(
           contentPadding: EdgeInsets.only(left: 32),
-          title: Text(widget.filename, overflow: TextOverflow.ellipsis),
+          title: Text(
+            widget.filename,
+            style: Theme.of(context).textTheme.bodyMedium,
+            overflow: TextOverflow.ellipsis,
+          ),
           leading: UniIcon(
             getIconForExtension(widget.extension),
-            color: Theme.of(context).iconTheme.color,
+            color: Theme.of(context).colorScheme.onSecondary,
             size: 35,
           ),
         ),

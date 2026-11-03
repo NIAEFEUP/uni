@@ -15,11 +15,11 @@ class CalendarLine extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 60,
+            width: 80,
             height: 4,
             margin: const EdgeInsets.only(right: 15),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.onSecondary,
               borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(2),
                 bottomRight: Radius.circular(2),
@@ -33,17 +33,17 @@ class CalendarLine extends StatelessWidget {
               height: 4,
               margin: const EdgeInsets.symmetric(horizontal: 15),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.onSecondary,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
           ),
           Container(
-            width: 60,
+            width: 80,
             height: 4,
             margin: const EdgeInsets.only(left: 15),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.onSecondary,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(2),
                 bottomLeft: Radius.circular(2),
@@ -94,9 +94,12 @@ class _CalendarState extends State<Calendar> {
       controller: _scrollController,
       child: Stack(
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: widget.items,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: widget.items,
+            ),
           ),
           CalendarLine(calendarItemsCount: widget.items.length),
         ],

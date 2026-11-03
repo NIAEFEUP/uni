@@ -3,7 +3,7 @@ enum NavigationItem {
   navPersonalArea('area'),
   navExams('exames'),
   navCourseUnit('cadeira'),
-  navStops('autocarros'),
+  navProfessorSchedule('horario_docente'),
   navLocations('locais', faculties: {'feup'}),
   navRestaurants('restaurantes'),
   navCalendar('calendario'),
@@ -16,7 +16,10 @@ enum NavigationItem {
   navLogin('login'),
   navBugreport('bug_report'),
   navSplash('splash'),
-  navAboutus('sobre_nos');
+  navAboutus('sobre_nos'),
+  navCurrentAccount('conta_corrente'),
+  navIntroduction('introducao'),
+  navProfileInfo('informacoes_pessoais');
 
   const NavigationItem(this.route, {this.faculties});
 

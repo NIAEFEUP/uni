@@ -4,6 +4,7 @@ import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 Map<String, int> _parseOccurIdsFromCurricularUnits(Document? document) {
   final map = <String, int>{};
@@ -60,12 +61,13 @@ Map<String, int> _parseOccurIdsFromCurricularUnits(Document? document) {
   return map;
 }
 
-List<CourseUnit> parseCourseUnitsAndCourseAverage(
+Future<List<CourseUnit>> parseCourseUnitsAndCourseAverage(
+  Session session,
   http.Response responseAcademicPath,
   http.Response? responseCurricularUnits,
   Course course, {
   List<CourseUnit>? currentCourseUnits,
-}) {
+}) async {
   final documentAcademicPath = parse(responseAcademicPath.body);
   final documentCurricularUnits = parse(responseCurricularUnits?.body);
   final occurIdMap = _parseOccurIdsFromCurricularUnits(documentCurricularUnits);
@@ -77,17 +79,28 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
   final labels = documentAcademicPath.querySelectorAll(
     '.caixa .formulario-legenda',
   );
-  if (labels.length >= 2) {
-    course.currentAverage ??= double.tryParse(
-      labels[0].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0',
-    );
-    course.finishedEcts ??= double.tryParse(
-      labels[1].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0',
-    );
-  }
 
-  final firstSchoolYearData =
-      table.querySelector('tr')?.children[1].text.trim();
+  course.currentAverage ??= double.tryParse(
+    (labels.isNotEmpty ? labels[0].nextElementSibling?.innerHtml : null)
+            ?.replaceFirst(',', '.') ??
+        '0',
+  );
+
+  String? finishedEctsText;
+  final totalsRow = table
+      .querySelectorAll('tr')
+      .lastWhereOrNull((r) => r.classes.isEmpty);
+  finishedEctsText = totalsRow?.querySelector('td.totais.n')?.innerHtml;
+
+  course.finishedEcts ??= double.tryParse(
+    finishedEctsText?.replaceFirst(',', '.') ?? '0',
+  );
+
+  final firstSchoolYearData = table
+      .querySelector('tr')
+      ?.children[1]
+      .text
+      .trim();
   if (firstSchoolYearData == null) {
     return [];
   }
@@ -109,8 +122,9 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
     final year = row.children[0].innerHtml;
     final semester = row.children[1].innerHtml;
     final rawHref = row.children[2].firstChild!.attributes['href']!;
-    final originalOccurId =
-        Uri.parse(rawHref).queryParameters['pv_ocorrencia_id']!;
+    final originalOccurId = Uri.parse(
+      rawHref,
+    ).queryParameters['pv_ocorrencia_id']!;
     final codeName = row.children[2].children[0].innerHtml;
     final name = row.children[3].children[0].innerHtml;
     final ects = row.children[5].innerHtml.replaceAll(',', '.');
@@ -121,10 +135,12 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
         break;
       }
       yearIncrement++;
-      final status =
-          row.children[7 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
-      final grade =
-          row.children[6 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
+      final status = row.children[7 + i].innerHtml
+          .replaceAll('&nbsp;', ' ')
+          .trim();
+      final grade = row.children[6 + i].innerHtml
+          .replaceAll('&nbsp;', ' ')
+          .trim();
 
       if (status.isEmpty) {
         continue;
@@ -140,9 +156,11 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
       final finalOccurIdStr =
           occurIdMap[mappingKey]?.toString() ?? originalOccurId;
 
+      final occurId = int.parse(finalOccurIdStr);
+
       final courseUnit = CourseUnit(
         schoolYear: schoolYear,
-        occurrId: int.parse(finalOccurIdStr),
+        occurrId: occurId,
         code: codeName,
         abbreviation: matchingCurrentCourseUnit?.abbreviation ?? codeName,
         status: status,

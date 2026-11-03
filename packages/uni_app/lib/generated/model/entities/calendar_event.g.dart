@@ -9,14 +9,12 @@ part of '../../../model/entities/calendar_event.dart';
 CalendarEvent _$CalendarEventFromJson(Map<String, dynamic> json) =>
     CalendarEvent(
       name: json['name'] as String,
-      startDate:
-          json['start_date'] == null
-              ? null
-              : DateTime.parse(json['start_date'] as String),
-      endDate:
-          json['end_date'] == null
-              ? null
-              : DateTime.parse(json['end_date'] as String),
+      startDate: json['start_date'] == null
+          ? null
+          : DateTime.parse(json['start_date'] as String),
+      endDate: json['end_date'] == null
+          ? null
+          : DateTime.parse(json['end_date'] as String),
     )..uniqueId = (json['uniqueId'] as num?)?.toInt();
 
 Map<String, dynamic> _$CalendarEventToJson(CalendarEvent instance) =>

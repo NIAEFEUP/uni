@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>pt.up.fe.ni.uni.notificationworker</string>
@@ -56,6 +58,10 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCalendarsUsageDescription</key>
+	<string>Exportar exames e eventos para o calendário</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>Exportar exames e eventos para o calendário</string>
+	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
 	<string>Exportar exames e eventos para o calendário</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Possibilidade de adicionar prints a um bug report</string>

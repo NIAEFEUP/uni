@@ -23,6 +23,7 @@ import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/view/login/widgets/remember_me_checkbox.dart';
 import 'package:uni/view/login/widgets/terms_and_conditions_button.dart';
 import 'package:uni/view/widgets/toast_message.dart';
+import 'package:uni_ui/modal/modal.dart';
 import 'package:uni_ui/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -60,12 +61,14 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
   @override
   void initState() {
     super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     super.dispose();
   }
 
@@ -96,7 +99,7 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
         if (mounted) {
           await Navigator.pushReplacementNamed(
             context,
-            '/${NavigationItem.navPersonalArea.route}',
+            '/${NavigationItem.navIntroduction.route}',
           );
           setState(() {
             _loggingIn = false;
@@ -167,6 +170,11 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
           _loggingIn = true;
         });
       }
+      if (mounted) {
+        setState(() {
+          _loggingIn = true;
+        });
+      }
 
       final appLinks = UniAppLinks();
 
@@ -194,11 +202,17 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
           _loggingIn = true;
         });
       }
+      if (mounted) {
+        setState(() {
+          _intercepting = true;
+          _loggingIn = true;
+        });
+      }
 
       if (mounted) {
         await Navigator.pushReplacementNamed(
           context,
-          '/${NavigationItem.navPersonalArea.route}',
+          '/${NavigationItem.navIntroduction.route}',
         );
       }
 
@@ -215,6 +229,8 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
         setState(() {
           _loggingIn = false;
         });
+      }
+      if (mounted) {
         Logger().e(S.of(context).fail_to_authenticate);
         unawaited(
           ToastMessage.error(context, S.of(context).fail_to_authenticate),
@@ -227,28 +243,35 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+      ),
+    );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return Theme(
       data: Theme.of(context),
       child: Builder(
-        builder:
-            (context) => AnnotatedRegion<SystemUiOverlayStyle>(
-              value: AppSystemOverlayStyles.base.copyWith(
-                statusBarIconBrightness: Brightness.light,
-                statusBarBrightness: Brightness.dark,
-                systemNavigationBarIconBrightness: Brightness.light,
-              ),
-              child: Scaffold(
-                resizeToAvoidBottomInset: false,
-                backgroundColor: const Color(0xFF280709),
-                body: BackButtonExitWrapper(
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: Align(
-                          alignment: const Alignment(0, -0.4),
-                          child: Hero(
-                            tag: 'logo',
-                            flightShuttleBuilder: (
+        builder: (context) => AnnotatedRegion<SystemUiOverlayStyle>(
+          value: AppSystemOverlayStyles.base.copyWith(
+            statusBarIconBrightness: Brightness.light,
+            statusBarBrightness: Brightness.dark,
+            systemNavigationBarIconBrightness: Brightness.light,
+          ),
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            backgroundColor: const Color(0xFF280709),
+            body: BackButtonExitWrapper(
+              child: Stack(
+                children: [
+                  Center(
+                    child: Align(
+                      alignment: const Alignment(0, -0.4),
+                      child: Hero(
+                        tag: 'logo',
+                        flightShuttleBuilder:
+                            (
                               flightContext,
                               animation,
                               flightDirection,
@@ -273,88 +296,102 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
                                 ),
                               );
                             },
-                            child: SvgPicture.asset(
-                              'assets/images/logo_dark.svg',
-                              width: 90,
-                              height: 90,
-                              colorFilter: const ColorFilter.mode(
-                                Color(0xFFFFF5F3),
-                                BlendMode.srcIn,
-                              ),
-                            ),
+                        child: SvgPicture.asset(
+                          'assets/images/logo_dark.svg',
+                          width: 90,
+                          height: 90,
+                          colorFilter: const ColorFilter.mode(
+                            Color(0xFFFFF5F3),
+                            BlendMode.srcIn,
                           ),
                         ),
                       ),
-                      Container(
-                        decoration: const BoxDecoration(
-                          gradient: RadialGradient(
-                            center: Alignment(-0.95, -1),
-                            colors: [Color(0x705F171D), Color(0x02511515)],
-                            stops: [0, 1],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        decoration: const BoxDecoration(
-                          gradient: RadialGradient(
-                            center: Alignment(0.1, 0.95),
-                            radius: 0.3,
-                            colors: [Color(0x705F171D), Color(0x02511515)],
-                            stops: [0, 1],
-                          ),
-                        ),
-                      ),
-                      if (_loggingIn)
-                        const Align(
-                          alignment: Alignment(0, 0.35),
-                          child: CircularProgressIndicator(color: Colors.white),
-                        ),
-                      if (!_loggingIn)
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: MediaQuery.of(context).size.width / 14,
-                          ),
-                          child: Align(
-                            alignment: const Alignment(0, 0.35),
-                            child: FLoginButton(onPressed: _falogin),
-                          ),
-                        ),
-                      Align(
-                        alignment: const Alignment(0, 0.51),
-                        child: RememberMeCheckBox(
-                          keepSignedIn: _keepSignedIn,
-                          onToggle: () {
-                            setState(() {
-                              _keepSignedIn = !_keepSignedIn;
-                            });
-                          },
-                          padding: const EdgeInsets.symmetric(horizontal: 37),
-                          theme: Theme.of(context).textTheme.bodyLarge
-                              ?.copyWith(color: const Color(0xFFFFFFFF)),
-                        ),
-                      ),
-                      Align(
-                        alignment: const Alignment(0, 0.58),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 35),
-                          child: LinkWidget(
-                            textStart: S.of(context).try_different_login,
-                            textEnd: S.of(context).login_with_credentials,
-                            recognizer:
-                                TapGestureRecognizer()
-                                  ..onTap = _showAlternativeLogin,
-                          ),
-                        ),
-                      ),
-                      const Align(
-                        alignment: Alignment(0, 0.88),
-                        child: TermsAndConditionsButton(),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                  Container(
+                    decoration: const BoxDecoration(
+                      gradient: RadialGradient(
+                        center: Alignment(-0.95, -1),
+                        colors: [Color(0x705F171D), Color(0x02511515)],
+                        stops: [0, 1],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: const BoxDecoration(
+                      gradient: RadialGradient(
+                        center: Alignment(0.1, 0.95),
+                        radius: 0.3,
+                        colors: [Color(0x705F171D), Color(0x02511515)],
+                        stops: [0, 1],
+                      ),
+                    ),
+                  ),
+                  if (_loggingIn)
+                    Align(
+                      alignment: const Alignment(0, 0.35),
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  if (!_loggingIn)
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width / 14,
+                      ),
+                      child: Align(
+                        alignment: const Alignment(0, 0.35),
+                        child: FLoginButton(onPressed: _falogin),
+                      ),
+                    ),
+                  if (!_loggingIn)
+                    Align(
+                      alignment: const Alignment(0, 0.51),
+                      child: RememberMeCheckBox(
+                        keepSignedIn: _keepSignedIn,
+                        onToggle: () {
+                          setState(() {
+                            _keepSignedIn = !_keepSignedIn;
+                          });
+                        },
+                        padding: const EdgeInsets.symmetric(horizontal: 37),
+                        theme: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ),
+                  Align(
+                    alignment: const Alignment(0, 0.58),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 35),
+                      child: LinkWidget(
+                        textStart: S.of(context).try_different_login,
+                        textEnd: S.of(context).login_with_credentials,
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = _showAlternativeLogin,
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: const Alignment(0, 0.65),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 35),
+                      child: LinkWidget(
+                        textStart: S.of(context).spotted_an_error,
+                        textEnd: S.of(context).report_bug,
+                        recognizer: TapGestureRecognizer()..onTap = _reportABug,
+                      ),
+                    ),
+                  ),
+                  const Align(
+                    alignment: Alignment(0, 0.88),
+                    child: TermsAndConditionsButton(),
+                  ),
+                ],
               ),
             ),
+          ),
+        ),
       ),
     );
   }
@@ -364,103 +401,102 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (_) {
-        return AlertDialog(
-          title: Text(
-            S.of(context).login_with_credentials,
-            style: Theme.of(
-              context,
-            ).textTheme.headlineLarge?.copyWith(color: const Color(0xFF280709)),
-            textAlign: TextAlign.center,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-          backgroundColor: const Color(0xFFFFF5F3),
-          actionsAlignment: MainAxisAlignment.center,
-          content: StatefulBuilder(
-            builder: (context, setState) {
-              return SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      createUsernameInput(
-                        context,
-                        usernameController,
-                        usernameFocus,
-                        passwordFocus,
-                      ),
-                      const SizedBox(height: 10),
-                      createPasswordInput(
-                        context,
-                        passwordController,
-                        passwordFocus,
-                        () {
-                          setState(() {
-                            _obscurePasswordInput = !_obscurePasswordInput;
-                          });
-                        },
-                        _login,
-                        obscurePasswordInput: _obscurePasswordInput,
-                      ),
-                      const SizedBox(height: 15),
-                      RememberMeCheckBox(
-                        keepSignedIn: _keepSignedIn,
-                        onToggle: () {
-                          setState(() {
-                            _keepSignedIn = !_keepSignedIn;
-                          });
-                        },
-                        textColor: const Color(0xFF280709),
-                        padding: EdgeInsets.zero,
-                        theme: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: const Color(0xFF280709),
+        return ModalDialog(
+          children: [
+            Text(
+              S.of(context).login_with_credentials,
+              style: Theme.of(context).textTheme.headlineLarge,
+              textAlign: TextAlign.center,
+            ),
+            StatefulBuilder(
+              builder: (context, setState) {
+                return SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        createUsernameInput(
+                          context,
+                          usernameController,
+                          usernameFocus,
+                          passwordFocus,
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 8),
+                        createPasswordInput(
+                          context,
+                          passwordController,
+                          passwordFocus,
+                          () {
+                            setState(() {
+                              _obscurePasswordInput = !_obscurePasswordInput;
+                            });
+                          },
+                          _login,
+                          obscurePasswordInput: _obscurePasswordInput,
+                        ),
+                        const SizedBox(height: 15),
+                        RememberMeCheckBox(
+                          keepSignedIn: _keepSignedIn,
+                          onToggle: () {
+                            setState(() {
+                              _keepSignedIn = !_keepSignedIn;
+                            });
+                          },
+                          textColor: Theme.of(
+                            context,
+                          ).colorScheme.onSurfaceVariant,
+                          padding: EdgeInsets.zero,
+                          theme: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSecondary,
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(
+                    S.of(context).cancel,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
-              );
-            },
-          ),
-          actions: <Widget>[
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF3C0A0E),
-                foregroundColor: const Color(0xFFFFF5F3),
-                side: const BorderSide(color: Color(0xFF56272B)),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                const SizedBox(width: 8),
+                TextButton(
+                  onPressed: () {
+                    _login();
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.onSecondary,
+                  ),
+                  child: Text(
+                    S.of(context).login,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                  ),
                 ),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(S.of(context).cancel),
-            ),
-            const SizedBox(width: 6),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF3C0A0E),
-                foregroundColor: const Color(0xFFFFF5F3),
-                side: const BorderSide(color: Color(0xFF56272B)),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              onPressed: () {
-                _login();
-                if (_formKey.currentState!.validate()) {
-                  Navigator.of(context).pop();
-                }
-              },
-              child: Text(S.of(context).login),
+              ],
             ),
           ],
         );
       },
     );
+  }
+
+  Future<void> _reportABug() async {
+    await Navigator.pushNamed(context, '/${NavigationItem.navBugreport.route}');
   }
 
   void _updatePasswordDialog() {
@@ -475,7 +511,7 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
               Text(
                 S.of(context).pass_change_request,
                 textAlign: TextAlign.start,
-                style: Theme.of(context).textTheme.titleSmall,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 20),
               Align(
@@ -496,11 +532,8 @@ class LoginPageViewState extends ConsumerState<LoginPageView>
             ),
             ElevatedButton(
               child: Text(S.of(context).change),
-              onPressed:
-                  () => launchUrlWithToast(
-                    context,
-                    'https://self-id.up.pt/password',
-                  ),
+              onPressed: () =>
+                  launchUrlWithToast(context, 'https://self-id.up.pt/password'),
             ),
           ],
         );

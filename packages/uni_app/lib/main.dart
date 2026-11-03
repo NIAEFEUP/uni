@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -14,12 +13,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
 import 'package:uni/controller/cleanup.dart';
-import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
+import 'package:uni/controller/fetchers/core/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/migrations/migration_controller.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
+import 'package:uni/model/entities/course_units/sheet.dart';
+import 'package:uni/model/providers/mocks/mock_exam_provider.dart';
+import 'package:uni/model/providers/mocks/mock_lecture_provider.dart';
 import 'package:uni/model/providers/plausible/plausible_provider.dart';
+import 'package:uni/model/providers/riverpod/exam_provider.dart';
+import 'package:uni/model/providers/riverpod/lecture_provider.dart';
+import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/theme_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/about/about.dart';
@@ -27,13 +32,17 @@ import 'package:uni/view/academic_path/academic_path.dart';
 import 'package:uni/view/bug_report/bug_report.dart';
 import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
+import 'package:uni/view/current_account/current_account.dart';
 import 'package:uni/view/faculty/faculty.dart';
 import 'package:uni/view/home/edit_home.dart';
 import 'package:uni/view/home/home.dart';
+import 'package:uni/view/introduction/introduction.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/login/login.dart';
 import 'package:uni/view/map/map.dart';
+import 'package:uni/view/professor/professor_schedule_page.dart';
 import 'package:uni/view/profile/profile.dart';
+import 'package:uni/view/profile_info/profile_info.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/widgets/page_transition.dart';
@@ -68,10 +77,7 @@ Future<void> main() async {
   unawaited(cleanupCachedFiles());
 
   // Initialize WorkManager for background tasks
-  await Workmanager().initialize(
-    workerStartCallback,
-    isInDebugMode: !kReleaseMode,
-  );
+  await Workmanager().initialize(workerStartCallback);
 
   // NoSQL database initialization
   await Database().init();
@@ -94,16 +100,18 @@ Future<void> main() async {
 
   final ua = await userAgent();
 
-  final plausible =
-      plausibleUrl != null && plausibleDomain != null
-          ? Plausible(plausibleUrl, plausibleDomain, userAgent: ua)
-          : null;
+  final plausible = plausibleUrl != null && plausibleDomain != null
+      ? Plausible(plausibleUrl, plausibleDomain, userAgent: ua)
+      : null;
 
   if (plausible == null) {
     Logger().w('Plausible is not enabled');
   }
 
   const route = '/splash';
+
+  const useMockSchedule = bool.fromEnvironment('MOCK_SCHEDULE');
+  const useMockExams = bool.fromEnvironment('MOCK_EXAMS');
 
   await SentryFlutter.init(
     (options) {
@@ -113,6 +121,11 @@ Future<void> main() async {
     appRunner: () {
       runApp(
         ProviderScope(
+          overrides: [
+            if (useMockSchedule)
+              lectureProvider.overrideWith(MockLectureNotifier.new),
+            if (useMockExams) examProvider.overrideWith(MockExamNotifier.new),
+          ],
           child: PlausibleProvider(
             plausible: plausible,
             child: const Application(route),
@@ -153,6 +166,7 @@ class ApplicationState extends ConsumerState<Application> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(profileProvider);
     final themeMode = ref.watch<ThemeMode>(themeProvider);
     final locale = ref.watch(localeProvider);
 
@@ -168,6 +182,7 @@ class ApplicationState extends ConsumerState<Application> {
             title: 'uni',
             navigatorKey: Application.navigatorKey,
             theme: lightTheme,
+            darkTheme: darkTheme,
             themeMode: themeMode,
             locale: locale.localeCode,
             localizationsDelegates: const [
@@ -182,44 +197,45 @@ class ApplicationState extends ConsumerState<Application> {
             onGenerateRoute: (settings) {
               final args = settings.arguments;
               final courseUnit = args is CourseUnit ? args : null;
+              final professor = args is Professor ? args : null;
               final transitionFunctions = <String, Route<dynamic> Function()>{
-                '/${NavigationItem.navSplash.route}':
-                    () => PageTransition.splashTransitionRoute(
+                '/${NavigationItem.navSplash.route}': () =>
+                    PageTransition.splashTransitionRoute(
                       page: const SplashScreenView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navEditPersonalArea.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navEditPersonalArea.route}': () =>
+                    PageTransition.makePageTransition(
                       page: const EditHomeView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navLogin.route}':
-                    () => PageTransition.splashTransitionRoute(
+                '/${NavigationItem.navLogin.route}': () =>
+                    PageTransition.splashTransitionRoute(
                       page: const LoginPageView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navPersonalArea.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navPersonalArea.route}': () =>
+                    PageTransition.makePageTransition(
                       page: const HomePageView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navMap.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navMap.route}': () =>
+                    PageTransition.makePageTransition(
                       page: const MapPage(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navRestaurants.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navRestaurants.route}': () =>
+                    PageTransition.makePageTransition(
                       page: const RestaurantPageView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navCalendar.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navCalendar.route}': () =>
+                    PageTransition.makePageTransition(
                       page: const CalendarPageView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navFaculty.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navFaculty.route}': () =>
+                    PageTransition.makePageTransition(
                       page: const FacultyPageView(),
                       settings: settings,
                     ),
@@ -231,24 +247,44 @@ class ApplicationState extends ConsumerState<Application> {
                     settings: settings,
                   );
                 },
-                '/${NavigationItem.navProfile.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navProfile.route}': () =>
+                    PageTransition.makePageTransition(
                       page: const ProfilePageView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navBugreport.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navBugreport.route}': () =>
+                    PageTransition.makePageTransition(
                       page: const BugReportPageView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navAboutus.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navAboutus.route}': () =>
+                    PageTransition.makePageTransition(
                       page: const AboutPageView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navCourseUnit.route}':
-                    () => PageTransition.makePageTransition(
+                '/${NavigationItem.navCourseUnit.route}': () =>
+                    PageTransition.makePageTransition(
                       page: CourseUnitDetailPageView(courseUnit!),
+                      settings: settings,
+                    ),
+                '/${NavigationItem.navIntroduction.route}': () =>
+                    PageTransition.introductionTransitionRoute(
+                      page: const IntroductionScreenView(),
+                      settings: settings,
+                    ),
+                '/${NavigationItem.navProfileInfo.route}': () =>
+                    PageTransition.makePageTransition(
+                      page: const ProfileInfoPageView(),
+                      settings: settings,
+                    ),
+                '/${NavigationItem.navProfessorSchedule.route}': () =>
+                    PageTransition.makePageTransition(
+                      page: ProfessorSchedulePageView(professor!),
+                      settings: settings,
+                    ),
+                '/${NavigationItem.navCurrentAccount.route}': () =>
+                    PageTransition.makePageTransition(
+                      page: const CurrentAccountPageView(),
                       settings: settings,
                     ),
               };

@@ -7,8 +7,9 @@ import 'package:http/http.dart' as http;
 Future<String> getPrintsBalance(http.Response response) async {
   final document = parse(response.body);
 
-  final balanceString =
-      document.querySelector('div#conteudoinner > .info')?.text;
+  final balanceString = document
+      .querySelector('div#conteudoinner > .info')
+      ?.text;
 
   final balance = balanceString?.split(': ')[1];
 

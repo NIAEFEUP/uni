@@ -15,6 +15,7 @@ class Profile {
     this.printBalance = '',
     this.feesBalance = '',
     this.feesLimit,
+    this.answeredPedagogicalSurveys = false,
   }) : courses = courses ?? [],
        courseUnits = [];
 
@@ -41,6 +42,7 @@ class Profile {
   String printBalance;
   String feesBalance;
   DateTime? feesLimit;
+  bool answeredPedagogicalSurveys;
   @Transient()
   List<Course> courses;
   @Transient()

@@ -9,7 +9,8 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/view/academic_path/widgets/course_units_view.dart';
-import 'package:uni/view/academic_path/widgets/no_courses_widget.dart';
+import 'package:uni/view/academic_path/widgets/courses_page_shimmer.dart';
+import 'package:uni_ui/common_widgets/empty_state_widget.dart';
 import 'package:uni_ui/courses/average_bar.dart';
 import 'package:uni_ui/courses/course_info.dart';
 import 'package:uni_ui/courses/course_selection.dart';
@@ -69,8 +70,13 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
       return null;
     }
 
-    if (course.state != 'A Frequentar' &&
-        !(course.state?.startsWith('Concluído') ?? false)) {
+    final state = course.state!;
+    final bool isAttending =
+        state.toLowerCase().contains('frequent') ||
+        state.toLowerCase().contains('attend');
+    final bool isConcluded = state.toLowerCase().contains('concl');
+
+    if (!isAttending && !isConcluded) {
       return null;
     }
 
@@ -83,13 +89,22 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
   }
 
   int? _getConclusionYear(Course course) {
-    if (course.state == null || course.state == 'A Frequentar') {
+    if (course.state == null) {
       return null;
     }
 
-    final length = course.state!.length;
-    final year = int.tryParse(course.state!.substring(length - 5, length - 1));
-    return year;
+    final state = course.state!;
+    if (state.toLowerCase().contains('frequent') ||
+        state.toLowerCase().contains('attend')) {
+      return null;
+    }
+
+    final matches = RegExp(r'(19|20)\d{2}').allMatches(state);
+    if (matches.isEmpty) {
+      return null;
+    }
+    final last = matches.last.group(0);
+    return last != null ? int.tryParse(last) : null;
   }
 
   String _getCourseAbbreviation(Course course) {
@@ -101,6 +116,8 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
       return '???';
     }
 
+    //TODO: This fix(finished courses the abbreviation is null) works when the
+    //app is in portuguese, but not in english. Where instead of LEIC it will be BICE.
     return course.name!
         .replaceAll('Licenciatura', 'Licenciatura.')
         .replaceAll('Mestrado', 'Mestrado.')
@@ -126,14 +143,13 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
           children: [
             Center(
               child: CourseSelection(
-                courseInfos:
-                    courses.map((course) {
-                      return CourseInfo(
-                        abbreviation: _getCourseAbbreviation(course),
-                        enrollmentYear: _getEnrollmentYear(course),
-                        conclusionYear: _getConclusionYear(course),
-                      );
-                    }).toList(),
+                courseInfos: courses.map((course) {
+                  return CourseInfo(
+                    abbreviation: _getCourseAbbreviation(course),
+                    enrollmentYear: _getEnrollmentYear(course),
+                    conclusionYear: _getConclusionYear(course),
+                  );
+                }).toList(),
                 onSelected: _onCourseUnitSelected,
                 selected: _courseUnitIndex,
                 nowText: S.of(context).now,
@@ -143,7 +159,7 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
               padding: const EdgeInsets.only(top: 16),
               child: Text(
                 course.name ?? '',
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: Theme.of(context).textTheme.headlineLarge,
                 textAlign: TextAlign.center,
               ),
             ),
@@ -172,16 +188,22 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
       },
       nullContentWidget: LayoutBuilder(
         // Band-aid for allowing refresh on null content
-        builder:
-            (context, constraints) => SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Container(
-                height: constraints.maxHeight,
-                padding: const EdgeInsets.only(bottom: 120),
-                child: const Center(child: NoCoursesWidget()),
+        builder: (context, constraints) => SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Container(
+            height: constraints.maxHeight,
+            padding: const EdgeInsets.only(bottom: 120),
+            child: Center(
+              child: EmptyStateWidget(
+                imagePath: 'assets/images/school.png',
+                title: S.of(context).no_courses,
+                subtitle: S.of(context).no_courses_description,
               ),
             ),
+          ),
+        ),
       ),
+      loadingWidget: const ShimmerCoursesPage(),
       hasContent: (profile) => profile.courses.isNotEmpty,
     );
   }

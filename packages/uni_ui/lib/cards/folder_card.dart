@@ -17,13 +17,13 @@ class _FolderCardState extends State<FolderCard> {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      title: Text(widget.title),
+      title: Text(widget.title, style: Theme.of(context).textTheme.bodyLarge),
       leading: AnimatedSwitcher(
         duration: const Duration(milliseconds: 200),
         child: UniIcon(
           _isExpanded ? UniIcons.folderOpen : UniIcons.folderClosed,
           key: ValueKey<bool>(_isExpanded),
-          color: Theme.of(context).iconTheme.color,
+          color: Theme.of(context).colorScheme.onSecondary,
           size: 35,
         ),
       ),
@@ -33,7 +33,7 @@ class _FolderCardState extends State<FolderCard> {
         child: UniIcon(
           UniIcons.caretDown,
           key: ValueKey<bool>(_isExpanded),
-          color: Theme.of(context).iconTheme.color,
+          color: Theme.of(context).colorScheme.onSecondary,
           size: 35,
         ),
       ),
