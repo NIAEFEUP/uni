@@ -7,6 +7,7 @@ class ProfileListTile extends StatelessWidget {
     required this.icon,
     required this.title,
     this.subtitle,
+    this.titleMaxLines,
     this.trailing,
     this.onTap,
   });
@@ -14,6 +15,7 @@ class ProfileListTile extends StatelessWidget {
   final UniIconData icon;
   final String title;
   final String? subtitle;
+  final int? titleMaxLines;
   final VoidCallback? onTap;
   final Widget? trailing;
 
@@ -23,6 +25,7 @@ class ProfileListTile extends StatelessWidget {
       leading: UniIcon(icon, color: Theme.of(context).colorScheme.onSecondary),
       title: Text(
         title,
+        maxLines: titleMaxLines,
         overflow: TextOverflow.ellipsis,
         style: Theme.of(context).textTheme.titleLarge!,
       ),

@@ -1478,16 +1478,6 @@ class S {
     );
   }
 
-  /// `Hide sensitive info`
-  String get hide_sensitive_info {
-    return Intl.message(
-      'Hide sensitive info',
-      name: 'hide_sensitive_info',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Try again`
   String get try_again {
     return Intl.message('Try again', name: 'try_again', desc: '', args: []);
@@ -2524,6 +2514,31 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Hide average and ECTS`
+  String get hide_sensitive_data {
+    return Intl.message(
+      'Hide average and ECTS',
+      name: 'hide_sensitive_data',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hidden`
+  String get hidden_value {
+    return Intl.message('Hidden', name: 'hidden_value', desc: '', args: []);
+  }
+
+  /// `Tap to show`
+  String get tap_to_show {
+    return Intl.message('Tap to show', name: 'tap_to_show', desc: '', args: []);
+  }
+
+  /// `Tap to hide`
+  String get tap_to_hide {
+    return Intl.message('Tap to hide', name: 'tap_to_hide', desc: '', args: []);
   }
 }
 

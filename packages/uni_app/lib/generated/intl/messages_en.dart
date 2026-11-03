@@ -254,11 +254,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "goi": MessageLookupByLibrary.simpleMessage(
       "Psychology and Guidance Service",
     ),
+    "hidden_value": MessageLookupByLibrary.simpleMessage("Hidden"),
+    "hide_sensitive_data": MessageLookupByLibrary.simpleMessage(
+      "Hide average and ECTS",
+    ),
     "identification_documents": MessageLookupByLibrary.simpleMessage(
       "Identification Documents",
-    ),
-    "hide_sensitive_info": MessageLookupByLibrary.simpleMessage(
-      "Hide sensitive info",
     ),
     "improvement_registration": MessageLookupByLibrary.simpleMessage(
       "Enrollment for Improvement",
@@ -560,6 +561,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "successful_open": MessageLookupByLibrary.simpleMessage(
       "File opened successfully",
     ),
+    "tap_to_hide": MessageLookupByLibrary.simpleMessage("Tap to hide"),
+    "tap_to_show": MessageLookupByLibrary.simpleMessage("Tap to show"),
     "tele_assistance": MessageLookupByLibrary.simpleMessage(
       "Telephone assistance",
     ),
