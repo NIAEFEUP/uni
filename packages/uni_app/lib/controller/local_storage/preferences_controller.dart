@@ -28,6 +28,7 @@ class PreferencesController {
       'pedagogical_surveys_show_dialog';
   static const _tuitionNotificationsToggleKey = 'tuition_notification_toogle';
   static const _usageStatsToggleKey = 'usage_stats_toogle';
+  static const _hideSensitiveDataKey = 'hide_sensitive_data';
   static const _themeMode = 'theme_mode';
   static const _isDataCollectionBannerViewedKey = 'data_collection_banner';
   static const _locale = 'app_locale';
@@ -325,6 +326,14 @@ class PreferencesController {
     required bool value,
   }) async {
     await prefs.setBool(_tuitionNotificationsToggleKey, value);
+  }
+
+  static bool getHideSensitiveData() {
+    return prefs.getBool(_hideSensitiveDataKey) ?? false;
+  }
+
+  static Future<void> setHideSensitiveData({required bool value}) async {
+    await prefs.setBool(_hideSensitiveDataKey, value);
   }
 
   static bool getUsageStatsToggle() {

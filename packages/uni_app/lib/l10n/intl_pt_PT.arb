@@ -605,5 +605,13 @@
   "welcome_title": "Bem-vindo à universidade!",
   "@welcome_title": {},
   "welcome_message": "A equipa da UNI dá-te as boas-vindas e deseja-te muita sorte no curso!",
-  "@welcome_message": {}
+  "@welcome_message": {},
+  "hide_sensitive_data": "Ocultar média e ECTS",
+  "@hide_sensitive_data": {},
+  "hidden_value": "Oculto",
+  "@hidden_value": {},
+  "tap_to_show": "Toca para mostrar",
+  "@tap_to_show": {},
+  "tap_to_hide": "Toca para ocultar",
+  "@tap_to_hide": {}
 }

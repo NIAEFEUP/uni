@@ -603,5 +603,13 @@
   "welcome_title": "Welcome to university!",
   "@welcome_title": {},
   "welcome_message": "The UNI team welcomes you and wishes you the best of luck on your course!",
-  "@welcome_message": {}
+  "@welcome_message": {},
+  "hide_sensitive_data": "Hide average and ECTS",
+  "@hide_sensitive_data": {},
+  "hidden_value": "Hidden",
+  "@hidden_value": {},
+  "tap_to_show": "Tap to show",
+  "@tap_to_show": {},
+  "tap_to_hide": "Tap to hide",
+  "@tap_to_hide": {}
 }

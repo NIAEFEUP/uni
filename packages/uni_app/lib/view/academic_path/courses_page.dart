@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
@@ -117,6 +118,9 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final hideSensitiveData = PreferencesController.getHideSensitiveData();
+    final isCurrentRoute = ModalRoute.isCurrentOf(context);
+
     return DefaultConsumer<Profile>(
       provider: profileProvider,
       builder: (context, ref, profile) {
@@ -156,6 +160,17 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
             Padding(
               padding: const EdgeInsets.only(top: 40, bottom: 8),
               child: AverageBar(
+                // Reapply the preference when returning to the page or changing courses
+                key: ValueKey((
+                  course.festId,
+                  _courseUnitIndex,
+                  hideSensitiveData,
+                  isCurrentRoute,
+                )),
+                hideSensitiveData: hideSensitiveData,
+                hiddenValueText: S.of(context).hidden_value,
+                showValueHint: S.of(context).tap_to_show,
+                hideValueHint: S.of(context).tap_to_hide,
                 average: course.currentAverage ?? 0,
                 completedCredits: course.finishedEcts ?? 0,
                 totalCredits: _getTotalCredits(profile, course),
