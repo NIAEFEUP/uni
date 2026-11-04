@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="lectureTime" format="string" />
+    <attr name="lectureAcronym" format="string" />
+    <attr name="lectureSubject" format="string" />
+    <attr name="lectureTypeClass" format="string" />
+    <attr name="lectureRoom" format="string" />
+    <attr name="lectureBadgeColor" format="color" />
+</resources>

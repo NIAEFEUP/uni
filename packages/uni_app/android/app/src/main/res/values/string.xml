@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">uni</string>
+    <string name="schedule_widget_name_2x2">Schedule (2x2)</string>
+    <string name="schedule_widget_name_4x2">Schedule (4x2)</string>
 </resources>
