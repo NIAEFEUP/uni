@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -10,7 +11,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
 
 class S {
   S();
@@ -2513,6 +2514,36 @@ class S {
       name: 'welcome_message',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Open`
+  String get open {
+    return Intl.message('Open', name: 'open', desc: '', args: []);
+  }
+
+  /// `Closed`
+  String get closed {
+    return Intl.message('Closed', name: 'closed', desc: '', args: []);
+  }
+
+  /// `Closes at {time}`
+  String closes_at(Object time) {
+    return Intl.message(
+      'Closes at $time',
+      name: 'closes_at',
+      desc: '',
+      args: [time],
+    );
+  }
+
+  /// `Opens at {time}`
+  String opens_at(Object time) {
+    return Intl.message(
+      'Opens at $time',
+      name: 'opens_at',
+      desc: '',
+      args: [time],
     );
   }
 }

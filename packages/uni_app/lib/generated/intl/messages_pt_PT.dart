@@ -7,7 +7,8 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names
+// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -19,22 +20,26 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'pt_PT';
 
-  static m0(type) =>
+  static String m0(time) => "Fecha às ${time}";
+
+  static String m1(type) =>
       "${Intl.select(type, {'all_dishes': 'Todos os pratos', 'meat_dishes': 'Pratos de Carne', 'fish_dishes': 'Pratos de Peixe', 'vegetarian_dishes': 'Pratos Vegetarianos', 'soups': 'Sopas', 'salads': 'Saladas', 'diet_dishes': 'Pratos de Dieta', 'dishes_of_the_day': 'Pratos do Dia', 'closed': 'Encerrado', 'other': 'Outros'})}";
 
-  static m1(time) => "última atualização às ${time}";
+  static String m2(time) => "última atualização às ${time}";
 
-  static m2(time) =>
+  static String m3(time) =>
       "${Intl.plural(time, zero: 'Atualizado há ${time} minutos', one: 'Atualizado há ${time} minuto', other: 'Atualizado há ${time} minutos')}";
 
-  static m3(title) =>
+  static String m4(title) =>
       "${Intl.select(title, {'horario': 'Horário', 'exames': 'Exames', 'area': 'Área Pessoal', 'cadeiras': 'Cadeiras', 'locais': 'Locais', 'restaurantes': 'Restaurantes', 'calendario': 'Calendário', 'biblioteca': 'Biblioteca', 'percurso_academico': 'Percurso Académico', 'mapa': 'Mapa', 'faculdade': 'Faculdade', 'bug_report': 'Feedback', 'conta_corrente': 'Conta Corrente', 'other': 'Outros'})}";
 
-  static m4(period) =>
+  static String m5(time) => "Abre às ${time}";
+
+  static String m6(period) =>
       "${Intl.select(period, {'lunch': 'Almoço', 'dinner': 'Jantar', 'other': 'Other'})}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function>{
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("Sobre nós"),
     "academic_services": MessageLookupByLibrary.simpleMessage(
       "Serviços académicos",
@@ -122,6 +127,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Inscrição de Turmas",
     ),
     "close": MessageLookupByLibrary.simpleMessage("Fechar"),
+    "closed": MessageLookupByLibrary.simpleMessage("Fechado"),
+    "closes_at": m0,
     "coffee_machine": MessageLookupByLibrary.simpleMessage("Máquina de café"),
     "collect_usage_stats": MessageLookupByLibrary.simpleMessage(
       "Partilhar estatísticas de uso",
@@ -163,7 +170,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Email em que desejas ser contactado",
     ),
     "dinner": MessageLookupByLibrary.simpleMessage("Jantar"),
-    "dish_type": m0,
+    "dish_type": m1,
     "dish_types": MessageLookupByLibrary.simpleMessage("Tipos de Prato"),
     "dona_bia": MessageLookupByLibrary.simpleMessage("Papelaria D. Beatriz"),
     "dona_bia_building": MessageLookupByLibrary.simpleMessage(
@@ -286,8 +293,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "keep_login": MessageLookupByLibrary.simpleMessage("Lembre-se de mim"),
     "language": MessageLookupByLibrary.simpleMessage("Idioma"),
-    "last_refresh_time": m1,
-    "last_timestamp": m2,
+    "last_refresh_time": m2,
+    "last_timestamp": m3,
     "leave_feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
     "lectures": MessageLookupByLibrary.simpleMessage("Aulas"),
     "library": MessageLookupByLibrary.simpleMessage("Biblioteca"),
@@ -323,7 +330,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "nationalities": MessageLookupByLibrary.simpleMessage("Nacionalidades"),
     "nationality": MessageLookupByLibrary.simpleMessage("Nacionalidade"),
-    "nav_title": m3,
+    "nav_title": m4,
     "news": MessageLookupByLibrary.simpleMessage("Notícias"),
     "nextclasses": MessageLookupByLibrary.simpleMessage(
       "Aqui estão as tuas aulas para ",
@@ -478,9 +485,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Tipo de ocorrência",
     ),
     "of_month": MessageLookupByLibrary.simpleMessage("de"),
+    "open": MessageLookupByLibrary.simpleMessage("Aberto"),
     "open_error": MessageLookupByLibrary.simpleMessage(
       "Erro ao abrir o ficheiro",
     ),
+    "opens_at": m5,
     "other_links": MessageLookupByLibrary.simpleMessage("Outros links"),
     "overview": MessageLookupByLibrary.simpleMessage("Visão Geral"),
     "parking": MessageLookupByLibrary.simpleMessage("Parque automóvel"),
@@ -533,7 +542,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
       "Queres ver os teus restaurantes favoritos na página principal?",
     ),
-    "restaurant_period": m4,
+    "restaurant_period": m6,
     "restaurants": MessageLookupByLibrary.simpleMessage("Restaurantes"),
     "restaurants_intro_message": MessageLookupByLibrary.simpleMessage(
       "Descobre as opções de restauração do campus e os menus",

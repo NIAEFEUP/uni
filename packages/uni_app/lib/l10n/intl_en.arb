@@ -603,5 +603,21 @@
   "welcome_title": "Welcome to university!",
   "@welcome_title": {},
   "welcome_message": "The UNI team welcomes you and wishes you the best of luck on your course!",
-  "@welcome_message": {}
+  "@welcome_message": {},
+  "open": "Open",
+  "@open": {},
+  "closed": "Closed",
+  "@closed": {},
+  "closes_at": "Closes at {time}",
+  "@closes_at": {
+    "placeholders": {
+      "time": {}
+    }
+  },
+  "opens_at": "Opens at {time}",
+  "@opens_at": {
+    "placeholders": {
+      "time": {}
+    }
+  }
 }
