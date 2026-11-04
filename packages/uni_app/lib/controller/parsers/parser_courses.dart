@@ -18,7 +18,7 @@ List<Course> _parseCourses(http.Response response) {
   final faculty = stringUrl.contains('up.pt') ? stringUrl.split('/')[3] : null;
 
   final currentCourses = document.querySelectorAll(
-    '.estudantes-caixa-lista-cursos > div',
+    '.estudantes-caixa-lista-cursos .estudante-lista-curso-activo',
   );
   for (var i = 0; i < currentCourses.length; i++) {
     final div = currentCourses[i];
@@ -30,14 +30,12 @@ List<Course> _parseCourses(http.Response response) {
         ?.attributes['href'];
     final courseId = Uri.parse(courseUrl ?? '').queryParameters['pv_curso_id'];
     final courseState = div.querySelectorAll('.formulario td')[3].text;
-    final courseFestId = div
+    final courseFestUrl = div
         .querySelector('.estudante-lista-curso-detalhes > a')
-        ?.attributes['href']
-        ?.replaceFirst(
-          'fest_geral.curso_percurso_academico_view?pv_fest_id=',
-          '',
-        )
-        .trim();
+        ?.attributes['href'];
+    final courseFestId = Uri.parse(
+      courseFestUrl ?? '',
+    ).queryParameters['pv_fest_id'];
     courses.add(
       Course(
         faculty: faculty,
