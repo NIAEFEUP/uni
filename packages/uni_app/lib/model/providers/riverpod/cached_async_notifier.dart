@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 
 abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
@@ -54,6 +57,7 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
     }
 
     state = AsyncError(error, stackTrace ?? StackTrace.current);
+    unawaited(Sentry.captureException(error, stackTrace: stackTrace));
     Logger().e(
       'Error in $runtimeType: $error',
       error: error,
@@ -86,10 +90,15 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
     );
 
     Logger().d('Loading $runtimeType from storage...');
+    final span = Sentry.getSpan()?.startChild(
+      'provider_fetch_local',
+      description: runtimeType.toString(),
+    );
     final localData = await _safeExecute(
       loadFromStorage,
       updateTimestamp: false,
     );
+    await span?.finish(status: const SpanStatus.ok());
 
     if (localData != null) {
       Logger().d('✅ Loaded $runtimeType from storage!');
@@ -107,9 +116,14 @@ abstract class CachedAsyncNotifier<T> extends AsyncNotifier<T?> {
 
   Future<T?> refreshRemote() async {
     Logger().d('Refreshing $runtimeType from remote...');
+    final span = Sentry.getSpan()?.startChild(
+      'provider_fetch_remote',
+      description: runtimeType.toString(),
+    );
     try {
       state = const AsyncLoading();
       final result = await loadFromRemote();
+      await span?.finish(status: const SpanStatus.ok());
 
       if (!ref.mounted) {
         return result;
