@@ -19,22 +19,13 @@ class RestaurantFetcher {
     final meals = <Meal>[];
     for (final dayMenu in dayMenus) {
       for (final dish in dayMenu.dishes) {
-        // Detect if the restaurant is closed, and change the meal type if needed.
-        final bool isClosed =
-            dish.dishType.namePt == 'Carne' &&
-            (dish.dish.namePt ==
-                    'Unidade de Alimentação Encerrada Temporariamente' ||
-                dish.dish.namePt == 'ENCERRADO');
-        final mealTypePt = isClosed ? 'Encerrado' : dish.dishType.namePt;
-
-        // Extract the information about the meal.
         final mealsNames = meals.map((meal) => meal.namePt).toList();
         if (!mealsNames.contains(dish.dish.namePt)) {
           meals.add(
             Meal(
-              mealTypePt,
-              isClosed ? 'Encerrado' : dish.dish.namePt,
-              isClosed ? 'Closed' : dish.dish.nameEn ?? dish.dish.namePt,
+              dish.dishType.namePt,
+              dish.dish.namePt,
+              dish.dish.nameEn ?? dish.dish.namePt,
               dayMenu.day,
               dbDayOfWeek: parseDateTime(dayMenu.day).index,
             ),
@@ -60,7 +51,7 @@ class RestaurantFetcher {
   }
 
   Future<List<Restaurant>> fetchSASUPRestaurants() async {
-    // TODO: change the implementation to accomodate changes for the new UI.
+    // TODO: change the implementation to accommodate changes for the new UI.
     final upMenus = UPMenusApi();
     final establishments = await upMenus.establishments.list();
     final restaurants = <Restaurant>[];
@@ -175,12 +166,27 @@ class RestaurantFetcher {
     return restaurants;
   }
 
+  List<Restaurant> filterClosedRestaurants(List<Restaurant> restaurants) {
+    final closedLabels = [
+      'ENCERRADO',
+      'FERIADO',
+      'Unidade de Alimentação Encerrada Temporariamente',
+    ];
+    return restaurants
+        .where(
+          (restaurant) => restaurant.meals.every(
+            (meal) => !closedLabels.contains(meal.namePt),
+          ),
+        )
+        .toList();
+  }
+
   Future<List<Restaurant>> getRestaurants(Session session) async {
     final restaurants =
         await fetchSASUPRestaurants() +
         await fetchSigarraRestaurants(session) +
         await fetchMultirestRestaurants();
 
-    return restaurants;
+    return filterClosedRestaurants(restaurants);
   }
 }
