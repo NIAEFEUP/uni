@@ -4,6 +4,7 @@ enum NavigationItem {
   navExams('exames'),
   navCourseUnit('cadeira'),
   navProfessorSchedule('horario_docente'),
+  navStudentSchedule('horario_estudante'),
   navLocations('locais', faculties: {'feup'}),
   navRestaurants('restaurantes'),
   navCalendar('calendario'),
