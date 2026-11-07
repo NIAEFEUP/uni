@@ -7,7 +7,8 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names
+// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -19,22 +20,24 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'pt_PT';
 
-  static m0(type) =>
+  static String m0(type) =>
       "${Intl.select(type, {'all_dishes': 'Todos os pratos', 'meat_dishes': 'Pratos de Carne', 'fish_dishes': 'Pratos de Peixe', 'vegetarian_dishes': 'Pratos Vegetarianos', 'soups': 'Sopas', 'salads': 'Saladas', 'diet_dishes': 'Pratos de Dieta', 'dishes_of_the_day': 'Pratos do Dia', 'closed': 'Encerrado', 'other': 'Outros'})}";
 
-  static m1(time) => "última atualização às ${time}";
+  static String m1(time) => "última atualização às ${time}";
 
-  static m2(time) =>
+  static String m2(time) =>
       "${Intl.plural(time, zero: 'Atualizado há ${time} minutos', one: 'Atualizado há ${time} minuto', other: 'Atualizado há ${time} minutos')}";
 
-  static m3(title) =>
+  static String m3(title) =>
       "${Intl.select(title, {'horario': 'Horário', 'exames': 'Exames', 'area': 'Área Pessoal', 'cadeiras': 'Cadeiras', 'locais': 'Locais', 'restaurantes': 'Restaurantes', 'calendario': 'Calendário', 'biblioteca': 'Biblioteca', 'percurso_academico': 'Percurso Académico', 'mapa': 'Mapa', 'faculdade': 'Faculdade', 'bug_report': 'Feedback', 'conta_corrente': 'Conta Corrente', 'other': 'Outros'})}";
 
-  static m4(period) =>
+  static String m4(period) =>
       "${Intl.select(period, {'lunch': 'Almoço', 'dinner': 'Jantar', 'other': 'Other'})}";
 
+  static String m5(version) => "Estás a usar a uni ${version}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function>{
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("Sobre nós"),
     "academic_services": MessageLookupByLibrary.simpleMessage(
       "Serviços académicos",
@@ -561,6 +564,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "session_expired": MessageLookupByLibrary.simpleMessage("Sessão expirada"),
     "settings": MessageLookupByLibrary.simpleMessage("Definições"),
+    "settings_app_version": m5,
     "shop": MessageLookupByLibrary.simpleMessage("loja"),
     "skip": MessageLookupByLibrary.simpleMessage("Ignorar"),
     "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
