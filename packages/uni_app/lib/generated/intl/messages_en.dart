@@ -227,10 +227,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "feedback_images_title_section": MessageLookupByLibrary.simpleMessage(
       "Attach images",
     ),
-    "feedback_privacy_description_section":
-        MessageLookupByLibrary.simpleMessage(
-          "Your privacy is important to us. You consent to the collection and use of your feedback and any attached images for the purpose of improving our app. You can choose to provide your email for follow-up, but it is not required.",
-        ),
+    "feedback_privacy_description_section": MessageLookupByLibrary.simpleMessage(
+      "Your privacy is important to us. You consent to the collection and use of your feedback and any attached images for the purpose of improving our app. You can choose to provide your email for follow-up, but it is not required.",
+    ),
     "feedback_privacy_section": MessageLookupByLibrary.simpleMessage(
       "Privacy and Consent",
     ),
