@@ -4,6 +4,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/theme.dart' show lightTheme;
 
 class LocationMarker extends Marker {
   LocationMarker(
@@ -17,19 +18,21 @@ class LocationMarker extends Marker {
          width: 20,
          point: latlng,
          child: Builder(
-           builder: (context) => DecoratedBox(
-             decoration: BoxDecoration(
-               color: Theme.of(context).colorScheme.onSecondary,
-               border: Border.all(
-                 color: Theme.of(context).colorScheme.onSecondary,
+           builder: (context) {
+             final markerColor = lightTheme.colorScheme.onSecondary;
+
+             return DecoratedBox(
+               decoration: BoxDecoration(
+                 color: markerColor,
+                 border: Border.all(color: markerColor),
+                 borderRadius: const BorderRadius.all(Radius.circular(20)),
                ),
-               borderRadius: const BorderRadius.all(Radius.circular(20)),
-             ),
-             child: MarkerIcon(
-               location: locationGroup.getLocationForFloor(selectedFloor),
-               additionalCount: additionalCount,
-             ),
-           ),
+               child: MarkerIcon(
+                 location: locationGroup.getLocationForFloor(selectedFloor),
+                 additionalCount: additionalCount,
+               ),
+             );
+           },
          ),
        );
   final LocationGroup locationGroup;
@@ -69,20 +72,22 @@ class MarkerIcon extends StatelessWidget {
   }
 
   Widget _buildLocationIcon(BuildContext context) {
+    const opacity = 0.3;
+
     if (location?.icon != null) {
       return UniIcon(
         location!.icon as UniIconData,
-        color: Theme.of(context).colorScheme.secondary,
+        color: lightTheme.colorScheme.secondary,
         size: 12,
-        opacity: 0.3,
+        opacity: opacity,
       );
     }
 
     return UniIcon(
       Icons.device_unknown,
-      color: Theme.of(context).colorScheme.primary,
+      color: lightTheme.colorScheme.primary,
       size: 12,
-      opacity: 0.3,
+      opacity: opacity,
     );
   }
 }

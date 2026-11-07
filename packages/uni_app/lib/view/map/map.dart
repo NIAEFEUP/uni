@@ -334,7 +334,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                           hintText: S.of(context).search_here,
                           hintStyle: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 9,
+                            fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).colorScheme.onSecondary,
                           ),
