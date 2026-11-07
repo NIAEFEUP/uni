@@ -31,8 +31,10 @@ jobs:
 
       - name: Calculate & Bump Version
         id: bump
+        shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUSH_BEFORE_SHA: ${{ github.event.before }}
         run: |
           cd packages/uni_app
           # We need to find the absolute highest build number across the repo.
@@ -54,7 +56,12 @@ jobs:
             HIGHEST_BUILD_NUMBER=$CURRENT_BUILD_NUMBER
           fi
 
-          BASE_VERSION=$(echo "$CURRENT_VERSION" | cut -d'+' -f1)
+          # Release labels apply to master before the merge, not the upcoming develop version.
+          VERSION_BASE="$CURRENT_VERSION"
+          if [[ "$GITHUB_REF" == "refs/heads/master" && "$GITHUB_EVENT_NAME" == "push" ]]; then
+            VERSION_BASE=$(git show "${PUSH_BEFORE_SHA}:packages/uni_app/pubspec.yaml" | grep '^version: ' | awk '{print $2}')
+          fi
+          BASE_VERSION=$(echo "$VERSION_BASE" | cut -d'+' -f1)
           # Clean any trailing -beta.X suffixes that might still exist
           BASE_VERSION_CLEAN=$(echo "$BASE_VERSION" | cut -d'-' -f1)
 
@@ -109,16 +116,21 @@ jobs:
         with:
           commit_message: "Bump app version to ${{ steps.bump.outputs.new_version }} [no ci]"
 
-      - name: Sync version back to develop
+      - name: Prepare next development version
         if: github.ref == 'refs/heads/master'
+        env:
+          RELEASE_VERSION: ${{ steps.bump.outputs.new_version }}
         run: |
           git fetch origin develop
           git checkout develop
-          git checkout master -- packages/uni_app/pubspec.yaml
+          # Prepare the next app version; the next develop run allocates its build number.
+          IFS='.' read -r major minor patch <<< "${RELEASE_VERSION%%+*}"
+          NEXT_DEV_VERSION="${major}.${minor}.$((patch + 1))+${RELEASE_VERSION##*+}"
+          sed -i -e "s/^version: .*/version: $NEXT_DEV_VERSION/" packages/uni_app/pubspec.yaml
           git add packages/uni_app/pubspec.yaml
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -m "Sync version from master [no ci]" || echo "No changes to sync"
+          git commit -m "chore: prepare next development version $NEXT_DEV_VERSION [no ci]" || echo "No changes to sync"
           git push origin develop
 
   release_android:
