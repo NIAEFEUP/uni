@@ -1,28 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uni/model/providers/riverpod/hide_sensitive_data_provider.dart';
 
-class HideSensitiveDataSwitch extends StatefulWidget {
+class HideSensitiveDataSwitch extends ConsumerWidget {
   const HideSensitiveDataSwitch({super.key});
 
   @override
-  State<HideSensitiveDataSwitch> createState() =>
-      _HideSensitiveDataSwitchState();
-}
-
-class _HideSensitiveDataSwitchState extends State<HideSensitiveDataSwitch> {
-  bool _hidden = PreferencesController.getHideSensitiveData();
-
-  Future<void> _save(bool value) async {
-    setState(() => _hidden = value);
-    await PreferencesController.setHideSensitiveData(value: value);
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = Theme.of(context).colorScheme;
     return Switch.adaptive(
-      value: _hidden,
-      onChanged: _save,
+      value: ref.watch(hideSensitiveDataProvider),
+      onChanged: ref.read(hideSensitiveDataProvider.notifier).setHidden,
       activeTrackColor: colors.onSecondary,
       activeThumbColor: colors.secondary,
       inactiveTrackColor: colors.onSecondaryFixed,

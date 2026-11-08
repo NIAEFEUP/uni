@@ -2516,10 +2516,10 @@ class S {
     );
   }
 
-  /// `Hide average and ECTS`
+  /// `Hide academic data`
   String get hide_sensitive_data {
     return Intl.message(
-      'Hide average and ECTS',
+      'Hide academic data',
       name: 'hide_sensitive_data',
       desc: '',
       args: [],

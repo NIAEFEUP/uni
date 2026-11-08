@@ -256,7 +256,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "hidden_value": MessageLookupByLibrary.simpleMessage("Hidden"),
     "hide_sensitive_data": MessageLookupByLibrary.simpleMessage(
-      "Hide average and ECTS",
+      "Hide academic data",
     ),
     "identification_documents": MessageLookupByLibrary.simpleMessage(
       "Identification Documents",

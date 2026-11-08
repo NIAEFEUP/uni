@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
+import 'package:uni/model/providers/riverpod/hide_sensitive_data_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/view/academic_path/widgets/course_units_view.dart';
 import 'package:uni/view/academic_path/widgets/courses_page_shimmer.dart';
@@ -118,7 +118,7 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final hideSensitiveData = PreferencesController.getHideSensitiveData();
+    final hideSensitiveData = ref.watch(hideSensitiveDataProvider);
     final isCurrentRoute = ModalRoute.isCurrentOf(context);
 
     return DefaultConsumer<Profile>(
@@ -164,10 +164,12 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
                 key: ValueKey((
                   course.festId,
                   _courseUnitIndex,
-                  hideSensitiveData,
                   isCurrentRoute,
                 )),
                 hideSensitiveData: hideSensitiveData,
+                onToggleVisibility: () => ref
+                    .read(hideSensitiveDataProvider.notifier)
+                    .setHidden(!hideSensitiveData),
                 hiddenValueText: S.of(context).hidden_value,
                 showValueHint: S.of(context).tap_to_show,
                 hideValueHint: S.of(context).tap_to_hide,
