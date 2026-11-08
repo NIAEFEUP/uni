@@ -123,9 +123,18 @@ jobs:
         run: |
           git fetch origin develop
           git checkout develop
-          # Prepare the next app version; the next develop run allocates its build number.
+          DEVELOP_VERSION=$(grep '^version: ' packages/uni_app/pubspec.yaml | awk '{print $2}')
+          DEVELOP_BUILD_NUMBER=$(echo "$DEVELOP_VERSION" | cut -s -d'+' -f2)
+          if [ -z "$DEVELOP_BUILD_NUMBER" ]; then DEVELOP_BUILD_NUMBER=0; fi
+
+          # Keep the later app version and advance beyond both existing build numbers.
           IFS='.' read -r major minor patch <<< "${RELEASE_VERSION%%+*}"
-          NEXT_DEV_VERSION="${major}.${minor}.$((patch + 1))+${RELEASE_VERSION##*+}"
+          NEXT_DEV_APP_VERSION=$(printf '%s\n' "${major}.${minor}.$((patch + 1))" "${DEVELOP_VERSION%%+*}" | sort -V | tail -n1)
+          HIGHEST_BUILD_NUMBER=${RELEASE_VERSION##*+}
+          if [ "$DEVELOP_BUILD_NUMBER" -gt "$HIGHEST_BUILD_NUMBER" ]; then
+            HIGHEST_BUILD_NUMBER=$DEVELOP_BUILD_NUMBER
+          fi
+          NEXT_DEV_VERSION="${NEXT_DEV_APP_VERSION}+$((HIGHEST_BUILD_NUMBER + 1))"
           sed -i -e "s/^version: .*/version: $NEXT_DEV_VERSION/" packages/uni_app/pubspec.yaml
           git add packages/uni_app/pubspec.yaml
           git config user.name "github-actions[bot]"
