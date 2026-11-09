@@ -173,6 +173,7 @@ class _TimelineState extends State<Timeline> {
                     int index = entry.key;
                     Widget tab = entry.value;
                     bool isSelected = _currentIndex == index;
+                    bool isToday = widget.initialTab == index;
                     TextStyle textStyle = Theme.of(
                       context,
                     ).textTheme.bodyMedium!;
@@ -191,9 +192,17 @@ class _TimelineState extends State<Timeline> {
                               vertical: 9.0,
                               horizontal: 8.0,
                             ),
-                            color: isSelected
-                                ? Theme.of(context).colorScheme.secondary
-                                : Colors.transparent,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: isToday
+                                    ? Theme.of(context).colorScheme.onSecondary
+                                    : Colors.transparent,
+                              ),
+                              color: isSelected
+                                  ? Theme.of(context).colorScheme.secondary
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             child: DefaultTextStyle(
                               style: textStyle.copyWith(
                                 color: widget.tabEnabled[index]
