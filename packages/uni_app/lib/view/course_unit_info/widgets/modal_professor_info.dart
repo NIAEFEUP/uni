@@ -108,7 +108,7 @@ class ProfessorInfoModal extends ConsumerWidget {
             ),
             onPressed: () => Navigator.pushNamed(
               context,
-              '/${NavigationItem.navProfessorSchedule.route}',
+              '/${NavigationItem.navOtherPeopleSchedule.route}',
               arguments: professor,
             ),
           ),

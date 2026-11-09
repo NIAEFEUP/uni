@@ -58,7 +58,7 @@ class StudentInfoModal extends ConsumerWidget {
               ),
               onPressed: () => Navigator.pushNamed(
                 context,
-                '/${NavigationItem.navStudentSchedule.route}',
+                '/${NavigationItem.navOtherPeopleSchedule.route}',
                 arguments: student,
               ),
             ),

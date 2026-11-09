@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
-import 'package:uni/model/providers/riverpod/professor_lectures_provider.dart';
+import 'package:uni/model/providers/riverpod/other_people_lectures_provider.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_shimmer.dart';
 import 'package:uni/view/academic_path/widgets/schedule_page_view.dart';
 import 'package:uni/view/widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni_ui/common_widgets/empty_state_widget.dart';
 
-class ProfessorSchedulePage extends ConsumerWidget {
-  ProfessorSchedulePage({super.key, required this.professor, DateTime? now})
-    : now = now ?? DateTime.now();
+class OtherPeopleSchedulePage extends ConsumerWidget {
+  OtherPeopleSchedulePage({super.key, required this.person, DateTime? now})
+    : now = now ?? DateTime.now(),
+      personName = nameOf(person);
 
-  final Professor professor;
+  final Object person;
+  final String personName;
   final DateTime now;
+
+  static String nameOf(Object person) => switch (person) {
+    final Professor p => p.name,
+    final CourseUnitStudent s => s.name,
+    _ => throw ArgumentError('Expected a Professor or a Student'),
+  };
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,7 +32,7 @@ class ProfessorSchedulePage extends ConsumerWidget {
       context: context,
       removeBottom: true,
       child: DefaultConsumer<List<Lecture>>(
-        provider: professorLecturesProvider((professor, null)),
+        provider: otherPeopleLecturesProvider((person, null)),
         builder: (context, ref, lectures) {
           final startOfWeek = _getStartOfWeek(now, lectures);
 
@@ -80,28 +89,28 @@ class ProfessorSchedulePage extends ConsumerWidget {
   }
 }
 
-class ProfessorSchedulePageView extends ConsumerStatefulWidget {
-  const ProfessorSchedulePageView(this.professor, {super.key});
+class OtherPeopleSchedulePageView extends ConsumerStatefulWidget {
+  const OtherPeopleSchedulePageView(this.person, {super.key});
 
-  final Professor professor;
+  final Object person;
 
   @override
-  ConsumerState<ProfessorSchedulePageView> createState() =>
-      _ProfessorSchedulePageViewState();
+  ConsumerState<OtherPeopleSchedulePageView> createState() =>
+      _OtherPeopleSchedulePageViewState();
 }
 
-class _ProfessorSchedulePageViewState
-    extends SecondaryPageViewState<ProfessorSchedulePageView> {
+class _OtherPeopleSchedulePageViewState
+    extends SecondaryPageViewState<OtherPeopleSchedulePageView> {
   @override
   Future<void> onRefresh() async {
-    ref.invalidate(professorLecturesProvider((widget.professor, null)));
+    ref.invalidate(otherPeopleLecturesProvider((widget.person, null)));
   }
 
   @override
-  String? getTitle() => widget.professor.name;
+  String? getTitle() => OtherPeopleSchedulePage.nameOf(widget.person);
 
   @override
   Widget getBody(BuildContext context) {
-    return ProfessorSchedulePage(professor: widget.professor);
+    return OtherPeopleSchedulePage(person: widget.person);
   }
 }

@@ -8,7 +8,7 @@ import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/cached_async_notifier.dart';
-import 'package:uni/model/providers/riverpod/professor_lectures_provider.dart';
+import 'package:uni/model/providers/riverpod/other_people_lectures_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 
 typedef SheetsMap = Map<CourseUnit, Sheet>;
@@ -226,7 +226,7 @@ class CourseUnitsInfoNotifier
     for (final professor in professors) {
       try {
         final lectures = await ref.read(
-          professorLecturesProvider((professor, lectiveYear)).future,
+          otherPeopleLecturesProvider((professor, lectiveYear)).future,
         );
 
         for (final lecture in lectures) {

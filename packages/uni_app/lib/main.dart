@@ -41,12 +41,11 @@ import 'package:uni/view/introduction/introduction.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/login/login.dart';
 import 'package:uni/view/map/map.dart';
-import 'package:uni/view/professor/professor_schedule_page.dart';
+import 'package:uni/view/other_people/other_people_schedule_page.dart';
 import 'package:uni/view/profile/profile.dart';
 import 'package:uni/view/profile_info/profile_info.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/splash/splash.dart';
-import 'package:uni/view/student/student_schedule_page.dart';
 import 'package:uni/view/widgets/page_transition.dart';
 import 'package:uni_ui/theme.dart';
 import 'package:upgrader/upgrader.dart';
@@ -199,8 +198,9 @@ class ApplicationState extends ConsumerState<Application> {
             onGenerateRoute: (settings) {
               final args = settings.arguments;
               final courseUnit = args is CourseUnit ? args : null;
-              final professor = args is Professor ? args : null;
-              final student = args is CourseUnitStudent ? args : null;
+              final person = args is Professor || args is CourseUnitStudent
+                  ? args
+                  : null;
               final transitionFunctions = <String, Route<dynamic> Function()>{
                 '/${NavigationItem.navSplash.route}': () =>
                     PageTransition.splashTransitionRoute(
@@ -280,14 +280,9 @@ class ApplicationState extends ConsumerState<Application> {
                       page: const ProfileInfoPageView(),
                       settings: settings,
                     ),
-                '/${NavigationItem.navProfessorSchedule.route}': () =>
+                '/${NavigationItem.navOtherPeopleSchedule.route}': () =>
                     PageTransition.makePageTransition(
-                      page: ProfessorSchedulePageView(professor!),
-                      settings: settings,
-                    ),
-                '/${NavigationItem.navStudentSchedule.route}': () =>
-                    PageTransition.makePageTransition(
-                      page: StudentSchedulePageView(student!),
+                      page: OtherPeopleSchedulePageView(person!),
                       settings: settings,
                     ),
                 '/${NavigationItem.navCurrentAccount.route}': () =>
