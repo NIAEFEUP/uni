@@ -3,7 +3,7 @@ enum NavigationItem {
   navPersonalArea('area'),
   navExams('exames'),
   navCourseUnit('cadeira'),
-  navProfessorSchedule('horario_docente'),
+  navOtherPeopleSchedule('horario_outras_pessoas'),
   navLocations('locais', faculties: {'feup'}),
   navRestaurants('restaurantes'),
   navCalendar('calendario'),
