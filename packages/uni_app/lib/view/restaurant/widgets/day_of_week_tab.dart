@@ -6,11 +6,13 @@ class DayOfWeekTab extends StatelessWidget {
     required this.isSelected,
     required this.weekDay,
     required this.day,
+    required this.isToday,
   });
 
   final bool isSelected;
   final String weekDay;
   final String day;
+  final bool isToday;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,9 @@ class DayOfWeekTab extends StatelessWidget {
         color: isSelected
             ? Theme.of(context).colorScheme.secondary
             : Colors.transparent,
+        border: isToday
+            ? BoxBorder.all(color: Theme.of(context).colorScheme.onSecondary)
+            : BoxBorder.all(color: Colors.transparent),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(

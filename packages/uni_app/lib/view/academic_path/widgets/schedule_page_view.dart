@@ -16,7 +16,6 @@ class SchedulePageView extends ConsumerWidget {
     this.showClassNumber = false,
     super.key,
   }) : currentWeek = Week(start: startOfWeek);
-
   final DateTime now;
   final List<Lecture> lectures;
   final Week currentWeek;
