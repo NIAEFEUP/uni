@@ -17,11 +17,11 @@
     },
     "flake-compat_2": {
       "locked": {
-        "lastModified": 1766661267,
-        "narHash": "sha256-QN1r/zNqvXHwWqlRAnRtFf4CQwIOJx58PtdExIzAw94=",
+        "lastModified": 1767039857,
+        "narHash": "sha256-vNpUSpF5Nuw8xvDLj2KCwwksIbjua2LZCqhV1LNRDns=",
         "owner": "edolstra",
         "repo": "flake-compat",
-        "rev": "f275e157c50c3a9a682b4c9b4aa4db7a4cd3b5f2",
+        "rev": "5edf11c44bc78a0d334f6334cdaf7d60d732daab",
         "type": "github"
       },
       "original": {
@@ -36,14 +36,15 @@
         "nixpkgs": [
           "nixpkgs"
         ],
+        "systems": "systems",
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1767035959,
-        "narHash": "sha256-RZJT4LZ++Gv1U7uW2lEzvgnef4omyGi3++miOUON9KY=",
+        "lastModified": 1783904771,
+        "narHash": "sha256-+EJIPXEPULUA9/knjVW6KfM81SBSrdGDfjXHYq/O2fA=",
         "owner": "limwa",
         "repo": "nix-registry",
-        "rev": "c6b2dee735acd0aec0d3a3c2e584db48c80ac5c9",
+        "rev": "c5cb4940aebae3a3083ed226233b710e6a93241a",
         "type": "github"
       },
       "original": {
@@ -54,11 +55,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1774709303,
-        "narHash": "sha256-D3Q07BbIA2KnTcSXIqqu9P586uWxN74zNoCH3h2ESHg=",
+        "lastModified": 1789006805,
+        "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "8110df5ad7abf5d4c0f6fb0f8f978390e77f9685",
+        "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
         "type": "github"
       },
       "original": {
@@ -78,15 +79,16 @@
     },
     "systems": {
       "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "lastModified": 1774449309,
+        "narHash": "sha256-brhZ8DmuGtzkCYHJg4HEd602amKm89Y9ytsFZ5uWD1w=",
         "owner": "nix-systems",
         "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "rev": "c29398b59d2048c4ab79345812849c9bd15e9150",
         "type": "github"
       },
       "original": {
         "owner": "nix-systems",
+        "ref": "future-26.11",
         "repo": "default",
         "type": "github"
       }
@@ -108,7 +110,10 @@
     },
     "utils": {
       "inputs": {
-        "systems": "systems"
+        "systems": [
+          "limwa",
+          "systems"
+        ]
       },
       "locked": {
         "lastModified": 1750097467,

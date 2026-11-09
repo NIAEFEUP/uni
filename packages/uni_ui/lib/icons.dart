@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
+
+typedef UniIconData = Object;
 
 // A list of all available icons
 class UniIcons {
@@ -43,7 +44,7 @@ class UniIcons {
   static const more = PhosphorIconsDuotone.dotsThreeOutlineVertical;
 
   static const password = PhosphorIconsDuotone.password;
-
+  static const github = PhosphorIconsDuotone.githubLogo;
   // Locations pins icons
   static const money = PhosphorIconsDuotone.money;
   static const coffee = PhosphorIconsDuotone.coffee;
@@ -103,24 +104,19 @@ class UniIcons {
   static const calendarDots = PhosphorIconsDuotone.calendarDots;
   static const bank = PhosphorIconsDuotone.bank;
   static const coins = PhosphorIconsDuotone.coins;
+
+  static const confetti = PhosphorIconsDuotone.confetti;
 }
 
 // The same as default Icon class from material.dart but allowing to use PhosphorIcons duotone icons
 class UniIcon extends PhosphorIcon {
   const UniIcon(
-    IconData icon, {
+    super.icon, {
     super.key,
-    double size = 24,
-    Color? color,
-    String? semanticLabel,
-    TextDirection? textDirection,
+    super.size = 24,
+    super.color,
+    super.semanticLabel,
+    super.textDirection,
     double opacity = 0.2,
-  }) : super(
-         icon,
-         size: size,
-         color: color,
-         semanticLabel: semanticLabel,
-         textDirection: textDirection,
-         duotoneSecondaryOpacity: opacity,
-       );
+  }) : super(duotoneSecondaryOpacity: opacity);
 }

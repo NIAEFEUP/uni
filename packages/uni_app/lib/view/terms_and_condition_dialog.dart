@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
+import 'package:uni/controller/fetchers/core/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/about/widgets/terms_and_conditions.dart';
