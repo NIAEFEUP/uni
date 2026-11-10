@@ -127,6 +127,10 @@ class MapPageStateView extends ConsumerState<MapPage> {
     }
 
     final hasLocationSearchResults = matchingLocationFloors.isNotEmpty;
+    final hasNoSearchResults = !isMapLoading &&
+            normalizedSearchTerm.isNotEmpty &&
+            !hasRoomSearchResults &&
+            !hasLocationSearchResults;
     var effectiveFloor = _selectedFloor;
     if (hasRoomSearchResults || hasLocationSearchResults) {
       final matchingFloors = {
@@ -352,6 +356,27 @@ class MapPageStateView extends ConsumerState<MapPage> {
                         ),
                       ),
                     ),
+                    if (hasNoSearchResults) ...[
+                      const SizedBox(height: 8),
+                      PhysicalModel(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Theme.of(context).colorScheme.secondary,
+                        elevation: 4,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          child: Text(
+                            S.of(context).no_results,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSecondary,
+                                fontWeight: FontWeight.w500,
+                              ),
+                          ),
+                        ),
+                      ),
+                    ],
                     const SizedBox(height: 10),
                     AmenityFilterBar(
                       selectedAmenity: _selectedAmenity,
