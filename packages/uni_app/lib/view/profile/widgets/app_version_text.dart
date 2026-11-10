@@ -15,13 +15,12 @@ class AppVersionText extends StatelessWidget {
         }
 
         final info = snapshot.data!;
-        final version = '${info.version} (${info.buildNumber})';
 
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 24),
           child: Center(
             child: Text(
-              S.of(context).settings_app_version(version),
+              S.of(context).settings_app_version(info.version),
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(
                   context,

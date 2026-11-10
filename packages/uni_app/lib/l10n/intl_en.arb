@@ -607,4 +607,3 @@
   "settings_app_version": "You are using uni {version}",
   "@settings_app_version": {"placeholders" : {"version" : { "type"  : "String"}}}
 }
- 
