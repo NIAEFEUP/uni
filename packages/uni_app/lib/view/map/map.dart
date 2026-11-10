@@ -127,11 +127,6 @@ class MapPageStateView extends ConsumerState<MapPage> {
     }
 
     final hasLocationSearchResults = matchingLocationFloors.isNotEmpty;
-    final hasNoSearchResults =
-        !isMapLoading &&
-        normalizedSearchTerm.isNotEmpty &&
-        !hasRoomSearchResults &&
-        !hasLocationSearchResults;
     var effectiveFloor = _selectedFloor;
     if (hasRoomSearchResults || hasLocationSearchResults) {
       final matchingFloors = {
@@ -175,6 +170,12 @@ class MapPageStateView extends ConsumerState<MapPage> {
         return allLocations.any((loc) => _selectedAmenity!.matches(loc));
       });
     }
+
+    final hasNoSearchResults =
+        !isMapLoading &&
+        normalizedSearchTerm.isNotEmpty &&
+        !hasRoomSearchResults &&
+        filteredLocations.isEmpty;
 
     final shouldUseCachedClusters =
         identical(_memoizedLocations, locations) &&
