@@ -127,10 +127,11 @@ class MapPageStateView extends ConsumerState<MapPage> {
     }
 
     final hasLocationSearchResults = matchingLocationFloors.isNotEmpty;
-    final hasNoSearchResults = !isMapLoading &&
-            normalizedSearchTerm.isNotEmpty &&
-            !hasRoomSearchResults &&
-            !hasLocationSearchResults;
+    final hasNoSearchResults =
+        !isMapLoading &&
+        normalizedSearchTerm.isNotEmpty &&
+        !hasRoomSearchResults &&
+        !hasLocationSearchResults;
     var effectiveFloor = _selectedFloor;
     if (hasRoomSearchResults || hasLocationSearchResults) {
       final matchingFloors = {
@@ -357,9 +358,9 @@ class MapPageStateView extends ConsumerState<MapPage> {
                               ? IconButton(
                                   icon: Icon(
                                     Icons.clear,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSecondary,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSecondary,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -385,10 +386,10 @@ class MapPageStateView extends ConsumerState<MapPage> {
                           ),
                           child: Text(
                             S.of(context).no_results,
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.onSecondary,
-                                fontWeight: FontWeight.w500,
-                              ),
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSecondary,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),
