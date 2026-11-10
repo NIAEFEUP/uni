@@ -23,7 +23,9 @@ import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation
 import 'package:uni_ui/theme.dart';
 
 class MapPage extends ConsumerStatefulWidget {
-  const MapPage({super.key});
+  const MapPage({super.key, this.initialSearchQuery});
+
+  final String? initialSearchQuery;
 
   @override
   ConsumerState<MapPage> createState() => MapPageStateView();
@@ -38,6 +40,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
   int? _selectedFloor;
   bool _showIndoorLayer = false;
   AmenityFilter? _selectedAmenity;
+  final _searchController = TextEditingController();
 
   List<LocationGroup>? _memoizedLocations;
   String? _memoizedSearchTerm;
@@ -48,15 +51,22 @@ class MapPageStateView extends ConsumerState<MapPage> {
   @override
   void initState() {
     super.initState();
-    _searchTerms = '';
+    final initialQuery = widget.initialSearchQuery;
+    _searchTerms = initialQuery != null
+        ? _normalizeSearchText(initialQuery)
+        : '';
+    _searchController.text = initialQuery ?? '';
     _popupLayerController = PopupController();
     _selectedFloor = null;
     _selectedAmenity = null;
+    _showIndoorLayer = initialQuery != null;
   }
 
   @override
   void dispose() {
     _popupLayerController.dispose();
+    _searchController.dispose();
+
     super.dispose();
   }
 
@@ -305,6 +315,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                       child: TextFormField(
                         cursorColor: Theme.of(context).colorScheme.onSecondary,
                         key: searchFormKey,
+                        controller: _searchController,
                         onChanged: (text) {
                           setState(() {
                             _searchTerms = _normalizeSearchText(text);
