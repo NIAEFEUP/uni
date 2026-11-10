@@ -363,6 +363,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                                       context,
                                     ).colorScheme.onSecondary,
                                   ),
+                                  tooltip: S.of(context).clear_search,
                                   onPressed: () {
                                     setState(() {
                                       _searchController.clear();
