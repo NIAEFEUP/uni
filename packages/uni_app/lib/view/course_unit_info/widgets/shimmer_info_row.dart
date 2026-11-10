@@ -6,7 +6,7 @@ class ShimmerInfoRow extends StatelessWidget {
   const ShimmerInfoRow({required this.title, required this.icon, super.key});
 
   final String title;
-  final IconData icon;
+  final UniIconData icon;
 
   @override
   Widget build(BuildContext context) {

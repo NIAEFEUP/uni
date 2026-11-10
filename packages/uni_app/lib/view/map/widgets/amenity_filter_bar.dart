@@ -23,7 +23,7 @@ enum AmenityFilter {
 
   const AmenityFilter(this.icon);
 
-  final IconData icon;
+  final UniIconData icon;
 
   String label(BuildContext context) {
     final strings = S.of(context);
@@ -127,7 +127,7 @@ class _AmenityChip extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
+                UniIcon(
                   amenity.icon,
                   size: 18,
                   color: isSelected

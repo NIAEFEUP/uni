@@ -10,7 +10,7 @@ import 'dart:typed_data' as _i11;
 import 'package:http/http.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i10;
-import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart'
+import 'package:uni/controller/fetchers/academics/schedule/schedule_fetcher.dart'
     as _i3;
 import 'package:uni/model/entities/lecture.dart' as _i5;
 import 'package:uni/model/entities/profile.dart' as _i7;
