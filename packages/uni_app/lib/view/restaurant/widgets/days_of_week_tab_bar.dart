@@ -32,6 +32,7 @@ class DaysOfWeekTabBar extends ConsumerWidget {
           onTap: () => tabController.setTabIndex(i),
           child: DayOfWeekTab(
             key: Key('cantine-page-tab-${dates[i].weekday}'),
+            isToday: i == 0,
             isSelected: selectedTabIndex == i,
             weekDay: toShortVersion(daysOfTheWeek[dates[i].weekday - 1]),
             day: '${dates[i].day}',
