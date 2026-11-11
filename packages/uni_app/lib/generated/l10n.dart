@@ -2575,6 +2575,16 @@ class S {
       args: [],
     );
   }
+
+  /// `You are using uni {version}`
+  String settings_app_version(Object version) {
+    return Intl.message(
+      'You are using uni $version',
+      name: 'settings_app_version',
+      desc: '',
+      args: [version],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

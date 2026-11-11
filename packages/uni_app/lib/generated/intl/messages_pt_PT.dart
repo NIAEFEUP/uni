@@ -33,7 +33,9 @@ class MessageLookup extends MessageLookupByLibrary {
   static m4(period) =>
       "${Intl.select(period, {'lunch': 'Almoço', 'dinner': 'Jantar', 'other': 'Other'})}";
 
-  static m5(year) => "Estatísticas ${year}";
+  static m5(version) => "Estás a usar a uni ${version}";
+
+  static m6(year) => "Estatísticas ${year}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function>{
@@ -567,6 +569,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "session_expired": MessageLookupByLibrary.simpleMessage("Sessão expirada"),
     "settings": MessageLookupByLibrary.simpleMessage("Definições"),
+    "settings_app_version": m5,
     "shop": MessageLookupByLibrary.simpleMessage("loja"),
     "skip": MessageLookupByLibrary.simpleMessage("Ignorar"),
     "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
@@ -582,7 +585,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "statistics_not_found": MessageLookupByLibrary.simpleMessage(
       "Não foram encontradas estatísticas para este ano letivo nem para o anterior.",
     ),
-    "statistics_year": m5,
+    "statistics_year": m6,
     "stores": MessageLookupByLibrary.simpleMessage("Lojas"),
     "student_number": MessageLookupByLibrary.simpleMessage(
       "Número de Estudante",
