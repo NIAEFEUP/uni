@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni_ui/cards/generic_card.dart';
+import 'package:uni_ui/common_widgets/fade_in.dart';
+import 'package:uni_ui/icons.dart';
 
 class AverageBar extends StatelessWidget {
   const AverageBar({
@@ -8,6 +10,11 @@ class AverageBar extends StatelessWidget {
     required this.totalCredits,
     required this.statusText,
     required this.averageText,
+    required this.hiddenValueText,
+    required this.showValueHint,
+    required this.hideValueHint,
+    required this.onToggleVisibility,
+    this.hideSensitiveData = false,
     super.key,
   });
 
@@ -16,6 +23,11 @@ class AverageBar extends StatelessWidget {
   final double totalCredits;
   final String statusText;
   final String averageText;
+  final String hiddenValueText;
+  final String showValueHint;
+  final String hideValueHint;
+  final VoidCallback onToggleVisibility;
+  final bool hideSensitiveData;
 
   String _displayNumber(double number) {
     return number == number.toInt()
@@ -25,69 +37,131 @@ class AverageBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final averageValue = average != 0 ? average.toString() : '---';
+    final credits =
+        '${_displayNumber(completedCredits)}/${_displayNumber(totalCredits)}';
+    final progress = totalCredits != 0
+        ? (completedCredits / totalCredits).clamp(0.0, 1.0)
+        : 1.0;
+    final duration = MediaQuery.disableAnimationsOf(context)
+        ? Duration.zero
+        : const Duration(milliseconds: 350);
+    final hint = hideSensitiveData ? showValueHint : hideValueHint;
+    final textScale = MediaQuery.textScalerOf(context).scale(1);
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return Row(
           children: [
-            GenericCard(
-              tooltip: averageText,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                ),
-                constraints: BoxConstraints(
-                  minWidth: constraints.maxWidth * 0.25,
-                  maxWidth: constraints.maxWidth * 0.30,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(averageText),
-                    Text(
-                      average != 0 ? average.toString() : '---',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              padding: EdgeInsets.all(0),
-              shadowColor: Theme.of(context).colorScheme.shadow.withAlpha(0x25),
-              blurRadius: 2,
-            ),
-            SizedBox(width: constraints.maxWidth * 0.05),
-            Container(
-              width: constraints.maxWidth * 0.65,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            SizedBox(
+              width: constraints.maxWidth * 0.30,
+              child: Semantics(
+                button: true,
+                excludeSemantics: true,
+                label: averageText,
+                value: hideSensitiveData ? hiddenValueText : averageValue,
+                hint: hint,
+                onTap: onToggleVisibility,
+                child: GenericCard(
+                  tooltip: hint,
+                  onClick: onToggleVisibility,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 6,
+                  ),
+                  shadowColor: colors.shadow.withAlpha(0x25),
+                  blurRadius: 2,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Tooltip(
-                        message: "European Credit System",
-                        child: Text("ECTS"),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(averageText),
                       ),
-                      Text(
-                        '${_displayNumber(completedCredits)}/${_displayNumber(totalCredits)}',
+                      const SizedBox(height: 4),
+                      SizedBox(
+                        height: 28 * textScale,
+                        child: Center(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: hideSensitiveData
+                                ? UniIcon(
+                                    UniIcons.eyeHidden,
+                                    size: 18,
+                                    color: colors.onSecondary,
+                                  )
+                                : FadeIn(
+                                    child: Text(
+                                      averageValue,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  LinearProgressIndicator(
-                    minHeight: 8,
-                    value: totalCredits != 0
-                        ? completedCredits / totalCredits
-                        : 1,
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                    color: Theme.of(context).colorScheme.onSecondary,
+                ),
+              ),
+            ),
+            SizedBox(width: constraints.maxWidth * 0.05),
+            Expanded(
+              child: Semantics(
+                excludeSemantics: true,
+                label: 'ECTS, $statusText',
+                value: hideSensitiveData ? hiddenValueText : credits,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 20 * textScale,
+                        child: Row(
+                          children: [
+                            const Tooltip(
+                              message: 'European Credit System',
+                              child: Text('ECTS'),
+                            ),
+                            if (!hideSensitiveData) ...[
+                              const SizedBox(width: 6),
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: FadeIn(child: Text(credits)),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                      TweenAnimationBuilder<double>(
+                        tween: Tween<double>(
+                          begin: 0,
+                          end: hideSensitiveData ? 0 : progress,
+                        ),
+                        duration: duration,
+                        curve: Curves.easeInOutCubic,
+                        builder: (context, value, child) =>
+                            LinearProgressIndicator(
+                              minHeight: 8,
+                              value: value,
+                              borderRadius: BorderRadius.circular(5),
+                              backgroundColor: colors.secondary,
+                              color: colors.onSecondary,
+                            ),
+                      ),
+                      Text(statusText),
+                    ],
                   ),
-                  Text(statusText),
-                ],
+                ),
               ),
             ),
           ],

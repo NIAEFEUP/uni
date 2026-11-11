@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni_ui/cards/generic_card.dart';
+import 'package:uni_ui/common_widgets/fade_in.dart';
 
 class CourseGradeCard extends StatelessWidget {
   const CourseGradeCard({
@@ -8,12 +9,14 @@ class CourseGradeCard extends StatelessWidget {
     required this.grade,
     required this.tooltip,
     required this.onTap,
+    this.hideGrade = false,
     super.key,
   });
 
   final String courseName;
   final double ects;
   final String? grade;
+  final bool hideGrade;
   final String tooltip;
   final VoidCallback onTap;
 
@@ -26,7 +29,7 @@ class CourseGradeCard extends StatelessWidget {
       tooltip: tooltip,
       onClick: onTap,
       margin: EdgeInsets.zero,
-      color: grade == ''
+      color: hideGrade || grade == null || grade == ''
           ? null
           : ((double.tryParse(grade!) ?? 0) >= 10
                 ? null
@@ -49,10 +52,13 @@ class CourseGradeCard extends StatelessWidget {
                   '${ects == ects.toInt() ? ects.toInt() : ects} ECTS',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                Text(
-                  '${grade ?? ""}',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+                if (!hideGrade)
+                  FadeIn(
+                    child: Text(
+                      '${grade ?? ""}',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
               ],
             ),
           ],

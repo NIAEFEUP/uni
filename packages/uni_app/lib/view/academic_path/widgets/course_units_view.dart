@@ -6,6 +6,7 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
+import 'package:uni/model/providers/riverpod/hide_sensitive_data_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni_ui/cards/course_grade_card.dart';
@@ -28,15 +29,19 @@ class _CourseUnitsViewState extends ConsumerState<CourseUnitsView> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final hideGrades = ref.watch(hideSensitiveDataProvider);
 
     return DefaultConsumer<Profile>(
       provider: profileProvider,
       hasContent: (profile) => true,
       builder: (context, ref, profile) {
         final courseUnits = profile.courseUnits;
-        final courseGradeCards = _applyFilters(
-          courseUnits,
-        ).map((courseUnit) => _toCourseGradeCard(courseUnit, context)).toList();
+        final courseGradeCards = _applyFilters(courseUnits)
+            .map(
+              (courseUnit) =>
+                  _toCourseGradeCard(courseUnit, context, hideGrades),
+            )
+            .toList();
 
         return Column(
           children: [
@@ -136,11 +141,16 @@ class _CourseUnitsViewState extends ConsumerState<CourseUnitsView> {
     );
   }
 
-  CourseGradeCard _toCourseGradeCard(CourseUnit unit, BuildContext context) {
+  CourseGradeCard _toCourseGradeCard(
+    CourseUnit unit,
+    BuildContext context,
+    bool hideGrade,
+  ) {
     return CourseGradeCard(
       courseName: unit.name,
       ects: unit.ects ?? 0,
       grade: unit.grade,
+      hideGrade: hideGrade,
       tooltip: unit.name,
       onTap: () => _toCourseGradeCardOnTap(unit, context),
     );

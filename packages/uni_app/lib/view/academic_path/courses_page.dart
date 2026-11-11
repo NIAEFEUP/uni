@@ -4,6 +4,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
+import 'package:uni/model/providers/riverpod/hide_sensitive_data_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/view/academic_path/widgets/course_units_view.dart';
 import 'package:uni/view/academic_path/widgets/courses_page_shimmer.dart';
@@ -117,6 +118,9 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final hideSensitiveData = ref.watch(hideSensitiveDataProvider);
+    final isCurrentRoute = ModalRoute.isCurrentOf(context);
+
     return DefaultConsumer<Profile>(
       provider: profileProvider,
       builder: (context, ref, profile) {
@@ -156,6 +160,19 @@ class CoursesPageState extends ConsumerState<CoursesPage> {
             Padding(
               padding: const EdgeInsets.only(top: 40, bottom: 8),
               child: AverageBar(
+                // Reapply the preference when returning to the page or changing courses
+                key: ValueKey((
+                  course.festId,
+                  _courseUnitIndex,
+                  isCurrentRoute,
+                )),
+                hideSensitiveData: hideSensitiveData,
+                onToggleVisibility: () => ref
+                    .read(hideSensitiveDataProvider.notifier)
+                    .setHidden(!hideSensitiveData),
+                hiddenValueText: S.of(context).hidden_value,
+                showValueHint: S.of(context).tap_to_show,
+                hideValueHint: S.of(context).tap_to_hide,
                 average: course.currentAverage ?? 0,
                 completedCredits: course.finishedEcts ?? 0,
                 totalCredits: _getTotalCredits(profile, course),
