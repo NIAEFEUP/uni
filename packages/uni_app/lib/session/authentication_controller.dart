@@ -112,7 +112,17 @@ class AuthenticationController {
         // Report the exception as it will not be thrown when
         // awaiting a snapshot.
         Logger().e('Failed to reauthenticate', error: err, stackTrace: st);
-        unawaited(Sentry.captureException(err, stackTrace: st));
+        unawaited(
+          Sentry.captureException(
+            err,
+            stackTrace: st,
+            withScope: (scope) {
+              scope
+                ..setTag('feature', 'authentication')
+                ..setTag('action', 'reauthenticate');
+            },
+          ),
+        );
         return;
       }
 

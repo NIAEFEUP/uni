@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -114,7 +115,18 @@ class PreferencesController {
 
     try {
       value = await _secureStorage.read(key: _userSession);
-    } catch (err) {
+    } catch (err, st) {
+      unawaited(
+        Sentry.captureException(
+          err,
+          stackTrace: st,
+          withScope: (s) {
+            s
+              ..setTag('feature', 'secure_storage')
+              ..setTag('action', 'delete_all_fallback');
+          },
+        ),
+      );
       await _secureStorage.deleteAll();
       return null;
     }

@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -52,10 +54,6 @@ import 'package:workmanager/workmanager.dart';
 
 import 'controller/local_storage/database/database.dart';
 
-SentryEvent? beforeSend(SentryEvent event) {
-  return event.level == SentryLevel.info ? event : null;
-}
-
 Future<String> firstRoute() async {
   final savedSession = await PreferencesController.getSavedSession();
 
@@ -79,15 +77,20 @@ Future<void> main() async {
   // Initialize WorkManager for background tasks
   await Workmanager().initialize(workerStartCallback);
 
-  // NoSQL database initialization
-  await Database().init();
-
   // Read environment, which may include app tokens
   await dotenv.load(fileName: 'assets/env/.env', isOptional: true).onError((
     error,
     stackTrace,
   ) {
-    Sentry.captureException(error, stackTrace: stackTrace);
+    Sentry.captureException(
+      error,
+      stackTrace: stackTrace,
+      withScope: (s) {
+        s
+          ..setTag('feature', 'env_loader')
+          ..setTag('action', 'load_dotenv');
+      },
+    );
     Logger().e(
       'Error loading .env file: $error',
       error: error,
@@ -115,10 +118,26 @@ Future<void> main() async {
 
   await SentryFlutter.init(
     (options) {
-      options.dsn =
-          'https://a2661645df1c4992b24161010c5e0ecb@o553498.ingest.sentry.io/5680848';
+      options
+        ..dsn = 'https://a2661645df1c4992b24161010c5e0ecb@o553498.ingest.sentry.io/5680848'
+        ..tracesSampleRate = 0.1
+        ..sendDefaultPii = false
+        ..environment = kReleaseMode ? 'production' : 'debug'
+        ..beforeSend = (event, hint) {
+          final throwable = event.throwable;
+          if (throwable is SocketException ||
+              throwable is OSError ||
+              throwable is TimeoutException ||
+              throwable is HttpException) {
+            return null;
+          }
+          return event;
+        };
     },
-    appRunner: () {
+    appRunner: () async {
+      // NoSQL database initialization
+      await Database().init();
+
       runApp(
         ProviderScope(
           overrides: [
@@ -157,6 +176,8 @@ class ApplicationState extends ConsumerState<Application> {
   @override
   void initState() {
     super.initState();
+
+    navigatorObservers.add(SentryNavigatorObserver());
 
     final plausible = ref.read(plausibleProvider);
     if (plausible != null) {

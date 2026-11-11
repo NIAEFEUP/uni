@@ -1,4 +1,5 @@
 import 'package:logger/logger.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:workmanager/workmanager.dart';
 
@@ -17,6 +18,7 @@ const taskMap = {
 // when the app is completely terminated
 Future<void> workerStartCallback() async {
   Workmanager().executeTask((taskName, inputData) async {
+    final transaction = Sentry.startTransaction(taskName, 'background_worker');
     try {
       Logger().d('''[$taskName]: Start executing job...''');
 
@@ -31,18 +33,24 @@ Future<void> workerStartCallback() async {
             await value.$1();
           }
         });
+        transaction.status = const SpanStatus.ok();
         return true;
       }
       // try to keep the usage of this function BELOW +-30 seconds
       // to not be punished by the scheduler in future runs.
       await taskMap[taskName]!.$1();
+      transaction.status = const SpanStatus.ok();
     } catch (err, st) {
+      transaction.status = const SpanStatus.internalError();
+      await Sentry.captureException(err, stackTrace: st);
       Logger().e(
         'Error while running $taskName job:',
         error: err,
         stackTrace: st,
       );
       return false;
+    } finally {
+      await transaction.finish();
     }
     return true;
   });
