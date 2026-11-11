@@ -7,8 +7,7 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
-// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
+// ignore_for_file:unused_import, file_names
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -20,26 +19,26 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(time) => "Closes at ${time}";
+  static m0(time) => "Closes at ${time}";
 
-  static String m1(type) =>
+  static m1(type) =>
       "${Intl.select(type, {'all_dishes': 'All dishes', 'meat_dishes': 'Meat dishes', 'fish_dishes': 'Fish dishes', 'vegetarian_dishes': 'Vegetarian dishes', 'soups': 'Soups', 'salads': 'Salads', 'diet_dishes': 'Diet dishes', 'dishes_of_the_day': 'Dishes of the Day', 'closed': 'Closed', 'other': 'Other'})}";
 
-  static String m2(time) => "last refresh at ${time}";
+  static m2(time) => "last refresh at ${time}";
 
-  static String m3(time) =>
+  static m3(time) =>
       "${Intl.plural(time, zero: 'Refreshed ${time} minutes ago', one: 'Refreshed ${time} minute ago', other: 'Refreshed ${time} minutes ago')}";
 
-  static String m4(title) =>
+  static m4(title) =>
       "${Intl.select(title, {'horario': 'Schedule', 'exames': 'Exams', 'area': 'Personal Area', 'cadeiras': 'Course Units', 'locais': 'Places', 'restaurantes': 'Restaurants', 'calendario': 'Calendar', 'biblioteca': 'Library', 'percurso_academico': 'Academic Path', 'mapa': 'Map', 'faculdade': 'Faculty', 'bug_report': 'Leave Feedback', 'conta_corrente': 'Current Account', 'other': 'Other'})}";
 
-  static String m5(time) => "Opens at ${time}";
+  static m5(time) => "Opens at ${time}";
 
-  static String m6(period) =>
+  static m6(period) =>
       "${Intl.select(period, {'lunch': 'Lunch', 'dinner': 'Dinner', 'other': 'Other'})}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+  static _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("About us"),
     "academic_services": MessageLookupByLibrary.simpleMessage(
       "Academic services",
