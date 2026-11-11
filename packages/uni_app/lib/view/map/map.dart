@@ -382,12 +382,26 @@ class MapPageStateView extends ConsumerState<MapPage> {
                             horizontal: 16,
                             vertical: 12,
                           ),
-                          child: Text(
-                            S.of(context).no_results,
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSecondary,
-                              fontWeight: FontWeight.w500,
-                            ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.search_off,
+                                size: 18,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSecondary,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                S.of(context).no_results,
+                                style: TextStyle(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSecondary,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -414,8 +428,8 @@ class MapPageStateView extends ConsumerState<MapPage> {
               ),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 5),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
                   child: GestureDetector(
                     onTap: () => launchUrlWithToast(
                       context,
