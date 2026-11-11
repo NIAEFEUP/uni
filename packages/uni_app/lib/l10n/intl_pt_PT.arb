@@ -346,6 +346,8 @@
   "@year": {},
   "search_here": "Pesquisar aqui",
   "@search_here": {},
+  "clear_search": "Limpar pesquisa",
+  "@clear_search": {},
   "confirm_logout": "Tens a certeza de que queres terminar sessão? Os teus dados locais serão apagados e terás de iniciar sessão novamente.",
   "@confirm_logout": {},
   "collect_usage_stats": "Partilhar estatísticas de uso",

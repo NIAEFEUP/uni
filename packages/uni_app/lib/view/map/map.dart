@@ -171,6 +171,12 @@ class MapPageStateView extends ConsumerState<MapPage> {
       });
     }
 
+    final hasNoSearchResults =
+        !isMapLoading &&
+        normalizedSearchTerm.isNotEmpty &&
+        !hasRoomSearchResults &&
+        filteredLocations.isEmpty;
+
     final shouldUseCachedClusters =
         identical(_memoizedLocations, locations) &&
         _memoizedSearchTerm == normalizedSearchTerm &&
@@ -349,9 +355,61 @@ class MapPageStateView extends ConsumerState<MapPage> {
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).colorScheme.onSecondary,
                           ),
+                          suffixIcon: normalizedSearchTerm.isNotEmpty
+                              ? IconButton(
+                                  icon: Icon(
+                                    Icons.clear,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSecondary,
+                                  ),
+                                  tooltip: S.of(context).clear_search,
+                                  onPressed: () {
+                                    setState(() {
+                                      _searchController.clear();
+                                      _searchTerms = '';
+                                    });
+                                  },
+                                )
+                              : null,
                         ),
                       ),
                     ),
+                    if (hasNoSearchResults) ...[
+                      const SizedBox(height: 8),
+                      PhysicalModel(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Theme.of(context).colorScheme.secondary,
+                        elevation: 4,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.search_off,
+                                size: 18,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSecondary,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                S.of(context).no_results,
+                                style: TextStyle(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSecondary,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                     const SizedBox(height: 10),
                     AmenityFilterBar(
                       selectedAmenity: _selectedAmenity,
@@ -374,8 +432,8 @@ class MapPageStateView extends ConsumerState<MapPage> {
               ),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 5),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
                   child: GestureDetector(
                     onTap: () => launchUrlWithToast(
                       context,
