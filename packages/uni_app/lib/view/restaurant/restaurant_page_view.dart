@@ -262,10 +262,28 @@ class _RestaurantPageViewState
           });
 
     if (restaurantsWidgets.isEmpty) {
+      if (isFavoriteFilterOn) {
+        return Center(
+          child: Text(
+            S
+                .of(context)
+                .no_favorite_restaurants,
+            style: Theme
+                .of(context)
+                .textTheme
+                .titleLarge,
+          ),
+        );
+      }
       return Center(
         child: Text(
-          S.of(context).no_menus,
-          style: Theme.of(context).textTheme.titleLarge,
+          S
+              .of(context)
+              .no_menus,
+          style: Theme
+              .of(context)
+              .textTheme
+              .titleLarge,
         ),
       );
     }
