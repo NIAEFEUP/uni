@@ -355,23 +355,19 @@ class MapPageStateView extends ConsumerState<MapPage> {
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).colorScheme.onSecondary,
                           ),
-                          suffixIcon: hasNoSearchResults
-                              ? IconButton(
-                                  icon: Icon(
-                                    Icons.clear,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onSecondary,
-                                  ),
-                                  tooltip: S.of(context).clear_search,
-                                  onPressed: () {
-                                    setState(() {
-                                      _searchController.clear();
-                                      _searchTerms = '';
-                                    });
-                                  },
-                                )
-                              : null,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              Icons.clear,
+                              color: Theme.of(context).colorScheme.onSecondary,
+                            ),
+                            tooltip: S.of(context).clear_search,
+                            onPressed: () {
+                              setState(() {
+                                _searchController.clear();
+                                _searchTerms = '';
+                              });
+                            },
+                          ),
                         ),
                       ),
                     ),
