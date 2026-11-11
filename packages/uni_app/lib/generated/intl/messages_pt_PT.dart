@@ -33,6 +33,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static m4(period) =>
       "${Intl.select(period, {'lunch': 'Almoço', 'dinner': 'Jantar', 'other': 'Other'})}";
 
+  static m5(version) => "Estás a usar a uni ${version}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("Sobre nós"),
@@ -561,6 +563,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "session_expired": MessageLookupByLibrary.simpleMessage("Sessão expirada"),
     "settings": MessageLookupByLibrary.simpleMessage("Definições"),
+    "settings_app_version": m5,
     "shop": MessageLookupByLibrary.simpleMessage("loja"),
     "skip": MessageLookupByLibrary.simpleMessage("Ignorar"),
     "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
