@@ -99,6 +99,16 @@ class S {
     );
   }
 
+  /// `Enable notifications`
+  String get enable_notifications {
+    return Intl.message(
+      'Enable notifications',
+      name: 'enable_notifications',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Academic services`
   String get academic_services {
     return Intl.message(
@@ -527,16 +537,6 @@ class S {
   /// `Deadline`
   String get fee_date {
     return Intl.message('Deadline', name: 'fee_date', desc: '', args: []);
-  }
-
-  /// `Fee deadline`
-  String get fee_notification {
-    return Intl.message(
-      'Fee deadline',
-      name: 'fee_notification',
-      desc: '',
-      args: [],
-    );
   }
 
   /// `Report an issue or suggest an improvement`

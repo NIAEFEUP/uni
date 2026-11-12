@@ -15,4 +15,9 @@ class Migrations {
     // instead of waiting for the cache to expire.
     await PreferencesController.clearMapCache();
   }
+
+  static Future<void> migrateToV4() async {
+    // Tuition notifications are gone, so remove the old toggle from preferences.
+    await PreferencesController.prefs.remove('tuition_notification_toogle');
+  }
 }

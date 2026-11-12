@@ -192,6 +192,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "empty_text": MessageLookupByLibrary.simpleMessage(
       "Por favor preenche este campo",
     ),
+    "enable_notifications": MessageLookupByLibrary.simpleMessage(
+      "Ativar notificações",
+    ),
     "enrolled": MessageLookupByLibrary.simpleMessage("Total Inscritos"),
     "evaluation": MessageLookupByLibrary.simpleMessage("Avaliação"),
     "exams": MessageLookupByLibrary.simpleMessage("Exames"),
@@ -219,9 +222,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "fee_date": MessageLookupByLibrary.simpleMessage("Data limite"),
     "fee_date_description": MessageLookupByLibrary.simpleMessage(
       "Data limite para o próximo pagamento",
-    ),
-    "fee_notification": MessageLookupByLibrary.simpleMessage(
-      "Data limite de propina",
     ),
     "feedback_consent_title": MessageLookupByLibrary.simpleMessage(
       "Consentimento para recolha de dados",
