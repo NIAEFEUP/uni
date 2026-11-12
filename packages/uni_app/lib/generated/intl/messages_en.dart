@@ -19,23 +19,27 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static m0(type) =>
+  static m0(time) => "Closes at ${time}";
+
+  static m1(type) =>
       "${Intl.select(type, {'all_dishes': 'All dishes', 'meat_dishes': 'Meat dishes', 'fish_dishes': 'Fish dishes', 'vegetarian_dishes': 'Vegetarian dishes', 'soups': 'Soups', 'salads': 'Salads', 'diet_dishes': 'Diet dishes', 'dishes_of_the_day': 'Dishes of the Day', 'closed': 'Closed', 'other': 'Other'})}";
 
-  static m1(time) => "last refresh at ${time}";
+  static m2(time) => "last refresh at ${time}";
 
-  static m2(time) =>
+  static m3(time) =>
       "${Intl.plural(time, zero: 'Refreshed ${time} minutes ago', one: 'Refreshed ${time} minute ago', other: 'Refreshed ${time} minutes ago')}";
 
-  static m3(title) =>
+  static m4(title) =>
       "${Intl.select(title, {'horario': 'Schedule', 'exames': 'Exams', 'area': 'Personal Area', 'cadeiras': 'Course Units', 'locais': 'Places', 'restaurantes': 'Restaurants', 'calendario': 'Calendar', 'biblioteca': 'Library', 'percurso_academico': 'Academic Path', 'mapa': 'Map', 'faculdade': 'Faculty', 'bug_report': 'Leave Feedback', 'conta_corrente': 'Current Account', 'other': 'Other'})}";
 
-  static m4(period) =>
+  static m5(time) => "Opens at ${time}";
+
+  static m6(period) =>
       "${Intl.select(period, {'lunch': 'Lunch', 'dinner': 'Dinner', 'other': 'Other'})}";
 
-  static m5(version) => "You are using uni ${version}";
+  static m7(version) => "You are using uni ${version}";
 
-  static m6(year) => "Statistics ${year}";
+  static m8(year) => "Statistics ${year}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function>{
@@ -119,6 +123,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Class Registration",
     ),
     "close": MessageLookupByLibrary.simpleMessage("Close"),
+    "closed": MessageLookupByLibrary.simpleMessage("Closed"),
+    "closes_at": m0,
     "coffee_machine": MessageLookupByLibrary.simpleMessage("Coffee Machine"),
     "collect_usage_stats": MessageLookupByLibrary.simpleMessage(
       "Collect usage statistics",
@@ -160,7 +166,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Email where you want to be contacted",
     ),
     "dinner": MessageLookupByLibrary.simpleMessage("Dinner"),
-    "dish_type": m0,
+    "dish_type": m1,
     "dish_types": MessageLookupByLibrary.simpleMessage("Dish Types"),
     "dona_bia": MessageLookupByLibrary.simpleMessage(
       "D. Beatriz\'s stationery store",
@@ -281,8 +287,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "keep_login": MessageLookupByLibrary.simpleMessage("Remember me"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
-    "last_refresh_time": m1,
-    "last_timestamp": m2,
+    "last_refresh_time": m2,
+    "last_timestamp": m3,
     "leave_feedback": MessageLookupByLibrary.simpleMessage("Leave feedback"),
     "lectures": MessageLookupByLibrary.simpleMessage("Lectures"),
     "library": MessageLookupByLibrary.simpleMessage("Library"),
@@ -318,7 +324,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "nationalities": MessageLookupByLibrary.simpleMessage("Nationalities"),
     "nationality": MessageLookupByLibrary.simpleMessage("Nationality"),
-    "nav_title": m3,
+    "nav_title": m4,
     "news": MessageLookupByLibrary.simpleMessage("News"),
     "nextclasses": MessageLookupByLibrary.simpleMessage(
       "Here are your classes for ",
@@ -470,9 +476,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Type of occurrence",
     ),
     "of_month": MessageLookupByLibrary.simpleMessage("of"),
+    "open": MessageLookupByLibrary.simpleMessage("Open"),
     "open_error": MessageLookupByLibrary.simpleMessage(
       "Error opening the file",
     ),
+    "opens_at": m5,
     "other_links": MessageLookupByLibrary.simpleMessage("Other links"),
     "overview": MessageLookupByLibrary.simpleMessage("Overview"),
     "parking": MessageLookupByLibrary.simpleMessage("Parking"),
@@ -525,7 +533,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
       "Do you want to see your favorite restaurants in the main page?",
     ),
-    "restaurant_period": m4,
+    "restaurant_period": m6,
     "restaurants": MessageLookupByLibrary.simpleMessage("Restaurants"),
     "restaurants_intro_message": MessageLookupByLibrary.simpleMessage(
       "Discover campus dining options and menus",
@@ -551,7 +559,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "session_expired": MessageLookupByLibrary.simpleMessage("Session expired"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
-    "settings_app_version": m5,
+    "settings_app_version": m7,
     "shop": MessageLookupByLibrary.simpleMessage("Shop"),
     "skip": MessageLookupByLibrary.simpleMessage("Skip"),
     "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
@@ -567,7 +575,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "statistics_not_found": MessageLookupByLibrary.simpleMessage(
       "No statistics were found for this year or the previous year.",
     ),
-    "statistics_year": m6,
+    "statistics_year": m8,
     "stores": MessageLookupByLibrary.simpleMessage("Stores"),
     "student_number": MessageLookupByLibrary.simpleMessage("Student Number"),
     "success": MessageLookupByLibrary.simpleMessage("Sent with success"),

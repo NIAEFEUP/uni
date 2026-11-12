@@ -2576,6 +2576,36 @@ class S {
     );
   }
 
+  /// `Open`
+  String get open {
+    return Intl.message('Open', name: 'open', desc: '', args: []);
+  }
+
+  /// `Closed`
+  String get closed {
+    return Intl.message('Closed', name: 'closed', desc: '', args: []);
+  }
+
+  /// `Closes at {time}`
+  String closes_at(Object time) {
+    return Intl.message(
+      'Closes at $time',
+      name: 'closes_at',
+      desc: '',
+      args: [time],
+    );
+  }
+
+  /// `Opens at {time}`
+  String opens_at(Object time) {
+    return Intl.message(
+      'Opens at $time',
+      name: 'opens_at',
+      desc: '',
+      args: [time],
+    );
+  }
+
   /// `You are using uni {version}`
   String settings_app_version(Object version) {
     return Intl.message(
