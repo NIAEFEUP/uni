@@ -1911,6 +1911,16 @@ class S {
     );
   }
 
+  /// `List`
+  String get list_view {
+    return Intl.message('List', name: 'list_view', desc: '', args: []);
+  }
+
+  /// `Calendar`
+  String get calendar_view {
+    return Intl.message('Calendar', name: 'calendar_view', desc: '', args: []);
+  }
+
   /// `Map`
   String get map {
     return Intl.message('Map', name: 'map', desc: '', args: []);
@@ -2574,6 +2584,11 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Type`
+  String get type {
+    return Intl.message('Type', name: 'type', desc: '', args: []);
   }
 
   /// `You are using uni {version}`

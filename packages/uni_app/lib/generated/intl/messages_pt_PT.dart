@@ -109,6 +109,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Detalhe Visual",
     ),
     "calendar": MessageLookupByLibrary.simpleMessage("Calendário"),
+    "calendar_view": MessageLookupByLibrary.simpleMessage("Calendário"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancelar"),
     "change": MessageLookupByLibrary.simpleMessage("Alterar"),
     "change_password": MessageLookupByLibrary.simpleMessage(
@@ -304,6 +305,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "library_occupation": MessageLookupByLibrary.simpleMessage(
       "Ocupação da Biblioteca",
     ),
+    "list_view": MessageLookupByLibrary.simpleMessage("Lista"),
     "load_error": MessageLookupByLibrary.simpleMessage(
       "Erro ao carregar a informação",
     ),
@@ -616,6 +618,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Problemas ao iniciar sessão?",
     ),
     "tuition_fees": MessageLookupByLibrary.simpleMessage("Propinas"),
+    "type": MessageLookupByLibrary.simpleMessage("Tipo"),
     "uc_info": MessageLookupByLibrary.simpleMessage("Abrir página da UC"),
     "ucs": MessageLookupByLibrary.simpleMessage("UCS"),
     "unable_to_load_data": MessageLookupByLibrary.simpleMessage(
