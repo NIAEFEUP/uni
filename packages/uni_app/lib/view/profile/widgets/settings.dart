@@ -3,6 +3,7 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/profile/widgets/app_version_text.dart';
 import 'package:uni/view/profile/widgets/locale_switch_button.dart';
 import 'package:uni/view/profile/widgets/notification_rows.dart';
 import 'package:uni/view/profile/widgets/test_notification_debug_button.dart';
@@ -127,6 +128,7 @@ class Settings extends StatelessWidget {
               onTap: NetworkRouter.authenticationController?.close,
             ),
           ),
+          const AppVersionText(),
         ],
       ),
     );
