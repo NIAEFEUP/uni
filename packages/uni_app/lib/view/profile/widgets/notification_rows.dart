@@ -11,11 +11,11 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni_ui/cards/profile_list_tile.dart';
 import 'package:uni_ui/icons.dart';
 
-/// The notification types shown in the settings.
+/// Notification types listed in the settings.
 ///
-/// These are the registered types, plus the debug one. The debug type is not
-/// in `notificationMap`, so the background worker never sends it, but it is
-/// configurable while the debug tooling is around.
+/// The registered types plus the debug one. The debug type isn't in
+/// `notificationMap`, so the worker never sends it; it's only here so it can
+/// be configured while the debug tools exist.
 // DEBUG: remove before merging this PR.
 List<Notification> get settingsNotifications => [
   ...registeredNotifications,
@@ -32,10 +32,9 @@ class NotificationSettingsState {
 
   final Map<String, bool> values;
 
-  /// Whether notifications are allowed in general.
+  /// Master switch for all notifications.
   ///
-  /// This is its own setting: turning a single type on or off never changes
-  /// it, and it never changes on its own either.
+  /// Turning a single type on or off doesn't affect it.
   final bool masterEnabled;
 
   /// Whether the given notification type is on.
@@ -45,9 +44,8 @@ class NotificationSettingsState {
 
 /// Reads and writes the notification toggles.
 ///
-/// The master switch is a setting of its own: it gates every notification
-/// type and only changes when it is pressed. Turning one type off leaves it
-/// alone.
+/// The master switch only changes when it's pressed; per-type switches never
+/// touch it.
 class NotificationSettingsNotifier
     extends StateNotifier<NotificationSettingsState> {
   NotificationSettingsNotifier() : super(_read());
@@ -65,10 +63,10 @@ class NotificationSettingsNotifier
     );
   }
 
-  /// Turns every notification type on or off, and the master with them.
+  /// Turns every notification type on or off, including the master switch.
   ///
-  /// Turning them off also takes down whatever is currently on screen, so
-  /// the user does not keep seeing reminders they just turned off.
+  /// Turning them off also cancels anything already shown, so reminders don't
+  /// linger after the user disables them.
   Future<void> setAll(bool enabled) async {
     final notifications = settingsNotifications;
     final values = <String, bool>{};
@@ -95,7 +93,7 @@ class NotificationSettingsNotifier
 
   /// Turns a single notification type on or off.
   ///
-  /// The master is left alone: it only changes when it is pressed.
+  /// Leaves the master switch alone.
   Future<void> setOne(Notification notification, bool enabled) async {
     await PreferencesController.prefs.setBool(
       notification.prefsToggleKey,
@@ -113,8 +111,8 @@ class NotificationSettingsNotifier
     }
   }
 
-  /// Asks for the Android exact-alarm permission when [notification] schedules
-  /// itself, so enabling it does not silently downgrade the schedule.
+  /// Requests the Android exact-alarm permission for scheduled notifications,
+  /// so enabling one doesn't silently fall back to an inexact schedule.
   static Future<void> _requestExactAlarmsIfNeeded(
     Notification notification,
   ) async {
@@ -127,9 +125,9 @@ class NotificationSettingsNotifier
     }
   }
 
-  /// Cancels what is on screen without letting a platform failure break the
-  /// settings. The toggles are already stored at this point, so the user
-  /// still sees the change they made.
+  /// Cancels the notification, ignoring platform errors.
+  ///
+  /// The toggle is already saved, so the user still sees the change they made.
   static Future<void> _cancelSafely(Future<void> Function() cancel) async {
     try {
       await cancel();
@@ -149,8 +147,7 @@ final notificationSettingsProvider =
       NotificationSettingsState
     >((ref) => NotificationSettingsNotifier());
 
-/// The switch used by every notification row, so the styling stays in one
-/// place.
+/// Switch shared by every notification row, so the styling lives in one place.
 class _NotificationSwitch extends StatelessWidget {
   const _NotificationSwitch({required this.value, required this.onChanged});
 
@@ -173,10 +170,7 @@ class _NotificationSwitch extends StatelessWidget {
   }
 }
 
-/// The master switch: it turns every notification type on or off at once.
-///
-/// It is shown on the settings card and on top of the notification rows, so
-/// both read the same state.
+/// Master switch. Turns every notification type on or off at once.
 class NotificationMasterSwitch extends ConsumerWidget {
   const NotificationMasterSwitch({super.key});
 
@@ -192,7 +186,7 @@ class NotificationMasterSwitch extends ConsumerWidget {
   }
 }
 
-/// The switch of a single notification type.
+/// Switch for a single notification type.
 class NotificationTypeSwitch extends ConsumerWidget {
   const NotificationTypeSwitch({super.key, required this.notification});
 
@@ -211,8 +205,7 @@ class NotificationTypeSwitch extends ConsumerWidget {
   }
 }
 
-/// The notification settings: the master switch on top, and one switch per
-/// notification type below it.
+/// Notification settings: the master switch, then one switch per type.
 class NotificationRows extends ConsumerWidget {
   const NotificationRows({super.key});
 

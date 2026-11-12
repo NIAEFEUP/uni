@@ -317,11 +317,10 @@ class PreferencesController {
     );
   }
 
-  /// Whether the user allows notifications in general.
+  /// Master switch for all notifications.
   ///
-  /// This is the master switch: it gates every notification type, on top of
-  /// each type's own toggle. Turning one type off does not turn the master
-  /// switch off.
+  /// Each type still has its own toggle. Turning one type off doesn't change
+  /// this.
   static bool getNotificationsToggle() {
     return prefs.getBool(_notificationsToggleKey) ?? true;
   }

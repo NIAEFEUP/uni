@@ -17,8 +17,7 @@ class Migrations {
   }
 
   static Future<void> migrateToV4() async {
-    // Tuition notifications were removed, so the old toggle no longer controls
-    // anything. Drop it instead of leaving it behind in preferences.
+    // Tuition notifications are gone, so remove the old toggle from preferences.
     await PreferencesController.prefs.remove('tuition_notification_toogle');
   }
 }

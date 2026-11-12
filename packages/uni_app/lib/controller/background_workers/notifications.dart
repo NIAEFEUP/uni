@@ -27,10 +27,10 @@ Map<Type, Notification Function()> notificationMap = {
   ScheduledTestNotification: ScheduledTestNotification.new,
 };
 
-/// The notification types the app can send, in registration order.
+/// Every notification type the app can send, in registration order.
 ///
-/// The settings screen lists these, one toggle per type. Types that are not
-/// in [notificationMap] are never sent, so they have no toggle.
+/// The settings screen uses this to build one toggle per type. A type that
+/// isn't in [notificationMap] is never sent, so it doesn't get a toggle.
 List<Notification> get registeredNotifications =>
     notificationMap.values.map((factory) => factory()).toList();
 
@@ -59,7 +59,7 @@ class NotificationChannel {
   final bool presentSound;
   final InterruptionLevel? interruptionLevel;
 
-  /// Details for a regular notification.
+  /// Notification details shared by both platforms.
   NotificationDetails toDetails() {
     final android = AndroidNotificationDetails(
       androidId,
@@ -128,8 +128,8 @@ abstract class Notification {
 
   NotificationChannel get channel;
 
-  /// Platform notification id. Re-showing a notification replaces the
-  /// previous one with the same id.
+  /// Platform notification id. Showing another notification with the same id
+  /// replaces this one.
   int get id;
 
   NotificationTrigger get trigger;
@@ -142,13 +142,12 @@ abstract class Notification {
   /// Builds the notification text - must be dynamic and locale aware.
   Future<(String, String)> buildContent(Session session);
 
-  /// The name of this notification type, as shown in the settings.
+  /// Name shown in the settings for this notification type.
   ///
-  /// The settings screen has a `BuildContext`, so the label is resolved
-  /// there. It is never needed in a background isolate.
+  /// Resolved with a `BuildContext`, so it's only available in the UI isolate.
   String userFacingTitle(BuildContext context);
 
-  /// The icon of this notification type, as shown in the settings.
+  /// Icon shown in the settings for this notification type.
   IconData get icon;
 
   /// Whether the user allowed this type in settings.
@@ -348,17 +347,17 @@ class NotificationManager {
     }
   }
 
-  /// Cancels everything [notification] currently has on screen.
+  /// Cancels [notification] if it's currently shown.
   ///
-  /// Used when the user turns a notification type off, so the reminder
-  /// disappears right away instead of lingering until its time-to-live.
+  /// Called when the user turns a type off, so it disappears right away instead
+  /// of hanging around until its TTL expires.
   static Future<void> cancel(Notification notification) async {
     await _ensurePluginInitialized();
     await _localNotificationsPlugin.cancel(id: notification.id);
   }
 
-  /// Displays [notification] immediately, ignoring its trigger, its throttle
-  /// and the user toggle. Only meant for debugging the notification pipeline.
+  /// Shows [notification] immediately, ignoring its trigger, throttle and the
+  /// settings toggle. Only for debugging the notification pipeline.
   // DEBUG: remove before merging this PR.
   static Future<void> debugDisplayNotification(
     Notification notification,
@@ -379,9 +378,8 @@ class NotificationManager {
     );
   }
 
-  /// Runs the regular [updateAndTriggerNotifications] every [debugPollPeriod]
-  /// instead of waiting for the hourly worker, so trigger/throttle behaviour
-  /// can be observed without waiting an hour between checks.
+  /// Runs the normal poll every [debugPollPeriod] instead of hourly, so
+  /// triggers and throttles can be tested without waiting an hour.
   ///
   /// [buildNotification] is called on every tick, so stateful notifications
   /// keep their state across polls.
@@ -403,9 +401,9 @@ class NotificationManager {
     });
   }
 
-  /// Runs a single poll of [notification] through the regular pipeline:
-  /// the settings toggle, the TTL, the throttle and the trigger are all
-  /// respected, unlike [debugDisplayNotification].
+  /// Runs one poll of [notification] through the normal pipeline, so the
+  /// settings toggle, TTL, throttle and trigger all apply. This is unlike
+  /// [debugDisplayNotification], which skips them.
   // DEBUG: remove before merging this PR.
   static Future<void> debugPollOnce(Notification notification) async {
     PreferencesController.prefs = await SharedPreferences.getInstance();
@@ -469,8 +467,8 @@ class NotificationManager {
     Session session,
     NotificationTimeoutStorage notificationStorage,
   ) async {
-    // The master switch gates every type, on top of each type's own toggle.
-    // Turning one type off does not turn the master switch off.
+    // The master switch gates every type on top of its own toggle. Turning one
+    // type off doesn't change the master.
     if (!PreferencesController.getNotificationsToggle()) {
       await cancel(notification);
       return;
@@ -566,12 +564,11 @@ class NotificationManager {
     }
   }
 
-  /// Debug-only check that the platform notification ids of the notification
-  /// types the app can show cannot collide.
+  /// Debug-only check for duplicate platform notification ids.
   ///
-  /// The ids are declared by hand, so this check catches typos that would
-  /// make one notification silently replace another. It covers the settings
-  /// types too, since a type that is only configurable still uses its id.
+  /// Ids are assigned by hand, so a typo could make one notification silently
+  /// replace another. Settings-only types are included because they still use
+  /// their id.
   static void _assertIdSpacesAreDisjoint() {
     assert(() {
       final fixedIds = <int, String>{};

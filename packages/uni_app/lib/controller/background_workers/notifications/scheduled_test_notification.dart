@@ -4,14 +4,12 @@ import 'package:flutter/material.dart' hide Notification;
 import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/session/flows/base/session.dart';
 
-/// Debug-only notification that exercises the [ScheduledTrigger] path.
+/// Debug-only notification for testing [ScheduledTrigger].
 ///
-/// It is registered in `notificationMap`, so it goes through the regular
-/// worker, the settings toggles and the timeout storage. The first poll of an
-/// instance schedules it one minute ahead; polling the same instance again
-/// keeps that target, and cancels the notification once it has passed. The
-/// background worker creates a fresh instance on every poll, so each run
-/// schedules it again.
+/// It's registered in `notificationMap`, so it runs through the normal worker
+/// and settings. Each instance schedules itself one minute ahead and cancels
+/// once that time has passed. The worker creates a new instance on every poll,
+/// so it gets rescheduled each run.
 // DEBUG: remove before merging this PR.
 class ScheduledTestNotification extends Notification {
   ScheduledTestNotification();
@@ -24,8 +22,7 @@ class ScheduledTestNotification extends Notification {
   @override
   String get prefsToggleKey => 'scheduled_test_notification_toogle';
 
-  /// Disabled by default, so a debug build does not schedule it until the
-  /// tester explicitly turns it on.
+  /// Off by default, so it doesn't schedule itself until you turn it on.
   @override
   bool get defaultEnabled => false;
 

@@ -5,14 +5,13 @@ import 'package:uni/view/widgets/toast_message.dart';
 import 'package:uni_ui/cards/profile_list_tile.dart';
 import 'package:uni_ui/icons.dart';
 
-/// Debug-only controls for the notification pipeline:
-///   * tap the tile to display a notification immediately, ignoring the
-///     trigger, the throttle and the settings toggle;
-///   * flip the switch to run the regular poll every
-///     [NotificationManager.debugPollPeriod], so trigger/throttle behaviour can
-///     be observed without waiting for the hourly worker;
-///   * tap the worker tile to run the regular poll once, which also schedules
-///     the scheduled test notification.
+/// Debug controls for the notification pipeline:
+///   * tap the tile to show a notification immediately, ignoring the trigger,
+///     throttle and settings toggle;
+///   * flip the switch to poll every [NotificationManager.debugPollPeriod]
+///     instead of waiting for the hourly worker;
+///   * tap the worker tile to run one regular poll, which also schedules the
+///     scheduled test notification.
 ///
 /// DEBUG: remove before merging this PR.
 class TestNotificationDebugButton extends StatefulWidget {
@@ -27,7 +26,7 @@ class _TestNotificationDebugButtonState
     extends State<TestNotificationDebugButton> {
   bool _pollRunning = NotificationManager.isDebugPollRunning;
 
-  /// Kept across ticks so the same instance is polled, like the real worker.
+  /// Keep the same instance between ticks, like the real worker does.
   final TestNotification _notification = TestNotification();
 
   @override
