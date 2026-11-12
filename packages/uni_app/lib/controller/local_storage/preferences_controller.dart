@@ -26,7 +26,7 @@ class PreferencesController {
       'pedagogical_surveys_dismissed';
   static const _pedagogicalSurveysShowDialogKey =
       'pedagogical_surveys_show_dialog';
-  static const _tuitionNotificationsToggleKey = 'tuition_notification_toogle';
+  static const _notificationsToggleKey = 'notifications_enabled';
   static const _usageStatsToggleKey = 'usage_stats_toogle';
   static const _themeMode = 'theme_mode';
   static const _isDataCollectionBannerViewedKey = 'data_collection_banner';
@@ -317,14 +317,17 @@ class PreferencesController {
     );
   }
 
-  static bool getTuitionNotificationToggle() {
-    return prefs.getBool(_tuitionNotificationsToggleKey) ?? true;
+  /// Whether the user allows notifications in general.
+  ///
+  /// This is the master switch: it gates every notification type, on top of
+  /// each type's own toggle. Turning one type off does not turn the master
+  /// switch off.
+  static bool getNotificationsToggle() {
+    return prefs.getBool(_notificationsToggleKey) ?? true;
   }
 
-  static Future<void> setTuitionNotificationToggle({
-    required bool value,
-  }) async {
-    await prefs.setBool(_tuitionNotificationsToggleKey, value);
+  static Future<void> setNotificationsToggle({required bool value}) async {
+    await prefs.setBool(_notificationsToggleKey, value);
   }
 
   static bool getUsageStatsToggle() {

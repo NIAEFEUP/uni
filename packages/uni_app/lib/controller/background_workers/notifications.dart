@@ -3,13 +3,15 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart' hide Notification;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
-import 'package:uni/controller/background_workers/notifications/tuition_notification.dart';
+import 'package:uni/controller/background_workers/notifications/scheduled_test_notification.dart';
+import 'package:uni/controller/background_workers/notifications/test_notification.dart';
 import 'package:uni/controller/local_storage/notification_timeout_storage.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/session/flows/base/session.dart';
@@ -21,8 +23,16 @@ import 'package:workmanager/workmanager.dart';
 /// (due to background worker limitations).
 ///
 Map<Type, Notification Function()> notificationMap = {
-  TuitionNotification: TuitionNotification.new,
+  // DEBUG: remove before merging this PR.
+  ScheduledTestNotification: ScheduledTestNotification.new,
 };
+
+/// The notification types the app can send, in registration order.
+///
+/// The settings screen lists these, one toggle per type. Types that are not
+/// in [notificationMap] are never sent, so they have no toggle.
+List<Notification> get registeredNotifications =>
+    notificationMap.values.map((factory) => factory()).toList();
 
 // ---------------------------------------------------------------------------
 // Shared value types
@@ -49,17 +59,12 @@ class NotificationChannel {
   final bool presentSound;
   final InterruptionLevel? interruptionLevel;
 
-  NotificationDetails toDetails({
-    NotificationImage? image,
-    NotificationGroup? group,
-  }) {
+  /// Details for a regular notification.
+  NotificationDetails toDetails() {
     final android = AndroidNotificationDetails(
       androidId,
       androidName,
       importance: androidImportance,
-      largeIcon: image?.toAndroidBitmap(),
-      groupKey: group?.groupKey,
-      setAsGroupSummary: group?.isSummary ?? false,
     );
 
     final darwin = DarwinNotificationDetails(
@@ -67,85 +72,10 @@ class NotificationChannel {
       presentBadge: presentBadge,
       presentSound: presentSound,
       interruptionLevel: interruptionLevel,
-      threadIdentifier: group?.groupKey,
-      attachments: image?.toDarwinAttachments(),
     );
 
     return NotificationDetails(android: android, iOS: darwin);
   }
-}
-
-/// Image attached to a notification. Has to be a resource, a file or raw bytes. Choose from the classes below.
-sealed class NotificationImage {
-  const NotificationImage();
-
-  AndroidBitmap<Object>? toAndroidBitmap();
-
-  List<DarwinNotificationAttachment>? toDarwinAttachments();
-}
-
-/// Android drawable resource
-class DrawableNotificationImage extends NotificationImage {
-  const DrawableNotificationImage(this.name);
-
-  final String name;
-
-  @override
-  AndroidBitmap<Object> toAndroidBitmap() =>
-      DrawableResourceAndroidBitmap(name);
-
-  @override
-  List<DarwinNotificationAttachment>? toDarwinAttachments() => null;
-}
-
-/// Image stored in the file system.
-class FileNotificationImage extends NotificationImage {
-  const FileNotificationImage(this.path);
-
-  final String path;
-
-  @override
-  AndroidBitmap<Object> toAndroidBitmap() => FilePathAndroidBitmap(path);
-
-  @override
-  List<DarwinNotificationAttachment>? toDarwinAttachments() => [
-    DarwinNotificationAttachment(path),
-  ];
-}
-
-/// Image as raw bytes (PNG).
-class BytesNotificationImage extends NotificationImage {
-  const BytesNotificationImage(this.bytes);
-
-  final Uint8List bytes;
-
-  @override
-  AndroidBitmap<Object> toAndroidBitmap() => ByteArrayAndroidBitmap(bytes);
-
-  @override
-  List<DarwinNotificationAttachment>? toDarwinAttachments() => null;
-}
-
-/// Groups notifications of the same kind (Android group + summary,
-/// iOS thread identifier).
-class NotificationGroup {
-  const NotificationGroup({required this.groupKey, this.isSummary = false});
-
-  final String groupKey;
-  final bool isSummary;
-}
-
-/// How the platform notification id is chosen.
-sealed class NotificationIdStrategy {
-  const NotificationIdStrategy();
-}
-
-/// The notification keeps a stable platform id — re-showing replaces the
-/// previous one ("update in place").
-class FixedNotificationId extends NotificationIdStrategy {
-  const FixedNotificationId(this.id);
-
-  final int id;
 }
 
 // ---------------------------------------------------------------------------
@@ -198,13 +128,11 @@ abstract class Notification {
 
   NotificationChannel get channel;
 
-  NotificationIdStrategy get idStrategy;
+  /// Platform notification id. Re-showing a notification replaces the
+  /// previous one with the same id.
+  int get id;
 
   NotificationTrigger get trigger;
-
-  NotificationImage? get image => null;
-
-  NotificationGroup? get group => null;
 
   /// Time-to-live after firing; `null` keeps the notification until the user
   /// dismisses it. Expiry is enforced on the next poll (may be late by up to
@@ -214,17 +142,20 @@ abstract class Notification {
   /// Builds the notification text - must be dynamic and locale aware.
   Future<(String, String)> buildContent(Session session);
 
-  /// Platform id (from [idStrategy]).
-  int get id => switch (idStrategy) {
-    FixedNotificationId(:final id) => id,
-  };
+  /// The name of this notification type, as shown in the settings.
+  ///
+  /// The settings screen has a `BuildContext`, so the label is resolved
+  /// there. It is never needed in a background isolate.
+  String userFacingTitle(BuildContext context);
+
+  /// The icon of this notification type, as shown in the settings.
+  IconData get icon;
 
   /// Whether the user allowed this type in settings.
   bool isEnabled(SharedPreferences prefs) =>
       prefs.getBool(prefsToggleKey) ?? defaultEnabled;
 
-  NotificationDetails get details =>
-      channel.toDetails(image: image, group: group);
+  NotificationDetails get details => channel.toDetails();
 
   /// Shows (or replaces, for fixed ids) the notification.
   Future<void> display(
@@ -264,14 +195,14 @@ class NotificationManager {
   static const _notificationWorkerPeriod = Duration(hours: 1);
 
   /// How often the debug poll loop below checks the notification.
-  // WARN: Remove this method before merging to develop.
+  // DEBUG: remove before merging this PR.
   static const debugPollPeriod = Duration(seconds: 30);
 
-  // WARN: Remove this field before merging to develop.
+  // DEBUG: remove before merging this PR.
   static Timer? _debugPollTimer;
 
   /// Whether the debug poll loop is currently running.
-  // WARN: Remove this method before merging to develop.
+  // DEBUG: remove before merging this PR.
   static bool get isDebugPollRunning => _debugPollTimer != null;
 
   Future<void> initializeNotifications() async {
@@ -328,14 +259,35 @@ class NotificationManager {
     return false;
   }
 
+  static Future<bool> canScheduleExactNotifications() async {
+    if (!Platform.isAndroid) {
+      return true;
+    }
+    final androidPlugin = _localNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
+    return await androidPlugin?.canScheduleExactNotifications() ?? false;
+  }
+
+  static Future<bool> requestExactAlarmsPermission() async {
+    if (!Platform.isAndroid) {
+      return true;
+    }
+    final androidPlugin = _localNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
+    return await androidPlugin?.requestExactAlarmsPermission() ?? false;
+  }
+
   static Future<void> _ensurePluginInitialized() async {
     if (_pluginInitialized) {
       return;
     }
-    _pluginInitialized = true;
 
     const initializationSettingsAndroid = AndroidInitializationSettings(
-      '@mipmap/launcher_icon',
+      'ic_launcher_monochrome',
     );
 
     // iOS
@@ -353,6 +305,7 @@ class NotificationManager {
     await _localNotificationsPlugin.initialize(
       settings: initializationSettings,
     );
+    _pluginInitialized = true;
   }
 
   static Future<void> _ensureTimeZonesInitialized() async {
@@ -395,9 +348,18 @@ class NotificationManager {
     }
   }
 
+  /// Cancels everything [notification] currently has on screen.
+  ///
+  /// Used when the user turns a notification type off, so the reminder
+  /// disappears right away instead of lingering until its time-to-live.
+  static Future<void> cancel(Notification notification) async {
+    await _ensurePluginInitialized();
+    await _localNotificationsPlugin.cancel(id: notification.id);
+  }
+
   /// Displays [notification] immediately, ignoring its trigger, its throttle
   /// and the user toggle. Only meant for debugging the notification pipeline.
-  // WARN: Remove this method before merging to develop.
+  // DEBUG: remove before merging this PR.
   static Future<void> debugDisplayNotification(
     Notification notification,
   ) async {
@@ -422,8 +384,8 @@ class NotificationManager {
   /// can be observed without waiting an hour between checks.
   ///
   /// [buildNotification] is called on every tick, so stateful notifications
-  /// (such as `TestNotification.hasFired`) keep their state across polls.
-  // WARN: Remove this method before merging to develop.
+  /// keep their state across polls.
+  // DEBUG: remove before merging this PR.
   static void startDebugPollLoop({
     required Notification Function() buildNotification,
   }) {
@@ -444,7 +406,7 @@ class NotificationManager {
   /// Runs a single poll of [notification] through the regular pipeline:
   /// the settings toggle, the TTL, the throttle and the trigger are all
   /// respected, unlike [debugDisplayNotification].
-  // WARN: Remove this method before merging to develop.
+  // DEBUG: remove before merging this PR.
   static Future<void> debugPollOnce(Notification notification) async {
     PreferencesController.prefs = await SharedPreferences.getInstance();
 
@@ -458,10 +420,12 @@ class NotificationManager {
     await _ensurePluginInitialized();
     final notificationStorage = await NotificationTimeoutStorage.create();
 
+    _assertIdSpacesAreDisjoint();
+
     await _processNotification(notification, session, notificationStorage);
   }
 
-  // WARN: Remove this method before merging to develop.
+  // DEBUG: remove before merging this PR.
   static void debugStopPollLoop() {
     _debugPollTimer?.cancel();
     _debugPollTimer = null;
@@ -484,6 +448,8 @@ class NotificationManager {
     await _ensurePluginInitialized();
     final notificationStorage = await NotificationTimeoutStorage.create();
 
+    _assertIdSpacesAreDisjoint();
+
     for (final value in notificationMap.values) {
       final notification = value();
       try {
@@ -503,6 +469,13 @@ class NotificationManager {
     Session session,
     NotificationTimeoutStorage notificationStorage,
   ) async {
+    // The master switch gates every type, on top of each type's own toggle.
+    // Turning one type off does not turn the master switch off.
+    if (!PreferencesController.getNotificationsToggle()) {
+      await cancel(notification);
+      return;
+    }
+
     final now = DateTime.now();
 
     // TTL expiry (poll-side): cancel anything whose time-to-live elapsed.
@@ -558,18 +531,29 @@ class NotificationManager {
       case ScheduledTrigger(:final nextFireTime, :final allowWhileIdle):
         await _ensureTimeZonesInitialized();
         final fireTime = await nextFireTime(session);
-        if (fireTime == null) {
+        if (fireTime == null || fireTime.isBefore(now)) {
           await _localNotificationsPlugin.cancel(id: notification.id);
           return;
         }
+
+        var scheduleMode = allowWhileIdle
+            ? AndroidScheduleMode.exactAllowWhileIdle
+            : AndroidScheduleMode.exact;
+        if (Platform.isAndroid) {
+          final canExact = await canScheduleExactNotifications();
+          if (!canExact) {
+            scheduleMode = allowWhileIdle
+                ? AndroidScheduleMode.inexactAllowWhileIdle
+                : AndroidScheduleMode.inexact;
+          }
+        }
+
         final content = await notification.buildContent(session);
         await _localNotificationsPlugin.zonedSchedule(
           id: notification.id,
           scheduledDate: tz.TZDateTime.from(fireTime, tz.local),
           notificationDetails: notification.details,
-          androidScheduleMode: allowWhileIdle
-              ? AndroidScheduleMode.exactAllowWhileIdle
-              : AndroidScheduleMode.exact,
+          androidScheduleMode: scheduleMode,
           title: content.$1,
           body: content.$2,
         );
@@ -580,5 +564,31 @@ class NotificationManager {
           );
         }
     }
+  }
+
+  /// Debug-only check that the platform notification ids of the notification
+  /// types the app can show cannot collide.
+  ///
+  /// The ids are declared by hand, so this check catches typos that would
+  /// make one notification silently replace another. It covers the settings
+  /// types too, since a type that is only configurable still uses its id.
+  static void _assertIdSpacesAreDisjoint() {
+    assert(() {
+      final fixedIds = <int, String>{};
+
+      // DEBUG: remove the debug entry before merging this PR.
+      final notifications = [...registeredNotifications, TestNotification()];
+
+      for (final notification in notifications) {
+        assert(
+          !fixedIds.containsKey(notification.id),
+          'The notification id ${notification.id} is used by both '
+          '${fixedIds[notification.id]} and ${notification.uniqueID}.',
+        );
+        fixedIds[notification.id] = notification.uniqueID;
+      }
+
+      return true;
+    }());
   }
 }

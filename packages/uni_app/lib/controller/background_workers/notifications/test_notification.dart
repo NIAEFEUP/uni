@@ -1,11 +1,12 @@
+// `Notification` is hidden because Flutter has one of its own, from
+// `NotificationListener`.
+import 'package:flutter/material.dart' hide Notification;
 import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/session/flows/base/session.dart';
 
-// WARN: Remove this class before merging to develop.
+// DEBUG: remove before merging this PR.
 class TestNotification extends Notification {
   TestNotification();
-
-  bool hasFired = false;
 
   @override
   String get uniqueID => 'test-notification';
@@ -23,7 +24,13 @@ class TestNotification extends Notification {
   );
 
   @override
-  NotificationIdStrategy get idStrategy => const FixedNotificationId(3);
+  int get id => 3;
+
+  @override
+  String userFacingTitle(BuildContext context) => 'Test notification (debug)';
+
+  @override
+  IconData get icon => Icons.bug_report_outlined;
 
   // Shorter than the debug poll loop period, so every tick can fire.
   @override
@@ -33,7 +40,6 @@ class TestNotification extends Notification {
   );
 
   Future<bool> _shouldFire(Session session, DateTime now) async {
-    hasFired = true;
     return true;
   }
 

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/controller/background_workers/notifications/test_notification.dart';
@@ -11,9 +10,11 @@ import 'package:uni_ui/icons.dart';
 ///     trigger, the throttle and the settings toggle;
 ///   * flip the switch to run the regular poll every
 ///     [NotificationManager.debugPollPeriod], so trigger/throttle behaviour can
-///     be observed without waiting for the hourly worker.
+///     be observed without waiting for the hourly worker;
+///   * tap the worker tile to run the regular poll once, which also schedules
+///     the scheduled test notification.
 ///
-/// WARN: Remove this widget before merging to develop.
+/// DEBUG: remove before merging this PR.
 class TestNotificationDebugButton extends StatefulWidget {
   const TestNotificationDebugButton({super.key});
 
@@ -26,7 +27,7 @@ class _TestNotificationDebugButtonState
     extends State<TestNotificationDebugButton> {
   bool _pollRunning = NotificationManager.isDebugPollRunning;
 
-  /// Kept across ticks so `hasFired` state behaves like the real worker.
+  /// Kept across ticks so the same instance is polled, like the real worker.
   final TestNotification _notification = TestNotification();
 
   @override
@@ -64,28 +65,52 @@ class _TestNotificationDebugButtonState
     setState(() => _pollRunning = value);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    if (!kDebugMode) {
-      return const SizedBox.shrink();
+  Future<void> _runWorkerNow() async {
+    try {
+      await NotificationManager.updateAndTriggerNotifications();
+    } catch (err, st) {
+      debugPrint('Failed to run the notification worker: $err\n$st');
+      if (!mounted) {
+        return;
+      }
+      await ToastMessage.error(context, 'Failed to run the worker.');
+      return;
     }
 
-    return ProfileListTile(
-      icon: UniIcons.notification,
-      title: 'Debug: test notification',
-      subtitle:
-          'Tap to show it now, or poll every '
-          '${NotificationManager.debugPollPeriod.inSeconds}s',
-      onTap: _showTestNotification,
-      trailing: Switch.adaptive(
-        value: _pollRunning,
-        onChanged: _togglePoll,
-        activeTrackColor: Theme.of(context).colorScheme.onSecondary,
-        activeThumbColor: Theme.of(context).colorScheme.secondary,
-        inactiveTrackColor: Theme.of(context).colorScheme.onSecondaryFixed,
-        inactiveThumbColor: Theme.of(context).colorScheme.onSecondary,
-        trackOutlineColor: const WidgetStatePropertyAll(Colors.transparent),
-      ),
+    if (!mounted) {
+      return;
+    }
+    await ToastMessage.info(context, 'Notification worker finished.');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ProfileListTile(
+          icon: UniIcons.notification,
+          title: 'Debug: test notification',
+          subtitle:
+              'Tap to show it now, or poll every '
+              '${NotificationManager.debugPollPeriod.inSeconds}s',
+          onTap: _showTestNotification,
+          trailing: Switch.adaptive(
+            value: _pollRunning,
+            onChanged: _togglePoll,
+            activeTrackColor: Theme.of(context).colorScheme.onSecondary,
+            activeThumbColor: Theme.of(context).colorScheme.secondary,
+            inactiveTrackColor: Theme.of(context).colorScheme.onSecondaryFixed,
+            inactiveThumbColor: Theme.of(context).colorScheme.onSecondary,
+            trackOutlineColor: const WidgetStatePropertyAll(Colors.transparent),
+          ),
+        ),
+        ProfileListTile(
+          icon: UniIcons.notification,
+          title: 'Debug: run notification worker now',
+          subtitle: 'Runs the regular poll, including the scheduled test.',
+          onTap: _runWorkerNow,
+        ),
+      ],
     );
   }
 }

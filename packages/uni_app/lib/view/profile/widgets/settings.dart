@@ -4,7 +4,7 @@ import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/profile/widgets/locale_switch_button.dart';
-import 'package:uni/view/profile/widgets/notifications_dialog.dart';
+import 'package:uni/view/profile/widgets/notification_rows.dart';
 import 'package:uni/view/profile/widgets/test_notification_debug_button.dart';
 import 'package:uni/view/profile/widgets/theme_switch_button.dart';
 import 'package:uni/view/profile/widgets/usage_stats_switch.dart';
@@ -46,19 +46,20 @@ class Settings extends StatelessWidget {
                   title: S.of(context).collect_usage_stats,
                   trailing: const UsageStatsSwitch(),
                 ),
-                ProfileListTile(
-                  icon: UniIcons.notification,
-                  title: S.of(context).notifications,
-                  onTap: () {
-                    showDialog<NotificationsDialog>(
-                      context: context,
-                      builder: (context) => const NotificationsDialog(),
-                    );
-                  },
-                ),
-                const TestNotificationDebugButton(),
               ],
             ),
+          ),
+          if (settingsNotifications.isNotEmpty)
+            GenericCard(
+              tooltip: S.of(context).notifications,
+              margin: const EdgeInsets.symmetric(vertical: 8),
+              child: const NotificationRows(),
+            ),
+          // DEBUG: remove before merging this PR.
+          GenericCard(
+            tooltip: S.of(context).notifications,
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            child: const TestNotificationDebugButton(),
           ),
           GenericCard(
             tooltip: S.of(context).leave_feedback,

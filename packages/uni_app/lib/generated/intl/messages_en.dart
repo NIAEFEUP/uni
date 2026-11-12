@@ -181,6 +181,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "empty_text": MessageLookupByLibrary.simpleMessage(
       "Please fill in this field",
     ),
+    "enable_notifications": MessageLookupByLibrary.simpleMessage(
+      "Enable notifications",
+    ),
     "evaluation": MessageLookupByLibrary.simpleMessage("Evaluation"),
     "exams": MessageLookupByLibrary.simpleMessage("Exams"),
     "exams_filter": MessageLookupByLibrary.simpleMessage(
@@ -205,7 +208,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "fee_date_description": MessageLookupByLibrary.simpleMessage(
       "Due date for your next payment",
     ),
-    "fee_notification": MessageLookupByLibrary.simpleMessage("Fee deadline"),
     "feedback_consent_title": MessageLookupByLibrary.simpleMessage(
       "Consent to data collection",
     ),
