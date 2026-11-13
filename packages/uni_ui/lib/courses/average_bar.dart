@@ -69,7 +69,8 @@ class AverageBar extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Tooltip(
-                        message: "European Credit System",
+                        message:
+                            "European Credit Transfer and Accumulation System",
                         child: Text("ECTS"),
                       ),
                       Text(
