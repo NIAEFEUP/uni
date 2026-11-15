@@ -7,6 +7,7 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/model/providers/riverpod/session_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/locale_notifier.dart';
 import 'package:uni_ui/cards/schedule_card.dart';
 import 'package:uni_ui/cards/timeline_card.dart';
 
@@ -28,6 +29,8 @@ class ScheduleDayTimeline extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final locale = ref.watch(localeProvider);
+
     if (lectures.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -39,7 +42,10 @@ class ScheduleDayTimeline extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            DateFormat('EEEE, d MMMM').format(day),
+            DateFormat(
+              'EEEE, d MMMM',
+              locale.localeCode.languageCode,
+            ).format(day),
             style: Theme.of(context).textTheme.headlineLarge,
           ),
           const SizedBox(height: 14),

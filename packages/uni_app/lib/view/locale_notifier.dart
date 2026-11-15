@@ -8,7 +8,9 @@ final localeProvider = StateNotifierProvider<LocaleNotifier, AppLocale>(
 );
 
 class LocaleNotifier extends StateNotifier<AppLocale> {
-  LocaleNotifier(super.initialLocale);
+  LocaleNotifier(super.initialLocale) {
+    Intl.defaultLocale = state.localeCode.languageCode;
+  }
 
   AppLocale getLocale() => state;
 
@@ -21,6 +23,7 @@ class LocaleNotifier extends StateNotifier<AppLocale> {
   }
 
   void setLocale(AppLocale locale) {
+    Intl.defaultLocale = locale.localeCode.languageCode;
     state = locale;
     PreferencesController.setLocale(locale);
   }
