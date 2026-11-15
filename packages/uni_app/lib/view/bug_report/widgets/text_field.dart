@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 
 class FormTextField extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/view/faculty/widgets/generic_service_card.dart';
 import 'package:uni_ui/icons.dart';
 

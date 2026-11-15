@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/model/entities/current_account.dart';
 import 'package:uni/model/providers/riverpod/current_account_provider.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';

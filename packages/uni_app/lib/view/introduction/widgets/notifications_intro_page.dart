@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 
 class NotificationsIntroPage extends StatefulWidget {
   const NotificationsIntroPage({

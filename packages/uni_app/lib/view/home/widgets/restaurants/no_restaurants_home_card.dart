@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 
 class NoRestaurantsHomeCard extends StatelessWidget {
   const NoRestaurantsHomeCard({super.key, required this.onClick});

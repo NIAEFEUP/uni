@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/profile/widgets/app_version_text.dart';
 import 'package:uni/view/profile/widgets/locale_switch_button.dart';

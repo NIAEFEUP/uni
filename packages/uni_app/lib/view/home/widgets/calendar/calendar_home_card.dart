@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/model/entities/localized_events.dart';
 import 'package:uni/model/providers/riverpod/calendar_provider.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';

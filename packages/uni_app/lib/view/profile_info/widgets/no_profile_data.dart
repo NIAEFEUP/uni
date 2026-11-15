@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/view/widgets/expanded_image_label.dart';
 
 class NoProfileDataWidget extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 
 class RestaurantsIntroPage extends StatefulWidget {
   const RestaurantsIntroPage({super.key, required this.pageController});
