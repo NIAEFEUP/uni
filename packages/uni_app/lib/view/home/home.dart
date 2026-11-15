@@ -57,6 +57,7 @@ class HomePageViewState extends ConsumerState<HomePageView> {
       _lastLocale = locale;
       Future.microtask(() {
         ref.read(profileProvider.notifier).refreshRemote();
+        ref.read(examProvider.notifier).refreshRemote();
         if (mounted) {
           setState(() {});
         }
