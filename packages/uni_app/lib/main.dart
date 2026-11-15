@@ -16,7 +16,7 @@ import 'package:uni/controller/cleanup.dart';
 import 'package:uni/controller/fetchers/core/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/migrations/migration_controller.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/providers/mocks/mock_exam_provider.dart';
@@ -191,7 +191,7 @@ class ApplicationState extends ConsumerState<Application> {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: S.delegate.supportedLocales,
+            supportedLocales: S.supportedLocales,
             initialRoute: widget.initialRoute,
             navigatorObservers: navigatorObservers,
             onGenerateRoute: (settings) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/introduction/widgets/exams_intro_page.dart';
 import 'package:uni/view/introduction/widgets/first_page.dart';

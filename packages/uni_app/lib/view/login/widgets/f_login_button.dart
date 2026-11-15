@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 
 class FLoginButton extends StatelessWidget {
   const FLoginButton({required this.onPressed, super.key});

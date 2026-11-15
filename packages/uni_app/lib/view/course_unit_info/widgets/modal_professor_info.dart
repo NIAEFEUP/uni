@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/professor_info_provider.dart';

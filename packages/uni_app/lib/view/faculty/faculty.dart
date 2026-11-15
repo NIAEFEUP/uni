@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/model/providers/riverpod/library_occupation_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/faculty/widgets/service_cards.dart';

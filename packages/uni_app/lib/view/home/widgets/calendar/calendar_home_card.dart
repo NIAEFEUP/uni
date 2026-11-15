@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/model/entities/localized_events.dart';
 import 'package:uni/model/providers/riverpod/calendar_provider.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
@@ -44,8 +44,8 @@ class CalendarHomeCard extends GenericHomecard {
                   today.isAfter(start ?? end) &&
                   today.isBefore(end.add(const Duration(days: 1))));
           return CalendarItem(
-            eventPeriod: event.formattedPeriod[0],
-            endYear: event.formattedPeriod[1],
+            eventPeriod: event.getFormattedPeriod(context)[0],
+            endYear: event.getFormattedPeriod(context)[1],
             eventName: event.name,
             isToday: isToday,
           );

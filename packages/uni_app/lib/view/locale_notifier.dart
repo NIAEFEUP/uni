@@ -8,7 +8,9 @@ final localeProvider = StateNotifierProvider<LocaleNotifier, AppLocale>(
 );
 
 class LocaleNotifier extends StateNotifier<AppLocale> {
-  LocaleNotifier(super.initialLocale);
+  LocaleNotifier(super.initialLocale) {
+    Intl.defaultLocale = state.localeCode.languageCode;
+  }
 
   AppLocale getLocale() => state;
 
@@ -21,12 +23,15 @@ class LocaleNotifier extends StateNotifier<AppLocale> {
   }
 
   void setLocale(AppLocale locale) {
+    Intl.defaultLocale = locale.localeCode.languageCode;
     state = locale;
     PreferencesController.setLocale(locale);
   }
 
   List<String> getWeekdaysWithLocale() {
-    final allWeekDays = DateFormat.EEEE().dateSymbols.WEEKDAYS;
+    final allWeekDays = DateFormat.EEEE(
+      state.localeCode.languageCode,
+    ).dateSymbols.WEEKDAYS;
     final europeanWeekDays = allWeekDays.skip(1).toList()
       ..add(allWeekDays.first);
     return europeanWeekDays

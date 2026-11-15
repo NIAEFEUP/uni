@@ -46,12 +46,12 @@ In this case, `build_runner` will detect that `GenerateNiceMocks` is a generator
 
 ### Translation files
 
-Intl package allows the internationalization of the app, currently supporting Portuguese ('pt_PT') and English ('en_EN'), by generating `.dart` files (one for each language).
-The generated files maps a key to the correspondent translated string as you can see at ```generated/intl``` files.
+Flutter's gen-l10n tool allows the internationalization of the app, currently supporting Portuguese ('pt_PT') and English ('en_EN'), by generating `.dart` files (one for each language).
+The generated files maps a key to the correspondent translated string as you can see at ```generated/l10n``` files.
 
 #### How to create
 
-1. Add the translations you want in the `.arb` files of the ```I10n``` folder.
+1. Add the translations you want in the `.arb` files of the ```lib/l10n``` folder.
 Example:
 `intl_en.arb`
 ```json
@@ -75,17 +75,16 @@ Example:
 Note:
 [ARB Editor VS Code extension](https://marketplace.visualstudio.com/items?itemName=Google.arb-editor) it's useful to edit `.arb` files.
 
-2. Generate the `.dart` files by running:
+2. Generate the translation `.dart` files by running the following command inside the `uni_app` folder:
 ```sh
-dart pub global activate intl_utils 2.1.0
-dart pub global run intl_utils:generate
+flutter gen-l10n
 ```
 
 #### How to use translations
 
 Import the generated file:
 ```dart
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 ```
 
 And use the translations like this:

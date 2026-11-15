@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';

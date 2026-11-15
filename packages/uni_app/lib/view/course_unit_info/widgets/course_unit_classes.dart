@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';

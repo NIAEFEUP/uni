@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/model/entities/indoor_floor_plan.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/riverpod/faculty_locations_provider.dart';

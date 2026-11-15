@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:uni/controller/fetchers/campus/book_thumbnail_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit_statistics.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/exam.dart';

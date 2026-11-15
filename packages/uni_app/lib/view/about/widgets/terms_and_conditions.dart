@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:uni/controller/fetchers/core/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 
 class TermsAndConditions extends StatelessWidget {
   const TermsAndConditions({super.key});

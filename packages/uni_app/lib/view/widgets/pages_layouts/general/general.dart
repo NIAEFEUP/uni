@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/view/widgets/expanded_image_label.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/widgets/pages_layouts/general/widgets/refresh_state.dart';

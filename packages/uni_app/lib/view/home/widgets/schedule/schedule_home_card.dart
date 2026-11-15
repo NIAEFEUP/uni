@@ -4,7 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/riverpod/default_consumer.dart';
 import 'package:uni/model/providers/riverpod/lecture_provider.dart';

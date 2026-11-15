@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/view/about/widgets/terms_and_conditions.dart';
 
 class TermsAndConditionsButton extends StatelessWidget {

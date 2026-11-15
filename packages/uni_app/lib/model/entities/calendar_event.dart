@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:objectbox/objectbox.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 
 part '../../generated/model/entities/calendar_event.g.dart';
 
@@ -24,7 +25,7 @@ class CalendarEvent {
 
   /// Formats the event's date range into a two-part list: [dateRange, year].
   /// Returns ['TBD', ''] if startDate is null.
-  List<String> get formattedPeriod {
+  List<String> getFormattedPeriod(BuildContext context) {
     if (startDate == null && endDate == null) {
       return ['TBD', ''];
     }
@@ -33,7 +34,7 @@ class CalendarEvent {
       final monthFormatter = DateFormat.MMM('pt');
       final day = endDate!.day.toString();
       final month = monthFormatter.format(endDate!);
-      return ['${S.current.until} $day $month', endDate!.year.toString()];
+      return ['${S.of(context).until} $day $month', endDate!.year.toString()];
     }
 
     final monthFormatter = DateFormat.MMM('pt');

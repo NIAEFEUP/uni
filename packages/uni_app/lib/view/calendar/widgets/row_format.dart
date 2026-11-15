@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni_ui/calendar/calendar_item_card.dart';
@@ -22,7 +22,7 @@ class RowFormat extends StatelessWidget {
   final bool isToday;
 
   void _popUp(BuildContext context) {
-    final eventPeriod = event.formattedPeriod;
+    final eventPeriod = event.getFormattedPeriod(context);
 
     showDialog<void>(
       context: context,
@@ -43,7 +43,7 @@ class RowFormat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final eventperiod = event.formattedPeriod;
+    final eventperiod = event.getFormattedPeriod(context);
 
     return TimelineItem(
       title: eventperiod[0],

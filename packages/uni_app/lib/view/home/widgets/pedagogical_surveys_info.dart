@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/generated/l10n.dart';
+import 'package:uni/generated/l10n/l10n.dart';
 import 'package:uni/view/pedagogical_surveys_dialog.dart';
 import 'package:uni_ui/icons.dart';
 
