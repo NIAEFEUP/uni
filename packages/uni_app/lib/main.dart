@@ -191,7 +191,7 @@ class ApplicationState extends ConsumerState<Application> {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: S.delegate.supportedLocales,
+            supportedLocales: S.supportedLocales,
             initialRoute: widget.initialRoute,
             navigatorObservers: navigatorObservers,
             onGenerateRoute: (settings) {

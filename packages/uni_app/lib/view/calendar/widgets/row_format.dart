@@ -22,7 +22,7 @@ class RowFormat extends StatelessWidget {
   final bool isToday;
 
   void _popUp(BuildContext context) {
-    final eventPeriod = event.formattedPeriod;
+    final eventPeriod = event.getFormattedPeriod(context);
 
     showDialog<void>(
       context: context,
@@ -43,7 +43,7 @@ class RowFormat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final eventperiod = event.formattedPeriod;
+    final eventperiod = event.getFormattedPeriod(context);
 
     return TimelineItem(
       title: eventperiod[0],

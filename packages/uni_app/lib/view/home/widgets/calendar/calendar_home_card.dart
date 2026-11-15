@@ -44,8 +44,8 @@ class CalendarHomeCard extends GenericHomecard {
                   today.isAfter(start ?? end) &&
                   today.isBefore(end.add(const Duration(days: 1))));
           return CalendarItem(
-            eventPeriod: event.formattedPeriod[0],
-            endYear: event.formattedPeriod[1],
+            eventPeriod: event.getFormattedPeriod(context)[0],
+            endYear: event.getFormattedPeriod(context)[1],
             eventName: event.name,
             isToday: isToday,
           );

@@ -29,7 +29,7 @@ Widget _wrapWidget(Widget widget) {
       GlobalCupertinoLocalizations.delegate,
     ],
     locale: const Locale('pt'),
-    supportedLocales: S.delegate.supportedLocales,
+    supportedLocales: S.supportedLocales,
     home: Scaffold(body: widget),
   );
 }
