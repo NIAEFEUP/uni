@@ -192,19 +192,12 @@ class _TimelineState extends State<Timeline> {
                               vertical: 9.0,
                               horizontal: 8.0,
                             ),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: isToday
-                                    ? Theme.of(context).colorScheme.onSecondary
-                                    : Colors.transparent,
-                              ),
-                              color: isSelected
-                                  ? Theme.of(context).colorScheme.secondary
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                            color: isSelected
+                                ? Theme.of(context).colorScheme.secondary
+                                : Colors.transparent,
                             child: DefaultTextStyle(
                               style: textStyle.copyWith(
+                                fontWeight: isToday ? FontWeight.w700 : null,
                                 color: widget.tabEnabled[index]
                                     ? (isSelected
                                           ? Theme.of(
