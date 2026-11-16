@@ -173,6 +173,7 @@ class _TimelineState extends State<Timeline> {
                     int index = entry.key;
                     Widget tab = entry.value;
                     bool isSelected = _currentIndex == index;
+                    bool isToday = widget.initialTab == index;
                     TextStyle textStyle = Theme.of(
                       context,
                     ).textTheme.bodyMedium!;
@@ -196,6 +197,7 @@ class _TimelineState extends State<Timeline> {
                                 : Colors.transparent,
                             child: DefaultTextStyle(
                               style: textStyle.copyWith(
+                                fontWeight: isToday ? FontWeight.w700 : null,
                                 color: widget.tabEnabled[index]
                                     ? (isSelected
                                           ? Theme.of(

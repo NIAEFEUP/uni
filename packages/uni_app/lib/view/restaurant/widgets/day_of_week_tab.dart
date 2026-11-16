@@ -6,11 +6,13 @@ class DayOfWeekTab extends StatelessWidget {
     required this.isSelected,
     required this.weekDay,
     required this.day,
+    required this.isToday,
   });
 
   final bool isSelected;
   final String weekDay;
   final String day;
+  final bool isToday;
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +31,18 @@ class DayOfWeekTab extends StatelessWidget {
         children: [
           Text(
             weekDay,
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontWeight: isToday ? FontWeight.w700 : null,
+            ),
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             maxLines: 1,
           ),
           Text(
             day,
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontWeight: isToday ? FontWeight.w700 : null,
+            ),
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             maxLines: 1,
