@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -10,7 +11,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
 
 class S {
   S();
@@ -2577,12 +2578,22 @@ class S {
   }
 
   /// `You are using uni {version}`
-  String settings_app_version(Object version) {
+  String settings_app_version(String version) {
     return Intl.message(
       'You are using uni $version',
       name: 'settings_app_version',
       desc: '',
       args: [version],
+    );
+  }
+
+  /// `Byte says hi :) !`
+  String get easter_egg_title {
+    return Intl.message(
+      'Byte says hi :) !',
+      name: 'easter_egg_title',
+      desc: '',
+      args: [],
     );
   }
 }

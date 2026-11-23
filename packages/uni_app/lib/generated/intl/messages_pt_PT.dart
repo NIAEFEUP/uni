@@ -7,7 +7,8 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names
+// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -19,26 +20,26 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'pt_PT';
 
-  static m0(type) =>
+  static String m0(type) =>
       "${Intl.select(type, {'all_dishes': 'Todos os pratos', 'meat_dishes': 'Pratos de Carne', 'fish_dishes': 'Pratos de Peixe', 'vegetarian_dishes': 'Pratos Vegetarianos', 'soups': 'Sopas', 'salads': 'Saladas', 'diet_dishes': 'Pratos de Dieta', 'dishes_of_the_day': 'Pratos do Dia', 'closed': 'Encerrado', 'other': 'Outros'})}";
 
-  static m1(time) => "última atualização às ${time}";
+  static String m1(time) => "última atualização às ${time}";
 
-  static m2(time) =>
+  static String m2(time) =>
       "${Intl.plural(time, zero: 'Atualizado há ${time} minutos', one: 'Atualizado há ${time} minuto', other: 'Atualizado há ${time} minutos')}";
 
-  static m3(title) =>
+  static String m3(title) =>
       "${Intl.select(title, {'horario': 'Horário', 'exames': 'Exames', 'area': 'Área Pessoal', 'cadeiras': 'Cadeiras', 'locais': 'Locais', 'restaurantes': 'Restaurantes', 'calendario': 'Calendário', 'biblioteca': 'Biblioteca', 'percurso_academico': 'Percurso Académico', 'mapa': 'Mapa', 'faculdade': 'Faculdade', 'bug_report': 'Feedback', 'conta_corrente': 'Conta Corrente', 'other': 'Outros'})}";
 
-  static m4(period) =>
+  static String m4(period) =>
       "${Intl.select(period, {'lunch': 'Almoço', 'dinner': 'Jantar', 'other': 'Other'})}";
 
-  static m5(version) => "Estás a usar a uni ${version}";
+  static String m5(version) => "Estás a usar a uni ${version}";
 
-  static m6(year) => "Estatísticas ${year}";
+  static String m6(year) => "Estatísticas ${year}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function>{
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("Sobre nós"),
     "academic_services": MessageLookupByLibrary.simpleMessage(
       "Serviços académicos",
@@ -184,6 +185,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Arrasta e solta os elementos",
     ),
     "due_in": MessageLookupByLibrary.simpleMessage("Vence em"),
+    "easter_egg_title": MessageLookupByLibrary.simpleMessage(
+      "O Byte diz olá :) !",
+    ),
     "ects": MessageLookupByLibrary.simpleMessage("ECTS realizados: "),
     "edit_homepage": MessageLookupByLibrary.simpleMessage("Editar"),
     "edit_off": MessageLookupByLibrary.simpleMessage("Editar"),
@@ -241,9 +245,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "feedback_images_title_section": MessageLookupByLibrary.simpleMessage(
       "Anexar imagens",
     ),
-    "feedback_privacy_description_section": MessageLookupByLibrary.simpleMessage(
-      "A tua privacidade é importante para nós. Concordas com a recolha e utilização do teu feedback e de quaisquer imagens anexadas para o propósito de melhorar a nossa app. Podes optar por fornecer o teu email para acompanhamento, mas não é obrigatório.",
-    ),
+    "feedback_privacy_description_section":
+        MessageLookupByLibrary.simpleMessage(
+          "A tua privacidade é importante para nós. Concordas com a recolha e utilização do teu feedback e de quaisquer imagens anexadas para o propósito de melhorar a nossa app. Podes optar por fornecer o teu email para acompanhamento, mas não é obrigatório.",
+        ),
     "feedback_privacy_section": MessageLookupByLibrary.simpleMessage(
       "Privacidade e Consentimento",
     ),
