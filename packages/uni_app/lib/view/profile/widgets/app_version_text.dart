@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:math';
+import 'package:confetti/confetti.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,6 +19,9 @@ class AppVersionText extends StatefulWidget {
     bool _dialogOpen = false;
     Timer? _resetTimer;
 
+    final ConfettiController _confetti = 
+    ConfettiController (duration:const Duration(seconds:2));
+
      Future<void> _onTap() async {
       if (_dialogOpen) {
         return;}
@@ -30,9 +35,13 @@ class AppVersionText extends StatefulWidget {
       _tapCount = 0;
       _resetTimer?.cancel();
       _dialogOpen = true;
+      _confetti.play();
       await showDialog<void>(
         context: context,
-        builder: (dialogContext) => AlertDialog(
+        builder: (dialogContext) => Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            AlertDialog(
             title: Text(S.of(dialogContext).easter_egg_title,
             textAlign: TextAlign.center,
             ),
@@ -46,10 +55,11 @@ class AppVersionText extends StatefulWidget {
                   child: SvgPicture.asset('assets/images/byte.svg',
                     width: 160,
                     height: 160,
-                    fit: BoxFit.contain,),
-               ),
+                    fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
               ),
-            ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(dialogContext).pop(),
@@ -60,7 +70,19 @@ class AppVersionText extends StatefulWidget {
             ),
           ],
         ),
-      );
+        ConfettiWidget(
+          confettiController: _confetti,
+          blastDirection: (pi*3)/2,
+          emissionFrequency: 0.03,
+          numberOfParticles: 50,
+          gravity: 0.2,
+          shouldLoop: false,
+          blastDirectionality: BlastDirectionality.explosive,
+          colors: [const Color.fromARGB(255, 86, 15, 10), Colors.white],
+        ),
+      ],
+    ),
+  );
       _dialogOpen = false;
     }
   }
@@ -69,6 +91,7 @@ class AppVersionText extends StatefulWidget {
     @override
     void dispose() {
       _resetTimer?.cancel();
+      _confetti.dispose();
       super.dispose();
     }
     

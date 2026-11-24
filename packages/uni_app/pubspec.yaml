@@ -19,6 +19,7 @@ dependencies:
   battery_plus: ^7.0.0
   cached_network_image: ^4.0.0
   collection: ^1.19.1
+  confetti: ^0.8.0
   connectivity_plus: ^7.0.0
   crypto: ^3.0.6
   cupertino_icons: ^1.0.8
