@@ -1,17 +1,19 @@
+import 'dart:io';
+
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:uni/http/client/cookie.dart';
-import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/utils/constants.dart';
 
 Future<List<String>> getStudentFaculties(
-  Session session,
+  List<Cookie> cookies,
+  String username,
   http.Client httpClient,
 ) async {
-  final client = CookieClient(httpClient, cookies: () => session.cookies);
+  final client = CookieClient(httpClient, cookies: () => cookies);
 
-  final studentNumber = session.username.replaceFirst(
+  final studentNumber = username.replaceFirst(
     RegExp('^up', caseSensitive: false),
     '',
   );
@@ -31,7 +33,7 @@ Future<List<String>> getStudentFaculties(
   if (facultiesList.isEmpty) {
     // The user is enrolled in a single faculty,
     // and the selection page is skipped.
-    // We can extract the faculty from any anchor or meta-refresh tag.
+    // We can extract the faculty from any anchor.
     final anchor = document.querySelector('a[href]');
     if (anchor != null) {
       final href = anchor.attributes['href'];
@@ -41,26 +43,6 @@ Future<List<String>> getStudentFaculties(
           final faculty = uri.pathSegments[0].toLowerCase();
           if (faculties.contains(faculty)) {
             return [faculty];
-          }
-        }
-      }
-    }
-
-    final refreshMeta = document.querySelector('meta[http-equiv="Refresh" i]');
-    if (refreshMeta != null) {
-      final content = refreshMeta.attributes['content'];
-      if (content != null) {
-        final match = RegExp(
-          'url=(.*)',
-          caseSensitive: false,
-        ).firstMatch(content);
-        if (match != null) {
-          final uri = Uri.tryParse(match.group(1)!.trim());
-          if (uri != null && uri.pathSegments.isNotEmpty) {
-            final faculty = uri.pathSegments[0].toLowerCase();
-            if (faculties.contains(faculty)) {
-              return [faculty];
-            }
           }
         }
       }

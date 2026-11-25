@@ -13,8 +13,6 @@ import 'package:uni/sigarra/endpoints/oidc/token/response.dart';
 import 'package:uni/sigarra/options.dart';
 import 'package:uni/utils/constants.dart' as constants;
 
-const tempFaculty = 'feup';
-
 class FederatedSessionUserInfo {
   FederatedSessionUserInfo(UserInfo userInfo)
     : username = _extractUsername(userInfo),
@@ -150,19 +148,11 @@ class FederatedSessionRequest extends SessionRequest {
     final userInfo = FederatedSessionUserInfo(await credential.getUserInfo());
     final successfulResponse = response.asSuccessful();
 
-    final tempSession = FederatedSession(
-      username: userInfo.username,
-      faculties: userInfo.faculties.isNotEmpty
-          ? userInfo.faculties
-          : [tempFaculty],
-      cookies: successfulResponse.cookies,
-      credential: credential,
-    );
-
-    List<String> faculties = userInfo.faculties;
+    var faculties = userInfo.faculties;
     try {
       final remoteFaculties = await getStudentFaculties(
-        tempSession,
+        successfulResponse.cookies,
+        userInfo.username,
         httpClient,
       );
       if (remoteFaculties.isNotEmpty) {
@@ -176,7 +166,7 @@ class FederatedSessionRequest extends SessionRequest {
     }
 
     if (faculties.isEmpty) {
-      faculties = [tempFaculty];
+      throw const AuthenticationException('Failed to get student faculties');
     }
 
     return FederatedSession(
