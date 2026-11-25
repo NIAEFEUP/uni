@@ -19,8 +19,16 @@ jobs:
         with:
           flutter-version-file: .fvmrc
           cache: true
-      
-      - run: flutter pub get
+
+      - name: Cache Dart pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - run: flutter pub get --offline || flutter pub get
 
       - run: dart format $(find . -type f -name "*.dart" -a -not -name "*.g.dart" -a -not -name "*.mocks.dart") --set-exit-if-changed
 
@@ -43,7 +51,15 @@ jobs:
           flutter-version-file: .fvmrc
           cache: true
 
-      - run: flutter pub get
+      - name: Cache Dart pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - run: flutter pub get --offline || flutter pub get
 
       - run: |
           flutter analyze .
@@ -68,8 +84,19 @@ jobs:
           flutter-version-file: .fvmrc
           cache: true
 
+      - name: Cache Dart pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Get dependencies
+        run: flutter pub get --offline || flutter pub get
+
       - name: Test with coverage
-        run: flutter test --coverage
+        run: flutter test --coverage --no-pub
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4

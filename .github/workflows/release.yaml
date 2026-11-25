@@ -163,11 +163,22 @@ jobs:
           java-version: 21.x
           distribution: "zulu"
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version-file: .fvmrc
           cache: true
+
+      - name: Cache Dart pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
 
       - name: Prepare Keystore & Env
         env:
@@ -185,7 +196,7 @@ jobs:
 
       - name: Build Android App Bundle
         run: |
-          flutter pub get
+          flutter pub get --offline || flutter pub get
           flutter build appbundle
 
       - name: Upload to Play Store (Beta)
@@ -228,6 +239,25 @@ jobs:
         with:
           flutter-version-file: .fvmrc
           cache: true
+
+      - name: Cache Dart pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v4
+        with:
+          path: |
+            packages/uni_app/ios/Pods
+            packages/uni_app/ios/Podfile.lock
+            ~/Library/Caches/CocoaPods
+          key: ${{ runner.os }}-pods-${{ hashFiles('.fvmrc', 'pubspec.lock', 'packages/uni_app/ios/Podfile') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
 
       - name: Install Apple Certificate and Provisioning Profile
         env:
@@ -277,7 +307,7 @@ jobs:
 
       - name: Build iOS IPA
         run: |
-          flutter pub get
+          flutter pub get --offline || flutter pub get
           
           # Disable Automatic Code Signing and force explicit manual signing with Distribution certificates
           sed -i '' 's/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g' ios/Runner.xcodeproj/project.pbxproj
