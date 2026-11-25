@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:logger/logger.dart';
 import 'package:openid_client/openid_client.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/fetchers/academics/faculties_fetcher.dart';
@@ -13,6 +11,9 @@ import 'package:uni/session/flows/federated/session.dart';
 import 'package:uni/sigarra/endpoints/oidc/oidc.dart';
 import 'package:uni/sigarra/endpoints/oidc/token/response.dart';
 import 'package:uni/sigarra/options.dart';
+import 'package:uni/utils/constants.dart' as constants;
+
+const tempFaculty = 'feup';
 
 class FederatedSessionUserInfo {
   FederatedSessionUserInfo(UserInfo userInfo)
@@ -25,26 +26,31 @@ class FederatedSessionUserInfo {
   static String _extractUsername(UserInfo userInfo) {
     final nmec = userInfo.getTyped<String>('nmec');
     if (nmec != null && nmec.isNotEmpty) {
-      return nmec;
+      return _cleanUsername(nmec);
     }
     final preferred = userInfo.preferredUsername;
     if (preferred != null && preferred.isNotEmpty) {
-      return preferred;
+      return _cleanUsername(preferred);
     }
     final email = userInfo.email;
     if (email != null && email.isNotEmpty) {
-      return email.split('@').first;
+      return _cleanUsername(email.split('@').first);
     }
-    return userInfo.subject;
+    return _cleanUsername(userInfo.subject);
+  }
+
+  static String _cleanUsername(String username) {
+    final match = RegExp(r'^up(?=\d+)', caseSensitive: false);
+    return username.replaceFirst(match, '');
   }
 
   static List<String> _extractFaculties(UserInfo userInfo) {
     final rawOus = userInfo.getTyped<List<dynamic>>('ous');
 
-    final faculties = _tryExtractFacultiesFromOus(rawOus);
+    final ousFaculties = _tryExtractFacultiesFromOus(rawOus);
 
-    if (faculties.isNotEmpty) {
-      return faculties;
+    if (ousFaculties.isNotEmpty) {
+      return ousFaculties;
     }
 
     final email = userInfo.getTyped<String>('email');
@@ -68,6 +74,7 @@ class FederatedSessionUserInfo {
       return rawOus
           .cast<String>()
           .map((element) => element.toLowerCase())
+          .where((element) => constants.faculties.contains(element))
           .toList();
     }
 
@@ -77,10 +84,33 @@ class FederatedSessionUserInfo {
   static List<String> _extractFacultiesFromEmail(String email) {
     final domain = email.split('@').last.toLowerCase();
 
-    final eduPattern = RegExp(r'^edu\.([a-z]+)\.up\.pt$');
+    final eduPattern = RegExp(r'^(?:edu\.)?([a-z]+)\.up\.pt$');
     final eduMatch = eduPattern.firstMatch(domain);
     if (eduMatch != null) {
-      return [eduMatch.group(1)!];
+      final code = eduMatch.group(1)!;
+      if (constants.faculties.contains(code)) {
+        return [code];
+      }
+      const aliases = {
+        'arq': 'faup',
+        'direito': 'fdup',
+        'fade': 'fadeup',
+        'fba': 'fbaup',
+        'fc': 'fcup',
+        'fcna': 'fcnaup',
+        'fe': 'feup',
+        'ff': 'ffup',
+        'fl': 'flup',
+        'fm': 'fmup',
+        'fmd': 'fmdup',
+        'fpce': 'fpceup',
+        'letras': 'flup',
+        'med': 'fmup',
+      };
+      final mapped = aliases[code];
+      if (mapped != null && constants.faculties.contains(mapped)) {
+        return [mapped];
+      }
     }
 
     return [];
@@ -117,28 +147,14 @@ class FederatedSessionRequest extends SessionRequest {
       throw const AuthenticationException('Failed to get OIDC token');
     }
 
-    final rawUserInfo = await credential.getUserInfo();
-    final userInfo = FederatedSessionUserInfo(rawUserInfo);
-
-    const prettyEncoder = JsonEncoder.withIndent('  ');
-    Logger().i('''
-==================== [OpenID Login Info] ====================
-• Granted Scopes: ${credential.response?['scope'] ?? 'N/A'}
-• Token Type: ${credential.response?['token_type'] ?? 'N/A'}
-• Expires In: ${credential.response?['expires_in'] ?? 'N/A'}s
-• Has Refresh Token: ${credential.refreshToken != null}
-• ID Token Claims:
-${prettyEncoder.convert(credential.idToken.claims.toJson())}
-• UserInfo Claims:
-${prettyEncoder.convert(rawUserInfo.toJson())}
-• Resolved Username: ${userInfo.username}
-• Resolved Faculties from Claims: ${userInfo.faculties}
-=============================================================''');
+    final userInfo = FederatedSessionUserInfo(await credential.getUserInfo());
     final successfulResponse = response.asSuccessful();
 
     final tempSession = FederatedSession(
       username: userInfo.username,
-      faculties: userInfo.faculties,
+      faculties: userInfo.faculties.isNotEmpty
+          ? userInfo.faculties
+          : [tempFaculty],
       cookies: successfulResponse.cookies,
       credential: credential,
     );
@@ -154,6 +170,13 @@ ${prettyEncoder.convert(rawUserInfo.toJson())}
       }
     } catch (err, st) {
       unawaited(Sentry.captureException(err, stackTrace: st));
+      if (faculties.isEmpty) {
+        rethrow;
+      }
+    }
+
+    if (faculties.isEmpty) {
+      faculties = [tempFaculty];
     }
 
     return FederatedSession(

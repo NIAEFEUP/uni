@@ -26,7 +26,7 @@ void main() {
       });
 
       final info = FederatedSessionUserInfo(userInfo);
-      expect(info.username, equals('up202609999'));
+      expect(info.username, equals('202609999'));
     });
 
     test(
@@ -58,6 +58,54 @@ void main() {
 
       final info = FederatedSessionUserInfo(userInfo);
       expect(info.faculties, equals(['fcup']));
+    });
+
+    test('maps faculty aliases from email domain (fe -> feup)', () {
+      final userInfo = UserInfo.fromJson({
+        'sub': 'user-uuid-2222',
+        'preferred_username': 'up202401235',
+        'email': 'student@fe.up.pt',
+      });
+
+      final info = FederatedSessionUserInfo(userInfo);
+      expect(info.faculties, equals(['feup']));
+    });
+
+    test('maps non-acronym domain aliases (arq -> faup, direito -> fdup, letras -> flup)', () {
+      expect(
+        FederatedSessionUserInfo(UserInfo.fromJson({
+          'sub': 'u1',
+          'email': 'student@edu.arq.up.pt',
+        })).faculties,
+        equals(['faup']),
+      );
+
+      expect(
+        FederatedSessionUserInfo(UserInfo.fromJson({
+          'sub': 'u2',
+          'email': 'student@direito.up.pt',
+        })).faculties,
+        equals(['fdup']),
+      );
+
+      expect(
+        FederatedSessionUserInfo(UserInfo.fromJson({
+          'sub': 'u3',
+          'email': 'student@letras.up.pt',
+        })).faculties,
+        equals(['flup']),
+      );
+    });
+
+    test('filters out invalid or non-faculty OUs such as UP', () {
+      final userInfo = UserInfo.fromJson({
+        'sub': 'user-uuid-3333',
+        'preferred_username': 'up202401236',
+        'ous': ['UP', 'FEUP', 'reitoria'],
+      });
+
+      final info = FederatedSessionUserInfo(userInfo);
+      expect(info.faculties, equals(['feup']));
     });
   });
 }

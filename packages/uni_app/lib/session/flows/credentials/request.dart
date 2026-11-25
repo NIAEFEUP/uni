@@ -40,7 +40,11 @@ class CredentialsSessionRequest extends SessionRequest {
       faculties: [tempFaculty],
     );
 
-    final faculties = await getStudentFaculties(tempSession, client);
+    var faculties = tempSession.faculties;
+    final remoteFaculties = await getStudentFaculties(tempSession, client);
+    if (remoteFaculties.isNotEmpty) {
+      faculties = remoteFaculties;
+    }
 
     final session = CredentialsSession(
       username: tempSession.username,
