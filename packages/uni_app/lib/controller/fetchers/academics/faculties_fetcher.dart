@@ -50,8 +50,10 @@ Future<List<String>> getStudentFaculties(
     if (refreshMeta != null) {
       final content = refreshMeta.attributes['content'];
       if (content != null) {
-        final match =
-            RegExp('url=(.*)', caseSensitive: false).firstMatch(content);
+        final match = RegExp(
+          'url=(.*)',
+          caseSensitive: false,
+        ).firstMatch(content);
         if (match != null) {
           final uri = Uri.tryParse(match.group(1)!.trim());
           if (uri != null && uri.pathSegments.isNotEmpty) {

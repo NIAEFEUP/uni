@@ -71,31 +71,31 @@ void main() {
       expect(info.faculties, equals(['feup']));
     });
 
-    test('maps non-acronym domain aliases (arq -> faup, direito -> fdup, letras -> flup)', () {
-      expect(
-        FederatedSessionUserInfo(UserInfo.fromJson({
-          'sub': 'u1',
-          'email': 'student@edu.arq.up.pt',
-        })).faculties,
-        equals(['faup']),
-      );
+    test(
+      'maps non-acronym domain aliases (arq -> faup, direito -> fdup, letras -> flup)',
+      () {
+        expect(
+          FederatedSessionUserInfo(
+            UserInfo.fromJson({'sub': 'u1', 'email': 'student@edu.arq.up.pt'}),
+          ).faculties,
+          equals(['faup']),
+        );
 
-      expect(
-        FederatedSessionUserInfo(UserInfo.fromJson({
-          'sub': 'u2',
-          'email': 'student@direito.up.pt',
-        })).faculties,
-        equals(['fdup']),
-      );
+        expect(
+          FederatedSessionUserInfo(
+            UserInfo.fromJson({'sub': 'u2', 'email': 'student@direito.up.pt'}),
+          ).faculties,
+          equals(['fdup']),
+        );
 
-      expect(
-        FederatedSessionUserInfo(UserInfo.fromJson({
-          'sub': 'u3',
-          'email': 'student@letras.up.pt',
-        })).faculties,
-        equals(['flup']),
-      );
-    });
+        expect(
+          FederatedSessionUserInfo(
+            UserInfo.fromJson({'sub': 'u3', 'email': 'student@letras.up.pt'}),
+          ).faculties,
+          equals(['flup']),
+        );
+      },
+    );
 
     test('filters out invalid or non-faculty OUs such as UP', () {
       final userInfo = UserInfo.fromJson({
