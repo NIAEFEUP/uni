@@ -242,6 +242,11 @@ class BadgeColors {
   static const en = Color(0xFF769C87);
   static const er = Color(0xFFAB4D39);
   static const ee = Color(0xFFFBC11F);
+
+  // Statistics
+  static const approved = Color(0xFF8BB59A);
+  static const failed = Color(0xFFB06B68);
+  static const noEval = Color(0xFFB7B7B7);
 }
 
 class AppSystemOverlayStyles {
