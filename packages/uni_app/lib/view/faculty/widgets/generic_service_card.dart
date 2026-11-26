@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/view/faculty/widgets/live_status_label.dart';
 import 'package:uni_ui/cards/service_card.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
@@ -23,17 +24,13 @@ class ServicesCard extends StatelessWidget {
   final String? email;
   final String? location;
 
-  void onClick(BuildContext context) {
-    popUp(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     return ServiceCard(
       name: name,
-      openingHours: openingHours,
+      statusWidget: LiveStatusLabel(openingHours: openingHours),
       tooltip: '',
-      function: onClick,
+      function: popUp,
     );
   }
 
