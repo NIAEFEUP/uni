@@ -1458,6 +1458,16 @@ class S {
     return Intl.message('Search here', name: 'search_here', desc: '', args: []);
   }
 
+  /// `Clear search`
+  String get clear_search {
+    return Intl.message(
+      'Clear search',
+      name: 'clear_search',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Do you really want to log out? Your local data will be deleted and you will have to log in again.`
   String get confirm_logout {
     return Intl.message(

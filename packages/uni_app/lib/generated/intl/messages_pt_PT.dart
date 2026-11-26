@@ -552,6 +552,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "schedule_intro_message": MessageLookupByLibrary.simpleMessage(
       "Mantém o controlo das tuas aulas e atividades diárias",
     ),
+    "clear_search": MessageLookupByLibrary.simpleMessage("Limpar pesquisa"),
     "school_calendar": MessageLookupByLibrary.simpleMessage(
       "Calendário Escolar",
     ),
