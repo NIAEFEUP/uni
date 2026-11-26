@@ -1,5 +1,6 @@
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/entities/course.dart';
@@ -108,12 +109,22 @@ class Database {
     final storePath = await _getDatabasePath();
     try {
       _store = await openStore(directory: storePath);
-    } catch (err) {
+    } catch (err, st) {
       // TODO(thePeras): Better error handling
       if (err.toString().contains('ObjectBoxException')) {
+        await Sentry.captureException(
+          err,
+          stackTrace: st,
+          withScope: (s) {
+            s
+              ..setTag('feature', 'database')
+              ..setTag('action', 'database_fallback_delete');
+          },
+        );
         await remove();
         _store = await openStore(directory: storePath);
       } else {
+        await Sentry.captureException(err, stackTrace: st);
         Logger().e(err);
       }
     } finally {

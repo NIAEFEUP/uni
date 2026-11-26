@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/controller/background_workers/notifications/tuition_notification.dart';
 import 'package:uni/controller/local_storage/notification_timeout_storage.dart';
@@ -200,6 +201,18 @@ class NotificationManager {
             _localNotificationsPlugin,
           );
         } catch (err, st) {
+          unawaited(
+            Sentry.captureException(
+              err,
+              stackTrace: st,
+              withScope: (s) {
+                s
+                  ..setTag('feature', 'notifications')
+                  ..setTag('action', 'display_notification')
+                  ..setContexts('notification', {'id': notification.uniqueID});
+              },
+            ),
+          );
           Logger().e(
             'Error while checking notification ${notification.uniqueID}',
             error: err,

@@ -1,7 +1,9 @@
 import 'package:http/http.dart' as http;
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 abstract class BaseRequestOptions {
-  BaseRequestOptions({http.Client? client}) : client = client ?? http.Client();
+  BaseRequestOptions({http.Client? client})
+    : client = client ?? SentryHttpClient();
 
   final http.Client client;
 

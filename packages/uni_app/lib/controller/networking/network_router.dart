@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:http/http.dart' as http;
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/http/client/authenticated.dart';
 import 'package:uni/http/client/timeout.dart';
@@ -63,7 +64,7 @@ class NetworkRouter {
         authenticationController ?? AuthenticationController(session);
 
     final client = AuthenticatedClient(
-      TimeoutClient(httpClient ?? http.Client(), timeout: _requestTimeout),
+      TimeoutClient(httpClient ?? SentryHttpClient(), timeout: _requestTimeout),
       controller: controller,
     );
 
