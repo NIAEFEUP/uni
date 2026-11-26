@@ -16,6 +16,7 @@ dependencies:
   phosphoricons_flutter: ^1.0.0
   scrollable_positioned_list: ^0.3.8
 
+  uni: any
 dev_dependencies:
   custom_lint: ^0.8.1
   flutter_test:

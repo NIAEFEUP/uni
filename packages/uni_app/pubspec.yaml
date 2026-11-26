@@ -18,6 +18,7 @@ dependencies:
   app_settings: ^9.0.0
   battery_plus: ^7.0.0
   cached_network_image: ^4.0.0
+  calendar_view: ^2.0.0
   collection: ^1.19.1
   connectivity_plus: ^7.0.0
   crypto: ^3.0.6
