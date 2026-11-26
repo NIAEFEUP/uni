@@ -65,5 +65,11 @@ class Course {
   String? state;
   double? finishedEcts;
   double? currentAverage;
+
+  bool get isAttending {
+    final stateLower = state?.toLowerCase() ?? '';
+    return stateLower.contains('frequent') || stateLower.contains('attend');
+  }
+
   Map<String, dynamic> toJson() => _$CourseToJson(this);
 }
