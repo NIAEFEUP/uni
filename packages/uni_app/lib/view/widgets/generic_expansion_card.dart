@@ -21,8 +21,8 @@ abstract class GenericExpansionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
       child: ExpansionTileCard(
         expandedTextColor: Theme.of(context).primaryColor,
         heightFactorCurve: Curves.ease,

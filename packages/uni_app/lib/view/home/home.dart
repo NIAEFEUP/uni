@@ -312,6 +312,11 @@ class HomePageViewState extends ConsumerState<HomePageView> {
                             );
                           }
                         },
+                        onRoomTap: () => Navigator.pushNamed(
+                          context,
+                          '/${NavigationItem.navMap.route}',
+                          arguments: lectures[0].room,
+                        ),
                       );
                     },
                     hasContent: (lectures) => lectures

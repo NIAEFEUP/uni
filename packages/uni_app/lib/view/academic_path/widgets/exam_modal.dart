@@ -6,6 +6,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/riverpod/profile_provider.dart';
 import 'package:uni/utils/date_time_formatter.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/utils/string_formatter.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -111,8 +112,31 @@ class ExamModal extends ConsumerWidget {
         ),
         ModalInfoRow(
           title: S.of(context).room,
-          description: exam.rooms.join(', '),
           icon: UniIcons.mapPin,
+          descriptionWidget: Wrap(
+            spacing: 6,
+            children: [
+              for (final (index, room) in exam.rooms.indexed)
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(
+                      context,
+                      '/${NavigationItem.navMap.route}',
+                      arguments: room,
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Text(
+                      index < exam.rooms.length - 1 ? '$room,' : room,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
       ],
     );

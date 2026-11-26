@@ -23,7 +23,9 @@ import 'package:uni/view/widgets/pages_layouts/general/widgets/bottom_navigation
 import 'package:uni_ui/theme.dart';
 
 class MapPage extends ConsumerStatefulWidget {
-  const MapPage({super.key});
+  const MapPage({super.key, this.initialSearchQuery});
+
+  final String? initialSearchQuery;
 
   @override
   ConsumerState<MapPage> createState() => MapPageStateView();
@@ -38,6 +40,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
   int? _selectedFloor;
   bool _showIndoorLayer = false;
   AmenityFilter? _selectedAmenity;
+  final _searchController = TextEditingController();
 
   List<LocationGroup>? _memoizedLocations;
   String? _memoizedSearchTerm;
@@ -48,15 +51,22 @@ class MapPageStateView extends ConsumerState<MapPage> {
   @override
   void initState() {
     super.initState();
-    _searchTerms = '';
+    final initialQuery = widget.initialSearchQuery;
+    _searchTerms = initialQuery != null
+        ? _normalizeSearchText(initialQuery)
+        : '';
+    _searchController.text = initialQuery ?? '';
     _popupLayerController = PopupController();
     _selectedFloor = null;
     _selectedAmenity = null;
+    _showIndoorLayer = initialQuery != null;
   }
 
   @override
   void dispose() {
     _popupLayerController.dispose();
+    _searchController.dispose();
+
     super.dispose();
   }
 
@@ -160,6 +170,12 @@ class MapPageStateView extends ConsumerState<MapPage> {
         return allLocations.any((loc) => _selectedAmenity!.matches(loc));
       });
     }
+
+    final hasNoSearchResults =
+        !isMapLoading &&
+        normalizedSearchTerm.isNotEmpty &&
+        !hasRoomSearchResults &&
+        filteredLocations.isEmpty;
 
     final shouldUseCachedClusters =
         identical(_memoizedLocations, locations) &&
@@ -305,6 +321,7 @@ class MapPageStateView extends ConsumerState<MapPage> {
                       child: TextFormField(
                         cursorColor: Theme.of(context).colorScheme.onSecondary,
                         key: searchFormKey,
+                        controller: _searchController,
                         onChanged: (text) {
                           setState(() {
                             _searchTerms = _normalizeSearchText(text);
@@ -338,9 +355,61 @@ class MapPageStateView extends ConsumerState<MapPage> {
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).colorScheme.onSecondary,
                           ),
+                          suffixIcon: normalizedSearchTerm.isNotEmpty
+                              ? IconButton(
+                                  icon: Icon(
+                                    Icons.clear,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSecondary,
+                                  ),
+                                  tooltip: S.of(context).clear_search,
+                                  onPressed: () {
+                                    setState(() {
+                                      _searchController.clear();
+                                      _searchTerms = '';
+                                    });
+                                  },
+                                )
+                              : null,
                         ),
                       ),
                     ),
+                    if (hasNoSearchResults) ...[
+                      const SizedBox(height: 8),
+                      PhysicalModel(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Theme.of(context).colorScheme.secondary,
+                        elevation: 4,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.search_off,
+                                size: 18,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSecondary,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                S.of(context).no_results,
+                                style: TextStyle(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSecondary,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                     const SizedBox(height: 10),
                     AmenityFilterBar(
                       selectedAmenity: _selectedAmenity,
@@ -363,8 +432,8 @@ class MapPageStateView extends ConsumerState<MapPage> {
               ),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 5),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
                   child: GestureDetector(
                     onTap: () => launchUrlWithToast(
                       context,
