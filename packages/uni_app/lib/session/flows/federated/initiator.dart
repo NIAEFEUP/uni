@@ -45,14 +45,7 @@ class FederatedSessionInitiator extends SessionInitiator {
     final client = Client(issuer, clientId, httpClient: httpClient);
     final flow = Flow.authorizationCodeWithPKCE(
       client,
-      scopes: [
-        'openid',
-        'profile',
-        'email',
-        'offline_access',
-        'audience',
-        'uporto_data',
-      ],
+      scopes: ['openid', 'profile', 'email', 'offline_access', 'uporto_data'],
     );
 
     final uri = await performAuthentication(flow);

@@ -12,19 +12,25 @@ class UniLogoutHandler extends LogoutHandler {
   Future<void>? closeFederatedSession(FederatedSession session) async {
     final appLinks = UniAppLinks();
 
-    // await appLinks.logout.intercept((redirectUri) async {
-    final logoutUri = session.credential.generateLogoutUrl(
-      redirectUri: appLinks.logout.redirectUri,
-    );
-
-    if (logoutUri == null) {
-      throw Exception('Failed to generate logout url');
+    // 1. Attempt token revocation via RFC 7009
+    try {
+      await session.credential.revoke();
+    } catch (_) {
+      // Best-effort revocation; continue to end-session URL
     }
 
-    await launchUrl(logoutUri);
-    // });
+    // 2. Launch end-session URL safely
+    try {
+      final logoutUri = session.credential.generateLogoutUrl(
+        redirectUri: appLinks.logout.redirectUri,
+      );
 
-    // await closeInAppWebView();
+      if (logoutUri != null && await canLaunchUrl(logoutUri)) {
+        await launchUrl(logoutUri);
+      }
+    } catch (_) {
+      // Avoid crashing if browser cannot be launched
+    }
   }
 
   @override

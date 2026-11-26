@@ -33,18 +33,19 @@ class CredentialsSessionRequest extends SessionRequest {
     final loginResponse = await _loginOrFail(username, password, client);
     final actualUsername = await _getUsername(loginResponse.cookies, client);
 
-    final tempSession = CredentialsSession(
-      username: actualUsername,
-      password: password,
-      cookies: loginResponse.cookies,
-      faculties: [tempFaculty],
+    final faculties = await getStudentFaculties(
+      loginResponse.cookies,
+      actualUsername,
+      client,
     );
 
-    final faculties = await getStudentFaculties(tempSession, client);
+    if (faculties.isEmpty) {
+      throw genericAuthenticationException;
+    }
 
     final session = CredentialsSession(
-      username: tempSession.username,
-      cookies: tempSession.cookies,
+      username: actualUsername,
+      cookies: loginResponse.cookies,
       faculties: faculties,
       password: password,
     );

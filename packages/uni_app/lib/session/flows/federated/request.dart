@@ -11,6 +11,7 @@ import 'package:uni/session/flows/federated/session.dart';
 import 'package:uni/sigarra/endpoints/oidc/oidc.dart';
 import 'package:uni/sigarra/endpoints/oidc/token/response.dart';
 import 'package:uni/sigarra/options.dart';
+import 'package:uni/utils/constants.dart' as constants;
 
 class FederatedSessionUserInfo {
   FederatedSessionUserInfo(UserInfo userInfo)
@@ -21,16 +22,33 @@ class FederatedSessionUserInfo {
   final List<String> faculties;
 
   static String _extractUsername(UserInfo userInfo) {
-    return userInfo.getTyped<String>('nmec')!;
+    final nmec = userInfo.getTyped<String>('nmec');
+    if (nmec != null && nmec.isNotEmpty) {
+      return _cleanUsername(nmec);
+    }
+    final preferred = userInfo.preferredUsername;
+    if (preferred != null && preferred.isNotEmpty) {
+      return _cleanUsername(preferred);
+    }
+    final email = userInfo.email;
+    if (email != null && email.isNotEmpty) {
+      return _cleanUsername(email.split('@').first);
+    }
+    return _cleanUsername(userInfo.subject);
+  }
+
+  static String _cleanUsername(String username) {
+    final match = RegExp(r'^up(?=\d+)', caseSensitive: false);
+    return username.replaceFirst(match, '');
   }
 
   static List<String> _extractFaculties(UserInfo userInfo) {
     final rawOus = userInfo.getTyped<List<dynamic>>('ous');
 
-    final faculties = _tryExtractFacultiesFromOus(rawOus);
+    final ousFaculties = _tryExtractFacultiesFromOus(rawOus);
 
-    if (faculties.isNotEmpty) {
-      return faculties;
+    if (ousFaculties.isNotEmpty) {
+      return ousFaculties;
     }
 
     final email = userInfo.getTyped<String>('email');
@@ -54,6 +72,7 @@ class FederatedSessionUserInfo {
       return rawOus
           .cast<String>()
           .map((element) => element.toLowerCase())
+          .where((element) => constants.faculties.contains(element))
           .toList();
     }
 
@@ -63,10 +82,33 @@ class FederatedSessionUserInfo {
   static List<String> _extractFacultiesFromEmail(String email) {
     final domain = email.split('@').last.toLowerCase();
 
-    final eduPattern = RegExp(r'^edu\.([a-z]+)\.up\.pt$');
+    final eduPattern = RegExp(r'^(?:edu\.)?([a-z]+)\.up\.pt$');
     final eduMatch = eduPattern.firstMatch(domain);
     if (eduMatch != null) {
-      return [eduMatch.group(1)!];
+      final code = eduMatch.group(1)!;
+      if (constants.faculties.contains(code)) {
+        return [code];
+      }
+      const aliases = {
+        'arq': 'faup',
+        'direito': 'fdup',
+        'fade': 'fadeup',
+        'fba': 'fbaup',
+        'fc': 'fcup',
+        'fcna': 'fcnaup',
+        'fe': 'feup',
+        'ff': 'ffup',
+        'fl': 'flup',
+        'fm': 'fmup',
+        'fmd': 'fmdup',
+        'fpce': 'fpceup',
+        'letras': 'flup',
+        'med': 'fmup',
+      };
+      final mapped = aliases[code];
+      if (mapped != null && constants.faculties.contains(mapped)) {
+        return [mapped];
+      }
     }
 
     return [];
@@ -106,14 +148,26 @@ class FederatedSessionRequest extends SessionRequest {
     final userInfo = FederatedSessionUserInfo(await credential.getUserInfo());
     final successfulResponse = response.asSuccessful();
 
-    final tempSession = FederatedSession(
-      username: userInfo.username,
-      faculties: userInfo.faculties,
-      cookies: successfulResponse.cookies,
-      credential: credential,
-    );
+    var faculties = userInfo.faculties;
+    try {
+      final remoteFaculties = await getStudentFaculties(
+        successfulResponse.cookies,
+        userInfo.username,
+        httpClient,
+      );
+      if (remoteFaculties.isNotEmpty) {
+        faculties = remoteFaculties;
+      }
+    } catch (err, st) {
+      unawaited(Sentry.captureException(err, stackTrace: st));
+      if (faculties.isEmpty) {
+        rethrow;
+      }
+    }
 
-    final faculties = await getStudentFaculties(tempSession, httpClient);
+    if (faculties.isEmpty) {
+      throw const AuthenticationException('Failed to get student faculties');
+    }
 
     return FederatedSession(
       username: userInfo.username,
