@@ -43,6 +43,32 @@ class NotificationTimeoutStorage {
     await _writeToFile(await _getTimeoutFile());
   }
 
+  /// Returns when [uniqueID] last fired, or `null` if it never did.
+  /// Only notifications with a time-to-live write this.
+  DateTime? getLastTimeNotificationFired(String uniqueID) {
+    final value = _fileContent[_firedAtKey(uniqueID)];
+    if (value is! String) {
+      return null;
+    }
+    return DateTime.tryParse(value);
+  }
+
+  Future<void> setLastTimeNotificationFired(
+    String uniqueID,
+    DateTime firedAt,
+  ) async {
+    _fileContent[_firedAtKey(uniqueID)] = firedAt.toIso8601String();
+    await _writeToFile(await _getTimeoutFile());
+  }
+
+  Future<void> clearLastTimeNotificationFired(String uniqueID) async {
+    if (_fileContent.remove(_firedAtKey(uniqueID)) != null) {
+      await _writeToFile(await _getTimeoutFile());
+    }
+  }
+
+  String _firedAtKey(String uniqueID) => '${uniqueID}_firedAt';
+
   Future<void> _writeToFile(File file) async {
     await file.writeAsString(jsonEncode(_fileContent));
   }

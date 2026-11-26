@@ -3,7 +3,7 @@ import 'package:uni/controller/local_storage/migrations/migrations.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 
 class MigrationController {
-  static const currentPreferencesVersion = 3;
+  static const currentPreferencesVersion = 4;
 
   static Future<void> runMigrations() async {
     final storedVersion = PreferencesController.getPreferencesVersion();
@@ -29,6 +29,9 @@ class MigrationController {
       case 2:
         Logger().d('Migrating Shared Preferences Version (2 -> 3)');
         await Migrations.migrateToV3();
+      case 3:
+        Logger().d('Migrating Shared Preferences Version (3 -> 4)');
+        await Migrations.migrateToV4();
       default:
         Logger().d('No migration found');
     }
